@@ -1,0 +1,181 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		9A5833B4139D78A80068B6B6 /* libDesignSpaceToolboxV2.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libDesignSpaceToolboxV2.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9A5833B1139D78A80068B6B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9A5833A9139D78A80068B6B6 = {
+			isa = PBXGroup;
+			children = (
+				9A5833B5139D78A80068B6B6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9A5833B5139D78A80068B6B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9A5833B4139D78A80068B6B6 /* libDesignSpaceToolboxV2.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		9A5833B2139D78A80068B6B6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		9A5833B3139D78A80068B6B6 /* DesignSpaceToolboxV2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A5833B8139D78A80068B6B6 /* Build configuration list for PBXNativeTarget "DesignSpaceToolboxV2" */;
+			buildPhases = (
+				9A5833B0139D78A80068B6B6 /* Sources */,
+				9A5833B1139D78A80068B6B6 /* Frameworks */,
+				9A5833B2139D78A80068B6B6 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DesignSpaceToolboxV2;
+			productName = DesignSpaceToolboxV2;
+			productReference = 9A5833B4139D78A80068B6B6 /* libDesignSpaceToolboxV2.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9A5833AB139D78A80068B6B6 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 9A5833AE139D78A80068B6B6 /* Build configuration list for PBXProject "DesignSpaceToolboxV2" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9A5833A9139D78A80068B6B6;
+			productRefGroup = 9A5833B5139D78A80068B6B6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9A5833B3139D78A80068B6B6 /* DesignSpaceToolboxV2 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9A5833B0139D78A80068B6B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9A5833B6139D78A80068B6B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		9A5833B7139D78A80068B6B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9A5833B9139D78A80068B6B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9A5833BA139D78A80068B6B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9A5833AE139D78A80068B6B6 /* Build configuration list for PBXProject "DesignSpaceToolboxV2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A5833B6139D78A80068B6B6 /* Debug */,
+				9A5833B7139D78A80068B6B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9A5833B8139D78A80068B6B6 /* Build configuration list for PBXNativeTarget "DesignSpaceToolboxV2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A5833B9139D78A80068B6B6 /* Debug */,
+				9A5833BA139D78A80068B6B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9A5833AB139D78A80068B6B6 /* Project object */;
+}
