@@ -46,30 +46,45 @@
  * \see DSError
  * \see A_DS_Actions
  */
-extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILE, int LINE, const char * FUNC)
+extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char * FUNC)
 {
+        
+        FILE * temp = stdout;
+        char nullPrint = 0;
+        if (DSErrorFile == NULL)
+                DSErrorFile = stderr;
+                
+        if (DSPrintFunction == NULL) {
+                nullPrint = 1;
+                stdout = DSErrorFile;
+                DSPrintFunction = printf;
+        }
         switch(A_DS_ACTION) {					
                 case A_DS_WARN:
-                        fprintf(stderr,"DST: File: %s Function: %s Line: %i: Warning: %s.\n",
-                                FILE,
-                                FUNC,
-                                LINE,
-                                M_DS_Message);
+                        DSPrintFunction("DST: File: %s Function: %s Line: %i: Warning: %s.\n",
+                                       FILEN,
+                                       FUNC,
+                                       LINE,
+                                       M_DS_Message);
                         break;
                 case A_DS_ERROR:
-                        fprintf(stderr,"DST: File: %s Function: %s Line: %i: Error: %s.\n",
-                                FILE,
-                                FUNC,
-                                LINE,
-                                M_DS_Message);
+                        DSPrintFunction("DST: File: %s Function: %s Line: %i: Error: %s.\n",
+                                      FILEN,
+                                      FUNC,
+                                      LINE,
+                                      M_DS_Message);
                         break;
                 case A_DS_KILLNOW:
-                        fprintf(stderr,"DST: File: %s Function: %s Line: %i: Fatal Error: %s.\n",
-                                FILE,
-                                FUNC,
-                                LINE,
-                                M_DS_Message);
+                        DSPrintFunction("DST: File: %s Function: %s Line: %i: Fatal Error: %s.\n",
+                                      FILEN,
+                                      FUNC,
+                                      LINE,
+                                      M_DS_Message);
                         exit(A_DS_KILLNOW);
+        }
+        if (nullPrint == 1) {
+                DSPrintFunction = NULL;
+                stdout = temp;
         }
 }
 

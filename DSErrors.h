@@ -59,12 +59,41 @@
 
 #define DSError(M_DS_Message, A_DS_Action) DSErrorFunction(M_DS_Message, A_DS_Action, __FILE__, __LINE__, __func__)
 
+/**
+ * \brief Pointer to a function determining how error messages are handled.
+ *
+ * This pointer to a function tells the error handling system which function to
+ * call with the error messages.  If this pointer is NULL, then the system uses
+ * printf, except that it prints to DSErrorFile instead of stdout.  This pointer
+ * is intended to be used to override default behavior.  If used with MATLAB,
+ * the pointer should be to mexPrintf.  If used in a Cocoa app, a function that
+ * uses the notification system may be used.
+ *
+ * \see DSErrorFile
+ * \see DSErrorFunction
+ */
+int (*DSPrintFunction)(const char *restrict, ...);
+
+/**
+ * \brief FILE pointer used for default DSPrintFunction.
+ *
+ * This pointer to a FILE tells the error handling system which FILE to
+ * print the error messages to.  If this pointer is NULL, then the system uses
+ * the stderr file.  This variable is only used internally with the default 
+ * behavior of DSErrorFunction, however, it is intended to be used with 
+ * custom functions.
+ *
+ * \see DSPrintFunction
+ * \see DSErrorFunction
+ */
+FILE *DSErrorFile;
+
 #ifdef __cplusplus
 __BEGIN_DECLS
 #endif
 
 
-extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILE, int LINE, const char * FUNC);
+extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char * FUNC);
 
 
 

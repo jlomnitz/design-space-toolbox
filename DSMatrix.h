@@ -37,13 +37,10 @@
 #define M_DS_MAT_OUTOFBOUNDS      "Row or column out of bounds"
 #define M_DS_MAT_NOINTERNAL       "Matrix data is empty"
 
-#define DSMatrixRows(x)             (x)->rows
-#define DSMatrixColumns(x)          (x)->columns
-/* Switch for a function */
-#define DSMatrixSetRows(x, y)       DSMatrixRows(x) = (y)
-#define DSMatrixSetColumns(x, y)    DSMatrixColumns(x) = (y)
+#define DSMatrixRows(x)             ((x)->rows)
+#define DSMatrixColumns(x)          ((x)->columns)
 
-#define DSMatrixInternalPointer(x)  (x)->mat
+#define DSMatrixInternalPointer(x)  ((x)->mat)
 
 #ifdef __cplusplus
 __BEGIN_DECLS
@@ -63,8 +60,6 @@ enum {
 
 
 
-#ifdef __MATRIX_BACK__
-
 extern DSMatrix * DSMatrixAlloc(DSUInteger rows, DSUInteger columns);
 extern void DSMatrixInitializeWithValue(DSMatrix *matrix, double value);
 extern void DSMatrixFree(DSMatrix *matrix);
@@ -75,6 +70,8 @@ extern DSMatrix * DSMatrixRandomNumbers(DSUInteger rows, DSUInteger columns);
 extern DSMatrix * DSMatrixCopy(DSMatrix *original);
 extern DSMatrix * DSMatrixWithVariablePoolValues(void *variablePool);
 
+extern void DSMatrixSetRows(DSMatrix * matrix, DSUInteger rows);
+extern void DSMatrixSetColumns(DSMatrix * matrix, DSUInteger columns);
 extern double DSMatrixDoubleValue(DSMatrix *matrix, DSUInteger row, DSUInteger column);
 extern void DSMatrixSetDoubleValue(DSMatrix *matrix, DSUInteger row, DSUInteger column, double value);
 extern void DSMatrixRoundToSignificantFigures(DSMatrix *matrix, unsigned char figures);
@@ -139,6 +136,4 @@ extern DSMatrix ** DSMatrixPLUDecomposition(DSMatrix *matrix);
 
 #ifdef __cplusplus
 __END_DECLS
-#endif
-
 #endif

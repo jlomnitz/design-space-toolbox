@@ -113,7 +113,7 @@ extern DSMatrix * DSMatrixRandomNumbers(DSUInteger rows, DSUInteger columns)
         srand((unsigned int)time(NULL)+rand());
         for (i = 0; i < rows; i++) {
                 for (j = 0; j < columns; j++) {
-                        DSMatrixSetDoubleValue(matrix, i, j, rand()/RAND_MAX);
+                        DSMatrixSetDoubleValue(matrix, i, j, ((double)rand())/((double)RAND_MAX));
                 }
         }
 bail:
@@ -141,6 +141,37 @@ bail:
 }
 
 extern DSMatrix * DSMatrixWithVariablePoolValues(void *variablePool);
+
+
+extern void DSMatrixSetRows(DSMatrix * matrix, DSUInteger rows)
+{
+        if (matrix == NULL) {
+                DSError(M_DS_NULL, A_DS_WARN);
+                goto bail;
+        }
+        if (DSMatrixInternalPointer(matrix) != NULL) {
+                DSError(M_DS_WRONG, A_DS_ERROR);
+                goto bail;
+        }
+        DSMatrixRows(matrix) = rows;
+bail:
+        return;
+}
+
+extern void DSMatrixSetColumns(DSMatrix * matrix, DSUInteger columns)
+{
+        if (matrix == NULL) {
+                DSError(M_DS_NULL, A_DS_WARN);
+                goto bail;
+        }
+        if (DSMatrixInternalPointer(matrix) != NULL) {
+                DSError(M_DS_WRONG, A_DS_ERROR);
+                goto bail;
+        }
+        DSMatrixColumns(matrix) = columns;
+bail:
+        return;
+}
 
 extern double DSMatrixDoubleValue(DSMatrix *matrix, DSUInteger row, DSUInteger column)
 {
