@@ -31,12 +31,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "DSTypes.h"
+#include "DSIO.h"
 
 #ifndef __DS_ERRORS__
 #define __DS_ERRORS__
 
-
-/*********  Error Messages  ***********/
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark - Error Messages
+#endif
 
 #define M_DS_NOFILE    "File not found"                //!< Message for no file found.
 #define M_DS_NULL      "NULL pointer"                  //!< Message for NULL pointer.
@@ -47,64 +49,6 @@
 #define M_DS_MALLOC    "Memory alloc failed"           //!< Message for failure to allocate data.
 #define M_DS_NOT_IMPL  "Functionality not implemented" //!< Message for a feature not yet implemented.
 
-
-/*********** Error Actions **************/
-
-#define A_DS_NOERROR     0                          //!< Value for no error.
-#define A_DS_WARN       -1                          //!< Value for a warning
-#define A_DS_ERROR      -2                          //!< Value for an error.
-#define A_DS_FATAL      -3                          //!< Value for a fatal error, kills program.
-#define A_DS_KILLNOW    A_DS_FATAL                  //!< DEPRECATED: 
-
-
-#define DSError(M_DS_Message, A_DS_Action) DSErrorFunction(M_DS_Message, A_DS_Action, __FILE__, __LINE__, __func__)
-
-/**
- * \brief Pointer to a function determining how error messages are handled.
- *
- * This pointer to a function tells the error handling system which function to
- * call with the error messages.  If this pointer is NULL, then the system uses
- * printf, except that it prints to DSErrorFile instead of stdout.  This pointer
- * is intended to be used to override default behavior.  If used with MATLAB,
- * the pointer should be to mexPrintf.  If used in a Cocoa app, a function that
- * uses the notification system may be used.
- *
- * \see DSErrorFile
- * \see DSErrorFunction
- */
-int (*DSPrintFunction)(const char *restrict, ...);
-
-/**
- * \brief FILE pointer used for default DSPrintFunction.
- *
- * This pointer to a FILE tells the error handling system which FILE to
- * print the error messages to.  If this pointer is NULL, then the system uses
- * the stderr file.  This variable is only used internally with the default 
- * behavior of DSErrorFunction, however, it is intended to be used with 
- * custom functions.
- *
- * \see DSPrintFunction
- * \see DSErrorFunction
- */
-FILE *DSErrorFile;
-
-#ifdef __cplusplus
-__BEGIN_DECLS
-#endif
-
-
-extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char * FUNC);
-
-
-
-#ifdef __cplusplus
-__END_DECLS    
-#endif
-
-#endif/* __DS_ERRORS__ */
-
-
-/******************************* Documentation *******************************/
 /**
  *\defgroup M_DS_Messages Messages for DS Errors.
  *
@@ -121,11 +65,24 @@ __END_DECLS
  * \def M_DS_NOFILE
  * \def M_DS_NULL
  * \def M_DS_NOFORMAT
- * \def M_DS_NOPARSE
- * \def M_DS_NOGMA
- * \def M_DS_NOSSYS
+ * \def M_DS_WRNG
+ * \def M_DS_EXISTS
+ * \def M_DS_NOTHRAD
+ * \def M_DS_MALLOC
+ * \def M_DS_NOT_IMPL
  */
 /*@}*/
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark - Error Actions
+#endif
+
+
+#define A_DS_NOERROR     0                          //!< Value for no error.
+#define A_DS_WARN       -1                          //!< Value for a warning
+#define A_DS_ERROR      -2                          //!< Value for an error.
+#define A_DS_FATAL      -3                          //!< Value for a fatal error, kills program.
+#define A_DS_KILLNOW    A_DS_FATAL                  //!< DEPRECATED: 
 
 /**
  *\defgroup A_DS_Actions Actions for DS Errors.
@@ -141,20 +98,50 @@ __END_DECLS
  * \def A_DS_NOERROR
  * \def A_DS_WARN
  * \def A_DS_ERROR
- * \def A_DS_KILLNOW
+ * \def A_DS_FATAL
  */
 /*@}*/
 
+
+#ifdef __cplusplus
+__BEGIN_DECLS
+#endif
+
+
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark - Error Handling
+#endif
+
 /**
- * \def DS_ERROR
  * \brief Error reporting macro.
  * \details
  *
  * Definition of the error reporting macro used within DS C
- * programs, this is a define which takes a message, some standard
- * messages are already included (see M_DS_Messages) and an action
- * (see A_DS_Actions) and reports to stderr.
+ * programs, this is a define which takes a string, whcih may be a standard
+ * message, and an action and reports it via a default print to stderr, or 
+ * through custom functiosn such as mexPrintf.
  *
+ * \see DSErrorFunction
+ * \see DSPrintFunction
  * \see M_DS_Messages
  * \see A_DS_Actions
  */
+#define DSError(M_DS_Message, A_DS_Action) DSErrorFunction(M_DS_Message, A_DS_Action, __FILE__, __LINE__, __func__)
+
+__deprecated extern void DSErrorSetPrintFunction(void (*function)(const char * restrict));
+__deprecated extern void DSErrorSetErrorFile(FILE *aFile);
+extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char * FUNC);
+
+
+
+#ifdef __cplusplus
+__END_DECLS    
+#endif
+
+#endif
+
+
+
+
+

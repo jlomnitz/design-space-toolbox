@@ -59,27 +59,40 @@ enum {
 #endif
 
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Allocation, Free and Initialization functions
+#endif
 
 extern DSMatrix * DSMatrixAlloc(DSUInteger rows, DSUInteger columns);
+extern DSMatrix * DSMatrixCopy(DSMatrix *original);
 extern void DSMatrixInitializeWithValue(DSMatrix *matrix, double value);
 extern void DSMatrixFree(DSMatrix *matrix);
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Factory functions
+#endif
 
 extern DSMatrix * DSMatrixIdentity(DSUInteger size);
 extern DSMatrix * DSMatrixRandomNumbers(DSUInteger rows, DSUInteger columns);
-extern DSMatrix * DSMatrixCopy(DSMatrix *original);
 extern DSMatrix * DSMatrixWithVariablePoolValues(void *variablePool);
+
+
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Basic Accesor functions
+#endif
+
+extern double DSMatrixDoubleValue(DSMatrix *matrix, DSUInteger row, DSUInteger column);
 
 extern void DSMatrixSetRows(DSMatrix * matrix, DSUInteger rows);
 extern void DSMatrixSetColumns(DSMatrix * matrix, DSUInteger columns);
-extern double DSMatrixDoubleValue(DSMatrix *matrix, DSUInteger row, DSUInteger column);
 extern void DSMatrixSetDoubleValue(DSMatrix *matrix, DSUInteger row, DSUInteger column, double value);
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Utility functions
+#endif
+
 extern void DSMatrixRoundToSignificantFigures(DSMatrix *matrix, unsigned char figures);
-
-extern double * DSMatrixDataForGLPK(DSMatrix *matrix);
-extern int * DSMatrixRowsForGLPK(DSMatrix *matrix);
-extern int * DSMatrixColumnsForGLPK(DSMatrix *matrix);
-
 
 extern DSMatrix * DSMatrixSubMatrixIncludingRows(DSUInteger numberOfRows,
                                                  DSUInteger firstRow,
@@ -91,6 +104,29 @@ extern DSMatrix * DSMatrixSubMatrixIncludingRowsAndColumns(DSUInteger numberRows
                                                            DSUInteger numberColumns,
                                                            DSUInteger firstRow,
                                                            ...);
+extern DSMatrix * DSMatrixAppendMatrices(DSMatrix *firstMatrix, 
+                                         DSMatrix *secondMatrix,
+                                         bool byColumn);
+extern void DSMatrixSwitchRows(DSMatrix *matrix, DSUInteger rowA, DSUInteger rowB);
+extern void DSMatrixSwitchColumns(DSMatrix *matrix, DSUInteger columnA, DSUInteger columnB);
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Matrix Property Querying
+#endif
+
+extern bool DSMatrixIsIdentity(DSMatrix *matrix);
+extern bool DSMatrixIsSquare(DSMatrix *matrix);
+extern DSUInteger DSMatrixRank(DSMatrix *matrix);
+extern double minimumValue(DSMatrix *matrix, bool shouldExcludeZero);
+extern double maximumValue(DSMatrix *matrix, bool shouldExcludeZero);
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Matrix Operations
+#endif
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark Arithmetic
+#endif
 
 extern DSMatrix * DSMatrixBySubstractingMatrix(DSMatrix *lvalue, DSMatrix *rvalue);
 extern DSMatrix * DSMatrixByAddingMatrix(DSMatrix *lvalue, DSMatrix *rvalue);
@@ -103,23 +139,25 @@ extern DSMatrix * DSMatrixByAddingScalar(DSMatrix *lvalue, double rvalue);
 extern DSMatrix * DSMatrixByDividingScalar(DSMatrix *lvalue, double rvalue);
 extern DSMatrix * DSMatrixByMultiplyingScalar(DSMatrix *lvalue, double rvalue);
 
-extern bool DSMatrixIsIdentity(DSMatrix *matrix);
-extern bool DSMatrixIsSquare(DSMatrix *matrix);
-extern DSUInteger DSMatrixRank(DSMatrix *matrix);
-extern double minimumValue(DSMatrix *matrix, bool shouldExcludeZero);
-extern double maximumValue(DSMatrix *matrix, bool shouldExcludeZero);
-extern double DSMatrixDeterminant(DSMatrix *matrix);
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark Linear Algebra
+#endif
 
-extern DSMatrix * DSMatrixAppendMatrices(DSMatrix *firstMatrix, 
-                                         DSMatrix *secondMatrix,
-                                         bool byColumn);
-extern void DSMatrixSwitchRows(DSMatrix *matrix, DSUInteger rowA, DSUInteger rowB);
-extern void DSMatrixSwitchColumns(DSMatrix *matrix, DSUInteger columnA, DSUInteger columnB); 
+extern double DSMatrixDeterminant(DSMatrix *matrix); 
 
 extern DSMatrix * DSMatrixTranspose(DSMatrix *matrix);
 extern DSMatrix * DSMatrixInverse(DSMatrix *matrix);
 extern DSMatrix * DSMatrixRightNullspace(DSMatrix *matrix);
+
 extern DSMatrix ** DSMatrixPLUDecomposition(DSMatrix *matrix);
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Matrix GLPK conversions
+#endif
+
+extern double * DSMatrixDataForGLPK(DSMatrix *matrix);
+extern int * DSMatrixRowsForGLPK(DSMatrix *matrix);
+extern int * DSMatrixColumnsForGLPK(DSMatrix *matrix);
 
 #endif
 

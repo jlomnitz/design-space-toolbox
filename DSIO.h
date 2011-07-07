@@ -1,6 +1,6 @@
 /**
  * \file DSIO.h
- * \brief Header file with definitions for data types.
+ * \brief Header file with standard input and output functions.
  *
  * \details
  *
@@ -32,7 +32,6 @@
 
 #include <stdio.h>
 #include "DSTypes.h"
-#include "DSErrors.h"
 
 #ifndef __DS_IO__
 #define __DS_IO__
@@ -41,6 +40,19 @@
 __BEGIN_DECLS
 #endif
 
+
+int (*DSPrintf)(const char *, ...);
+void (*DSPostWarning)(const char *message);
+void (*DSPostError)(const char *message);
+void (*DSPostFatalError)(const char *message);
+
+FILE * DSIOErrorFile;
+
+extern void DSIOSetErrorFile(FILE *aFile);
+extern void DSIOSetPrintFunction(int (*printFunction)(const char *, ...));
+extern void DSIOSetPostWarningFunction(void (*warningFunction)(const char *message));
+extern void DSIOSetPostErrorFunction(void (*errorFunction)(const char *message));
+extern void DSIOSetPostFatalErrorFunction(void (*fatalErrorFunction)(const char *message));
 
 #ifdef __cplusplus
 __END_DECLS

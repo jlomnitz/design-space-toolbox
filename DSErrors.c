@@ -1,5 +1,5 @@
 /**
- * \file DSErrors.h
+ * \file DSErrors.c
  * \brief Implementation file with functions for error and exception handling.
  *
  * \details
@@ -32,9 +32,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
-#include "DSStd.h"
+#include "DSErrors.h"
 
+#define MSIZE  400
+/**
+ * \brief Pointer to a function determining how error messages are handled.
+ *
+ * This pointer to a function tells the error handling system which function to
+ * call with the error messages.  If this pointer is NULL, then the system uses
+ * printf, except that it prints to DSErrorFile instead of stdout.  This pointer
+ * is intended to be used to override default behavior.  If used with MATLAB,
+ * the pointer should be to mexPrintf.  If used in a Cocoa app, a function that
+ * uses the notification system may be used.
+ *
+ * \see DSErrorFile
+ * \see DSErrorFunction
+ */
+void (*DSPrintFunction)(const char *restrict);
+
+/**
+ * \brief FILE pointer used for default DSPrintFunction.
+ *
+ * This pointer to a FILE tells the error handling system which FILE to
+ * print the error messages to.  If this pointer is NULL, then the system uses
+ * the stderr file.  This variable is only used internally with the default 
+ * behavior of DSErrorFunction, however, it is intended to be used with 
+ * custom functions.
+ *
+ * \see DSPrintFunction
+ * \see DSErrorFunction
+ */
+
+extern void DSErrorSetPrintFunction(void (*function)(const char * restrict))
+{
+        DSIOSetPostErrorFunction(function);
+        DSIOSetPostWarningFunction(function);
+        DSIOSetPostFatalErrorFunction(function);
+        return;
+}
+
+extern void DSErrorSetErrorFile(FILE *aFile)
+{
+        DSIOSetErrorFile(aFile);
+}
 /**
  * \brief Implicit error handling function.  Called by DSError which
  * automatically adds file and line arguments.
@@ -49,42 +91,36 @@
 extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char * FUNC)
 {
         
-        FILE * temp = stdout;
-        char nullPrint = 0;
-        if (DSErrorFile == NULL)
-                DSErrorFile = stderr;
-                
-        if (DSPrintFunction == NULL) {
-                nullPrint = 1;
-                stdout = DSErrorFile;
-                DSPrintFunction = printf;
-        }
-        switch(A_DS_ACTION) {					
+        char errorString[MSIZE];
+        if (DSIOErrorFile == NULL)
+                DSIOSetErrorFile(stderr);
+        sprintf(errorString, "Design Space Toolbox: %.50s.\n# %i : %.20s.\nIn: %.200s.\n",
+                M_DS_Message,
+                LINE,
+                FUNC,
+                FILEN);
+        switch (A_DS_ACTION) {					
                 case A_DS_WARN:
-                        DSPrintFunction("DST: File: %s Function: %s Line: %i: Warning: %s.\n",
-                                       FILEN,
-                                       FUNC,
-                                       LINE,
-                                       M_DS_Message);
+                        if (DSPostWarning == NULL)
+                                fprintf(DSIOErrorFile, "Warning: %s\n", errorString);
+                        else
+                                DSPostWarning(errorString);
                         break;
                 case A_DS_ERROR:
-                        DSPrintFunction("DST: File: %s Function: %s Line: %i: Error: %s.\n",
-                                      FILEN,
-                                      FUNC,
-                                      LINE,
-                                      M_DS_Message);
+                        if (DSPostError == NULL)
+                                fprintf(DSIOErrorFile, "Error: %s\n", errorString);
+                        else
+                                DSPostError(errorString);
                         break;
-                case A_DS_KILLNOW:
-                        DSPrintFunction("DST: File: %s Function: %s Line: %i: Fatal Error: %s.\n",
-                                      FILEN,
-                                      FUNC,
-                                      LINE,
-                                      M_DS_Message);
-                        exit(A_DS_KILLNOW);
+                case A_DS_FATAL:
+                        if (DSPostFatalError == NULL) {
+                                fprintf(DSIOErrorFile, "Error: %s\n", errorString);
+                                exit(EXIT_FAILURE);
+                        } else {
+                                DSPostFatalError(errorString);
+                        }
+                        break;
         }
-        if (nullPrint == 1) {
-                DSPrintFunction = NULL;
-                stdout = temp;
-        }
+
 }
 

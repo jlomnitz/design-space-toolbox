@@ -7,18 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A537BB113A9CFE50031378A /* DSMemoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB013A9CFE50031378A /* DSMemoryManager.h */; };
-		9A537BB313A9D04F0031378A /* DSTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB213A9D04F0031378A /* DSTypes.h */; };
-		9A5833BC139D79170068B6B6 /* DSStd.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5833BB139D79170068B6B6 /* DSStd.h */; };
+		9A537BB113A9CFE50031378A /* DSMemoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB013A9CFE50031378A /* DSMemoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A537BB313A9D04F0031378A /* DSTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB213A9D04F0031378A /* DSTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A5833BC139D79170068B6B6 /* DSStd.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5833BB139D79170068B6B6 /* DSStd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A81B38613A89D38007DADEC /* DSErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A81B38413A89D38007DADEC /* DSErrors.c */; };
-		9AC49AB213B53A4500E0E6B8 /* DSIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AC49AB113B53A4500E0E6B8 /* DSIO.h */; };
+		9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A8BAB6713C63DA10031F387 /* DSIO.c */; };
+		9AC49AB213B53A4500E0E6B8 /* DSIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AC49AB113B53A4500E0E6B8 /* DSIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AC49AB513B53E8A00E0E6B8 /* libgsl.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC49AB413B53E8A00E0E6B8 /* libgsl.0.dylib */; };
-		9ACB2CFF13A1345F006A5F71 /* DSErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ACB2CFE13A1345F006A5F71 /* DSErrors.h */; };
+		9ACB2CFF13A1345F006A5F71 /* DSErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ACB2CFE13A1345F006A5F71 /* DSErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */; };
 		9AFD4D5113B6FFD8001FCEC9 /* DSVariable.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */; };
-		9AFD4D5213B6FFD8001FCEC9 /* DSVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AFD4D5013B6FFD8001FCEC9 /* DSVariable.h */; };
+		9AFD4D5213B6FFD8001FCEC9 /* DSVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AFD4D5013B6FFD8001FCEC9 /* DSVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AFD4D5B13B706F6001FCEC9 /* DSMatrix_gsl.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */; };
-		9AFD4D5C13B706F6001FCEC9 /* DSMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AFD4D5A13B706F6001FCEC9 /* DSMatrix.h */; };
+		9AFD4D5C13B706F6001FCEC9 /* DSMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AFD4D5A13B706F6001FCEC9 /* DSMatrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		9A5833BB139D79170068B6B6 /* DSStd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSStd.h; sourceTree = "<group>"; };
 		9A81B38213A89C31007DADEC /* libdesignspace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libdesignspace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A81B38413A89D38007DADEC /* DSErrors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSErrors.c; sourceTree = "<group>"; };
+		9A8BAB6713C63DA10031F387 /* DSIO.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSIO.c; sourceTree = "<group>"; };
 		9AC49AB113B53A4500E0E6B8 /* DSIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSIO.h; sourceTree = "<group>"; };
 		9AC49AB413B53E8A00E0E6B8 /* libgsl.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.0.dylib; path = usr/local/lib/libgsl.0.dylib; sourceTree = SDKROOT; };
 		9AC9A2AC13A88BD000D8F03A /* DSEquationParser.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = DSEquationParser.l; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				9A537BB213A9D04F0031378A /* DSTypes.h */,
 				9AC49AB113B53A4500E0E6B8 /* DSIO.h */,
+				9A8BAB6713C63DA10031F387 /* DSIO.c */,
 				9ACB2CFE13A1345F006A5F71 /* DSErrors.h */,
 				9A81B38413A89D38007DADEC /* DSErrors.c */,
 				9A537BB013A9CFE50031378A /* DSMemoryManager.h */,
@@ -190,6 +193,7 @@
 				9A81B38613A89D38007DADEC /* DSErrors.c in Sources */,
 				9AFD4D5113B6FFD8001FCEC9 /* DSVariable.c in Sources */,
 				9AFD4D5B13B706F6001FCEC9 /* DSMatrix_gsl.c in Sources */,
+				9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +235,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
 					"-D__GSL__",

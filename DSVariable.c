@@ -36,29 +36,61 @@
 #include "DSVariable.h"
 
 
-static DSVariable *_checkNameAtPos(const char *name, DSVariablePool *root, int pos);
-static DSVariablePool *_addNewBranch(DSVariable *var, int atPos);
+
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark - Symbol Variables
+#endif
+
 
 /**
- * \brief Retrieves the variable in the dictionary with a matching name.
- *
- * This is the function for retriving a DSVariable from a dictionary.
- * \param name A string containing a NULL terminated string containing the name of the desired DSVariable.
- * \param root The root of the dictionary, determined during the adding of variables.
- * \return A pointer to the variable. If there is no matching variable, NULL is returned.
- * \see _checkNameAtPos
- * \see DSVariablePool
- * \see DSVariablePoolAddVariable
+ * \brief Creates a new DSVariable with INFINITY as a default value.
+ * 
+ * This function may
+ * be used throughout, in order to create new variables consistently and 
+ * portably.  As variables are allocated individually, it is important to 
+ * not that they should be released with the accesory method.
+ * \param name A string with which to identify the DSVariable.
+ * \return The pointer to the newly allocated DSVariable.
+ * \see DSVariable
+ * \see DSVariableFree
  */
-extern DSVariable *DSVariableWithName(const char *name, DSVariablePool *root)
+extern DSVariable *DSVariableAlloc(const char *name)
 {
-        if (name == NULL || root == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
-                goto bail;
-        }
-bail:
-        return _checkNameAtPos(name, root, 0);
+        DSVariable *var;
+        if (name == NULL)
+                return NULL;
+        if (strlen(name) == 0)
+                return NULL;
+        var = DSSecureMalloc(sizeof(DSVariable));
+        var->name = strdup(name);
+        var->retainCount = 1;
+        DSVariableSetValue(var, INFINITY);
+        return var;
 }
+
+extern DSVariable *DSNewVariable(const char *name)
+{
+        return DSVariableAlloc(name);
+}
+
+/**
+ * \brief Function frees allocated memory of a DSVariable.
+ *
+ * This function should be
+ * used for each newDSVariable that is called.  The internal structure is 
+ * subject to changes in consequent versions and therefore freeing memory
+ * of DSVariables should be strictly through this function.
+ * \param var The pointer to the variable to free.
+ */
+extern void DSVariableFree(DSVariable *var)
+{
+        if (var == NULL)
+                return;
+        if (var->name != NULL)
+                free(var->name);
+        free(var);
+}
+
 
 /**
  * \brief Function to increase variable retain count by one.
@@ -111,6 +143,14 @@ bail:
         return;
 }
 
+
+
+
+
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark - Variable Pool Functions
+#endif
+
 /**
  * \brief Internal function for searching a dictionary for a variable name.
  *
@@ -154,6 +194,116 @@ static DSVariable *_checkNameAtPos(const char *name, DSVariablePool *node, int p
 bail:
         return aVariable;
 }
+
+/**
+ * \brief Creates a simple branch containing the remaining nodes for the DSVariable.
+ *
+ * This internal function is used to create all the nodes not currently existing
+ * in the dictionary.  This function is auxiliary to DSVariablePoolAddVariable and should
+ * not be used outside of that function.
+ * \param var The DSVariable being added to the dictionary.
+ * \param atPos The position of the name string of the DSVariable at which to start making the new nodes.
+ *
+ * \return The pointer to the root of the newly formed branch.
+ *
+ * \see DSVariable
+ * \see DSVariablePoolAddVariable
+ */
+static DSVariablePool *_addNewBranch(DSVariable *var, int atPos)
+{
+        DSVariablePool *root = NULL, *current;
+        if (var == NULL) {
+                DSError(M_DS_NULL, A_DS_WARN);
+        }
+        const char *name;
+        root = DSSecureCalloc(sizeof(DSVariablePool), 1);
+        current = root;
+        name = var->name;
+        while(name[atPos] != '\0') {
+                current->current = name[atPos++];
+                current->next = DSSecureCalloc(sizeof(DSVariablePool), 1);
+                current = current->next;
+        }
+        current->current = '\0';
+        current->variable = DSVariableRetain(var);
+        return root;
+}
+
+/**
+ * \brief Adds a DSVariable to the dictionary.
+ *
+ * This is the function to add DSVariables to
+ * the dictionary.  Since the dictionary works alphabetically, the root of the 
+ * dictionary changes and is defined by this function, and the root, be it the
+ * new one or the old one, is returned.  This function is used in creating a new dictionary.
+ * \param newVar The pointer to the variable which is to be added to the dictionary.
+ * \param root The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary.
+ * \return The root of the dictionary, which is likely to change.
+ * \see _varDictionary
+ * \see DSVariableWithName
+ * \see _addNewBranch
+ */
+extern DSVariablePool *DSVariablePoolAddVariableWithName(const char * name, DSVariablePool *root)
+{
+        int pos;
+        DSVariablePool *current, *previous, *temp, *top;
+        DSVariable *newVar = NULL;
+        bool changeRoot;
+        if (name == NULL) {
+                DSError(M_DS_WRONG, A_DS_WARN);
+                goto bail;
+        }
+        if (strlen(name) == 0) {
+                DSError(M_DS_WRONG, A_DS_WARN);
+                goto bail;
+        }
+        newVar = DSVariableAlloc(name);
+        if (root == NULL) {
+                root = _addNewBranch(newVar, 0);
+                goto bail;
+        }
+        if (_checkNameAtPos(name, root, 0) != NULL) {
+                DSError(M_DS_EXISTS, A_DS_WARN);
+                goto bail;
+        }
+        top = root;
+        current = root;
+        previous = NULL;
+        temp = NULL;
+        pos = 0;
+        changeRoot = true;
+        while (current) {
+                if (newVar->name[pos] < current->current || current->current == '\0') {
+                        temp = _addNewBranch(newVar, pos);
+                        temp->alt = current;
+                        if (changeRoot == true)
+                                root = temp;
+                        else if (previous == NULL) {
+                                top->next = temp;
+                        }
+                        else
+                                previous->alt = temp;
+                        break;
+                } else if (current->current == newVar->name[pos]) {
+                        top = current;
+                        changeRoot = false;
+                        previous = NULL;
+                        current = current->next;
+                        pos++;
+                } else if (current->alt == NULL) {
+                        current->alt = _addNewBranch(newVar, pos);
+                        break;
+                } else {
+                        previous = current;
+                        current = current->alt;
+                        changeRoot = false;
+                }
+        }
+bail:
+        DSVariableRelease(newVar);
+        return root;
+}
+
 
 /**
  * \brief Adds a DSVariable to the dictionary.
@@ -225,86 +375,30 @@ bail:
 }
 
 /**
- * \brief Creates a simple branch containing the remaining nodes for the DSVariable.
+ * \brief Retrieves the variable in the dictionary with a matching name.
  *
- * This internal function is used to create all the nodes not currently existing
- * in the dictionary.  This function is auxiliary to DSVariablePoolAddVariable and should
- * not be used outside of that function.
- * \param var The DSVariable being added to the dictionary.
- * \param atPos The position of the name string of the DSVariable at which to start making the new nodes.
- *
- * \return The pointer to the root of the newly formed branch.
- *
- * \see DSVariable
+ * This is the function for retriving a DSVariable from a dictionary.
+ * \param name A string containing a NULL terminated string containing the name of the desired DSVariable.
+ * \param root The root of the dictionary, determined during the adding of variables.
+ * \return A pointer to the variable. If there is no matching variable, NULL is returned.
+ * \see _checkNameAtPos
+ * \see DSVariablePool
  * \see DSVariablePoolAddVariable
  */
-static DSVariablePool *_addNewBranch(DSVariable *var, int atPos)
+extern DSVariable *DSVariablePoolVariableWithName(const char *name, DSVariablePool *root)
 {
-        DSVariablePool *root = NULL, *current;
-        if (var == NULL) {
+        if (name == NULL || root == NULL) {
                 DSError(M_DS_NULL, A_DS_WARN);
+                goto bail;
         }
-        const char *name;
-        root = DSSecureCalloc(sizeof(DSVariablePool), 1);
-        current = root;
-        name = var->name;
-        while(name[atPos] != '\0') {
-                current->current = name[atPos++];
-                current->next = DSSecureCalloc(sizeof(DSVariablePool), 1);
-                current = current->next;
-        }
-        current->current = '\0';
-        current->variable = DSVariableRetain(var);
-        return root;
+bail:
+        return _checkNameAtPos(name, root, 0);
 }
 
-/**
- * \brief Creates a new DSVariable with INFINITY as a default value.
- * 
- * This function may
- * be used throughout, in order to create new variables consistently and 
- * portably.  As variables are allocated individually, it is important to 
- * not that they should be released with the accesory method.
- * \param name A string with which to identify the DSVariable.
- * \return The pointer to the newly allocated DSVariable.
- * \see DSVariable
- * \see DSVariableFree
- */
-extern DSVariable *DSNewVariable(const char *name)
+extern DSVariable *DSVariableWithName(const char *name, DSVariablePool *root)
 {
-        DSVariable *var;
-        if (name == NULL)
-                return NULL;
-        if (strlen(name) == 0)
-                return NULL;
-        var = DSSecureMalloc(sizeof(DSVariable));
-        var->name = strdup(name);
-        var->retainCount = 1;
-        DSVariableAssignValue(var, INFINITY);
-        return var;
+        return DSVariablePoolVariableWithName(name, root);
 }
-
-/**
- * \brief Function frees allocated memory of a DSVariable.
- *
- * This function should be
- * used for each newDSVariable that is called.  The internal structure is 
- * subject to changes in consequent versions and therefore freeing memory
- * of DSVariables should be strictly through this function.
- * \param var The pointer to the variable to free.
- */
-extern void DSVariableFree(DSVariable *var)
-{
-        if (var == NULL)
-                return;
-        if (var->name != NULL)
-                free(var->name);
-        free(var);
-}
-
-#if defined(__APPLE__) && defined(__MACH__)
-#pragma mark - Variable Pool Functions
-#endif
 /**
  * \brief Function to remove all nodes in the dictionary.
  *

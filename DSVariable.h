@@ -33,25 +33,38 @@
 #ifndef __DS_VARIABLES__
 #define __DS_VARIABLES__
 
-#define DSVariableAssignValue(x, y) (x)->value = (y)
-#define DSVariableReturnValue(x)    (x)->value
+#define DSVariableAssignValue(x, y) DSVariableSetValue(x, y)
+#define DSVariableReturnValue(x)    DSVariableValue(x)
+
+#define DSVariableSetValue(x, y)    (x)->value = (y)
+#define DSVariableValue(x)          (x)->value
 #define DSVariableName(x)           (x)->name
 
 #ifdef __cplusplus
 __BEGIN_DECLS
 #endif
 
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark - Symbol Variables
+#endif
 /***** DSVariable functionality *****/
-extern DSVariable *DSNewVariable(const char *name);
+extern DSVariable *DSVariableAlloc(const char *name);
+extern void DSVariableFree(DSVariable *var);
 extern DSVariable * DSVariableRetain(DSVariable *aVariable);
 extern void DSVariableRelease(DSVariable *aVariable);
-extern void DSVariableFree(DSVariable *var);
 
+__deprecated extern DSVariable *DSNewVariable(const char *name);
+
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark - Variable Pool
+#endif
 /***** DSVariablePool *****/
-extern DSVariable *DSVariableWithName(const char *name, DSVariablePool *root);
+extern DSVariablePool *DSVariablePoolAddVariableWithName(const char * name, DSVariablePool *root);
 extern DSVariablePool *DSVariablePoolAddVariable(DSVariable *newVar, DSVariablePool *root);
+extern DSVariable *DSVariablePoolVariableWithName(const char *name, DSVariablePool *root);
 extern void DSVariablePoolFree(DSVariablePool *root);
 
+__deprecated extern DSVariable *DSVariableWithName(const char *name, DSVariablePool *root);
 #ifdef __cplusplus
 __END_DECLS
 #endif
