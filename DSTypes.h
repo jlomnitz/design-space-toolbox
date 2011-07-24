@@ -9,7 +9,7 @@
  * elsewhere, and the individual data structures should refer to these
  * files.
  *
- * Copyright (C) 2010 Jason Lomnitz.\n\n
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *
@@ -34,6 +34,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <math.h>
 
 #ifndef __DS_TYPES__
 #define __DS_TYPES__
@@ -48,6 +49,10 @@
 
 #ifndef __deprecated
 #define __deprecated
+#endif
+
+#ifndef INFINITY
+#define INFINITY HUGE_VAL
 #endif
 
 #ifdef __cplusplus
@@ -72,12 +77,13 @@ typedef unsigned int DSUInteger;
  * \see M_DS_Messages
  * \see A_DS_Actions
  */
+/*
 typedef enum {
 	DS_NOERROR = 0,  //!< The value for no  errors found.
 	DS_WARN,         //!< The value for a warning found.
 	DS_ERROR         //!< The value for a error being found.
 } DSException;
-
+*/
 /**
  * \brief Basic variable structure containing name, value and NSString with
  *        special unicode characters for greek letters.
@@ -116,15 +122,31 @@ typedef struct _varDictionary
 /**
  * \brief Data type representing a matrix.
  *
- * \details Data type representing a matrix.  Currently, it uses GSL library
- * as a back end.  The API should be independent of implementation, and hence
+ * \details This data type is the front end of the matric manipulation portion
+ * of the design space toolbox.  Currently, the DST library uses the gsl library; 
+ * however, it is designed to be used with different back-ends.  In particular, 
+ * the CLAPACK package should be considered, as it will offer better performance.
+ * Thus, the matrix API should be independent of implementation, and hence
  * a new matrix library could be used if chosen.
+ *
  */
 typedef struct {
-        void *mat;
-        DSUInteger rows;
-        DSUInteger columns;
+        void *mat;          //!< The pointer to the internal representation of the matrix.
+        DSUInteger rows;    //!< A DSUInteger specifying the number of rows in the matrix.
+        DSUInteger columns; //!< A DSUInteger specifying the number of columns in the matrix.
 } DSMatrix;
+
+/**
+ * \brief Data type representing an array of matrices.
+ *
+ * \details This data type is a utility data type that keeps track of arrays of
+ * matrices.  This structure can also be used to represent three-dimensional 
+ * matrices, as used in the internal representation of GMA's.
+ */
+typedef struct {
+        DSUInteger numberOfMatrices; //!< A DSUInteger specifying the number of matrices in the array.
+        DSMatrix **matrices;         //!< A pointer the the C-style array of matrices.
+} DSMatrixArray;
 
 /**
  * \brief Data type representing an S-System.

@@ -1,0 +1,58 @@
+\hypertarget{struct__var_dictionary}{
+\section{\_\-varDictionary Struct Reference}
+\label{struct__var_dictionary}\index{\_\-varDictionary@{\_\-varDictionary}}
+}
+
+
+Internal dictionary structure.  
+
+
+
+
+{\ttfamily \#include $<$DSTypes.h$>$}
+
+
+
+Collaboration diagram for \_\-varDictionary:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{struct__var_dictionary__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{struct__var_dictionary_a6044b553e445970269cef9b91569d09d}{
+char \hyperlink{struct__var_dictionary_a6044b553e445970269cef9b91569d09d}{current}}
+\label{struct__var_dictionary_a6044b553e445970269cef9b91569d09d}
+
+\begin{DoxyCompactList}\small\item\em The current character in the dictionary. \item\end{DoxyCompactList}\item 
+\hypertarget{struct__var_dictionary_a916375645732b28192e23ad0745d00ca}{
+struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} $\ast$ \hyperlink{struct__var_dictionary_a916375645732b28192e23ad0745d00ca}{alt}}
+\label{struct__var_dictionary_a916375645732b28192e23ad0745d00ca}
+
+\begin{DoxyCompactList}\small\item\em The alternative character in the dictionary. \item\end{DoxyCompactList}\item 
+\hypertarget{struct__var_dictionary_a3fab7f59fc3c8c7babba590499c69f63}{
+struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} $\ast$ \hyperlink{struct__var_dictionary_a3fab7f59fc3c8c7babba590499c69f63}{next}}
+\label{struct__var_dictionary_a3fab7f59fc3c8c7babba590499c69f63}
+
+\begin{DoxyCompactList}\small\item\em The next character in the dictionary. \item\end{DoxyCompactList}\item 
+\hypertarget{struct__var_dictionary_a09be400084754591a8f182e4a2c83304}{
+\hyperlink{struct_d_s_variable}{DSVariable} $\ast$ \hyperlink{struct__var_dictionary_a09be400084754591a8f182e4a2c83304}{variable}}
+\label{struct__var_dictionary_a09be400084754591a8f182e4a2c83304}
+
+\begin{DoxyCompactList}\small\item\em The variable stored. Only when current is '$\backslash$0'. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Internal dictionary structure. Internal dictionary for fast variable querying. The structure of the dictionary uses an alternative path, where each character is checked in order at each position, if there is a match, the next position is consequently checked. The dictionary should never be manipulated manually, adding, retrieving and removing variables should be done through the accesory functions.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{struct_d_s_variable}{DSVariable} 
+\end{DoxySeeAlso}
+
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_d_s_types_8h}{DSTypes.h}\end{DoxyCompactItemize}

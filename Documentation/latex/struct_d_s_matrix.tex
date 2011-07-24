@@ -1,0 +1,39 @@
+\hypertarget{struct_d_s_matrix}{
+\section{DSMatrix Struct Reference}
+\label{struct_d_s_matrix}\index{DSMatrix@{DSMatrix}}
+}
+
+
+Data type representing a matrix.  
+
+
+
+
+{\ttfamily \#include $<$DSTypes.h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{struct_d_s_matrix_a98815eee0ec0d8a86f2632f922df6e36}{
+void $\ast$ \hyperlink{struct_d_s_matrix_a98815eee0ec0d8a86f2632f922df6e36}{mat}}
+\label{struct_d_s_matrix_a98815eee0ec0d8a86f2632f922df6e36}
+
+\begin{DoxyCompactList}\small\item\em The pointer to the internal representation of the matrix. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_matrix_abc69b7682293d99094ac37ed894a0249}{
+DSUInteger \hyperlink{struct_d_s_matrix_abc69b7682293d99094ac37ed894a0249}{rows}}
+\label{struct_d_s_matrix_abc69b7682293d99094ac37ed894a0249}
+
+\begin{DoxyCompactList}\small\item\em A DSUInteger specifying the number of rows in the matrix. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_matrix_afb99a05f6e779cf7c631393281dddda9}{
+DSUInteger \hyperlink{struct_d_s_matrix_afb99a05f6e779cf7c631393281dddda9}{columns}}
+\label{struct_d_s_matrix_afb99a05f6e779cf7c631393281dddda9}
+
+\begin{DoxyCompactList}\small\item\em A DSUInteger specifying the number of columns in the matrix. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data type representing a matrix. This data type is the front end of the matric manipulation portion of the design space toolbox. Currently, the DST library uses the gsl library; however, it is designed to be used with different back-\/ends. In particular, the CLAPACK package should be considered, as it will offer better performance. Thus, the matrix API should be independent of implementation, and hence a new matrix library could be used if chosen. 
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_d_s_types_8h}{DSTypes.h}\end{DoxyCompactItemize}

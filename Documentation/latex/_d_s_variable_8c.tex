@@ -1,0 +1,264 @@
+\hypertarget{_d_s_variable_8c}{
+\section{DSVariable.c File Reference}
+\label{_d_s_variable_8c}\index{DSVariable.c@{DSVariable.c}}
+}
+
+
+Implementation file with functions for dealing with variables.  
+
+
+{\ttfamily \#include $<$stdbool.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$math.h$>$}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSVariable.h\char`\"{}}\par
+Include dependency graph for DSVariable.c:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=258pt]{_d_s_variable_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_d_s_variable}{DSVariable} $\ast$ \hyperlink{_d_s_variable_8c_a6f0ce189a8dc8ce46fad1d7a9b34d31f}{DSVariableAlloc} (const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Creates a new \hyperlink{struct_d_s_variable}{DSVariable} with INFINITY as a default value. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_variable_8c_ac33e4c3da62459d2e356dd6456fca463}{
+\hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSNewVariable} (const char $\ast$name)}
+\label{_d_s_variable_8c_ac33e4c3da62459d2e356dd6456fca463}
+
+\item 
+void \hyperlink{_d_s_variable_8c_aac8fadf2969493124be37a1076a2b885}{DSVariableFree} (\hyperlink{struct_d_s_variable}{DSVariable} $\ast$var)
+\begin{DoxyCompactList}\small\item\em Function frees allocated memory of a \hyperlink{struct_d_s_variable}{DSVariable}. \item\end{DoxyCompactList}\item 
+\hyperlink{struct_d_s_variable}{DSVariable} $\ast$ \hyperlink{_d_s_variable_8c_a1a5da69573335a86dea1e4a8a6770ea3}{DSVariableRetain} (\hyperlink{struct_d_s_variable}{DSVariable} $\ast$aVariable)
+\begin{DoxyCompactList}\small\item\em Function to increase variable retain count by one. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_variable_8c_a4d83eec85c4d9340593a359fd1d5e506}{DSVariableRelease} (\hyperlink{struct_d_s_variable}{DSVariable} $\ast$aVariable)
+\begin{DoxyCompactList}\small\item\em Function to decrease variable retain count by one. \item\end{DoxyCompactList}\item 
+\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$ \hyperlink{_d_s_variable_8c_a4882cda43ad2d33bcafded6ed80e1fa6}{DSVariablePoolAddVariableWithName} (const char $\ast$name, \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)
+\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{struct_d_s_variable}{DSVariable} to the dictionary. \item\end{DoxyCompactList}\item 
+\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$ \hyperlink{_d_s_variable_8c_aae1be18474aa9db03cb72912fd19234c}{DSVariablePoolAddVariable} (\hyperlink{struct_d_s_variable}{DSVariable} $\ast$newVar, \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)
+\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{struct_d_s_variable}{DSVariable} to the dictionary. \item\end{DoxyCompactList}\item 
+\hyperlink{struct_d_s_variable}{DSVariable} $\ast$ \hyperlink{_d_s_variable_8c_ae8f75eb27aa14dda00f3251485d675ff}{DSVariablePoolVariableWithName} (const char $\ast$name, \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)
+\begin{DoxyCompactList}\small\item\em Retrieves the variable in the dictionary with a matching name. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_variable_8c_a7c5942f23ebe838b353427df52522b2e}{
+\hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSVariableWithName} (const char $\ast$name, \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)}
+\label{_d_s_variable_8c_a7c5942f23ebe838b353427df52522b2e}
+
+\item 
+void \hyperlink{_d_s_variable_8c_aaed3132c306ffc004da9f391bbd1763c}{DSVariablePoolFree} (\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)
+\begin{DoxyCompactList}\small\item\em Function to remove all nodes in the dictionary. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_variable_8c_af16c50cbfa9139ef9e0dd828617816f2}{printVarDictionary} (\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root, int indent)
+\begin{DoxyCompactList}\small\item\em Prints the VarDictionary. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_variable_8c_aa807b488d1b5c23e628a63e99ef8d0d9}{printMembers} (\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root, char $\ast$buffer, int position)
+\begin{DoxyCompactList}\small\item\em Function that prints the members in the dictionary. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file with functions for dealing with variables. Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{_d_s_variable_8c_a6f0ce189a8dc8ce46fad1d7a9b34d31f}{
+\index{DSVariable.c@{DSVariable.c}!DSVariableAlloc@{DSVariableAlloc}}
+\index{DSVariableAlloc@{DSVariableAlloc}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{DSVariableAlloc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariable}$\ast$ DSVariableAlloc (const char $\ast$ {\em name})}}
+\label{_d_s_variable_8c_a6f0ce189a8dc8ce46fad1d7a9b34d31f}
+
+
+Creates a new \hyperlink{struct_d_s_variable}{DSVariable} with INFINITY as a default value. 
+
+This function may be used throughout, in order to create new variables consistently and portably. As variables are allocated individually, it is important to not that they should be released with the accesory method. 
+\begin{DoxyParams}{Parameters}
+\item[{\em name}]A string with which to identify the \hyperlink{struct_d_s_variable}{DSVariable}. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer to the newly allocated \hyperlink{struct_d_s_variable}{DSVariable}. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{struct_d_s_variable}{DSVariable} 
+
+\hyperlink{_d_s_variable_8h_aac8fadf2969493124be37a1076a2b885}{DSVariableFree} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8c_aac8fadf2969493124be37a1076a2b885}{
+\index{DSVariable.c@{DSVariable.c}!DSVariableFree@{DSVariableFree}}
+\index{DSVariableFree@{DSVariableFree}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{DSVariableFree}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariableFree ({\bf DSVariable} $\ast$ {\em var})}}
+\label{_d_s_variable_8c_aac8fadf2969493124be37a1076a2b885}
+
+
+Function frees allocated memory of a \hyperlink{struct_d_s_variable}{DSVariable}. 
+
+This function should be used for each newDSVariable that is called. The internal structure is subject to changes in consequent versions and therefore freeing memory of DSVariables should be strictly through this function. 
+\begin{DoxyParams}{Parameters}
+\item[{\em var}]The pointer to the variable to free. \end{DoxyParams}
+\hypertarget{_d_s_variable_8c_aae1be18474aa9db03cb72912fd19234c}{
+\index{DSVariable.c@{DSVariable.c}!DSVariablePoolAddVariable@{DSVariablePoolAddVariable}}
+\index{DSVariablePoolAddVariable@{DSVariablePoolAddVariable}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{DSVariablePoolAddVariable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariablePool}$\ast$ DSVariablePoolAddVariable ({\bf DSVariable} $\ast$ {\em newVar}, \/  {\bf DSVariablePool} $\ast$ {\em root})}}
+\label{_d_s_variable_8c_aae1be18474aa9db03cb72912fd19234c}
+
+
+Adds a \hyperlink{struct_d_s_variable}{DSVariable} to the dictionary. 
+
+This is the function to add DSVariables to the dictionary. Since the dictionary works alphabetically, the root of the dictionary changes and is defined by this function, and the root, be it the new one or the old one, is returned. This function is used in creating a new dictionary. 
+\begin{DoxyParams}{Parameters}
+\item[{\em newVar}]The pointer to the variable which is to be added to the dictionary. \item[{\em root}]The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The root of the dictionary, which is likely to change. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{struct__var_dictionary}{\_\-varDictionary} 
+
+DSVariableWithName 
+
+\_\-addNewBranch 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8c_a4882cda43ad2d33bcafded6ed80e1fa6}{
+\index{DSVariable.c@{DSVariable.c}!DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}}
+\index{DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{DSVariablePoolAddVariableWithName}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariablePool}$\ast$ DSVariablePoolAddVariableWithName (const char $\ast$ {\em name}, \/  {\bf DSVariablePool} $\ast$ {\em root})}}
+\label{_d_s_variable_8c_a4882cda43ad2d33bcafded6ed80e1fa6}
+
+
+Adds a \hyperlink{struct_d_s_variable}{DSVariable} to the dictionary. 
+
+This is the function to add DSVariables to the dictionary. Since the dictionary works alphabetically, the root of the dictionary changes and is defined by this function, and the root, be it the new one or the old one, is returned. This function is used in creating a new dictionary. 
+\begin{DoxyParams}{Parameters}
+\item[{\em newVar}]The pointer to the variable which is to be added to the dictionary. \item[{\em root}]The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The root of the dictionary, which is likely to change. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{struct__var_dictionary}{\_\-varDictionary} 
+
+DSVariableWithName 
+
+\_\-addNewBranch 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8c_aaed3132c306ffc004da9f391bbd1763c}{
+\index{DSVariable.c@{DSVariable.c}!DSVariablePoolFree@{DSVariablePoolFree}}
+\index{DSVariablePoolFree@{DSVariablePoolFree}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{DSVariablePoolFree}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariablePoolFree ({\bf DSVariablePool} $\ast$ {\em root})}}
+\label{_d_s_variable_8c_aaed3132c306ffc004da9f391bbd1763c}
+
+
+Function to remove all nodes in the dictionary. 
+
+The function is RECURSIVE and frees all the nodes past the root which is passed. In theory, it could be used to clear a portion of the dictionary, yet doing so would require direct manipulation of the dictionary which is strongly discouraged. The variables themselves are NOT freed, since the dictionary does not allocate them. 
+\begin{DoxyParams}{Parameters}
+\item[{\em root}]The root of the dictionary which is to be cleared. \end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}{DSVariablePool} 
+
+DSVariableWithName 
+
+\hyperlink{_d_s_variable_8h_aae1be18474aa9db03cb72912fd19234c}{DSVariablePoolAddVariable} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8c_ae8f75eb27aa14dda00f3251485d675ff}{
+\index{DSVariable.c@{DSVariable.c}!DSVariablePoolVariableWithName@{DSVariablePoolVariableWithName}}
+\index{DSVariablePoolVariableWithName@{DSVariablePoolVariableWithName}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{DSVariablePoolVariableWithName}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariable}$\ast$ DSVariablePoolVariableWithName (const char $\ast$ {\em name}, \/  {\bf DSVariablePool} $\ast$ {\em root})}}
+\label{_d_s_variable_8c_ae8f75eb27aa14dda00f3251485d675ff}
+
+
+Retrieves the variable in the dictionary with a matching name. 
+
+This is the function for retriving a \hyperlink{struct_d_s_variable}{DSVariable} from a dictionary. 
+\begin{DoxyParams}{Parameters}
+\item[{\em name}]A string containing a NULL terminated string containing the name of the desired \hyperlink{struct_d_s_variable}{DSVariable}. \item[{\em root}]The root of the dictionary, determined during the adding of variables. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the variable. If there is no matching variable, NULL is returned. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\_\-checkNameAtPos 
+
+\hyperlink{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}{DSVariablePool} 
+
+\hyperlink{_d_s_variable_8h_aae1be18474aa9db03cb72912fd19234c}{DSVariablePoolAddVariable} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8c_a4d83eec85c4d9340593a359fd1d5e506}{
+\index{DSVariable.c@{DSVariable.c}!DSVariableRelease@{DSVariableRelease}}
+\index{DSVariableRelease@{DSVariableRelease}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{DSVariableRelease}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariableRelease ({\bf DSVariable} $\ast$ {\em aVariable})}}
+\label{_d_s_variable_8c_a4d83eec85c4d9340593a359fd1d5e506}
+
+
+Function to decrease variable retain count by one. 
+
+Fast processing tree is made to decrease its retain count by one, when the retain count hits zero, the function \hyperlink{_d_s_variable_8c_aac8fadf2969493124be37a1076a2b885}{DSVariableFree()} is invoked, freeing the memory space. Fast processing tree does not have an equivalent to autorelease, forcing the developer to use greater care when directly managing memory.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em aVariable}]The variable which will have its retain count reduced.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8h_a1a5da69573335a86dea1e4a8a6770ea3}{DSVariableRetain} 
+
+\hyperlink{_d_s_variable_8h_aac8fadf2969493124be37a1076a2b885}{DSVariableFree} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8c_a1a5da69573335a86dea1e4a8a6770ea3}{
+\index{DSVariable.c@{DSVariable.c}!DSVariableRetain@{DSVariableRetain}}
+\index{DSVariableRetain@{DSVariableRetain}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{DSVariableRetain}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariable}$\ast$ DSVariableRetain ({\bf DSVariable} $\ast$ {\em aVariable})}}
+\label{_d_s_variable_8c_a1a5da69573335a86dea1e4a8a6770ea3}
+
+
+Function to increase variable retain count by one. 
+
+Variables utilize a similar memory management system used in Objective-\/C NSObject subclasses, where objects a retained/released.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em aVariable}]The variable which will have its retain count increased.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The same variable which received the retain count increase is returned, for convinience.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8h_a4d83eec85c4d9340593a359fd1d5e506}{DSVariableRelease} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8c_aa807b488d1b5c23e628a63e99ef8d0d9}{
+\index{DSVariable.c@{DSVariable.c}!printMembers@{printMembers}}
+\index{printMembers@{printMembers}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{printMembers}]{\setlength{\rightskip}{0pt plus 5cm}void printMembers ({\bf DSVariablePool} $\ast$ {\em root}, \/  char $\ast$ {\em buffer}, \/  int {\em position})}}
+\label{_d_s_variable_8c_aa807b488d1b5c23e628a63e99ef8d0d9}
+
+
+Function that prints the members in the dictionary. 
+
+This function recursively checks the dictionary for all names, and prints them out. It requires of a buffer string which is used to store the current characters, since it is a recursive function. 
+\begin{DoxyParams}{Parameters}
+\item[{\em root}]The root of the dictionary, and the current node for consequent calls. \item[{\em buffer}]The string in which to store the characters, function does not check size of buffer. \item[{\em position}]Should be 0 when called, increases as it searches the dictionary. \end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{struct__var_dictionary}{\_\-varDictionary} 
+
+\hyperlink{_d_s_variable_8h_aae1be18474aa9db03cb72912fd19234c}{DSVariablePoolAddVariable} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[\hyperlink{todo__todo000003}{Todo}]Create a wrapper function which creates the buffer, and initiates the position at 0. \end{Desc}
+\hypertarget{_d_s_variable_8c_af16c50cbfa9139ef9e0dd828617816f2}{
+\index{DSVariable.c@{DSVariable.c}!printVarDictionary@{printVarDictionary}}
+\index{printVarDictionary@{printVarDictionary}!DSVariable.c@{DSVariable.c}}
+\subsubsection[{printVarDictionary}]{\setlength{\rightskip}{0pt plus 5cm}void printVarDictionary ({\bf DSVariablePool} $\ast$ {\em root}, \/  int {\em indent})}}
+\label{_d_s_variable_8c_af16c50cbfa9139ef9e0dd828617816f2}
+
+
+Prints the VarDictionary. 
+
+A debugging function which prints the dictionary structure to the stderr file 

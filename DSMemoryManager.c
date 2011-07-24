@@ -7,7 +7,7 @@
  * Contained here are the necessary macros and functions to succesfully report
  * the errors throughout the design space library.
  *
- * Copyright (C) 2010 Jason Lomnitz.\n\n
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *
@@ -100,6 +100,25 @@ extern void * DSSecureRealloc(void *ptr, DSInteger size)
         return data;
 }
 
+/**
+ * \brief Function to securely free data.
+ *
+ * This function is a secure free function which checks the data pointer.
+ * If the data pointer is null, indicative of errors when freeing memory, 
+ * the function issues a fatal error. This function calls malloc in case that
+ * pointer to be reallocated is NULL.
+ *
+ * \param count A DSUInteger specifying the number of memory blocks being allocated.
+ * \param size The memory size of each block being allocated.
+ * \return A pointer to the allocated data.
+ */
+extern void DSSecureFree(void * ptr)
+{
+        if (ptr == NULL)
+                DSError(M_DS_NULL, A_DS_FATAL);
+        else
+                free(ptr);
+}
 
 
 

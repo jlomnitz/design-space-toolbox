@@ -1,0 +1,63 @@
+\hypertarget{group___m___d_s___messages}{
+\section{Messages for DS Errors.}
+\label{group___m___d_s___messages}\index{Messages for DS Errors.@{Messages for DS Errors.}}
+}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}{
+\#define \hyperlink{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}{M\_\-DS\_\-NOFILE}~\char`\"{}File not found\char`\"{}}
+\label{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}
+
+\begin{DoxyCompactList}\small\item\em Message for no file found. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga0d502db70be066b76fa94dc1eb9ef75c}{
+\#define \hyperlink{group___m___d_s___messages_ga0d502db70be066b76fa94dc1eb9ef75c}{M\_\-DS\_\-NULL}~\char`\"{}NULL pointer\char`\"{}}
+\label{group___m___d_s___messages_ga0d502db70be066b76fa94dc1eb9ef75c}
+
+\begin{DoxyCompactList}\small\item\em Message for NULL pointer. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga05191be522c29caa6f80baddfb2a109c}{
+\#define \hyperlink{group___m___d_s___messages_ga05191be522c29caa6f80baddfb2a109c}{M\_\-DS\_\-NOFORMAT}~\char`\"{}Format not known\char`\"{}}
+\label{group___m___d_s___messages_ga05191be522c29caa6f80baddfb2a109c}
+
+\begin{DoxyCompactList}\small\item\em Message for unknown format. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga33ff33533363ff94af03b832587f47c6}{
+\#define \hyperlink{group___m___d_s___messages_ga33ff33533363ff94af03b832587f47c6}{M\_\-DS\_\-EXISTS}~\char`\"{}Data already exists\char`\"{}}
+\label{group___m___d_s___messages_ga33ff33533363ff94af03b832587f47c6}
+
+\begin{DoxyCompactList}\small\item\em Message for data aleady existing. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga47106b8852d8baaf66a0e7f9bd67d36b}{
+\#define \hyperlink{group___m___d_s___messages_ga47106b8852d8baaf66a0e7f9bd67d36b}{M\_\-DS\_\-MALLOC}~\char`\"{}Memory alloc failed\char`\"{}}
+\label{group___m___d_s___messages_ga47106b8852d8baaf66a0e7f9bd67d36b}
+
+\begin{DoxyCompactList}\small\item\em Message for failure to allocate data. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga79c48eacc7951aa68e4d094f0989faac}{
+\#define \hyperlink{group___m___d_s___messages_ga79c48eacc7951aa68e4d094f0989faac}{M\_\-DS\_\-NOT\_\-IMPL}~\char`\"{}Functionality not implemented\char`\"{}}
+\label{group___m___d_s___messages_ga79c48eacc7951aa68e4d094f0989faac}
+
+\begin{DoxyCompactList}\small\item\em Message for a feature not yet implemented. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_gad80933e02bded8d239593be18ed3dea9}{
+\#define \hyperlink{group___m___d_s___messages_gad80933e02bded8d239593be18ed3dea9}{M\_\-DS\_\-MAT\_\-NULL}~\char`\"{}Pointer to matrix is NULL\char`\"{}}
+\label{group___m___d_s___messages_gad80933e02bded8d239593be18ed3dea9}
+
+\begin{DoxyCompactList}\small\item\em Message for a NULL \hyperlink{struct_d_s_matrix}{DSMatrix} pointer. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_gaeb861d5820b984719e6f2ff0ed0d66d5}{
+\#define \hyperlink{group___m___d_s___messages_gaeb861d5820b984719e6f2ff0ed0d66d5}{M\_\-DS\_\-MAT\_\-OUTOFBOUNDS}~\char`\"{}Row or column out of bounds\char`\"{}}
+\label{group___m___d_s___messages_gaeb861d5820b984719e6f2ff0ed0d66d5}
+
+\begin{DoxyCompactList}\small\item\em Message for a row or column exceeding matrix bounds. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga834bdead8f9b0e20331b57e051c7f379}{
+\#define \hyperlink{group___m___d_s___messages_ga834bdead8f9b0e20331b57e051c7f379}{M\_\-DS\_\-MAT\_\-NOINTERNAL}~\char`\"{}Matrix data is empty\char`\"{}}
+\label{group___m___d_s___messages_ga834bdead8f9b0e20331b57e051c7f379}
+
+\begin{DoxyCompactList}\small\item\em Message for a NULL internal matrix structure. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defined here are the generic messages used to report the appropriate errors. These are used with the different actions in the macro DS\_\-ERROR. Other messages can be reported by literally writting them in instead of these messages in the DSError macro. Also, these messages can be modified by appending a literal string in the DSError macro.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{group___a___d_s___actions}{Actions for DS Errors.} 
+
+\hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError}
+\end{DoxySeeAlso}
+Messages for \hyperlink{struct_d_s_matrix}{DSMatrix} related errors are M\_\-DS\_\-MAT\_\-NULL, M\_\-DS\_\-MAT\_\-OUTOFBOUNDS and M\_\-DS\_\-MAT\_\-NOINTERNAL. 

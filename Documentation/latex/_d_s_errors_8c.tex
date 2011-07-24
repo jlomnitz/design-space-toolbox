@@ -1,0 +1,116 @@
+\hypertarget{_d_s_errors_8c}{
+\section{DSErrors.c File Reference}
+\label{_d_s_errors_8c}\index{DSErrors.c@{DSErrors.c}}
+}
+
+
+Implementation file with functions for error and exception handling.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$math.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$execinfo.h$>$}\par
+{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
+{\ttfamily \#include $<$stdbool.h$>$}\par
+{\ttfamily \#include $<$stdarg.h$>$}\par
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
+Include dependency graph for DSErrors.c:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{_d_s_errors_8c__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=67pt]{_d_s_errors_8c__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_errors_8c_af86fc5cdaf2e11d46f2aa2201d74f0a4}{
+\#define {\bfseries STACK\_\-TRACE\_\-NUM}~10}
+\label{_d_s_errors_8c_af86fc5cdaf2e11d46f2aa2201d74f0a4}
+
+\item 
+\hypertarget{_d_s_errors_8c_a849adc9d20371988bb26f86618fa75ba}{
+\#define {\bfseries MSIZE}~1200}
+\label{_d_s_errors_8c_a849adc9d20371988bb26f86618fa75ba}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}{DSErrorSetPrintFunction} (void($\ast$function)(const char $\ast$restrict))
+\begin{DoxyCompactList}\small\item\em FILE pointer used for default DSPrintFunction. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_errors_8c_a4b43fbbf45cfa65d56dbe161948afe18}{
+void {\bfseries DSErrorSetErrorFile} (FILE $\ast$aFile)}
+\label{_d_s_errors_8c_a4b43fbbf45cfa65d56dbe161948afe18}
+
+\item 
+void \hyperlink{_d_s_errors_8c_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} (const char $\ast$M\_\-DS\_\-Message, char A\_\-DS\_\-ACTION, const char $\ast$FILEN, int LINE, const char $\ast$FUNC)
+\begin{DoxyCompactList}\small\item\em Implicit error handling function. Called by DSError which automatically adds file and line arguments. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file with functions for error and exception handling. This file specifies the design space standard for error handling. Contained here are the necessary macros and functions to succesfully report the errors throughout the design space library.
+
+Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{_d_s_errors_8c_a363f9c264b785ec509da1b11af9ae314}{
+\index{DSErrors.c@{DSErrors.c}!DSErrorFunction@{DSErrorFunction}}
+\index{DSErrorFunction@{DSErrorFunction}!DSErrors.c@{DSErrors.c}}
+\subsubsection[{DSErrorFunction}]{\setlength{\rightskip}{0pt plus 5cm}void DSErrorFunction (const char $\ast$ {\em M\_\-DS\_\-Message}, \/  char {\em A\_\-DS\_\-ACTION}, \/  const char $\ast$ {\em FILEN}, \/  int {\em LINE}, \/  const char $\ast$ {\em FUNC})}}
+\label{_d_s_errors_8c_a363f9c264b785ec509da1b11af9ae314}
+
+
+Implicit error handling function. Called by DSError which automatically adds file and line arguments. 
+
+This function is called implicity when using the DSError macro. The DSError adds the FILE and LINE argument, to report the error/warning at the appropriate file and line.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError} 
+
+\hyperlink{group___a___d_s___actions}{Actions for DS Errors.} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}{
+\index{DSErrors.c@{DSErrors.c}!DSErrorSetPrintFunction@{DSErrorSetPrintFunction}}
+\index{DSErrorSetPrintFunction@{DSErrorSetPrintFunction}!DSErrors.c@{DSErrors.c}}
+\subsubsection[{DSErrorSetPrintFunction}]{\setlength{\rightskip}{0pt plus 5cm}void DSErrorSetPrintFunction (void($\ast$)(const char $\ast$restrict) {\em function})}}
+\label{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}
+
+
+FILE pointer used for default DSPrintFunction. 
+
+This pointer to a FILE tells the error handling system which FILE to print the error messages to. If this pointer is NULL, then the system uses the stderr file. This variable is only used internally with the default behavior of DSErrorFunction, however, it is intended to be used with custom functions.
+
+\begin{DoxySeeAlso}{See also}
+DSPrintFunction 
+
+\hyperlink{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} 
+\end{DoxySeeAlso}

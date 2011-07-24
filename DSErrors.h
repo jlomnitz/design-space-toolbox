@@ -7,7 +7,7 @@
  * Contained here are the necessary macros and functions to succesfully report
  * the errors throughout the design space library.
  *
- * Copyright (C) 2010 Jason Lomnitz.\n\n
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *
@@ -52,15 +52,16 @@
 /**
  *\defgroup M_DS_Messages Messages for DS Errors.
  *
- * Defined here are the pre-defined messages used to report the
+ * Defined here are the generic messages used to report the
  * appropriate errors.  These are used with the different actions in
  * the macro DS_ERROR.  Other messages can be reported by literally
- * writting them in instead of these messages in the DS_ERROR macro.
+ * writting them in instead of these messages in the DSError macro. Also, these
+ * messages can be modified by appending a literal string in the DSError macro.
  *
  *\see A_DS_Actions
- *\see DS_ERROR
+ *\see DSError
  */
-/*@{*/
+/*\{*/
 /**
  * \def M_DS_NOFILE
  * \def M_DS_NULL
@@ -71,7 +72,7 @@
  * \def M_DS_MALLOC
  * \def M_DS_NOT_IMPL
  */
-/*@}*/
+/*\}*/
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Error Actions
@@ -117,13 +118,17 @@ __BEGIN_DECLS
  * \brief Error reporting macro.
  * \details
  *
- * Definition of the error reporting macro used within DS C
- * programs, this is a define which takes a string, whcih may be a standard
- * message, and an action and reports it via a default print to stderr, or 
- * through custom functiosn such as mexPrintf.
+ * Definition of the error reporting macro used within the DesignSpace C
+ * toolbox, this is a define which takes a string, which may be a standard
+ * message, and an action and reports it via the standard warning and error
+ * posting functions in the standard IO functions. A default behavior of the
+ * DSError macro posts warning and errors to stderr, while a fatal error
+ * posts the error to stderr and aborts the program.
  *
- * \see DSErrorFunction
- * \see DSPrintFunction
+ * \see DSPostWarning
+ * \see DSPostError
+ * \see DSPostFatalError
+ *
  * \see M_DS_Messages
  * \see A_DS_Actions
  */

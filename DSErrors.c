@@ -4,10 +4,19 @@
  *
  * \details
  * This file specifies the design space standard for error handling.
- * Contained here are the necessary macros and functions to succesfully report
- * the errors throughout the design space library.
+ * Contained here are the necessary macros and functions to report
+ * the errors throughout the design space library.  The DSErrorFunction allows
+ * different behaviors; the default behavior, errors are printed to the
+ * DSIOErrorFile, which is set to stderr by default.  This behavior can be
+ * changed by setting changing DSPostWarning, DSPostError and DSPostFatalError
+ * function pointers.
  *
- * Copyright (C) 2010 Jason Lomnitz.\n\n
+ * \see DSIOErrorFile
+ * \see DSPostWarning
+ * \see DSPostError
+ * \see DSPostFatalError
+ *
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *
@@ -33,37 +42,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <execinfo.h>
 
 #include "DSErrors.h"
+#include "DSMemoryManager.h"
 
-#define MSIZE  400
-/**
- * \brief Pointer to a function determining how error messages are handled.
- *
- * This pointer to a function tells the error handling system which function to
- * call with the error messages.  If this pointer is NULL, then the system uses
- * printf, except that it prints to DSErrorFile instead of stdout.  This pointer
- * is intended to be used to override default behavior.  If used with MATLAB,
- * the pointer should be to mexPrintf.  If used in a Cocoa app, a function that
- * uses the notification system may be used.
- *
- * \see DSErrorFile
- * \see DSErrorFunction
- */
-void (*DSPrintFunction)(const char *restrict);
-
-/**
- * \brief FILE pointer used for default DSPrintFunction.
- *
- * This pointer to a FILE tells the error handling system which FILE to
- * print the error messages to.  If this pointer is NULL, then the system uses
- * the stderr file.  This variable is only used internally with the default 
- * behavior of DSErrorFunction, however, it is intended to be used with 
- * custom functions.
- *
- * \see DSPrintFunction
- * \see DSErrorFunction
- */
+#define STACK_TRACE_NUM 10
+#define MSIZE           1200
 
 extern void DSErrorSetPrintFunction(void (*function)(const char * restrict))
 {
@@ -77,6 +62,7 @@ extern void DSErrorSetErrorFile(FILE *aFile)
 {
         DSIOSetErrorFile(aFile);
 }
+
 /**
  * \brief Implicit error handling function.  Called by DSError which
  * automatically adds file and line arguments.
@@ -90,15 +76,30 @@ extern void DSErrorSetErrorFile(FILE *aFile)
  */
 extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char * FUNC)
 {
-        
+        void *stackArray[STACK_TRACE_NUM];
+        int size;
+        char ** strings;
         char errorString[MSIZE];
+        int i;
+        if (A_DS_ACTION == A_DS_NOERROR)
+                goto bail;
         if (DSIOErrorFile == NULL)
                 DSIOSetErrorFile(stderr);
-        sprintf(errorString, "Design Space Toolbox: %.50s.\n# %i : %.20s.\nIn: %.200s.\n",
+        size = backtrace (stackArray, STACK_TRACE_NUM);
+        strings = backtrace_symbols (stackArray, size);
+        sprintf(errorString, "Design Space Toolbox: %.50s.\n# %i : %.30s: %.200s.\nCall stack:\n",
                 M_DS_Message,
                 LINE,
                 FUNC,
                 FILEN);
+        i = 0;
+        for (i = 1; i < size; i++) {
+                if (strlen(errorString) + strlen(strings[i]) >= MSIZE)
+                    break;
+                strncat(errorString, strings[i], MSIZE);
+                strncat(errorString, "\n", MSIZE);
+                
+        }
         switch (A_DS_ACTION) {					
                 case A_DS_WARN:
                         if (DSPostWarning == NULL)
@@ -121,6 +122,8 @@ extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const c
                         }
                         break;
         }
-
+        DSSecureFree(strings);
+bail:
+        return;
 }
 

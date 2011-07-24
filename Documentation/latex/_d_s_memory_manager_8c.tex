@@ -1,0 +1,124 @@
+\hypertarget{_d_s_memory_manager_8c}{
+\section{DSMemoryManager.c File Reference}
+\label{_d_s_memory_manager_8c}\index{DSMemoryManager.c@{DSMemoryManager.c}}
+}
+
+
+implementation file with functions for secure memory management.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
+Include dependency graph for DSMemoryManager.c:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{_d_s_memory_manager_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \hyperlink{_d_s_memory_manager_8c_adee8e638b271ad5a066179a000e98cf2}{DSSecureMalloc} (DSInteger size)
+\begin{DoxyCompactList}\small\item\em Function to securely allocate data using malloc. \item\end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{_d_s_memory_manager_8c_a8f23028da2b26088301ccef44cbf77da}{DSSecureCalloc} (DSInteger count, DSInteger size)
+\begin{DoxyCompactList}\small\item\em Function to securely allocate data using calloc. \item\end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{_d_s_memory_manager_8c_a404cffa20f1d31982aa083e8ba282085}{DSSecureRealloc} (void $\ast$ptr, DSInteger size)
+\begin{DoxyCompactList}\small\item\em Function to securely allocate data using realloc. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_memory_manager_8c_abf87115fd894707c20e7efb2108d1612}{DSSecureFree} (void $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em Function to securely free data. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+implementation file with functions for secure memory management. This file specifies the design space standard for error handling. Contained here are the necessary macros and functions to succesfully report the errors throughout the design space library.
+
+Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{_d_s_memory_manager_8c_a8f23028da2b26088301ccef44cbf77da}{
+\index{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureCalloc@{DSSecureCalloc}}
+\index{DSSecureCalloc@{DSSecureCalloc}!DSMemoryManager.c@{DSMemoryManager.c}}
+\subsubsection[{DSSecureCalloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSSecureCalloc (DSInteger {\em count}, \/  DSInteger {\em size})}}
+\label{_d_s_memory_manager_8c_a8f23028da2b26088301ccef44cbf77da}
+
+
+Function to securely allocate data using calloc. 
+
+This function is a secure calloc function which checks the allocated pointer. If the data pointer is null, indicative of errors allocating memory, the function issues a fatal error.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em count}]A DSUInteger specifying the number of memory blocks being allocated. \item[{\em size}]The memory size of each block being allocated. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the allocated data. 
+\end{DoxyReturn}
+\hypertarget{_d_s_memory_manager_8c_abf87115fd894707c20e7efb2108d1612}{
+\index{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureFree@{DSSecureFree}}
+\index{DSSecureFree@{DSSecureFree}!DSMemoryManager.c@{DSMemoryManager.c}}
+\subsubsection[{DSSecureFree}]{\setlength{\rightskip}{0pt plus 5cm}void DSSecureFree (void $\ast$ {\em ptr})}}
+\label{_d_s_memory_manager_8c_abf87115fd894707c20e7efb2108d1612}
+
+
+Function to securely free data. 
+
+This function is a secure free function which checks the data pointer. If the data pointer is null, indicative of errors when freeing memory, the function issues a fatal error. This function calls malloc in case that pointer to be reallocated is NULL.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em count}]A DSUInteger specifying the number of memory blocks being allocated. \item[{\em size}]The memory size of each block being allocated. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the allocated data. 
+\end{DoxyReturn}
+\hypertarget{_d_s_memory_manager_8c_adee8e638b271ad5a066179a000e98cf2}{
+\index{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureMalloc@{DSSecureMalloc}}
+\index{DSSecureMalloc@{DSSecureMalloc}!DSMemoryManager.c@{DSMemoryManager.c}}
+\subsubsection[{DSSecureMalloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSSecureMalloc (DSInteger {\em size})}}
+\label{_d_s_memory_manager_8c_adee8e638b271ad5a066179a000e98cf2}
+
+
+Function to securely allocate data using malloc. 
+
+This function is a secure malloc function which checks the allocated pointer. If the data pointer is null, indicative of errors allocating memory, the function issues a fatal error.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em size}]A DSUInteger specifying the size of memory being allocated. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the allocated data. 
+\end{DoxyReturn}
+\hypertarget{_d_s_memory_manager_8c_a404cffa20f1d31982aa083e8ba282085}{
+\index{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureRealloc@{DSSecureRealloc}}
+\index{DSSecureRealloc@{DSSecureRealloc}!DSMemoryManager.c@{DSMemoryManager.c}}
+\subsubsection[{DSSecureRealloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSSecureRealloc (void $\ast$ {\em ptr}, \/  DSInteger {\em size})}}
+\label{_d_s_memory_manager_8c_a404cffa20f1d31982aa083e8ba282085}
+
+
+Function to securely allocate data using realloc. 
+
+This function is a secure realloc function which checks the allocated pointer. If the data pointer is null, indicative of errors allocating memory, the function issues a fatal error. This function calls malloc in case that pointer to be reallocated is NULL.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em count}]A DSUInteger specifying the number of memory blocks being allocated. \item[{\em size}]The memory size of each block being allocated. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the allocated data. 
+\end{DoxyReturn}

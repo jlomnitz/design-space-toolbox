@@ -1,0 +1,192 @@
+\hypertarget{_d_s_errors_8h}{
+\section{DSErrors.h File Reference}
+\label{_d_s_errors_8h}\index{DSErrors.h@{DSErrors.h}}
+}
+
+
+Header file with functions for error and exception handling.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSIO.h\char`\"{}}\par
+Include dependency graph for DSErrors.h:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{_d_s_errors_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=337pt]{_d_s_errors_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}{
+\#define \hyperlink{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}{M\_\-DS\_\-NOFILE}~\char`\"{}File not found\char`\"{}}
+\label{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}
+
+\begin{DoxyCompactList}\small\item\em Message for no file found. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga0d502db70be066b76fa94dc1eb9ef75c}{
+\#define \hyperlink{group___m___d_s___messages_ga0d502db70be066b76fa94dc1eb9ef75c}{M\_\-DS\_\-NULL}~\char`\"{}NULL pointer\char`\"{}}
+\label{group___m___d_s___messages_ga0d502db70be066b76fa94dc1eb9ef75c}
+
+\begin{DoxyCompactList}\small\item\em Message for NULL pointer. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga05191be522c29caa6f80baddfb2a109c}{
+\#define \hyperlink{group___m___d_s___messages_ga05191be522c29caa6f80baddfb2a109c}{M\_\-DS\_\-NOFORMAT}~\char`\"{}Format not known\char`\"{}}
+\label{group___m___d_s___messages_ga05191be522c29caa6f80baddfb2a109c}
+
+\begin{DoxyCompactList}\small\item\em Message for unknown format. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_errors_8h_a09ad9583c7a29550cc6a9a7606bf71fb}{
+\#define \hyperlink{_d_s_errors_8h_a09ad9583c7a29550cc6a9a7606bf71fb}{M\_\-DS\_\-WRONG}~\char`\"{}Inconsistent data\char`\"{}}
+\label{_d_s_errors_8h_a09ad9583c7a29550cc6a9a7606bf71fb}
+
+\begin{DoxyCompactList}\small\item\em Message for inconsistent data being used. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga33ff33533363ff94af03b832587f47c6}{
+\#define \hyperlink{group___m___d_s___messages_ga33ff33533363ff94af03b832587f47c6}{M\_\-DS\_\-EXISTS}~\char`\"{}Data already exists\char`\"{}}
+\label{group___m___d_s___messages_ga33ff33533363ff94af03b832587f47c6}
+
+\begin{DoxyCompactList}\small\item\em Message for data aleady existing. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_errors_8h_afd9c8dc0e9bf6bdaa09c3edd3125fc89}{
+\#define \hyperlink{_d_s_errors_8h_afd9c8dc0e9bf6bdaa09c3edd3125fc89}{M\_\-DS\_\-NOTHREAD}~\char`\"{}Thread not created\char`\"{}}
+\label{_d_s_errors_8h_afd9c8dc0e9bf6bdaa09c3edd3125fc89}
+
+\begin{DoxyCompactList}\small\item\em Message for no thread created. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga47106b8852d8baaf66a0e7f9bd67d36b}{
+\#define \hyperlink{group___m___d_s___messages_ga47106b8852d8baaf66a0e7f9bd67d36b}{M\_\-DS\_\-MALLOC}~\char`\"{}Memory alloc failed\char`\"{}}
+\label{group___m___d_s___messages_ga47106b8852d8baaf66a0e7f9bd67d36b}
+
+\begin{DoxyCompactList}\small\item\em Message for failure to allocate data. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga79c48eacc7951aa68e4d094f0989faac}{
+\#define \hyperlink{group___m___d_s___messages_ga79c48eacc7951aa68e4d094f0989faac}{M\_\-DS\_\-NOT\_\-IMPL}~\char`\"{}Functionality not implemented\char`\"{}}
+\label{group___m___d_s___messages_ga79c48eacc7951aa68e4d094f0989faac}
+
+\begin{DoxyCompactList}\small\item\em Message for a feature not yet implemented. \item\end{DoxyCompactList}\item 
+\hypertarget{group___a___d_s___actions_ga83fd1c7379ac085b8a9550b8d64f3449}{
+\#define \hyperlink{group___a___d_s___actions_ga83fd1c7379ac085b8a9550b8d64f3449}{A\_\-DS\_\-NOERROR}~0}
+\label{group___a___d_s___actions_ga83fd1c7379ac085b8a9550b8d64f3449}
+
+\begin{DoxyCompactList}\small\item\em Value for no error. \item\end{DoxyCompactList}\item 
+\hypertarget{group___a___d_s___actions_gad61c12e433c47da75f4322d9358c3617}{
+\#define \hyperlink{group___a___d_s___actions_gad61c12e433c47da75f4322d9358c3617}{A\_\-DS\_\-WARN}~-\/1}
+\label{group___a___d_s___actions_gad61c12e433c47da75f4322d9358c3617}
+
+\begin{DoxyCompactList}\small\item\em Value for a warning. \item\end{DoxyCompactList}\item 
+\hypertarget{group___a___d_s___actions_gabaa9a22cc1abc78916b99695489f8df8}{
+\#define \hyperlink{group___a___d_s___actions_gabaa9a22cc1abc78916b99695489f8df8}{A\_\-DS\_\-ERROR}~-\/2}
+\label{group___a___d_s___actions_gabaa9a22cc1abc78916b99695489f8df8}
+
+\begin{DoxyCompactList}\small\item\em Value for an error. \item\end{DoxyCompactList}\item 
+\hypertarget{group___a___d_s___actions_gad3e083f0c8d34073d3597724c2a264f6}{
+\#define \hyperlink{group___a___d_s___actions_gad3e083f0c8d34073d3597724c2a264f6}{A\_\-DS\_\-FATAL}~-\/3}
+\label{group___a___d_s___actions_gad3e083f0c8d34073d3597724c2a264f6}
+
+\begin{DoxyCompactList}\small\item\em Value for a fatal error, kills program. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_errors_8h_afc6d540dbb27b62f52427a845a33212f}{
+\#define \hyperlink{_d_s_errors_8h_afc6d540dbb27b62f52427a845a33212f}{A\_\-DS\_\-KILLNOW}~A\_\-DS\_\-FATAL}
+\label{_d_s_errors_8h_afc6d540dbb27b62f52427a845a33212f}
+
+\begin{DoxyCompactList}\small\item\em DEPRECATED: \item\end{DoxyCompactList}\item 
+\#define \hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError}(M\_\-DS\_\-Message, A\_\-DS\_\-Action)~DSErrorFunction(M\_\-DS\_\-Message, A\_\-DS\_\-Action, \_\-\_\-FILE\_\-\_\-, \_\-\_\-LINE\_\-\_\-, \_\-\_\-func\_\-\_\-)
+\begin{DoxyCompactList}\small\item\em Error reporting macro. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\_\-\_\-deprecated void \hyperlink{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}{DSErrorSetPrintFunction} (void($\ast$function)(const char $\ast$restrict))
+\begin{DoxyCompactList}\small\item\em FILE pointer used for default DSPrintFunction. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_errors_8h_a3b412662349f03e9fc9fbb782ec3b373}{
+\_\-\_\-deprecated void {\bfseries DSErrorSetErrorFile} (FILE $\ast$aFile)}
+\label{_d_s_errors_8h_a3b412662349f03e9fc9fbb782ec3b373}
+
+\item 
+void \hyperlink{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} (const char $\ast$M\_\-DS\_\-Message, char A\_\-DS\_\-ACTION, const char $\ast$FILEN, int LINE, const char $\ast$FUNC)
+\begin{DoxyCompactList}\small\item\em Implicit error handling function. Called by DSError which automatically adds file and line arguments. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file with functions for error and exception handling. This file specifies the design space standard for error handling. Contained here are the necessary macros and functions to succesfully report the errors throughout the design space library.
+
+Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}
+
+
+\subsection{Define Documentation}
+\hypertarget{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{
+\index{DSErrors.h@{DSErrors.h}!DSError@{DSError}}
+\index{DSError@{DSError}!DSErrors.h@{DSErrors.h}}
+\subsubsection[{DSError}]{\setlength{\rightskip}{0pt plus 5cm}\#define DSError(M\_\-DS\_\-Message, \/  A\_\-DS\_\-Action)~DSErrorFunction(M\_\-DS\_\-Message, A\_\-DS\_\-Action, \_\-\_\-FILE\_\-\_\-, \_\-\_\-LINE\_\-\_\-, \_\-\_\-func\_\-\_\-)}}
+\label{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}
+
+
+Error reporting macro. 
+
+Definition of the error reporting macro used within the DesignSpace C toolbox, this is a define which takes a string, which may be a standard message, and an action and reports it via the standard warning and error posting functions in the standard IO functions. A default behavior of the DSError macro posts warning and errors to stderr, while a fatal error posts the error to stderr and aborts the program.
+
+\begin{DoxySeeAlso}{See also}
+DSPostWarning 
+
+DSPostError 
+
+DSPostFatalError
+
+\hyperlink{group___m___d_s___messages}{Messages for DS Errors.} 
+
+\hyperlink{group___a___d_s___actions}{Actions for DS Errors.} 
+\end{DoxySeeAlso}
+
+
+\subsection{Function Documentation}
+\hypertarget{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}{
+\index{DSErrors.h@{DSErrors.h}!DSErrorFunction@{DSErrorFunction}}
+\index{DSErrorFunction@{DSErrorFunction}!DSErrors.h@{DSErrors.h}}
+\subsubsection[{DSErrorFunction}]{\setlength{\rightskip}{0pt plus 5cm}void DSErrorFunction (const char $\ast$ {\em M\_\-DS\_\-Message}, \/  char {\em A\_\-DS\_\-ACTION}, \/  const char $\ast$ {\em FILEN}, \/  int {\em LINE}, \/  const char $\ast$ {\em FUNC})}}
+\label{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}
+
+
+Implicit error handling function. Called by DSError which automatically adds file and line arguments. 
+
+This function is called implicity when using the DSError macro. The DSError adds the FILE and LINE argument, to report the error/warning at the appropriate file and line.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError} 
+
+\hyperlink{group___a___d_s___actions}{Actions for DS Errors.} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}{
+\index{DSErrors.h@{DSErrors.h}!DSErrorSetPrintFunction@{DSErrorSetPrintFunction}}
+\index{DSErrorSetPrintFunction@{DSErrorSetPrintFunction}!DSErrors.h@{DSErrors.h}}
+\subsubsection[{DSErrorSetPrintFunction}]{\setlength{\rightskip}{0pt plus 5cm}\_\-\_\-deprecated void DSErrorSetPrintFunction (void($\ast$)(const char $\ast$restrict) {\em function})}}
+\label{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}
+
+
+FILE pointer used for default DSPrintFunction. 
+
+This pointer to a FILE tells the error handling system which FILE to print the error messages to. If this pointer is NULL, then the system uses the stderr file. This variable is only used internally with the default behavior of DSErrorFunction, however, it is intended to be used with custom functions.
+
+\begin{DoxySeeAlso}{See also}
+DSPrintFunction 
+
+\hyperlink{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} 
+\end{DoxySeeAlso}

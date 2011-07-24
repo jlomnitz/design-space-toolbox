@@ -1,0 +1,160 @@
+\hypertarget{_d_s_types_8h}{
+\section{DSTypes.h File Reference}
+\label{_d_s_types_8h}\index{DSTypes.h@{DSTypes.h}}
+}
+
+
+Header file with definitions for data types.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdbool.h$>$}\par
+{\ttfamily \#include $<$stdarg.h$>$}\par
+{\ttfamily \#include $<$math.h$>$}\par
+Include dependency graph for DSTypes.h:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{_d_s_types_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{_d_s_types_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_d_s_variable}{DSVariable}
+\begin{DoxyCompactList}\small\item\em Basic variable structure containing name, value and NSString with special unicode characters for greek letters. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct__var_dictionary}{\_\-varDictionary}
+\begin{DoxyCompactList}\small\item\em Internal dictionary structure. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_s_matrix}{DSMatrix}
+\begin{DoxyCompactList}\small\item\em Data type representing a matrix. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}
+\begin{DoxyCompactList}\small\item\em Data type representing an array of matrices. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_s_s_system}{DSSSystem}
+\begin{DoxyCompactList}\small\item\em Data type representing an S-\/System. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_types_8h_aa0c1167bb311135eecf24a0e7c885b7f}{
+\#define {\bfseries endif}}
+\label{_d_s_types_8h_aa0c1167bb311135eecf24a0e7c885b7f}
+
+\item 
+\hypertarget{_d_s_types_8h_a4e1585cb1b8a465a6a9a702d97bb4ad8}{
+\#define {\bfseries \_\-\_\-deprecated}}
+\label{_d_s_types_8h_a4e1585cb1b8a465a6a9a702d97bb4ad8}
+
+\item 
+\hypertarget{_d_s_types_8h_a956e2723d559858d08644ac99146e910}{
+\#define {\bfseries INFINITY}~HUGE\_\-VAL}
+\label{_d_s_types_8h_a956e2723d559858d08644ac99146e910}
+
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_types_8h_acd52f160f8edb3f2c7c4ba8d9ddcd025}{
+typedef int {\bfseries DSInteger}}
+\label{_d_s_types_8h_acd52f160f8edb3f2c7c4ba8d9ddcd025}
+
+\item 
+\hypertarget{_d_s_types_8h_a176fc92c26d2116f67d6043e728adbb5}{
+typedef unsigned int {\bfseries DSUInteger}}
+\label{_d_s_types_8h_a176fc92c26d2116f67d6043e728adbb5}
+
+\item 
+typedef struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} \hyperlink{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}{DSVariablePool}
+\begin{DoxyCompactList}\small\item\em Internal dictionary structure. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229}{DSException} \{ \hyperlink{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713}{DS\_\-NOERROR} =  0, 
+\hyperlink{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5}{DS\_\-WARN}, 
+\hyperlink{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d}{DS\_\-ERROR}
+ \}
+\begin{DoxyCompactList}\small\item\em Data type that is used to store errors. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file with definitions for data types. This file specifies the design space standard data types. Contained here are strictly the data type definitions, and specific macros to access data in data structures. Functions applying to these data types are contained elsewhere, and the individual data structures should refer to these files.
+
+Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}{
+\index{DSTypes.h@{DSTypes.h}!DSVariablePool@{DSVariablePool}}
+\index{DSVariablePool@{DSVariablePool}!DSTypes.h@{DSTypes.h}}
+\subsubsection[{DSVariablePool}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-varDictionary}  {\bf DSVariablePool}}}
+\label{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}
+
+
+Internal dictionary structure. 
+
+Internal dictionary for fast variable querying. The structure of the dictionary uses an alternative path, where each character is checked in order at each position, if there is a match, the next position is consequently checked. The dictionary should never be manipulated manually, adding, retrieving and removing variables should be done through the accesory functions.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{struct_d_s_variable}{DSVariable} 
+\end{DoxySeeAlso}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229}{
+\index{DSTypes.h@{DSTypes.h}!DSException@{DSException}}
+\index{DSException@{DSException}!DSTypes.h@{DSTypes.h}}
+\subsubsection[{DSException}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf DSException}}}
+\label{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229}
+
+
+Data type that is used to store errors. 
+
+Type definition for the internal error handling, independent from the error reporting mentioned in M\_\-DS\_\-Messages and A\_\-DS\_\-Actions. The possible values this type definition has only symbolizes the severity of the error.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_errors_8h}{DSErrors.h}
+
+\hyperlink{group___m___d_s___messages}{Messages for DS Errors.} 
+
+\hyperlink{group___a___d_s___actions}{Actions for DS Errors.} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{DS\_\-NOERROR@{DS\_\-NOERROR}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DS\_\-NOERROR@{DS\_\-NOERROR}}\item[{\em 
+\hypertarget{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713}{
+DS\_\-NOERROR}
+\label{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713}
+}]The value for no errors found. \index{DS\_\-WARN@{DS\_\-WARN}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DS\_\-WARN@{DS\_\-WARN}}\item[{\em 
+\hypertarget{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5}{
+DS\_\-WARN}
+\label{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5}
+}]The value for a warning found. \index{DS\_\-ERROR@{DS\_\-ERROR}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DS\_\-ERROR@{DS\_\-ERROR}}\item[{\em 
+\hypertarget{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d}{
+DS\_\-ERROR}
+\label{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d}
+}]The value for a error being found. \end{description}
+\end{Desc}
+

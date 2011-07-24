@@ -7,7 +7,7 @@
  * Contained here are the necessary macros and functions to succesfully report
  * the errors throughout the design space library.
  *
- * Copyright (C) 2010 Jason Lomnitz.\n\n
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *
@@ -41,6 +41,7 @@ __BEGIN_DECLS
 extern void * DSSecureMalloc(DSInteger size);
 extern void * DSSecureCalloc(DSInteger count, DSInteger size);
 extern void * DSSecureRealloc(void *ptr, DSInteger size);
+extern void DSSecureFree(void * ptr);
 
 #ifdef __cplusplus
 __END_DECLS

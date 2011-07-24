@@ -4,7 +4,7 @@
  *
  * \details 
  *
- * Copyright (C) 2010 Jason Lomnitz.\n\n
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *
@@ -40,6 +40,7 @@
 #include "DSMemoryManager.h"
 #include "DSVariable.h"
 #include "DSMatrix.h"
+#include "DSMatrixArray.h"
 
 #ifndef __DS_STD_INCLUDE__
 #define __DS_STD_INCLUDE__

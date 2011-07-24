@@ -1,0 +1,47 @@
+\hypertarget{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y}{
+\section{Macros to manipulate variables.}
+\label{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y}\index{Macros to manipulate variables.@{Macros to manipulate variables.}}
+}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga3e1730e26b5f44a34e64d7996233d023}{DSVariableAssignValue}(x, y)~DSVariableSetValue(x, y)
+\begin{DoxyCompactList}\small\item\em Macro to directly change the value of a variable. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga912df8d84202953a573824aebcf2498f}{DSVariableReturnValue}(x)~DSVariableValue(x)
+\begin{DoxyCompactList}\small\item\em Macro to directly access the value of a variable. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The following macros are in place for portability and consistency. As the structure of the BSTVariable is subject to change, due to the nature of early versions of the framework, using these macros will make the dependent code less subject to errors. 
+
+\subsection{Define Documentation}
+\hypertarget{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga3e1730e26b5f44a34e64d7996233d023}{
+\index{DS\_\-VARIABLE\_\-ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}!DSVariableAssignValue@{DSVariableAssignValue}}
+\index{DSVariableAssignValue@{DSVariableAssignValue}!DS_VARIABLE_ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}}
+\subsubsection[{DSVariableAssignValue}]{\setlength{\rightskip}{0pt plus 5cm}\#define DSVariableAssignValue(x, \/  y)~DSVariableSetValue(x, y)}}
+\label{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga3e1730e26b5f44a34e64d7996233d023}
+
+
+Macro to directly change the value of a variable. 
+
+Macro for manipulating value of a \hyperlink{struct_d_s_variable}{DSVariable}. As a measure to make the manipulation of a variable independent of the structure, this macro provides a consistent and portable way of changing a variable value. Direct access of the variable value should be avoided.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{struct_d_s_variable}{DSVariable} 
+
+\hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga912df8d84202953a573824aebcf2498f}{DSVariableReturnValue} 
+\end{DoxySeeAlso}
+\hypertarget{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga912df8d84202953a573824aebcf2498f}{
+\index{DS\_\-VARIABLE\_\-ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}!DSVariableReturnValue@{DSVariableReturnValue}}
+\index{DSVariableReturnValue@{DSVariableReturnValue}!DS_VARIABLE_ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}}
+\subsubsection[{DSVariableReturnValue}]{\setlength{\rightskip}{0pt plus 5cm}\#define DSVariableReturnValue(x)~DSVariableValue(x)}}
+\label{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga912df8d84202953a573824aebcf2498f}
+
+
+Macro to directly access the value of a variable. 
+
+Macro for retrieving the value of a \hyperlink{struct_d_s_variable}{DSVariable}. As a measure to make the manipulation of a variable independent of the structure, this macro provides a consistent and portable way of retrieving the value of a variable. Direct access of the variable value should be avoided. \begin{DoxySeeAlso}{See also}
+\hyperlink{struct_d_s_variable}{DSVariable} 
+
+\hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga3e1730e26b5f44a34e64d7996233d023}{DSVariableAssignValue} 
+\end{DoxySeeAlso}

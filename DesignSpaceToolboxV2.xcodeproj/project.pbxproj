@@ -10,10 +10,13 @@
 		9A537BB113A9CFE50031378A /* DSMemoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB013A9CFE50031378A /* DSMemoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A537BB313A9D04F0031378A /* DSTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB213A9D04F0031378A /* DSTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A5833BC139D79170068B6B6 /* DSStd.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5833BB139D79170068B6B6 /* DSStd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0D813D480890051B472 /* libcblas.dylib */; };
+		9A71F0DB13D480950051B472 /* libgsl.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0DA13D480950051B472 /* libgsl.0.dylib */; };
 		9A81B38613A89D38007DADEC /* DSErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A81B38413A89D38007DADEC /* DSErrors.c */; };
 		9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A8BAB6713C63DA10031F387 /* DSIO.c */; };
+		9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A754213D878990045FDFB /* DSMatrixArray.c */; };
+		9A9A754513D878990045FDFB /* DSMatrixArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9A754313D878990045FDFB /* DSMatrixArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AC49AB213B53A4500E0E6B8 /* DSIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AC49AB113B53A4500E0E6B8 /* DSIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9AC49AB513B53E8A00E0E6B8 /* libgsl.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC49AB413B53E8A00E0E6B8 /* libgsl.0.dylib */; };
 		9ACB2CFF13A1345F006A5F71 /* DSErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ACB2CFE13A1345F006A5F71 /* DSErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */; };
 		9AFD4D5113B6FFD8001FCEC9 /* DSVariable.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */; };
@@ -23,17 +26,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9A092E4513A99BA8004D1B9E /* DSSSystemParser.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = DSSSystemParser.y; sourceTree = "<group>"; };
 		9A537BB013A9CFE50031378A /* DSMemoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMemoryManager.h; sourceTree = "<group>"; };
 		9A537BB213A9D04F0031378A /* DSTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSTypes.h; sourceTree = "<group>"; };
 		9A5833BB139D79170068B6B6 /* DSStd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSStd.h; sourceTree = "<group>"; };
+		9A71F0D613D480820051B472 /* libgsl.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.0.dylib; path = usr/local/lib/libgsl.0.dylib; sourceTree = SDKROOT; };
+		9A71F0D813D480890051B472 /* libcblas.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcblas.dylib; path = usr/lib/libcblas.dylib; sourceTree = SDKROOT; };
+		9A71F0DA13D480950051B472 /* libgsl.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.0.dylib; path = usr/local/lib/libgsl.0.dylib; sourceTree = SDKROOT; };
 		9A81B38213A89C31007DADEC /* libdesignspace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libdesignspace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A81B38413A89D38007DADEC /* DSErrors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSErrors.c; sourceTree = "<group>"; };
 		9A8BAB6713C63DA10031F387 /* DSIO.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSIO.c; sourceTree = "<group>"; };
+		9A9A754213D878990045FDFB /* DSMatrixArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixArray.c; sourceTree = "<group>"; };
+		9A9A754313D878990045FDFB /* DSMatrixArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMatrixArray.h; sourceTree = "<group>"; };
 		9AC49AB113B53A4500E0E6B8 /* DSIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSIO.h; sourceTree = "<group>"; };
-		9AC49AB413B53E8A00E0E6B8 /* libgsl.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.0.dylib; path = usr/local/lib/libgsl.0.dylib; sourceTree = SDKROOT; };
-		9AC9A2AC13A88BD000D8F03A /* DSEquationParser.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = DSEquationParser.l; sourceTree = "<group>"; };
-		9AC9A2AF13A8905E00D8F03A /* DSEquationParser.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = DSEquationParser.y; sourceTree = "<group>"; };
 		9ACB2CFE13A1345F006A5F71 /* DSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSErrors.h; sourceTree = "<group>"; };
 		9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMemoryManager.c; sourceTree = "<group>"; };
 		9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariable.c; sourceTree = "<group>"; };
@@ -47,7 +51,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AC49AB513B53E8A00E0E6B8 /* libgsl.0.dylib in Frameworks */,
+				9A71F0DB13D480950051B472 /* libgsl.0.dylib in Frameworks */,
+				9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +72,9 @@
 		9A5833A9139D78A80068B6B6 = {
 			isa = PBXGroup;
 			children = (
-				9AC49AB413B53E8A00E0E6B8 /* libgsl.0.dylib */,
+				9A71F0DA13D480950051B472 /* libgsl.0.dylib */,
+				9A71F0D813D480890051B472 /* libcblas.dylib */,
+				9A71F0D613D480820051B472 /* libgsl.0.dylib */,
 				9A5833BB139D79170068B6B6 /* DSStd.h */,
 				9AFD4D5F13B70985001FCEC9 /* C Source Files */,
 				9A5833B5139D78A80068B6B6 /* Products */,
@@ -85,9 +92,6 @@
 		9A81B37913A89B95007DADEC /* Parsing  */ = {
 			isa = PBXGroup;
 			children = (
-				9AC9A2AC13A88BD000D8F03A /* DSEquationParser.l */,
-				9AC9A2AF13A8905E00D8F03A /* DSEquationParser.y */,
-				9A092E4513A99BA8004D1B9E /* DSSSystemParser.y */,
 			);
 			name = "Parsing ";
 			sourceTree = "<group>";
@@ -99,6 +103,8 @@
 				9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */,
 				9AFD4D5A13B706F6001FCEC9 /* DSMatrix.h */,
 				9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */,
+				9A9A754313D878990045FDFB /* DSMatrixArray.h */,
+				9A9A754213D878990045FDFB /* DSMatrixArray.c */,
 			);
 			name = "Support Data Functions";
 			sourceTree = "<group>";
@@ -139,6 +145,7 @@
 				9AC49AB213B53A4500E0E6B8 /* DSIO.h in Headers */,
 				9AFD4D5213B6FFD8001FCEC9 /* DSVariable.h in Headers */,
 				9AFD4D5C13B706F6001FCEC9 /* DSMatrix.h in Headers */,
+				9A9A754513D878990045FDFB /* DSMatrixArray.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +201,7 @@
 				9AFD4D5113B6FFD8001FCEC9 /* DSVariable.c in Sources */,
 				9AFD4D5B13B706F6001FCEC9 /* DSMatrix_gsl.c in Sources */,
 				9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */,
+				9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +226,8 @@
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
 					"-D__GSL__",
+					"-L/Applications/MATLAB_R2011a.app/bin/maci64",
+					"-lmat",
 				);
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -239,6 +249,8 @@
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
 					"-D__GSL__",
+					"-L/Applications/MATLAB_R2011a.app/bin/maci64",
+					"-lmat",
 				);
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -253,6 +265,10 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -265,6 +281,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

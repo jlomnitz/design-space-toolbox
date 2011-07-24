@@ -1,0 +1,144 @@
+\contentsline {chapter}{\numberline {1}Todo List}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Module Index}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Modules}{3}{section.2.1}
+\contentsline {chapter}{\numberline {3}Data Structure Index}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}Data Structures}{5}{section.3.1}
+\contentsline {chapter}{\numberline {4}File Index}{7}{chapter.4}
+\contentsline {section}{\numberline {4.1}File List}{7}{section.4.1}
+\contentsline {chapter}{\numberline {5}Module Documentation}{9}{chapter.5}
+\contentsline {section}{\numberline {5.1}Messages for DS Errors.}{9}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{10}{subsection.5.1.1}
+\contentsline {section}{\numberline {5.2}Actions for DS Errors.}{11}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Detailed Description}{11}{subsection.5.2.1}
+\contentsline {section}{\numberline {5.3}Macros to manipulate variables.}{12}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Detailed Description}{12}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Define Documentation}{12}{subsection.5.3.2}
+\contentsline {subsubsection}{\numberline {5.3.2.1}DSVariableAssignValue}{12}{subsubsection.5.3.2.1}
+\contentsline {subsubsection}{\numberline {5.3.2.2}DSVariableReturnValue}{12}{subsubsection.5.3.2.2}
+\contentsline {chapter}{\numberline {6}Data Structure Documentation}{13}{chapter.6}
+\contentsline {section}{\numberline {6.1}\_\discretionary {-}{}{}varDictionary Struct Reference}{13}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Detailed Description}{14}{subsection.6.1.1}
+\contentsline {section}{\numberline {6.2}DSMatrix Struct Reference}{15}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Detailed Description}{15}{subsection.6.2.1}
+\contentsline {section}{\numberline {6.3}DSMatrixArray Struct Reference}{16}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Detailed Description}{16}{subsection.6.3.1}
+\contentsline {section}{\numberline {6.4}DSSSystem Struct Reference}{17}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}Detailed Description}{17}{subsection.6.4.1}
+\contentsline {section}{\numberline {6.5}DSVariable Struct Reference}{18}{section.6.5}
+\contentsline {subsection}{\numberline {6.5.1}Detailed Description}{18}{subsection.6.5.1}
+\contentsline {section}{\numberline {6.6}yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state Struct Reference}{19}{section.6.6}
+\contentsline {subsection}{\numberline {6.6.1}Field Documentation}{19}{subsection.6.6.1}
+\contentsline {subsubsection}{\numberline {6.6.1.1}yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}{19}{subsubsection.6.6.1.1}
+\contentsline {subsubsection}{\numberline {6.6.1.2}yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}{19}{subsubsection.6.6.1.2}
+\contentsline {section}{\numberline {6.7}yy\_\discretionary {-}{}{}trans\_\discretionary {-}{}{}info Struct Reference}{20}{section.6.7}
+\contentsline {section}{\numberline {6.8}yyalloc Union Reference}{21}{section.6.8}
+\contentsline {section}{\numberline {6.9}YYSTYPE Union Reference}{22}{section.6.9}
+\contentsline {chapter}{\numberline {7}File Documentation}{23}{chapter.7}
+\contentsline {section}{\numberline {7.1}DSErrors.c File Reference}{23}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Detailed Description}{24}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}Function Documentation}{25}{subsection.7.1.2}
+\contentsline {subsubsection}{\numberline {7.1.2.1}DSErrorFunction}{25}{subsubsection.7.1.2.1}
+\contentsline {subsubsection}{\numberline {7.1.2.2}DSErrorSetPrintFunction}{25}{subsubsection.7.1.2.2}
+\contentsline {section}{\numberline {7.2}DSErrors.h File Reference}{26}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Detailed Description}{27}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Define Documentation}{28}{subsection.7.2.2}
+\contentsline {subsubsection}{\numberline {7.2.2.1}DSError}{28}{subsubsection.7.2.2.1}
+\contentsline {subsection}{\numberline {7.2.3}Function Documentation}{28}{subsection.7.2.3}
+\contentsline {subsubsection}{\numberline {7.2.3.1}DSErrorFunction}{28}{subsubsection.7.2.3.1}
+\contentsline {subsubsection}{\numberline {7.2.3.2}DSErrorSetPrintFunction}{28}{subsubsection.7.2.3.2}
+\contentsline {section}{\numberline {7.3}DSIO.c File Reference}{30}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Detailed Description}{30}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Function Documentation}{31}{subsection.7.3.2}
+\contentsline {subsubsection}{\numberline {7.3.2.1}DSIOSetErrorFile}{31}{subsubsection.7.3.2.1}
+\contentsline {section}{\numberline {7.4}DSIO.h File Reference}{32}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Detailed Description}{33}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}Function Documentation}{33}{subsection.7.4.2}
+\contentsline {subsubsection}{\numberline {7.4.2.1}DSIOSetErrorFile}{33}{subsubsection.7.4.2.1}
+\contentsline {subsection}{\numberline {7.4.3}Variable Documentation}{33}{subsection.7.4.3}
+\contentsline {subsubsection}{\numberline {7.4.3.1}DSPrintf}{33}{subsubsection.7.4.3.1}
+\contentsline {section}{\numberline {7.5}DSMatrix.h File Reference}{35}{section.7.5}
+\contentsline {subsection}{\numberline {7.5.1}Detailed Description}{37}{subsection.7.5.1}
+\contentsline {subsection}{\numberline {7.5.2}Function Documentation}{38}{subsection.7.5.2}
+\contentsline {subsubsection}{\numberline {7.5.2.1}DSMatrixAlloc}{38}{subsubsection.7.5.2.1}
+\contentsline {subsubsection}{\numberline {7.5.2.2}DSMatrixByMultiplyingMatrix}{38}{subsubsection.7.5.2.2}
+\contentsline {subsubsection}{\numberline {7.5.2.3}DSMatrixCalloc}{38}{subsubsection.7.5.2.3}
+\contentsline {subsubsection}{\numberline {7.5.2.4}DSMatrixCopy}{39}{subsubsection.7.5.2.4}
+\contentsline {subsubsection}{\numberline {7.5.2.5}DSMatrixFree}{39}{subsubsection.7.5.2.5}
+\contentsline {subsubsection}{\numberline {7.5.2.6}DSMatrixIdentity}{39}{subsubsection.7.5.2.6}
+\contentsline {subsubsection}{\numberline {7.5.2.7}DSMatrixPLUDecomposition}{39}{subsubsection.7.5.2.7}
+\contentsline {subsubsection}{\numberline {7.5.2.8}DSMatrixRandomNumbers}{40}{subsubsection.7.5.2.8}
+\contentsline {subsubsection}{\numberline {7.5.2.9}DSMatrixSetDoubleValueAll}{40}{subsubsection.7.5.2.9}
+\contentsline {section}{\numberline {7.6}DSMatrix\_\discretionary {-}{}{}gsl.c File Reference}{41}{section.7.6}
+\contentsline {subsection}{\numberline {7.6.1}Detailed Description}{43}{subsection.7.6.1}
+\contentsline {subsection}{\numberline {7.6.2}Function Documentation}{44}{subsection.7.6.2}
+\contentsline {subsubsection}{\numberline {7.6.2.1}DSMatrixAlloc}{44}{subsubsection.7.6.2.1}
+\contentsline {subsubsection}{\numberline {7.6.2.2}DSMatrixByMultiplyingMatrix}{44}{subsubsection.7.6.2.2}
+\contentsline {subsubsection}{\numberline {7.6.2.3}DSMatrixCalloc}{44}{subsubsection.7.6.2.3}
+\contentsline {subsubsection}{\numberline {7.6.2.4}DSMatrixCopy}{44}{subsubsection.7.6.2.4}
+\contentsline {subsubsection}{\numberline {7.6.2.5}DSMatrixFree}{45}{subsubsection.7.6.2.5}
+\contentsline {subsubsection}{\numberline {7.6.2.6}DSMatrixIdentity}{45}{subsubsection.7.6.2.6}
+\contentsline {subsubsection}{\numberline {7.6.2.7}DSMatrixPLUDecomposition}{45}{subsubsection.7.6.2.7}
+\contentsline {subsubsection}{\numberline {7.6.2.8}DSMatrixRandomNumbers}{45}{subsubsection.7.6.2.8}
+\contentsline {subsubsection}{\numberline {7.6.2.9}DSMatrixSetDoubleValueAll}{46}{subsubsection.7.6.2.9}
+\contentsline {section}{\numberline {7.7}DSMatrixArray.c File Reference}{47}{section.7.7}
+\contentsline {subsection}{\numberline {7.7.1}Detailed Description}{47}{subsection.7.7.1}
+\contentsline {subsection}{\numberline {7.7.2}Function Documentation}{48}{subsection.7.7.2}
+\contentsline {subsubsection}{\numberline {7.7.2.1}DSMatrixArrayAddMatrix}{48}{subsubsection.7.7.2.1}
+\contentsline {subsubsection}{\numberline {7.7.2.2}DSMatrixArrayAlloc}{48}{subsubsection.7.7.2.2}
+\contentsline {subsubsection}{\numberline {7.7.2.3}DSMatrixArrayCopy}{48}{subsubsection.7.7.2.3}
+\contentsline {subsubsection}{\numberline {7.7.2.4}DSMatrixArrayFree}{49}{subsubsection.7.7.2.4}
+\contentsline {subsubsection}{\numberline {7.7.2.5}DSMatrixArrayMatrix}{49}{subsubsection.7.7.2.5}
+\contentsline {section}{\numberline {7.8}DSMatrixArray.h File Reference}{50}{section.7.8}
+\contentsline {subsection}{\numberline {7.8.1}Detailed Description}{51}{subsection.7.8.1}
+\contentsline {subsection}{\numberline {7.8.2}Function Documentation}{51}{subsection.7.8.2}
+\contentsline {subsubsection}{\numberline {7.8.2.1}DSMatrixArrayAddMatrix}{51}{subsubsection.7.8.2.1}
+\contentsline {subsubsection}{\numberline {7.8.2.2}DSMatrixArrayAlloc}{51}{subsubsection.7.8.2.2}
+\contentsline {subsubsection}{\numberline {7.8.2.3}DSMatrixArrayCopy}{52}{subsubsection.7.8.2.3}
+\contentsline {subsubsection}{\numberline {7.8.2.4}DSMatrixArrayFree}{52}{subsubsection.7.8.2.4}
+\contentsline {subsubsection}{\numberline {7.8.2.5}DSMatrixArrayMatrix}{52}{subsubsection.7.8.2.5}
+\contentsline {section}{\numberline {7.9}DSMemoryManager.c File Reference}{53}{section.7.9}
+\contentsline {subsection}{\numberline {7.9.1}Detailed Description}{53}{subsection.7.9.1}
+\contentsline {subsection}{\numberline {7.9.2}Function Documentation}{54}{subsection.7.9.2}
+\contentsline {subsubsection}{\numberline {7.9.2.1}DSSecureCalloc}{54}{subsubsection.7.9.2.1}
+\contentsline {subsubsection}{\numberline {7.9.2.2}DSSecureFree}{54}{subsubsection.7.9.2.2}
+\contentsline {subsubsection}{\numberline {7.9.2.3}DSSecureMalloc}{55}{subsubsection.7.9.2.3}
+\contentsline {subsubsection}{\numberline {7.9.2.4}DSSecureRealloc}{55}{subsubsection.7.9.2.4}
+\contentsline {section}{\numberline {7.10}DSMemoryManager.h File Reference}{56}{section.7.10}
+\contentsline {subsection}{\numberline {7.10.1}Detailed Description}{56}{subsection.7.10.1}
+\contentsline {subsection}{\numberline {7.10.2}Function Documentation}{57}{subsection.7.10.2}
+\contentsline {subsubsection}{\numberline {7.10.2.1}DSSecureCalloc}{57}{subsubsection.7.10.2.1}
+\contentsline {subsubsection}{\numberline {7.10.2.2}DSSecureFree}{57}{subsubsection.7.10.2.2}
+\contentsline {subsubsection}{\numberline {7.10.2.3}DSSecureMalloc}{58}{subsubsection.7.10.2.3}
+\contentsline {subsubsection}{\numberline {7.10.2.4}DSSecureRealloc}{58}{subsubsection.7.10.2.4}
+\contentsline {section}{\numberline {7.11}DSStd.h File Reference}{59}{section.7.11}
+\contentsline {subsection}{\numberline {7.11.1}Detailed Description}{59}{subsection.7.11.1}
+\contentsline {section}{\numberline {7.12}DSTypes.h File Reference}{61}{section.7.12}
+\contentsline {subsection}{\numberline {7.12.1}Detailed Description}{62}{subsection.7.12.1}
+\contentsline {subsection}{\numberline {7.12.2}Typedef Documentation}{62}{subsection.7.12.2}
+\contentsline {subsubsection}{\numberline {7.12.2.1}DSVariablePool}{62}{subsubsection.7.12.2.1}
+\contentsline {subsection}{\numberline {7.12.3}Enumeration Type Documentation}{63}{subsection.7.12.3}
+\contentsline {subsubsection}{\numberline {7.12.3.1}DSException}{63}{subsubsection.7.12.3.1}
+\contentsline {section}{\numberline {7.13}DSVariable.c File Reference}{64}{section.7.13}
+\contentsline {subsection}{\numberline {7.13.1}Detailed Description}{65}{subsection.7.13.1}
+\contentsline {subsection}{\numberline {7.13.2}Function Documentation}{65}{subsection.7.13.2}
+\contentsline {subsubsection}{\numberline {7.13.2.1}DSVariableAlloc}{65}{subsubsection.7.13.2.1}
+\contentsline {subsubsection}{\numberline {7.13.2.2}DSVariableFree}{66}{subsubsection.7.13.2.2}
+\contentsline {subsubsection}{\numberline {7.13.2.3}DSVariablePoolAddVariable}{66}{subsubsection.7.13.2.3}
+\contentsline {subsubsection}{\numberline {7.13.2.4}DSVariablePoolAddVariableWithName}{66}{subsubsection.7.13.2.4}
+\contentsline {subsubsection}{\numberline {7.13.2.5}DSVariablePoolFree}{67}{subsubsection.7.13.2.5}
+\contentsline {subsubsection}{\numberline {7.13.2.6}DSVariablePoolVariableWithName}{67}{subsubsection.7.13.2.6}
+\contentsline {subsubsection}{\numberline {7.13.2.7}DSVariableRelease}{68}{subsubsection.7.13.2.7}
+\contentsline {subsubsection}{\numberline {7.13.2.8}DSVariableRetain}{68}{subsubsection.7.13.2.8}
+\contentsline {subsubsection}{\numberline {7.13.2.9}printMembers}{68}{subsubsection.7.13.2.9}
+\contentsline {subsubsection}{\numberline {7.13.2.10}printVarDictionary}{69}{subsubsection.7.13.2.10}
+\contentsline {section}{\numberline {7.14}DSVariable.h File Reference}{70}{section.7.14}
+\contentsline {subsection}{\numberline {7.14.1}Detailed Description}{71}{subsection.7.14.1}
+\contentsline {subsection}{\numberline {7.14.2}Function Documentation}{71}{subsection.7.14.2}
+\contentsline {subsubsection}{\numberline {7.14.2.1}DSVariableAlloc}{71}{subsubsection.7.14.2.1}
+\contentsline {subsubsection}{\numberline {7.14.2.2}DSVariableFree}{72}{subsubsection.7.14.2.2}
+\contentsline {subsubsection}{\numberline {7.14.2.3}DSVariablePoolAddVariable}{72}{subsubsection.7.14.2.3}
+\contentsline {subsubsection}{\numberline {7.14.2.4}DSVariablePoolAddVariableWithName}{72}{subsubsection.7.14.2.4}
+\contentsline {subsubsection}{\numberline {7.14.2.5}DSVariablePoolFree}{73}{subsubsection.7.14.2.5}
+\contentsline {subsubsection}{\numberline {7.14.2.6}DSVariablePoolVariableWithName}{73}{subsubsection.7.14.2.6}
+\contentsline {subsubsection}{\numberline {7.14.2.7}DSVariableRelease}{74}{subsubsection.7.14.2.7}
+\contentsline {subsubsection}{\numberline {7.14.2.8}DSVariableRetain}{74}{subsubsection.7.14.2.8}

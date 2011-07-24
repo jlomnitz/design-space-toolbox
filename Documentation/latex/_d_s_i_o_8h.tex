@@ -1,0 +1,143 @@
+\hypertarget{_d_s_i_o_8h}{
+\section{DSIO.h File Reference}
+\label{_d_s_i_o_8h}\index{DSIO.h@{DSIO.h}}
+}
+
+
+Header file with standard input and output functions.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+Include dependency graph for DSIO.h:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{_d_s_i_o_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=354pt]{_d_s_i_o_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{_d_s_i_o_8h_a71e4035e82cf614f1be280b127213ca6}{DSIOSetErrorFile} (FILE $\ast$aFile)
+\begin{DoxyCompactList}\small\item\em Function to assign default error file. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_i_o_8h_aaa699261767672e938101744e4032249}{
+void {\bfseries DSIOSetPrintFunction} (int($\ast$printFunction)(const char $\ast$,...))}
+\label{_d_s_i_o_8h_aaa699261767672e938101744e4032249}
+
+\item 
+\hypertarget{_d_s_i_o_8h_a37a5183ebd833f0cf9bc2ed19e43fb84}{
+void {\bfseries DSIOSetPostWarningFunction} (void($\ast$warningFunction)(const char $\ast$message))}
+\label{_d_s_i_o_8h_a37a5183ebd833f0cf9bc2ed19e43fb84}
+
+\item 
+\hypertarget{_d_s_i_o_8h_a8c9be4c3d8b1802aa5295165c3f0b861}{
+void {\bfseries DSIOSetPostErrorFunction} (void($\ast$errorFunction)(const char $\ast$message))}
+\label{_d_s_i_o_8h_a8c9be4c3d8b1802aa5295165c3f0b861}
+
+\item 
+\hypertarget{_d_s_i_o_8h_a1fbcb57d54a5ac852484b43e317aa43f}{
+void {\bfseries DSIOSetPostFatalErrorFunction} (void($\ast$fatalErrorFunction)(const char $\ast$message))}
+\label{_d_s_i_o_8h_a1fbcb57d54a5ac852484b43e317aa43f}
+
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int($\ast$ \hyperlink{_d_s_i_o_8h_a01ab8215975bf8e2086ad342cfa6be26}{DSPrintf} )(const char $\ast$,...)
+\begin{DoxyCompactList}\small\item\em Pointer to a function determining how messages are printed. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_i_o_8h_af12cf032b729ba022698fadaccfea33d}{
+void($\ast$ {\bfseries DSPostWarning} )(const char $\ast$message)}
+\label{_d_s_i_o_8h_af12cf032b729ba022698fadaccfea33d}
+
+\item 
+\hypertarget{_d_s_i_o_8h_a40c3f80fe9e5002beb7d258e4f89c8d2}{
+void($\ast$ {\bfseries DSPostError} )(const char $\ast$message)}
+\label{_d_s_i_o_8h_a40c3f80fe9e5002beb7d258e4f89c8d2}
+
+\item 
+\hypertarget{_d_s_i_o_8h_a41b7b42028f3c25f17ca479154c7492d}{
+void($\ast$ {\bfseries DSPostFatalError} )(const char $\ast$message)}
+\label{_d_s_i_o_8h_a41b7b42028f3c25f17ca479154c7492d}
+
+\item 
+\hypertarget{_d_s_i_o_8h_af8405bae84409f99d5fa564ebaff4c91}{
+FILE $\ast$ {\bfseries DSIOErrorFile}}
+\label{_d_s_i_o_8h_af8405bae84409f99d5fa564ebaff4c91}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file with standard input and output functions. Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011
+\end{DoxyDate}
+\begin{Desc}
+\item[\hyperlink{todo__todo000001}{Todo}]Add 'plug-\/in' for printf function. 
+
+Define standard input and output file formats.\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{_d_s_i_o_8h_a71e4035e82cf614f1be280b127213ca6}{
+\index{DSIO.h@{DSIO.h}!DSIOSetErrorFile@{DSIOSetErrorFile}}
+\index{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.h@{DSIO.h}}
+\subsubsection[{DSIOSetErrorFile}]{\setlength{\rightskip}{0pt plus 5cm}void DSIOSetErrorFile (FILE $\ast$ {\em aFile})}}
+\label{_d_s_i_o_8h_a71e4035e82cf614f1be280b127213ca6}
+
+
+Function to assign default error file. 
+
+This function is used to assign the default error file, DSIOErrorFile. Changing the error file should be done via this function, as it circumvents potential problems associated with dynamic linking.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em aFile}]A FILE $\ast$ that will be used to write error messages when the default error posting mechanism is used.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+DSIOSetPostWarningFunction 
+
+DSIOSetPostErrorFunction 
+
+DSIOSetPostFatalErrorFunction 
+
+\hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError} 
+\end{DoxySeeAlso}
+
+
+\subsection{Variable Documentation}
+\hypertarget{_d_s_i_o_8h_a01ab8215975bf8e2086ad342cfa6be26}{
+\index{DSIO.h@{DSIO.h}!DSPrintf@{DSPrintf}}
+\index{DSPrintf@{DSPrintf}!DSIO.h@{DSIO.h}}
+\subsubsection[{DSPrintf}]{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ {\bf DSPrintf})(const char $\ast$,...)}}
+\label{_d_s_i_o_8h_a01ab8215975bf8e2086ad342cfa6be26}
+
+
+Pointer to a function determining how messages are printed. 
+
+This pointer to a function tells the error handling system which function to call with the error messages. If this pointer is NULL, the design space toolbox should have a default printing format, using printf to stdout. This pointer is intended to be used to override default behavior to be override. An example could be by using the mexPrintf function in matlab.
+
+\begin{DoxySeeAlso}{See also}
+DSIOSetPrintFunction 
+\end{DoxySeeAlso}

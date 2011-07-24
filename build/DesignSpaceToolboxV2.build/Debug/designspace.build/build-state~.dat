@@ -1,0 +1,242 @@
+Tdesignspace
+v3
+r1
+cCheck dependencies
+cCompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMemoryManager.o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMemoryManager.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSErrors.o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSErrors.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSVariable.o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSVariable.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMatrix.o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMatrix.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler
+cLd /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/libdesignspace.dylib normal x86_64
+
+N/Developer/SDKs/MacOSX10.6.sdk
+c000000004DA341F300000000000000EE
+t1302544883
+s238
+
+N/Developer/SDKs/MacOSX10.6.sdk/usr/include/math.h
+c000000004AC599B500000000000004F1
+t1254463925
+s1265
+
+N/Developer/SDKs/MacOSX10.6.sdk/usr/include/stdio.h
+c000000004BBD2CE90000000000004174
+t1270689001
+s16756
+
+N/Developer/SDKs/MacOSX10.6.sdk/usr/include/stdlib.h
+c000000004BBD2CE90000000000002DF5
+t1270689001
+s11765
+
+N/Developer/SDKs/MacOSX10.6.sdk/usr/include/string.h
+c000000004BBD2CE90000000000001731
+t1270689001
+s5937
+
+N/Developer/SDKs/MacOSX10.6.sdk/usr/local/lib/libgsl.0.dylib
+c000000004D00005F0000000000272AC0
+t1291845727
+s2566848
+
+N/Developer/usr/lib/clang/2.0/include/stdbool.h
+c000000004D9B5CC100000000000006C2
+t1302027457
+s1730
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSErrors.c
+c000000004E08B4B30000000000000AA6
+t1309193395
+s2726
+i<stdio.h>
+i<stdlib.h>
+i"DSStd.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSErrors.h
+c000000004E08B4580000000000000FD8
+t1309193304
+s4056
+i<stdio.h>
+i<stdlib.h>
+i"DSTypes.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSIO.h
+c000000004E06D26500000000000004D8
+t1309069925
+s1240
+i<stdio.h>
+i"DSTypes.h"
+i"DSErrors.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMatrix.c
+c000000004E07B1B200000000000003DF
+t1309127090
+s991
+i"DSMatrix.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMatrix.h
+c000000004E07AD860000000000000DE7
+t1309126022
+s3559
+i"DSTypes.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMemoryManager.c
+c000000004E08B43E00000000000007CC
+t1309193278
+s1996
+i<stdio.h>
+i<stdlib.h>
+i"DSMemoryManager.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMemoryManager.h
+c000000004E06D0AB00000000000005E9
+t1309069483
+s1513
+i"DSErrors.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSStd.h
+c000000004E06D4870000000000000572
+t1309070471
+s1394
+i<stdio.h>
+i<stdlib.h>
+i"DSTypes.h"
+i"DSIO.h"
+i"DSErrors.h"
+i"DSMemoryManager.h"
+i"DSVariable.h"
+i"DSMatrix.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSTypes.h
+c000000004E076919000000000000172D
+t1309108505
+s5933
+i<stdio.h>
+i<gsl/gsl_linalg.h>
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSVariable.c
+c000000004E0CE9A3000000000000330F
+t1309469091
+s13071
+i<stdbool.h>
+i<string.h>
+i<math.h>
+i"DSMemoryManager.h"
+i"DSErrors.h"
+i"DSVariable.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSVariable.h
+c000000004E07B0170000000000000685
+t1309126679
+s1669
+i<stdio.h>
+i<stdlib.h>
+i"DSTypes.h"
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/libdesignspace.dylib
+t2
+s0
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSErrors.o
+t2
+s0
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMatrix.o
+t2
+s0
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMemoryManager.o
+t2
+s0
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSVariable.o
+t2
+s0
+
+N/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/designspace.LinkFileList
+c000000004E0CE9A30000000000000271
+t1309469091
+s625
+
+N/usr/local/include/gsl/gsl_linalg.h
+c000000004D3A09A900000000000051BA
+t1295649193
+s20922
+
+CBuild AST from /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSErrors.c
+r0
+
+CBuild AST from /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMatrix.c
+r0
+
+CBuild AST from /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMemoryManager.c
+r0
+
+CBuild AST from /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSVariable.c
+r0
+
+CCheck dependencies
+r0
+lSLF03#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependenciesd996a12321bdb341^4f5db52321bdb341^---0#1#0#--18"Check dependencies
+
+CCompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSErrors.o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSErrors.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler
+s331161891.714017
+e331161891.928219
+r1
+xCompileC
+xbuild/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSErrors.o
+x/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSErrors.c
+xnormal
+xx86_64
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF03#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection82"Compile /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSErrors.c01dab62321bdb341^1fa2ed2321bdb341^---0#0#0#-19%DVTDocumentLocation2@90"file://localhost/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSErrors.c0000000000000000^2040"CompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSErrors.o DSErrors.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2    setenv LANG en_US.US-ASCII    /Developer/usr/bin/clang -x c -arch x86_64 -fmessage-length=0 -fdiagnostics-print-source-range-info -fdiagnostics-show-category=id -fdiagnostics-parseable-fixits -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wparentheses -Wswitch -Wno-unused-parameter -Wunused-variable -Wunused-value -Wshorten-64-to-32 -DDEBUG -isysroot /Developer/SDKs/MacOSX10.6.sdk -fasm-blocks -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-generated-files.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-own-target-headers.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-all-target-headers.hmap -iquote /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-project-headers.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/include -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/DerivedSources/x86_64 -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/DerivedSources -F/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug -I/usr/local/include/ -c /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSErrors.c -o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSErrors.o
+
+CCompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMatrix.o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMatrix.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler
+s331161891.929875
+e331161891.987864
+r1
+xCompileC
+xbuild/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMatrix.o
+x/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMatrix.c
+xnormal
+xx86_64
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF03#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection82"Compile /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMatrix.c2520ee2321bdb341^32e4fc2321bdb341^---0#0#0#-19%DVTDocumentLocation2@90"file://localhost/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMatrix.c0000000000000000^2040"CompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMatrix.o DSMatrix.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2    setenv LANG en_US.US-ASCII    /Developer/usr/bin/clang -x c -arch x86_64 -fmessage-length=0 -fdiagnostics-print-source-range-info -fdiagnostics-show-category=id -fdiagnostics-parseable-fixits -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wparentheses -Wswitch -Wno-unused-parameter -Wunused-variable -Wunused-value -Wshorten-64-to-32 -DDEBUG -isysroot /Developer/SDKs/MacOSX10.6.sdk -fasm-blocks -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-generated-files.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-own-target-headers.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-all-target-headers.hmap -iquote /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-project-headers.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/include -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/DerivedSources/x86_64 -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/DerivedSources -F/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug -I/usr/local/include/ -c /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMatrix.c -o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMatrix.o
+
+CCompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMemoryManager.o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMemoryManager.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler
+s331161891.713348
+e331161891.928111
+r1
+xCompileC
+xbuild/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMemoryManager.o
+x/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMemoryManager.c
+xnormal
+xx86_64
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF03#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection89"Compile /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMemoryManager.c9eb2b62321bdb341^a69aed2321bdb341^---0#0#0#-19%DVTDocumentLocation2@97"file://localhost/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMemoryManager.c0000000000000000^2068"CompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMemoryManager.o DSMemoryManager.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2    setenv LANG en_US.US-ASCII    /Developer/usr/bin/clang -x c -arch x86_64 -fmessage-length=0 -fdiagnostics-print-source-range-info -fdiagnostics-show-category=id -fdiagnostics-parseable-fixits -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wparentheses -Wswitch -Wno-unused-parameter -Wunused-variable -Wunused-value -Wshorten-64-to-32 -DDEBUG -isysroot /Developer/SDKs/MacOSX10.6.sdk -fasm-blocks -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-generated-files.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-own-target-headers.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-all-target-headers.hmap -iquote /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-project-headers.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/include -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/DerivedSources/x86_64 -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/DerivedSources -F/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug -I/usr/local/include/ -c /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSMemoryManager.c -o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSMemoryManager.o
+
+CCompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSVariable.o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSVariable.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler
+s331161891.928325
+e331161891.992981
+r1
+xCompileC
+xbuild/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSVariable.o
+x/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSVariable.c
+xnormal
+xx86_64
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF03#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection84"Compile /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSVariable.c8cbbed2321bdb341^f033fe2321bdb341^---0#0#0#-19%DVTDocumentLocation2@92"file://localhost/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSVariable.c0000000000000000^2048"CompileC build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSVariable.o DSVariable.c normal x86_64 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2    setenv LANG en_US.US-ASCII    /Developer/usr/bin/clang -x c -arch x86_64 -fmessage-length=0 -fdiagnostics-print-source-range-info -fdiagnostics-show-category=id -fdiagnostics-parseable-fixits -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wparentheses -Wswitch -Wno-unused-parameter -Wunused-variable -Wunused-value -Wshorten-64-to-32 -DDEBUG -isysroot /Developer/SDKs/MacOSX10.6.sdk -fasm-blocks -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-generated-files.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-own-target-headers.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-all-target-headers.hmap -iquote /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/designspace-project-headers.hmap -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/include -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/DerivedSources/x86_64 -I/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/DerivedSources -F/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug -I/usr/local/include/ -c /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/DSVariable.c -o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/DSVariable.o
+
+CLd /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/libdesignspace.dylib normal x86_64
+s331161891.993125
+e331161892.063047
+r1
+xLd
+x/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/libdesignspace.dylib
+xnormal
+xx86_64
+lSLF03#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection101"Link /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/libdesignspace.dylib2b4dfe2321bdb341^a224102421bdb341^---0#0#0#--834"Ld build/Debug/libdesignspace.dylib normal x86_64    cd /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2    setenv MACOSX_DEPLOYMENT_TARGET 10.6    /Developer/usr/bin/clang -arch x86_64 -dynamiclib -isysroot /Developer/SDKs/MacOSX10.6.sdk -L/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug -F/Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug -filelist /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/DesignSpaceToolboxV2.build/Debug/designspace.build/Objects-normal/x86_64/designspace.LinkFileList -install_name /usr/local/lib/libdesignspace.dylib -mmacosx-version-min=10.6 -lgsl.0 -single_module -compatibility_version 1 -current_version 1 -o /Users/jlomnitz/Sources/DesignSpaceToolbox/DesignSpaceToolboxV2/build/Debug/libdesignspace.dylib
+

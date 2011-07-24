@@ -1,0 +1,238 @@
+\begin{theindex}
+
+  \item {\_\discretionary {-}{}{}varDictionary}, \hyperpage{13}
+
+  \indexspace
+
+  \item {Actions for DS Errors.}, \hyperpage{11}
+
+  \indexspace
+
+  \item {DS\_\-ERROR}
+    \subitem {DSTypes.h}, \hyperpage{63}
+  \item {DS\_\-NOERROR}
+    \subitem {DSTypes.h}, \hyperpage{63}
+  \item {DS\_\-WARN}
+    \subitem {DSTypes.h}, \hyperpage{63}
+  \item {DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}
+    \subitem {DSVariableAssignValue}, \hyperpage{12}
+    \subitem {DSVariableReturnValue}, \hyperpage{12}
+  \item {DSError}
+    \subitem {DSErrors.h}, \hyperpage{28}
+  \item {DSErrorFunction}
+    \subitem {DSErrors.c}, \hyperpage{25}
+    \subitem {DSErrors.h}, \hyperpage{28}
+  \item {DSErrors.c}, \hyperpage{23}
+    \subitem {DSErrorFunction}, \hyperpage{25}
+    \subitem {DSErrorSetPrintFunction}, \hyperpage{25}
+  \item {DSErrors.h}, \hyperpage{26}
+    \subitem {DSError}, \hyperpage{28}
+    \subitem {DSErrorFunction}, \hyperpage{28}
+    \subitem {DSErrorSetPrintFunction}, \hyperpage{28}
+  \item {DSErrorSetPrintFunction}
+    \subitem {DSErrors.c}, \hyperpage{25}
+    \subitem {DSErrors.h}, \hyperpage{28}
+  \item {DSException}
+    \subitem {DSTypes.h}, \hyperpage{63}
+  \item {DSIO.c}, \hyperpage{30}
+    \subitem {DSIOSetErrorFile}, \hyperpage{31}
+  \item {DSIO.h}, \hyperpage{32}
+    \subitem {DSIOSetErrorFile}, \hyperpage{33}
+    \subitem {DSPrintf}, \hyperpage{33}
+  \item {DSIOSetErrorFile}
+    \subitem {DSIO.c}, \hyperpage{31}
+    \subitem {DSIO.h}, \hyperpage{33}
+  \item {DSMatrix}, \hyperpage{15}
+  \item {DSMatrix.h}, \hyperpage{35}
+    \subitem {DSMatrixAlloc}, \hyperpage{38}
+    \subitem {DSMatrixByMultiplyingMatrix}, \hyperpage{38}
+    \subitem {DSMatrixCalloc}, \hyperpage{38}
+    \subitem {DSMatrixCopy}, \hyperpage{38}
+    \subitem {DSMatrixFree}, \hyperpage{39}
+    \subitem {DSMatrixIdentity}, \hyperpage{39}
+    \subitem {DSMatrixPLUDecomposition}, \hyperpage{39}
+    \subitem {DSMatrixRandomNumbers}, \hyperpage{39}
+    \subitem {DSMatrixSetDoubleValueAll}, \hyperpage{40}
+  \item {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{41}
+    \subitem {DSMatrixAlloc}, \hyperpage{44}
+    \subitem {DSMatrixByMultiplyingMatrix}, \hyperpage{44}
+    \subitem {DSMatrixCalloc}, \hyperpage{44}
+    \subitem {DSMatrixCopy}, \hyperpage{44}
+    \subitem {DSMatrixFree}, \hyperpage{45}
+    \subitem {DSMatrixIdentity}, \hyperpage{45}
+    \subitem {DSMatrixPLUDecomposition}, \hyperpage{45}
+    \subitem {DSMatrixRandomNumbers}, \hyperpage{45}
+    \subitem {DSMatrixSetDoubleValueAll}, \hyperpage{46}
+  \item {DSMatrixAlloc}
+    \subitem {DSMatrix.h}, \hyperpage{38}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{44}
+  \item {DSMatrixArray}, \hyperpage{16}
+  \item {DSMatrixArray.c}, \hyperpage{47}
+    \subitem {DSMatrixArrayAddMatrix}, \hyperpage{48}
+    \subitem {DSMatrixArrayAlloc}, \hyperpage{48}
+    \subitem {DSMatrixArrayCopy}, \hyperpage{48}
+    \subitem {DSMatrixArrayFree}, \hyperpage{49}
+    \subitem {DSMatrixArrayMatrix}, \hyperpage{49}
+  \item {DSMatrixArray.h}, \hyperpage{50}
+    \subitem {DSMatrixArrayAddMatrix}, \hyperpage{51}
+    \subitem {DSMatrixArrayAlloc}, \hyperpage{51}
+    \subitem {DSMatrixArrayCopy}, \hyperpage{51}
+    \subitem {DSMatrixArrayFree}, \hyperpage{52}
+    \subitem {DSMatrixArrayMatrix}, \hyperpage{52}
+  \item {DSMatrixArrayAddMatrix}
+    \subitem {DSMatrixArray.c}, \hyperpage{48}
+    \subitem {DSMatrixArray.h}, \hyperpage{51}
+  \item {DSMatrixArrayAlloc}
+    \subitem {DSMatrixArray.c}, \hyperpage{48}
+    \subitem {DSMatrixArray.h}, \hyperpage{51}
+  \item {DSMatrixArrayCopy}
+    \subitem {DSMatrixArray.c}, \hyperpage{48}
+    \subitem {DSMatrixArray.h}, \hyperpage{51}
+  \item {DSMatrixArrayFree}
+    \subitem {DSMatrixArray.c}, \hyperpage{49}
+    \subitem {DSMatrixArray.h}, \hyperpage{52}
+  \item {DSMatrixArrayMatrix}
+    \subitem {DSMatrixArray.c}, \hyperpage{49}
+    \subitem {DSMatrixArray.h}, \hyperpage{52}
+  \item {DSMatrixByMultiplyingMatrix}
+    \subitem {DSMatrix.h}, \hyperpage{38}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{44}
+  \item {DSMatrixCalloc}
+    \subitem {DSMatrix.h}, \hyperpage{38}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{44}
+  \item {DSMatrixCopy}
+    \subitem {DSMatrix.h}, \hyperpage{38}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{44}
+  \item {DSMatrixFree}
+    \subitem {DSMatrix.h}, \hyperpage{39}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{45}
+  \item {DSMatrixIdentity}
+    \subitem {DSMatrix.h}, \hyperpage{39}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{45}
+  \item {DSMatrixPLUDecomposition}
+    \subitem {DSMatrix.h}, \hyperpage{39}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{45}
+  \item {DSMatrixRandomNumbers}
+    \subitem {DSMatrix.h}, \hyperpage{39}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{45}
+  \item {DSMatrixSetDoubleValueAll}
+    \subitem {DSMatrix.h}, \hyperpage{40}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{46}
+  \item {DSMemoryManager.c}, \hyperpage{53}
+    \subitem {DSSecureCalloc}, \hyperpage{54}
+    \subitem {DSSecureFree}, \hyperpage{54}
+    \subitem {DSSecureMalloc}, \hyperpage{54}
+    \subitem {DSSecureRealloc}, \hyperpage{55}
+  \item {DSMemoryManager.h}, \hyperpage{56}
+    \subitem {DSSecureCalloc}, \hyperpage{57}
+    \subitem {DSSecureFree}, \hyperpage{57}
+    \subitem {DSSecureMalloc}, \hyperpage{57}
+    \subitem {DSSecureRealloc}, \hyperpage{58}
+  \item {DSPrintf}
+    \subitem {DSIO.h}, \hyperpage{33}
+  \item {DSSecureCalloc}
+    \subitem {DSMemoryManager.c}, \hyperpage{54}
+    \subitem {DSMemoryManager.h}, \hyperpage{57}
+  \item {DSSecureFree}
+    \subitem {DSMemoryManager.c}, \hyperpage{54}
+    \subitem {DSMemoryManager.h}, \hyperpage{57}
+  \item {DSSecureMalloc}
+    \subitem {DSMemoryManager.c}, \hyperpage{54}
+    \subitem {DSMemoryManager.h}, \hyperpage{57}
+  \item {DSSecureRealloc}
+    \subitem {DSMemoryManager.c}, \hyperpage{55}
+    \subitem {DSMemoryManager.h}, \hyperpage{58}
+  \item {DSSSystem}, \hyperpage{17}
+  \item {DSStd.h}, \hyperpage{59}
+  \item {DSTypes.h}, \hyperpage{61}
+    \subitem {DS\_\-ERROR}, \hyperpage{63}
+    \subitem {DS\_\-NOERROR}, \hyperpage{63}
+    \subitem {DS\_\-WARN}, \hyperpage{63}
+    \subitem {DSException}, \hyperpage{63}
+    \subitem {DSVariablePool}, \hyperpage{62}
+  \item {DSVariable}, \hyperpage{18}
+  \item {DSVariable.c}, \hyperpage{64}
+    \subitem {DSVariableAlloc}, \hyperpage{65}
+    \subitem {DSVariableFree}, \hyperpage{66}
+    \subitem {DSVariablePoolAddVariable}, \hyperpage{66}
+    \subitem {DSVariablePoolAddVariableWithName}, \hyperpage{66}
+    \subitem {DSVariablePoolFree}, \hyperpage{67}
+    \subitem {DSVariablePoolVariableWithName}, \hyperpage{67}
+    \subitem {DSVariableRelease}, \hyperpage{67}
+    \subitem {DSVariableRetain}, \hyperpage{68}
+    \subitem {printMembers}, \hyperpage{68}
+    \subitem {printVarDictionary}, \hyperpage{68}
+  \item {DSVariable.h}, \hyperpage{70}
+    \subitem {DSVariableAlloc}, \hyperpage{71}
+    \subitem {DSVariableFree}, \hyperpage{72}
+    \subitem {DSVariablePoolAddVariable}, \hyperpage{72}
+    \subitem {DSVariablePoolAddVariableWithName}, \hyperpage{72}
+    \subitem {DSVariablePoolFree}, \hyperpage{73}
+    \subitem {DSVariablePoolVariableWithName}, \hyperpage{73}
+    \subitem {DSVariableRelease}, \hyperpage{73}
+    \subitem {DSVariableRetain}, \hyperpage{74}
+  \item {DSVariableAlloc}
+    \subitem {DSVariable.c}, \hyperpage{65}
+    \subitem {DSVariable.h}, \hyperpage{71}
+  \item {DSVariableAssignValue}
+    \subitem {DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}, 
+		\hyperpage{12}
+  \item {DSVariableFree}
+    \subitem {DSVariable.c}, \hyperpage{66}
+    \subitem {DSVariable.h}, \hyperpage{72}
+  \item {DSVariablePool}
+    \subitem {DSTypes.h}, \hyperpage{62}
+  \item {DSVariablePoolAddVariable}
+    \subitem {DSVariable.c}, \hyperpage{66}
+    \subitem {DSVariable.h}, \hyperpage{72}
+  \item {DSVariablePoolAddVariableWithName}
+    \subitem {DSVariable.c}, \hyperpage{66}
+    \subitem {DSVariable.h}, \hyperpage{72}
+  \item {DSVariablePoolFree}
+    \subitem {DSVariable.c}, \hyperpage{67}
+    \subitem {DSVariable.h}, \hyperpage{73}
+  \item {DSVariablePoolVariableWithName}
+    \subitem {DSVariable.c}, \hyperpage{67}
+    \subitem {DSVariable.h}, \hyperpage{73}
+  \item {DSVariableRelease}
+    \subitem {DSVariable.c}, \hyperpage{67}
+    \subitem {DSVariable.h}, \hyperpage{73}
+  \item {DSVariableRetain}
+    \subitem {DSVariable.c}, \hyperpage{68}
+    \subitem {DSVariable.h}, \hyperpage{74}
+  \item {DSVariableReturnValue}
+    \subitem {DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}, 
+		\hyperpage{12}
+
+  \indexspace
+
+  \item {Macros to manipulate variables.}, \hyperpage{12}
+  \item {Messages for DS Errors.}, \hyperpage{9}
+
+  \indexspace
+
+  \item {printMembers}
+    \subitem {DSVariable.c}, \hyperpage{68}
+  \item {printVarDictionary}
+    \subitem {DSVariable.c}, \hyperpage{68}
+
+  \indexspace
+
+  \item {yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}
+    \subitem {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
+		\hyperpage{19}
+  \item {yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}
+    \subitem {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
+		\hyperpage{19}
+  \item {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
+		\hyperpage{19}
+    \subitem {yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}, 
+		\hyperpage{19}
+    \subitem {yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}, 
+		\hyperpage{19}
+  \item {yy\_\discretionary {-}{}{}trans\_\discretionary {-}{}{}info}, 
+		\hyperpage{20}
+  \item {yyalloc}, \hyperpage{21}
+  \item {YYSTYPE}, \hyperpage{22}
+
+\end{theindex}
