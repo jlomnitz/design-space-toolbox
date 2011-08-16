@@ -21,23 +21,27 @@
 \indexentry{DSErrors.c@{DSErrors.c}|hyperpage}{23}
 \indexentry{DSErrors.c@{DSErrors.c}!DSErrorFunction@{DSErrorFunction}|hyperpage}{25}
 \indexentry{DSErrorFunction@{DSErrorFunction}!DSErrors.c@{DSErrors.c}|hyperpage}{25}
-\indexentry{DSErrors.c@{DSErrors.c}!DSErrorSetPrintFunction@{DSErrorSetPrintFunction}|hyperpage}{25}
-\indexentry{DSErrorSetPrintFunction@{DSErrorSetPrintFunction}!DSErrors.c@{DSErrors.c}|hyperpage}{25}
 \indexentry{DSErrors.h@{DSErrors.h}|hyperpage}{26}
 \indexentry{DSErrors.h@{DSErrors.h}!DSError@{DSError}|hyperpage}{28}
 \indexentry{DSError@{DSError}!DSErrors.h@{DSErrors.h}|hyperpage}{28}
 \indexentry{DSErrors.h@{DSErrors.h}!DSErrorFunction@{DSErrorFunction}|hyperpage}{28}
 \indexentry{DSErrorFunction@{DSErrorFunction}!DSErrors.h@{DSErrors.h}|hyperpage}{28}
-\indexentry{DSErrors.h@{DSErrors.h}!DSErrorSetPrintFunction@{DSErrorSetPrintFunction}|hyperpage}{28}
-\indexentry{DSErrorSetPrintFunction@{DSErrorSetPrintFunction}!DSErrors.h@{DSErrors.h}|hyperpage}{28}
-\indexentry{DSIO.c@{DSIO.c}|hyperpage}{30}
-\indexentry{DSIO.c@{DSIO.c}!DSIOSetErrorFile@{DSIOSetErrorFile}|hyperpage}{31}
-\indexentry{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.c@{DSIO.c}|hyperpage}{31}
-\indexentry{DSIO.h@{DSIO.h}|hyperpage}{32}
-\indexentry{DSIO.h@{DSIO.h}!DSIOSetErrorFile@{DSIOSetErrorFile}|hyperpage}{33}
-\indexentry{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.h@{DSIO.h}|hyperpage}{33}
-\indexentry{DSIO.h@{DSIO.h}!DSPrintf@{DSPrintf}|hyperpage}{33}
-\indexentry{DSPrintf@{DSPrintf}!DSIO.h@{DSIO.h}|hyperpage}{33}
+\indexentry{DSIO.c@{DSIO.c}|hyperpage}{29}
+\indexentry{DSIO.c@{DSIO.c}!DSIOSetErrorFile@{DSIOSetErrorFile}|hyperpage}{30}
+\indexentry{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.c@{DSIO.c}|hyperpage}{30}
+\indexentry{DSIO.h@{DSIO.h}|hyperpage}{31}
+\indexentry{DSIO.h@{DSIO.h}!DSIOSetErrorFile@{DSIOSetErrorFile}|hyperpage}{32}
+\indexentry{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.h@{DSIO.h}|hyperpage}{32}
+\indexentry{DSIO.h@{DSIO.h}!DSIOErrorFile@{DSIOErrorFile}|hyperpage}{33}
+\indexentry{DSIOErrorFile@{DSIOErrorFile}!DSIO.h@{DSIO.h}|hyperpage}{33}
+\indexentry{DSIO.h@{DSIO.h}!DSPostError@{DSPostError}|hyperpage}{33}
+\indexentry{DSPostError@{DSPostError}!DSIO.h@{DSIO.h}|hyperpage}{33}
+\indexentry{DSIO.h@{DSIO.h}!DSPostFatalError@{DSPostFatalError}|hyperpage}{33}
+\indexentry{DSPostFatalError@{DSPostFatalError}!DSIO.h@{DSIO.h}|hyperpage}{33}
+\indexentry{DSIO.h@{DSIO.h}!DSPostWarning@{DSPostWarning}|hyperpage}{33}
+\indexentry{DSPostWarning@{DSPostWarning}!DSIO.h@{DSIO.h}|hyperpage}{33}
+\indexentry{DSIO.h@{DSIO.h}!DSPrintf@{DSPrintf}|hyperpage}{34}
+\indexentry{DSPrintf@{DSPrintf}!DSIO.h@{DSIO.h}|hyperpage}{34}
 \indexentry{DSMatrix.h@{DSMatrix.h}|hyperpage}{35}
 \indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixAlloc@{DSMatrixAlloc}|hyperpage}{38}
 \indexentry{DSMatrixAlloc@{DSMatrixAlloc}!DSMatrix.h@{DSMatrix.h}|hyperpage}{38}
@@ -47,14 +51,16 @@
 \indexentry{DSMatrixCalloc@{DSMatrixCalloc}!DSMatrix.h@{DSMatrix.h}|hyperpage}{38}
 \indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixCopy@{DSMatrixCopy}|hyperpage}{38}
 \indexentry{DSMatrixCopy@{DSMatrixCopy}!DSMatrix.h@{DSMatrix.h}|hyperpage}{38}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixDoubleValue@{DSMatrixDoubleValue}|hyperpage}{39}
+\indexentry{DSMatrixDoubleValue@{DSMatrixDoubleValue}!DSMatrix.h@{DSMatrix.h}|hyperpage}{39}
 \indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixFree@{DSMatrixFree}|hyperpage}{39}
 \indexentry{DSMatrixFree@{DSMatrixFree}!DSMatrix.h@{DSMatrix.h}|hyperpage}{39}
 \indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixIdentity@{DSMatrixIdentity}|hyperpage}{39}
 \indexentry{DSMatrixIdentity@{DSMatrixIdentity}!DSMatrix.h@{DSMatrix.h}|hyperpage}{39}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}|hyperpage}{39}
-\indexentry{DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}!DSMatrix.h@{DSMatrix.h}|hyperpage}{39}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixRandomNumbers@{DSMatrixRandomNumbers}|hyperpage}{39}
-\indexentry{DSMatrixRandomNumbers@{DSMatrixRandomNumbers}!DSMatrix.h@{DSMatrix.h}|hyperpage}{39}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}|hyperpage}{40}
+\indexentry{DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}!DSMatrix.h@{DSMatrix.h}|hyperpage}{40}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixRandomNumbers@{DSMatrixRandomNumbers}|hyperpage}{40}
+\indexentry{DSMatrixRandomNumbers@{DSMatrixRandomNumbers}!DSMatrix.h@{DSMatrix.h}|hyperpage}{40}
 \indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}|hyperpage}{40}
 \indexentry{DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}!DSMatrix.h@{DSMatrix.h}|hyperpage}{40}
 \indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{41}
@@ -66,14 +72,16 @@
 \indexentry{DSMatrixCalloc@{DSMatrixCalloc}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{44}
 \indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixCopy@{DSMatrixCopy}|hyperpage}{44}
 \indexentry{DSMatrixCopy@{DSMatrixCopy}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{44}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixDoubleValue@{DSMatrixDoubleValue}|hyperpage}{45}
+\indexentry{DSMatrixDoubleValue@{DSMatrixDoubleValue}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{45}
 \indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixFree@{DSMatrixFree}|hyperpage}{45}
 \indexentry{DSMatrixFree@{DSMatrixFree}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{45}
 \indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixIdentity@{DSMatrixIdentity}|hyperpage}{45}
 \indexentry{DSMatrixIdentity@{DSMatrixIdentity}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{45}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}|hyperpage}{45}
-\indexentry{DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{45}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixRandomNumbers@{DSMatrixRandomNumbers}|hyperpage}{45}
-\indexentry{DSMatrixRandomNumbers@{DSMatrixRandomNumbers}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{45}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}|hyperpage}{46}
+\indexentry{DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{46}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixRandomNumbers@{DSMatrixRandomNumbers}|hyperpage}{46}
+\indexentry{DSMatrixRandomNumbers@{DSMatrixRandomNumbers}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{46}
 \indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}|hyperpage}{46}
 \indexentry{DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{46}
 \indexentry{DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{47}
@@ -120,14 +128,6 @@
 \indexentry{DSTypes.h@{DSTypes.h}|hyperpage}{61}
 \indexentry{DSTypes.h@{DSTypes.h}!DSVariablePool@{DSVariablePool}|hyperpage}{62}
 \indexentry{DSVariablePool@{DSVariablePool}!DSTypes.h@{DSTypes.h}|hyperpage}{62}
-\indexentry{DSTypes.h@{DSTypes.h}!DSException@{DSException}|hyperpage}{63}
-\indexentry{DSException@{DSException}!DSTypes.h@{DSTypes.h}|hyperpage}{63}
-\indexentry{DS\_\-NOERROR@{DS\_\-NOERROR}!DSTypes.h@{DSTypes.h}|hyperpage}{63}
-\indexentry{DSTypes.h@{DSTypes.h}!DS\_\-NOERROR@{DS\_\-NOERROR}|hyperpage}{63}
-\indexentry{DS\_\-WARN@{DS\_\-WARN}!DSTypes.h@{DSTypes.h}|hyperpage}{63}
-\indexentry{DSTypes.h@{DSTypes.h}!DS\_\-WARN@{DS\_\-WARN}|hyperpage}{63}
-\indexentry{DS\_\-ERROR@{DS\_\-ERROR}!DSTypes.h@{DSTypes.h}|hyperpage}{63}
-\indexentry{DSTypes.h@{DSTypes.h}!DS\_\-ERROR@{DS\_\-ERROR}|hyperpage}{63}
 \indexentry{DSVariable.c@{DSVariable.c}|hyperpage}{64}
 \indexentry{DSVariable.c@{DSVariable.c}!DSVariableAlloc@{DSVariableAlloc}|hyperpage}{65}
 \indexentry{DSVariableAlloc@{DSVariableAlloc}!DSVariable.c@{DSVariable.c}|hyperpage}{65}
@@ -162,7 +162,9 @@
 \indexentry{DSVariablePoolFree@{DSVariablePoolFree}!DSVariable.h@{DSVariable.h}|hyperpage}{73}
 \indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolVariableWithName@{DSVariablePoolVariableWithName}|hyperpage}{73}
 \indexentry{DSVariablePoolVariableWithName@{DSVariablePoolVariableWithName}!DSVariable.h@{DSVariable.h}|hyperpage}{73}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariableRelease@{DSVariableRelease}|hyperpage}{73}
-\indexentry{DSVariableRelease@{DSVariableRelease}!DSVariable.h@{DSVariable.h}|hyperpage}{73}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariableRelease@{DSVariableRelease}|hyperpage}{74}
+\indexentry{DSVariableRelease@{DSVariableRelease}!DSVariable.h@{DSVariable.h}|hyperpage}{74}
 \indexentry{DSVariable.h@{DSVariable.h}!DSVariableRetain@{DSVariableRetain}|hyperpage}{74}
 \indexentry{DSVariableRetain@{DSVariableRetain}!DSVariable.h@{DSVariable.h}|hyperpage}{74}
+\indexentry{DSVariable.h@{DSVariable.h}!printVarDictionary@{printVarDictionary}|hyperpage}{74}
+\indexentry{printVarDictionary@{printVarDictionary}!DSVariable.h@{DSVariable.h}|hyperpage}{74}

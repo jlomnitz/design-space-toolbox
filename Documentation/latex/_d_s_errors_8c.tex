@@ -40,15 +40,18 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 
 \item 
 \hypertarget{_d_s_errors_8c_a849adc9d20371988bb26f86618fa75ba}{
-\#define {\bfseries MSIZE}~1200}
+\#define {\bfseries MSIZE}~1500}
 \label{_d_s_errors_8c_a849adc9d20371988bb26f86618fa75ba}
 
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}{DSErrorSetPrintFunction} (void($\ast$function)(const char $\ast$restrict))
-\begin{DoxyCompactList}\small\item\em FILE pointer used for default DSPrintFunction. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}{
+void {\bfseries DSErrorSetPrintFunction} (void($\ast$function)(const char $\ast$restrict))}
+\label{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}
+
+\item 
 \hypertarget{_d_s_errors_8c_a4b43fbbf45cfa65d56dbe161948afe18}{
 void {\bfseries DSErrorSetErrorFile} (FILE $\ast$aFile)}
 \label{_d_s_errors_8c_a4b43fbbf45cfa65d56dbe161948afe18}
@@ -59,8 +62,17 @@ void \hyperlink{_d_s_errors_8c_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunctio
 
 
 \subsection{Detailed Description}
-Implementation file with functions for error and exception handling. This file specifies the design space standard for error handling. Contained here are the necessary macros and functions to succesfully report the errors throughout the design space library.
+Implementation file with functions for error and exception handling. This file specifies the design space standard for error handling. Contained here are the necessary macros and functions to report the errors throughout the design space library. The DSErrorFunction allows different behaviors; the default behavior, errors are printed to the DSIOErrorFile, which is set to stderr by default. This behavior can be changed by setting changing DSPostWarning, DSPostError and DSPostFatalError function pointers.
 
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8h_af8405bae84409f99d5fa564ebaff4c91}{DSIOErrorFile} 
+
+\hyperlink{_d_s_i_o_8h_af12cf032b729ba022698fadaccfea33d}{DSPostWarning} 
+
+\hyperlink{_d_s_i_o_8h_a40c3f80fe9e5002beb7d258e4f89c8d2}{DSPostError} 
+
+\hyperlink{_d_s_i_o_8h_a41b7b42028f3c25f17ca479154c7492d}{DSPostFatalError}
+\end{DoxySeeAlso}
 Copyright (C) 2011 Jason Lomnitz.\par
 \par
 
@@ -97,20 +109,4 @@ This function is called implicity when using the DSError macro. The DSError adds
 \hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError} 
 
 \hyperlink{group___a___d_s___actions}{Actions for DS Errors.} 
-\end{DoxySeeAlso}
-\hypertarget{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}{
-\index{DSErrors.c@{DSErrors.c}!DSErrorSetPrintFunction@{DSErrorSetPrintFunction}}
-\index{DSErrorSetPrintFunction@{DSErrorSetPrintFunction}!DSErrors.c@{DSErrors.c}}
-\subsubsection[{DSErrorSetPrintFunction}]{\setlength{\rightskip}{0pt plus 5cm}void DSErrorSetPrintFunction (void($\ast$)(const char $\ast$restrict) {\em function})}}
-\label{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}
-
-
-FILE pointer used for default DSPrintFunction. 
-
-This pointer to a FILE tells the error handling system which FILE to print the error messages to. If this pointer is NULL, then the system uses the stderr file. This variable is only used internally with the default behavior of DSErrorFunction, however, it is intended to be used with custom functions.
-
-\begin{DoxySeeAlso}{See also}
-DSPrintFunction 
-
-\hyperlink{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} 
 \end{DoxySeeAlso}

@@ -48,7 +48,7 @@
 #define M_DS_NOTHREAD  "Thread not created"            //!< Message for no thread created.
 #define M_DS_MALLOC    "Memory alloc failed"           //!< Message for failure to allocate data.
 #define M_DS_NOT_IMPL  "Functionality not implemented" //!< Message for a feature not yet implemented.
-
+#define M_DS_PARSE     "Could not parse data"          //!< Message for an error during parsing
 /**
  *\defgroup M_DS_Messages Messages for DS Errors.
  *

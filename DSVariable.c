@@ -34,7 +34,7 @@
 #include "DSMemoryManager.h"
 #include "DSErrors.h"
 #include "DSVariable.h"
-
+#include "DSVariableTokenizer.h"
 
 
 #if defined(__APPLE__) && defined(__MACH__)
@@ -57,20 +57,20 @@
 extern DSVariable *DSVariableAlloc(const char *name)
 {
         DSVariable *var;
-        if (name == NULL)
-                return NULL;
-        if (strlen(name) == 0)
-                return NULL;
+        if (name == NULL) {
+                DSError(M_DS_NULL ": Name is a NULL pointer", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(name) == 0) {
+                DSError(M_DS_WRONG ": Name is empty", A_DS_WARN);
+                goto bail;
+        }
         var = DSSecureMalloc(sizeof(DSVariable));
         var->name = strdup(name);
         var->retainCount = 1;
         DSVariableSetValue(var, INFINITY);
+bail:
         return var;
-}
-
-extern DSVariable *DSNewVariable(const char *name)
-{
-        return DSVariableAlloc(name);
 }
 
 /**
@@ -84,11 +84,17 @@ extern DSVariable *DSNewVariable(const char *name)
  */
 extern void DSVariableFree(DSVariable *var)
 {
-        if (var == NULL)
-                return;
+        if (var == NULL) {
+                DSError(M_DS_NULL ": Variable to free is null", A_DS_ERROR);
+                goto bail;
+        }
         if (var->name != NULL)
-                free(var->name);
-        free(var);
+                DSSecureFree(var->name);
+        else
+                DSError(M_DS_WRONG ": Variable name was NULL", A_DS_WARN);
+        DSSecureFree(var);
+bail:
+        return;
 }
 
 
@@ -108,7 +114,7 @@ extern void DSVariableFree(DSVariable *var)
 extern DSVariable * DSVariableRetain(DSVariable *aVariable)
 {
         if (aVariable == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
+                DSError(M_DS_NULL ": Retaining a NULL varaible", A_DS_ERROR);
                 goto bail;
         }
         aVariable->retainCount++;
@@ -133,7 +139,7 @@ bail:
 extern void DSVariableRelease(DSVariable *aVariable)
 {
         if (aVariable == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
+                DSError(M_DS_NULL ": releasing a NULL variable.", A_DS_ERROR);
                 goto bail;
         }
         aVariable->retainCount--;
@@ -148,14 +154,14 @@ bail:
 
 
 #if defined(__APPLE__) && defined(__MACH__)
-#pragma mark - Variable Pool Functions
+#pragma mark - Variable dictionary Functions
 #endif
 
 /**
  * \brief Internal function for searching a dictionary for a variable name.
  *
- *This function is for internal use only.  It is a RECURSIVE function which 
- *checks the difference between the name and the dictionary character by 
+ * This function is for internal use only.  It is a RECURSIVE function which 
+ * checks the difference between the name and the dictionary character by 
  * character.  If it encounters a matching Null character in both the dictionar
  * and the name, a pointer to the DSVariable is returned.
  * \param name A string, the one passed to DSVariableWithName, with the name of the DSVariable.
@@ -164,16 +170,14 @@ bail:
  * \return A pointer to the DSVariable.  If the name name does not match, NULL is returned.
  * \see DSVariable
  * \see DSVariableWithName
- * \see DSVariablePool
+ * \see struct _varDictionary
  * \see DSVariablePoolAddVariable
  */
-static DSVariable *_checkNameAtPos(const char *name, DSVariablePool *node, int pos)
+static DSVariable *dsCheckNameAtPos(const char *name, struct _varDictionary *node, int pos)
 {
         DSVariable *aVariable = NULL;
-        if (node == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
+        if (node == NULL)
                 goto bail;
-        }
         while (node) {
                 if (name[pos] == node->current) {
                         if (node->current == '\0') {
@@ -195,12 +199,18 @@ bail:
         return aVariable;
 }
 
+__deprecated static DSVariable *_checkNameAtPos(const char *name, struct _varDictionary *node, int pos)
+{
+        return dsCheckNameAtPos(name, node, pos);
+}
+
 /**
  * \brief Creates a simple branch containing the remaining nodes for the DSVariable.
  *
  * This internal function is used to create all the nodes not currently existing
  * in the dictionary.  This function is auxiliary to DSVariablePoolAddVariable and should
  * not be used outside of that function.
+ *
  * \param var The DSVariable being added to the dictionary.
  * \param atPos The position of the name string of the DSVariable at which to start making the new nodes.
  *
@@ -209,24 +219,109 @@ bail:
  * \see DSVariable
  * \see DSVariablePoolAddVariable
  */
-static DSVariablePool *_addNewBranch(DSVariable *var, int atPos)
+static struct _varDictionary *dsAddNewBranch(DSVariable *var, int atPos)
 {
-        DSVariablePool *root = NULL, *current;
+        struct _varDictionary *root = NULL, *current;
         if (var == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
+                DSError(M_DS_NULL ": Variable being added is NULL", A_DS_WARN);
+                goto bail;
         }
         const char *name;
-        root = DSSecureCalloc(sizeof(DSVariablePool), 1);
+        root = DSSecureCalloc(sizeof(struct _varDictionary), 1);
         current = root;
         name = var->name;
         while(name[atPos] != '\0') {
                 current->current = name[atPos++];
-                current->next = DSSecureCalloc(sizeof(DSVariablePool), 1);
+                current->next = DSSecureCalloc(sizeof(struct _varDictionary), 1);
                 current = current->next;
         }
         current->current = '\0';
         current->variable = DSVariableRetain(var);
+bail:
         return root;
+}
+
+__deprecated static struct _varDictionary *_addNewBranch(DSVariable *var, int atPos)
+{
+        return dsAddNewBranch(var, atPos);
+}
+
+
+/**
+ * \brief Adds a DSVariable to the dictionary.
+ *
+ * This is the function to add DSVariables to
+ * the dictionary.  Since the dictionary works alphabetically, the root of the 
+ * dictionary changes and is defined by this function, and the root, be it the
+ * new one or the old one, is returned.  This function is used in creating a new dictionary.
+ * \param newVar The pointer to the variable which is to be added to the dictionary.
+ * \param root The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary.
+ * \return The root of the dictionary, which is likely to change.
+ * \see _varDictionary
+ * \see DSVariableWithName
+ * \see _addNewBranch
+ */
+static struct _varDictionary * dsVarDictionaryAddVariable(DSVariable *newVar, struct _varDictionary *root)
+{
+        int pos;
+        struct _varDictionary *current, *previous, *temp, *top;
+        
+        bool changeRoot;
+        char errorMessage[100];
+        
+        if (newVar == NULL) {
+                DSError(M_DS_WRONG ": Variable is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (root == NULL) {
+                root = dsAddNewBranch(newVar, 0);
+                goto bail;
+        }
+        if (dsCheckNameAtPos(newVar->name, root, 0) != NULL) {
+                sprintf(errorMessage, "%.30s: Variable pool has variable \"%.10s\"", M_DS_EXISTS, newVar->name);
+                DSError(errorMessage, A_DS_WARN);
+                goto bail;
+        }
+        top = root;
+        current = root;
+        previous = NULL;
+        temp = NULL;
+        pos = 0;
+        changeRoot = true;
+        while (current) {
+                if (newVar->name[pos] < current->current || current->current == '\0') {
+                        temp = dsAddNewBranch(newVar, pos);
+                        temp->alt = current;
+                        if (changeRoot == true)
+                                root = temp;
+                        else if (previous == NULL) {
+                                top->next = temp;
+                        }
+                        else
+                                previous->alt = temp;
+                        break;
+                } else if (current->current == newVar->name[pos]) {
+                        top = current;
+                        changeRoot = false;
+                        previous = NULL;
+                        current = current->next;
+                        pos++;
+                } else if (current->alt == NULL) {
+                        current->alt = dsAddNewBranch(newVar, pos);
+                        break;
+                } else {
+                        previous = current;
+                        current = current->alt;
+                        changeRoot = false;
+                }
+        }
+bail:
+        return root;
+}
+
+__deprecated static struct _varDictionary * VarDictionaryAddVariable(DSVariable *newVar, struct _varDictionary *root)
+{
+        return dsVarDictionaryAddVariable(newVar, root);
 }
 
 /**
@@ -243,135 +338,27 @@ static DSVariablePool *_addNewBranch(DSVariable *var, int atPos)
  * \see DSVariableWithName
  * \see _addNewBranch
  */
-extern DSVariablePool *DSVariablePoolAddVariableWithName(const char * name, DSVariablePool *root)
+static struct _varDictionary *dsVarDictionaryAddVariableWithName(const char * name, struct _varDictionary *root)
 {
-        int pos;
-        DSVariablePool *current, *previous, *temp, *top;
         DSVariable *newVar = NULL;
-        bool changeRoot;
         if (name == NULL) {
-                DSError(M_DS_WRONG, A_DS_WARN);
+                DSError(M_DS_WRONG ": Name is a NULL pointer", A_DS_ERROR);
                 goto bail;
         }
         if (strlen(name) == 0) {
-                DSError(M_DS_WRONG, A_DS_WARN);
+                DSError(M_DS_WRONG ": Name string is empty", A_DS_WARN);
                 goto bail;
         }
         newVar = DSVariableAlloc(name);
-        if (root == NULL) {
-                root = _addNewBranch(newVar, 0);
-                goto bail;
-        }
-        if (_checkNameAtPos(name, root, 0) != NULL) {
-                DSError(M_DS_EXISTS, A_DS_WARN);
-                goto bail;
-        }
-        top = root;
-        current = root;
-        previous = NULL;
-        temp = NULL;
-        pos = 0;
-        changeRoot = true;
-        while (current) {
-                if (newVar->name[pos] < current->current || current->current == '\0') {
-                        temp = _addNewBranch(newVar, pos);
-                        temp->alt = current;
-                        if (changeRoot == true)
-                                root = temp;
-                        else if (previous == NULL) {
-                                top->next = temp;
-                        }
-                        else
-                                previous->alt = temp;
-                        break;
-                } else if (current->current == newVar->name[pos]) {
-                        top = current;
-                        changeRoot = false;
-                        previous = NULL;
-                        current = current->next;
-                        pos++;
-                } else if (current->alt == NULL) {
-                        current->alt = _addNewBranch(newVar, pos);
-                        break;
-                } else {
-                        previous = current;
-                        current = current->alt;
-                        changeRoot = false;
-                }
-        }
-bail:
+        root = dsVarDictionaryAddVariable(newVar, root);
         DSVariableRelease(newVar);
+bail:
         return root;
 }
 
-
-/**
- * \brief Adds a DSVariable to the dictionary.
- *
- * This is the function to add DSVariables to
- * the dictionary.  Since the dictionary works alphabetically, the root of the 
- * dictionary changes and is defined by this function, and the root, be it the
- * new one or the old one, is returned.  This function is used in creating a new dictionary.
- * \param newVar The pointer to the variable which is to be added to the dictionary.
- * \param root The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary.
- * \return The root of the dictionary, which is likely to change.
- * \see _varDictionary
- * \see DSVariableWithName
- * \see _addNewBranch
- */
-extern DSVariablePool *DSVariablePoolAddVariable(DSVariable *newVar, DSVariablePool *root)
+__deprecated static struct _varDictionary *VarDictionaryAddVariableWithName(const char * name, struct _varDictionary *root)
 {
-        int pos;
-        DSVariablePool *current, *previous, *temp, *top;
-        
-        bool changeRoot;
-        if (newVar == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
-                goto bail;
-        }
-        if (root == NULL) {
-                root = _addNewBranch(newVar, 0);
-                goto bail;
-        }
-        if (_checkNameAtPos(newVar->name, root, 0) != NULL) {
-                DSError(M_DS_EXISTS, A_DS_WARN);
-                goto bail;
-        }
-        top = root;
-        current = root;
-        previous = NULL;
-        temp = NULL;
-        pos = 0;
-        changeRoot = true;
-        while (current) {
-                if (newVar->name[pos] < current->current || current->current == '\0') {
-                        temp = _addNewBranch(newVar, pos);
-                        temp->alt = current;
-                        if (changeRoot == true)
-                                root = temp;
-                        else if (previous == NULL) {
-                                top->next = temp;
-                        }
-                        else
-                                previous->alt = temp;
-                        break;
-                } else if (current->current == newVar->name[pos]) {
-                        top = current;
-                        changeRoot = false;
-                        previous = NULL;
-                        current = current->next;
-                        pos++;
-                } else if (current->alt == NULL) {
-                        current->alt = _addNewBranch(newVar, pos);
-                        break;
-                } else {
-                        previous = current;
-                        current = current->alt;
-                        changeRoot = false;
-                }
-        }
-bail:
-        return root;
+        return dsVarDictionaryAddVariableWithName(name, root);
 }
 
 /**
@@ -385,19 +372,24 @@ bail:
  * \see DSVariablePool
  * \see DSVariablePoolAddVariable
  */
-extern DSVariable *DSVariablePoolVariableWithName(const char *name, DSVariablePool *root)
+static DSVariable *dsVarDictionaryVariableWithName(const char *name, struct _varDictionary *root)
 {
+        DSVariable *variable = NULL;
+        if (name == NULL) {
+                DSError(M_DS_NULL ": Name is a NULL pointer", A_DS_ERROR);
+        }
         if (name == NULL || root == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
+                DSError(M_DS_NULL ": Variable pool is NULL: Assuming empty", A_DS_WARN);
                 goto bail;
         }
+        variable = dsCheckNameAtPos(name, root, 0);
 bail:
-        return _checkNameAtPos(name, root, 0);
+        return variable;
 }
 
-extern DSVariable *DSVariableWithName(const char *name, DSVariablePool *root)
+__deprecated static DSVariable *VarDictionaryVariableWithName(const char *name, struct _varDictionary *root)
 {
-        return DSVariablePoolVariableWithName(name, root);
+        return dsVarDictionaryVariableWithName(name, root);
 }
 /**
  * \brief Function to remove all nodes in the dictionary.
@@ -413,39 +405,53 @@ extern DSVariable *DSVariableWithName(const char *name, DSVariablePool *root)
  * \see DSVariableWithName
  * \see DSVariablePoolAddVariable
  */
-extern void DSVariablePoolFree(DSVariablePool *root)
+static void dsVarDictionaryFree(struct _varDictionary *root)
 {
-        if (root == NULL) {
+        if (root == NULL)
                 goto bail;
-        }
-        DSVariablePoolFree(root->alt);
-        DSVariablePoolFree(root->next);
+        dsVarDictionaryFree(root->alt);
+        dsVarDictionaryFree(root->next);
         root->alt = NULL;
         root->next = NULL;
         if (root->variable != NULL)
                 DSVariableRelease(root->variable);
-        free(root);
+        DSSecureFree(root);
 bail:
         return;
 }
+
+__deprecated static void VarDictionaryFree(struct _varDictionary *root)
+{
+        dsVarDictionaryFree(root);
+        return;
+}
+
 
 /**
  * \brief Prints the VarDictionary.
  *
  * A debugging function which prints the dictionary structure to the stderr file
  */
-extern void printVarDictionary(DSVariablePool *root, int indent)
+static void dsPrintVarDictionary(struct _varDictionary *root, DSUInteger indent)
 {
+        DSUInteger i;
         if (root == NULL)
-                return;
-        printf("\t");
+                goto bail;
+        for (i = 1; i < indent+1; i++)
+                fprintf(stderr, " ");
         if (root->current == '\0')
-                fprintf(stderr, "\\0");
+                fprintf(stderr, "+-[%s] = %lf\n", DSVariableName(root->variable), DSVariableValue(root->variable));
         else
-                fprintf(stderr, "%c", root->current);
-        printVarDictionary(root->next, indent);
-        fprintf(stderr, "\n");
-        printVarDictionary(root->alt, indent+1);
+                fprintf(stderr, "+-%c\n", root->current);
+        dsPrintVarDictionary(root->next, indent+2);
+        dsPrintVarDictionary(root->alt, indent);
+bail:
+        return;
+}
+
+__deprecated static void printVarDictionary(struct _varDictionary *root, DSUInteger indent)
+{
+        dsPrintVarDictionary(root, indent);
 }
 
 /**
@@ -455,22 +461,359 @@ extern void printVarDictionary(DSVariablePool *root, int indent)
  * checks the dictionary for all names, and prints them out.  It requires of
  * a buffer string which is used to store the current characters, since it is
  * a recursive function.
+ *
  * \param root The root of the dictionary, and the current node for consequent calls.
  * \param buffer The string in which to store the characters, function does not check size of buffer.
  * \param position Should be 0 when called, increases as it searches the dictionary.
+ *
  * \see _varDictionary
  * \see DSVariablePoolAddVariable
+ *
  * \todo Create a wrapper function which creates the buffer, and initiates the position at 0.
  */
-extern void printMembers(DSVariablePool *root, char *buffer, int position)
+static void dsPrintMembers(struct _varDictionary *root, char *buffer, int position)
 {
         if (root == NULL)
                 return;
         buffer[position] = root->current;
         if (root->current == '\0')
                 printf("%s\n", buffer);
-        printMembers(root->next, buffer, position+1);
-        printMembers(root->alt, buffer, position);
+        dsPrintMembers(root->next, buffer, position+1);
+        dsPrintMembers(root->alt, buffer, position);
 }
+
+__deprecated static void printMembers(struct _varDictionary *root, char *buffer, int position)
+{
+        dsPrintMembers(root, buffer, position);
+}
+
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark - Variable Pool Functions
+#endif
+
+extern DSVariablePool * DSVariablePoolAlloc(void)
+{
+        DSVariablePool *pool = NULL;
+        pool = DSSecureCalloc(1, sizeof(DSVariablePool));
+        return pool;
+}
+
+extern DSVariablePool * DSVariablePoolCopy(const DSVariablePool * const pool)
+{
+        DSUInteger i;
+        DSVariablePool * copy = NULL;
+        const DSVariable * const * allVariables = NULL;
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        copy = DSVariablePoolAlloc();
+        allVariables = DSVariablePoolAllVariables(pool);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(pool); i++)
+                DSVariablePoolAddVariable(copy, (DSVariable *)(allVariables[i]));
+bail:
+        return copy;
+}
+
+extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char * name)
+{
+        DSVariable *var = NULL;
+        bool varIsNew = true;
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (name == NULL) {
+                DSError(M_DS_WRONG ": Name is a NULL pointer", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(name) == 0) {
+                DSError(M_DS_WRONG ": Name string is empty", A_DS_WARN);
+                goto bail;
+        }
+        if (dsCheckNameAtPos(name, DSVariablePoolInternalDictionary(pool), 0) != NULL) {
+                varIsNew = false;
+        }
+        DSVariablePoolInternalDictionary(pool) = dsVarDictionaryAddVariableWithName(name, DSVariablePoolInternalDictionary(pool));
+        if (varIsNew == true) {
+                var = DSVariablePoolVariableWithName(pool, name);
+                if (DSVariablePoolNumberOfVariables(pool) == 0) 
+                        DSVariablePoolVariableArray(pool) = DSSecureCalloc(DSVariablePoolNumberOfVariables(pool)+1, sizeof(DSVariable *));
+                else
+                        DSVariablePoolVariableArray(pool) = DSSecureRealloc(DSVariablePoolVariableArray(pool), (DSVariablePoolNumberOfVariables(pool)+1)*sizeof(DSVariable *));
+                DSVariablePoolVariableArray(pool)[DSVariablePoolNumberOfVariables(pool)++] = var;
+        }
+bail:
+        return;
+}
+
+extern void DSVariablePoolAddVariable(DSVariablePool * pool, DSVariable *newVar)
+{
+        DSVariable * var = NULL;
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (newVar == NULL) {
+                DSError(M_DS_WRONG ": Variable is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        DSVariablePoolInternalDictionary(pool) = dsVarDictionaryAddVariable(newVar, DSVariablePoolInternalDictionary(pool));
+        var = DSVariablePoolVariableWithName(pool, newVar->name);
+        if (var == newVar) {
+                if (DSVariablePoolNumberOfVariables(pool) == 0) 
+                        DSVariablePoolVariableArray(pool) = DSSecureCalloc(DSVariablePoolNumberOfVariables(pool)+1, sizeof(DSVariable *));
+                else
+                        DSVariablePoolVariableArray(pool) = DSSecureRealloc(DSVariablePoolVariableArray(pool), (DSVariablePoolNumberOfVariables(pool)+1)*sizeof(DSVariable *));
+                DSVariablePoolVariableArray(pool)[DSVariablePoolNumberOfVariables(pool)++] = var; 
+        }
+bail:
+        return;
+}
+
+extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * const name)
+{
+        bool hasVariable = false;
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (name == NULL) {
+                DSError(M_DS_WRONG ": Name of variable is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(name) == 0) {
+                DSError(M_DS_WRONG ": Name of variable is empty", A_DS_WARN);
+                goto bail;                
+        }
+        if (DSVariablePoolNumberOfVariables(pool) == 0)
+                goto bail;
+        if (DSVariablePoolVariableWithName(pool, name) != NULL)
+                hasVariable = true;
+bail:
+        return hasVariable;
+}
+
+extern DSVariable *DSVariablePoolVariableWithName(const DSVariablePool *pool, const char *name)
+{
+        DSVariable * variable = NULL;
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (name == NULL) {
+                DSError(M_DS_WRONG ": Name of variable is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(name) == 0) {
+                DSError(M_DS_WRONG ": Name of variable is empty", A_DS_WARN);
+                goto bail;                
+        }
+        variable = dsVarDictionaryVariableWithName(name, DSVariablePoolInternalDictionary(pool));
+bail:
+        return variable;
+}
+
+extern void DSVariablePoolFree(DSVariablePool *pool)
+{
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        dsVarDictionaryFree(DSVariablePoolInternalDictionary(pool));
+        if (DSVariablePoolVariableArray(pool) != NULL) {
+                DSSecureFree(DSVariablePoolVariableArray(pool));
+        }
+        DSSecureFree(pool);
+bail:
+        return;
+}
+
+extern void DSVariablePoolSetValueForVariableWithName(DSVariablePool *pool, const char *name, const double value)
+{
+        DSVariable *variable = NULL;
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (name == NULL) {
+                DSError(M_DS_WRONG ": Name of variable is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(name) == 0) {
+                DSError(M_DS_WRONG ": Name of variable is empty", A_DS_WARN);
+                goto bail;                
+        }
+        if (DSVariablePoolHasVariableWithName(pool, name) == false) {
+                DSError(M_DS_WRONG ": Variable pool does not have varable", A_DS_ERROR);
+                goto bail;
+        }
+        variable = DSVariablePoolVariableWithName(pool, name);
+        DSVariableSetValue(variable, value);
+bail:
+        return;
+}
+
+
+extern const DSVariable * * DSVariablePoolAllVariables(const DSVariablePool *pool)
+{
+        const DSVariable ** allVariables = NULL;
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        allVariables = (const DSVariable **)DSVariablePoolVariableArray(pool);
+bail:
+        return allVariables;
+}
+
+extern const char ** DSVariablePoolAllVariableNames(const DSVariablePool *pool)
+{
+        DSUInteger i;
+        char ** variableNames = NULL;
+        if (pool == NULL) {
+                DSError(M_DS_WRONG ": Variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        variableNames = DSSecureCalloc(sizeof(char *), 
+                                       DSVariablePoolNumberOfVariables(pool));
+        for (i = 0; i < DSVariablePoolNumberOfVariables(pool); i++)
+                variableNames[i] = DSVariableName(DSVariablePoolAllVariables(pool)[i]);
+bail:
+        return (const char **)variableNames;
+}
+
+extern DSUInteger DSVariablePoolIndexOfVariable(const DSVariablePool *pool, const DSVariable *var)
+{
+        DSUInteger index = DSVariablePoolNumberOfVariables(pool);
+        DSUInteger i;
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (var == NULL) {
+                DSError(M_DS_WRONG ": Variable is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolHasVariableWithName(pool, DSVariableName(var)) == false) {
+                DSError(M_DS_WRONG ": Variable does not contain desired variable", A_DS_ERROR);
+                goto bail;
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(pool); i++)
+                if (var == DSVariablePoolAllVariables(pool)[i])
+                        break;
+        index = i;
+bail:
+        return index;
+}
+
+extern DSUInteger DSVariablePoolIndexOfVariableWithName(const DSVariablePool *pool, const char *name)
+{
+        DSUInteger index = DSVariablePoolNumberOfVariables(pool);
+        DSUInteger i;
+        DSVariable *variable = NULL;
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (name == NULL) {
+                DSError(M_DS_WRONG ": Name of variable is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(name) == 0) {
+                DSError(M_DS_WRONG ": Name of variable is empty", A_DS_WARN);
+                goto bail;                
+        }
+        if (DSVariablePoolHasVariableWithName(pool, name) == false) {
+                DSError(M_DS_WRONG ": Variable does not contain desired variable", A_DS_ERROR);
+                goto bail;
+        }
+        variable = DSVariablePoolVariableWithName(pool, name);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(pool); i++)
+                if (variable == DSVariablePoolAllVariables(pool)[i])
+                        break;
+        index = i;
+bail:
+        return index;       
+}
+
+extern DSVariablePool * DSVariablePoolByParsingString(const char *string)
+{
+        DSVariablePool *pool = NULL;
+        void *parser = NULL;
+        struct variable_token *tokens, *current;
+        double value = 0.0;
+        if (string == NULL) {
+                DSError(M_DS_WRONG ": String to parse is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(string) == 0) {
+                DSError(M_DS_WRONG ": String to parse is empty", A_DS_WARN);
+                goto bail;                
+        }
+        tokens = DSVariablePoolTokenizeString(string);
+        if (tokens == NULL) {
+                DSError(M_DS_PARSE ": Token stream is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        pool = DSVariablePoolAlloc();
+        parser = DSVariablePoolParserAlloc(DSSecureMalloc);
+        current = tokens;
+        while (current != NULL) {
+                switch (DSVariableTokenType(current)) {
+                        case DS_VARIABLE_TOKEN_DOUBLE:
+                                DSVariablePoolParser(parser, 
+                                                     DS_VARIABLE_TOKEN_DOUBLE, 
+                                                     &(current->data.value),
+                                                     pool);
+                                break;
+                        case DS_VARIABLE_TOKEN_ID:
+                                DSVariablePoolParser(parser, 
+                                                     DS_VARIABLE_TOKEN_ID, 
+                                                     (double *)DSVariableTokenString(current),
+                                                     pool);
+                                break;
+                        case DS_VARIABLE_TOKEN_ASSIGN:
+                                value = 0.0;
+                                DSVariablePoolParser(parser, 
+                                                     DS_VARIABLE_TOKEN_ASSIGN,
+                                                     &value,
+                                                     pool);
+                                break;
+                        case DS_VARIABLE_TOKEN_SEPERATOR:
+                                value = 0.0;
+                                DSVariablePoolParser(parser, 
+                                                     DS_VARIABLE_TOKEN_SEPERATOR,
+                                                     &value,
+                                                     pool);
+                                break;
+                        default:
+                                break;
+                }
+                current = DSVariableTokenNext(current);
+        }
+        DSVariablePoolParser(parser, 
+                             0, 
+                             &value,
+                             pool);
+        DSVariablePoolParserFree(parser, DSSecureFree);
+        DSVariableTokenFree(tokens);
+bail:
+        return pool;
+}
+
+
+extern void DSVariablePoolPrint(const DSVariablePool * const pool)
+{
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        dsPrintVarDictionary(DSVariablePoolInternalDictionary(pool), 0);
+bail:
+        return;
+}
+
+
 
 

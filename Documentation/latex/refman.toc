@@ -38,24 +38,26 @@
 \contentsline {subsection}{\numberline {7.1.1}Detailed Description}{24}{subsection.7.1.1}
 \contentsline {subsection}{\numberline {7.1.2}Function Documentation}{25}{subsection.7.1.2}
 \contentsline {subsubsection}{\numberline {7.1.2.1}DSErrorFunction}{25}{subsubsection.7.1.2.1}
-\contentsline {subsubsection}{\numberline {7.1.2.2}DSErrorSetPrintFunction}{25}{subsubsection.7.1.2.2}
 \contentsline {section}{\numberline {7.2}DSErrors.h File Reference}{26}{section.7.2}
 \contentsline {subsection}{\numberline {7.2.1}Detailed Description}{27}{subsection.7.2.1}
 \contentsline {subsection}{\numberline {7.2.2}Define Documentation}{28}{subsection.7.2.2}
 \contentsline {subsubsection}{\numberline {7.2.2.1}DSError}{28}{subsubsection.7.2.2.1}
 \contentsline {subsection}{\numberline {7.2.3}Function Documentation}{28}{subsection.7.2.3}
 \contentsline {subsubsection}{\numberline {7.2.3.1}DSErrorFunction}{28}{subsubsection.7.2.3.1}
-\contentsline {subsubsection}{\numberline {7.2.3.2}DSErrorSetPrintFunction}{28}{subsubsection.7.2.3.2}
-\contentsline {section}{\numberline {7.3}DSIO.c File Reference}{30}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Detailed Description}{30}{subsection.7.3.1}
-\contentsline {subsection}{\numberline {7.3.2}Function Documentation}{31}{subsection.7.3.2}
-\contentsline {subsubsection}{\numberline {7.3.2.1}DSIOSetErrorFile}{31}{subsubsection.7.3.2.1}
-\contentsline {section}{\numberline {7.4}DSIO.h File Reference}{32}{section.7.4}
-\contentsline {subsection}{\numberline {7.4.1}Detailed Description}{33}{subsection.7.4.1}
-\contentsline {subsection}{\numberline {7.4.2}Function Documentation}{33}{subsection.7.4.2}
-\contentsline {subsubsection}{\numberline {7.4.2.1}DSIOSetErrorFile}{33}{subsubsection.7.4.2.1}
+\contentsline {section}{\numberline {7.3}DSIO.c File Reference}{29}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Detailed Description}{29}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Function Documentation}{30}{subsection.7.3.2}
+\contentsline {subsubsection}{\numberline {7.3.2.1}DSIOSetErrorFile}{30}{subsubsection.7.3.2.1}
+\contentsline {section}{\numberline {7.4}DSIO.h File Reference}{31}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Detailed Description}{32}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}Function Documentation}{32}{subsection.7.4.2}
+\contentsline {subsubsection}{\numberline {7.4.2.1}DSIOSetErrorFile}{32}{subsubsection.7.4.2.1}
 \contentsline {subsection}{\numberline {7.4.3}Variable Documentation}{33}{subsection.7.4.3}
-\contentsline {subsubsection}{\numberline {7.4.3.1}DSPrintf}{33}{subsubsection.7.4.3.1}
+\contentsline {subsubsection}{\numberline {7.4.3.1}DSIOErrorFile}{33}{subsubsection.7.4.3.1}
+\contentsline {subsubsection}{\numberline {7.4.3.2}DSPostError}{33}{subsubsection.7.4.3.2}
+\contentsline {subsubsection}{\numberline {7.4.3.3}DSPostFatalError}{33}{subsubsection.7.4.3.3}
+\contentsline {subsubsection}{\numberline {7.4.3.4}DSPostWarning}{34}{subsubsection.7.4.3.4}
+\contentsline {subsubsection}{\numberline {7.4.3.5}DSPrintf}{34}{subsubsection.7.4.3.5}
 \contentsline {section}{\numberline {7.5}DSMatrix.h File Reference}{35}{section.7.5}
 \contentsline {subsection}{\numberline {7.5.1}Detailed Description}{37}{subsection.7.5.1}
 \contentsline {subsection}{\numberline {7.5.2}Function Documentation}{38}{subsection.7.5.2}
@@ -63,23 +65,25 @@
 \contentsline {subsubsection}{\numberline {7.5.2.2}DSMatrixByMultiplyingMatrix}{38}{subsubsection.7.5.2.2}
 \contentsline {subsubsection}{\numberline {7.5.2.3}DSMatrixCalloc}{38}{subsubsection.7.5.2.3}
 \contentsline {subsubsection}{\numberline {7.5.2.4}DSMatrixCopy}{39}{subsubsection.7.5.2.4}
-\contentsline {subsubsection}{\numberline {7.5.2.5}DSMatrixFree}{39}{subsubsection.7.5.2.5}
-\contentsline {subsubsection}{\numberline {7.5.2.6}DSMatrixIdentity}{39}{subsubsection.7.5.2.6}
-\contentsline {subsubsection}{\numberline {7.5.2.7}DSMatrixPLUDecomposition}{39}{subsubsection.7.5.2.7}
-\contentsline {subsubsection}{\numberline {7.5.2.8}DSMatrixRandomNumbers}{40}{subsubsection.7.5.2.8}
-\contentsline {subsubsection}{\numberline {7.5.2.9}DSMatrixSetDoubleValueAll}{40}{subsubsection.7.5.2.9}
+\contentsline {subsubsection}{\numberline {7.5.2.5}DSMatrixDoubleValue}{39}{subsubsection.7.5.2.5}
+\contentsline {subsubsection}{\numberline {7.5.2.6}DSMatrixFree}{39}{subsubsection.7.5.2.6}
+\contentsline {subsubsection}{\numberline {7.5.2.7}DSMatrixIdentity}{39}{subsubsection.7.5.2.7}
+\contentsline {subsubsection}{\numberline {7.5.2.8}DSMatrixPLUDecomposition}{40}{subsubsection.7.5.2.8}
+\contentsline {subsubsection}{\numberline {7.5.2.9}DSMatrixRandomNumbers}{40}{subsubsection.7.5.2.9}
+\contentsline {subsubsection}{\numberline {7.5.2.10}DSMatrixSetDoubleValueAll}{40}{subsubsection.7.5.2.10}
 \contentsline {section}{\numberline {7.6}DSMatrix\_\discretionary {-}{}{}gsl.c File Reference}{41}{section.7.6}
 \contentsline {subsection}{\numberline {7.6.1}Detailed Description}{43}{subsection.7.6.1}
 \contentsline {subsection}{\numberline {7.6.2}Function Documentation}{44}{subsection.7.6.2}
 \contentsline {subsubsection}{\numberline {7.6.2.1}DSMatrixAlloc}{44}{subsubsection.7.6.2.1}
 \contentsline {subsubsection}{\numberline {7.6.2.2}DSMatrixByMultiplyingMatrix}{44}{subsubsection.7.6.2.2}
 \contentsline {subsubsection}{\numberline {7.6.2.3}DSMatrixCalloc}{44}{subsubsection.7.6.2.3}
-\contentsline {subsubsection}{\numberline {7.6.2.4}DSMatrixCopy}{44}{subsubsection.7.6.2.4}
-\contentsline {subsubsection}{\numberline {7.6.2.5}DSMatrixFree}{45}{subsubsection.7.6.2.5}
-\contentsline {subsubsection}{\numberline {7.6.2.6}DSMatrixIdentity}{45}{subsubsection.7.6.2.6}
-\contentsline {subsubsection}{\numberline {7.6.2.7}DSMatrixPLUDecomposition}{45}{subsubsection.7.6.2.7}
-\contentsline {subsubsection}{\numberline {7.6.2.8}DSMatrixRandomNumbers}{45}{subsubsection.7.6.2.8}
-\contentsline {subsubsection}{\numberline {7.6.2.9}DSMatrixSetDoubleValueAll}{46}{subsubsection.7.6.2.9}
+\contentsline {subsubsection}{\numberline {7.6.2.4}DSMatrixCopy}{45}{subsubsection.7.6.2.4}
+\contentsline {subsubsection}{\numberline {7.6.2.5}DSMatrixDoubleValue}{45}{subsubsection.7.6.2.5}
+\contentsline {subsubsection}{\numberline {7.6.2.6}DSMatrixFree}{45}{subsubsection.7.6.2.6}
+\contentsline {subsubsection}{\numberline {7.6.2.7}DSMatrixIdentity}{45}{subsubsection.7.6.2.7}
+\contentsline {subsubsection}{\numberline {7.6.2.8}DSMatrixPLUDecomposition}{46}{subsubsection.7.6.2.8}
+\contentsline {subsubsection}{\numberline {7.6.2.9}DSMatrixRandomNumbers}{46}{subsubsection.7.6.2.9}
+\contentsline {subsubsection}{\numberline {7.6.2.10}DSMatrixSetDoubleValueAll}{46}{subsubsection.7.6.2.10}
 \contentsline {section}{\numberline {7.7}DSMatrixArray.c File Reference}{47}{section.7.7}
 \contentsline {subsection}{\numberline {7.7.1}Detailed Description}{47}{subsection.7.7.1}
 \contentsline {subsection}{\numberline {7.7.2}Function Documentation}{48}{subsection.7.7.2}
@@ -116,8 +120,6 @@
 \contentsline {subsection}{\numberline {7.12.1}Detailed Description}{62}{subsection.7.12.1}
 \contentsline {subsection}{\numberline {7.12.2}Typedef Documentation}{62}{subsection.7.12.2}
 \contentsline {subsubsection}{\numberline {7.12.2.1}DSVariablePool}{62}{subsubsection.7.12.2.1}
-\contentsline {subsection}{\numberline {7.12.3}Enumeration Type Documentation}{63}{subsection.7.12.3}
-\contentsline {subsubsection}{\numberline {7.12.3.1}DSException}{63}{subsubsection.7.12.3.1}
 \contentsline {section}{\numberline {7.13}DSVariable.c File Reference}{64}{section.7.13}
 \contentsline {subsection}{\numberline {7.13.1}Detailed Description}{65}{subsection.7.13.1}
 \contentsline {subsection}{\numberline {7.13.2}Function Documentation}{65}{subsection.7.13.2}
@@ -142,3 +144,4 @@
 \contentsline {subsubsection}{\numberline {7.14.2.6}DSVariablePoolVariableWithName}{73}{subsubsection.7.14.2.6}
 \contentsline {subsubsection}{\numberline {7.14.2.7}DSVariableRelease}{74}{subsubsection.7.14.2.7}
 \contentsline {subsubsection}{\numberline {7.14.2.8}DSVariableRetain}{74}{subsubsection.7.14.2.8}
+\contentsline {subsubsection}{\numberline {7.14.2.9}printVarDictionary}{74}{subsubsection.7.14.2.9}

@@ -24,6 +24,7 @@
  *
  * \author Jason Lomnitz.
  * \date 2011
+ * \todo Remove printVarDictionary and add a DSVariablePoolPrint function.
  */
 
 #include <stdio.h>
@@ -47,24 +48,37 @@ __BEGIN_DECLS
 #if defined(__APPLE__) && defined(__MACH__)
 #pragma mark - Symbol Variables
 #endif
-/***** DSVariable functionality *****/
+
 extern DSVariable *DSVariableAlloc(const char *name);
 extern void DSVariableFree(DSVariable *var);
 extern DSVariable * DSVariableRetain(DSVariable *aVariable);
 extern void DSVariableRelease(DSVariable *aVariable);
 
-__deprecated extern DSVariable *DSNewVariable(const char *name);
-
 #if defined(__APPLE__) && defined(__MACH__)
 #pragma mark - Variable Pool
 #endif
-/***** DSVariablePool *****/
-extern DSVariablePool *DSVariablePoolAddVariableWithName(const char * name, DSVariablePool *root);
-extern DSVariablePool *DSVariablePoolAddVariable(DSVariable *newVar, DSVariablePool *root);
-extern DSVariable *DSVariablePoolVariableWithName(const char *name, DSVariablePool *root);
-extern void DSVariablePoolFree(DSVariablePool *root);
 
-__deprecated extern DSVariable *DSVariableWithName(const char *name, DSVariablePool *root);
+#define DSVariablePoolNumberOfVariables(x)   ((x)->numberOfVariables)
+#define DSVariablePoolInternalDictionary(x)  ((x)->root)
+#define DSVariablePoolVariableArray(x)       ((x)->variables)
+
+extern DSVariablePool * DSVariablePoolAlloc(void);
+extern DSVariablePool * DSVariablePoolCopy(const DSVariablePool * const pool);
+extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char * name);
+extern void DSVariablePoolAddVariable(DSVariablePool *pool, DSVariable *newVar);
+extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * const name);
+extern DSVariable *DSVariablePoolVariableWithName(const DSVariablePool *pool, const char *name);
+extern void DSVariablePoolFree(DSVariablePool *pool);
+
+extern void DSVariablePoolSetValueForVariableWithName(DSVariablePool *pool, const char *name, const double value);
+extern const DSVariable ** DSVariablePoolAllVariables(const DSVariablePool *pool);
+extern const char ** DSVariablePoolAllVariableNames(const DSVariablePool *pool);
+extern DSUInteger DSVariablePoolIndexOfVariable(const DSVariablePool *pool, const DSVariable *var);
+extern DSUInteger DSVariablePoolIndexOfVariableWithName(const DSVariablePool *pool, const char *name);
+
+extern DSVariablePool * DSVariablePoolByParsingString(const char *string);
+extern void DSVariablePoolPrint(const DSVariablePool * const pool);
+
 #ifdef __cplusplus
 __END_DECLS
 #endif

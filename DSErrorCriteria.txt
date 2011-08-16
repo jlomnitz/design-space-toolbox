@@ -1,0 +1,16 @@
+CRITERIA for A_DS_WARNING
+* A_DS_WARNING represents a situation where ambiguious data exists.  In these situations, normal
+* operation can resume and the ambiguous values are used; however, these situations should be avoided.
+* An example of a A_DS_WARNING is passing a NULL DSMatrix to substract from another DSMatrix.
+* NULL pointers reflect a matrix with all 0.0 values; however, this should be done explicitly.
+
+CRITERIA for A_DS_ERROR
+* A_DS_ERROR represents a situation in which data is clearly missing, corrupt or wrong and
+* thus affect the normal operation of the program.  In this situation, the error is posted and nothing is
+* done where the error is concerned.  An example of a A_DS_ERROR is when trying to access an 
+* element of a matrix beyond its bounds.
+
+
+CRITERIA for A_DS_FATAL
+* A_DS_FATAL represents an error that cannot be recovered, reflecting the most critical of
+* errors such as unable to allocate data.

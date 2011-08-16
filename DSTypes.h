@@ -63,27 +63,7 @@ __BEGIN_DECLS
 typedef int DSInteger;
 
 typedef unsigned int DSUInteger;
-
-/**
- * \brief Data type that is used to store errors.
- *
- * \details Type definition for the internal error handling, independent from
- * the error reporting mentioned in M_DS_Messages and A_DS_Actions.
- * The possible values this type definition has only symbolizes the
- * severity of the error.
- *
- * \see DSErrors.h
- *
- * \see M_DS_Messages
- * \see A_DS_Actions
- */
-/*
-typedef enum {
-	DS_NOERROR = 0,  //!< The value for no  errors found.
-	DS_WARN,         //!< The value for a warning found.
-	DS_ERROR         //!< The value for a error being found.
-} DSException;
-*/
+ 
 /**
  * \brief Basic variable structure containing name, value and NSString with
  *        special unicode characters for greek letters.
@@ -111,13 +91,32 @@ typedef struct {
  *
  * \see DSVariable
  */
-typedef struct _varDictionary
+struct _varDictionary
 {
         char current;                //!< The current character in the dictionary.
         struct _varDictionary *alt;  //!< The alternative character in the dictionary.
         struct _varDictionary *next; //!< The next character in the dictionary.
         DSVariable *variable;        //!< The variable stored. Only when current is '\\0'.
+};
+
+/**
+ * \brief User-level variable pool.
+ *
+ * \details This data type keeps an internal dictionary structure of type
+ * struct _varDictionary to keep track of all the variables associated with a
+ * variable pool.  This data type also records the number of variables in the
+ * dictionary and the order with which they were added.
+ *
+ * \see DSVariable
+ * \see struct _varDictionary
+ */
+typedef struct
+{
+        struct _varDictionary *root;   //!< The root of the internal dictionary.
+        DSUInteger numberOfVariables;  //!< Number of variables in the pool.
+        DSVariable **variables;        //!< A C array with the variables stored.
 } DSVariablePool;
+
 
 /**
  * \brief Data type representing a matrix.
@@ -148,6 +147,44 @@ typedef struct {
         DSMatrix **matrices;         //!< A pointer the the C-style array of matrices.
 } DSMatrixArray;
 
+
+typedef struct dsexpression {
+        union {
+                char op_code;
+                double constant;
+                char *variable;
+        } node;
+        int type;
+        int numberOfBranches;
+        struct dsexpression **branches;
+} DSExpression;
+
+/**
+ * \brief Data type representing a GMA-System.
+ *
+ * This data structure is a standard representation of an GMA using 
+ * matrix notation.  Here, the positive and negative terms are explicitly
+ * represented according to the Gs and Hs.  Also, matrices are split up 
+ * relating to either dependent and independent parameters.  The GMA system
+ * uses an array of matrices to represent all the terms in all of the equations.
+ *
+ * \note The GMA system currently maintains a string copy of the equations that
+ *       generated it. This may be seen as redundant, and may be removed in
+ *       the future.
+ */
+typedef struct {
+        char ** equations;
+        DSMatrix *alpha;
+        DSMatrix *beta;
+        DSMatrixArray *Gd;
+        DSMatrixArray *Gi;
+        DSMatrixArray *Hd;
+        DSMatrixArray *Hi;
+        DSVariablePool *Xd;
+        DSVariablePool *Xi;
+        DSUInteger *signature;
+} DSGMASystem;
+
 /**
  * \brief Data type representing an S-System.
  *
@@ -155,15 +192,39 @@ typedef struct {
  * matrix notation.  Here, the positive and negative terms are explicitly
  * represented according to the Gs and Hs.  Also, matrices are split up 
  * relating to either dependent and independent parameters.
+ *
+ * \note The S-system currently maintains a string copy of the equations that
+ *       generated it. This may be seen as redundant, and may be removed in
+ *       the future.
  */
 typedef struct {
+        char ** equations;
+        DSMatrix *alpha;
+        DSMatrix *beta;
         DSMatrix *Gd;
         DSMatrix *Gi;
         DSMatrix *Hd;
         DSMatrix *Hi;
         DSMatrix *M;
         DSMatrix *Ai;
+        DSVariablePool *Xd;
+        DSVariablePool *Xi;
 } DSSSystem;
+
+/**
+ * 
+ */
+typedef struct {
+        DSSSystem *ssys;
+        DSUInteger caseNumber;
+        DSMatrix *Cd;
+        DSMatrix *Ci;
+        DSMatrix *W;
+        DSMatrix *U;
+        DSMatrix *delta;
+        DSMatrix *zeta;
+        DSUInteger *signature;
+} DSCase;
 
 #ifdef __cplusplus
 __END_DECLS

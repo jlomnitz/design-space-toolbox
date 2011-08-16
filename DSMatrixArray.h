@@ -68,6 +68,12 @@ extern void DSMatrixArrayAddMatrix(DSMatrixArray *array, const DSMatrix *matrixT
 
 #endif
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Utility functions
+#endif
+
+void DSMatrixArrayPrint(const DSMatrixArray * array);
+
 #ifdef __cplusplus
 __END_DECLS
 #endif

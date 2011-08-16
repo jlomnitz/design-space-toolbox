@@ -29,7 +29,7 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \begin{DoxyCompactItemize}
 \item 
 struct \hyperlink{struct_d_s_variable}{DSVariable}
-\begin{DoxyCompactList}\small\item\em Basic variable structure containing name, value and NSString with special unicode characters for greek letters. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Data type that is used to store errors. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct__var_dictionary}{\_\-varDictionary}
 \begin{DoxyCompactList}\small\item\em Internal dictionary structure. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_matrix}{DSMatrix}
@@ -71,14 +71,6 @@ typedef unsigned int {\bfseries DSUInteger}}
 \item 
 typedef struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} \hyperlink{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}{DSVariablePool}
 \begin{DoxyCompactList}\small\item\em Internal dictionary structure. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Enumerations}
-\begin{DoxyCompactItemize}
-\item 
-enum \hyperlink{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229}{DSException} \{ \hyperlink{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713}{DS\_\-NOERROR} =  0, 
-\hyperlink{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5}{DS\_\-WARN}, 
-\hyperlink{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d}{DS\_\-ERROR}
- \}
-\begin{DoxyCompactList}\small\item\em Data type that is used to store errors. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -119,42 +111,3 @@ Internal dictionary for fast variable querying. The structure of the dictionary 
 \begin{DoxySeeAlso}{See also}
 \hyperlink{struct_d_s_variable}{DSVariable} 
 \end{DoxySeeAlso}
-
-
-\subsection{Enumeration Type Documentation}
-\hypertarget{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229}{
-\index{DSTypes.h@{DSTypes.h}!DSException@{DSException}}
-\index{DSException@{DSException}!DSTypes.h@{DSTypes.h}}
-\subsubsection[{DSException}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf DSException}}}
-\label{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229}
-
-
-Data type that is used to store errors. 
-
-Type definition for the internal error handling, independent from the error reporting mentioned in M\_\-DS\_\-Messages and A\_\-DS\_\-Actions. The possible values this type definition has only symbolizes the severity of the error.
-
-\begin{DoxySeeAlso}{See also}
-\hyperlink{_d_s_errors_8h}{DSErrors.h}
-
-\hyperlink{group___m___d_s___messages}{Messages for DS Errors.} 
-
-\hyperlink{group___a___d_s___actions}{Actions for DS Errors.} 
-\end{DoxySeeAlso}
-\begin{Desc}
-\item[Enumerator: ]\par
-\begin{description}
-\index{DS\_\-NOERROR@{DS\_\-NOERROR}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DS\_\-NOERROR@{DS\_\-NOERROR}}\item[{\em 
-\hypertarget{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713}{
-DS\_\-NOERROR}
-\label{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713}
-}]The value for no errors found. \index{DS\_\-WARN@{DS\_\-WARN}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DS\_\-WARN@{DS\_\-WARN}}\item[{\em 
-\hypertarget{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5}{
-DS\_\-WARN}
-\label{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5}
-}]The value for a warning found. \index{DS\_\-ERROR@{DS\_\-ERROR}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DS\_\-ERROR@{DS\_\-ERROR}}\item[{\em 
-\hypertarget{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d}{
-DS\_\-ERROR}
-\label{_d_s_types_8h_a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d}
-}]The value for a error being found. \end{description}
-\end{Desc}
-

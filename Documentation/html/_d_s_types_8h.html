@@ -69,7 +69,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Data Structures</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_variable.html">DSVariable</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Basic variable structure containing name, value and NSString with special unicode characters for greek letters.  <a href="struct_d_s_variable.html#_details">More...</a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type that is used to store errors.  <a href="struct_d_s_variable.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html">_varDictionary</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal dictionary structure.  <a href="struct__var_dictionary.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a></td></tr>
@@ -92,13 +92,6 @@ typedef int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSInteger</b><
 typedef unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSUInteger</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_types_8h.html#a67b340fa4a564cc84d27b3647ef1ad75">DSVariablePool</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal dictionary structure.  <a href="#a67b340fa4a564cc84d27b3647ef1ad75"></a><br/></td></tr>
-<tr><td colspan="2"><h2>Enumerations</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229">DSException</a> { <a class="el" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713">DS_NOERROR</a> =  0, 
-<a class="el" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5">DS_WARN</a>, 
-<a class="el" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d">DS_ERROR</a>
- }</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Data type that is used to store errors. </p>
- <a href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229">More...</a><br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Header file with definitions for data types. </p>
@@ -126,42 +119,7 @@ typedef unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSUIn
 
 <p>Internal dictionary structure. </p>
 <p>Internal dictionary for fast variable querying. The structure of the dictionary uses an alternative path, where each character is checked in order at each position, if there is a match, the next position is consequently checked. The dictionary should never be manipulated manually, adding, retrieving and removing variables should be done through the accesory functions.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a> </dd></dl>
-
-</div>
-</div>
-<hr/><h2>Enumeration Type Documentation</h2>
-<a class="anchor" id="a9a147727007f8945c5c0e8da3eb14229"></a><!-- doxytag: member="DSTypes.h::DSException" ref="a9a147727007f8945c5c0e8da3eb14229" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229">DSException</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Data type that is used to store errors. </p>
-<p>Type definition for the internal error handling, independent from the error reporting mentioned in M_DS_Messages and A_DS_Actions. The possible values this type definition has only symbolizes the severity of the error.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_errors_8h.html" title="Header file with functions for error and exception handling.">DSErrors.h</a></dd>
-<dd>
-<a class="el" href="group___m___d_s___messages.html">Messages for DS Errors.</a> </dd>
-<dd>
-<a class="el" href="group___a___d_s___actions.html">Actions for DS Errors.</a> </dd></dl>
-<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em><a class="anchor" id="a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713"></a><!-- doxytag: member="DS_NOERROR" ref="a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713" args="" -->DS_NOERROR</em>&nbsp;</td><td>
-<p>The value for no errors found. </p>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" id="a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5"></a><!-- doxytag: member="DS_WARN" ref="a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5" args="" -->DS_WARN</em>&nbsp;</td><td>
-<p>The value for a warning found. </p>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" id="a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d"></a><!-- doxytag: member="DS_ERROR" ref="a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d" args="" -->DS_ERROR</em>&nbsp;</td><td>
-<p>The value for a error being found. </p>
-</td></tr>
-</table>
-</dd>
-</dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> </dd></dl>
 
 </div>
 </div>
@@ -171,7 +129,7 @@ typedef unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSUIn
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -180,7 +138,7 @@ typedef unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSUIn
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Jul 22 15:46:33 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:35 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -74,7 +74,9 @@ void \hyperlink{_d_s_variable_8h_aaed3132c306ffc004da9f391bbd1763c}{DSVariablePo
 \_\-\_\-deprecated \hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSVariableWithName} (const char $\ast$name, \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)}
 \label{_d_s_variable_8h_a0a4448f77b8bd53c9f64c48fb6be9426}
 
-\end{DoxyCompactItemize}
+\item 
+void \hyperlink{_d_s_variable_8h_acbb9a673f3f91834137f2bde14911f8d}{printVarDictionary} (\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root, DSUInteger indent)
+\begin{DoxyCompactList}\small\item\em Prints the VarDictionary. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -255,3 +257,13 @@ The same variable which received the retain count increase is returned, for conv
 \begin{DoxySeeAlso}{See also}
 \hyperlink{_d_s_variable_8h_a4d83eec85c4d9340593a359fd1d5e506}{DSVariableRelease} 
 \end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_acbb9a673f3f91834137f2bde14911f8d}{
+\index{DSVariable.h@{DSVariable.h}!printVarDictionary@{printVarDictionary}}
+\index{printVarDictionary@{printVarDictionary}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{printVarDictionary}]{\setlength{\rightskip}{0pt plus 5cm}void printVarDictionary ({\bf DSVariablePool} $\ast$ {\em root}, \/  DSUInteger {\em indent})}}
+\label{_d_s_variable_8h_acbb9a673f3f91834137f2bde14911f8d}
+
+
+Prints the VarDictionary. 
+
+A debugging function which prints the dictionary structure to the stderr file 

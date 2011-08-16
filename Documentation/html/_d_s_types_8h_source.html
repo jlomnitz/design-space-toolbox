@@ -77,64 +77,65 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00064"></a>00064 
 <a name="l00065"></a>00065 <span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> DSUInteger;
 <a name="l00066"></a>00066 
-<a name="l00080"></a><a class="code" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229">00080</a> <span class="keyword">typedef</span> <span class="keyword">enum</span> {
-<a name="l00081"></a><a class="code" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713">00081</a>         <a class="code" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713" title="The value for no errors found.">DS_NOERROR</a> = 0,  
-<a name="l00082"></a><a class="code" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5">00082</a>         <a class="code" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5" title="The value for a warning found.">DS_WARN</a>,         
-<a name="l00083"></a><a class="code" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d">00083</a>         <a class="code" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d" title="The value for a error being found.">DS_ERROR</a>         
-<a name="l00084"></a>00084 } <a class="code" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229" title="Data type that is used to store errors.">DSException</a>;
-<a name="l00085"></a>00085 
-<a name="l00095"></a><a class="code" href="struct_d_s_variable.html">00095</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00096"></a><a class="code" href="struct_d_s_variable.html#a5ac083a645d964373f022d03df4849c8">00096</a>         <span class="keywordtype">char</span> *name;             
-<a name="l00097"></a><a class="code" href="struct_d_s_variable.html#aee90379adb0307effb138f4871edbc5c">00097</a>         <span class="keywordtype">double</span> value;           
-<a name="l00098"></a><a class="code" href="struct_d_s_variable.html#ad5ce37afa302c9177c5543fb9cfaa191">00098</a>         DSUInteger retainCount; 
-<a name="l00099"></a>00099 } <a class="code" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a>;
-<a name="l00100"></a>00100 
-<a name="l00113"></a><a class="code" href="struct__var_dictionary.html">00113</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct__var_dictionary.html" title="Internal dictionary structure.">_varDictionary</a>
-<a name="l00114"></a>00114 {
-<a name="l00115"></a><a class="code" href="struct__var_dictionary.html#a6044b553e445970269cef9b91569d09d">00115</a>         <span class="keywordtype">char</span> <a class="code" href="struct__var_dictionary.html#a6044b553e445970269cef9b91569d09d" title="The current character in the dictionary.">current</a>;                
-<a name="l00116"></a><a class="code" href="struct__var_dictionary.html#a916375645732b28192e23ad0745d00ca">00116</a>         <span class="keyword">struct </span><a class="code" href="struct__var_dictionary.html" title="Internal dictionary structure.">_varDictionary</a> *<a class="code" href="struct__var_dictionary.html#a916375645732b28192e23ad0745d00ca" title="The alternative character in the dictionary.">alt</a>;  
-<a name="l00117"></a><a class="code" href="struct__var_dictionary.html#a3fab7f59fc3c8c7babba590499c69f63">00117</a>         <span class="keyword">struct </span><a class="code" href="struct__var_dictionary.html" title="Internal dictionary structure.">_varDictionary</a> *<a class="code" href="struct__var_dictionary.html#a3fab7f59fc3c8c7babba590499c69f63" title="The next character in the dictionary.">next</a>; 
-<a name="l00118"></a><a class="code" href="struct__var_dictionary.html#a09be400084754591a8f182e4a2c83304">00118</a>         <a class="code" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a> *<a class="code" href="struct__var_dictionary.html#a09be400084754591a8f182e4a2c83304" title="The variable stored. Only when current is &amp;#39;\0&amp;#39;.">variable</a>;        
-<a name="l00119"></a>00119 } <a class="code" href="struct__var_dictionary.html" title="Internal dictionary structure.">DSVariablePool</a>;
-<a name="l00120"></a>00120 
-<a name="l00132"></a><a class="code" href="struct_d_s_matrix.html">00132</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00133"></a><a class="code" href="struct_d_s_matrix.html#a98815eee0ec0d8a86f2632f922df6e36">00133</a>         <span class="keywordtype">void</span> *mat;          
-<a name="l00134"></a><a class="code" href="struct_d_s_matrix.html#abc69b7682293d99094ac37ed894a0249">00134</a>         DSUInteger rows;    
-<a name="l00135"></a><a class="code" href="struct_d_s_matrix.html#afb99a05f6e779cf7c631393281dddda9">00135</a>         DSUInteger columns; 
-<a name="l00136"></a>00136 } <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a>;
-<a name="l00137"></a>00137 
-<a name="l00145"></a><a class="code" href="struct_d_s_matrix_array.html">00145</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00146"></a><a class="code" href="struct_d_s_matrix_array.html#ab5f4da8dd96ac570199f6ead749797aa">00146</a>         DSUInteger numberOfMatrices; 
-<a name="l00147"></a><a class="code" href="struct_d_s_matrix_array.html#a48afc9204e98afffd4acd6a5175e30f4">00147</a>         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> **matrices;         
-<a name="l00148"></a>00148 } <a class="code" href="struct_d_s_matrix_array.html" title="Data type representing an array of matrices.">DSMatrixArray</a>;
-<a name="l00149"></a>00149 
-<a name="l00158"></a><a class="code" href="struct_d_s_s_system.html">00158</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00159"></a>00159         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Gd;
-<a name="l00160"></a>00160         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Gi;
-<a name="l00161"></a>00161         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Hd;
-<a name="l00162"></a>00162         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Hi;
-<a name="l00163"></a>00163         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *M;
-<a name="l00164"></a>00164         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Ai;
-<a name="l00165"></a>00165 } <a class="code" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a>;
-<a name="l00166"></a>00166 
-<a name="l00167"></a>00167 <span class="preprocessor">#ifdef __cplusplus</span>
-<a name="l00168"></a>00168 <span class="preprocessor"></span>__END_DECLS
-<a name="l00169"></a>00169 <span class="preprocessor">#endif</span>
-<a name="l00170"></a>00170 <span class="preprocessor"></span>
-<a name="l00171"></a>00171 <span class="preprocessor">#endif</span>
-<a name="l00172"></a>00172 <span class="preprocessor"></span>
-<a name="l00173"></a>00173 <span class="comment">/******************************* Documentation *******************************/</span>
-<a name="l00182"></a>00182 <span class="comment">/*\{*/</span>
-<a name="l00207"></a>00207 <span class="comment">/*\}*/</span>
-<a name="l00208"></a>00208 
+<a name="l00080"></a>00080 <span class="comment">/*</span>
+<a name="l00081"></a>00081 <span class="comment">typedef enum {</span>
+<a name="l00082"></a>00082 <span class="comment">        DS_NOERROR = 0,  //!&lt; The value for no  errors found.</span>
+<a name="l00083"></a>00083 <span class="comment">        DS_WARN,         //!&lt; The value for a warning found.</span>
+<a name="l00084"></a>00084 <span class="comment">        DS_ERROR         //!&lt; The value for a error being found.</span>
+<a name="l00085"></a>00085 <span class="comment">} DSException;</span>
+<a name="l00086"></a>00086 <span class="comment">*/</span>
+<a name="l00096"></a><a class="code" href="struct_d_s_variable.html">00096</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00097"></a><a class="code" href="struct_d_s_variable.html#a5ac083a645d964373f022d03df4849c8">00097</a>         <span class="keywordtype">char</span> *name;             
+<a name="l00098"></a><a class="code" href="struct_d_s_variable.html#aee90379adb0307effb138f4871edbc5c">00098</a>         <span class="keywordtype">double</span> value;           
+<a name="l00099"></a><a class="code" href="struct_d_s_variable.html#ad5ce37afa302c9177c5543fb9cfaa191">00099</a>         DSUInteger retainCount; 
+<a name="l00100"></a>00100 } <a class="code" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a>;
+<a name="l00101"></a>00101 
+<a name="l00114"></a><a class="code" href="struct__var_dictionary.html">00114</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct__var_dictionary.html" title="Internal dictionary structure.">_varDictionary</a>
+<a name="l00115"></a>00115 {
+<a name="l00116"></a><a class="code" href="struct__var_dictionary.html#a6044b553e445970269cef9b91569d09d">00116</a>         <span class="keywordtype">char</span> <a class="code" href="struct__var_dictionary.html#a6044b553e445970269cef9b91569d09d" title="The current character in the dictionary.">current</a>;                
+<a name="l00117"></a><a class="code" href="struct__var_dictionary.html#a916375645732b28192e23ad0745d00ca">00117</a>         <span class="keyword">struct </span><a class="code" href="struct__var_dictionary.html" title="Internal dictionary structure.">_varDictionary</a> *<a class="code" href="struct__var_dictionary.html#a916375645732b28192e23ad0745d00ca" title="The alternative character in the dictionary.">alt</a>;  
+<a name="l00118"></a><a class="code" href="struct__var_dictionary.html#a3fab7f59fc3c8c7babba590499c69f63">00118</a>         <span class="keyword">struct </span><a class="code" href="struct__var_dictionary.html" title="Internal dictionary structure.">_varDictionary</a> *<a class="code" href="struct__var_dictionary.html#a3fab7f59fc3c8c7babba590499c69f63" title="The next character in the dictionary.">next</a>; 
+<a name="l00119"></a><a class="code" href="struct__var_dictionary.html#a09be400084754591a8f182e4a2c83304">00119</a>         <a class="code" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> *<a class="code" href="struct__var_dictionary.html#a09be400084754591a8f182e4a2c83304" title="The variable stored. Only when current is &amp;#39;\0&amp;#39;.">variable</a>;        
+<a name="l00120"></a>00120 } <a class="code" href="struct__var_dictionary.html" title="Internal dictionary structure.">DSVariablePool</a>;
+<a name="l00121"></a>00121 
+<a name="l00133"></a><a class="code" href="struct_d_s_matrix.html">00133</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00134"></a><a class="code" href="struct_d_s_matrix.html#a98815eee0ec0d8a86f2632f922df6e36">00134</a>         <span class="keywordtype">void</span> *mat;          
+<a name="l00135"></a><a class="code" href="struct_d_s_matrix.html#abc69b7682293d99094ac37ed894a0249">00135</a>         DSUInteger rows;    
+<a name="l00136"></a><a class="code" href="struct_d_s_matrix.html#afb99a05f6e779cf7c631393281dddda9">00136</a>         DSUInteger columns; 
+<a name="l00137"></a>00137 } <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a>;
+<a name="l00138"></a>00138 
+<a name="l00146"></a><a class="code" href="struct_d_s_matrix_array.html">00146</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00147"></a><a class="code" href="struct_d_s_matrix_array.html#ab5f4da8dd96ac570199f6ead749797aa">00147</a>         DSUInteger numberOfMatrices; 
+<a name="l00148"></a><a class="code" href="struct_d_s_matrix_array.html#a48afc9204e98afffd4acd6a5175e30f4">00148</a>         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> **matrices;         
+<a name="l00149"></a>00149 } <a class="code" href="struct_d_s_matrix_array.html" title="Data type representing an array of matrices.">DSMatrixArray</a>;
+<a name="l00150"></a>00150 
+<a name="l00159"></a><a class="code" href="struct_d_s_s_system.html">00159</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00160"></a>00160         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Gd;
+<a name="l00161"></a>00161         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Gi;
+<a name="l00162"></a>00162         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Hd;
+<a name="l00163"></a>00163         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Hi;
+<a name="l00164"></a>00164         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *M;
+<a name="l00165"></a>00165         <a class="code" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> *Ai;
+<a name="l00166"></a>00166 } <a class="code" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a>;
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00169"></a>00169 <span class="preprocessor"></span>__END_DECLS
+<a name="l00170"></a>00170 <span class="preprocessor">#endif</span>
+<a name="l00171"></a>00171 <span class="preprocessor"></span>
+<a name="l00172"></a>00172 <span class="preprocessor">#endif</span>
+<a name="l00173"></a>00173 <span class="preprocessor"></span>
+<a name="l00174"></a>00174 <span class="comment">/******************************* Documentation *******************************/</span>
+<a name="l00183"></a>00183 <span class="comment">/*\{*/</span>
+<a name="l00208"></a>00208 <span class="comment">/*\}*/</span>
 <a name="l00209"></a>00209 
+<a name="l00210"></a>00210 
 </pre></div></div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -143,7 +144,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Jul 22 15:46:25 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:34 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -7,18 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */; };
+		9A1B18F913F5CD7500C36E71 /* DSGMASystemParsingAux.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */; };
 		9A537BB113A9CFE50031378A /* DSMemoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB013A9CFE50031378A /* DSMemoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A537BB313A9D04F0031378A /* DSTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB213A9D04F0031378A /* DSTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A5833BC139D79170068B6B6 /* DSStd.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5833BB139D79170068B6B6 /* DSStd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A68EF5513EC767800FBDDF5 /* DSMatrixTokenizerLex.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A68EF5413EC767700FBDDF5 /* DSMatrixTokenizerLex.c */; };
+		9A68EF6213ECA26F00FBDDF5 /* DSVariableTokenizerLex.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A68EF6113ECA26F00FBDDF5 /* DSVariableTokenizerLex.c */; };
+		9A68EF6C13ECA31900FBDDF5 /* DSVariableTokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A68EF6B13ECA31900FBDDF5 /* DSVariableTokenizer.c */; };
+		9A68EF6E13ECA32900FBDDF5 /* DSVariableTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A68EF6D13ECA32900FBDDF5 /* DSVariableTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		9A68EF7213ECAF4200FBDDF5 /* DSVariableGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A68EF7113ECAF4100FBDDF5 /* DSVariableGrammar.c */; };
+		9A68EF7413ECB03000FBDDF5 /* DSVariableGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A68EF7313ECB02F00FBDDF5 /* DSVariableGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		9A707C5813F0D0EF00626845 /* DSExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A707C5713F0D0EF00626845 /* DSExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A707C5B13F0D0FC00626845 /* DSExpression.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A707C5A13F0D0FC00626845 /* DSExpression.c */; };
 		9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0D813D480890051B472 /* libcblas.dylib */; };
 		9A71F0DB13D480950051B472 /* libgsl.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0DA13D480950051B472 /* libgsl.0.dylib */; };
 		9A81B38613A89D38007DADEC /* DSErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A81B38413A89D38007DADEC /* DSErrors.c */; };
 		9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A8BAB6713C63DA10031F387 /* DSIO.c */; };
 		9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A754213D878990045FDFB /* DSMatrixArray.c */; };
 		9A9A754513D878990045FDFB /* DSMatrixArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9A754313D878990045FDFB /* DSMatrixArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9ABDC42913F1BE8600BC11D7 /* DSExpressionTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABDC42813F1BE8600BC11D7 /* DSExpressionTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		9ABDC42B13F1BE9900BC11D7 /* DSExpressionTokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABDC42A13F1BE9900BC11D7 /* DSExpressionTokenizer.c */; };
+		9ABDC42F13F1C3C600BC11D7 /* DSExpressionTokenizerLex.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABDC42E13F1C3C600BC11D7 /* DSExpressionTokenizerLex.c */; };
+		9ABDC43A13F1C73400BC11D7 /* DSExpressionGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABDC43813F1C73400BC11D7 /* DSExpressionGrammar.c */; };
+		9ABDC43B13F1C73400BC11D7 /* DSExpressionGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABDC43913F1C73400BC11D7 /* DSExpressionGrammar.h */; };
+		9ABF783E13F0C61700602B4B /* DSGMASystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABF783D13F0C61700602B4B /* DSGMASystem.c */; };
+		9ABF784013F0C62800602B4B /* DSGMASystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABF783F13F0C62800602B4B /* DSGMASystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9AC0E3E513EC72EB0043D9E6 /* DSMatrixTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AC0E3E413EC72EB0043D9E6 /* DSMatrixTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		9AC0E3E813EC749E0043D9E6 /* DSMatrixTokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC0E3E713EC749E0043D9E6 /* DSMatrixTokenizer.c */; };
 		9AC49AB213B53A4500E0E6B8 /* DSIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AC49AB113B53A4500E0E6B8 /* DSIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ACB2CFF13A1345F006A5F71 /* DSErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ACB2CFE13A1345F006A5F71 /* DSErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */; };
+		9AE49FD913F5A4EC00C7A478 /* DSGMASystemGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */; };
+		9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */; };
 		9AFD4D5113B6FFD8001FCEC9 /* DSVariable.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */; };
 		9AFD4D5213B6FFD8001FCEC9 /* DSVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AFD4D5013B6FFD8001FCEC9 /* DSVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AFD4D5B13B706F6001FCEC9 /* DSMatrix_gsl.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */; };
@@ -26,10 +47,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A0C3A7613F4627100B5561A /* DSGMASystemGrammar.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = DSGMASystemGrammar.y; sourceTree = "<group>"; };
+		9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemParsingAux.h; sourceTree = "<group>"; };
+		9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemParsingAux.c; sourceTree = "<group>"; };
+		9A47FEA913DCBBCC00E2100C /* DSErrorCriteria.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = DSErrorCriteria.txt; sourceTree = "<group>"; };
 		9A537BB013A9CFE50031378A /* DSMemoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMemoryManager.h; sourceTree = "<group>"; };
 		9A537BB213A9D04F0031378A /* DSTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSTypes.h; sourceTree = "<group>"; };
 		9A5833BB139D79170068B6B6 /* DSStd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSStd.h; sourceTree = "<group>"; };
-		9A71F0D613D480820051B472 /* libgsl.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.0.dylib; path = usr/local/lib/libgsl.0.dylib; sourceTree = SDKROOT; };
+		9A68EF5413EC767700FBDDF5 /* DSMatrixTokenizerLex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixTokenizerLex.c; sourceTree = "<group>"; };
+		9A68EF6113ECA26F00FBDDF5 /* DSVariableTokenizerLex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariableTokenizerLex.c; sourceTree = "<group>"; };
+		9A68EF6B13ECA31900FBDDF5 /* DSVariableTokenizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariableTokenizer.c; sourceTree = "<group>"; };
+		9A68EF6D13ECA32900FBDDF5 /* DSVariableTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVariableTokenizer.h; sourceTree = "<group>"; };
+		9A68EF7113ECAF4100FBDDF5 /* DSVariableGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariableGrammar.c; sourceTree = "<group>"; };
+		9A68EF7313ECB02F00FBDDF5 /* DSVariableGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVariableGrammar.h; sourceTree = "<group>"; };
+		9A707C5713F0D0EF00626845 /* DSExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSExpression.h; sourceTree = "<group>"; };
+		9A707C5A13F0D0FC00626845 /* DSExpression.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSExpression.c; sourceTree = "<group>"; };
 		9A71F0D813D480890051B472 /* libcblas.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcblas.dylib; path = usr/lib/libcblas.dylib; sourceTree = SDKROOT; };
 		9A71F0DA13D480950051B472 /* libgsl.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.0.dylib; path = usr/local/lib/libgsl.0.dylib; sourceTree = SDKROOT; };
 		9A81B38213A89C31007DADEC /* libdesignspace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libdesignspace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,9 +69,25 @@
 		9A8BAB6713C63DA10031F387 /* DSIO.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSIO.c; sourceTree = "<group>"; };
 		9A9A754213D878990045FDFB /* DSMatrixArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixArray.c; sourceTree = "<group>"; };
 		9A9A754313D878990045FDFB /* DSMatrixArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMatrixArray.h; sourceTree = "<group>"; };
+		9ABDC42813F1BE8600BC11D7 /* DSExpressionTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSExpressionTokenizer.h; sourceTree = "<group>"; };
+		9ABDC42A13F1BE9900BC11D7 /* DSExpressionTokenizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSExpressionTokenizer.c; sourceTree = "<group>"; };
+		9ABDC42C13F1BF4400BC11D7 /* DSExpressionGrammar.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = DSExpressionGrammar.l; sourceTree = "<group>"; };
+		9ABDC42E13F1C3C600BC11D7 /* DSExpressionTokenizerLex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSExpressionTokenizerLex.c; sourceTree = "<group>"; };
+		9ABDC43413F1C5C100BC11D7 /* DSExpressionGrammar.y */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.yacc; path = DSExpressionGrammar.y; sourceTree = "<group>"; };
+		9ABDC43813F1C73400BC11D7 /* DSExpressionGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSExpressionGrammar.c; sourceTree = "<group>"; };
+		9ABDC43913F1C73400BC11D7 /* DSExpressionGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSExpressionGrammar.h; sourceTree = "<group>"; };
+		9ABF783D13F0C61700602B4B /* DSGMASystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystem.c; sourceTree = "<group>"; };
+		9ABF783F13F0C62800602B4B /* DSGMASystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystem.h; sourceTree = "<group>"; };
+		9ABF784613F0CC4300602B4B /* DSVariableGrammar.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = DSVariableGrammar.l; sourceTree = "<group>"; };
+		9ABF784713F0CC4300602B4B /* DSVariableGrammar.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = DSVariableGrammar.y; sourceTree = "<group>"; };
+		9AC0E3E413EC72EB0043D9E6 /* DSMatrixTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMatrixTokenizer.h; sourceTree = "<group>"; };
+		9AC0E3E713EC749E0043D9E6 /* DSMatrixTokenizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixTokenizer.c; sourceTree = "<group>"; };
 		9AC49AB113B53A4500E0E6B8 /* DSIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSIO.h; sourceTree = "<group>"; };
 		9ACB2CFE13A1345F006A5F71 /* DSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSErrors.h; sourceTree = "<group>"; };
 		9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMemoryManager.c; sourceTree = "<group>"; };
+		9ADADD5B13EB467B00A2062D /* DSMatrixGrammar.l */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lex; path = DSMatrixGrammar.l; sourceTree = "<group>"; };
+		9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemGrammar.c; sourceTree = "<group>"; };
+		9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemGrammar.h; sourceTree = "<group>"; };
 		9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariable.c; sourceTree = "<group>"; };
 		9AFD4D5013B6FFD8001FCEC9 /* DSVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVariable.h; sourceTree = "<group>"; };
 		9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrix_gsl.c; sourceTree = "<group>"; };
@@ -59,14 +107,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9A537BBB13A9D08A0031378A /* DS Standard */ = {
+		9A47FEAA13DCBBDE00E2100C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9AFD4D5E13B70942001FCEC9 /* Basic Data Definitions */,
-				9AFD4D5D13B70915001FCEC9 /* Support Data Functions */,
-				9A81B37913A89B95007DADEC /* Parsing  */,
+				9A47FEA913DCBBCC00E2100C /* DSErrorCriteria.txt */,
 			);
-			name = "DS Standard";
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		9A5833A9139D78A80068B6B6 = {
@@ -74,9 +120,9 @@
 			children = (
 				9A71F0DA13D480950051B472 /* libgsl.0.dylib */,
 				9A71F0D813D480890051B472 /* libcblas.dylib */,
-				9A71F0D613D480820051B472 /* libgsl.0.dylib */,
 				9A5833BB139D79170068B6B6 /* DSStd.h */,
-				9AFD4D5F13B70985001FCEC9 /* C Source Files */,
+				9A47FEAA13DCBBDE00E2100C /* Resources */,
+				9AFD4D5F13B70985001FCEC9 /* Source Files */,
 				9A5833B5139D78A80068B6B6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,27 +135,110 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9A81B37913A89B95007DADEC /* Parsing  */ = {
+		9A68EF5D13EC9FEE00FBDDF5 /* Matrix Parsing */ = {
 			isa = PBXGroup;
 			children = (
+				9AC0E3E413EC72EB0043D9E6 /* DSMatrixTokenizer.h */,
+				9AC0E3E713EC749E0043D9E6 /* DSMatrixTokenizer.c */,
+				9A68EF5413EC767700FBDDF5 /* DSMatrixTokenizerLex.c */,
+				9ADADD5B13EB467B00A2062D /* DSMatrixGrammar.l */,
 			);
-			name = "Parsing ";
+			name = "Matrix Parsing";
+			sourceTree = "<group>";
+		};
+		9A68EF5E13ECA01100FBDDF5 /* Variable Pool Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				9A68EF6D13ECA32900FBDDF5 /* DSVariableTokenizer.h */,
+				9A68EF6B13ECA31900FBDDF5 /* DSVariableTokenizer.c */,
+				9A68EF6113ECA26F00FBDDF5 /* DSVariableTokenizerLex.c */,
+				9A68EF7313ECB02F00FBDDF5 /* DSVariableGrammar.h */,
+				9A68EF7113ECAF4100FBDDF5 /* DSVariableGrammar.c */,
+				9ABF784613F0CC4300602B4B /* DSVariableGrammar.l */,
+				9ABF784713F0CC4300602B4B /* DSVariableGrammar.y */,
+			);
+			name = "Variable Pool Parsing";
+			sourceTree = "<group>";
+		};
+		9ABDC42613F1BE1000BC11D7 /* AST */ = {
+			isa = PBXGroup;
+			children = (
+				9A707C5713F0D0EF00626845 /* DSExpression.h */,
+				9A707C5A13F0D0FC00626845 /* DSExpression.c */,
+				9ABDC42713F1BE2200BC11D7 /* AST Parsing */,
+			);
+			name = AST;
+			sourceTree = "<group>";
+		};
+		9ABDC42713F1BE2200BC11D7 /* AST Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				9ABDC42813F1BE8600BC11D7 /* DSExpressionTokenizer.h */,
+				9ABDC42A13F1BE9900BC11D7 /* DSExpressionTokenizer.c */,
+				9ABDC42E13F1C3C600BC11D7 /* DSExpressionTokenizerLex.c */,
+				9ABDC43913F1C73400BC11D7 /* DSExpressionGrammar.h */,
+				9ABDC43813F1C73400BC11D7 /* DSExpressionGrammar.c */,
+				9ABDC42C13F1BF4400BC11D7 /* DSExpressionGrammar.l */,
+				9ABDC43413F1C5C100BC11D7 /* DSExpressionGrammar.y */,
+			);
+			name = "AST Parsing";
+			sourceTree = "<group>";
+		};
+		9ABF783813F0C1D800602B4B /* GMA, SSystem and Cases */ = {
+			isa = PBXGroup;
+			children = (
+				9ABF783F13F0C62800602B4B /* DSGMASystem.h */,
+				9ABF783D13F0C61700602B4B /* DSGMASystem.c */,
+				9ABF784413F0CBE100602B4B /* GMA Parsing */,
+			);
+			name = "GMA, SSystem and Cases";
+			sourceTree = "<group>";
+		};
+		9ABF784413F0CBE100602B4B /* GMA Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */,
+				9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */,
+				9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */,
+				9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */,
+				9A0C3A7613F4627100B5561A /* DSGMASystemGrammar.y */,
+			);
+			name = "GMA Parsing";
+			sourceTree = "<group>";
+		};
+		9ACB57D013F09947006B6758 /* Variables and Variable Pools */ = {
+			isa = PBXGroup;
+			children = (
+				9AFD4D5013B6FFD8001FCEC9 /* DSVariable.h */,
+				9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */,
+				9A68EF5E13ECA01100FBDDF5 /* Variable Pool Parsing */,
+			);
+			name = "Variables and Variable Pools";
+			sourceTree = "<group>";
+		};
+		9ACB57D113F09969006B6758 /* Matrices */ = {
+			isa = PBXGroup;
+			children = (
+				9AFD4D5A13B706F6001FCEC9 /* DSMatrix.h */,
+				9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */,
+				9A68EF5D13EC9FEE00FBDDF5 /* Matrix Parsing */,
+				9A9A754313D878990045FDFB /* DSMatrixArray.h */,
+				9A9A754213D878990045FDFB /* DSMatrixArray.c */,
+			);
+			name = Matrices;
 			sourceTree = "<group>";
 		};
 		9AFD4D5D13B70915001FCEC9 /* Support Data Functions */ = {
 			isa = PBXGroup;
 			children = (
-				9AFD4D5013B6FFD8001FCEC9 /* DSVariable.h */,
-				9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */,
-				9AFD4D5A13B706F6001FCEC9 /* DSMatrix.h */,
-				9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */,
-				9A9A754313D878990045FDFB /* DSMatrixArray.h */,
-				9A9A754213D878990045FDFB /* DSMatrixArray.c */,
+				9ACB57D013F09947006B6758 /* Variables and Variable Pools */,
+				9ACB57D113F09969006B6758 /* Matrices */,
+				9ABDC42613F1BE1000BC11D7 /* AST */,
 			);
 			name = "Support Data Functions";
 			sourceTree = "<group>";
 		};
-		9AFD4D5E13B70942001FCEC9 /* Basic Data Definitions */ = {
+		9AFD4D5E13B70942001FCEC9 /* Basic Data and functions */ = {
 			isa = PBXGroup;
 			children = (
 				9A537BB213A9D04F0031378A /* DSTypes.h */,
@@ -120,15 +249,17 @@
 				9A537BB013A9CFE50031378A /* DSMemoryManager.h */,
 				9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */,
 			);
-			name = "Basic Data Definitions";
+			name = "Basic Data and functions";
 			sourceTree = "<group>";
 		};
-		9AFD4D5F13B70985001FCEC9 /* C Source Files */ = {
+		9AFD4D5F13B70985001FCEC9 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
-				9A537BBB13A9D08A0031378A /* DS Standard */,
+				9AFD4D5E13B70942001FCEC9 /* Basic Data and functions */,
+				9AFD4D5D13B70915001FCEC9 /* Support Data Functions */,
+				9ABF783813F0C1D800602B4B /* GMA, SSystem and Cases */,
 			);
-			name = "C Source Files";
+			name = "Source Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,6 +277,15 @@
 				9AFD4D5213B6FFD8001FCEC9 /* DSVariable.h in Headers */,
 				9AFD4D5C13B706F6001FCEC9 /* DSMatrix.h in Headers */,
 				9A9A754513D878990045FDFB /* DSMatrixArray.h in Headers */,
+				9ABF784013F0C62800602B4B /* DSGMASystem.h in Headers */,
+				9A707C5813F0D0EF00626845 /* DSExpression.h in Headers */,
+				9AC0E3E513EC72EB0043D9E6 /* DSMatrixTokenizer.h in Headers */,
+				9A68EF6E13ECA32900FBDDF5 /* DSVariableTokenizer.h in Headers */,
+				9A68EF7413ECB03000FBDDF5 /* DSVariableGrammar.h in Headers */,
+				9ABDC42913F1BE8600BC11D7 /* DSExpressionTokenizer.h in Headers */,
+				9ABDC43B13F1C73400BC11D7 /* DSExpressionGrammar.h in Headers */,
+				9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */,
+				9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +342,18 @@
 				9AFD4D5B13B706F6001FCEC9 /* DSMatrix_gsl.c in Sources */,
 				9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */,
 				9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */,
+				9AC0E3E813EC749E0043D9E6 /* DSMatrixTokenizer.c in Sources */,
+				9A68EF5513EC767800FBDDF5 /* DSMatrixTokenizerLex.c in Sources */,
+				9A68EF6213ECA26F00FBDDF5 /* DSVariableTokenizerLex.c in Sources */,
+				9A68EF6C13ECA31900FBDDF5 /* DSVariableTokenizer.c in Sources */,
+				9A68EF7213ECAF4200FBDDF5 /* DSVariableGrammar.c in Sources */,
+				9ABF783E13F0C61700602B4B /* DSGMASystem.c in Sources */,
+				9A707C5B13F0D0FC00626845 /* DSExpression.c in Sources */,
+				9ABDC42B13F1BE9900BC11D7 /* DSExpressionTokenizer.c in Sources */,
+				9ABDC42F13F1C3C600BC11D7 /* DSExpressionTokenizerLex.c in Sources */,
+				9ABDC43A13F1C73400BC11D7 /* DSExpressionGrammar.c in Sources */,
+				9AE49FD913F5A4EC00C7A478 /* DSGMASystemGrammar.c in Sources */,
+				9A1B18F913F5CD7500C36E71 /* DSGMASystemParsingAux.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

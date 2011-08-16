@@ -81,8 +81,7 @@ extern void DSMatrixFree(DSMatrix *matrix);
 extern DSMatrix * DSMatrixIdentity(const DSUInteger size);
 extern DSMatrix * DSMatrixRandomNumbers(const DSUInteger rows, const DSUInteger columns);
 extern DSMatrix * DSMatrixWithVariablePoolValues(const DSVariablePool *variablePool);
-
-
+extern DSMatrix * DSMatrixByParsingString(const char * string);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Basic Accesor functions
@@ -96,6 +95,7 @@ extern void DSMatrixSetDoubleValue(DSMatrix *matrix, const DSUInteger row, const
 extern void DSMatrixSetDoubleValueAll(DSMatrix *matrix, const double value);
 extern void DSMatrixSetDoubleValuesList(DSMatrix *matrix, bool byColumns, DSUInteger numberOfValues, double firstValue, ...);
 extern void DSMatrixSetDoubleValues(DSMatrix *matrix, bool byColumns, DSUInteger numberOfValues, double * values);
+
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
@@ -139,7 +139,7 @@ extern DSMatrix * DSMatrixAppendMatrices(const DSMatrix *firstMatrix,
                                          const bool byColumn);
 extern void DSMatrixSwitchRows(DSMatrix *matrix, const DSUInteger rowA, const DSUInteger rowB);
 extern void DSMatrixSwitchColumns(DSMatrix *matrix, const DSUInteger columnA, const DSUInteger columnB);
-extern void DSMatrixPrint(DSMatrix *matrix);
+extern void DSMatrixPrint(const DSMatrix *matrix);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Matrix Property Querying

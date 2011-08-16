@@ -29,14 +29,19 @@
 
 #include <time.h>
 #include <stdarg.h>
+#include <string.h>
+
+#include <gsl/gsl_linalg.h>
+#include <gsl/gsl_blas.h>
+
 #include "DSMatrix.h"
 #include "DSErrors.h"
 #include "DSMemoryManager.h"
 #include "DSMatrixArray.h"
+#include "DSMatrixTokenizer.h"
+
 //#if defined(__MATRIX_BACK__) && __MATRIX_BACK__ == __MAT_GSL__
 
-#include <gsl/gsl_linalg.h>
-#include <gsl/gsl_blas.h>
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, Free and Initialization functions
@@ -150,7 +155,7 @@ extern void DSMatrixFree(DSMatrix *matrix)
         }
         if (DSMatrixInternalPointer(matrix) != NULL)
                 gsl_matrix_free(DSMatrixInternalPointer(matrix));
-        free(matrix);
+        DSSecureFree(matrix);
 bail:
         return;
 }
@@ -215,6 +220,64 @@ bail:
 }
 
 extern DSMatrix * DSMatrixWithVariablePoolValues(const DSVariablePool *variablePool);
+
+
+
+extern DSMatrix * DSMatrixByParsingString(const char *string)
+{
+        DSMatrix * aMatrix = NULL;
+        DSUInteger rows, columns, total;
+        struct matrix_token *tokens = NULL, *current;
+        double *values = NULL;
+        if (string == NULL) {
+                DSError(M_DS_WRONG ": String to parse is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(string) == 0) {
+                DSError(M_DS_WRONG ": String to parse is empty", A_DS_WARN);
+                goto bail;                
+        }
+        tokens = DSMatrixTokenizeString(string);
+        if (tokens == NULL) {
+                DSError(M_DS_PARSE ": Token stream is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        rows = 0;
+        columns = 0;
+        current = tokens;
+        total = 0;
+        while (current) {
+                if (DSMatrixTokenType(current) == DS_MATRIX_TOKEN_ERROR) {
+                        DSError(M_DS_PARSE ": Unrecognized data", A_DS_ERROR);
+                        goto bail;
+                }
+                if (DSMatrixTokenType(current) == DS_MATRIX_TOKEN_DOUBLE) {
+                        (rows < DSMatrixTokenRow(current) ?
+                         rows = DSMatrixTokenRow(current) : 1);
+                        (columns < DSMatrixTokenColumn(current) ?
+                         columns = DSMatrixTokenColumn(current) : 1);
+                        if (values == NULL) {
+                                values = DSSecureMalloc(sizeof(double)*(total+1));
+                        } else {
+                                values = DSSecureRealloc(values, sizeof(double)*(total+1));
+                        }
+                        values[total++] = DSMatrixTokenValue(current);
+                }
+                current = DSMatrixTokenNext(current);
+        }
+        if (rows == 0 || columns == 0 || total != rows*columns) {
+                DSError(M_DS_WRONG ": Data to parse is incorrect", A_DS_WARN);
+                goto bail;
+        }
+        aMatrix = DSMatrixCalloc(rows, columns);
+        DSMatrixSetDoubleValues(aMatrix, true, total, values);
+bail:
+        if (tokens != NULL)
+                DSMatrixTokenFree(tokens);
+        if (values != NULL)
+                DSSecureFree(values);
+        return aMatrix;
+}
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Basic Accesor functions
@@ -794,7 +857,7 @@ bail:
         return;
 }
 
-extern void DSMatrixPrint(DSMatrix *matrix)
+extern void DSMatrixPrint(const DSMatrix *matrix)
 {
         int (*print)(const char *, ...);
         DSUInteger i, j;

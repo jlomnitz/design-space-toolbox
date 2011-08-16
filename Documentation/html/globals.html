@@ -49,8 +49,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals_func.html"><span>Functions</span></a></li>
       <li><a href="globals_vars.html"><span>Variables</span></a></li>
       <li><a href="globals_type.html"><span>Typedefs</span></a></li>
-      <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
-      <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
       <li><a href="globals_defs.html"><span>Defines</span></a></li>
     </ul>
   </div>
@@ -86,15 +84,6 @@ Here is a list of all documented functions, variables, defines, enums, and typed
 
 
 <h3><a class="anchor" id="index_d">- d -</a></h3><ul>
-<li>DS_ERROR
-: <a class="el" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229ae65d5c2844015910512fbbb1154b2e1d">DSTypes.h</a>
-</li>
-<li>DS_NOERROR
-: <a class="el" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229a811bc0266a860fc53daffa8429aa8713">DSTypes.h</a>
-</li>
-<li>DS_WARN
-: <a class="el" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229ac597480b574583978971fd184ded99e5">DSTypes.h</a>
-</li>
 <li>DSError
 : <a class="el" href="_d_s_errors_8h.html#a09b28eb2b01986855910ca97dfe91144">DSErrors.h</a>
 </li>
@@ -102,20 +91,16 @@ Here is a list of all documented functions, variables, defines, enums, and typed
 : <a class="el" href="_d_s_errors_8c.html#a363f9c264b785ec509da1b11af9ae314">DSErrors.c</a>
 , <a class="el" href="_d_s_errors_8h.html#a363f9c264b785ec509da1b11af9ae314">DSErrors.h</a>
 </li>
-<li>DSErrorSetPrintFunction()
-: <a class="el" href="_d_s_errors_8h.html#a71b6e7a909b430863f1a850122a17f78">DSErrors.h</a>
-, <a class="el" href="_d_s_errors_8c.html#a835a62d5dadb2499cc180b27fb77868e">DSErrors.c</a>
-</li>
-<li>DSException
-: <a class="el" href="_d_s_types_8h.html#a9a147727007f8945c5c0e8da3eb14229">DSTypes.h</a>
+<li>DSIOErrorFile
+: <a class="el" href="_d_s_i_o_8h.html#af8405bae84409f99d5fa564ebaff4c91">DSIO.h</a>
 </li>
 <li>DSIOSetErrorFile()
 : <a class="el" href="_d_s_i_o_8c.html#a71e4035e82cf614f1be280b127213ca6">DSIO.c</a>
 , <a class="el" href="_d_s_i_o_8h.html#a71e4035e82cf614f1be280b127213ca6">DSIO.h</a>
 </li>
 <li>DSMatrixAlloc()
-: <a class="el" href="_d_s_matrix_8h.html#abfe7884de06da66ce4bc46c7048d4e49">DSMatrix.h</a>
-, <a class="el" href="_d_s_matrix__gsl_8c.html#abfe7884de06da66ce4bc46c7048d4e49">DSMatrix_gsl.c</a>
+: <a class="el" href="_d_s_matrix__gsl_8c.html#abfe7884de06da66ce4bc46c7048d4e49">DSMatrix_gsl.c</a>
+, <a class="el" href="_d_s_matrix_8h.html#abfe7884de06da66ce4bc46c7048d4e49">DSMatrix.h</a>
 </li>
 <li>DSMatrixArrayAddMatrix()
 : <a class="el" href="_d_s_matrix_array_8c.html#a91dd77e0cd7cff2173b6bfce9b9e7f4f">DSMatrixArray.c</a>
@@ -130,8 +115,8 @@ Here is a list of all documented functions, variables, defines, enums, and typed
 , <a class="el" href="_d_s_matrix_array_8h.html#a694f4a21842a5e5bda0f4bdcb2e56626">DSMatrixArray.h</a>
 </li>
 <li>DSMatrixArrayFree()
-: <a class="el" href="_d_s_matrix_array_8c.html#a99f7d3e74613f43f22d8faa4bed25d1a">DSMatrixArray.c</a>
-, <a class="el" href="_d_s_matrix_array_8h.html#a99f7d3e74613f43f22d8faa4bed25d1a">DSMatrixArray.h</a>
+: <a class="el" href="_d_s_matrix_array_8h.html#a99f7d3e74613f43f22d8faa4bed25d1a">DSMatrixArray.h</a>
+, <a class="el" href="_d_s_matrix_array_8c.html#a99f7d3e74613f43f22d8faa4bed25d1a">DSMatrixArray.c</a>
 </li>
 <li>DSMatrixArrayInternalPointer
 : <a class="el" href="_d_s_matrix_array_8h.html#ad12db3a5ec12ae7eb52f988b529b4a80">DSMatrixArray.h</a>
@@ -155,25 +140,38 @@ Here is a list of all documented functions, variables, defines, enums, and typed
 : <a class="el" href="_d_s_matrix_8h.html#a6d0f0f74bdd85829ba07dd33f51cfa11">DSMatrix.h</a>
 , <a class="el" href="_d_s_matrix__gsl_8c.html#a6d0f0f74bdd85829ba07dd33f51cfa11">DSMatrix_gsl.c</a>
 </li>
+<li>DSMatrixDoubleValue()
+: <a class="el" href="_d_s_matrix_8h.html#abc810db5fab16f43f5279815726577de">DSMatrix.h</a>
+, <a class="el" href="_d_s_matrix__gsl_8c.html#abc810db5fab16f43f5279815726577de">DSMatrix_gsl.c</a>
+</li>
 <li>DSMatrixFree()
 : <a class="el" href="_d_s_matrix_8h.html#ae5fc6bceef5e7e9e2c6300a86bdfb5fc">DSMatrix.h</a>
 , <a class="el" href="_d_s_matrix__gsl_8c.html#ae5fc6bceef5e7e9e2c6300a86bdfb5fc">DSMatrix_gsl.c</a>
 </li>
 <li>DSMatrixIdentity()
-: <a class="el" href="_d_s_matrix_8h.html#a1636a4663250c4e54df28b35b121d27f">DSMatrix.h</a>
-, <a class="el" href="_d_s_matrix__gsl_8c.html#a1636a4663250c4e54df28b35b121d27f">DSMatrix_gsl.c</a>
+: <a class="el" href="_d_s_matrix__gsl_8c.html#a1636a4663250c4e54df28b35b121d27f">DSMatrix_gsl.c</a>
+, <a class="el" href="_d_s_matrix_8h.html#a1636a4663250c4e54df28b35b121d27f">DSMatrix.h</a>
 </li>
 <li>DSMatrixPLUDecomposition()
 : <a class="el" href="_d_s_matrix_8h.html#a419eb1fe1c418be7c59b10ce49a78b02">DSMatrix.h</a>
 , <a class="el" href="_d_s_matrix__gsl_8c.html#ab82225a0fd0f53735d8e9e81c350aa60">DSMatrix_gsl.c</a>
 </li>
 <li>DSMatrixRandomNumbers()
-: <a class="el" href="_d_s_matrix__gsl_8c.html#a8980e6c6dc06dbbda9cde939cff831cc">DSMatrix_gsl.c</a>
-, <a class="el" href="_d_s_matrix_8h.html#a8980e6c6dc06dbbda9cde939cff831cc">DSMatrix.h</a>
+: <a class="el" href="_d_s_matrix_8h.html#a8980e6c6dc06dbbda9cde939cff831cc">DSMatrix.h</a>
+, <a class="el" href="_d_s_matrix__gsl_8c.html#a8980e6c6dc06dbbda9cde939cff831cc">DSMatrix_gsl.c</a>
 </li>
 <li>DSMatrixSetDoubleValueAll()
 : <a class="el" href="_d_s_matrix_8h.html#a9c9214fc02b42105ba79ed810aa5249f">DSMatrix.h</a>
 , <a class="el" href="_d_s_matrix__gsl_8c.html#a9c9214fc02b42105ba79ed810aa5249f">DSMatrix_gsl.c</a>
+</li>
+<li>DSPostError
+: <a class="el" href="_d_s_i_o_8h.html#a40c3f80fe9e5002beb7d258e4f89c8d2">DSIO.h</a>
+</li>
+<li>DSPostFatalError
+: <a class="el" href="_d_s_i_o_8h.html#a41b7b42028f3c25f17ca479154c7492d">DSIO.h</a>
+</li>
+<li>DSPostWarning
+: <a class="el" href="_d_s_i_o_8h.html#af12cf032b729ba022698fadaccfea33d">DSIO.h</a>
 </li>
 <li>DSPrintf
 : <a class="el" href="_d_s_i_o_8h.html#a01ab8215975bf8e2086ad342cfa6be26">DSIO.h</a>
@@ -202,8 +200,8 @@ Here is a list of all documented functions, variables, defines, enums, and typed
 : <a class="el" href="group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y.html#ga3e1730e26b5f44a34e64d7996233d023">DSVariable.h</a>
 </li>
 <li>DSVariableFree()
-: <a class="el" href="_d_s_variable_8h.html#aac8fadf2969493124be37a1076a2b885">DSVariable.h</a>
-, <a class="el" href="_d_s_variable_8c.html#aac8fadf2969493124be37a1076a2b885">DSVariable.c</a>
+: <a class="el" href="_d_s_variable_8c.html#aac8fadf2969493124be37a1076a2b885">DSVariable.c</a>
+, <a class="el" href="_d_s_variable_8h.html#aac8fadf2969493124be37a1076a2b885">DSVariable.h</a>
 </li>
 <li>DSVariablePool
 : <a class="el" href="_d_s_types_8h.html#a67b340fa4a564cc84d27b3647ef1ad75">DSTypes.h</a>
@@ -225,8 +223,8 @@ Here is a list of all documented functions, variables, defines, enums, and typed
 , <a class="el" href="_d_s_variable_8h.html#ae8f75eb27aa14dda00f3251485d675ff">DSVariable.h</a>
 </li>
 <li>DSVariableRelease()
-: <a class="el" href="_d_s_variable_8c.html#a4d83eec85c4d9340593a359fd1d5e506">DSVariable.c</a>
-, <a class="el" href="_d_s_variable_8h.html#a4d83eec85c4d9340593a359fd1d5e506">DSVariable.h</a>
+: <a class="el" href="_d_s_variable_8h.html#a4d83eec85c4d9340593a359fd1d5e506">DSVariable.h</a>
+, <a class="el" href="_d_s_variable_8c.html#a4d83eec85c4d9340593a359fd1d5e506">DSVariable.c</a>
 </li>
 <li>DSVariableRetain()
 : <a class="el" href="_d_s_variable_8h.html#a1a5da69573335a86dea1e4a8a6770ea3">DSVariable.h</a>
@@ -280,7 +278,8 @@ Here is a list of all documented functions, variables, defines, enums, and typed
 : <a class="el" href="_d_s_variable_8c.html#aa807b488d1b5c23e628a63e99ef8d0d9">DSVariable.c</a>
 </li>
 <li>printVarDictionary()
-: <a class="el" href="_d_s_variable_8c.html#af16c50cbfa9139ef9e0dd828617816f2">DSVariable.c</a>
+: <a class="el" href="_d_s_variable_8h.html#acbb9a673f3f91834137f2bde14911f8d">DSVariable.h</a>
+, <a class="el" href="_d_s_variable_8c.html#acbb9a673f3f91834137f2bde14911f8d">DSVariable.c</a>
 </li>
 </ul>
 </div>
@@ -289,7 +288,7 @@ Here is a list of all documented functions, variables, defines, enums, and typed
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -298,7 +297,7 @@ Here is a list of all documented functions, variables, defines, enums, and typed
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Jul 22 15:46:34 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:35 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

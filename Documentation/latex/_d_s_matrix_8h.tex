@@ -77,14 +77,9 @@ void \hyperlink{_d_s_matrix_8h_ae5fc6bceef5e7e9e2c6300a86bdfb5fc}{DSMatrixFree} 
 \begin{DoxyCompactList}\small\item\em Allocates a new \hyperlink{struct_d_s_matrix}{DSMatrix} as an identity matrix. \item\end{DoxyCompactList}\item 
 \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ \hyperlink{_d_s_matrix_8h_a8980e6c6dc06dbbda9cde939cff831cc}{DSMatrixRandomNumbers} (const DSUInteger rows, const DSUInteger columns)
 \begin{DoxyCompactList}\small\item\em Allocates a new \hyperlink{struct_d_s_matrix}{DSMatrix} with random values between 0 and 1. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_matrix_8h_a3edb9316d7702cdb72c73e08b15a8158}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixWithVariablePoolValues} (const void $\ast$variablePool)}
-\label{_d_s_matrix_8h_a3edb9316d7702cdb72c73e08b15a8158}
-
-\item 
-\hypertarget{_d_s_matrix_8h_abc810db5fab16f43f5279815726577de}{
-double {\bfseries DSMatrixDoubleValue} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix, const DSUInteger row, const DSUInteger column)}
-\label{_d_s_matrix_8h_abc810db5fab16f43f5279815726577de}
+\hypertarget{_d_s_matrix_8h_ad542fab68c7147002d3e5d4b136f188b}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixWithVariablePoolValues} (const \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$variablePool)}
+\label{_d_s_matrix_8h_ad542fab68c7147002d3e5d4b136f188b}
 
 \item 
 \hypertarget{_d_s_matrix_8h_acdf23ab773e0822d370c5cedf8ef52a6}{
@@ -97,6 +92,8 @@ void {\bfseries DSMatrixSetColumns} (\hyperlink{struct_d_s_matrix}{DSMatrix} $\a
 \label{_d_s_matrix_8h_adf7db42a38601dc8ccc254aae94ab42d}
 
 \item 
+double \hyperlink{_d_s_matrix_8h_abc810db5fab16f43f5279815726577de}{DSMatrixDoubleValue} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix, const DSUInteger row, const DSUInteger column)
+\begin{DoxyCompactList}\small\item\em Returns the element of the \hyperlink{struct_d_s_matrix}{DSMatrix} specified by a row and column. \item\end{DoxyCompactList}\item 
 \hypertarget{_d_s_matrix_8h_a78ca87769f9a2f7adaddaf89ddc4fe76}{
 void {\bfseries DSMatrixSetDoubleValue} (\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix, const DSUInteger row, const DSUInteger column, const double value)}
 \label{_d_s_matrix_8h_a78ca87769f9a2f7adaddaf89ddc4fe76}
@@ -382,6 +379,23 @@ Creates a new matrix with the exact same size and contents as some other matrix.
 \item[{\em original}]The \hyperlink{struct_d_s_matrix}{DSMatrix} to be copied.\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 If the copy was succesful, a pointer to a copy of the \hyperlink{struct_d_s_matrix}{DSMatrix} is returned. Otherwise, NULL is returned. 
+\end{DoxyReturn}
+\hypertarget{_d_s_matrix_8h_abc810db5fab16f43f5279815726577de}{
+\index{DSMatrix.h@{DSMatrix.h}!DSMatrixDoubleValue@{DSMatrixDoubleValue}}
+\index{DSMatrixDoubleValue@{DSMatrixDoubleValue}!DSMatrix.h@{DSMatrix.h}}
+\subsubsection[{DSMatrixDoubleValue}]{\setlength{\rightskip}{0pt plus 5cm}double DSMatrixDoubleValue (const {\bf DSMatrix} $\ast$ {\em matrix}, \/  const DSUInteger {\em row}, \/  const DSUInteger {\em column})}}
+\label{_d_s_matrix_8h_abc810db5fab16f43f5279815726577de}
+
+
+Returns the element of the \hyperlink{struct_d_s_matrix}{DSMatrix} specified by a row and column. 
+
+Returns an element of the matrix, with indices i and j starting at 0.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em matrix}]The \hyperlink{struct_d_s_matrix}{DSMatrix} whose elements will be accessed. \item[{\em row}]A DSUInteger specifying the row coordinate of the element to be accessed. \item[{\em column}]A DSUInteger specifying the column coordinate of the element to be accessed.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If the value was succesfully retrieved, the double value contained at the row and column coordinate of the \hyperlink{struct_d_s_matrix}{DSMatrix} is returned. Otherwise, NaN is returned. 
 \end{DoxyReturn}
 \hypertarget{_d_s_matrix_8h_ae5fc6bceef5e7e9e2c6300a86bdfb5fc}{
 \index{DSMatrix.h@{DSMatrix.h}!DSMatrixFree@{DSMatrixFree}}

@@ -41,6 +41,8 @@
 #include "DSVariable.h"
 #include "DSMatrix.h"
 #include "DSMatrixArray.h"
+#include "DSExpression.h"
+#include "DSGMASystem.h"
 
 #ifndef __DS_STD_INCLUDE__
 #define __DS_STD_INCLUDE__
@@ -49,8 +51,10 @@
 __BEGIN_DECLS
 #endif
 
-
-
+#define free(x) DSSecureFree(x)
+#define malloc(x) DSSecureMalloc(x)
+#define calloc(x, y) DSSecureCalloc(x, y)
+#define realloc(x, y) DSSecureRealloc(x, y)
 
 #ifdef __cplusplus
 __END_DECLS

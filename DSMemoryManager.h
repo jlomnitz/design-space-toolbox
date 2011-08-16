@@ -38,9 +38,9 @@
 __BEGIN_DECLS
 #endif
 
-extern void * DSSecureMalloc(DSInteger size);
-extern void * DSSecureCalloc(DSInteger count, DSInteger size);
-extern void * DSSecureRealloc(void *ptr, DSInteger size);
+extern void * DSSecureMalloc(size_t size);
+extern void * DSSecureCalloc(size_t count, size_t size);
+extern void * DSSecureRealloc(void *ptr, size_t size);
 extern void DSSecureFree(void * ptr);
 
 #ifdef __cplusplus

@@ -81,14 +81,14 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSIOSetPostFatalError
 <tr><td colspan="2"><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a01ab8215975bf8e2086ad342cfa6be26">DSPrintf</a> )(const char *,...)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Pointer to a function determining how messages are printed.  <a href="#a01ab8215975bf8e2086ad342cfa6be26"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af12cf032b729ba022698fadaccfea33d"></a><!-- doxytag: member="DSIO.h::DSPostWarning" ref="af12cf032b729ba022698fadaccfea33d" args=")(const char *message)" -->
-void(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSPostWarning</b> )(const char *message)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a40c3f80fe9e5002beb7d258e4f89c8d2"></a><!-- doxytag: member="DSIO.h::DSPostError" ref="a40c3f80fe9e5002beb7d258e4f89c8d2" args=")(const char *message)" -->
-void(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSPostError</b> )(const char *message)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41b7b42028f3c25f17ca479154c7492d"></a><!-- doxytag: member="DSIO.h::DSPostFatalError" ref="a41b7b42028f3c25f17ca479154c7492d" args=")(const char *message)" -->
-void(*&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSPostFatalError</b> )(const char *message)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af8405bae84409f99d5fa564ebaff4c91"></a><!-- doxytag: member="DSIO.h::DSIOErrorFile" ref="af8405bae84409f99d5fa564ebaff4c91" args="" -->
-FILE *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSIOErrorFile</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#af12cf032b729ba022698fadaccfea33d">DSPostWarning</a> )(const char *message)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Pointer to a function determining how warning are handled.  <a href="#af12cf032b729ba022698fadaccfea33d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a40c3f80fe9e5002beb7d258e4f89c8d2">DSPostError</a> )(const char *message)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Pointer to a function determining how errors are handled.  <a href="#a40c3f80fe9e5002beb7d258e4f89c8d2"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a41b7b42028f3c25f17ca479154c7492d">DSPostFatalError</a> )(const char *message)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Pointer to a function determining how fatal errors are handled.  <a href="#a41b7b42028f3c25f17ca479154c7492d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">FILE *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#af8405bae84409f99d5fa564ebaff4c91">DSIOErrorFile</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">FILE pointer used for default error/warning printing.  <a href="#af8405bae84409f99d5fa564ebaff4c91"></a><br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Header file with standard input and output functions. </p>
@@ -101,8 +101,8 @@ FILE *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSIOErrorFile</b></
 <p>You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 <dl class="author"><dt><b>Author:</b></dt><dd>Jason Lomnitz. </dd></dl>
 <dl class="date"><dt><b>Date:</b></dt><dd>2011</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd><p class="startdd">Add 'plug-in' for printf function. </p>
-<p class="enddd">Define standard input and output file formats.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd><p class="startdd">Define standard input and output file formats. </p>
+<p class="enddd">Define criteria for warnings, errors and fatal errors.</p>
 </dd></dl>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="a71e4035e82cf614f1be280b127213ca6"></a><!-- doxytag: member="DSIO.h::DSIOSetErrorFile" ref="a71e4035e82cf614f1be280b127213ca6" args="(FILE *aFile)" -->
@@ -140,6 +140,76 @@ DSIOSetPostFatalErrorFunction </dd>
 </div>
 </div>
 <hr/><h2>Variable Documentation</h2>
+<a class="anchor" id="af8405bae84409f99d5fa564ebaff4c91"></a><!-- doxytag: member="DSIO.h::DSIOErrorFile" ref="af8405bae84409f99d5fa564ebaff4c91" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FILE* <a class="el" href="_d_s_i_o_8h.html#af8405bae84409f99d5fa564ebaff4c91">DSIOErrorFile</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>FILE pointer used for default error/warning printing. </p>
+<p>This pointer to a FILE tells the error handling system which FILE to print the error messages to. If this pointer is NULL, then the system sets it to the stderr file. This variable is only used internally with the default behavior of DSErrorFunction. To change the error file, the function DSIOSetErrorFile should be used in order to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_i_o_8h.html#a71e4035e82cf614f1be280b127213ca6" title="Function to assign default error file.">DSIOSetErrorFile</a> </dd>
+<dd>
+<a class="el" href="_d_s_errors_8h.html#a363f9c264b785ec509da1b11af9ae314" title="Implicit error handling function. Called by DSError which automatically adds file...">DSErrorFunction</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a40c3f80fe9e5002beb7d258e4f89c8d2"></a><!-- doxytag: member="DSIO.h::DSPostError" ref="a40c3f80fe9e5002beb7d258e4f89c8d2" args=")(const char *message)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* <a class="el" href="_d_s_i_o_8h.html#a40c3f80fe9e5002beb7d258e4f89c8d2">DSPostError</a>)(const char *message)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Pointer to a function determining how errors are handled. </p>
+<p>This pointer to a function is used by DSErrorFunction to post erros. This pointer should be used to allow better integration of errors in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the error message. To change the function used, the function DSIOSetPostErrorFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd>DSIOSetPostErrorFunction </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a41b7b42028f3c25f17ca479154c7492d"></a><!-- doxytag: member="DSIO.h::DSPostFatalError" ref="a41b7b42028f3c25f17ca479154c7492d" args=")(const char *message)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* <a class="el" href="_d_s_i_o_8h.html#a41b7b42028f3c25f17ca479154c7492d">DSPostFatalError</a>)(const char *message)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Pointer to a function determining how fatal errors are handled. </p>
+<p>This pointer to a function is used by DSErrorFunction to post fatal erros. This pointer should be used to allow better integration of errors in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the error message. To change the function used, the function DSIOSetPostFatalErrorFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd>DSIOSetPostErrorFunction </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af12cf032b729ba022698fadaccfea33d"></a><!-- doxytag: member="DSIO.h::DSPostWarning" ref="af12cf032b729ba022698fadaccfea33d" args=")(const char *message)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* <a class="el" href="_d_s_i_o_8h.html#af12cf032b729ba022698fadaccfea33d">DSPostWarning</a>)(const char *message)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Pointer to a function determining how warning are handled. </p>
+<p>This pointer to a function is used by DSErrorFunction to post warnings. This pointer should be used to allow better integration of warnings in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the warning message. To change the function used, the function DSIOSetPostWarningFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd>DSIOSetPostWarningFunction </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a01ab8215975bf8e2086ad342cfa6be26"></a><!-- doxytag: member="DSIO.h::DSPrintf" ref="a01ab8215975bf8e2086ad342cfa6be26" args=")(const char *,...)" -->
 <div class="memitem">
 <div class="memproto">
@@ -163,7 +233,7 @@ DSIOSetPostFatalErrorFunction </dd>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -172,7 +242,7 @@ DSIOSetPostFatalErrorFunction </dd>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Jul 22 15:46:31 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:34 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -53,26 +53,14 @@ void {\bfseries DSIOSetPostFatalErrorFunction} (void($\ast$fatalErrorFunction)(c
 \item 
 int($\ast$ \hyperlink{_d_s_i_o_8h_a01ab8215975bf8e2086ad342cfa6be26}{DSPrintf} )(const char $\ast$,...)
 \begin{DoxyCompactList}\small\item\em Pointer to a function determining how messages are printed. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_i_o_8h_af12cf032b729ba022698fadaccfea33d}{
-void($\ast$ {\bfseries DSPostWarning} )(const char $\ast$message)}
-\label{_d_s_i_o_8h_af12cf032b729ba022698fadaccfea33d}
-
-\item 
-\hypertarget{_d_s_i_o_8h_a40c3f80fe9e5002beb7d258e4f89c8d2}{
-void($\ast$ {\bfseries DSPostError} )(const char $\ast$message)}
-\label{_d_s_i_o_8h_a40c3f80fe9e5002beb7d258e4f89c8d2}
-
-\item 
-\hypertarget{_d_s_i_o_8h_a41b7b42028f3c25f17ca479154c7492d}{
-void($\ast$ {\bfseries DSPostFatalError} )(const char $\ast$message)}
-\label{_d_s_i_o_8h_a41b7b42028f3c25f17ca479154c7492d}
-
-\item 
-\hypertarget{_d_s_i_o_8h_af8405bae84409f99d5fa564ebaff4c91}{
-FILE $\ast$ {\bfseries DSIOErrorFile}}
-\label{_d_s_i_o_8h_af8405bae84409f99d5fa564ebaff4c91}
-
-\end{DoxyCompactItemize}
+void($\ast$ \hyperlink{_d_s_i_o_8h_af12cf032b729ba022698fadaccfea33d}{DSPostWarning} )(const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Pointer to a function determining how warning are handled. \item\end{DoxyCompactList}\item 
+void($\ast$ \hyperlink{_d_s_i_o_8h_a40c3f80fe9e5002beb7d258e4f89c8d2}{DSPostError} )(const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Pointer to a function determining how errors are handled. \item\end{DoxyCompactList}\item 
+void($\ast$ \hyperlink{_d_s_i_o_8h_a41b7b42028f3c25f17ca479154c7492d}{DSPostFatalError} )(const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Pointer to a function determining how fatal errors are handled. \item\end{DoxyCompactList}\item 
+FILE $\ast$ \hyperlink{_d_s_i_o_8h_af8405bae84409f99d5fa564ebaff4c91}{DSIOErrorFile}
+\begin{DoxyCompactList}\small\item\em FILE pointer used for default error/warning printing. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -95,9 +83,9 @@ Jason Lomnitz.
 2011
 \end{DoxyDate}
 \begin{Desc}
-\item[\hyperlink{todo__todo000001}{Todo}]Add 'plug-\/in' for printf function. 
+\item[\hyperlink{todo__todo000001}{Todo}]Define standard input and output file formats. 
 
-Define standard input and output file formats.\end{Desc}
+Define criteria for warnings, errors and fatal errors.\end{Desc}
 
 
 \subsection{Function Documentation}
@@ -127,6 +115,64 @@ DSIOSetPostFatalErrorFunction
 
 
 \subsection{Variable Documentation}
+\hypertarget{_d_s_i_o_8h_af8405bae84409f99d5fa564ebaff4c91}{
+\index{DSIO.h@{DSIO.h}!DSIOErrorFile@{DSIOErrorFile}}
+\index{DSIOErrorFile@{DSIOErrorFile}!DSIO.h@{DSIO.h}}
+\subsubsection[{DSIOErrorFile}]{\setlength{\rightskip}{0pt plus 5cm}FILE$\ast$ {\bf DSIOErrorFile}}}
+\label{_d_s_i_o_8h_af8405bae84409f99d5fa564ebaff4c91}
+
+
+FILE pointer used for default error/warning printing. 
+
+This pointer to a FILE tells the error handling system which FILE to print the error messages to. If this pointer is NULL, then the system sets it to the stderr file. This variable is only used internally with the default behavior of DSErrorFunction. To change the error file, the function DSIOSetErrorFile should be used in order to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8h_a71e4035e82cf614f1be280b127213ca6}{DSIOSetErrorFile} 
+
+\hyperlink{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8h_a40c3f80fe9e5002beb7d258e4f89c8d2}{
+\index{DSIO.h@{DSIO.h}!DSPostError@{DSPostError}}
+\index{DSPostError@{DSPostError}!DSIO.h@{DSIO.h}}
+\subsubsection[{DSPostError}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf DSPostError})(const char $\ast$message)}}
+\label{_d_s_i_o_8h_a40c3f80fe9e5002beb7d258e4f89c8d2}
+
+
+Pointer to a function determining how errors are handled. 
+
+This pointer to a function is used by DSErrorFunction to post erros. This pointer should be used to allow better integration of errors in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the error message. To change the function used, the function DSIOSetPostErrorFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.
+
+\begin{DoxySeeAlso}{See also}
+DSIOSetPostErrorFunction 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8h_a41b7b42028f3c25f17ca479154c7492d}{
+\index{DSIO.h@{DSIO.h}!DSPostFatalError@{DSPostFatalError}}
+\index{DSPostFatalError@{DSPostFatalError}!DSIO.h@{DSIO.h}}
+\subsubsection[{DSPostFatalError}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf DSPostFatalError})(const char $\ast$message)}}
+\label{_d_s_i_o_8h_a41b7b42028f3c25f17ca479154c7492d}
+
+
+Pointer to a function determining how fatal errors are handled. 
+
+This pointer to a function is used by DSErrorFunction to post fatal erros. This pointer should be used to allow better integration of errors in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the error message. To change the function used, the function DSIOSetPostFatalErrorFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.
+
+\begin{DoxySeeAlso}{See also}
+DSIOSetPostErrorFunction 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8h_af12cf032b729ba022698fadaccfea33d}{
+\index{DSIO.h@{DSIO.h}!DSPostWarning@{DSPostWarning}}
+\index{DSPostWarning@{DSPostWarning}!DSIO.h@{DSIO.h}}
+\subsubsection[{DSPostWarning}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf DSPostWarning})(const char $\ast$message)}}
+\label{_d_s_i_o_8h_af12cf032b729ba022698fadaccfea33d}
+
+
+Pointer to a function determining how warning are handled. 
+
+This pointer to a function is used by DSErrorFunction to post warnings. This pointer should be used to allow better integration of warnings in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the warning message. To change the function used, the function DSIOSetPostWarningFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.
+
+\begin{DoxySeeAlso}{See also}
+DSIOSetPostWarningFunction 
+\end{DoxySeeAlso}
 \hypertarget{_d_s_i_o_8h_a01ab8215975bf8e2086ad342cfa6be26}{
 \index{DSIO.h@{DSIO.h}!DSPrintf@{DSPrintf}}
 \index{DSPrintf@{DSPrintf}!DSIO.h@{DSIO.h}}

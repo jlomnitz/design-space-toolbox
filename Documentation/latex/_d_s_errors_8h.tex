@@ -98,8 +98,11 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\_\-\_\-deprecated void \hyperlink{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}{DSErrorSetPrintFunction} (void($\ast$function)(const char $\ast$restrict))
-\begin{DoxyCompactList}\small\item\em FILE pointer used for default DSPrintFunction. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}{
+\_\-\_\-deprecated void {\bfseries DSErrorSetPrintFunction} (void($\ast$function)(const char $\ast$restrict))}
+\label{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}
+
+\item 
 \hypertarget{_d_s_errors_8h_a3b412662349f03e9fc9fbb782ec3b373}{
 \_\-\_\-deprecated void {\bfseries DSErrorSetErrorFile} (FILE $\ast$aFile)}
 \label{_d_s_errors_8h_a3b412662349f03e9fc9fbb782ec3b373}
@@ -145,11 +148,11 @@ Error reporting macro.
 Definition of the error reporting macro used within the DesignSpace C toolbox, this is a define which takes a string, which may be a standard message, and an action and reports it via the standard warning and error posting functions in the standard IO functions. A default behavior of the DSError macro posts warning and errors to stderr, while a fatal error posts the error to stderr and aborts the program.
 
 \begin{DoxySeeAlso}{See also}
-DSPostWarning 
+\hyperlink{_d_s_i_o_8h_af12cf032b729ba022698fadaccfea33d}{DSPostWarning} 
 
-DSPostError 
+\hyperlink{_d_s_i_o_8h_a40c3f80fe9e5002beb7d258e4f89c8d2}{DSPostError} 
 
-DSPostFatalError
+\hyperlink{_d_s_i_o_8h_a41b7b42028f3c25f17ca479154c7492d}{DSPostFatalError}
 
 \hyperlink{group___m___d_s___messages}{Messages for DS Errors.} 
 
@@ -173,20 +176,4 @@ This function is called implicity when using the DSError macro. The DSError adds
 \hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError} 
 
 \hyperlink{group___a___d_s___actions}{Actions for DS Errors.} 
-\end{DoxySeeAlso}
-\hypertarget{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}{
-\index{DSErrors.h@{DSErrors.h}!DSErrorSetPrintFunction@{DSErrorSetPrintFunction}}
-\index{DSErrorSetPrintFunction@{DSErrorSetPrintFunction}!DSErrors.h@{DSErrors.h}}
-\subsubsection[{DSErrorSetPrintFunction}]{\setlength{\rightskip}{0pt plus 5cm}\_\-\_\-deprecated void DSErrorSetPrintFunction (void($\ast$)(const char $\ast$restrict) {\em function})}}
-\label{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}
-
-
-FILE pointer used for default DSPrintFunction. 
-
-This pointer to a FILE tells the error handling system which FILE to print the error messages to. If this pointer is NULL, then the system uses the stderr file. This variable is only used internally with the default behavior of DSErrorFunction, however, it is intended to be used with custom functions.
-
-\begin{DoxySeeAlso}{See also}
-DSPrintFunction 
-
-\hyperlink{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} 
 \end{DoxySeeAlso}

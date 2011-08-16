@@ -75,10 +75,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af86fc5cdaf2e11d46f2aa2201d74f0a4"></a><!-- doxytag: member="DSErrors.c::STACK_TRACE_NUM" ref="af86fc5cdaf2e11d46f2aa2201d74f0a4" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>STACK_TRACE_NUM</b>&nbsp;&nbsp;&nbsp;10</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a849adc9d20371988bb26f86618fa75ba"></a><!-- doxytag: member="DSErrors.c::MSIZE" ref="a849adc9d20371988bb26f86618fa75ba" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>MSIZE</b>&nbsp;&nbsp;&nbsp;1200</td></tr>
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>MSIZE</b>&nbsp;&nbsp;&nbsp;1500</td></tr>
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_errors_8c.html#a835a62d5dadb2499cc180b27fb77868e">DSErrorSetPrintFunction</a> (void(*function)(const char *restrict))</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">FILE pointer used for default DSPrintFunction.  <a href="#a835a62d5dadb2499cc180b27fb77868e"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a835a62d5dadb2499cc180b27fb77868e"></a><!-- doxytag: member="DSErrors.c::DSErrorSetPrintFunction" ref="a835a62d5dadb2499cc180b27fb77868e" args="(void(*function)(const char *restrict))" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetPrintFunction</b> (void(*function)(const char *restrict))</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b43fbbf45cfa65d56dbe161948afe18"></a><!-- doxytag: member="DSErrors.c::DSErrorSetErrorFile" ref="a4b43fbbf45cfa65d56dbe161948afe18" args="(FILE *aFile)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</b> (FILE *aFile)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_errors_8c.html#a363f9c264b785ec509da1b11af9ae314">DSErrorFunction</a> (const char *M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char *FUNC)</td></tr>
@@ -86,7 +86,14 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Implementation file with functions for error and exception handling. </p>
-<p>This file specifies the design space standard for error handling. Contained here are the necessary macros and functions to succesfully report the errors throughout the design space library.</p>
+<p>This file specifies the design space standard for error handling. Contained here are the necessary macros and functions to report the errors throughout the design space library. The DSErrorFunction allows different behaviors; the default behavior, errors are printed to the DSIOErrorFile, which is set to stderr by default. This behavior can be changed by setting changing DSPostWarning, DSPostError and DSPostFatalError function pointers.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_i_o_8h.html#af8405bae84409f99d5fa564ebaff4c91" title="FILE pointer used for default error/warning printing.">DSIOErrorFile</a> </dd>
+<dd>
+<a class="el" href="_d_s_i_o_8h.html#af12cf032b729ba022698fadaccfea33d" title="Pointer to a function determining how warning are handled.">DSPostWarning</a> </dd>
+<dd>
+<a class="el" href="_d_s_i_o_8h.html#a40c3f80fe9e5002beb7d258e4f89c8d2" title="Pointer to a function determining how errors are handled.">DSPostError</a> </dd>
+<dd>
+<a class="el" href="_d_s_i_o_8h.html#a41b7b42028f3c25f17ca479154c7492d" title="Pointer to a function determining how fatal errors are handled.">DSPostFatalError</a></dd></dl>
 <p>Copyright (C) 2011 Jason Lomnitz.<br/>
 <br/>
 </p>
@@ -148,37 +155,13 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</
 
 </div>
 </div>
-<a class="anchor" id="a835a62d5dadb2499cc180b27fb77868e"></a><!-- doxytag: member="DSErrors.c::DSErrorSetPrintFunction" ref="a835a62d5dadb2499cc180b27fb77868e" args="(void(*function)(const char *restrict))" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void DSErrorSetPrintFunction </td>
-          <td>(</td>
-          <td class="paramtype">void(*)(const char *restrict)&nbsp;</td>
-          <td class="paramname"> <em>function</em></td>
-          <td>&nbsp;)&nbsp;</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>FILE pointer used for default DSPrintFunction. </p>
-<p>This pointer to a FILE tells the error handling system which FILE to print the error messages to. If this pointer is NULL, then the system uses the stderr file. This variable is only used internally with the default behavior of DSErrorFunction, however, it is intended to be used with custom functions.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd>DSPrintFunction </dd>
-<dd>
-<a class="el" href="_d_s_errors_8h.html#a363f9c264b785ec509da1b11af9ae314" title="Implicit error handling function. Called by DSError which automatically adds file...">DSErrorFunction</a> </dd></dl>
-
-</div>
-</div>
 </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -187,7 +170,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Jul 22 15:46:25 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:34 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

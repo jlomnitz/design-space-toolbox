@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  22 JUL 2011 15:48
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  26 JUL 2011 10:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -964,18 +964,18 @@ LaTeX Font Info:    Try loading font information for T1+pcr on input line 12.
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 Package epstopdf Info: Source file: <struct__var_dictionary__coll__graph.eps>
-(epstopdf)                    date: 2011-06-24 18:04:50
+(epstopdf)                    date: 2011-06-24 20:04:50
 (epstopdf)                    size: 6890 bytes
 (epstopdf)             Output file: <struct__var_dictionary__coll__graph-eps-co
 nverted-to.pdf>
-(epstopdf)                    date: 2011-06-24 18:16:39
+(epstopdf)                    date: 2011-06-24 20:16:39
 (epstopdf)                    size: 5559 bytes
 (epstopdf)             Command: <repstopdf --outfile=struct__var_dictionary__co
 ll__graph-eps-converted-to.pdf struct__var_dictionary__coll__graph.eps>
 (epstopdf)             \includegraphics on input line 20.
 Package epstopdf Info: Output file is already uptodate.
 
-<struct__var_dictionary__coll__graph-eps-converted-to.pdf, id=941, 153.57375pt 
+<struct__var_dictionary__coll__graph-eps-converted-to.pdf, id=954, 153.57375pt 
 x 94.3525pt>
 File: struct__var_dictionary__coll__graph-eps-converted-to.pdf Graphic file (ty
 pe pdf)
@@ -998,7 +998,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout2 = `struct_d_s_matrix_array.aux'.
 
  (./struct_d_s_matrix_array.tex
-<struct_d_s_matrix_array__coll__graph.pdf, id=984, 107.40125pt x 90.3375pt>
+<struct_d_s_matrix_array__coll__graph.pdf, id=997, 107.40125pt x 90.3375pt>
 File: struct_d_s_matrix_array__coll__graph.pdf Graphic file (type pdf)
 
 <use struct_d_s_matrix_array__coll__graph.pdf>) [16
@@ -1009,18 +1009,18 @@ File: struct_d_s_matrix_array__coll__graph.pdf Graphic file (type pdf)
 
  (./struct_d_s_s_system.tex
 Package epstopdf Info: Source file: <struct_d_s_s_system__coll__graph.eps>
-(epstopdf)                    date: 2011-06-24 18:04:51
+(epstopdf)                    date: 2011-06-24 20:04:51
 (epstopdf)                    size: 6530 bytes
 (epstopdf)             Output file: <struct_d_s_s_system__coll__graph-eps-conve
 rted-to.pdf>
-(epstopdf)                    date: 2011-06-24 18:16:39
+(epstopdf)                    date: 2011-06-24 20:16:39
 (epstopdf)                    size: 5719 bytes
 (epstopdf)             Command: <repstopdf --outfile=struct_d_s_s_system__coll_
 _graph-eps-converted-to.pdf struct_d_s_s_system__coll__graph.eps>
 (epstopdf)             \includegraphics on input line 20.
 Package epstopdf Info: Output file is already uptodate.
 
-<struct_d_s_s_system__coll__graph-eps-converted-to.pdf, id=1001, 90.3375pt x 15
+<struct_d_s_s_system__coll__graph-eps-converted-to.pdf, id=1014, 90.3375pt x 15
 0.5625pt>
 File: struct_d_s_s_system__coll__graph-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -1052,18 +1052,18 @@ pdf)
 
  (./unionyyalloc.tex
 Package epstopdf Info: Source file: <unionyyalloc__coll__graph.eps>
-(epstopdf)                    date: 2011-06-24 18:04:52
+(epstopdf)                    date: 2011-06-24 20:04:52
 (epstopdf)                    size: 6312 bytes
 (epstopdf)             Output file: <unionyyalloc__coll__graph-eps-converted-to
 .pdf>
-(epstopdf)                    date: 2011-06-24 18:16:40
+(epstopdf)                    date: 2011-06-24 20:16:40
 (epstopdf)                    size: 5157 bytes
 (epstopdf)             Command: <repstopdf --outfile=unionyyalloc__coll__graph-
 eps-converted-to.pdf unionyyalloc__coll__graph.eps>
 (epstopdf)             \includegraphics on input line 11.
 Package epstopdf Info: Output file is already uptodate.
 
-<unionyyalloc__coll__graph-eps-converted-to.pdf, id=1065, 72.27pt x 90.3375pt>
+<unionyyalloc__coll__graph-eps-converted-to.pdf, id=1083, 72.27pt x 90.3375pt>
 File: unionyyalloc__coll__graph-eps-converted-to.pdf Graphic file (type pdf)
 
 <use unionyyalloc__coll__graph-eps-converted-to.pdf>) [21
@@ -1078,11 +1078,11 @@ File: unionyyalloc__coll__graph-eps-converted-to.pdf Graphic file (type pdf)
 ]
 Chapter 7.
 (./_d_s_errors_8c.tex
-<_d_s_errors_8c__incl.pdf, id=1086, 395.4775pt x 190.7125pt>
+<_d_s_errors_8c__incl.pdf, id=1104, 395.4775pt x 190.7125pt>
 File: _d_s_errors_8c__incl.pdf Graphic file (type pdf)
 
 <use _d_s_errors_8c__incl.pdf>
-<_d_s_errors_8c__dep__incl.pdf, id=1087, 100.375pt x 22.0825pt>
+<_d_s_errors_8c__dep__incl.pdf, id=1105, 100.375pt x 22.0825pt>
 File: _d_s_errors_8c__dep__incl.pdf Graphic file (type pdf)
 
 <use _d_s_errors_8c__dep__incl.pdf>
@@ -1093,17 +1093,17 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  <./_d_s_errors_8c__incl.pdf>]
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 88.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 100.
  [24 <./_d_s_errors_8c__dep__incl.pdf>]) [25]
 \openout2 = `_d_s_errors_8h.aux'.
 
 
 (./_d_s_errors_8h.tex
-<_d_s_errors_8h__incl.pdf, id=1126, 268.00125pt x 134.5025pt>
+<_d_s_errors_8h__incl.pdf, id=1150, 268.00125pt x 134.5025pt>
 File: _d_s_errors_8h__incl.pdf Graphic file (type pdf)
 
 <use _d_s_errors_8h__incl.pdf>
-<_d_s_errors_8h__dep__incl.pdf, id=1127, 642.4pt x 134.5025pt>
+<_d_s_errors_8h__dep__incl.pdf, id=1151, 642.4pt x 134.5025pt>
 File: _d_s_errors_8h__dep__incl.pdf Graphic file (type pdf)
 
 <use _d_s_errors_8h__dep__incl.pdf>pdfTeX warning (ext4): destination with the 
@@ -1174,39 +1174,39 @@ Underfull \hbox (badness 1881) in paragraph at lines 96--97
 rFunction(M_-DS_-Message, A_-DS_-
  []
 
-[27] [28]) [29]
+[27]) [28]
 \openout2 = `_d_s_i_o_8c.aux'.
 
  (./_d_s_i_o_8c.tex
-<_d_s_i_o_8c__incl.pdf, id=1185, 317.185pt x 190.7125pt>
+<_d_s_i_o_8c__incl.pdf, id=1205, 317.185pt x 190.7125pt>
 File: _d_s_i_o_8c__incl.pdf Graphic file (type pdf)
 
-<use _d_s_i_o_8c__incl.pdf> [30
+<use _d_s_i_o_8c__incl.pdf> [29
 
 
- <./_d_s_i_o_8c__incl.pdf>]) [31]
+ <./_d_s_i_o_8c__incl.pdf>]) [30]
 \openout2 = `_d_s_i_o_8h.aux'.
 
 
-(./_d_s_i_o_8h.tex <_d_s_i_o_8h__incl.pdf, id=1208, 290.08376pt x 190.7125pt>
+(./_d_s_i_o_8h.tex <_d_s_i_o_8h__incl.pdf, id=1229, 290.08376pt x 190.7125pt>
 File: _d_s_i_o_8h__incl.pdf Graphic file (type pdf)
 
 <use _d_s_i_o_8h__incl.pdf>
-<_d_s_i_o_8h__dep__incl.pdf, id=1209, 675.52374pt x 190.7125pt>
+<_d_s_i_o_8h__dep__incl.pdf, id=1230, 675.52374pt x 190.7125pt>
 File: _d_s_i_o_8h__dep__incl.pdf Graphic file (type pdf)
 
-<use _d_s_i_o_8h__dep__incl.pdf> [32
+<use _d_s_i_o_8h__dep__incl.pdf> [31
 
 
- <./_d_s_i_o_8h__incl.pdf> <./_d_s_i_o_8h__dep__incl.pdf>] [33]) [34]
+ <./_d_s_i_o_8h__incl.pdf> <./_d_s_i_o_8h__dep__incl.pdf>] [32] [33]) [34]
 \openout2 = `_d_s_matrix_8h.aux'.
 
  (./_d_s_matrix_8h.tex
-<_d_s_matrix_8h__incl.pdf, id=1250, 238.8925pt x 134.5025pt>
+<_d_s_matrix_8h__incl.pdf, id=1277, 238.8925pt x 134.5025pt>
 File: _d_s_matrix_8h__incl.pdf Graphic file (type pdf)
 
 <use _d_s_matrix_8h__incl.pdf>
-<_d_s_matrix_8h__dep__incl.pdf, id=1251, 342.27875pt x 134.5025pt>
+<_d_s_matrix_8h__dep__incl.pdf, id=1278, 342.27875pt x 134.5025pt>
 File: _d_s_matrix_8h__dep__incl.pdf Graphic file (type pdf)
 
 <use _d_s_matrix_8h__dep__incl.pdf>pdfTeX warning (ext4): destination with the 
@@ -1231,7 +1231,7 @@ l.39 ...~\char`\"{}Matrix data is empty\char`\"{}}
 
 
  <./_d_s_matrix_8h__incl.pdf> <./_d_s_matrix_8h__dep__incl.pdf>] [36]
-Underfull \hbox (badness 8094) in paragraph at lines 178--180
+Underfull \hbox (badness 8094) in paragraph at lines 175--177
 [][][]\T1/ptm/m/n/10 DSMatrix[][] $\OMS/cmsy/m/n/10 ^^C$ \T1/ptm/b/n/10 DS-Ma-t
 rixAp-pend-Ma-tri-ces \T1/ptm/m/n/10 (const [][]DS-Ma-trix[][] $\OMS/cmsy/m/n/1
 0 ^^C$\T1/ptm/m/n/10 firstMatrix, const [][]DS-Ma-trix[][]
@@ -1241,23 +1241,23 @@ rixAp-pend-Ma-tri-ces \T1/ptm/m/n/10 (const [][]DS-Ma-trix[][] $\OMS/cmsy/m/n/1
 \openout2 = `_d_s_matrix__gsl_8c.aux'.
 
  (./_d_s_matrix__gsl_8c.tex
-<_d_s_matrix__gsl_8c__incl.pdf, id=1476, 684.5575pt x 303.1325pt>
+<_d_s_matrix__gsl_8c__incl.pdf, id=1509, 684.5575pt x 303.1325pt>
 File: _d_s_matrix__gsl_8c__incl.pdf Graphic file (type pdf)
 
 <use _d_s_matrix__gsl_8c__incl.pdf>
 Package epstopdf Info: Source file: <_d_s_matrix__gsl_8c__dep__incl.eps>
-(epstopdf)                    date: 2011-07-19 17:22:23
+(epstopdf)                    date: 2011-07-19 19:22:23
 (epstopdf)                    size: 5781 bytes
 (epstopdf)             Output file: <_d_s_matrix__gsl_8c__dep__incl-eps-convert
 ed-to.pdf>
-(epstopdf)                    date: 2011-07-19 17:31:42
+(epstopdf)                    date: 2011-07-19 19:31:42
 (epstopdf)                    size: 5192 bytes
 (epstopdf)             Command: <repstopdf --outfile=_d_s_matrix__gsl_8c__dep__
 incl-eps-converted-to.pdf _d_s_matrix__gsl_8c__dep__incl.eps>
 (epstopdf)             \includegraphics on input line 30.
 Package epstopdf Info: Output file is already uptodate.
 
-<_d_s_matrix__gsl_8c__dep__incl-eps-converted-to.pdf, id=1477, 128.48pt x 22.08
+<_d_s_matrix__gsl_8c__dep__incl-eps-converted-to.pdf, id=1510, 128.48pt x 22.08
 25pt>
 File: _d_s_matrix__gsl_8c__dep__incl-eps-converted-to.pdf Graphic file (type pd
 f)
@@ -1266,7 +1266,7 @@ f)
 
  <./_d_s_matrix__gsl_8c__incl.pdf> <./_d_s_matrix__gsl_8c__dep__incl-eps-conver
 ted-to.pdf>]
-Underfull \hbox (badness 8094) in paragraph at lines 151--153
+Underfull \hbox (badness 8094) in paragraph at lines 148--150
 [][][]\T1/ptm/m/n/10 DSMatrix[][] $\OMS/cmsy/m/n/10 ^^C$ \T1/ptm/b/n/10 DS-Ma-t
 rixAp-pend-Ma-tri-ces \T1/ptm/m/n/10 (const [][]DS-Ma-trix[][] $\OMS/cmsy/m/n/1
 0 ^^C$\T1/ptm/m/n/10 firstMatrix, const [][]DS-Ma-trix[][]
@@ -1276,7 +1276,7 @@ rixAp-pend-Ma-tri-ces \T1/ptm/m/n/10 (const [][]DS-Ma-trix[][] $\OMS/cmsy/m/n/1
 \openout2 = `_d_s_matrix_array_8c.aux'.
 
  (./_d_s_matrix_array_8c.tex
-<_d_s_matrix_array_8c__incl.pdf, id=1695, 353.32pt x 303.1325pt>
+<_d_s_matrix_array_8c__incl.pdf, id=1734, 353.32pt x 303.1325pt>
 File: _d_s_matrix_array_8c__incl.pdf Graphic file (type pdf)
 
 <use _d_s_matrix_array_8c__incl.pdf> [47
@@ -1287,11 +1287,11 @@ File: _d_s_matrix_array_8c__incl.pdf Graphic file (type pdf)
 \openout2 = `_d_s_matrix_array_8h.aux'.
 
  (./_d_s_matrix_array_8h.tex
-<_d_s_matrix_array_8h__incl.pdf, id=1768, 317.185pt x 190.7125pt>
+<_d_s_matrix_array_8h__incl.pdf, id=1807, 317.185pt x 190.7125pt>
 File: _d_s_matrix_array_8h__incl.pdf Graphic file (type pdf)
 
 <use _d_s_matrix_array_8h__incl.pdf>
-<_d_s_matrix_array_8h__dep__incl.pdf, id=1769, 220.825pt x 78.2925pt>
+<_d_s_matrix_array_8h__dep__incl.pdf, id=1808, 220.825pt x 78.2925pt>
 File: _d_s_matrix_array_8h__dep__incl.pdf Graphic file (type pdf)
 
 <use _d_s_matrix_array_8h__dep__incl.pdf> [50
@@ -1303,7 +1303,7 @@ File: _d_s_matrix_array_8h__dep__incl.pdf Graphic file (type pdf)
 
 
 (./_d_s_memory_manager_8c.tex
-<_d_s_memory_manager_8c__incl.pdf, id=1851, 348.30125pt x 246.9225pt>
+<_d_s_memory_manager_8c__incl.pdf, id=1890, 348.30125pt x 246.9225pt>
 File: _d_s_memory_manager_8c__incl.pdf Graphic file (type pdf)
 
 <use _d_s_memory_manager_8c__incl.pdf> [53
@@ -1313,11 +1313,11 @@ File: _d_s_memory_manager_8c__incl.pdf Graphic file (type pdf)
 \openout2 = `_d_s_memory_manager_8h.aux'.
 
  (./_d_s_memory_manager_8h.tex
-<_d_s_memory_manager_8h__incl.pdf, id=1880, 272.01625pt x 190.7125pt>
+<_d_s_memory_manager_8h__incl.pdf, id=1919, 272.01625pt x 190.7125pt>
 File: _d_s_memory_manager_8h__incl.pdf Graphic file (type pdf)
 
 <use _d_s_memory_manager_8h__incl.pdf>
-<_d_s_memory_manager_8h__dep__incl.pdf, id=1881, 642.4pt x 78.2925pt>
+<_d_s_memory_manager_8h__dep__incl.pdf, id=1920, 642.4pt x 78.2925pt>
 File: _d_s_memory_manager_8h__dep__incl.pdf Graphic file (type pdf)
 
 <use _d_s_memory_manager_8h__dep__incl.pdf> [56
@@ -1328,11 +1328,11 @@ File: _d_s_memory_manager_8h__dep__incl.pdf Graphic file (type pdf)
 \openout2 = `_d_s_std_8h.aux'.
 
  (./_d_s_std_8h.tex
-<_d_s_std_8h__incl.pdf, id=1914, 511.9125pt x 303.1325pt>
+<_d_s_std_8h__incl.pdf, id=1954, 511.9125pt x 303.1325pt>
 File: _d_s_std_8h__incl.pdf Graphic file (type pdf)
 
 <use _d_s_std_8h__incl.pdf>
-<_d_s_std_8h__dep__incl.pdf, id=1915, 361.35pt x 78.2925pt>
+<_d_s_std_8h__dep__incl.pdf, id=1955, 361.35pt x 78.2925pt>
 File: _d_s_std_8h__dep__incl.pdf Graphic file (type pdf)
 
 <use _d_s_std_8h__dep__incl.pdf> [59
@@ -1342,11 +1342,11 @@ File: _d_s_std_8h__dep__incl.pdf Graphic file (type pdf)
 \openout2 = `_d_s_types_8h.aux'.
 
  (./_d_s_types_8h.tex
-<_d_s_types_8h__incl.pdf, id=1938, 238.8925pt x 78.2925pt>
+<_d_s_types_8h__incl.pdf, id=1983, 238.8925pt x 78.2925pt>
 File: _d_s_types_8h__incl.pdf Graphic file (type pdf)
 
 <use _d_s_types_8h__incl.pdf>
-<_d_s_types_8h__dep__incl.pdf, id=1939, 817.0525pt x 246.9225pt>
+<_d_s_types_8h__dep__incl.pdf, id=1984, 817.0525pt x 246.9225pt>
 File: _d_s_types_8h__dep__incl.pdf Graphic file (type pdf)
 
 <use _d_s_types_8h__dep__incl.pdf> [61
@@ -1356,7 +1356,7 @@ File: _d_s_types_8h__dep__incl.pdf Graphic file (type pdf)
 \openout2 = `_d_s_variable_8c.aux'.
 
  (./_d_s_variable_8c.tex
-<_d_s_variable_8c__incl.pdf, id=1991, 479.7925pt x 246.9225pt>
+<_d_s_variable_8c__incl.pdf, id=2025, 479.7925pt x 246.9225pt>
 File: _d_s_variable_8c__incl.pdf Graphic file (type pdf)
 
 <use _d_s_variable_8c__incl.pdf>
@@ -1374,11 +1374,11 @@ C$\T1/ptm/m/n/10 name, [][]DSVari-able-Pool[][]
 
 
 (./_d_s_variable_8h.tex
-<_d_s_variable_8h__incl.pdf, id=2095, 268.00125pt x 134.5025pt>
+<_d_s_variable_8h__incl.pdf, id=2129, 268.00125pt x 134.5025pt>
 File: _d_s_variable_8h__incl.pdf Graphic file (type pdf)
 
 <use _d_s_variable_8h__incl.pdf>
-<_d_s_variable_8h__dep__incl.pdf, id=2096, 180.675pt x 78.2925pt>
+<_d_s_variable_8h__dep__incl.pdf, id=2130, 180.675pt x 78.2925pt>
 File: _d_s_variable_8h__dep__incl.pdf Graphic file (type pdf)
 
 <use _d_s_variable_8h__dep__incl.pdf> [70
@@ -1413,7 +1413,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 93.
 (./_d_s_variable_8c.aux) (./_d_s_variable_8h.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 93.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: 6C217F385AD566D9D9231C3D46C2C794;24145.
+(rerunfilecheck)             Checksum: C644D9C3EB3E7999BA4DAF7B7BDAFCB5;24478.
 
 
 LaTeX Warning: There were undefined references.
@@ -1423,13 +1423,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 10121 strings out of 493747
- 167178 string characters out of 3143546
+ 10131 strings out of 493747
+ 167302 string characters out of 3143546
  230909 words of memory out of 3000000
- 12477 multiletter control sequences out of 15000+200000
+ 12482 multiletter control sequences out of 15000+200000
  43771 words of font info for 50 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 42i,12n,58p,510b,514s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,12n,58p,549b,514s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2010/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
 xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
@@ -1440,10 +1440,10 @@ xmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/f
 onts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type
 1/urw/times/utmr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/time
 s/utmri8a.pfb>
-Output written on refman.pdf (85 pages, 364912 bytes).
+Output written on refman.pdf (85 pages, 367784 bytes).
 PDF statistics:
- 2521 PDF objects out of 2984 (max. 8388607)
- 2345 compressed objects within 24 object streams
- 531 named destinations out of 1000 (max. 500000)
- 1293 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2561 PDF objects out of 2984 (max. 8388607)
+ 2385 compressed objects within 24 object streams
+ 536 named destinations out of 1000 (max. 500000)
+ 1317 words of extra memory for PDF output out of 10000 (max. 10000000)
 

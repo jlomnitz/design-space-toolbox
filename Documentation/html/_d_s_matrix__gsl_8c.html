@@ -83,14 +83,14 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Allocates a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> as an identity matrix.  <a href="#a1636a4663250c4e54df28b35b121d27f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix__gsl_8c.html#a8980e6c6dc06dbbda9cde939cff831cc">DSMatrixRandomNumbers</a> (const DSUInteger rows, const DSUInteger columns)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Allocates a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> with random values between 0 and 1.  <a href="#a8980e6c6dc06dbbda9cde939cff831cc"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3edb9316d7702cdb72c73e08b15a8158"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixWithVariablePoolValues" ref="a3edb9316d7702cdb72c73e08b15a8158" args="(const void *variablePool)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixWithVariablePoolValues</b> (const void *variablePool)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc810db5fab16f43f5279815726577de"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixDoubleValue" ref="abc810db5fab16f43f5279815726577de" args="(const DSMatrix *matrix, const DSUInteger row, const DSUInteger column)" -->
-double&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixDoubleValue</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger row, const DSUInteger column)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad542fab68c7147002d3e5d4b136f188b"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixWithVariablePoolValues" ref="ad542fab68c7147002d3e5d4b136f188b" args="(const DSVariablePool *variablePool)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixWithVariablePoolValues</b> (const <a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *variablePool)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acdf23ab773e0822d370c5cedf8ef52a6"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixSetRows" ref="acdf23ab773e0822d370c5cedf8ef52a6" args="(DSMatrix *matrix, const DSUInteger rows)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixSetRows</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger rows)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adf7db42a38601dc8ccc254aae94ab42d"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixSetColumns" ref="adf7db42a38601dc8ccc254aae94ab42d" args="(DSMatrix *matrix, const DSUInteger columns)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixSetColumns</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger columns)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix__gsl_8c.html#abc810db5fab16f43f5279815726577de">DSMatrixDoubleValue</a> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger row, const DSUInteger column)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the element of the <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> specified by a row and column.  <a href="#abc810db5fab16f43f5279815726577de"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a78ca87769f9a2f7adaddaf89ddc4fe76"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixSetDoubleValue" ref="a78ca87769f9a2f7adaddaf89ddc4fe76" args="(DSMatrix *matrix, const DSUInteger row, const DSUInteger column, const double value)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixSetDoubleValue</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger row, const DSUInteger column, const double value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8129ecd2a1b6b540bf990a1e0122df54"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixSetDoubleValuesList" ref="a8129ecd2a1b6b540bf990a1e0122df54" args="(DSMatrix *matrix, bool byColumns, DSUInteger numberOfValues, double firstValue,...)" -->
@@ -323,6 +323,51 @@ int *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixColumnsForGL
 
 </div>
 </div>
+<a class="anchor" id="abc810db5fab16f43f5279815726577de"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixDoubleValue" ref="abc810db5fab16f43f5279815726577de" args="(const DSMatrix *matrix, const DSUInteger row, const DSUInteger column)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double DSMatrixDoubleValue </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td>
+          <td class="paramname"> <em>matrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DSUInteger&nbsp;</td>
+          <td class="paramname"> <em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DSUInteger&nbsp;</td>
+          <td class="paramname"> <em>column</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Returns the element of the <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> specified by a row and column. </p>
+<p>Returns an element of the matrix, with indices i and j starting at 0.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>matrix</em>&nbsp;</td><td>The <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> whose elements will be accessed. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>row</em>&nbsp;</td><td>A DSUInteger specifying the row coordinate of the element to be accessed. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>column</em>&nbsp;</td><td>A DSUInteger specifying the column coordinate of the element to be accessed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>If the value was succesfully retrieved, the double value contained at the row and column coordinate of the <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> is returned. Otherwise, NaN is returned. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ae5fc6bceef5e7e9e2c6300a86bdfb5fc"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixFree" ref="ae5fc6bceef5e7e9e2c6300a86bdfb5fc" args="(DSMatrix *matrix)" -->
 <div class="memitem">
 <div class="memproto">
@@ -486,7 +531,7 @@ int *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixColumnsForGL
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -495,7 +540,7 @@ int *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixColumnsForGL
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Jul 22 15:46:31 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:34 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

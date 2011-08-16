@@ -9,9 +9,24 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>designspace copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>9A4F1CFC13F08CC7002FB826</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9A4F1D1D13F08D27002FB826</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9A5833B3139D78A80068B6B6</key>
 		<dict>
 			<key>primary</key>

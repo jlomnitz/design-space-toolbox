@@ -190,7 +190,26 @@ bail:
 
 
 
-
+void DSMatrixArrayPrint(const DSMatrixArray * array)
+{
+        int (*print)(const char *, ...);
+        DSUInteger i;
+        if (array == NULL) {
+                DSError(M_DS_NULL ": Matrix array to print is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSPrintf == NULL)
+                print = printf;
+        else
+                print = DSPrintf;
+        for (i = 0; i < DSMatrixArrayNumberOfMatrices(array); i++) {
+                print("[:,:,%i] = \n\n", i);
+                DSMatrixPrint(DSMatrixArrayMatrix(array, i));
+                print("\n");
+        }
+bail:
+        return;
+}
 
 
 

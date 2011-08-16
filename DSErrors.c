@@ -48,7 +48,7 @@
 #include "DSMemoryManager.h"
 
 #define STACK_TRACE_NUM 10
-#define MSIZE           1200
+#define MSIZE           1500
 
 extern void DSErrorSetPrintFunction(void (*function)(const char * restrict))
 {
@@ -87,7 +87,7 @@ extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const c
                 DSIOSetErrorFile(stderr);
         size = backtrace (stackArray, STACK_TRACE_NUM);
         strings = backtrace_symbols (stackArray, size);
-        sprintf(errorString, "Design Space Toolbox: %.50s.\n# %i : %.30s: %.200s.\nCall stack:\n",
+        sprintf(errorString, "Design Space Toolbox: %.100s.\n# %i : %.30s: %.200s.\nCall stack:\n",
                 M_DS_Message,
                 LINE,
                 FUNC,
