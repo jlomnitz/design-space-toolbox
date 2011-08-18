@@ -24,7 +24,6 @@
  *
  * \author Jason Lomnitz.
  * \date 2011
- * \todo Remove printVarDictionary and add a DSVariablePoolPrint function.
  */
 
 #include "DSTypes.h"
@@ -44,7 +43,7 @@ __BEGIN_DECLS
 void DSGMASystemFree(DSGMASystem * gma);
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Factory methods
+#pragma mark - Factory functions
 #endif
 
 extern DSGMASystem * DSGMASystemByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...);
@@ -59,26 +58,25 @@ extern DSGMASystem * DSGMASystemByParsingStrings(const DSVariablePool * const Xd
 #pragma mark - Getter functions
 #endif
 
-const DSUInteger DSGMASystemNumberOfEquations(const DSGMASystem *gma);
-char ** DSGMASystemEquations(const DSGMASystem *gma);
+extern const DSUInteger DSGMASystemNumberOfEquations(const DSGMASystem *gma);
+extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma);
 
-const DSMatrix *DSGMASystemAlpha(const DSGMASystem *gma);
-const DSMatrix *DSGMASystemBeta(const DSGMASystem *gma);
+extern const DSMatrix *DSGMASystemAlpha(const DSGMASystem *gma);
+extern const DSMatrix *DSGMASystemBeta(const DSGMASystem *gma);
 
-const DSMatrixArray *DSGMASystemGd(const DSGMASystem *gma);
-const DSMatrixArray *DSGMASystemGi(const DSGMASystem *gma);
-const DSMatrixArray *DSGMASystemHd(const DSGMASystem *gma);
-const DSMatrixArray *DSGMASystemHi(const DSGMASystem *gma);
+extern const DSMatrixArray *DSGMASystemGd(const DSGMASystem *gma);
+extern const DSMatrixArray *DSGMASystemGi(const DSGMASystem *gma);
+extern const DSMatrixArray *DSGMASystemHd(const DSGMASystem *gma);
+extern const DSMatrixArray *DSGMASystemHi(const DSGMASystem *gma);
 
-const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma);
-const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma);
+extern const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma);
+extern const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma);
+
+extern const DSUInteger * DSGMASystemSignature(const DSGMASystem *gma);
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - S-System functions
+#pragma mark - Utility functions
 #endif
-
-DSSSystem * DSGMASystemSSystemWithSignature(const DSGMASystem *gma, const char *signature);
-
 
 extern void DSGMASystemPrint(const DSGMASystem * gma);
 

@@ -7,7 +7,7 @@
 * \details This file specifies the generated parser by the lemon program, and 
 * is the source code responsible for variable parsing.  To generate the 
 * grammar implementation file, the following command must be executed:
-* "lemon -m -l DSExpressionGrammar.y ; makeheaders DSExpressionGrammar.c".
+* "lemon -q -m -l DSExpressionGrammar.y ; makeheaders DSExpressionGrammar.c".
 *
 * Copyright (C) 2011 Jason Lomnitz.\n\n
 *
@@ -188,8 +188,14 @@ expr(A) ::= VALUE(B). {
         A = DSExpressionAllocWithConstant(DSExpressionTokenDouble((struct expression_token *)B));
 }
 
+expr(A) ::= ID(B) LPAREN expr(C) RPAREN. {
+        A = DSExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)B));
+        DSExpressionAddBranch(A, C);
+}
+
 expr(A) ::= LPAREN expr(B) RPAREN. {
         A = B;
 }
+
 
 

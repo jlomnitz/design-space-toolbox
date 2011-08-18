@@ -23,16 +23,28 @@
 #define DSGMAParserAuxBaseAtIndexIsVariable(x, y)  (!isnan(DSGMAParserAuxExponentAtIndex(x, y)))
 #define DSGMAParserAuxSetParserFailed(x)           ((x)->succeded = false) 
 
+/**
+ * \brief Data type used to parse strings to GMA System.
+ *
+ * \details This data structure forms an organized list of terms, each
+ * with base exponent pairs that are then used to create the system matrices.
+ * This data structure is key for the parsing of GMA systems.  Each node in 
+ * the gma_parseraux_t list represent a term in an expression in the order it
+ * was found, and each node points to the next term.  Each expression, or
+ * equation, has it's own list of terms.  If a base is a constant, then it should
+ * not have an exponent, and hence it's exponent is assigned a NAN value and this
+ * is used to indicate that the base is a constant.
+ */
 typedef struct parser_aux{
-        char sign;
+        char sign;                //!< The sign of the term represented by the current node.
         union base_info {
-                char * name;
-                double value;
-        } * bases;
-        bool succeded;
-        double *exponents;
-        DSUInteger numberOfBases;
-        struct parser_aux *next, *root;
+                char * name;      //!< The string representing the name of the variable.
+                double value;     //!< The variable representing the value of a constant.
+        } * bases;                //!< Dynamically allocated array of bases, can be either variables or constants.
+        bool succeded;            //!< A flag indicating if the parsing of the expression was succesful.
+        double *exponents;        //!< A dynamically allocated array of exponents, must be constants.
+        DSUInteger numberOfBases; //!< The number of base-exponents pairs in the term.
+        struct parser_aux *next;  //!< A pointer to the next node, representing the next term in the equation.
 } gma_parseraux_t;
 
 #if defined (__APPLE__) && defined (__MACH__)

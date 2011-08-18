@@ -1,6 +1,6 @@
 /**
- * \file DSGMASystem.h
- * \brief Header file with functions for dealing with GMA Systems.
+ * \file DSGMASystem.c
+ * \brief Implementation file with functions for dealing with GMA Systems.
  *
  * \details 
  *
@@ -24,7 +24,6 @@
  *
  * \author Jason Lomnitz.
  * \date 2011
- * \todo Remove printVarDictionary and add a DSVariablePoolPrint function.
  */
 
 #include <stdio.h>
@@ -40,6 +39,8 @@
 #include "DSGMASystemParsingAux.h"
 #include "DSMatrix.h"
 #include "DSMatrixArray.h"
+
+#define M_DS_GMA_NULL              M_DS_NULL ": GMA System is NULL"
 
 /**
  * \defgroup DSGMAACCESSORS
@@ -91,14 +92,18 @@ extern void DSGMASystemFree(DSGMASystem * gma)
                 DSError(M_DS_NULL ": GMA to free is NULL", A_DS_ERROR);
                 goto bail;
         }
+        DSVariablePoolSetReadWrite(DSGMAXd(gma));
         DSVariablePoolFree(DSGMAXd(gma));
+        DSVariablePoolSetReadWrite(DSGMAXi(gma));
         DSVariablePoolFree(DSGMAXi(gma));
         DSMatrixFree(DSGMAAlpha(gma));
         DSMatrixFree(DSGMABeta(gma));
         DSMatrixArrayFree(DSGMAGd(gma));
-        DSMatrixArrayFree(DSGMAGi(gma));
+        if (DSGMAGi(gma) != NULL)
+                DSMatrixArrayFree(DSGMAGi(gma));
         DSMatrixArrayFree(DSGMAHd(gma));
-        DSMatrixArrayFree(DSGMAHi(gma));
+        if (DSGMAHi(gma) != NULL)
+                DSMatrixArrayFree(DSGMAHi(gma));
         DSSecureFree(DSGMASignature(gma));
         DSSecureFree(gma);
 bail:
@@ -309,18 +314,22 @@ static void dsGMASystemInitializeMatrices(DSGMASystem *gma, DSUInteger positiveT
         DSGMABeta(gma) = DSMatrixCalloc(numberOfEquations, negativeTerms);
         DSGMASignature(gma) = DSSecureCalloc(sizeof(DSUInteger), 2*numberOfEquations);
         DSGMAGd(gma) = DSMatrixArrayAlloc();
-        DSGMAGi(gma) = DSMatrixArrayAlloc();
+        if (numberOfXi > 0)
+                DSGMAGi(gma) = DSMatrixArrayAlloc();
         DSGMAHd(gma) = DSMatrixArrayAlloc();
+        if (numberOfXi > 0)
         DSGMAHi(gma) = DSMatrixArrayAlloc();
         for (i = 0; i < numberOfEquations; i++) {
                 DSMatrixArrayAddMatrix(DSGMAGd(gma), DSMatrixCalloc(positiveTerms, 
                                                                     numberOfXd));
-                DSMatrixArrayAddMatrix(DSGMAGi(gma), DSMatrixCalloc(positiveTerms, 
-                                                                    numberOfXi));
+                if (numberOfXi > 0)
+                        DSMatrixArrayAddMatrix(DSGMAGi(gma), DSMatrixCalloc(positiveTerms, 
+                                                                            numberOfXi));
                 DSMatrixArrayAddMatrix(DSGMAHd(gma), DSMatrixCalloc(negativeTerms, 
                                                                     numberOfXd));
-                DSMatrixArrayAddMatrix(DSGMAHi(gma), DSMatrixCalloc(negativeTerms, 
-                                                                    numberOfXi));
+                if (numberOfXi > 0)
+                        DSMatrixArrayAddMatrix(DSGMAHi(gma), DSMatrixCalloc(negativeTerms, 
+                                                                            numberOfXi));
         }
 }
 
@@ -485,7 +494,9 @@ extern DSGMASystem * DSGMASystemByParsingStrings(const DSVariablePool * const Xd
                 goto bail;
         gma = DSGMASystemAlloc();
         DSGMAXd(gma) = DSVariablePoolCopy(Xd);
+        DSVariablePoolSetReadOnly(DSGMAXd(gma));
         DSGMAXi(gma) = dsGmaSystemIdentifyIndependentVariables(Xd, aux, numberOfEquations);
+        DSVariablePoolSetReadOnly(DSGMAXi(gma));
         dsGMASystemCreateSystemMatrices(gma, aux);
         for (i=0; i < numberOfEquations; i++)
                 if (aux[i] != NULL)
@@ -500,7 +511,7 @@ bail:
 #pragma mark - Getter functions
 #endif
 
-const DSUInteger DSGMASystemNumberOfEquations(const DSGMASystem *gma)
+extern const DSUInteger DSGMASystemNumberOfEquations(const DSGMASystem *gma)
 {
         DSUInteger numberOfEquations = 0;
         if (gma == NULL) {
@@ -512,15 +523,155 @@ bail:
         return numberOfEquations;
 }
 
-char ** DSGMASystemEquations(const DSGMASystem *gma)
+static void dsGMASystemEquationAddPositiveTermToString(const DSGMASystem *gma, 
+                                                       const DSUInteger equation, 
+                                                       const DSUInteger pterm, 
+                                                       char ** string, 
+                                                       DSUInteger *length)
 {
-        DSUInteger i,j,k,l, numberOfEquations;
-        char ** equations = NULL;
-        DSExpression * expr;
-        char *tempString, buffer[100];
+        DSUInteger i, numberOfXd, numberOfXi;
+        DSMatrixArray *Gd, *Gi;
+        DSMatrix *alpha;
         double value;
-        DSMatrix *gd, *gi, *hd, *hi, *current, *a;
-        DSVariablePool * pool;
+        char tempString[100];
+        const char * name;
+        if (gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberOfXd = DSVariablePoolNumberOfVariables(DSGMAXd(gma));
+        if (equation >= numberOfXd) {
+                DSError("Equation does not exist: Check number of equations", A_DS_ERROR);
+                goto bail;
+        }
+        if (pterm >= DSGMASignature(gma)[2*equation]) {
+                DSError("Term does not exist: Check number of terms", A_DS_ERROR);
+                goto bail;                
+        }
+        if (string == NULL) {
+                DSError(M_DS_NULL ": Pointer to string is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (length == NULL) {
+                DSError(M_DS_NULL ": Pointer to length is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (*string == NULL) {
+                DSError(M_DS_NULL ": String should be initialized", A_DS_ERROR);
+                goto bail;
+        }
+        numberOfXi = DSVariablePoolNumberOfVariables(DSGMAXi(gma));
+        Gd = DSGMAGd(gma);
+        Gi = DSGMAGi(gma);
+        alpha = DSGMAAlpha(gma);
+        sprintf(tempString, "%lf", DSMatrixDoubleValue(alpha, equation, pterm));
+        if (*length-strlen(*string) < 100) {
+                *length += 1000;
+                *string = DSSecureRealloc(*string, sizeof(char)**length);
+        }
+        strncat(*string, tempString, *length-strlen(*string));
+        for (i = 0; i < numberOfXd+numberOfXi; i++) {
+                if (*length-strlen(*string) < 100) {
+                        *length += 1000;
+                        *string = DSSecureRealloc(*string, sizeof(char)**length);
+                }
+                if (i < numberOfXi) {
+                        name = DSVariableName(DSVariablePoolAllVariables(DSGMAXi(gma))[i]);
+                        value = DSMatrixArrayDoubleWithIndices(Gi, equation, pterm, i);
+                        
+                } else {
+                        name = DSVariableName(DSVariablePoolAllVariables(DSGMAXd(gma))[i-numberOfXi]);
+                        value = DSMatrixArrayDoubleWithIndices(Gd, equation, pterm, i-numberOfXi);
+                }
+                if (value == 0.0)
+                        continue;
+                if (value == 1.0)
+                        sprintf(tempString, "*%s", name);
+                else
+                        sprintf(tempString, "*%s^%lf", name, value);
+                strncat(*string, tempString, *length-strlen(*string));
+        }
+bail:
+        return;
+}
+  
+static void dsGMASystemEquationAddNegativeTermToString(const DSGMASystem *gma, 
+                                                       const DSUInteger equation, 
+                                                       const DSUInteger nterm, 
+                                                       char ** string, 
+                                                       DSUInteger *length)
+{
+        DSUInteger i, numberOfXd, numberOfXi;
+        DSMatrixArray *Hd, *Hi;
+        DSMatrix *beta;
+        char tempString[100];
+        const char *name;
+        double value;
+        if (gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberOfXd = DSVariablePoolNumberOfVariables(DSGMAXd(gma));
+        if (equation >= numberOfXd) {
+                DSError("Equation does not exist: Check number of equations", A_DS_ERROR);
+                goto bail;
+        }
+        if (nterm >= DSGMASignature(gma)[2*equation+1]) {
+                DSError("Term does not exist: Check number of terms", A_DS_ERROR);
+                goto bail;                
+        }
+        if (string == NULL) {
+                DSError(M_DS_NULL ": Pointer to string is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (length == NULL) {
+                DSError(M_DS_NULL ": Pointer to length is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (*string == NULL) {
+                DSError(M_DS_NULL ": String should be initialized", A_DS_ERROR);
+                goto bail;
+        }
+        numberOfXi = DSVariablePoolNumberOfVariables(DSGMAXi(gma));
+        Hd = DSGMAHd(gma);
+        Hi = DSGMAHi(gma);
+        beta = DSGMABeta(gma);
+        sprintf(tempString, "%lf", DSMatrixDoubleValue(beta, equation, nterm));
+        if (*length-strlen(*string) < 100) {
+                *length += 1000;
+                *string = DSSecureRealloc(*string, sizeof(char)**length);
+        }
+        strncat(*string, tempString, *length-strlen(*string));
+        for (i = 0; i < numberOfXd+numberOfXi; i++) {
+                if (*length-strlen(*string) < 100) {
+                        *length += 1000;
+                        *string = DSSecureRealloc(*string, sizeof(char)**length);
+                }
+                if (i < numberOfXi) {
+                        name = DSVariablePoolAllVariableNames(DSGMAXi(gma))[i];
+                        value = DSMatrixArrayDoubleWithIndices(Hi, equation, nterm, i);
+                        
+                } else {
+                        name = DSVariablePoolAllVariableNames(DSGMAXd(gma))[i-numberOfXi];
+                        value = DSMatrixArrayDoubleWithIndices(Hd, equation, nterm, i-numberOfXi);
+                }
+                if (value == 0.0)
+                        continue;
+                if (value == 1.0)
+                        sprintf(tempString, "*%s", name);
+                else
+                        sprintf(tempString, "*%s^%lf", name, value);
+                strncat(*string, tempString, *length-strlen(*string));
+        }
+bail:
+        return;
+}
+
+extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma)
+{
+        DSUInteger i, j, numberOfEquations, length;
+        DSExpression ** equations = NULL;
+        char *tempString;
         if (gma == NULL) {
                 DSError(M_DS_NULL ": GMA being accessed is NULL", A_DS_ERROR);
                 goto bail;
@@ -530,87 +681,27 @@ char ** DSGMASystemEquations(const DSGMASystem *gma)
                 DSError(M_DS_NULL ": GMA being accessed is empty", A_DS_ERROR);
                 goto bail;
         }
-        equations = DSSecureCalloc(sizeof(char *), numberOfEquations);
+        equations = DSSecureCalloc(sizeof(DSExpression *), numberOfEquations);
+        length = 1000;
+        tempString = DSSecureCalloc(sizeof(char), length);
         for (i = 0; i < numberOfEquations; i++) {
-                tempString = DSSecureCalloc(sizeof(char), 1000);
-                a = DSGMAAlpha(gma);
-                for (j = 0; j < DSMatrixColumns(a); j++) {
-                        value = DSMatrixDoubleValue(a, i, j);
-                        if (value == 0)
-                                break;
-                        sprintf(buffer, "+%lf", value);
-                        strcat(tempString, buffer);
-                        for (l = 0; l < 2; l++) {
-                                gd = DSMatrixArrayMatrix(DSGMASystemGd(gma), i);
-                                gi = DSMatrixArrayMatrix(DSGMASystemGi(gma), i);
-                                hd = DSMatrixArrayMatrix(DSGMASystemHd(gma), i);
-                                hi = DSMatrixArrayMatrix(DSGMASystemHi(gma), i);
-                                if (l == 0) {
-                                        pool = DSGMAXi(gma);
-                                        current = gi;
-                                } else {
-                                        pool = DSGMAXd(gma);
-                                        current = gd;
-                                }
-                                for (k = 0; k < DSVariablePoolNumberOfVariables(pool); k++) {
-                                        value = DSMatrixDoubleValue(current, j, k);
-                                        if (value == 0.0)
-                                                continue;
-                                        if (value == 1.0)
-                                                sprintf(buffer, "*%s",
-                                                        DSVariablePoolAllVariableNames(pool)[k]);
-                                        else
-                                                sprintf(buffer, "*%s^%lf", 
-                                                        DSVariablePoolAllVariableNames(pool)[k], 
-                                                        value);
-                                        strcat(tempString, buffer);
-                                }
-                        }
+                tempString[0] = '\0';
+                for (j = 0; j < DSGMASignature(gma)[2*i]; j++) {
+                        dsGMASystemEquationAddPositiveTermToString(gma, i, j, &tempString, &length);
+                        strncat(tempString, "+", length-strlen(tempString));
                 }
-                a = DSGMABeta(gma);
-                for (j = 0; j < DSMatrixColumns(a); j++) {
-                        value = DSMatrixDoubleValue(a, i, j);
-                        if (value == 0)
-                                break;
-                        sprintf(buffer, "-%lf", value);
-                        strcat(tempString, buffer);
-                        for (l = 0; l < 2; l++) {
-                                gd = DSMatrixArrayMatrix(DSGMASystemGd(gma), i);
-                                gi = DSMatrixArrayMatrix(DSGMASystemGi(gma), i);
-                                hd = DSMatrixArrayMatrix(DSGMASystemHd(gma), i);
-                                hi = DSMatrixArrayMatrix(DSGMASystemHi(gma), i);
-                                if (l == 0) {
-                                        pool = DSGMAXi(gma);
-                                        current = hi;
-                                } else {
-                                        pool = DSGMAXd(gma);
-                                        current = hd;
-                                }
-                                for (k = 0; k < DSVariablePoolNumberOfVariables(pool); k++) {
-                                        value = DSMatrixDoubleValue(current, j, k);
-                                        if (value == 0.0)
-                                                continue;
-                                        if (value == 1.0)
-                                                sprintf(buffer, "*%s",
-                                                        DSVariablePoolAllVariableNames(pool)[k]);
-                                        else
-                                                sprintf(buffer, "*%s^%lf", 
-                                                        DSVariablePoolAllVariableNames(pool)[k], 
-                                                        value);
-                                        strcat(tempString, buffer);
-                                }
-                        }
+                for (j = 0; j < DSGMASignature(gma)[2*i+1]; j++) {
+                        strncat(tempString, "-", length-strlen(tempString));
+                        dsGMASystemEquationAddNegativeTermToString(gma, i, j, &tempString, &length);
                 }
-                expr = DSExpressionByParsingString(tempString);
-                equations[i] = DSExpressionAsString(expr);
-                DSExpressionFree(expr);
-                DSSecureFree(tempString);
+                equations[i] = DSExpressionByParsingString(tempString);
         }
+        DSSecureFree(tempString);
 bail:
         return equations;
 }
 
-const DSMatrix *DSGMASystemAlpha(const DSGMASystem *gma)
+extern const DSMatrix *DSGMASystemAlpha(const DSGMASystem *gma)
 {
         DSMatrix * alpha = NULL;
         if (gma == NULL) {
@@ -622,7 +713,7 @@ bail:
         return alpha;
 }
 
-const DSMatrix *DSGMASystemBeta(const DSGMASystem *gma)
+extern const DSMatrix *DSGMASystemBeta(const DSGMASystem *gma)
 {
         DSMatrix * beta = NULL;
         if (gma == NULL) {
@@ -634,7 +725,7 @@ bail:
         return beta;
 }
 
-const DSMatrixArray *DSGMASystemGd(const DSGMASystem *gma)
+extern const DSMatrixArray *DSGMASystemGd(const DSGMASystem *gma)
 {
         DSMatrixArray * gd = NULL;
         if (gma == NULL) {
@@ -646,7 +737,7 @@ bail:
         return gd;
 }
 
-const DSMatrixArray *DSGMASystemGi(const DSGMASystem *gma)
+extern const DSMatrixArray *DSGMASystemGi(const DSGMASystem *gma)
 {
         DSMatrixArray * gi = NULL;
         if (gma == NULL) {
@@ -658,7 +749,7 @@ bail:
         return gi;
 }
 
-const DSMatrixArray *DSGMASystemHd(const DSGMASystem *gma)
+extern const DSMatrixArray *DSGMASystemHd(const DSGMASystem *gma)
 {
         DSMatrixArray * hd = NULL;
         if (gma == NULL) {
@@ -670,7 +761,7 @@ bail:
         return hd;
 }
 
-const DSMatrixArray *DSGMASystemHi(const DSGMASystem *gma)
+extern const DSMatrixArray *DSGMASystemHi(const DSGMASystem *gma)
 {
         DSMatrixArray * hi = NULL;
         if (gma == NULL) {
@@ -682,7 +773,7 @@ bail:
         return hi;
 }
 
-const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma)
+extern const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma)
 {
         DSVariablePool * Xd = NULL;
         if (gma == NULL) {
@@ -693,7 +784,7 @@ const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma)
 bail:
         return Xd;
 }
-const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma)
+extern const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma)
 {
         DSVariablePool * Xi = NULL;
         if (gma == NULL) {
@@ -705,13 +796,25 @@ bail:
         return Xi;
 }
 
+extern const DSUInteger * DSGMASystemSignature(const DSGMASystem *gma)
+{
+        DSUInteger *signature = NULL;
+        if (gma == NULL) {
+                DSError(M_DS_NULL ": GMA system is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        signature = DSGMASignature(gma);
+bail:
+        return signature;
+}
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - S-System functions
 #endif
 
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - S-System functions
+#pragma mark - Utility functions
 #endif
 
 extern void DSGMASystemPrint(const DSGMASystem * gma)
@@ -726,8 +829,8 @@ extern void DSGMASystemPrint(const DSGMASystem * gma)
                 print = printf;
         else
                 print = DSPrintf;
-        print("\t================\n\t   GMA-System\n\t================\n");
-        print("\t # Xd: %i\n\t # Xi: %i\n\t  Sig: ",
+        print("\t==================\n\t    GMA-System\n\t==================\n");
+        print("\t  # Xd: %i\n\t  # Xi: %i\n\t   Sig: ",
               DSVariablePoolNumberOfVariables(DSGMAXd(gma)),
               DSVariablePoolNumberOfVariables(DSGMAXi(gma)));
         for (i = 0; i < DSGMASystemNumberOfEquations(gma); i++) {

@@ -435,14 +435,18 @@ __deprecated static void VarDictionaryFree(struct _varDictionary *root)
 static void dsPrintVarDictionary(struct _varDictionary *root, DSUInteger indent)
 {
         DSUInteger i;
+        int (*print)(const char *, ...);
         if (root == NULL)
                 goto bail;
+        print = DSPrintf;
+        if (DSPrintf == NULL)
+                print = printf;
         for (i = 1; i < indent+1; i++)
-                fprintf(stderr, " ");
+                print(" ");
         if (root->current == '\0')
-                fprintf(stderr, "+-[%s] = %lf\n", DSVariableName(root->variable), DSVariableValue(root->variable));
+                print("+-[%s] = %lf\n", DSVariableName(root->variable), DSVariableValue(root->variable));
         else
-                fprintf(stderr, "+-%c\n", root->current);
+                print("+-%c\n", root->current);
         dsPrintVarDictionary(root->next, indent+2);
         dsPrintVarDictionary(root->alt, indent);
 bail:
@@ -495,6 +499,7 @@ extern DSVariablePool * DSVariablePoolAlloc(void)
 {
         DSVariablePool *pool = NULL;
         pool = DSSecureCalloc(1, sizeof(DSVariablePool));
+        pool->lock = DSLockReadWrite;
         return pool;
 }
 
@@ -511,8 +516,50 @@ extern DSVariablePool * DSVariablePoolCopy(const DSVariablePool * const pool)
         allVariables = DSVariablePoolAllVariables(pool);
         for (i = 0; i < DSVariablePoolNumberOfVariables(pool); i++)
                 DSVariablePoolAddVariable(copy, (DSVariable *)(allVariables[i]));
+        copy->lock = pool->lock;
 bail:
         return copy;
+}
+
+extern void DSVariablePoolFree(DSVariablePool *pool)
+{
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pool->lock == DSLockReadOnly) {
+                DSError(M_DS_VAR_LOCKED, A_DS_ERROR);
+                goto bail;
+        }
+        dsVarDictionaryFree(DSVariablePoolInternalDictionary(pool));
+        if (DSVariablePoolVariableArray(pool) != NULL) {
+                DSSecureFree(DSVariablePoolVariableArray(pool));
+        }
+        DSSecureFree(pool);
+bail:
+        return;
+}
+
+extern void DSVariablePoolSetReadOnly(DSVariablePool * pool)
+{
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        pool->lock = DSLockReadOnly;
+bail:
+        return;
+}
+
+extern void DSVariablePoolSetReadWrite(DSVariablePool * pool)
+{
+        if (pool == NULL) {
+                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        pool->lock = DSLockReadWrite;
+bail:
+        return;
 }
 
 extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char * name)
@@ -521,6 +568,10 @@ extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char *
         bool varIsNew = true;
         if (pool == NULL) {
                 DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pool->lock == DSLockReadOnly) {
+                DSError(M_DS_VAR_LOCKED, A_DS_ERROR);
                 goto bail;
         }
         if (name == NULL) {
@@ -552,6 +603,10 @@ extern void DSVariablePoolAddVariable(DSVariablePool * pool, DSVariable *newVar)
         DSVariable * var = NULL;
         if (pool == NULL) {
                 DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pool->lock == DSLockReadOnly) {
+                DSError(M_DS_VAR_LOCKED, A_DS_ERROR);
                 goto bail;
         }
         if (newVar == NULL) {
@@ -614,26 +669,15 @@ bail:
         return variable;
 }
 
-extern void DSVariablePoolFree(DSVariablePool *pool)
-{
-        if (pool == NULL) {
-                DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        dsVarDictionaryFree(DSVariablePoolInternalDictionary(pool));
-        if (DSVariablePoolVariableArray(pool) != NULL) {
-                DSSecureFree(DSVariablePoolVariableArray(pool));
-        }
-        DSSecureFree(pool);
-bail:
-        return;
-}
-
 extern void DSVariablePoolSetValueForVariableWithName(DSVariablePool *pool, const char *name, const double value)
 {
         DSVariable *variable = NULL;
         if (pool == NULL) {
                 DSError(M_DS_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pool->lock == DSLockReadOnly) {
+                DSError(M_DS_VAR_LOCKED, A_DS_ERROR);
                 goto bail;
         }
         if (name == NULL) {

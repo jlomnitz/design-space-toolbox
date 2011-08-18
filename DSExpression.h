@@ -44,6 +44,7 @@
 #define DS_EXPRESSION_TYPE_OPERATOR         1
 #define DS_EXPRESSION_TYPE_CONSTANT         2
 #define DS_EXPRESSION_TYPE_VARIABLE         3
+#define DS_EXPRESSION_TYPE_FUNCTION         4
 
 
 #define DSExpressionSetOperator(x, y)       ((x->node.op_code) = y, (x->type = DS_EXPRESSION_TYPE_OPERATOR))
@@ -54,7 +55,7 @@
 #define DSExpressionNumberOfBranches(x)     (x->numberOfBranches)
 #define DSExpressionBranchAtIndex(x, y)     ((y < DSExpressionNumberOfBranches(x)) ? x->branches[y] : NULL)
 #define DSExpressionOperator(x)             ((x->type == DS_EXPRESSION_TYPE_OPERATOR) ? x->node.op_code : '?')
-#define DSExpressionVariable(x)             ((x->type == DS_EXPRESSION_TYPE_VARIABLE) ? x->node.variable : NULL)
+#define DSExpressionVariable(x)             ((x->type == DS_EXPRESSION_TYPE_VARIABLE || x->type == DS_EXPRESSION_TYPE_FUNCTION) ? x->node.variable : NULL)
 #define DSExpressionConstant(x)             ((x->type == DS_EXPRESSION_TYPE_CONSTANT) ? x->node.constant : NAN)
 
 
@@ -77,14 +78,7 @@ extern DSExpression * DSExpressionByParsingString(const char *string);
 #pragma mark - Expression properties
 #endif
 
-/** These functions might be removed **/
-extern DSUInteger DSExpressionNumberOfTerms(const DSExpression *expression);
-extern DSUInteger DSExpressionNumberOfPositiveTerms(const DSExpression *expression);
-extern DSUInteger DSExpressionNumberOfNegativeTerms(const DSExpression *expression);
 
-extern const DSExpression * DSExpressionTermAtIndex(const DSExpression * expression);
-extern const DSExpression * DSExpressionPositiveTermAtIndex(const DSExpression * expression, const DSUInteger index);
-extern const DSExpression * DSExpressionNegativeTermAtIndex(const DSExpression * expression, const DSUInteger index);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions

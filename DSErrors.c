@@ -68,8 +68,14 @@ extern void DSErrorSetErrorFile(FILE *aFile)
  * automatically adds file and line arguments.
  *
  * This function is called implicity when using the DSError macro.  The DSError 
- * adds the FILE and LINE argument, to report the error/warning at the
- * appropriate file and line.
+ * adds the FILE, LINE and FUNC arguments, to report the error/warning at the
+ * appropriate file, line and function.
+ *
+ * \param M_DS_Message A string containing the error message.
+ * \param A_DS_ACTION A character representing an error code as described in A_DS_Actions.
+ * \param FILEN A string with the name of the file where the error was reported.
+ * \param LINE An integer with the line number in the file where the error was reported.
+ * \param FUNC A string with the name of the function where the error was reported.
  *
  * \see DSError
  * \see A_DS_Actions

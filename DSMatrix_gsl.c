@@ -69,7 +69,7 @@ extern DSMatrix * DSMatrixAlloc(const DSUInteger rows, const DSUInteger columns)
                 DSError(M_DS_WRONG, A_DS_WARN);
                 goto bail;
         }
-        aMatrix = DSSecureMalloc(sizeof(DSMatrix *));
+        aMatrix = DSSecureMalloc(sizeof(DSMatrix *)*1);
         DSMatrixInternalPointer(aMatrix) = NULL;
         DSMatrixSetRows(aMatrix, rows);
         DSMatrixSetColumns(aMatrix, columns);
@@ -102,7 +102,7 @@ extern DSMatrix * DSMatrixCalloc(const DSUInteger rows, const DSUInteger columns
                 DSError(M_DS_WRONG, A_DS_WARN);
                 goto bail;
         }
-        aMatrix = DSSecureMalloc(sizeof(DSMatrix *));
+        aMatrix = DSSecureMalloc(sizeof(DSMatrix *)*1);
         DSMatrixInternalPointer(aMatrix) = NULL;
         DSMatrixSetRows(aMatrix, rows);
         DSMatrixSetColumns(aMatrix, columns);
@@ -1099,7 +1099,7 @@ extern DSMatrix * DSMatrixByMultiplyingMatrix(const DSMatrix *lvalue, const DSMa
                 DSError("Matrix dimensions do not match", A_DS_ERROR);
                 goto bail;
         }
-        matrix = DSMatrixAlloc(DSMatrixRows(lvalue), DSMatrixColumns(lvalue));
+        matrix = DSMatrixAlloc(DSMatrixRows(lvalue), DSMatrixColumns(rvalue));
         gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, 
                        DSMatrixInternalPointer(lvalue), 
                        DSMatrixInternalPointer(rvalue), 0, DSMatrixInternalPointer(matrix));
@@ -1247,15 +1247,20 @@ extern DSMatrix * DSMatrixInverse(const DSMatrix *matrix)
                 goto bail;
         if (DSMatrixIsSquare(matrix) == false)
                 goto bail;
-        if (DSMatrixRank(matrix) != DSMatrixRows(matrix))
+        if (fabs(DSMatrixDeterminant(matrix)) < 1E-14) {
+                DSError("Matrix to invert is singular", A_DS_NOERROR);
                 goto bail;
+        }
+/*        if (DSMatrixRank(matrix) != DSMatrixRows(matrix)) {
+                DSError("Not full rank", A_DS_WARN);
+                goto bail;
+        }*/
         aMatrix = DSMatrixAlloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
-        //        aMatrix = [[[self class] alloc] initWithMatrix:self];
         p = gsl_permutation_alloc(DSMatrixRows(matrix));
         LU = gsl_matrix_alloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
         gsl_matrix_memcpy(LU, DSMatrixInternalPointer(matrix));
         gsl_linalg_LU_decomp(LU, p, &sign);
-        gsl_linalg_LU_invert(LU, p, DSMatrixInternalPointer(matrix));
+        gsl_linalg_LU_invert(LU, p, DSMatrixInternalPointer(aMatrix));
         gsl_permutation_free(p);
         gsl_matrix_free(LU);
 bail:

@@ -1,13 +1,17 @@
 //  
 /**
-* \file DSExpressionGrammar.y
-* \brief Grammar file with functions for parsing variables, specifying the
+* \file DSGMASystemGrammar.y
+* \brief Grammar file with functions for parsing gma systems, specifying the
 *        grammar used by lemon to generate the parser.
 *
 * \details This file specifies the generated parser by the lemon program, and 
 * is the source code responsible for variable parsing.  To generate the 
 * grammar implementation file, the following command must be executed:
-* "lemon -m -l DSGMASystemGrammar.y ; makeheaders DSGMASystemGrammar.c".
+* "lemon -m -l DSGMASystemGrammar.y ; makeheaders DSGMASystemGrammar.c".  The
+* grammar for parsing GMA Systems assumes that constants cannot have exponents,
+* since exponents can only be constants, and constants to a constant power is 
+* also a constant.  To resolve this, any string to be parsed for a GMA System
+* should be preprocessed by making it a DSExpression.
 *
 * Copyright (C) 2011 Jason Lomnitz.\n\n
 *

@@ -24,7 +24,6 @@
  *
  * \author Jason Lomnitz.
  * \date 2011
- * \todo Remove printVarDictionary and add a DSVariablePoolPrint function.
  */
 
 #include <stdio.h>
@@ -40,6 +39,8 @@
 #define DSVariableSetValue(x, y)    (x)->value = (y)
 #define DSVariableValue(x)          (x)->value
 #define DSVariableName(x)           (x)->name
+
+#define M_DS_VAR_LOCKED             " DSVariablePool is locked for read-only"
 
 #ifdef __cplusplus
 __BEGIN_DECLS
@@ -62,21 +63,50 @@ extern void DSVariableRelease(DSVariable *aVariable);
 #define DSVariablePoolInternalDictionary(x)  ((x)->root)
 #define DSVariablePoolVariableArray(x)       ((x)->variables)
 
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark Allocation, Initialization and Freeing
+#endif
+
 extern DSVariablePool * DSVariablePoolAlloc(void);
 extern DSVariablePool * DSVariablePoolCopy(const DSVariablePool * const pool);
-extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char * name);
-extern void DSVariablePoolAddVariable(DSVariablePool *pool, DSVariable *newVar);
-extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * const name);
-extern DSVariable *DSVariablePoolVariableWithName(const DSVariablePool *pool, const char *name);
 extern void DSVariablePoolFree(DSVariablePool *pool);
 
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark Factory functions
+#endif
+
+extern DSVariablePool * DSVariablePoolByParsingString(const char *string);
+
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark Setter functions
+#endif
+
+extern void DSVariablePoolSetReadOnly(DSVariablePool * pool);
+extern void DSVariablePoolSetReadWrite(DSVariablePool * pool);
+extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char * name);
+extern void DSVariablePoolAddVariable(DSVariablePool *pool, DSVariable *newVar);
 extern void DSVariablePoolSetValueForVariableWithName(DSVariablePool *pool, const char *name, const double value);
+
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark Getter functions
+#endif
+
+extern bool DSVariablePoolIsReadOnly(DSVariablePool *pool);
+extern bool DSVariablePoolIsReadWrite(DSVariablePool *pool);
+
+extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * const name);
+extern DSVariable *DSVariablePoolVariableWithName(const DSVariablePool *pool, const char *name);
+
 extern const DSVariable ** DSVariablePoolAllVariables(const DSVariablePool *pool);
 extern const char ** DSVariablePoolAllVariableNames(const DSVariablePool *pool);
+
 extern DSUInteger DSVariablePoolIndexOfVariable(const DSVariablePool *pool, const DSVariable *var);
 extern DSUInteger DSVariablePoolIndexOfVariableWithName(const DSVariablePool *pool, const char *name);
 
-extern DSVariablePool * DSVariablePoolByParsingString(const char *string);
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark Utility functions
+#endif
+
 extern void DSVariablePoolPrint(const DSVariablePool * const pool);
 
 #ifdef __cplusplus

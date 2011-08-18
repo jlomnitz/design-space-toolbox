@@ -188,7 +188,30 @@ bail:
         return;
 }
 
-
+extern double DSMatrixArrayDoubleWithIndices(const DSMatrixArray *array, const DSUInteger i, const DSUInteger j, const DSUInteger k)
+{
+        double value = NAN;
+        DSMatrix *current = NULL;
+        if (array == NULL) {
+                DSError(M_DS_NULL ": Matrix array is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (i >= DSMatrixArrayNumberOfMatrices(array)) {
+                DSError("Matrix array matrix out of bounds", A_DS_ERROR);
+                goto bail;
+        }
+        current = DSMatrixArrayMatrix(array, i);
+        if (current == NULL) {
+                DSError(M_DS_MAT_NULL ": Matrix at specified index is NULL", A_DS_ERROR);
+        }
+        if (j >= DSMatrixRows(current) || k >= DSMatrixColumns(current)) {
+                DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_ERROR);
+                goto bail;
+        }
+        value = DSMatrixDoubleValue(current, j, k);
+bail:
+        return value;
+}
 
 void DSMatrixArrayPrint(const DSMatrixArray * array)
 {

@@ -99,6 +99,12 @@ struct _varDictionary
         DSVariable *variable;        //!< The variable stored. Only when current is '\\0'.
 };
 
+
+typedef enum {
+        DSLockReadWrite,
+        DSLockReadOnly
+} DSVariablePoolLock;
+
 /**
  * \brief User-level variable pool.
  *
@@ -115,6 +121,7 @@ typedef struct
         struct _varDictionary *root;   //!< The root of the internal dictionary.
         DSUInteger numberOfVariables;  //!< Number of variables in the pool.
         DSVariable **variables;        //!< A C array with the variables stored.
+        DSVariablePoolLock lock;       //!< Indicates if the variable pool is read-only.
 } DSVariablePool;
 
 
@@ -198,17 +205,17 @@ typedef struct {
  *       the future.
  */
 typedef struct {
-        char ** equations;
         DSMatrix *alpha;
         DSMatrix *beta;
         DSMatrix *Gd;
         DSMatrix *Gi;
         DSMatrix *Hd;
         DSMatrix *Hi;
-        DSMatrix *M;
-        DSMatrix *Ai;
+        DSMatrix *MAi;
+        DSMatrix *MB;
         DSVariablePool *Xd;
         DSVariablePool *Xi;
+        bool isSingular;
 } DSSSystem;
 
 /**

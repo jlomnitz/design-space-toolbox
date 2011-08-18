@@ -43,6 +43,7 @@
 #include "DSMatrixArray.h"
 #include "DSExpression.h"
 #include "DSGMASystem.h"
+#include "DSSSystem.h"
 
 #ifndef __DS_STD_INCLUDE__
 #define __DS_STD_INCLUDE__

@@ -79,6 +79,7 @@ extern DSExpression * DSExpressionAllocWithConstant(const double value)
         DSExpression *newNode = NULL;
         newNode = DSSecureCalloc(1, sizeof(DSExpression));
         DSExpressionSetConstant(newNode, value);
+        newNode->type = DS_EXPRESSION_TYPE_CONSTANT;
         return newNode;
 }
 
@@ -112,6 +113,7 @@ extern void DSExpressionFree(DSExpression *root)
         if (root->branches != NULL)
                 DSSecureFree(root->branches);
         switch (DSExpressionType(root)) {
+                case DS_EXPRESSION_TYPE_FUNCTION:
                 case DS_EXPRESSION_TYPE_VARIABLE:
                         DSSecureFree(DSExpressionVariable(root));
                         break;
@@ -215,6 +217,10 @@ static void DSExpressionAddConstantBranch(DSExpression *expression, DSExpression
                 DSError(M_DS_NULL ": Branch being added is NULL", A_DS_ERROR);
                 goto bail;
         }
+        if (DSExpressionType(expression) != DS_EXPRESSION_TYPE_OPERATOR) {
+                DSError(M_DS_WRONG ": Expression root is not an operator", A_DS_ERROR);
+                goto bail;
+        }
         if (DSExpressionType(branch) != DS_EXPRESSION_TYPE_CONSTANT) {
                 DSError(M_DS_WRONG ": branch expression is not a constant", A_DS_ERROR);
                 goto bail;
@@ -241,6 +247,23 @@ bail:
         return;
 }
 
+static void dsExpressionAddBranchToFunction(DSExpression *expression, DSExpression *branch)
+{
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Expression root is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (branch == NULL) {
+                DSError(M_DS_NULL ": Branch being added is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        expression->branches = DSSecureMalloc(sizeof(DSExpression *)*(DSExpressionNumberOfBranches(expression)+1));
+        expression->branches[DSExpressionNumberOfBranches(expression)] = branch;
+        expression->numberOfBranches++;
+        expression->type = DS_EXPRESSION_TYPE_FUNCTION;
+bail:
+        return;
+}
 extern void DSExpressionAddBranch(DSExpression *expression, DSExpression *branch)
 {
         DSUInteger i;
@@ -253,6 +276,10 @@ extern void DSExpressionAddBranch(DSExpression *expression, DSExpression *branch
                 DSError(M_DS_NULL ": Branch being added is NULL", A_DS_ERROR);
                 goto bail;
         }
+        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_VARIABLE) {
+                dsExpressionAddBranchToFunction(expression, branch);
+                goto bail;
+        }
         if (DSExpressionType(expression) != DS_EXPRESSION_TYPE_OPERATOR) {
                 DSError(M_DS_WRONG ": Adding branch to non-operator expression", A_DS_ERROR);
                 goto bail;
@@ -261,7 +288,8 @@ extern void DSExpressionAddBranch(DSExpression *expression, DSExpression *branch
                 DSError(M_DS_WRONG ": branch expression type is undefined", A_DS_ERROR);
                 goto bail;
         }
-        if (DSExpressionType(branch)  == DS_EXPRESSION_TYPE_VARIABLE) {
+        if (DSExpressionType(branch)  == DS_EXPRESSION_TYPE_VARIABLE || 
+            DSExpressionType(branch) == DS_EXPRESSION_TYPE_FUNCTION) {
                 DSExpressionAddNonConstantBranch(expression, branch);
                 goto bail;
         }
@@ -310,159 +338,6 @@ bail:
 #pragma mark - Expression properties
 #endif
 
-extern DSUInteger DSExpressionNumberOfTerms(const DSExpression *expression)
-{
-        DSUInteger numberOfTerms = 0;
-        if (expression == NULL) {
-                DSError(M_DS_WRONG ": Expression is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_UNDEFINED) {
-                DSError(M_DS_NOFORMAT ": Expression type is undefined", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_CONSTANT) {
-                if (DSExpressionConstant(expression) != 0.0)
-                        numberOfTerms = 1;
-                goto bail;
-        }
-        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_VARIABLE) {
-                numberOfTerms = 1;
-                goto bail;
-        }
-        switch (DSExpressionOperator(expression)) {
-                case '*':
-                        if (DSExpressionConstant(DSExpressionBranchAtIndex(expression, 0)) != 0.0)
-                                numberOfTerms = 1;
-                        break;
-                case '^':
-                        if (DSExpressionType(DSExpressionBranchAtIndex(expression, 0)) == DS_EXPRESSION_TYPE_VARIABLE)
-                                numberOfTerms = 1;
-                        else if (DSExpressionType(DSExpressionBranchAtIndex(expression, 0)) == DS_EXPRESSION_TYPE_CONSTANT &&
-                                 DSExpressionConstant(DSExpressionBranchAtIndex(expression, 0)) != 0.0)
-                                numberOfTerms = 1;
-                        else if (DSExpressionType(DSExpressionBranchAtIndex(expression, 0)) == DS_EXPRESSION_TYPE_OPERATOR &&
-                                 DSExpressionOperator(DSExpressionBranchAtIndex(expression, 0)) != '+')
-                                numberOfTerms = DSExpressionNumberOfTerms(DSExpressionBranchAtIndex(expression, 0));
-                        else
-                                DSError("Expression too complicated to accurately calculate number of terms", A_DS_WARN);
-                        break;
-                case '+':
-                        numberOfTerms = DSExpressionNumberOfBranches(expression);
-                        if (DSExpressionConstant(DSExpressionBranchAtIndex(expression, DS_EXPRESSION_CONSTANT_BRANCH)) == 0.0)
-                                numberOfTerms--;
-                        break;
-                default:
-                        DSError(M_DS_NOFORMAT ": Operator type is not defined", A_DS_ERROR);
-                        break;
-        }
-bail:
-        return numberOfTerms;
-}
-
-extern DSUInteger DSExpressionNumberOfPositiveTerms(const DSExpression *expression)
-{
-        DSUInteger i, numberOfTerms = 0;
-        if (expression == NULL) {
-                DSError(M_DS_WRONG ": Expression is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_UNDEFINED) {
-                DSError(M_DS_NOFORMAT ": Expression type is undefined", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_CONSTANT) {
-                if (DSExpressionConstant(expression) > 0.0)
-                        numberOfTerms = 1;
-                goto bail;
-        }
-        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_VARIABLE) {
-                numberOfTerms = 1;
-                goto bail;
-        }
-        switch (DSExpressionOperator(expression)) {
-                case '*':
-                        if (DSExpressionConstant(DSExpressionBranchAtIndex(expression, 0)) > 0.0)
-                                numberOfTerms = 1;
-                        break;
-                case '^':
-                        if (DSExpressionType(DSExpressionBranchAtIndex(expression, 0)) != DS_EXPRESSION_TYPE_OPERATOR) {
-                                numberOfTerms = DSExpressionNumberOfPositiveTerms(DSExpressionBranchAtIndex(expression, 0));
-                        } else if (DSExpressionOperator(DSExpressionBranchAtIndex(expression, 0)) != '+') {
-                                if (DSExpressionType(DSExpressionBranchAtIndex(expression, 1)) == DS_EXPRESSION_TYPE_CONSTANT &&
-                                    !fmod(DSExpressionConstant(DSExpressionBranchAtIndex(expression, 1)), 2)) {
-                                        numberOfTerms++;
-                                } else {
-                                        numberOfTerms = DSExpressionNumberOfPositiveTerms(DSExpressionBranchAtIndex(expression, 0));
-                                        DSError("Expression too complicated to accurately calculate number of terms", A_DS_WARN);
-                                }
-                        }
-                        break;
-                case '+':
-                        for (i = 0; i < DSExpressionNumberOfBranches(expression); i++)
-                                numberOfTerms += DSExpressionNumberOfPositiveTerms(DSExpressionBranchAtIndex(expression, i));
-                        break;
-                default:
-                        DSError(M_DS_NOFORMAT ": Operator type is not defined", A_DS_ERROR);
-                        break;
-        }
-bail:
-        return numberOfTerms;
-}
-
-extern DSUInteger DSExpressionNumberOfNegativeTerms(const DSExpression *expression)
-{
-        DSUInteger i, numberOfTerms = 0;
-        if (expression == NULL) {
-                DSError(M_DS_WRONG ": Expression is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_UNDEFINED) {
-                DSError(M_DS_NOFORMAT ": Expression type is undefined", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_CONSTANT) {
-                if (DSExpressionConstant(expression) < 0.0)
-                        numberOfTerms = 1;
-                goto bail;
-        }
-        if (DSExpressionType(expression) == DS_EXPRESSION_TYPE_VARIABLE) {
-                goto bail;
-        }
-        switch (DSExpressionOperator(expression)) {
-                case '*':
-                        if (DSExpressionConstant(DSExpressionBranchAtIndex(expression, 0)) < 0.0)
-                                numberOfTerms = 1;
-                        break;
-                case '^':
-                        if (DSExpressionType(DSExpressionBranchAtIndex(expression, 1)) == DS_EXPRESSION_TYPE_CONSTANT &&
-                            !fmod(DSExpressionConstant(DSExpressionBranchAtIndex(expression, 1)), 2.0)) {
-                                break;
-                        }
-                        if (DSExpressionType(DSExpressionBranchAtIndex(expression, 0)) != DS_EXPRESSION_TYPE_OPERATOR) {
-                                numberOfTerms = DSExpressionNumberOfNegativeTerms(DSExpressionBranchAtIndex(expression, 0));
-                        } else if (DSExpressionOperator(DSExpressionBranchAtIndex(expression, 0)) != '+') {
-                                numberOfTerms = DSExpressionNumberOfNegativeTerms(DSExpressionBranchAtIndex(expression, 0));
-                                DSError("Expression too complicated to accurately calculate number of terms", A_DS_WARN);
-                        }
-                        break;
-                case '+':
-                        for (i = 0; i < DSExpressionNumberOfBranches(expression); i++)
-                                numberOfTerms += DSExpressionNumberOfNegativeTerms(DSExpressionBranchAtIndex(expression, i));
-                        break;
-                default:
-                        DSError(M_DS_NOFORMAT ": Operator type is not defined", A_DS_ERROR);
-                        break;
-        }
-bail:
-        return numberOfTerms;
-}
-
-extern const DSExpression * DSExpressionTermAtIndex(const DSExpression * expression);
-extern const DSExpression * DSExpressionPositiveTermAtIndex(const DSExpression * expression, const DSUInteger index);
-extern const DSExpression * DSExpressionNegativeTermAtIndex(const DSExpression * expression, const DSUInteger index);
-
-
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
 #endif
@@ -509,6 +384,8 @@ static void expressionToStringInternal(const DSExpression *current, char ** stri
                                         continue;
                                 if (i == 0 && DSExpressionOperator(current) == '*' && constant == 1.0)
                                         continue;
+                                if (i == 0 && DSExpressionOperator(current) == '*' && constant == 0.0)
+                                        break;
                                 if (i == 0 && DSExpressionOperator(current) == '*' && constant == -1.0) {
                                         strncat(*string, "-", *length-strlen(*string));
                                         continue;
@@ -517,7 +394,7 @@ static void expressionToStringInternal(const DSExpression *current, char ** stri
                                 if (DSExpressionType(branch) == DS_EXPRESSION_TYPE_OPERATOR &&
                                     operatorIsLowerPrecedence(DSExpressionOperator(current), DSExpressionOperator(branch)))
                                         strncat(*string, "(", *length-strlen(*string));
-                                expressionToStringInternal(DSExpressionBranchAtIndex(current, i), string, length);
+                                expressionToStringInternal(branch, string, length);
                                 if (DSExpressionType(branch) == DS_EXPRESSION_TYPE_OPERATOR &&
                                     operatorIsLowerPrecedence(DSExpressionOperator(current), DSExpressionOperator(branch)))
                                         strncat(*string, ")", *length-strlen(*string));
@@ -527,6 +404,19 @@ static void expressionToStringInternal(const DSExpression *current, char ** stri
                                         temp[0] = '\0';
                                 }
                         }
+                        break;
+                case DS_EXPRESSION_TYPE_FUNCTION:
+                        sprintf(temp, "%s(", DSExpressionVariable(current));
+                        if (strlen(*string)+strlen(temp) >= *length) {
+                                length += DS_EXPRESSION_STRING_INIT_LENGTH;
+                                *string = DSSecureRealloc(string, sizeof(char)**length);
+                        }
+                        strncat(*string, temp, *length-strlen(*string));
+                        expressionToStringInternal(DSExpressionBranchAtIndex(current, 0), string, length);
+                        strncat(*string, ")", *length-strlen(*string));
+                        temp[0] = '\0';
+                        break;
+                default:
                         break;
         }
         if (strlen(*string)+strlen(temp) >= *length) {

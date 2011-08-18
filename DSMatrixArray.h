@@ -72,7 +72,8 @@ extern void DSMatrixArrayAddMatrix(DSMatrixArray *array, const DSMatrix *matrixT
 #pragma mark - Utility functions
 #endif
 
-void DSMatrixArrayPrint(const DSMatrixArray * array);
+extern double DSMatrixArrayDoubleWithIndices(const DSMatrixArray *array, const DSUInteger i, const DSUInteger j, const DSUInteger k);
+extern void DSMatrixArrayPrint(const DSMatrixArray * array);
 
 #ifdef __cplusplus
 __END_DECLS
