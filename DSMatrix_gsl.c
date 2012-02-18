@@ -30,6 +30,7 @@
 #include <time.h>
 #include <stdarg.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <gsl/gsl_linalg.h>
 #include <gsl/gsl_blas.h>
@@ -40,6 +41,8 @@
 #include "DSMatrixArray.h"
 #include "DSMatrixTokenizer.h"
 
+#define DSMatrixSetRows(x,y)                    ((x)->rows = (y))
+#define DSMatrixSetColumns(x,y)                    ((x)->columns = (y))
 //#if defined(__MATRIX_BACK__) && __MATRIX_BACK__ == __MAT_GSL__
 
 
@@ -73,7 +76,7 @@ extern DSMatrix * DSMatrixAlloc(const DSUInteger rows, const DSUInteger columns)
         DSMatrixInternalPointer(aMatrix) = NULL;
         DSMatrixSetRows(aMatrix, rows);
         DSMatrixSetColumns(aMatrix, columns);
-        DSMatrixInternalPointer(aMatrix) = gsl_matrix_alloc(rows, columns);
+        DSMatrixInternalPointer(aMatrix) =gsl_matrix_alloc(rows, columns);
         if (DSMatrixInternalPointer(aMatrix) == NULL)
                 DSError(M_DS_MALLOC, A_DS_KILLNOW);
 bail:
@@ -133,7 +136,7 @@ extern DSMatrix * DSMatrixCopy(const DSMatrix *original)
                 goto bail;
         }
         matrix = DSMatrixAlloc(DSMatrixRows(original), DSMatrixColumns(original));
-        gsl_matrix_memcpy(DSMatrixInternalPointer(matrix), DSMatrixInternalPointer(original));
+       gsl_matrix_memcpy(DSMatrixInternalPointer(matrix), DSMatrixInternalPointer(original));
 bail:
         return matrix;
 }
@@ -154,7 +157,7 @@ extern void DSMatrixFree(DSMatrix *matrix)
                 goto bail;
         }
         if (DSMatrixInternalPointer(matrix) != NULL)
-                gsl_matrix_free(DSMatrixInternalPointer(matrix));
+               gsl_matrix_free(DSMatrixInternalPointer(matrix));
         DSSecureFree(matrix);
 bail:
         return;
@@ -187,7 +190,7 @@ extern DSMatrix * DSMatrixIdentity(const DSUInteger size)
                 goto bail;
         }
         aMatrix = DSMatrixAlloc(size, size);
-        gsl_matrix_set_identity(DSMatrixInternalPointer(aMatrix));
+       gsl_matrix_set_identity(DSMatrixInternalPointer(aMatrix));
 bail:
         return aMatrix;
 }
@@ -219,10 +222,17 @@ bail:
         return matrix;
 }
 
-extern DSMatrix * DSMatrixWithVariablePoolValues(const DSVariablePool *variablePool);
-
-
-
+/**
+ * \brief Creates a new matrix by parsing a tab-delimited matrix.
+ *
+ * This function reads an input string, containing rows delimited by tabs and
+ * columns delimited by newlines. This function generates a token stream, and 
+ * thus checks the dimensions of the matrix prior to creating it. 
+ *
+ * \param string A string containing the data to parse.
+ *
+ * \return A DSMatrix data object with the parsed data. If parsing failed, returns NULL.
+ */
 extern DSMatrix * DSMatrixByParsingString(const char *string)
 {
         DSMatrix * aMatrix = NULL;
@@ -252,10 +262,10 @@ extern DSMatrix * DSMatrixByParsingString(const char *string)
                         goto bail;
                 }
                 if (DSMatrixTokenType(current) == DS_MATRIX_TOKEN_DOUBLE) {
-                        (rows < DSMatrixTokenRow(current) ?
-                         rows = DSMatrixTokenRow(current) : 1);
-                        (columns < DSMatrixTokenColumn(current) ?
-                         columns = DSMatrixTokenColumn(current) : 1);
+                        if (rows < DSMatrixTokenRow(current))
+                            rows = DSMatrixTokenRow(current);
+                        if (columns < DSMatrixTokenColumn(current))
+                            columns = DSMatrixTokenColumn(current);
                         if (values == NULL) {
                                 values = DSSecureMalloc(sizeof(double)*(total+1));
                         } else {
@@ -279,40 +289,220 @@ bail:
         return aMatrix;
 }
 
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark Arithmetic (factory)
+#endif
+
+/**
+ * \brief Create a new DSMatrix object by substracting a matrix from another.
+ *
+ * \details This function takes two matrices of the same dimensions, and substracts
+ * the ij element of the rvalue matrix to the ij element of the lvalue matrix. This
+ * function assumes constant matrices, and thus does not modify either of the 
+ * inputs, but instead creates a copy of the minuend operand matrix, and called
+ * DSMatrixSubstractByMatrix() with the copy as the new minuend.
+ *
+ * \param lvalue The DSMatrix object that is the minuend. 
+ * \param rvalue The DSMatrix object that is the subtrahend.
+ *
+ * \return If the substraction operation was succesful, the function returns a pointer
+ *         to the newly allocated difference matrix. Otherwise, NULL is returned.
+ *
+ * \see DSMatrixSubstractByMatrix()
+ */
+extern DSMatrix * DSMatrixBySubstractingMatrix(const DSMatrix *lvalue, const DSMatrix *rvalue)
+{
+        DSMatrix * matrix = NULL;
+        if (lvalue == NULL && rvalue == NULL) {
+                DSError("lvalue and rvalue are null", A_DS_WARN);
+                goto bail;
+        }
+        if (lvalue == NULL) {
+                matrix = DSMatrixByMultiplyingScalar(rvalue, -1.0);
+                goto bail;
+        }
+        matrix = DSMatrixCopy(lvalue);
+        DSMatrixSubstractByMatrix(matrix, rvalue);
+bail:
+        return matrix;
+}
+
+/**
+ * \brief Create a new DSMatrix object by adding a matrix to another.
+ *
+ * \details This function takes two matrices of the same dimensions, and adds
+ * the ij element of the rvalue matrix to the ij element of the lvalue matrix. This
+ * function assumes constant matrices, and thus does not modify either of the 
+ * inputs, but instead creates a copy of the first operand matrix, and calls
+ * DSMatrixAddByMatrix(), using the copy as the first operand.
+ *
+ * \param lvalue The first DSMatrix object to be added.
+ * \param rvalue The second DSMatrix object to be added.
+ *
+ * \return If the addition operation was succesful, the function returns a pointer
+ *         to the newly allocated matrix. Otherwise, NULL is returned.
+ *
+ * \see DSMatrixAddByMatrix()
+ */
+extern DSMatrix * DSMatrixByAddingMatrix(const DSMatrix *lvalue, const DSMatrix *rvalue)
+{
+        DSMatrix * matrix = NULL;
+        if (lvalue == NULL && rvalue == NULL) {
+                DSError("lvalue and rvalue are null", A_DS_WARN);
+                goto bail;
+        }
+        if (lvalue == NULL) {
+                DSError(M_DS_WRONG ": lvalue matrix is NULL", A_DS_WARN);
+                matrix = DSMatrixByMultiplyingScalar(rvalue, -1.0);
+                goto bail;
+        }
+        matrix = DSMatrixCopy(lvalue);
+        DSMatrixAddByMatrix(matrix, rvalue);
+bail:
+        return matrix;
+}
+
+extern DSMatrix * DSMatrixByDividingMatrix(const DSMatrix *lvalue, const DSMatrix *rvalue)
+{
+        DSError(M_DS_NOT_IMPL, A_DS_ERROR);
+        return NULL;
+}
+
+extern DSMatrix * DSMatrixByMultiplyingMatrix(const DSMatrix *lvalue, const DSMatrix *rvalue)
+{
+        DSMatrix * matrix = NULL;
+        if (lvalue == NULL || rvalue == NULL) {
+                DSError(M_DS_NULL, A_DS_WARN);
+                goto bail;
+        }
+        if (DSMatrixColumns(lvalue) != DSMatrixRows(rvalue)) {
+                DSError("Matrix dimensions do not match", A_DS_ERROR);
+                goto bail;
+        }
+        matrix = DSMatrixAlloc(DSMatrixRows(lvalue), DSMatrixColumns(rvalue));
+        gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, 
+                       DSMatrixInternalPointer(lvalue), 
+                       DSMatrixInternalPointer(rvalue), 0, DSMatrixInternalPointer(matrix));
+bail:
+        return matrix;
+}
+
+extern DSMatrix * DSMatrixByApplyingFunction(const DSMatrix *mvalue, double (*function)(double))
+{
+        DSMatrix * matrix = NULL;
+        if (mvalue == NULL || function == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        matrix = DSMatrixCopy(mvalue);        
+        DSMatrixApplyFunction(matrix, function);
+bail:
+        return matrix;
+}
+
+
+extern DSMatrix * DSMatrixBySubstractingScalar(const DSMatrix *lvalue, const double rvalue)
+{
+        DSMatrix * matrix = NULL;
+        if (lvalue == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        matrix = DSMatrixCopy(lvalue);        
+        if (rvalue == 0.0) {
+                goto bail;
+        }
+       gsl_matrix_add_constant(DSMatrixInternalPointer(matrix), -rvalue);
+bail:
+        return matrix;
+}
+
+extern DSMatrix * DSMatrixByAddingScalar(const DSMatrix *lvalue, const double rvalue)
+{
+        DSMatrix * matrix = NULL;
+        if (lvalue == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        matrix = DSMatrixCopy(lvalue);        
+        if (rvalue == 0.0) {
+                goto bail;
+        }
+       gsl_matrix_add_constant(DSMatrixInternalPointer(matrix), rvalue);
+bail:
+        return matrix;
+}
+
+extern DSMatrix * DSMatrixByDividingScalar(const DSMatrix *lvalue, const double rvalue)
+{
+        DSMatrix * matrix = NULL;
+        if (lvalue == NULL) {
+                DSError(M_DS_NULL, A_DS_WARN);
+                goto bail;
+        }
+        matrix = DSMatrixCopy(lvalue);        
+        if (rvalue == 0.0) {
+                DSMatrixSetDoubleValueAll(matrix, INFINITY);
+                goto bail;
+        }
+       gsl_matrix_scale(DSMatrixInternalPointer(matrix), 1.0/rvalue);
+bail:
+        return matrix;
+}
+
+extern DSMatrix * DSMatrixByMultiplyingScalar(const DSMatrix *lvalue, const double rvalue)
+{
+        DSMatrix * matrix = NULL;
+        if (lvalue == NULL) {
+                DSError(M_DS_NULL, A_DS_WARN);
+                goto bail;
+        }
+        matrix = DSMatrixCopy(lvalue);        
+        if (rvalue == 0.0) {
+                DSMatrixSetDoubleValueAll(matrix, 0.0);
+                goto bail;
+        }
+       gsl_matrix_scale(DSMatrixInternalPointer(matrix), rvalue);
+bail:
+        return matrix;
+}
+
+
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Basic Accesor functions
 #endif
 
-
-extern void DSMatrixSetRows(DSMatrix * matrix, const DSUInteger rows)
-{
-        if (matrix == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
-                goto bail;
-        }
-        if (DSMatrixInternalPointer(matrix) != NULL) {
-                DSError(M_DS_WRONG, A_DS_ERROR);
-                goto bail;
-        }
-        DSMatrixRows(matrix) = rows;
-bail:
-        return;
-}
-
-extern void DSMatrixSetColumns(DSMatrix * matrix, const DSUInteger columns)
-{
-        if (matrix == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
-                goto bail;
-        }
-        if (DSMatrixInternalPointer(matrix) != NULL) {
-                DSError(M_DS_WRONG, A_DS_ERROR);
-                goto bail;
-        }
-        DSMatrixColumns(matrix) = columns;
-bail:
-        return;
-}
+//
+//extern void DSMatrixSetRows(DSMatrix * matrix, const DSUInteger rows)
+//{
+//        if (matrix == NULL) {
+//                DSError(M_DS_NULL, A_DS_WARN);
+//                goto bail;
+//        }
+//        if (DSMatrixInternalPointer(matrix) != NULL) {
+//                DSError(M_DS_WRONG, A_DS_ERROR);
+//                goto bail;
+//        }
+//        DSMatrixRows(matrix) = rows;
+//bail:
+//        return;
+//}
+//
+//extern void DSMatrixSetColumns(DSMatrix * matrix, const DSUInteger columns)
+//{
+//        if (matrix == NULL) {
+//                DSError(M_DS_NULL, A_DS_WARN);
+//                goto bail;
+//        }
+//        if (DSMatrixInternalPointer(matrix) != NULL) {
+//                DSError(M_DS_WRONG, A_DS_ERROR);
+//                goto bail;
+//        }
+//        DSMatrixColumns(matrix) = columns;
+//bail:
+//        return;
+//}
 
 /**
  * \brief Returns the element of the DSMatrix specified by a row and column.
@@ -345,7 +535,7 @@ extern double DSMatrixDoubleValue(const DSMatrix *matrix, const DSUInteger row, 
                 DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_ERROR);
                 goto bail;
         }
-        value = gsl_matrix_get(DSMatrixInternalPointer(matrix), row, column);
+        value =gsl_matrix_get(DSMatrixInternalPointer(matrix), row, column);
 bail:
         return value;
 }
@@ -364,7 +554,7 @@ extern void DSMatrixSetDoubleValue(DSMatrix *matrix, const DSUInteger row, const
                 DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_ERROR);
                 goto bail;
         }
-        gsl_matrix_set(DSMatrixInternalPointer(matrix), row, column, value);
+       gsl_matrix_set(DSMatrixInternalPointer(matrix), row, column, value);
 bail:
         return;
 }
@@ -440,7 +630,7 @@ extern void DSMatrixSetDoubleValueAll(DSMatrix *matrix, const double value)
                 DSError(M_DS_MAT_NOINTERNAL, A_DS_WARN);
                 goto bail;
         }
-        gsl_matrix_set_all(DSMatrixInternalPointer(matrix), value);
+       gsl_matrix_set_all(DSMatrixInternalPointer(matrix), value);
 bail:
         return;
 }
@@ -453,7 +643,6 @@ extern void DSMatrixRoundToSignificantFigures(DSMatrix *matrix, const unsigned c
 {
         DSUInteger i, j;
         double value;
-        char format[10];
         char data[100];
         if (matrix == NULL) {
                 DSError(M_DS_NULL, A_DS_WARN);
@@ -463,10 +652,10 @@ extern void DSMatrixRoundToSignificantFigures(DSMatrix *matrix, const unsigned c
                 DSError(M_DS_MAT_NOINTERNAL, A_DS_WARN);
                 goto bail;
         }
-        sprintf(format, "%%.%dlf", figures);
+        //        sprintf(format, "%%.%dlf", figures);
         for (i = 0; i < DSMatrixRows(matrix); i++) {
                 for (j = 0; j < DSMatrixColumns(matrix); j++) {
-                        sprintf(data, format, DSMatrixDoubleValue(matrix, i, j));
+                        sprintf(data, "%.*lf", figures, DSMatrixDoubleValue(matrix, i, j));
                         sscanf(data, "%lf", &value);
                         DSMatrixSetDoubleValue(matrix, i, j, value);
                 }
@@ -837,7 +1026,7 @@ extern void DSMatrixSwitchRows(DSMatrix *matrix, const DSUInteger rowA, const DS
                 DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_WARN);
                 goto bail;
         }
-        gsl_matrix_swap_rows(DSMatrixInternalPointer(matrix), rowA, rowB);
+       gsl_matrix_swap_rows(DSMatrixInternalPointer(matrix), rowA, rowB);
 bail:
         return;
 }
@@ -852,9 +1041,52 @@ extern void DSMatrixSwitchColumns(DSMatrix *matrix, const DSUInteger columnA, co
                 DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_WARN);
                 goto bail;
         }
-        gsl_matrix_swap_columns(DSMatrixInternalPointer(matrix), columnA, columnB);
+       gsl_matrix_swap_columns(DSMatrixInternalPointer(matrix), columnA, columnB);
 bail:
         return;
+}
+
+extern DSMatrix * DSMatrixWithUniqueRows(const DSMatrix *matrix)
+{
+        DSMatrix *newMatrix = NULL;
+        bool * rowsToRemove = NULL;
+        DSUInteger * indexRowsToRemove;
+        DSUInteger i, j, k, numberToRemove;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberToRemove = 0;
+        rowsToRemove = DSSecureCalloc(sizeof(bool), DSMatrixRows(matrix));
+        for (i = 0; i < DSMatrixRows(matrix)-1; i++) {
+                if (rowsToRemove[i] == true)
+                        continue;
+                for (j = i+1; j < DSMatrixRows(matrix); j++) {
+                        if (rowsToRemove[j] == true)
+                                continue;
+                        for (k = 0; k < DSMatrixColumns(matrix); k++)
+                                if (gsl_matrix_get(DSMatrixInternalPointer(matrix), i, k) !=
+                                   gsl_matrix_get(DSMatrixInternalPointer(matrix), j, k))
+                                        break;
+                        if (k == DSMatrixColumns(matrix)) {
+                                rowsToRemove[j] = true;
+                                numberToRemove++;
+                        }
+                }
+        }
+        j = 0;
+        if (numberToRemove != 0) {
+                indexRowsToRemove = DSSecureCalloc(sizeof(DSUInteger), numberToRemove);
+                for (i = 0; i < DSMatrixRows(matrix); i++) {
+                        if (rowsToRemove[i] == true)
+                                indexRowsToRemove[j++] = i;
+                }
+                newMatrix = DSMatrixSubMatrixExcludingRows(matrix, numberToRemove, indexRowsToRemove);
+                DSSecureFree(indexRowsToRemove);
+        }
+        DSSecureFree(rowsToRemove);
+bail:
+        return newMatrix;
 }
 
 extern void DSMatrixPrint(const DSMatrix *matrix)
@@ -1007,7 +1239,7 @@ extern double minimumValue(const DSMatrix *matrix, const bool shouldExcludeZero)
                 DSError(M_DS_MAT_NOINTERNAL, A_DS_ERROR);
                 goto bail;
         }
-        minValue = gsl_matrix_min(DSMatrixInternalPointer(matrix));
+        minValue =gsl_matrix_min(DSMatrixInternalPointer(matrix));
 bail:
         return minValue;
 }
@@ -1022,7 +1254,7 @@ extern double maximumValue(const DSMatrix *matrix, const bool shouldExcludeZero)
                 DSError(M_DS_MAT_NOINTERNAL, A_DS_ERROR);
                 goto bail;
         }
-        maxValue = gsl_matrix_max(DSMatrixInternalPointer(matrix));
+        maxValue =gsl_matrix_max(DSMatrixInternalPointer(matrix));
 bail:
         return maxValue;
 }
@@ -1035,86 +1267,56 @@ bail:
 #pragma mark Arithmetic
 #endif
 
-extern DSMatrix * DSMatrixBySubstractingMatrix(const DSMatrix *lvalue, const DSMatrix *rvalue)
+extern void DSMatrixAddByMatrix(DSMatrix *addTo, const DSMatrix *addBy)
 {
-        DSMatrix * matrix = NULL;
-        if (lvalue == NULL && rvalue == NULL) {
-                DSError("lvalue and rvalue are null", A_DS_WARN);
+        if (addTo == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (lvalue == NULL) {
-                matrix = DSMatrixByMultiplyingScalar(rvalue, -1.0);
+        if (addBy == NULL) {
+                DSError(M_DS_MAT_NULL ": Adding by NULL", A_DS_WARN);
                 goto bail;
         }
-        matrix = DSMatrixCopy(lvalue);
-        if (rvalue == NULL) {
-                matrix = DSMatrixCopy(lvalue);
-        } else if (DSMatrixRows(lvalue) != DSMatrixRows(rvalue)) {
+        if (DSMatrixRows(addTo) != DSMatrixRows(addBy)) {
                 DSError("Matrix rows do not match", A_DS_ERROR);
-        } else if (DSMatrixColumns(lvalue) != DSMatrixColumns(rvalue)) {
+        } else if (DSMatrixColumns(addTo) != DSMatrixColumns(addBy)) {
                 DSError("Matrix columns do not match", A_DS_ERROR);
         } else {
-                gsl_matrix_sub(DSMatrixInternalPointer(matrix),
-                               DSMatrixInternalPointer(rvalue));
+               gsl_matrix_add(DSMatrixInternalPointer(addTo),
+                               DSMatrixInternalPointer(addBy));
         }
 bail:
-        return matrix;
+        return;
 }
 
-extern DSMatrix * DSMatrixByAddingMatrix(const DSMatrix *lvalue, const DSMatrix *rvalue)
+extern void DSMatrixSubstractByMatrix(DSMatrix *addTo, const DSMatrix *addBy)
 {
-        DSMatrix * matrix = NULL;
-        if (lvalue == NULL && rvalue == NULL) {
-                DSError("lvalue and rvalue are null", A_DS_WARN);
+        if (addTo == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (lvalue == NULL) {
-                matrix = DSMatrixByMultiplyingScalar(rvalue, -1.0);
+        if (addBy == NULL) {
+                DSError(M_DS_MAT_NULL ": Adding by NULL", A_DS_ERROR);
                 goto bail;
         }
-        matrix = DSMatrixCopy(lvalue);
-        if (rvalue == NULL) {
-                matrix = DSMatrixCopy(lvalue);
-        } else if (DSMatrixRows(lvalue) != DSMatrixRows(rvalue)) {
+        if (DSMatrixRows(addTo) != DSMatrixRows(addBy)) {
                 DSError("Matrix rows do not match", A_DS_ERROR);
-        } else if (DSMatrixColumns(lvalue) != DSMatrixColumns(rvalue)) {
+        } else if (DSMatrixColumns(addTo) != DSMatrixColumns(addBy)) {
                 DSError("Matrix columns do not match", A_DS_ERROR);
         } else {
-                gsl_matrix_add(DSMatrixInternalPointer(matrix),
-                               DSMatrixInternalPointer(rvalue));
+               gsl_matrix_sub(DSMatrixInternalPointer(addTo),
+                               DSMatrixInternalPointer(addBy));
         }
 bail:
-        return matrix;
+        return;
 }
-extern DSMatrix * DSMatrixByDividingMatrix(const DSMatrix *lvalue, const DSMatrix *rvalue);  /** Multiplication by a matrix inverse or pseudoinverse**/
 
-extern DSMatrix * DSMatrixByMultiplyingMatrix(const DSMatrix *lvalue, const DSMatrix *rvalue)
-{
-        DSMatrix * matrix = NULL;
-        if (lvalue == NULL || rvalue == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
-                goto bail;
-        }
-        if (DSMatrixColumns(lvalue) != DSMatrixRows(rvalue)) {
-                DSError("Matrix dimensions do not match", A_DS_ERROR);
-                goto bail;
-        }
-        matrix = DSMatrixAlloc(DSMatrixRows(lvalue), DSMatrixColumns(rvalue));
-        gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, 
-                       DSMatrixInternalPointer(lvalue), 
-                       DSMatrixInternalPointer(rvalue), 0, DSMatrixInternalPointer(matrix));
-bail:
-        return matrix;
-}
-extern DSMatrix * DSMatrixByApplyingFunction(const DSMatrix *mvalue, double (*function)(double))
-{
-        DSMatrix * matrix = NULL;
+extern void DSMatrixApplyFunction(DSMatrix *matrix, double (*function)(double)) {
         DSUInteger i, j;
-        if (mvalue == NULL || function == NULL) {
+        if (matrix == NULL || function == NULL) {
                 DSError(M_DS_NULL, A_DS_ERROR);
                 goto bail;
         }
-        matrix = DSMatrixCopy(mvalue);        
         for (i = 0; i < DSMatrixRows(matrix); i++) {
                 for (j = 0; j < DSMatrixColumns(matrix); j++) {
                         DSMatrixSetDoubleValue(matrix,
@@ -1124,74 +1326,19 @@ extern DSMatrix * DSMatrixByApplyingFunction(const DSMatrix *mvalue, double (*fu
                 }
         }
 bail:
-        return matrix;
+        return;
 }
 
 
-extern DSMatrix * DSMatrixBySubstractingScalar(const DSMatrix *lvalue, const double rvalue)
+extern void DSMatrixMultiplyByScalar(DSMatrix *matrix, const double value)
 {
-        DSMatrix * matrix = NULL;
-        if (lvalue == NULL) {
-                DSError(M_DS_NULL, A_DS_ERROR);
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
                 goto bail;
         }
-        matrix = DSMatrixCopy(lvalue);        
-        if (rvalue == 0.0) {
-                goto bail;
-        }
-        gsl_matrix_add_constant(DSMatrixInternalPointer(matrix), -rvalue);
+       gsl_matrix_scale(DSMatrixInternalPointer(matrix), value);
 bail:
-        return matrix;
-}
-
-extern DSMatrix * DSMatrixByAddingScalar(const DSMatrix *lvalue, const double rvalue)
-{
-        DSMatrix * matrix = NULL;
-        if (lvalue == NULL) {
-                DSError(M_DS_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        matrix = DSMatrixCopy(lvalue);        
-        if (rvalue == 0.0) {
-                goto bail;
-        }
-        gsl_matrix_add_constant(DSMatrixInternalPointer(matrix), rvalue);
-bail:
-        return matrix;
-}
-
-extern DSMatrix * DSMatrixByDividingScalar(const DSMatrix *lvalue, const double rvalue)
-{
-        DSMatrix * matrix = NULL;
-        if (lvalue == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
-                goto bail;
-        }
-        matrix = DSMatrixCopy(lvalue);        
-        if (rvalue == 0.0) {
-                DSMatrixSetDoubleValueAll(matrix, INFINITY);
-                goto bail;
-        }
-        gsl_matrix_scale(DSMatrixInternalPointer(matrix), 1.0/rvalue);
-bail:
-        return matrix;
-}
-
-extern DSMatrix * DSMatrixByMultiplyingScalar(const DSMatrix *lvalue, const double rvalue)
-{
-        DSMatrix * matrix = NULL;
-        if (lvalue == NULL) {
-                DSError(M_DS_NULL, A_DS_WARN);
-                goto bail;
-        }
-        matrix = DSMatrixCopy(lvalue);        
-        if (rvalue == 0.0) {
-                DSMatrixSetDoubleValueAll(matrix, 0.0);
-                goto bail;
-        }
-        gsl_matrix_scale(DSMatrixInternalPointer(matrix), rvalue);
-bail:
-        return matrix;
+        return;
 }
 
 #if defined(__APPLE__) && defined (__MACH__)
@@ -1200,7 +1347,7 @@ bail:
 
 extern double DSMatrixDeterminant(const DSMatrix *matrix)
 {
-        gsl_matrix *LU;
+       gsl_matrix *LU;
         gsl_permutation *p;
         int sign;
         double determinant = NAN;
@@ -1213,12 +1360,12 @@ extern double DSMatrixDeterminant(const DSMatrix *matrix)
                 goto bail;
         }
         p = gsl_permutation_alloc(DSMatrixRows(matrix));
-        LU = gsl_matrix_alloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
-        gsl_matrix_memcpy(LU, DSMatrixInternalPointer(matrix));
+        LU =gsl_matrix_alloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
+       gsl_matrix_memcpy(LU, DSMatrixInternalPointer(matrix));
         gsl_linalg_LU_decomp(LU, p, &sign);
         determinant = gsl_linalg_LU_det(LU, sign);
         gsl_permutation_free(p);
-        gsl_matrix_free(LU);
+       gsl_matrix_free(LU);
 bail:
         return determinant;
 }
@@ -1239,7 +1386,7 @@ bail:
 
 extern DSMatrix * DSMatrixInverse(const DSMatrix *matrix)
 {
-        gsl_matrix *LU;
+       gsl_matrix *LU;
         gsl_permutation *p;
         DSMatrix *aMatrix = NULL;
         int sign;
@@ -1251,18 +1398,14 @@ extern DSMatrix * DSMatrixInverse(const DSMatrix *matrix)
                 DSError("Matrix to invert is singular", A_DS_NOERROR);
                 goto bail;
         }
-/*        if (DSMatrixRank(matrix) != DSMatrixRows(matrix)) {
-                DSError("Not full rank", A_DS_WARN);
-                goto bail;
-        }*/
         aMatrix = DSMatrixAlloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
         p = gsl_permutation_alloc(DSMatrixRows(matrix));
-        LU = gsl_matrix_alloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
-        gsl_matrix_memcpy(LU, DSMatrixInternalPointer(matrix));
+        LU =gsl_matrix_alloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
+       gsl_matrix_memcpy(LU, DSMatrixInternalPointer(matrix));
         gsl_linalg_LU_decomp(LU, p, &sign);
         gsl_linalg_LU_invert(LU, p, DSMatrixInternalPointer(aMatrix));
         gsl_permutation_free(p);
-        gsl_matrix_free(LU);
+       gsl_matrix_free(LU);
 bail:
         return aMatrix;
 }
@@ -1300,7 +1443,98 @@ bail:
         
 }
 
-extern DSMatrix * DSMatrixRightNullspace(const DSMatrix *matrix);
+/*
+ DSTNumericalMatrix *nullspace = nil;
+ gsl_matrix *tempMatrix;
+ NSUInteger cols, i, j, k;
+ if (matrix == NULL)
+ goto bail;
+ [self calculateSingularValueDecomposition];
+ if (U == NULL || S == NULL || V == NULL || w == NULL)
+ goto bail;
+ cols = DST_MATRIX_COLUMNS(matrix) - [self rank];
+ if (cols == 0)
+ goto bail;
+ tempMatrix = gsl_matrix_alloc(DST_MATRIX_ROWS(matrix), cols);
+ j = 0;
+ for (i = 0; i < DST_MATRIX_ROWS(V); i++) {
+ if (fabs(S->data[i*S->stride]) > tolerance)
+ continue;
+ for (k = 0; k < DST_MATRIX_COLUMNS(V); k++) {
+ tempMatrix->data[j*tempMatrix->tda+k] = V->data[k*V->tda+i];
+ }
+ j++;
+ }
+ nullspace = [[DSTNumericalMatrix alloc] init];
+ [nullspace setRows:DST_MATRIX_ROWS(tempMatrix) columns:DST_MATRIX_COLUMNS(tempMatrix)];
+ gsl_matrix_memcpy([nullspace matrix], tempMatrix);
+ gsl_matrix_free(tempMatrix);
+ [nullspace autorelease];
+ bail:
+ return nullspace;
+ */
+extern DSMatrix * DSMatrixRightNullspace(const DSMatrix *matrix)
+{
+        DSMatrix *nullspace = NULL, *V = NULL, *S = NULL;
+        DSMatrixArray * svd = NULL;
+        DSUInteger i, j , k, columns, rank = 0;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        svd = DSMatrixSVD(matrix);
+        if (svd == NULL) {
+                DSError(M_DS_NULL ": Singular Value decomposition failed", A_DS_ERROR);
+                goto bail;
+        }
+        S = DSMatrixArrayMatrix(svd, 0);
+        V = DSMatrixArrayMatrix(svd, 2);
+        if (S == NULL) {
+                DSError(M_DS_MAT_NULL ": S matrix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (V == NULL) {
+                DSError(M_DS_MAT_NULL ": V matrix is NULL", A_DS_ERROR);
+                goto bail;                
+        }
+        for (i = 0; i < DSMatrixColumns(S); i++)
+                rank += (fabs(DSMatrixDoubleValue(S, 0, i)) >= 1E-14);
+        columns = DSMatrixColumns(matrix) - rank;
+        if (columns == 0)
+                goto bail;
+        nullspace = DSMatrixCalloc(DSMatrixRows(V), columns);
+        j = 0;
+        for (i = 0; i < DSMatrixColumns(S); i++) {
+                if (fabs(DSMatrixDoubleValue(S, 0, i)) >= 1E-14)
+                    continue;
+                for (k = 0; k < DSMatrixRows(V); k++) {
+                        DSMatrixSetDoubleValue(nullspace, k, j, DSMatrixDoubleValue(V, k, i));
+                }
+                j++;
+        }
+bail:
+        if (svd != NULL)
+                DSMatrixArrayFree(svd);
+
+        return nullspace;
+}
+
+extern DSMatrix * DSMatrixLeftNullspace(const DSMatrix *matrix)
+{
+        DSMatrix *nullspace = NULL;
+        DSMatrix *transpose = NULL;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        transpose = DSMatrixTranspose(matrix);
+        if (transpose != NULL) {
+                nullspace = DSMatrixRightNullspace(transpose);
+                DSMatrixFree(transpose);
+        }
+bail:
+        return nullspace;
+}
 
 /**
  * \brief Creates a LU decomposition and returns the permutation matrix.
@@ -1317,7 +1551,7 @@ extern DSMatrixArray * DSMatrixPLUDecomposition(const DSMatrix *A)
         DSMatrix **PLU = NULL;
         DSMatrixArray *array = NULL;
         DSUInteger i, j;
-        gsl_matrix *LU;
+       gsl_matrix *LU;
         gsl_permutation *p = NULL;
         int sign;
         if (A == NULL) {
@@ -1329,8 +1563,8 @@ extern DSMatrixArray * DSMatrixPLUDecomposition(const DSMatrix *A)
                 goto bail;
         }
         p = gsl_permutation_alloc(DSMatrixRows(A));
-        LU = gsl_matrix_alloc(DSMatrixRows(A), DSMatrixColumns(A));
-        gsl_matrix_memcpy(LU, DSMatrixInternalPointer(A));
+        LU =gsl_matrix_alloc(DSMatrixRows(A), DSMatrixColumns(A));
+       gsl_matrix_memcpy(LU, DSMatrixInternalPointer(A));
         gsl_linalg_LU_decomp(LU, p, &sign);
         PLU = DSSecureCalloc(sizeof(DSMatrix *), 3);
         PLU[0] = DSMatrixCalloc(DSMatrixRows(A), DSMatrixColumns(A));
@@ -1341,13 +1575,13 @@ extern DSMatrixArray * DSMatrixPLUDecomposition(const DSMatrix *A)
                 DSMatrixSetDoubleValue(PLU[0], i, (DSUInteger)gsl_permutation_get(p, i), 1.0);
                 for (j = 0; j < DSMatrixColumns(A); j++) {
                         if (i > j)
-                                DSMatrixSetDoubleValue(PLU[1], i, j, gsl_matrix_get(LU, i, j));
+                                DSMatrixSetDoubleValue(PLU[1], i, j,gsl_matrix_get(LU, i, j));
                         else
-                                DSMatrixSetDoubleValue(PLU[2], i, j, gsl_matrix_get(LU, i, j));
+                                DSMatrixSetDoubleValue(PLU[2], i, j,gsl_matrix_get(LU, i, j));
                 }
         }
         gsl_permutation_free(p);
-        gsl_matrix_free(LU);
+       gsl_matrix_free(LU);
         array = DSMatrixArrayAlloc();
         DSMatrixArrayAddMatrix(array, PLU[0]);
         DSMatrixArrayAddMatrix(array, PLU[1]);
@@ -1361,9 +1595,53 @@ bail:
 #pragma mark - Matrix GLPK conversions
 #endif
 
-extern double * DSMatrixDataForGLPK(const DSMatrix *matrix);
-extern int * DSMatrixRowsForGLPK(const DSMatrix *matrix);
-extern int * DSMatrixColumnsForGLPK(const DSMatrix *matrix);
+extern double * DSMatrixDataForGLPK(const DSMatrix *matrix)
+{
+        double *data = NULL;
+        DSUInteger i, j;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        data = calloc(sizeof(double),DSMatrixRows(matrix)*DSMatrixColumns(matrix)+1);
+        for (i = 0; i < DSMatrixRows(matrix); i++) {
+                for (j = 0; j < DSMatrixColumns(matrix); j++) {
+                        data[1+i*DSMatrixColumns(matrix)+j] = DSMatrixDoubleValue(matrix, i, j);
+                }
+        }
+bail:
+        return data;
+}
 
-//#endif
+extern int * DSMatrixRowsForGLPK(const DSMatrix *matrix)
+{
+        int *rows;
+        DSUInteger i;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        rows = calloc(sizeof(int), DSMatrixRows(matrix)*DSMatrixColumns(matrix)+1);
+        for (i = 1; i <= DSMatrixRows(matrix)*DSMatrixColumns(matrix); i++) {
+                rows[i] = ((i-1) / DSMatrixColumns(matrix))+1;
+        }
+bail:
+        return rows;
+}
+
+extern int * DSMatrixColumnsForGLPK(const DSMatrix *matrix)
+{
+        int *columns;
+        DSUInteger i;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        columns = calloc(sizeof(int), DSMatrixRows(matrix)*DSMatrixColumns(matrix)+1);
+        for (i = 1; i <= DSMatrixRows(matrix)*DSMatrixColumns(matrix); i++) {
+                columns[i] = ((i-1) % DSMatrixColumns(matrix))+1;
+        }
+bail:
+        return columns;
+}
 

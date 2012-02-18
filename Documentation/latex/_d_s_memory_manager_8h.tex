@@ -25,11 +25,11 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void $\ast$ \hyperlink{_d_s_memory_manager_8h_adee8e638b271ad5a066179a000e98cf2}{DSSecureMalloc} (DSInteger size)
+void $\ast$ \hyperlink{_d_s_memory_manager_8h_a9563f15fd77be4f2dbf49880f6a69bd3}{DSSecureMalloc} (size\_\-t size)
 \begin{DoxyCompactList}\small\item\em Function to securely allocate data using malloc. \item\end{DoxyCompactList}\item 
-void $\ast$ \hyperlink{_d_s_memory_manager_8h_a8f23028da2b26088301ccef44cbf77da}{DSSecureCalloc} (DSInteger count, DSInteger size)
+void $\ast$ \hyperlink{_d_s_memory_manager_8h_a67580b5d6039a40385a68d6570b8a440}{DSSecureCalloc} (size\_\-t count, size\_\-t size)
 \begin{DoxyCompactList}\small\item\em Function to securely allocate data using calloc. \item\end{DoxyCompactList}\item 
-void $\ast$ \hyperlink{_d_s_memory_manager_8h_a404cffa20f1d31982aa083e8ba282085}{DSSecureRealloc} (void $\ast$ptr, DSInteger size)
+void $\ast$ \hyperlink{_d_s_memory_manager_8h_abc98af878ea31098784da0b438364757}{DSSecureRealloc} (void $\ast$ptr, size\_\-t size)
 \begin{DoxyCompactList}\small\item\em Function to securely allocate data using realloc. \item\end{DoxyCompactList}\item 
 void \hyperlink{_d_s_memory_manager_8h_abf87115fd894707c20e7efb2108d1612}{DSSecureFree} (void $\ast$ptr)
 \begin{DoxyCompactList}\small\item\em Function to securely free data. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -59,11 +59,11 @@ Jason Lomnitz.
 
 
 \subsection{Function Documentation}
-\hypertarget{_d_s_memory_manager_8h_a8f23028da2b26088301ccef44cbf77da}{
+\hypertarget{_d_s_memory_manager_8h_a67580b5d6039a40385a68d6570b8a440}{
 \index{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureCalloc@{DSSecureCalloc}}
 \index{DSSecureCalloc@{DSSecureCalloc}!DSMemoryManager.h@{DSMemoryManager.h}}
-\subsubsection[{DSSecureCalloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSSecureCalloc (DSInteger {\em count}, \/  DSInteger {\em size})}}
-\label{_d_s_memory_manager_8h_a8f23028da2b26088301ccef44cbf77da}
+\subsubsection[{DSSecureCalloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSSecureCalloc (size\_\-t {\em count}, \/  size\_\-t {\em size})}}
+\label{_d_s_memory_manager_8h_a67580b5d6039a40385a68d6570b8a440}
 
 
 Function to securely allocate data using calloc. 
@@ -93,11 +93,11 @@ This function is a secure free function which checks the data pointer. If the da
 \begin{DoxyReturn}{Returns}
 A pointer to the allocated data. 
 \end{DoxyReturn}
-\hypertarget{_d_s_memory_manager_8h_adee8e638b271ad5a066179a000e98cf2}{
+\hypertarget{_d_s_memory_manager_8h_a9563f15fd77be4f2dbf49880f6a69bd3}{
 \index{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureMalloc@{DSSecureMalloc}}
 \index{DSSecureMalloc@{DSSecureMalloc}!DSMemoryManager.h@{DSMemoryManager.h}}
-\subsubsection[{DSSecureMalloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSSecureMalloc (DSInteger {\em size})}}
-\label{_d_s_memory_manager_8h_adee8e638b271ad5a066179a000e98cf2}
+\subsubsection[{DSSecureMalloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSSecureMalloc (size\_\-t {\em size})}}
+\label{_d_s_memory_manager_8h_a9563f15fd77be4f2dbf49880f6a69bd3}
 
 
 Function to securely allocate data using malloc. 
@@ -110,11 +110,11 @@ This function is a secure malloc function which checks the allocated pointer. If
 \begin{DoxyReturn}{Returns}
 A pointer to the allocated data. 
 \end{DoxyReturn}
-\hypertarget{_d_s_memory_manager_8h_a404cffa20f1d31982aa083e8ba282085}{
+\hypertarget{_d_s_memory_manager_8h_abc98af878ea31098784da0b438364757}{
 \index{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureRealloc@{DSSecureRealloc}}
 \index{DSSecureRealloc@{DSSecureRealloc}!DSMemoryManager.h@{DSMemoryManager.h}}
-\subsubsection[{DSSecureRealloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSSecureRealloc (void $\ast$ {\em ptr}, \/  DSInteger {\em size})}}
-\label{_d_s_memory_manager_8h_a404cffa20f1d31982aa083e8ba282085}
+\subsubsection[{DSSecureRealloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSSecureRealloc (void $\ast$ {\em ptr}, \/  size\_\-t {\em size})}}
+\label{_d_s_memory_manager_8h_abc98af878ea31098784da0b438364757}
 
 
 Function to securely allocate data using realloc. 

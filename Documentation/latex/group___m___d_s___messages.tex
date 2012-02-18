@@ -5,6 +5,11 @@
 \subsection*{Defines}
 \begin{DoxyCompactItemize}
 \item 
+\hypertarget{group___m___d_s___messages_ga705c3e02cba93cfcf85ba8ad7777b054}{
+\#define {\bfseries M\_\-DS\_\-CASE\_\-NULL}~M\_\-DS\_\-NULL \char`\"{}: Case is NULL\char`\"{}}
+\label{group___m___d_s___messages_ga705c3e02cba93cfcf85ba8ad7777b054}
+
+\item 
 \hypertarget{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}{
 \#define \hyperlink{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}{M\_\-DS\_\-NOFILE}~\char`\"{}File not found\char`\"{}}
 \label{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}
@@ -49,7 +54,17 @@
 \#define \hyperlink{group___m___d_s___messages_ga834bdead8f9b0e20331b57e051c7f379}{M\_\-DS\_\-MAT\_\-NOINTERNAL}~\char`\"{}Matrix data is empty\char`\"{}}
 \label{group___m___d_s___messages_ga834bdead8f9b0e20331b57e051c7f379}
 
-\begin{DoxyCompactList}\small\item\em Message for a NULL internal matrix structure. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Message for a NULL internal matrix structure. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_gac31f10e693824b630ea7bd80f59acadf}{
+\#define \hyperlink{group___m___d_s___messages_gac31f10e693824b630ea7bd80f59acadf}{M\_\-DS\_\-VAR\_\-NULL}~M\_\-DS\_\-NULL \char`\"{}: Variable Pool is NULL\char`\"{}}
+\label{group___m___d_s___messages_gac31f10e693824b630ea7bd80f59acadf}
+
+\begin{DoxyCompactList}\small\item\em Error message indicating a NULL variable pool. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_gaa3430366ad7beeafb53737b0174c5a0b}{
+\#define \hyperlink{group___m___d_s___messages_gaa3430366ad7beeafb53737b0174c5a0b}{M\_\-DS\_\-VAR\_\-LOCKED}~\char`\"{} DSVariablePool: Insufficient priviliges\char`\"{}}
+\label{group___m___d_s___messages_gaa3430366ad7beeafb53737b0174c5a0b}
+
+\begin{DoxyCompactList}\small\item\em Error message indicating insufficient priviliges to manipulate a variable pool. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -60,4 +75,8 @@ Defined here are the generic messages used to report the appropriate errors. The
 
 \hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError}
 \end{DoxySeeAlso}
-Messages for \hyperlink{struct_d_s_matrix}{DSMatrix} related errors are M\_\-DS\_\-MAT\_\-NULL, M\_\-DS\_\-MAT\_\-OUTOFBOUNDS and M\_\-DS\_\-MAT\_\-NOINTERNAL. 
+Messages for \hyperlink{struct_d_s_case}{DSCase} related errors is M\_\-DS\_\-CASE\_\-NULL.
+
+Messages for \hyperlink{struct_d_s_matrix}{DSMatrix} related errors are M\_\-DS\_\-MAT\_\-NULL, M\_\-DS\_\-MAT\_\-OUTOFBOUNDS and M\_\-DS\_\-MAT\_\-NOINTERNAL.
+
+Messages for \hyperlink{struct_d_s_variable}{DSVariable} related errors are M\_\-DS\_\-VAR\_\-NULL and M\_\-DS\_\-VAR\_\-LOCKED. 

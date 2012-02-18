@@ -67,17 +67,57 @@ This graph shows which files directly or indirectly include this file:</div>
 
 <p><a href="_d_s_i_o_8h_source.html">Go to the source code of this file.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Defines</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gae22b11d61deb34f2a04597b5b52e0186"></a><!-- doxytag: member="DSIO.h::DS_CASE_JSON_NO_SSYSTEM" ref="gae22b11d61deb34f2a04597b5b52e0186" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s.html#gae22b11d61deb34f2a04597b5b52e0186">DS_CASE_JSON_NO_SSYSTEM</a>&nbsp;&nbsp;&nbsp;1</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Flag value indicating that the S-System information should not be included in the JSON string. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaae3a87d36892fd5744ebe4ad8b111ddf"></a><!-- doxytag: member="DSIO.h::DS_CASE_JSON_NO_CASE_SIGNATURE" ref="gaae3a87d36892fd5744ebe4ad8b111ddf" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s.html#gaae3a87d36892fd5744ebe4ad8b111ddf">DS_CASE_JSON_NO_CASE_SIGNATURE</a>&nbsp;&nbsp;&nbsp;2</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Flag value indicating that the case signature should not be included in the JSON string. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga43b67d5fc5384d7f11297fa0dab16a72"></a><!-- doxytag: member="DSIO.h::DS_CASE_JSON_NO_CONDITIONS" ref="ga43b67d5fc5384d7f11297fa0dab16a72" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s.html#ga43b67d5fc5384d7f11297fa0dab16a72">DS_CASE_JSON_NO_CONDITIONS</a>&nbsp;&nbsp;&nbsp;4</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Flag value indicating that the conditions for validity should not be included in the JSON string. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gade5134b08dd7f1da683bdb3fb876cc11"></a><!-- doxytag: member="DSIO.h::DS_SSYSTEM_JSON_NO_SOLUTION" ref="gade5134b08dd7f1da683bdb3fb876cc11" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s.html#gade5134b08dd7f1da683bdb3fb876cc11">DS_SSYSTEM_JSON_NO_SOLUTION</a>&nbsp;&nbsp;&nbsp;1</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Flag value indicating that the S-System solution should not be included in the JSON string. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga81352fdd00a529e9a2bc2be107fd7a9b"></a><!-- doxytag: member="DSIO.h::DS_SSYSTEM_JSON_NO_SINGULAR" ref="ga81352fdd00a529e9a2bc2be107fd7a9b" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s.html#ga81352fdd00a529e9a2bc2be107fd7a9b">DS_SSYSTEM_JSON_NO_SINGULAR</a>&nbsp;&nbsp;&nbsp;2</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Flag value indicating that the JSON string will not indicate if the S-System is singular. <br/></td></tr>
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a71e4035e82cf614f1be280b127213ca6">DSIOSetErrorFile</a> (FILE *aFile)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to assign default error file.  <a href="#a71e4035e82cf614f1be280b127213ca6"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa699261767672e938101744e4032249"></a><!-- doxytag: member="DSIO.h::DSIOSetPrintFunction" ref="aaa699261767672e938101744e4032249" args="(int(*printFunction)(const char *,...))" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSIOSetPrintFunction</b> (int(*printFunction)(const char *,...))</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a37a5183ebd833f0cf9bc2ed19e43fb84"></a><!-- doxytag: member="DSIO.h::DSIOSetPostWarningFunction" ref="a37a5183ebd833f0cf9bc2ed19e43fb84" args="(void(*warningFunction)(const char *message))" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSIOSetPostWarningFunction</b> (void(*warningFunction)(const char *message))</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c9be4c3d8b1802aa5295165c3f0b861"></a><!-- doxytag: member="DSIO.h::DSIOSetPostErrorFunction" ref="a8c9be4c3d8b1802aa5295165c3f0b861" args="(void(*errorFunction)(const char *message))" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSIOSetPostErrorFunction</b> (void(*errorFunction)(const char *message))</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1fbcb57d54a5ac852484b43e317aa43f"></a><!-- doxytag: member="DSIO.h::DSIOSetPostFatalErrorFunction" ref="a1fbcb57d54a5ac852484b43e317aa43f" args="(void(*fatalErrorFunction)(const char *message))" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSIOSetPostFatalErrorFunction</b> (void(*fatalErrorFunction)(const char *message))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#aaa699261767672e938101744e4032249">DSIOSetPrintFunction</a> (int(*printFunction)(const char *,...))</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to assign default printf function.  <a href="#aaa699261767672e938101744e4032249"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a37a5183ebd833f0cf9bc2ed19e43fb84">DSIOSetPostWarningFunction</a> (void(*warningFunction)(const char *message))</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to assign default warning posting function.  <a href="#a37a5183ebd833f0cf9bc2ed19e43fb84"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a8c9be4c3d8b1802aa5295165c3f0b861">DSIOSetPostErrorFunction</a> (void(*errorFunction)(const char *message))</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to assign default error posting function.  <a href="#a8c9be4c3d8b1802aa5295165c3f0b861"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a1fbcb57d54a5ac852484b43e317aa43f">DSIOSetPostFatalErrorFunction</a> (void(*fatalErrorFunction)(const char *message))</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to assign default fatal error posting function.  <a href="#a1fbcb57d54a5ac852484b43e317aa43f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a6cb102dc8b55faa48dca0c51fa0fb517">DSIOSetCaseJSONOptions</a> (const DSUInteger options)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function that sets the conversion options for a <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> to JSON format.  <a href="#a6cb102dc8b55faa48dca0c51fa0fb517"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a2a957ad88bd1a2f4d5b0ed616344c7ac">DSIOSetSSystemJSONOptions</a> (const DSUInteger options)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function that sets the conversion options for a <a class="el" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a> to JSON format.  <a href="#a2a957ad88bd1a2f4d5b0ed616344c7ac"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a754fa75644786b862aabc2660f191d14">DSVariablePoolStringInJSONFormat</a> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to convert a <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a> into a JSON formatted string.  <a href="#a754fa75644786b862aabc2660f191d14"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a6a9e23721286736288947c43461f12ae">DSMatrixStringInJSONFormat</a> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to convert a <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> into a JSON formatted string.  <a href="#a6a9e23721286736288947c43461f12ae"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#ab8cae51e1c113fc52e1da34fffdc6f40">DSMatrixArrayStringInJSONFormat</a> (const <a class="el" href="struct_d_s_matrix_array.html">DSMatrixArray</a> *array)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to convert a <a class="el" href="struct_d_s_matrix_array.html" title="Data type representing an array of matrices.">DSMatrixArray</a> into a JSON formatted string.  <a href="#ab8cae51e1c113fc52e1da34fffdc6f40"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a2679d81ab81c12c930cbb7a5e2791d73">DSSSystemStringInJSONFormat</a> (const <a class="el" href="struct_d_s_s_system.html">DSSSystem</a> *ssys)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to convert a <a class="el" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a> into a JSON formatted string.  <a href="#a2679d81ab81c12c930cbb7a5e2791d73"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a08dbac8a5ae623c94cf44bd620e46060">DSCaseStringInJSONFormat</a> (const <a class="el" href="struct_d_s_case.html">DSCase</a> *aCase)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to convert a <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> into a JSON formatted string.  <a href="#a08dbac8a5ae623c94cf44bd620e46060"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5bf56bf18214f64ec10eeb8a612f3e25"></a><!-- doxytag: member="DSIO.h::DSVariablePoolByParsingStringInJSONFormat" ref="a5bf56bf18214f64ec10eeb8a612f3e25" args="(const char *string)" -->
+<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolByParsingStringInJSONFormat</b> (const char *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a33da47a60e8affc7aa18e3ae77fac33b"></a><!-- doxytag: member="DSIO.h::DSMatrixByParsingStringInJSONFormat" ref="a33da47a60e8affc7aa18e3ae77fac33b" args="(const char *string)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByParsingStringInJSONFormat</b> (const char *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a30d4cd36b9779ea2c0b5f4517ffe2dfc"></a><!-- doxytag: member="DSIO.h::DSMatrixArrayByParsingStringInJSONFormat" ref="a30d4cd36b9779ea2c0b5f4517ffe2dfc" args="(const char *string)" -->
+<a class="el" href="struct_d_s_matrix_array.html">DSMatrixArray</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixArrayByParsingStringInJSONFormat</b> (const char *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13aa821864b0a082f7d77e4aaf08985d"></a><!-- doxytag: member="DSIO.h::DSSSystemByParsingStringInJSONFormat" ref="a13aa821864b0a082f7d77e4aaf08985d" args="(const char *string)" -->
+<a class="el" href="struct_d_s_s_system.html">DSSSystem</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSSSystemByParsingStringInJSONFormat</b> (const char *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a858a6748dbf86dbc5cd5d31146165b15"></a><!-- doxytag: member="DSIO.h::DSCaseByParsingStringInJSONFormat" ref="a858a6748dbf86dbc5cd5d31146165b15" args="(const char *string)" -->
+<a class="el" href="struct_d_s_case.html">DSCase</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSCaseByParsingStringInJSONFormat</b> (const char *string)</td></tr>
 <tr><td colspan="2"><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_i_o_8h.html#a01ab8215975bf8e2086ad342cfa6be26">DSPrintf</a> )(const char *,...)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Pointer to a function determining how messages are printed.  <a href="#a01ab8215975bf8e2086ad342cfa6be26"></a><br/></td></tr>
@@ -101,10 +141,67 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSIOSetPostFatalError
 <p>You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 <dl class="author"><dt><b>Author:</b></dt><dd>Jason Lomnitz. </dd></dl>
 <dl class="date"><dt><b>Date:</b></dt><dd>2011</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd><p class="startdd">Define standard input and output file formats. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd><p class="startdd">Define standard input and output file formats. </p>
 <p class="enddd">Define criteria for warnings, errors and fatal errors.</p>
 </dd></dl>
 <hr/><h2>Function Documentation</h2>
+<a class="anchor" id="a08dbac8a5ae623c94cf44bd620e46060"></a><!-- doxytag: member="DSIO.h::DSCaseStringInJSONFormat" ref="a08dbac8a5ae623c94cf44bd620e46060" args="(const DSCase *aCase)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* DSCaseStringInJSONFormat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_case.html">DSCase</a> *&nbsp;</td>
+          <td class="paramname"> <em>aCase</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function to convert a <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> into a JSON formatted string. </p>
+<p>This function is used to convert a <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> into a JSON object. The <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> is represented with a set of objects, where each object is a field of the <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> object. The default behavior exports all of the fields, this behavior can be overwritten by changing the <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> conversion options.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>aCase</em>&nbsp;</td><td>A <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> that will be used to create the JSON object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A C string with the JSON formatted data. If NULL, the conversion failed.</dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_i_o_8c.html#a6cb102dc8b55faa48dca0c51fa0fb517" title="Function that sets the conversion options for a DSCase to JSON format.">DSIOSetCaseJSONOptions()</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6cb102dc8b55faa48dca0c51fa0fb517"></a><!-- doxytag: member="DSIO.h::DSIOSetCaseJSONOptions" ref="a6cb102dc8b55faa48dca0c51fa0fb517" args="(const DSUInteger options)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DSIOSetCaseJSONOptions </td>
+          <td>(</td>
+          <td class="paramtype">const DSUInteger&nbsp;</td>
+          <td class="paramname"> <em>options</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function that sets the conversion options for a <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> to JSON format. </p>
+<p>This function is used to overwrite the default export behavior of the <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> object. The default behavior converts all of the data fields of the <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> into a JSON format, these options can be changed so the JSON conversion only includes some fields, such as excluding the conditions, excluding the S-System, etc.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>options</em>&nbsp;</td><td>A DSUInteger with the option flags, as specified by the <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> options.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s.html">Options for JSON conversion of DSCase object.</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a71e4035e82cf614f1be280b127213ca6"></a><!-- doxytag: member="DSIO.h::DSIOSetErrorFile" ref="a71e4035e82cf614f1be280b127213ca6" args="(FILE *aFile)" -->
 <div class="memitem">
 <div class="memproto">
@@ -129,13 +226,262 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSIOSetPostFatalError
   </table>
   </dd>
 </dl>
-<dl class="see"><dt><b>See also:</b></dt><dd>DSIOSetPostWarningFunction </dd>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_i_o_8h.html#a37a5183ebd833f0cf9bc2ed19e43fb84" title="Function to assign default warning posting function.">DSIOSetPostWarningFunction</a> </dd>
 <dd>
-DSIOSetPostErrorFunction </dd>
+<a class="el" href="_d_s_i_o_8h.html#a8c9be4c3d8b1802aa5295165c3f0b861" title="Function to assign default error posting function.">DSIOSetPostErrorFunction</a> </dd>
 <dd>
-DSIOSetPostFatalErrorFunction </dd>
+<a class="el" href="_d_s_i_o_8h.html#a1fbcb57d54a5ac852484b43e317aa43f" title="Function to assign default fatal error posting function.">DSIOSetPostFatalErrorFunction</a> </dd>
 <dd>
 <a class="el" href="_d_s_errors_8h.html#a09b28eb2b01986855910ca97dfe91144" title="Error reporting macro.">DSError</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8c9be4c3d8b1802aa5295165c3f0b861"></a><!-- doxytag: member="DSIO.h::DSIOSetPostErrorFunction" ref="a8c9be4c3d8b1802aa5295165c3f0b861" args="(void(*errorFunction)(const char *message))" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DSIOSetPostErrorFunction </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(const char *message)&nbsp;</td>
+          <td class="paramname"> <em>errorFunction</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function to assign default error posting function. </p>
+<p>This function is used to assign the function that handles the errors generated from the design space toolbox. Internally, it assigns the global variable DSPostError which points to a function.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>errorFunction</em>&nbsp;</td><td>A pointer to a function of the form void function(const char *). If NULL, default behavior is restored. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a1fbcb57d54a5ac852484b43e317aa43f"></a><!-- doxytag: member="DSIO.h::DSIOSetPostFatalErrorFunction" ref="a1fbcb57d54a5ac852484b43e317aa43f" args="(void(*fatalErrorFunction)(const char *message))" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DSIOSetPostFatalErrorFunction </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(const char *message)&nbsp;</td>
+          <td class="paramname"> <em>fatalErrorFunction</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function to assign default fatal error posting function. </p>
+<p>This function is used to assign the function that handles the fatal errors generated from the design space toolbox. Internally, it assigns the global variable DSPostFatalError which points to a function.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>errorFunction</em>&nbsp;</td><td>A pointer to a function of the form void function(const char *). If NULL, default behavior is restored. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a37a5183ebd833f0cf9bc2ed19e43fb84"></a><!-- doxytag: member="DSIO.h::DSIOSetPostWarningFunction" ref="a37a5183ebd833f0cf9bc2ed19e43fb84" args="(void(*warningFunction)(const char *message))" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DSIOSetPostWarningFunction </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(const char *message)&nbsp;</td>
+          <td class="paramname"> <em>warningFunction</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function to assign default warning posting function. </p>
+<p>This function is used to assign the function that handles the warnings generated from the design space toolbox. Internally, it assigns the global variable DSPostWarning which points to a function.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>warningFunction</em>&nbsp;</td><td>A pointer to a function of the form void function(const char *). If NULL, default behavior is restored. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aaa699261767672e938101744e4032249"></a><!-- doxytag: member="DSIO.h::DSIOSetPrintFunction" ref="aaa699261767672e938101744e4032249" args="(int(*printFunction)(const char *,...))" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DSIOSetPrintFunction </td>
+          <td>(</td>
+          <td class="paramtype">int(*)(const char *,...)&nbsp;</td>
+          <td class="paramname"> <em>printFunction</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function to assign default printf function. </p>
+<p>This function is used to assign the formated print function, DSPrintf. This function assigns the DSPrintf pointer to the function that should be used to print formatted strings. This function MUST be used to avoid problems relating to dynamic linking; by using this function the global variable DSPrintf is loaded into memory prior to changing its value.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>printFunction</em>&nbsp;</td><td>A pointer to a function of the form int function(const char *, ...). If NULL, default behavior is restored. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a2a957ad88bd1a2f4d5b0ed616344c7ac"></a><!-- doxytag: member="DSIO.h::DSIOSetSSystemJSONOptions" ref="a2a957ad88bd1a2f4d5b0ed616344c7ac" args="(const DSUInteger options)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DSIOSetSSystemJSONOptions </td>
+          <td>(</td>
+          <td class="paramtype">const DSUInteger&nbsp;</td>
+          <td class="paramname"> <em>options</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function that sets the conversion options for a <a class="el" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a> to JSON format. </p>
+<p>This function is used to overwrite the default export behavior of the <a class="el" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a> object. The default behavior converts all of the data fields of the S-System into a JSON format, these options can be changed so the JSON conversion only includes some fields, such as excluding the solution.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>options</em>&nbsp;</td><td>A DSUInteger with the option flags, as specified by the <a class="el" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a> options.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s.html">Options for JSON conversion of DSSSystem object.</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab8cae51e1c113fc52e1da34fffdc6f40"></a><!-- doxytag: member="DSIO.h::DSMatrixArrayStringInJSONFormat" ref="ab8cae51e1c113fc52e1da34fffdc6f40" args="(const DSMatrixArray *array)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* DSMatrixArrayStringInJSONFormat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_matrix_array.html">DSMatrixArray</a> *&nbsp;</td>
+          <td class="paramname"> <em>array</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function to convert a <a class="el" href="struct_d_s_matrix_array.html" title="Data type representing an array of matrices.">DSMatrixArray</a> into a JSON formatted string. </p>
+<p>This function is used to convert a <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> into a JSON object. The matrix array is stored as an array of objects, where each object is a <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a>. The order of the <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> object in the array represent the order of matrices in the matrix array.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>array</em>&nbsp;</td><td>A <a class="el" href="struct_d_s_matrix_array.html" title="Data type representing an array of matrices.">DSMatrixArray</a> that will be used to create the JSON object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A C string with the JSON formatted data. If NULL, the conversion failed. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6a9e23721286736288947c43461f12ae"></a><!-- doxytag: member="DSIO.h::DSMatrixStringInJSONFormat" ref="a6a9e23721286736288947c43461f12ae" args="(const DSMatrix *matrix)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* DSMatrixStringInJSONFormat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td>
+          <td class="paramname"> <em>matrix</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function to convert a <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> into a JSON formatted string. </p>
+<p>This function is used to convert a <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> into a JSON object. The matrix is stored as an array of arrays. The array of arrays represents the rows of the matrix, whereas the arrays of value are the values at the columns for a particular row.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>matrix</em>&nbsp;</td><td>A <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> that will be used to create the JSON object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A C string with the JSON formatted data. If NULL, the conversion failed. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2679d81ab81c12c930cbb7a5e2791d73"></a><!-- doxytag: member="DSIO.h::DSSSystemStringInJSONFormat" ref="a2679d81ab81c12c930cbb7a5e2791d73" args="(const DSSSystem *ssys)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* DSSSystemStringInJSONFormat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_s_system.html">DSSSystem</a> *&nbsp;</td>
+          <td class="paramname"> <em>ssys</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function to convert a <a class="el" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a> into a JSON formatted string. </p>
+<p>This function is used to convert a <a class="el" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a> into a JSON object. The S-System as a set of objects, where each object represents each of the fields of the <a class="el" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a>. The default behavior exports all of the fields, this behavior can be overwritten by changing the S-System conversion options.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>ssys</em>&nbsp;</td><td>A <a class="el" href="struct_d_s_s_system.html" title="Data type representing an S-System.">DSSSystem</a> that will be used to create the JSON object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A C string with the JSON formatted data. If NULL, the conversion failed.</dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_i_o_8c.html#a2a957ad88bd1a2f4d5b0ed616344c7ac" title="Function that sets the conversion options for a DSSSystem to JSON format.">DSIOSetSSystemJSONOptions()</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a754fa75644786b862aabc2660f191d14"></a><!-- doxytag: member="DSIO.h::DSVariablePoolStringInJSONFormat" ref="a754fa75644786b862aabc2660f191d14" args="(const DSVariablePool *pool)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* DSVariablePoolStringInJSONFormat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *&nbsp;</td>
+          <td class="paramname"> <em>pool</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Function to convert a <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a> into a JSON formatted string. </p>
+<p>This function is used to convert a <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a> into a JSON object. The variables of the variable pool are stored as pairs of a string and value.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pool</em>&nbsp;</td><td>A <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a> that will be used to create the JSON object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A C string with the JSON formatted data. If NULL, the conversion failed. </dd></dl>
 
 </div>
 </div>
@@ -172,7 +518,7 @@ DSIOSetPostFatalErrorFunction </dd>
 
 <p>Pointer to a function determining how errors are handled. </p>
 <p>This pointer to a function is used by DSErrorFunction to post erros. This pointer should be used to allow better integration of errors in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the error message. To change the function used, the function DSIOSetPostErrorFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd>DSIOSetPostErrorFunction </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_i_o_8h.html#a8c9be4c3d8b1802aa5295165c3f0b861" title="Function to assign default error posting function.">DSIOSetPostErrorFunction</a> </dd></dl>
 
 </div>
 </div>
@@ -189,7 +535,7 @@ DSIOSetPostFatalErrorFunction </dd>
 
 <p>Pointer to a function determining how fatal errors are handled. </p>
 <p>This pointer to a function is used by DSErrorFunction to post fatal erros. This pointer should be used to allow better integration of errors in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the error message. To change the function used, the function DSIOSetPostFatalErrorFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd>DSIOSetPostErrorFunction </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_i_o_8h.html#a8c9be4c3d8b1802aa5295165c3f0b861" title="Function to assign default error posting function.">DSIOSetPostErrorFunction</a> </dd></dl>
 
 </div>
 </div>
@@ -206,7 +552,7 @@ DSIOSetPostFatalErrorFunction </dd>
 
 <p>Pointer to a function determining how warning are handled. </p>
 <p>This pointer to a function is used by DSErrorFunction to post warnings. This pointer should be used to allow better integration of warnings in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the warning message. To change the function used, the function DSIOSetPostWarningFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd>DSIOSetPostWarningFunction </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_i_o_8h.html#a37a5183ebd833f0cf9bc2ed19e43fb84" title="Function to assign default warning posting function.">DSIOSetPostWarningFunction</a> </dd></dl>
 
 </div>
 </div>
@@ -223,7 +569,7 @@ DSIOSetPostFatalErrorFunction </dd>
 
 <p>Pointer to a function determining how messages are printed. </p>
 <p>This pointer to a function tells the error handling system which function to call with the error messages. If this pointer is NULL, the design space toolbox should have a default printing format, using printf to stdout. This pointer is intended to be used to override default behavior to be override. An example could be by using the mexPrintf function in matlab.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd>DSIOSetPrintFunction </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_i_o_8h.html#aaa699261767672e938101744e4032249" title="Function to assign default printf function.">DSIOSetPrintFunction</a> </dd></dl>
 
 </div>
 </div>
@@ -233,7 +579,7 @@ DSIOSetPostFatalErrorFunction </dd>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -242,7 +588,7 @@ DSIOSetPostFatalErrorFunction </dd>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:34 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:03 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

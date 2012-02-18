@@ -54,9 +54,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="_d_s_i_o_8h_source.html">DSIO.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_errors_8h_source.html">DSErrors.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_memory_manager_8h_source.html">DSMemoryManager.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_d_s_std_8h_source.html">DSVariable.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_d_s_variable_8h_source.html">DSVariable.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_matrix_8h_source.html">DSMatrix.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_matrix_array_8h_source.html">DSMatrixArray.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_d_s_expression_8h_source.html">DSExpression.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_d_s_g_m_a_system_8h_source.html">DSGMASystem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_d_s_s_system_8h_source.html">DSSSystem.h</a>&quot;</code><br/>
+<code>#include &quot;DSCase.h&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_d_s_design_space_8h_source.html">DSDesignSpace.h</a>&quot;</code><br/>
+<code>#include &quot;DSVertices.h&quot;</code><br/>
 <div class="dynheader">
 Include dependency graph for DSStd.h:</div>
 <div class="dynsection">
@@ -64,17 +70,10 @@ Include dependency graph for DSStd.h:</div>
 <map name="_d_s_std_8h_map" id="_d_s_std_8h">
 <area shape="rect" href="_d_s_types_8h.html" title="Header file with definitions for data types." alt="" coords="381,306,490,333" /><area shape="rect" href="_d_s_i_o_8h.html" title="Header file with standard input and output functions." alt="" coords="122,232,197,258" /><area shape="rect" href="_d_s_errors_8h.html" title="Header file with functions for error and exception handling." alt="" coords="190,157,299,184" /><area shape="rect" href="_d_s_memory_manager_8h.html" title="Header file with functions for secure memory allocation." alt="" coords="159,82,354,109" /><area shape="rect" href="_d_s_matrix_8h.html" title="Header file with functions for dealing with matrices." alt="" coords="479,157,589,184" /><area shape="rect" href="_d_s_matrix_array_8h.html" title="Header file with functions for dealing with matrix arrays." alt="" coords="530,82,685,109" /></map>
 </div>
-<div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dynsection">
-<div class="center"><img src="_d_s_std_8h__dep__incl.png" border="0" usemap="#_d_s_std_8hdep_map" alt=""/></div>
-</div>
 
 <p><a href="_d_s_std_8h_source.html">Go to the source code of this file.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Defines</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4734a126632c9737cd8e418f34781a2f"></a><!-- doxytag: member="DSStd.h::__DS_STD_INCLUDE__" ref="a4734a126632c9737cd8e418f34781a2f" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>__DS_STD_INCLUDE__</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="affb9fc32698fab7f7b36e0cf8e64c83e"></a><!-- doxytag: member="DSStd.h::free" ref="affb9fc32698fab7f7b36e0cf8e64c83e" args="(x)" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>free</b>(x)&nbsp;&nbsp;&nbsp;DSSecureFree(x)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5046e1cbf958143f3bf7aded35204202"></a><!-- doxytag: member="DSStd.h::malloc" ref="a5046e1cbf958143f3bf7aded35204202" args="(x)" -->
@@ -95,7 +94,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <p>You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 <dl class="author"><dt><b>Author:</b></dt><dd>Jason Lomnitz. </dd></dl>
 <dl class="date"><dt><b>Date:</b></dt><dd>2011</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd><p class="startdd">Add all previous functionality. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd><p class="startdd">Add all previous functionality. </p>
 <p class="enddd">Add vertex enumeration functionality.</p>
 </dd></dl>
 </div>
@@ -104,7 +103,7 @@ This graph shows which files directly or indirectly include this file:</div>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,7 +112,7 @@ This graph shows which files directly or indirectly include this file:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:35 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:03 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

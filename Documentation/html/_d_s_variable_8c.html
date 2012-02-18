@@ -51,9 +51,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;stdbool.h&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
 <code>#include &lt;math.h&gt;</code><br/>
+<code>#include &lt;pthread.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_memory_manager_8h_source.html">DSMemoryManager.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_errors_8h_source.html">DSErrors.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_variable_8h_source.html">DSVariable.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_d_s_variable_8c.html">DSVariableTokenizer.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_d_s_types_8h_source.html">DSTypes.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_d_s_matrix_8h_source.html">DSMatrix.h</a>&quot;</code><br/>
 <div class="dynheader">
 Include dependency graph for DSVariable.c:</div>
 <div class="dynsection">
@@ -61,32 +65,66 @@ Include dependency graph for DSVariable.c:</div>
 <map name="_d_s_variable_8c_map" id="_d_s_variable_8c">
 <area shape="rect" href="_d_s_memory_manager_8h.html" title="Header file with functions for secure memory allocation." alt="" coords="229,82,424,109" /><area shape="rect" href="_d_s_errors_8h.html" title="Header file with functions for error and exception handling." alt="" coords="354,157,464,184" /><area shape="rect" href="_d_s_variable_8h.html" title="Header file with functions for dealing with variables." alt="" coords="497,157,622,184" /><area shape="rect" href="_d_s_types_8h.html" title="Header file with definitions for data types." alt="" coords="229,306,338,333" /><area shape="rect" href="_d_s_i_o_8h.html" title="Header file with standard input and output functions." alt="" coords="314,232,389,258" /></map>
 </div>
+<div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dynsection">
+<div class="center"><img src="_d_s_variable_8c__dep__incl.png" border="0" usemap="#_d_s_variable_8cdep_map" alt=""/></div>
+</div>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#a6f0ce189a8dc8ce46fad1d7a9b34d31f">DSVariableAlloc</a> (const char *name)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a new <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> with INFINITY as a default value.  <a href="#a6f0ce189a8dc8ce46fad1d7a9b34d31f"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac33e4c3da62459d2e356dd6456fca463"></a><!-- doxytag: member="DSVariable.c::DSNewVariable" ref="ac33e4c3da62459d2e356dd6456fca463" args="(const char *name)" -->
-<a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSNewVariable</b> (const char *name)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a new <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a> with INFINITY as a default value.  <a href="#a6f0ce189a8dc8ce46fad1d7a9b34d31f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#aac8fadf2969493124be37a1076a2b885">DSVariableFree</a> (<a class="el" href="struct_d_s_variable.html">DSVariable</a> *var)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function frees allocated memory of a <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a>.  <a href="#aac8fadf2969493124be37a1076a2b885"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function frees allocated memory of a <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a>.  <a href="#aac8fadf2969493124be37a1076a2b885"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#a1a5da69573335a86dea1e4a8a6770ea3">DSVariableRetain</a> (<a class="el" href="struct_d_s_variable.html">DSVariable</a> *aVariable)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to increase variable retain count by one.  <a href="#a1a5da69573335a86dea1e4a8a6770ea3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#a4d83eec85c4d9340593a359fd1d5e506">DSVariableRelease</a> (<a class="el" href="struct_d_s_variable.html">DSVariable</a> *aVariable)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to decrease variable retain count by one.  <a href="#a4d83eec85c4d9340593a359fd1d5e506"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#a4882cda43ad2d33bcafded6ed80e1fa6">DSVariablePoolAddVariableWithName</a> (const char *name, <a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *root)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds a <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> to the dictionary.  <a href="#a4882cda43ad2d33bcafded6ed80e1fa6"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#aae1be18474aa9db03cb72912fd19234c">DSVariablePoolAddVariable</a> (<a class="el" href="struct_d_s_variable.html">DSVariable</a> *newVar, <a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *root)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds a <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> to the dictionary.  <a href="#aae1be18474aa9db03cb72912fd19234c"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#ae8f75eb27aa14dda00f3251485d675ff">DSVariablePoolVariableWithName</a> (const char *name, <a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *root)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the variable in the dictionary with a matching name.  <a href="#ae8f75eb27aa14dda00f3251485d675ff"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7c5942f23ebe838b353427df52522b2e"></a><!-- doxytag: member="DSVariable.c::DSVariableWithName" ref="a7c5942f23ebe838b353427df52522b2e" args="(const char *name, DSVariablePool *root)" -->
-<a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariableWithName</b> (const char *name, <a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *root)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#aaed3132c306ffc004da9f391bbd1763c">DSVariablePoolFree</a> (<a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *root)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to remove all nodes in the dictionary.  <a href="#aaed3132c306ffc004da9f391bbd1763c"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#acbb9a673f3f91834137f2bde14911f8d">printVarDictionary</a> (<a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *root, DSUInteger indent)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Prints the VarDictionary.  <a href="#acbb9a673f3f91834137f2bde14911f8d"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#aa807b488d1b5c23e628a63e99ef8d0d9">printMembers</a> (<a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *root, char *buffer, int position)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function that prints the members in the dictionary.  <a href="#aa807b488d1b5c23e628a63e99ef8d0d9"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#a1cff6b1af2bc3210cc65435c1844b5ef">DSVariablePoolAlloc</a> (void)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a new <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a> with an empty var dictionary.  <a href="#a1cff6b1af2bc3210cc65435c1844b5ef"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11c76e0e57dbc00e57edb94b65ea0244"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolCopy" ref="a11c76e0e57dbc00e57edb94b65ea0244" args="(const DSVariablePool *const pool)" -->
+<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolCopy</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *const pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abe8cde590093cb49af32d532135d0d57"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolFree" ref="abe8cde590093cb49af32d532135d0d57" args="(DSVariablePool *pool)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolFree</b> (<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2ac568a1be064c51cffc7751776b4403"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolSetReadOnly" ref="a2ac568a1be064c51cffc7751776b4403" args="(DSVariablePool *pool)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolSetReadOnly</b> (<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a80e57736e4bf63d4d88ea2af79b8417e"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolSetReadWrite" ref="a80e57736e4bf63d4d88ea2af79b8417e" args="(DSVariablePool *pool)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolSetReadWrite</b> (<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a66afd8da098073ab4ef8c06e5d5257b8"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolSetReadWriteAdd" ref="a66afd8da098073ab4ef8c06e5d5257b8" args="(DSVariablePool *pool)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolSetReadWriteAdd</b> (<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa1b27aad0f93b52cf615a57d77cb142"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolIsReadOnly" ref="aaa1b27aad0f93b52cf615a57d77cb142" args="(const DSVariablePool *pool)" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolIsReadOnly</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7dc75250a954763bb8e9b217af50aa2f"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolIsReadWrite" ref="a7dc75250a954763bb8e9b217af50aa2f" args="(const DSVariablePool *pool)" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolIsReadWrite</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c6dcd1e5ec12a5cdd18df0fdb753ca9"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolIsReadWriteAdd" ref="a9c6dcd1e5ec12a5cdd18df0fdb753ca9" args="(const DSVariablePool *pool)" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolIsReadWriteAdd</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a795b9def0c0cdd4fd1bd99dee0e18b24"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolAddVariableWithName" ref="a795b9def0c0cdd4fd1bd99dee0e18b24" args="(DSVariablePool *pool, const char *name)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolAddVariableWithName</b> (<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const char *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9ecf8bde68b63daba6f83b95cb4a471"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolAddVariable" ref="aa9ecf8bde68b63daba6f83b95cb4a471" args="(DSVariablePool *pool, DSVariable *newVar)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolAddVariable</b> (<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, <a class="el" href="struct_d_s_variable.html">DSVariable</a> *newVar)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0ab405c594ec1e1ba47cd36703d8ae5"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolHasVariableWithName" ref="aa0ab405c594ec1e1ba47cd36703d8ae5" args="(const DSVariablePool *pool, const char *const name)" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolHasVariableWithName</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const char *const name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d59ca020b7df35f9d7320147800dad0"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolVariableWithName" ref="a4d59ca020b7df35f9d7320147800dad0" args="(const DSVariablePool *pool, const char *name)" -->
+<a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolVariableWithName</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const char *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca1491d35e9f15e6a00783f58b9e7c6c"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolSetValueForVariableWithName" ref="aca1491d35e9f15e6a00783f58b9e7c6c" args="(const DSVariablePool *pool, const char *name, const double value)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolSetValueForVariableWithName</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const char *name, const double value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7c0345124038d444aa55c6210ac766f5"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolAllVariables" ref="a7c0345124038d444aa55c6210ac766f5" args="(const DSVariablePool *pool)" -->
+const <a class="el" href="struct_d_s_variable.html">DSVariable</a> **&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolAllVariables</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c39f5fe68099e6df8008e154698a0e6"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolAllVariableNames" ref="a9c39f5fe68099e6df8008e154698a0e6" args="(const DSVariablePool *pool)" -->
+const char **&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolAllVariableNames</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a958544604efb5e2f931b967dd3ab240d"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolIndexOfVariable" ref="a958544604efb5e2f931b967dd3ab240d" args="(const DSVariablePool *pool, const DSVariable *var)" -->
+DSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolIndexOfVariable</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const <a class="el" href="struct_d_s_variable.html">DSVariable</a> *var)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afd887f623bb5e13694754097bc9c7b15"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolIndexOfVariableWithName" ref="afd887f623bb5e13694754097bc9c7b15" args="(const DSVariablePool *pool, const char *name)" -->
+DSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolIndexOfVariableWithName</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const char *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d21cf1b61f32965532d6bb86c8195d4"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolByParsingString" ref="a0d21cf1b61f32965532d6bb86c8195d4" args="(const char *string)" -->
+<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolByParsingString</b> (const char *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ee4a6e864741c90621174674032de5f"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolPrint" ref="a1ee4a6e864741c90621174674032de5f" args="(const DSVariablePool *const pool)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolPrint</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *const pool)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96a40866627c87b8beb764f85106f6e9"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolValuesAsVector" ref="a96a40866627c87b8beb764f85106f6e9" args="(const DSVariablePool *pool, const bool rowVector)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolValuesAsVector</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const bool rowVector)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6619150c9752c45d9a5577c5eea8fae6"></a><!-- doxytag: member="DSVariable.c::retaincount" ref="a6619150c9752c45d9a5577c5eea8fae6" args="" -->
+pthread_mutex_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>retaincount</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Implementation file with functions for dealing with variables. </p>
@@ -116,16 +154,16 @@ Include dependency graph for DSVariable.c:</div>
 </div>
 <div class="memdoc">
 
-<p>Creates a new <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> with INFINITY as a default value. </p>
+<p>Creates a new <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a> with INFINITY as a default value. </p>
 <p>This function may be used throughout, in order to create new variables consistently and portably. As variables are allocated individually, it is important to not that they should be released with the accesory method. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>A string with which to identify the <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a>. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>A string with which to identify the <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The pointer to the newly allocated <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a>. </dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> </dd>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The pointer to the newly allocated <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a>. </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a> </dd>
 <dd>
 <a class="el" href="_d_s_variable_8h.html#aac8fadf2969493124be37a1076a2b885" title="Function frees allocated memory of a DSVariable.">DSVariableFree</a> </dd></dl>
 
@@ -147,7 +185,7 @@ Include dependency graph for DSVariable.c:</div>
 </div>
 <div class="memdoc">
 
-<p>Function frees allocated memory of a <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a>. </p>
+<p>Function frees allocated memory of a <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a>. </p>
 <p>This function should be used for each newDSVariable that is called. The internal structure is subject to changes in consequent versions and therefore freeing memory of DSVariables should be strictly through this function. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -158,101 +196,15 @@ Include dependency graph for DSVariable.c:</div>
 
 </div>
 </div>
-<a class="anchor" id="aae1be18474aa9db03cb72912fd19234c"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolAddVariable" ref="aae1be18474aa9db03cb72912fd19234c" args="(DSVariable *newVar, DSVariablePool *root)" -->
+<a class="anchor" id="a1cff6b1af2bc3210cc65435c1844b5ef"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolAlloc" ref="a1cff6b1af2bc3210cc65435c1844b5ef" args="(void)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a>* DSVariablePoolAddVariable </td>
+          <td class="memname"><a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a>* DSVariablePoolAlloc </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td>
-          <td class="paramname"> <em>newVar</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *&nbsp;</td>
-          <td class="paramname"> <em>root</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Adds a <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> to the dictionary. </p>
-<p>This is the function to add DSVariables to the dictionary. Since the dictionary works alphabetically, the root of the dictionary changes and is defined by this function, and the root, be it the new one or the old one, is returned. This function is used in creating a new dictionary. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>newVar</em>&nbsp;</td><td>The pointer to the variable which is to be added to the dictionary. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>root</em>&nbsp;</td><td>The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The root of the dictionary, which is likely to change. </dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct__var_dictionary.html" title="Internal dictionary structure.">_varDictionary</a> </dd>
-<dd>
-DSVariableWithName </dd>
-<dd>
-_addNewBranch </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a4882cda43ad2d33bcafded6ed80e1fa6"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolAddVariableWithName" ref="a4882cda43ad2d33bcafded6ed80e1fa6" args="(const char *name, DSVariablePool *root)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a>* DSVariablePoolAddVariableWithName </td>
-          <td>(</td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *&nbsp;</td>
-          <td class="paramname"> <em>root</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Adds a <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> to the dictionary. </p>
-<p>This is the function to add DSVariables to the dictionary. Since the dictionary works alphabetically, the root of the dictionary changes and is defined by this function, and the root, be it the new one or the old one, is returned. This function is used in creating a new dictionary. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>newVar</em>&nbsp;</td><td>The pointer to the variable which is to be added to the dictionary. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>root</em>&nbsp;</td><td>The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The root of the dictionary, which is likely to change. </dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct__var_dictionary.html" title="Internal dictionary structure.">_varDictionary</a> </dd>
-<dd>
-DSVariableWithName </dd>
-<dd>
-_addNewBranch </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="aaed3132c306ffc004da9f391bbd1763c"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolFree" ref="aaed3132c306ffc004da9f391bbd1763c" args="(DSVariablePool *root)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void DSVariablePoolFree </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *&nbsp;</td>
-          <td class="paramname"> <em>root</em></td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
           <td>&nbsp;)&nbsp;</td>
           <td></td>
         </tr>
@@ -260,62 +212,10 @@ _addNewBranch </dd></dl>
 </div>
 <div class="memdoc">
 
-<p>Function to remove all nodes in the dictionary. </p>
-<p>The function is RECURSIVE and frees all the nodes past the root which is passed. In theory, it could be used to clear a portion of the dictionary, yet doing so would require direct manipulation of the dictionary which is strongly discouraged. The variables themselves are NOT freed, since the dictionary does not allocate them. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>root</em>&nbsp;</td><td>The root of the dictionary which is to be cleared. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_types_8h.html#a67b340fa4a564cc84d27b3647ef1ad75" title="Internal dictionary structure.">DSVariablePool</a> </dd>
-<dd>
-DSVariableWithName </dd>
-<dd>
-<a class="el" href="_d_s_variable_8h.html#aae1be18474aa9db03cb72912fd19234c" title="Adds a DSVariable to the dictionary.">DSVariablePoolAddVariable</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ae8f75eb27aa14dda00f3251485d675ff"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolVariableWithName" ref="ae8f75eb27aa14dda00f3251485d675ff" args="(const char *name, DSVariablePool *root)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_d_s_variable.html">DSVariable</a>* DSVariablePoolVariableWithName </td>
-          <td>(</td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *&nbsp;</td>
-          <td class="paramname"> <em>root</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Retrieves the variable in the dictionary with a matching name. </p>
-<p>This is the function for retriving a <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> from a dictionary. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>A string containing a NULL terminated string containing the name of the desired <a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a>. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>root</em>&nbsp;</td><td>The root of the dictionary, determined during the adding of variables. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A pointer to the variable. If there is no matching variable, NULL is returned. </dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd>_checkNameAtPos </dd>
-<dd>
-<a class="el" href="_d_s_types_8h.html#a67b340fa4a564cc84d27b3647ef1ad75" title="Internal dictionary structure.">DSVariablePool</a> </dd>
-<dd>
-<a class="el" href="_d_s_variable_8h.html#aae1be18474aa9db03cb72912fd19234c" title="Adds a DSVariable to the dictionary.">DSVariablePoolAddVariable</a> </dd></dl>
+<p>Creates a new <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a> with an empty var dictionary. </p>
+<p>The variable pool is initialized with read/write privilages. The variable pool stores a indexed version of the variables added, as well as the order in which the variables were added. The order of the variables is kept to ensure a consistent variable index with system matrices of S-Systems and GMAs.</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The pointer to the allocated <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a>.</dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>DSVariablePoolFree </dd></dl>
 
 </div>
 </div>
@@ -378,91 +278,13 @@ DSVariableWithName </dd>
 
 </div>
 </div>
-<a class="anchor" id="aa807b488d1b5c23e628a63e99ef8d0d9"></a><!-- doxytag: member="DSVariable.c::printMembers" ref="aa807b488d1b5c23e628a63e99ef8d0d9" args="(DSVariablePool *root, char *buffer, int position)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void printMembers </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *&nbsp;</td>
-          <td class="paramname"> <em>root</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&nbsp;</td>
-          <td class="paramname"> <em>buffer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>position</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Function that prints the members in the dictionary. </p>
-<p>This function recursively checks the dictionary for all names, and prints them out. It requires of a buffer string which is used to store the current characters, since it is a recursive function.</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>root</em>&nbsp;</td><td>The root of the dictionary, and the current node for consequent calls. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>buffer</em>&nbsp;</td><td>The string in which to store the characters, function does not check size of buffer. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>position</em>&nbsp;</td><td>Should be 0 when called, increases as it searches the dictionary.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct__var_dictionary.html" title="Internal dictionary structure.">_varDictionary</a> </dd>
-<dd>
-<a class="el" href="_d_s_variable_8h.html#aae1be18474aa9db03cb72912fd19234c" title="Adds a DSVariable to the dictionary.">DSVariablePoolAddVariable</a></dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Create a wrapper function which creates the buffer, and initiates the position at 0. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="acbb9a673f3f91834137f2bde14911f8d"></a><!-- doxytag: member="DSVariable.c::printVarDictionary" ref="acbb9a673f3f91834137f2bde14911f8d" args="(DSVariablePool *root, DSUInteger indent)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void printVarDictionary </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *&nbsp;</td>
-          <td class="paramname"> <em>root</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">DSUInteger&nbsp;</td>
-          <td class="paramname"> <em>indent</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Prints the VarDictionary. </p>
-<p>A debugging function which prints the dictionary structure to the stderr file </p>
-
-</div>
-</div>
 </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -471,7 +293,7 @@ DSVariableWithName </dd>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:35 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:03 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

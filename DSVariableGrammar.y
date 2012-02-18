@@ -38,6 +38,8 @@
 
 %extra_argument {DSVariablePool *pool}
 
+%nonassoc OTHER.
+%nonassoc QUOTE.
 %nonassoc SEPERATOR.
 %nonassoc ASSIGN.
 %nonassoc IDENTIFIER.
@@ -67,11 +69,14 @@
 
 program ::= expr.
 
-program ::= expr SEPERATOR.
-
 expr ::= statement.
 
 expr ::= expr SEPERATOR statement.
+
+statement ::= QUOTE IDENTIFIER(A) QUOTE ASSIGN VALUE(B). {
+        DSVariablePoolAddVariableWithName(pool, (const char *)A);
+        DSVariablePoolSetValueForVariableWithName(pool, (const char *)A, *B);
+}
 
 statement ::= IDENTIFIER(A) ASSIGN VALUE(B). {
         DSVariablePoolAddVariableWithName(pool, (const char *)A);

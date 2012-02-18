@@ -4,10 +4,9 @@
  *
  * \details 
  * This file specifies the design space standard data types. Contained here are
- * strictly the data type definitions, and specific macros to access data in
- * data structures.  Functions applying to these data types are contained
- * elsewhere, and the individual data structures should refer to these
- * files.
+ * strictly the data type definitions.  Functions applying to these data types
+ * are contained elsewhere, and the individual data structures should refer
+ * to the respective files.
  *
  * Copyright (C) 2011 Jason Lomnitz.\n\n
  *
@@ -35,6 +34,8 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include <math.h>
+#include <complex.h>
+#include <pthread.h>
 
 #ifndef __DS_TYPES__
 #define __DS_TYPES__
@@ -60,9 +61,28 @@ __BEGIN_DECLS
 #endif
 
 
+
 typedef int DSInteger;
 
 typedef unsigned int DSUInteger;
+
+
+/**
+ * \brief Data type that contains vertices of an N-Dimensional object.
+ *
+ * \details This data type is used ofr determining the region of validity of a
+ * case in design space.  If the vertices represent a polygon, they can be
+ * orderd according to their clockwise position, starting by the right-most
+ * vertex in a XY plane.
+ *
+ * \see DSVertices.h
+ * \see DSVertices.c
+ */
+typedef struct {
+        double **vertices;
+        DSUInteger dimensions;
+        DSUInteger numberOfVertices;
+} DSVertices;
  
 /**
  * \brief Basic variable structure containing name, value and NSString with
@@ -72,6 +92,8 @@ typedef unsigned int DSUInteger;
  * and should not be created and/or freed manually and beyond the context of
  * the BSTVariables class.
  *
+ * \see DSVariable.h
+ * \see DSVariable.c
  */
 typedef struct {
         char *name;             //!< Dynamically allocated name of the variable.
@@ -89,7 +111,8 @@ typedef struct {
  * retrieving and removing variables should be done through the accesory 
  * functions.
  *
- * \see DSVariable
+ * \see DSVariable.h
+ * \see DSVariable.c
  */
 struct _varDictionary
 {
@@ -99,10 +122,21 @@ struct _varDictionary
         DSVariable *variable;        //!< The variable stored. Only when current is '\\0'.
 };
 
-
+/**
+ * \brief Data type used to lock different properties of the DSVariablePool.
+ *
+ * This data type enumerates the properties of the variable pool access rights.
+ * Its values indicate the different operations that can be taken with a variable
+ * pool, such as read/write/add, read/write and read.
+ *
+ * \see DSVariable.h
+ * \see DSVariable.c
+ */
 typedef enum {
-        DSLockReadWrite,
-        DSLockReadOnly
+        DSLockReadWriteAdd, //!< The value of the Variable pool lock indicating read/write/add
+        DSLockReadWrite,    //!< The value of the Variable pool lock indicating read/write
+        DSLockReadOnly,     //!< The value of the Variable pool lock indicating read/
+        DSLockLocked        //!< The value of the Variable pool lock indicating no access
 } DSVariablePoolLock;
 
 /**
@@ -113,8 +147,10 @@ typedef enum {
  * variable pool.  This data type also records the number of variables in the
  * dictionary and the order with which they were added.
  *
- * \see DSVariable
  * \see struct _varDictionary
+ *
+ * \see DSVariable.h
+ * \see DSVariable.c
  */
 typedef struct
 {
@@ -124,6 +160,52 @@ typedef struct
         DSVariablePoolLock lock;       //!< Indicates if the variable pool is read-only.
 } DSVariablePool;
 
+/**
+ * \brief Data type representing mathematical expressions.
+ *
+ * \details This data type is the internal representation of matematical 
+ * expressions.  This data type is an Abstracts Syntax Tree with only
+ * three operators: '+', '*' and '^'.  All other operators ('-' and '/') are
+ * represented by a combination of the former operators.  The DSExpression 
+ * automatically groups constant values, and reserves the first branch of the
+ * multiplication and addition operator for constant values.  These operators
+ * can have any number of branches.  The '^' operator can have two, and only two,
+ * branches.
+ *
+ * \note Functions are handled as variables with a single argument
+ *
+ * \see DSExpression.h
+ * \see DSExpression.c
+ */
+typedef struct dsexpression {
+        union {
+                char op_code;
+                double constant;
+                char *variable;          //!< A string with the name of the variable
+        } node;                          //!< Union of data types potentially contained in the node.
+        int type;                        //!< Integer specifying the type of node.
+        int numberOfBranches;            //!< Number of branches of children, relevant to operators and functions.
+        struct dsexpression **branches;  //!< Array of expression nodes with children nodes.
+} DSExpression;
+
+/**
+ * \brief Data type representing a symbolic matrix.
+ *
+ * \details This data type is the front end of the matric manipulation portion
+ * of the design space toolbox involving symbolic data..  Currently, the DST 
+ * library has a very limited manipulation of symbolic libraries, and is used
+ * exclusive to parse gma equations and design spaces.  When performing any
+ * analysis of design space, the symbolic matrices are converted to numerical
+ * expressions.
+ *
+ * \see DSMatrix.h
+ * \see DSMatrix.c
+ */
+typedef struct {
+        DSExpression *** mat;
+        DSUInteger rows;
+        DSUInteger columns;
+} DSSymbolicMatrix;
 
 /**
  * \brief Data type representing a matrix.
@@ -135,6 +217,8 @@ typedef struct
  * Thus, the matrix API should be independent of implementation, and hence
  * a new matrix library could be used if chosen.
  *
+ * \see DSMatrix.h
+ * \see DSMatrix.c
  */
 typedef struct {
         void *mat;          //!< The pointer to the internal representation of the matrix.
@@ -142,12 +226,31 @@ typedef struct {
         DSUInteger columns; //!< A DSUInteger specifying the number of columns in the matrix.
 } DSMatrix;
 
+
+/**
+ * \brief Data type representing a matrix with complex values.
+ *
+ * \details This data type is the front end of the matric manipulation portion
+ * of the design space toolbox.  Currently, the DST library uses the gsl library; 
+ * however, it is designed to be used with different back-ends.  In particular, 
+ * the CLAPACK package should be considered, as it will offer better performance.
+ * Thus, the matrix API should be independent of implementation, and hence
+ * a new matrix library could be used if chosen.
+ *
+ * \see DSComplexMatrix.h
+ * \see DSComplexMatrix.c
+ */
+typedef DSMatrix DSComplexMatrix;
+
 /**
  * \brief Data type representing an array of matrices.
  *
  * \details This data type is a utility data type that keeps track of arrays of
- * matrices.  This structure can also be used to represent three-dimensional 
- * matrices, as used in the internal representation of GMA's.
+ * matrices.  This structure is used to represent three-dimensional 
+ * matrices, as used internally by GMA's systems.
+ *
+ * \see DSMatrixArray.h
+ * \see DSMatrixArray.c
  */
 typedef struct {
         DSUInteger numberOfMatrices; //!< A DSUInteger specifying the number of matrices in the array.
@@ -155,29 +258,16 @@ typedef struct {
 } DSMatrixArray;
 
 
-typedef struct dsexpression {
-        union {
-                char op_code;
-                double constant;
-                char *variable;
-        } node;
-        int type;
-        int numberOfBranches;
-        struct dsexpression **branches;
-} DSExpression;
-
 /**
  * \brief Data type representing a GMA-System.
  *
+ * \details
  * This data structure is a standard representation of an GMA using 
  * matrix notation.  Here, the positive and negative terms are explicitly
  * represented according to the Gs and Hs.  Also, matrices are split up 
  * relating to either dependent and independent parameters.  The GMA system
  * uses an array of matrices to represent all the terms in all of the equations.
  *
- * \note The GMA system currently maintains a string copy of the equations that
- *       generated it. This may be seen as redundant, and may be removed in
- *       the future.
  */
 typedef struct {
         char ** equations;
@@ -195,14 +285,11 @@ typedef struct {
 /**
  * \brief Data type representing an S-System.
  *
- * This data structure is a standard representation of an S-System using 
- * matrix notation.  Here, the positive and negative terms are explicitly
+ * \details This data structure is a standard representation of an S-System
+ * using matrix notation.  Here, the positive and negative terms are explicitly
  * represented according to the Gs and Hs.  Also, matrices are split up 
  * relating to either dependent and independent parameters.
  *
- * \note The S-system currently maintains a string copy of the equations that
- *       generated it. This may be seen as redundant, and may be removed in
- *       the future.
  */
 typedef struct {
         DSMatrix *alpha;
@@ -211,27 +298,78 @@ typedef struct {
         DSMatrix *Gi;
         DSMatrix *Hd;
         DSMatrix *Hi;
-        DSMatrix *MAi;
-        DSMatrix *MB;
+        DSMatrix *M;
         DSVariablePool *Xd;
         DSVariablePool *Xi;
         bool isSingular;
+        bool shouldFreeXd;
+        bool shouldFreeXi;
 } DSSSystem;
 
 /**
- * 
+ * \brief Data type used to represent a case.
+ *
+ * \details This data type has all the necessary information for a case in
+ * design space.  It a pointer to the dependent and independent variables of
+ * the system, a pointer to the corresponding S-System, the Condition matrices
+ * and boundary matrices.  It also has information about the case number and
+ * case signature.
+ *
+ * \note The case number is arbitrary, and can be generated by two algorithms to
+ * be either big endian or small endian.  For compatibility with the current
+ * design space toolbox, big endian is the default.
+ *
+ * \note The case is not responsible for freeing the Xd and Xi variables.  If
+ * the case is generated from a design space, then the design space is
+ * responsible for freeing the Xi and Xd variable pools; otherwise the internal
+ * S-System is responsible for freeing this data.
  */
 typedef struct {
-        DSSSystem *ssys;
-        DSUInteger caseNumber;
-        DSMatrix *Cd;
-        DSMatrix *Ci;
-        DSMatrix *W;
-        DSMatrix *U;
-        DSMatrix *delta;
-        DSMatrix *zeta;
-        DSUInteger *signature;
+        const DSVariablePool *Xd; //!< A pointer to the DSVariablePool with the dependent variables.
+        const DSVariablePool *Xi; //!< A pointer to the DSVariablePool with the independent variables.
+        DSSSystem *ssys;          //!< The DSSSystem of the case.
+        DSMatrix *Cd;             //!< The condition matrix corresponding to the dependent variables.
+        DSMatrix *Ci;             //!< The condition matrix corresponding to the independent variables.
+        DSMatrix *U;              //!< The boundary matrix corresponding to the independent variables.
+        DSMatrix *delta;          //!< The condition matrix corresponding to the constants.
+        DSMatrix *zeta;           //!< The boundary matrix corresponding to the constants.
+        DSUInteger caseNumber;    //!< The case number used to identify the case.
+        DSUInteger *signature;    //!< The case signature indicating the dominant terms used to generate the case.
 } DSCase;
+
+
+
+typedef struct {
+        DSUInteger *caseNumber;
+        DSUInteger *caseNumberCurrent;
+        void ** base;                   //!< The pointer to the array of DSUIntegers storing the case numbers.
+        void ** current;                //!< A pointer to the top of the stack.
+        DSUInteger count;               //!< The number of elements in the stack.
+        DSUInteger size;                //!< The current size of the base array.
+        pthread_mutex_t pushpop;        //!< The mutex used when pushing and popping data from the stack.
+} DSDesignSpaceStack;
+
+/**
+ * \brief Data type used to represent a design space/
+ *
+ * \details The design space data structure is a convenience structure that
+ * automates the construction and analysis of cases, and manages the memory
+ * associated with these cases.  This behavior can be avoided by working
+ * directly with the gma system of the designspace.
+ *
+ * \see DSDesignSpace.h
+ * \see DSDesignSpace.c
+ */
+typedef struct {
+        DSGMASystem *gma;              //!< The gma system of the design space.
+        const DSVariablePool *Xd;      //!< A pointer to the DSVariablePool with the dependent variables.
+        const DSVariablePool *Xi;      //!< A pointer to the DSVariablePool with the dependent variables.
+//        DSCase ** cases;               //!< The array of all the cases in the design space.
+        DSVariablePool * validCases;  //!< DSVariablePool with case number that are valid.
+        DSUInteger numberOfCases;      //!< DSUInteger indicating the maximum number of cases in the design space.
+        DSMatrix * Cd, *Ci, *delta;    //!< Condition matrices.
+        DSDesignSpaceStack *subcases;  //!< DSDesignSpaceStack containing design space objects with subcases.
+} DSDesignSpace;
 
 #ifdef __cplusplus
 __END_DECLS
@@ -239,40 +377,5 @@ __END_DECLS
 
 #endif
 
-/******************************* Documentation *******************************/
-/**
- *\defgroup DS_VARIABLE_ACCESSORY Macros to manipulate variables.
- *
- * \details The following macros are in place for portability and consistency.
- * As the structure of the BSTVariable is subject to change, due to the nature of
- * early versions of the framework, using these macros will make the dependent
- * code less subject to errors.
- */
-/*\{*/
-/**
- * \def DSVariableAssignValue
- * \brief Macro to directly change the value of a variable.
- *
- * Macro for manipulating value of a DSVariable.  As a measure to make the 
- * manipulation of a variable independent of the structure, this macro provides
- * a consistent and portable way of changing a variable value.  Direct access of
- * the variable value should be avoided.
- *
- * \see DSVariable
- * \see DSVariableReturnValue
- */
-
-/**
- * \def DSVariableReturnValue
- * \brief Macro to directly access the value of a variable.
- *
- * Macro for retrieving the value of a DSVariable.  As a measure to make the 
- * manipulation of a variable independent of the structure, this macro provides
- * a consistent and portable way of retrieving the value of a variable.  Direct 
- * access of the variable value should be avoided.
- * \see DSVariable
- * \see DSVariableAssignValue
- */
-/*\}*/
 
 

@@ -50,6 +50,18 @@
 %}
 
 %%
+\"inf\"             {
+        struct variable_token *token = yyget_extra(yyscanner);
+        if (token == NULL) {
+                DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
+        }
+        token->next = DSVariableTokenAlloc();
+        token = token->next;
+        DSVariableTokenSetType(token, DS_VARIABLE_TOKEN_DOUBLE);
+        DSVariableTokenSetDouble(token, INFINITY);
+        yyset_extra(token, yyscanner);
+}
+
 inf             {
         struct variable_token *token = yyget_extra(yyscanner);
         if (token == NULL) {
@@ -59,6 +71,18 @@ inf             {
         token = token->next;
         DSVariableTokenSetType(token, DS_VARIABLE_TOKEN_DOUBLE);
         DSVariableTokenSetDouble(token, INFINITY);
+        yyset_extra(token, yyscanner);
+}
+
+\"\-inf\"             {
+        struct variable_token *token = yyget_extra(yyscanner);
+        if (token == NULL) {
+                DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
+        }
+        token->next = DSVariableTokenAlloc();
+        token = token->next;
+        DSVariableTokenSetType(token, DS_VARIABLE_TOKEN_DOUBLE);
+        DSVariableTokenSetDouble(token, -INFINITY);
         yyset_extra(token, yyscanner);
 }
 
@@ -74,7 +98,19 @@ inf             {
         yyset_extra(token, yyscanner);
 }
 
-[A-Za-z_\\]+[0-9]* {
+\"      {
+struct variable_token *token = yyget_extra(yyscanner);
+if (token == NULL) {
+DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
+}
+token->next = DSVariableTokenAlloc();
+token = token->next;
+DSVariableTokenSetType(token, DS_VARIABLE_TOKEN_QUOTE);
+DSVariableTokenSetDouble(token, 0.0);
+yyset_extra(token, yyscanner);
+}
+
+[A-Za-z_\\]+[A-Za-z_\\0-9]* {
         struct variable_token *token = yyget_extra(yyscanner);
         if (token == NULL) {
                 DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
@@ -86,7 +122,8 @@ inf             {
         yyset_extra(token, yyscanner);
 }
 
-\-?[0-9]+[\.[0-9]*]?E[\-]?[0-9]+ {
+
+\-?[0-9]+[\.[0-9]*]?[eE][\-]?[0-9]+ {
         double temp;
         struct variable_token *token = yyget_extra(yyscanner);
         if (token == NULL) {
@@ -114,7 +151,7 @@ inf             {
         yyset_extra(token, yyscanner);
 }
 
-;\n*            {
+\,               {
         struct variable_token *token = yyget_extra(yyscanner);
         if (token == NULL) {
                 DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
@@ -126,7 +163,7 @@ inf             {
         yyset_extra(token, yyscanner);
 }
 
-\=               {
+\:               {
         struct variable_token *token = yyget_extra(yyscanner);
         if (token == NULL) {
                 DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
@@ -138,19 +175,21 @@ inf             {
         yyset_extra(token, yyscanner);
 }
 
-\<-              {
+\n              {/* Do nothing. */}
+
+\t              {/* Do nothing. */}
+
+.               {
         struct variable_token *token = yyget_extra(yyscanner);
         if (token == NULL) {
                 DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
         }
         token->next = DSVariableTokenAlloc();
         token = token->next;
-        DSVariableTokenSetType(token, DS_VARIABLE_TOKEN_ASSIGN);
+        DSVariableTokenSetType(token, DS_VARIABLE_TOKEN_OTHER);
         DSVariableTokenSetDouble(token, 0.0);
         yyset_extra(token, yyscanner);
 }
-
-.               {/* Do nothing. */}
 %%
 
 int yywrap(yyscan_t  yyscanner) {

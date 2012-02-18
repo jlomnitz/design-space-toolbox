@@ -27,23 +27,45 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \subsection*{Defines}
 \begin{DoxyCompactItemize}
 \item 
-\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga3e1730e26b5f44a34e64d7996233d023}{DSVariableAssignValue}(x, y)~DSVariableSetValue(x, y)
-\begin{DoxyCompactList}\small\item\em Macro to directly change the value of a variable. \item\end{DoxyCompactList}\item 
-\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga912df8d84202953a573824aebcf2498f}{DSVariableReturnValue}(x)~DSVariableValue(x)
-\begin{DoxyCompactList}\small\item\em Macro to directly access the value of a variable. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_variable_8h_a218a0d1de0bb5ea62d7e5aa22fe50793}{
-\#define {\bfseries DSVariableSetValue}(x, y)~(x)-\/$>$value = (y)}
-\label{_d_s_variable_8h_a218a0d1de0bb5ea62d7e5aa22fe50793}
+\hypertarget{_d_s_variable_8h_a3e1730e26b5f44a34e64d7996233d023}{
+\#define {\bfseries DSVariableAssignValue}(x, y)~DSVariableSetValue(x, y)}
+\label{_d_s_variable_8h_a3e1730e26b5f44a34e64d7996233d023}
 
 \item 
-\hypertarget{_d_s_variable_8h_a837d0718b28591df6f518eb50d98082a}{
-\#define {\bfseries DSVariableValue}(x)~(x)-\/$>$value}
-\label{_d_s_variable_8h_a837d0718b28591df6f518eb50d98082a}
+\hypertarget{_d_s_variable_8h_a912df8d84202953a573824aebcf2498f}{
+\#define {\bfseries DSVariableReturnValue}(x)~DSVariableValue(x)}
+\label{_d_s_variable_8h_a912df8d84202953a573824aebcf2498f}
 
 \item 
-\hypertarget{_d_s_variable_8h_a64afbf5e8e378ef611c25084211152c4}{
-\#define {\bfseries DSVariableName}(x)~(x)-\/$>$name}
-\label{_d_s_variable_8h_a64afbf5e8e378ef611c25084211152c4}
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga218a0d1de0bb5ea62d7e5aa22fe50793}{DSVariableSetValue}(x, y)~((x)-\/$>$value = (y))
+\begin{DoxyCompactList}\small\item\em Macro to set the value of a variable data structure. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga837d0718b28591df6f518eb50d98082a}{DSVariableValue}(x)~(((x) != NULL) ? (x)-\/$>$value : NAN)
+\begin{DoxyCompactList}\small\item\em Macro to get the value of a variable data structure. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga64afbf5e8e378ef611c25084211152c4}{DSVariableName}(x)~((x)-\/$>$name)
+\begin{DoxyCompactList}\small\item\em Macro to get the value of a variable data structure. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_gac31f10e693824b630ea7bd80f59acadf}{
+\#define \hyperlink{group___m___d_s___messages_gac31f10e693824b630ea7bd80f59acadf}{M\_\-DS\_\-VAR\_\-NULL}~M\_\-DS\_\-NULL \char`\"{}: Variable Pool is NULL\char`\"{}}
+\label{group___m___d_s___messages_gac31f10e693824b630ea7bd80f59acadf}
+
+\begin{DoxyCompactList}\small\item\em Error message indicating a NULL variable pool. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_gaa3430366ad7beeafb53737b0174c5a0b}{
+\#define \hyperlink{group___m___d_s___messages_gaa3430366ad7beeafb53737b0174c5a0b}{M\_\-DS\_\-VAR\_\-LOCKED}~\char`\"{} DSVariablePool: Insufficient priviliges\char`\"{}}
+\label{group___m___d_s___messages_gaa3430366ad7beeafb53737b0174c5a0b}
+
+\begin{DoxyCompactList}\small\item\em Error message indicating insufficient priviliges to manipulate a variable pool. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_variable_8h_ac11f8d915d340843f26a6d3229d0d413}{
+\#define {\bfseries DSVariablePoolNumberOfVariables}(x)~((x)-\/$>$numberOfVariables)}
+\label{_d_s_variable_8h_ac11f8d915d340843f26a6d3229d0d413}
+
+\item 
+\hypertarget{_d_s_variable_8h_a2eba27e3c90e74233f65a3737cf82070}{
+\#define {\bfseries DSVariablePoolInternalDictionary}(x)~((x)-\/$>$root)}
+\label{_d_s_variable_8h_a2eba27e3c90e74233f65a3737cf82070}
+
+\item 
+\hypertarget{_d_s_variable_8h_a9e51b74e2041e6ca9bafd73ce156edce}{
+\#define {\bfseries DSVariablePoolVariableArray}(x)~((x)-\/$>$variables)}
+\label{_d_s_variable_8h_a9e51b74e2041e6ca9bafd73ce156edce}
 
 \end{DoxyCompactItemize}
 \subsection*{Functions}
@@ -57,26 +79,108 @@ void \hyperlink{_d_s_variable_8h_aac8fadf2969493124be37a1076a2b885}{DSVariableFr
 \begin{DoxyCompactList}\small\item\em Function to increase variable retain count by one. \item\end{DoxyCompactList}\item 
 void \hyperlink{_d_s_variable_8h_a4d83eec85c4d9340593a359fd1d5e506}{DSVariableRelease} (\hyperlink{struct_d_s_variable}{DSVariable} $\ast$aVariable)
 \begin{DoxyCompactList}\small\item\em Function to decrease variable retain count by one. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_variable_8h_af7f9c9fe77fc59c4eb4cd187d91ef171}{
-\_\-\_\-deprecated \hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSNewVariable} (const char $\ast$name)}
-\label{_d_s_variable_8h_af7f9c9fe77fc59c4eb4cd187d91ef171}
+\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ \hyperlink{_d_s_variable_8h_a1cff6b1af2bc3210cc65435c1844b5ef}{DSVariablePoolAlloc} (void)
+\begin{DoxyCompactList}\small\item\em Creates a new \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with an empty var dictionary. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_variable_8h_a11c76e0e57dbc00e57edb94b65ea0244}{
+\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ {\bfseries DSVariablePoolCopy} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const pool)}
+\label{_d_s_variable_8h_a11c76e0e57dbc00e57edb94b65ea0244}
 
 \item 
-\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$ \hyperlink{_d_s_variable_8h_a4882cda43ad2d33bcafded6ed80e1fa6}{DSVariablePoolAddVariableWithName} (const char $\ast$name, \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)
-\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{struct_d_s_variable}{DSVariable} to the dictionary. \item\end{DoxyCompactList}\item 
-\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$ \hyperlink{_d_s_variable_8h_aae1be18474aa9db03cb72912fd19234c}{DSVariablePoolAddVariable} (\hyperlink{struct_d_s_variable}{DSVariable} $\ast$newVar, \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)
-\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{struct_d_s_variable}{DSVariable} to the dictionary. \item\end{DoxyCompactList}\item 
-\hyperlink{struct_d_s_variable}{DSVariable} $\ast$ \hyperlink{_d_s_variable_8h_ae8f75eb27aa14dda00f3251485d675ff}{DSVariablePoolVariableWithName} (const char $\ast$name, \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)
-\begin{DoxyCompactList}\small\item\em Retrieves the variable in the dictionary with a matching name. \item\end{DoxyCompactList}\item 
-void \hyperlink{_d_s_variable_8h_aaed3132c306ffc004da9f391bbd1763c}{DSVariablePoolFree} (\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)
-\begin{DoxyCompactList}\small\item\em Function to remove all nodes in the dictionary. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_variable_8h_a0a4448f77b8bd53c9f64c48fb6be9426}{
-\_\-\_\-deprecated \hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSVariableWithName} (const char $\ast$name, \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root)}
-\label{_d_s_variable_8h_a0a4448f77b8bd53c9f64c48fb6be9426}
+\hypertarget{_d_s_variable_8h_abe8cde590093cb49af32d532135d0d57}{
+void {\bfseries DSVariablePoolFree} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_variable_8h_abe8cde590093cb49af32d532135d0d57}
 
 \item 
-void \hyperlink{_d_s_variable_8h_acbb9a673f3f91834137f2bde14911f8d}{printVarDictionary} (\hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$root, DSUInteger indent)
-\begin{DoxyCompactList}\small\item\em Prints the VarDictionary. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\hypertarget{_d_s_variable_8h_a0d21cf1b61f32965532d6bb86c8195d4}{
+\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ {\bfseries DSVariablePoolByParsingString} (const char $\ast$string)}
+\label{_d_s_variable_8h_a0d21cf1b61f32965532d6bb86c8195d4}
+
+\item 
+\hypertarget{_d_s_variable_8h_a2ac568a1be064c51cffc7751776b4403}{
+void {\bfseries DSVariablePoolSetReadOnly} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_variable_8h_a2ac568a1be064c51cffc7751776b4403}
+
+\item 
+\hypertarget{_d_s_variable_8h_a80e57736e4bf63d4d88ea2af79b8417e}{
+void {\bfseries DSVariablePoolSetReadWrite} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_variable_8h_a80e57736e4bf63d4d88ea2af79b8417e}
+
+\item 
+\hypertarget{_d_s_variable_8h_a66afd8da098073ab4ef8c06e5d5257b8}{
+void {\bfseries DSVariablePoolSetReadWriteAdd} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_variable_8h_a66afd8da098073ab4ef8c06e5d5257b8}
+
+\item 
+\hypertarget{_d_s_variable_8h_a795b9def0c0cdd4fd1bd99dee0e18b24}{
+void {\bfseries DSVariablePoolAddVariableWithName} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name)}
+\label{_d_s_variable_8h_a795b9def0c0cdd4fd1bd99dee0e18b24}
+
+\item 
+\hypertarget{_d_s_variable_8h_aa9ecf8bde68b63daba6f83b95cb4a471}{
+void {\bfseries DSVariablePoolAddVariable} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, \hyperlink{struct_d_s_variable}{DSVariable} $\ast$newVar)}
+\label{_d_s_variable_8h_aa9ecf8bde68b63daba6f83b95cb4a471}
+
+\item 
+\hypertarget{_d_s_variable_8h_aca1491d35e9f15e6a00783f58b9e7c6c}{
+void {\bfseries DSVariablePoolSetValueForVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name, const double value)}
+\label{_d_s_variable_8h_aca1491d35e9f15e6a00783f58b9e7c6c}
+
+\item 
+\hypertarget{_d_s_variable_8h_aaa1b27aad0f93b52cf615a57d77cb142}{
+bool {\bfseries DSVariablePoolIsReadOnly} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_variable_8h_aaa1b27aad0f93b52cf615a57d77cb142}
+
+\item 
+\hypertarget{_d_s_variable_8h_a7dc75250a954763bb8e9b217af50aa2f}{
+bool {\bfseries DSVariablePoolIsReadWrite} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_variable_8h_a7dc75250a954763bb8e9b217af50aa2f}
+
+\item 
+\hypertarget{_d_s_variable_8h_a9c6dcd1e5ec12a5cdd18df0fdb753ca9}{
+bool {\bfseries DSVariablePoolIsReadWriteAdd} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_variable_8h_a9c6dcd1e5ec12a5cdd18df0fdb753ca9}
+
+\item 
+\hypertarget{_d_s_variable_8h_aa0ab405c594ec1e1ba47cd36703d8ae5}{
+bool {\bfseries DSVariablePoolHasVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$const name)}
+\label{_d_s_variable_8h_aa0ab405c594ec1e1ba47cd36703d8ae5}
+
+\item 
+\hypertarget{_d_s_variable_8h_a4d59ca020b7df35f9d7320147800dad0}{
+\hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSVariablePoolVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name)}
+\label{_d_s_variable_8h_a4d59ca020b7df35f9d7320147800dad0}
+
+\item 
+\hypertarget{_d_s_variable_8h_a78241cc765be0432f0c6e9eb21b42782}{
+const \hyperlink{struct_d_s_variable}{DSVariable} $\ast$$\ast$ {\bfseries DSVariablePoolAllVariables} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_variable_8h_a78241cc765be0432f0c6e9eb21b42782}
+
+\item 
+\hypertarget{_d_s_variable_8h_a9c39f5fe68099e6df8008e154698a0e6}{
+const char $\ast$$\ast$ {\bfseries DSVariablePoolAllVariableNames} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_variable_8h_a9c39f5fe68099e6df8008e154698a0e6}
+
+\item 
+\hypertarget{_d_s_variable_8h_a958544604efb5e2f931b967dd3ab240d}{
+DSUInteger {\bfseries DSVariablePoolIndexOfVariable} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const \hyperlink{struct_d_s_variable}{DSVariable} $\ast$var)}
+\label{_d_s_variable_8h_a958544604efb5e2f931b967dd3ab240d}
+
+\item 
+\hypertarget{_d_s_variable_8h_afd887f623bb5e13694754097bc9c7b15}{
+DSUInteger {\bfseries DSVariablePoolIndexOfVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name)}
+\label{_d_s_variable_8h_afd887f623bb5e13694754097bc9c7b15}
+
+\item 
+\hypertarget{_d_s_variable_8h_a1ee4a6e864741c90621174674032de5f}{
+void {\bfseries DSVariablePoolPrint} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const pool)}
+\label{_d_s_variable_8h_a1ee4a6e864741c90621174674032de5f}
+
+\item 
+\hypertarget{_d_s_variable_8h_a96a40866627c87b8beb764f85106f6e9}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSVariablePoolValuesAsVector} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const bool rowVector)}
+\label{_d_s_variable_8h_a96a40866627c87b8beb764f85106f6e9}
+
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -133,90 +237,22 @@ Function frees allocated memory of a \hyperlink{struct_d_s_variable}{DSVariable}
 This function should be used for each newDSVariable that is called. The internal structure is subject to changes in consequent versions and therefore freeing memory of DSVariables should be strictly through this function. 
 \begin{DoxyParams}{Parameters}
 \item[{\em var}]The pointer to the variable to free. \end{DoxyParams}
-\hypertarget{_d_s_variable_8h_aae1be18474aa9db03cb72912fd19234c}{
-\index{DSVariable.h@{DSVariable.h}!DSVariablePoolAddVariable@{DSVariablePoolAddVariable}}
-\index{DSVariablePoolAddVariable@{DSVariablePoolAddVariable}!DSVariable.h@{DSVariable.h}}
-\subsubsection[{DSVariablePoolAddVariable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariablePool}$\ast$ DSVariablePoolAddVariable ({\bf DSVariable} $\ast$ {\em newVar}, \/  {\bf DSVariablePool} $\ast$ {\em root})}}
-\label{_d_s_variable_8h_aae1be18474aa9db03cb72912fd19234c}
+\hypertarget{_d_s_variable_8h_a1cff6b1af2bc3210cc65435c1844b5ef}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolAlloc@{DSVariablePoolAlloc}}
+\index{DSVariablePoolAlloc@{DSVariablePoolAlloc}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolAlloc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariablePool}$\ast$ DSVariablePoolAlloc (void)}}
+\label{_d_s_variable_8h_a1cff6b1af2bc3210cc65435c1844b5ef}
 
 
-Adds a \hyperlink{struct_d_s_variable}{DSVariable} to the dictionary. 
+Creates a new \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with an empty var dictionary. 
 
-This is the function to add DSVariables to the dictionary. Since the dictionary works alphabetically, the root of the dictionary changes and is defined by this function, and the root, be it the new one or the old one, is returned. This function is used in creating a new dictionary. 
-\begin{DoxyParams}{Parameters}
-\item[{\em newVar}]The pointer to the variable which is to be added to the dictionary. \item[{\em root}]The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary. \end{DoxyParams}
+The variable pool is initialized with read/write privilages. The variable pool stores a indexed version of the variables added, as well as the order in which the variables were added. The order of the variables is kept to ensure a consistent variable index with system matrices of S-\/Systems and GMAs.
+
 \begin{DoxyReturn}{Returns}
-The root of the dictionary, which is likely to change. 
+The pointer to the allocated \hyperlink{struct_d_s_variable_pool}{DSVariablePool}.
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{struct__var_dictionary}{\_\-varDictionary} 
-
-DSVariableWithName 
-
-\_\-addNewBranch 
-\end{DoxySeeAlso}
-\hypertarget{_d_s_variable_8h_a4882cda43ad2d33bcafded6ed80e1fa6}{
-\index{DSVariable.h@{DSVariable.h}!DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}}
-\index{DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}!DSVariable.h@{DSVariable.h}}
-\subsubsection[{DSVariablePoolAddVariableWithName}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariablePool}$\ast$ DSVariablePoolAddVariableWithName (const char $\ast$ {\em name}, \/  {\bf DSVariablePool} $\ast$ {\em root})}}
-\label{_d_s_variable_8h_a4882cda43ad2d33bcafded6ed80e1fa6}
-
-
-Adds a \hyperlink{struct_d_s_variable}{DSVariable} to the dictionary. 
-
-This is the function to add DSVariables to the dictionary. Since the dictionary works alphabetically, the root of the dictionary changes and is defined by this function, and the root, be it the new one or the old one, is returned. This function is used in creating a new dictionary. 
-\begin{DoxyParams}{Parameters}
-\item[{\em newVar}]The pointer to the variable which is to be added to the dictionary. \item[{\em root}]The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary. \end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-The root of the dictionary, which is likely to change. 
-\end{DoxyReturn}
-\begin{DoxySeeAlso}{See also}
-\hyperlink{struct__var_dictionary}{\_\-varDictionary} 
-
-DSVariableWithName 
-
-\_\-addNewBranch 
-\end{DoxySeeAlso}
-\hypertarget{_d_s_variable_8h_aaed3132c306ffc004da9f391bbd1763c}{
-\index{DSVariable.h@{DSVariable.h}!DSVariablePoolFree@{DSVariablePoolFree}}
-\index{DSVariablePoolFree@{DSVariablePoolFree}!DSVariable.h@{DSVariable.h}}
-\subsubsection[{DSVariablePoolFree}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariablePoolFree ({\bf DSVariablePool} $\ast$ {\em root})}}
-\label{_d_s_variable_8h_aaed3132c306ffc004da9f391bbd1763c}
-
-
-Function to remove all nodes in the dictionary. 
-
-The function is RECURSIVE and frees all the nodes past the root which is passed. In theory, it could be used to clear a portion of the dictionary, yet doing so would require direct manipulation of the dictionary which is strongly discouraged. The variables themselves are NOT freed, since the dictionary does not allocate them. 
-\begin{DoxyParams}{Parameters}
-\item[{\em root}]The root of the dictionary which is to be cleared. \end{DoxyParams}
-\begin{DoxySeeAlso}{See also}
-\hyperlink{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}{DSVariablePool} 
-
-DSVariableWithName 
-
-\hyperlink{_d_s_variable_8h_aae1be18474aa9db03cb72912fd19234c}{DSVariablePoolAddVariable} 
-\end{DoxySeeAlso}
-\hypertarget{_d_s_variable_8h_ae8f75eb27aa14dda00f3251485d675ff}{
-\index{DSVariable.h@{DSVariable.h}!DSVariablePoolVariableWithName@{DSVariablePoolVariableWithName}}
-\index{DSVariablePoolVariableWithName@{DSVariablePoolVariableWithName}!DSVariable.h@{DSVariable.h}}
-\subsubsection[{DSVariablePoolVariableWithName}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariable}$\ast$ DSVariablePoolVariableWithName (const char $\ast$ {\em name}, \/  {\bf DSVariablePool} $\ast$ {\em root})}}
-\label{_d_s_variable_8h_ae8f75eb27aa14dda00f3251485d675ff}
-
-
-Retrieves the variable in the dictionary with a matching name. 
-
-This is the function for retriving a \hyperlink{struct_d_s_variable}{DSVariable} from a dictionary. 
-\begin{DoxyParams}{Parameters}
-\item[{\em name}]A string containing a NULL terminated string containing the name of the desired \hyperlink{struct_d_s_variable}{DSVariable}. \item[{\em root}]The root of the dictionary, determined during the adding of variables. \end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A pointer to the variable. If there is no matching variable, NULL is returned. 
-\end{DoxyReturn}
-\begin{DoxySeeAlso}{See also}
-\_\-checkNameAtPos 
-
-\hyperlink{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}{DSVariablePool} 
-
-\hyperlink{_d_s_variable_8h_aae1be18474aa9db03cb72912fd19234c}{DSVariablePoolAddVariable} 
+DSVariablePoolFree 
 \end{DoxySeeAlso}
 \hypertarget{_d_s_variable_8h_a4d83eec85c4d9340593a359fd1d5e506}{
 \index{DSVariable.h@{DSVariable.h}!DSVariableRelease@{DSVariableRelease}}
@@ -257,13 +293,3 @@ The same variable which received the retain count increase is returned, for conv
 \begin{DoxySeeAlso}{See also}
 \hyperlink{_d_s_variable_8h_a4d83eec85c4d9340593a359fd1d5e506}{DSVariableRelease} 
 \end{DoxySeeAlso}
-\hypertarget{_d_s_variable_8h_acbb9a673f3f91834137f2bde14911f8d}{
-\index{DSVariable.h@{DSVariable.h}!printVarDictionary@{printVarDictionary}}
-\index{printVarDictionary@{printVarDictionary}!DSVariable.h@{DSVariable.h}}
-\subsubsection[{printVarDictionary}]{\setlength{\rightskip}{0pt plus 5cm}void printVarDictionary ({\bf DSVariablePool} $\ast$ {\em root}, \/  DSUInteger {\em indent})}}
-\label{_d_s_variable_8h_acbb9a673f3f91834137f2bde14911f8d}
-
-
-Prints the VarDictionary. 
-
-A debugging function which prints the dictionary structure to the stderr file 

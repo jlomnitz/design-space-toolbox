@@ -94,6 +94,9 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga79c48eacc7951aa68e4d094f0989faac"></a><!-- doxytag: member="DSErrors.h::M_DS_NOT_IMPL" ref="ga79c48eacc7951aa68e4d094f0989faac" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m___d_s___messages.html#ga79c48eacc7951aa68e4d094f0989faac">M_DS_NOT_IMPL</a>&nbsp;&nbsp;&nbsp;&quot;Functionality not implemented&quot;</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Message for a feature not yet implemented. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2073c22dca19fb517f4b709ea58c7c2a"></a><!-- doxytag: member="DSErrors.h::M_DS_PARSE" ref="a2073c22dca19fb517f4b709ea58c7c2a" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_errors_8h.html#a2073c22dca19fb517f4b709ea58c7c2a">M_DS_PARSE</a>&nbsp;&nbsp;&nbsp;&quot;Could not parse data&quot;</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Message for an error during parsing. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga83fd1c7379ac085b8a9550b8d64f3449"></a><!-- doxytag: member="DSErrors.h::A_DS_NOERROR" ref="ga83fd1c7379ac085b8a9550b8d64f3449" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a___d_s___actions.html#ga83fd1c7379ac085b8a9550b8d64f3449">A_DS_NOERROR</a>&nbsp;&nbsp;&nbsp;0</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Value for no error. <br/></td></tr>
@@ -106,16 +109,12 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gad3e083f0c8d34073d3597724c2a264f6"></a><!-- doxytag: member="DSErrors.h::A_DS_FATAL" ref="gad3e083f0c8d34073d3597724c2a264f6" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a___d_s___actions.html#gad3e083f0c8d34073d3597724c2a264f6">A_DS_FATAL</a>&nbsp;&nbsp;&nbsp;-3</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Value for a fatal error, kills program. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afc6d540dbb27b62f52427a845a33212f"></a><!-- doxytag: member="DSErrors.h::A_DS_KILLNOW" ref="afc6d540dbb27b62f52427a845a33212f" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_errors_8h.html#afc6d540dbb27b62f52427a845a33212f">A_DS_KILLNOW</a>&nbsp;&nbsp;&nbsp;A_DS_FATAL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gafc6d540dbb27b62f52427a845a33212f"></a><!-- doxytag: member="DSErrors.h::A_DS_KILLNOW" ref="gafc6d540dbb27b62f52427a845a33212f" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___a___d_s___actions.html#gafc6d540dbb27b62f52427a845a33212f">A_DS_KILLNOW</a>&nbsp;&nbsp;&nbsp;A_DS_FATAL</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">DEPRECATED: <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_errors_8h.html#a09b28eb2b01986855910ca97dfe91144">DSError</a>(M_DS_Message, A_DS_Action)&nbsp;&nbsp;&nbsp;DSErrorFunction(M_DS_Message, A_DS_Action, __FILE__, __LINE__, __func__)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Error reporting macro.  <a href="#a09b28eb2b01986855910ca97dfe91144"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a71b6e7a909b430863f1a850122a17f78"></a><!-- doxytag: member="DSErrors.h::DSErrorSetPrintFunction" ref="a71b6e7a909b430863f1a850122a17f78" args="(void(*function)(const char *restrict))" -->
-__deprecated void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetPrintFunction</b> (void(*function)(const char *restrict))</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b412662349f03e9fc9fbb782ec3b373"></a><!-- doxytag: member="DSErrors.h::DSErrorSetErrorFile" ref="a3b412662349f03e9fc9fbb782ec3b373" args="(FILE *aFile)" -->
-__deprecated void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</b> (FILE *aFile)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_errors_8h.html#a363f9c264b785ec509da1b11af9ae314">DSErrorFunction</a> (const char *M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char *FUNC)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Implicit error handling function. Called by DSError which automatically adds file and line arguments.  <a href="#a363f9c264b785ec509da1b11af9ae314"></a><br/></td></tr>
 </table>
@@ -212,7 +211,17 @@ __deprecated void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorS
 <div class="memdoc">
 
 <p>Implicit error handling function. Called by DSError which automatically adds file and line arguments. </p>
-<p>This function is called implicity when using the DSError macro. The DSError adds the FILE and LINE argument, to report the error/warning at the appropriate file and line.</p>
+<p>This function is called implicity when using the DSError macro. The DSError adds the FILE, LINE and FUNC arguments, to report the error/warning at the appropriate file, line and function.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>M_DS_Message</em>&nbsp;</td><td>A string containing the error message. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>A_DS_ACTION</em>&nbsp;</td><td>A character representing an error code as described in A_DS_Actions. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>FILEN</em>&nbsp;</td><td>A string with the name of the file where the error was reported. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>LINE</em>&nbsp;</td><td>An integer with the line number in the file where the error was reported. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>FUNC</em>&nbsp;</td><td>A string with the name of the function where the error was reported.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_errors_8h.html#a09b28eb2b01986855910ca97dfe91144" title="Error reporting macro.">DSError</a> </dd>
 <dd>
 <a class="el" href="group___a___d_s___actions.html">Actions for DS Errors.</a> </dd></dl>
@@ -225,7 +234,7 @@ __deprecated void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorS
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -234,7 +243,7 @@ __deprecated void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorS
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:34 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:02 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

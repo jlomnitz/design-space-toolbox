@@ -99,12 +99,26 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Allocates a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> as an identity matrix.  <a href="#a1636a4663250c4e54df28b35b121d27f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix_8h.html#a8980e6c6dc06dbbda9cde939cff831cc">DSMatrixRandomNumbers</a> (const DSUInteger rows, const DSUInteger columns)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Allocates a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> with random values between 0 and 1.  <a href="#a8980e6c6dc06dbbda9cde939cff831cc"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad542fab68c7147002d3e5d4b136f188b"></a><!-- doxytag: member="DSMatrix.h::DSMatrixWithVariablePoolValues" ref="ad542fab68c7147002d3e5d4b136f188b" args="(const DSVariablePool *variablePool)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixWithVariablePoolValues</b> (const <a class="el" href="struct__var_dictionary.html">DSVariablePool</a> *variablePool)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acdf23ab773e0822d370c5cedf8ef52a6"></a><!-- doxytag: member="DSMatrix.h::DSMatrixSetRows" ref="acdf23ab773e0822d370c5cedf8ef52a6" args="(DSMatrix *matrix, const DSUInteger rows)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixSetRows</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger rows)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adf7db42a38601dc8ccc254aae94ab42d"></a><!-- doxytag: member="DSMatrix.h::DSMatrixSetColumns" ref="adf7db42a38601dc8ccc254aae94ab42d" args="(DSMatrix *matrix, const DSUInteger columns)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixSetColumns</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger columns)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bc16a09f2f1c6e994cde99917388985"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByParsingString" ref="a6bc16a09f2f1c6e994cde99917388985" args="(const char *string)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByParsingString</b> (const char *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3205b0946508ed84873347cafacd5eb3"></a><!-- doxytag: member="DSMatrix.h::DSMatrixBySubstractingMatrix" ref="a3205b0946508ed84873347cafacd5eb3" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixBySubstractingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1c9f578946f7d5fe69d5e4a1ebaaadf"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByAddingMatrix" ref="aa1c9f578946f7d5fe69d5e4a1ebaaadf" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByAddingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aecdf05e600ce503d4e54ae43720bde8d"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByDividingMatrix" ref="aecdf05e600ce503d4e54ae43720bde8d" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByDividingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ca3f3a56a30db46fdfa2035121515da"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByMultiplyingMatrix" ref="a6ca3f3a56a30db46fdfa2035121515da" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByMultiplyingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9dbd160849a73f61a42f9356daac2d8f"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByApplyingFunction" ref="a9dbd160849a73f61a42f9356daac2d8f" args="(const DSMatrix *mvalue, double(*function)(double))" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByApplyingFunction</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *mvalue, double(*function)(double))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70c586f979ed9697ba532079a063e482"></a><!-- doxytag: member="DSMatrix.h::DSMatrixBySubstractingScalar" ref="a70c586f979ed9697ba532079a063e482" args="(const DSMatrix *lvalue, const double rvalue)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixBySubstractingScalar</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const double rvalue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af75d930f6cd98e4df848415456614aea"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByAddingScalar" ref="af75d930f6cd98e4df848415456614aea" args="(const DSMatrix *lvalue, const double rvalue)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByAddingScalar</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const double rvalue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60b24f071ca4800d11c597e01972cd92"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByDividingScalar" ref="a60b24f071ca4800d11c597e01972cd92" args="(const DSMatrix *lvalue, const double rvalue)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByDividingScalar</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const double rvalue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a85636b6b07304278117d244ea9ae2dfe"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByMultiplyingScalar" ref="a85636b6b07304278117d244ea9ae2dfe" args="(const DSMatrix *lvalue, const double rvalue)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByMultiplyingScalar</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const double rvalue)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix_8h.html#abc810db5fab16f43f5279815726577de">DSMatrixDoubleValue</a> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger row, const DSUInteger column)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the element of the <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> specified by a row and column.  <a href="#abc810db5fab16f43f5279815726577de"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a78ca87769f9a2f7adaddaf89ddc4fe76"></a><!-- doxytag: member="DSMatrix.h::DSMatrixSetDoubleValue" ref="a78ca87769f9a2f7adaddaf89ddc4fe76" args="(DSMatrix *matrix, const DSUInteger row, const DSUInteger column, const double value)" -->
@@ -145,8 +159,10 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixRoundToSignif
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixSwitchRows</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger rowA, const DSUInteger rowB)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef190e8f762eb55b71830a4b9b6ce029"></a><!-- doxytag: member="DSMatrix.h::DSMatrixSwitchColumns" ref="aef190e8f762eb55b71830a4b9b6ce029" args="(DSMatrix *matrix, const DSUInteger columnA, const DSUInteger columnB)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixSwitchColumns</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const DSUInteger columnA, const DSUInteger columnB)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafc2224cfb968cc0ec445fb547a1a1f8"></a><!-- doxytag: member="DSMatrix.h::DSMatrixPrint" ref="aafc2224cfb968cc0ec445fb547a1a1f8" args="(DSMatrix *matrix)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixPrint</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c786f6a1a4b2a9530b8d80bcad96974"></a><!-- doxytag: member="DSMatrix.h::DSMatrixWithUniqueRows" ref="a0c786f6a1a4b2a9530b8d80bcad96974" args="(const DSMatrix *matrix)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixWithUniqueRows</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7221b842f0974bfaa33d76554c99c6eb"></a><!-- doxytag: member="DSMatrix.h::DSMatrixPrint" ref="a7221b842f0974bfaa33d76554c99c6eb" args="(const DSMatrix *matrix)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixPrint</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab4e40a4f3db7f41a1f24a106b0bcaae"></a><!-- doxytag: member="DSMatrix.h::DSMatrixIsIdentity" ref="aab4e40a4f3db7f41a1f24a106b0bcaae" args="(const DSMatrix *matrix)" -->
 bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixIsIdentity</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad26bbf7bce64f29ce88055fee6573d86"></a><!-- doxytag: member="DSMatrix.h::DSMatrixIsSquare" ref="ad26bbf7bce64f29ce88055fee6573d86" args="(const DSMatrix *matrix)" -->
@@ -157,23 +173,14 @@ DSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixRank</b
 double&nbsp;</td><td class="memItemRight" valign="bottom"><b>minimumValue</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const bool shouldExcludeZero)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf33f61fc91fd02dacfbc31c6ffeeaf8"></a><!-- doxytag: member="DSMatrix.h::maximumValue" ref="acf33f61fc91fd02dacfbc31c6ffeeaf8" args="(const DSMatrix *matrix, const bool shouldExcludeZero)" -->
 double&nbsp;</td><td class="memItemRight" valign="bottom"><b>maximumValue</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const bool shouldExcludeZero)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3205b0946508ed84873347cafacd5eb3"></a><!-- doxytag: member="DSMatrix.h::DSMatrixBySubstractingMatrix" ref="a3205b0946508ed84873347cafacd5eb3" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixBySubstractingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1c9f578946f7d5fe69d5e4a1ebaaadf"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByAddingMatrix" ref="aa1c9f578946f7d5fe69d5e4a1ebaaadf" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByAddingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aecdf05e600ce503d4e54ae43720bde8d"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByDividingMatrix" ref="aecdf05e600ce503d4e54ae43720bde8d" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByDividingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix_8h.html#a6ca3f3a56a30db46fdfa2035121515da">DSMatrixByMultiplyingMatrix</a> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9dbd160849a73f61a42f9356daac2d8f"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByApplyingFunction" ref="a9dbd160849a73f61a42f9356daac2d8f" args="(const DSMatrix *mvalue, double(*function)(double))" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByApplyingFunction</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *mvalue, double(*function)(double))</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70c586f979ed9697ba532079a063e482"></a><!-- doxytag: member="DSMatrix.h::DSMatrixBySubstractingScalar" ref="a70c586f979ed9697ba532079a063e482" args="(const DSMatrix *lvalue, const double rvalue)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixBySubstractingScalar</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const double rvalue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af75d930f6cd98e4df848415456614aea"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByAddingScalar" ref="af75d930f6cd98e4df848415456614aea" args="(const DSMatrix *lvalue, const double rvalue)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByAddingScalar</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const double rvalue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60b24f071ca4800d11c597e01972cd92"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByDividingScalar" ref="a60b24f071ca4800d11c597e01972cd92" args="(const DSMatrix *lvalue, const double rvalue)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByDividingScalar</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const double rvalue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a85636b6b07304278117d244ea9ae2dfe"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByMultiplyingScalar" ref="a85636b6b07304278117d244ea9ae2dfe" args="(const DSMatrix *lvalue, const double rvalue)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByMultiplyingScalar</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const double rvalue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e5a31063d2eece4094c40f4d83ccf45"></a><!-- doxytag: member="DSMatrix.h::DSMatrixSubstractByMatrix" ref="a5e5a31063d2eece4094c40f4d83ccf45" args="(DSMatrix *addTo, const DSMatrix *addBy)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixSubstractByMatrix</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *addTo, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *addBy)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a549cf4468c5038572f21cb10019b65d0"></a><!-- doxytag: member="DSMatrix.h::DSMatrixAddByMatrix" ref="a549cf4468c5038572f21cb10019b65d0" args="(DSMatrix *addTo, const DSMatrix *addBy)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixAddByMatrix</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *addTo, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *addBy)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3cd0f9b93f0e2d53c97ce3cea02c47f0"></a><!-- doxytag: member="DSMatrix.h::DSMatrixApplyFunction" ref="a3cd0f9b93f0e2d53c97ce3cea02c47f0" args="(DSMatrix *matrix, double(*function)(double))" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixApplyFunction</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, double(*function)(double))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a588f749c9ac4dee7fe201425ce10997a"></a><!-- doxytag: member="DSMatrix.h::DSMatrixMultiplyByScalar" ref="a588f749c9ac4dee7fe201425ce10997a" args="(DSMatrix *matrix, const double value)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixMultiplyByScalar</b> (<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const double value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81c24f3537a442778c36dc1168104a18"></a><!-- doxytag: member="DSMatrix.h::DSMatrixDeterminant" ref="a81c24f3537a442778c36dc1168104a18" args="(const DSMatrix *matrix)" -->
 double&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixDeterminant</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d09ce999ee6fcf460e16cfb65e9718c"></a><!-- doxytag: member="DSMatrix.h::DSMatrixTranspose" ref="a5d09ce999ee6fcf460e16cfb65e9718c" args="(const DSMatrix *matrix)" -->
@@ -240,34 +247,6 @@ int *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixColumnsForGL
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>If the matrix was created, a new pointer to a <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> is returned. Otherwise, NULL is returned. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a6ca3f3a56a30db46fdfa2035121515da"></a><!-- doxytag: member="DSMatrix.h::DSMatrixByMultiplyingMatrix" ref="a6ca3f3a56a30db46fdfa2035121515da" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a>* DSMatrixByMultiplyingMatrix </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td>
-          <td class="paramname"> <em>lvalue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td>
-          <td class="paramname"> <em>rvalue</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Multiplication by a matrix inverse or pseudoinverse </p>
 
 </div>
 </div>
@@ -545,7 +524,7 @@ int *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixColumnsForGL
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -554,7 +533,7 @@ int *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixColumnsForGL
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:34 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:03 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

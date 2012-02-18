@@ -1,4 +1,3 @@
-//  
 /**
 * \file DSGMASystemGrammar.y
 * \brief Grammar file with functions for parsing gma systems, specifying the
@@ -41,8 +40,8 @@
 
 %left PLUS MINUS.
 %left DIVIDE TIMES.
-%right POWER.
 %left NOT.
+%right POWER.
 
 %extra_argument {void **parser_aux}
 
@@ -86,24 +85,36 @@ expression ::= expression PLUS pterms.
 pterms ::= term.{
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
+//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
+//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
+//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
 pterms ::= pterms PLUS term.{
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
+//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
+//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
+//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
 mterms ::= mterm. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
+//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
+//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
+//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
 mterms ::= mterms PLUS mterm. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
+//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
+//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
+//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
@@ -123,7 +134,7 @@ powerlaw ::= CONSTANT(A). {
 
 powerlaw ::= ID(A). {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
-                                        DSExpressionTokenString((struct expression_token *)A), 1.0);
+                                              DSExpressionTokenString((struct expression_token *)A), 1.0);
 }
 
 powerlaw ::= ID(A) POWER CONSTANT(B). {

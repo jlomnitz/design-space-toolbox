@@ -68,16 +68,28 @@ This graph shows which files directly or indirectly include this file:</div>
 <p><a href="_d_s_types_8h_source.html">Go to the source code of this file.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Data Structures</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_vertices.html">DSVertices</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type that contains vertices of an N-Dimensional object.  <a href="struct_d_s_vertices.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_variable.html">DSVariable</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type that is used to store errors.  <a href="struct_d_s_variable.html#_details">More...</a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Basic variable structure containing name, value and NSString with special unicode characters for greek letters.  <a href="struct_d_s_variable.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html">_varDictionary</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal dictionary structure.  <a href="struct__var_dictionary.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">User-level variable pool.  <a href="struct_d_s_variable_pool.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type representing a matrix.  <a href="struct_d_s_matrix.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_matrix_array.html">DSMatrixArray</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type representing an array of matrices.  <a href="struct_d_s_matrix_array.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsexpression.html">dsexpression</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type representing mathematical expressions.  <a href="structdsexpression.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_g_m_a_system.html">DSGMASystem</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type representing a GMA-System.  <a href="struct_d_s_g_m_a_system.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_s_system.html">DSSSystem</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type representing an S-System.  <a href="struct_d_s_s_system.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_case.html">DSCase</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type used to represent a case.  <a href="struct_d_s_case.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_design_space.html">DSDesignSpace</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type used to represent a design space/.  <a href="struct_d_s_design_space.html#_details">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2>Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0c1167bb311135eecf24a0e7c885b7f"></a><!-- doxytag: member="DSTypes.h::endif" ref="aa0c1167bb311135eecf24a0e7c885b7f" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>endif</b></td></tr>
@@ -90,12 +102,20 @@ This graph shows which files directly or indirectly include this file:</div>
 typedef int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSInteger</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a176fc92c26d2116f67d6043e728adbb5"></a><!-- doxytag: member="DSTypes.h::DSUInteger" ref="a176fc92c26d2116f67d6043e728adbb5" args="" -->
 typedef unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSUInteger</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_types_8h.html#a67b340fa4a564cc84d27b3647ef1ad75">DSVariablePool</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal dictionary structure.  <a href="#a67b340fa4a564cc84d27b3647ef1ad75"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdsexpression.html">dsexpression</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_types_8h.html#a0e38606b8798b0ac4d071bdae90e38d2">DSExpression</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type representing mathematical expressions.  <a href="#a0e38606b8798b0ac4d071bdae90e38d2"></a><br/></td></tr>
+<tr><td colspan="2"><h2>Enumerations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_types_8h.html#a62ad4772439f753c78f5dc086130d6ea">DSVariablePoolLock</a> { <a class="el" href="_d_s_types_8h.html#a62ad4772439f753c78f5dc086130d6eaa481b6d57568394fde0696c32dc6dbf74">DSLockReadWriteAdd</a>, 
+<a class="el" href="_d_s_types_8h.html#a62ad4772439f753c78f5dc086130d6eaa96c1ac1cf4c59faf6b217dbf6d633ffd">DSLockReadWrite</a>, 
+<a class="el" href="_d_s_types_8h.html#a62ad4772439f753c78f5dc086130d6eaa6bb81fad4314fe7bf2ceb6bda43da8dd">DSLockReadOnly</a>, 
+<a class="el" href="_d_s_types_8h.html#a62ad4772439f753c78f5dc086130d6eaaf65e504000b2618c52ff0f6ece2a3c25">DSLockLocked</a>
+ }</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Data type used to lock different properties of the <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a>. </p>
+ <a href="_d_s_types_8h.html#a62ad4772439f753c78f5dc086130d6ea">More...</a><br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Header file with definitions for data types. </p>
-<p>This file specifies the design space standard data types. Contained here are strictly the data type definitions, and specific macros to access data in data structures. Functions applying to these data types are contained elsewhere, and the individual data structures should refer to these files.</p>
+<p>This file specifies the design space standard data types. Contained here are strictly the data type definitions. Functions applying to these data types are contained elsewhere, and the individual data structures should refer to the respective files.</p>
 <p>Copyright (C) 2011 Jason Lomnitz.<br/>
 <br/>
 </p>
@@ -106,20 +126,59 @@ typedef unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSUIn
 <dl class="author"><dt><b>Author:</b></dt><dd>Jason Lomnitz. </dd></dl>
 <dl class="date"><dt><b>Date:</b></dt><dd>2011 </dd></dl>
 <hr/><h2>Typedef Documentation</h2>
-<a class="anchor" id="a67b340fa4a564cc84d27b3647ef1ad75"></a><!-- doxytag: member="DSTypes.h::DSVariablePool" ref="a67b340fa4a564cc84d27b3647ef1ad75" args="" -->
+<a class="anchor" id="a0e38606b8798b0ac4d071bdae90e38d2"></a><!-- doxytag: member="DSTypes.h::DSExpression" ref="a0e38606b8798b0ac4d071bdae90e38d2" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a>  <a class="el" href="struct__var_dictionary.html">DSVariablePool</a></td>
+          <td class="memname">typedef struct <a class="el" href="structdsexpression.html">dsexpression</a>  <a class="el" href="structdsexpression.html">DSExpression</a></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>Internal dictionary structure. </p>
-<p>Internal dictionary for fast variable querying. The structure of the dictionary uses an alternative path, where each character is checked in order at each position, if there is a match, the next position is consequently checked. The dictionary should never be manipulated manually, adding, retrieving and removing variables should be done through the accesory functions.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct_d_s_variable.html" title="Data type that is used to store errors.">DSVariable</a> </dd></dl>
+<p>Data type representing mathematical expressions. </p>
+<p>This data type is the internal representation of matematical expressions. This data type is an Abstracts Syntax Tree with only three operators: '+', '*' and '^'. All other operators ('-' and '/') are represented by a combination of the former operators. The DSExpression automatically groups constant values, and reserves the first branch of the multiplication and addition operator for constant values. These operators can have any number of branches. The '^' operator can have two, and only two, branches.</p>
+<dl class="note"><dt><b>Note:</b></dt><dd>Functions are handled as variables with a single argument</dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_expression_8h.html" title="Header file with functions for dealing with mathematical expressions.">DSExpression.h</a> </dd>
+<dd>
+<a class="el" href="_d_s_expression_8c.html" title="Implementation file with functions for dealing with mathematical expressions.">DSExpression.c</a> </dd></dl>
+
+</div>
+</div>
+<hr/><h2>Enumeration Type Documentation</h2>
+<a class="anchor" id="a62ad4772439f753c78f5dc086130d6ea"></a><!-- doxytag: member="DSTypes.h::DSVariablePoolLock" ref="a62ad4772439f753c78f5dc086130d6ea" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="_d_s_types_8h.html#a62ad4772439f753c78f5dc086130d6ea">DSVariablePoolLock</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Data type used to lock different properties of the <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a>. </p>
+<p>This data type enumerates the properties of the variable pool access rights. Its values indicate the different operations that can be taken with a variable pool, such as read/write/add, read/write and read.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_variable_8h.html" title="Header file with functions for dealing with variables.">DSVariable.h</a> </dd>
+<dd>
+<a class="el" href="_d_s_variable_8c.html" title="Implementation file with functions for dealing with variables.">DSVariable.c</a> </dd></dl>
+<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a62ad4772439f753c78f5dc086130d6eaa481b6d57568394fde0696c32dc6dbf74"></a><!-- doxytag: member="DSLockReadWriteAdd" ref="a62ad4772439f753c78f5dc086130d6eaa481b6d57568394fde0696c32dc6dbf74" args="" -->DSLockReadWriteAdd</em>&nbsp;</td><td>
+<p>The value of the Variable pool lock indicating read/write/add. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a62ad4772439f753c78f5dc086130d6eaa96c1ac1cf4c59faf6b217dbf6d633ffd"></a><!-- doxytag: member="DSLockReadWrite" ref="a62ad4772439f753c78f5dc086130d6eaa96c1ac1cf4c59faf6b217dbf6d633ffd" args="" -->DSLockReadWrite</em>&nbsp;</td><td>
+<p>The value of the Variable pool lock indicating read/write. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a62ad4772439f753c78f5dc086130d6eaa6bb81fad4314fe7bf2ceb6bda43da8dd"></a><!-- doxytag: member="DSLockReadOnly" ref="a62ad4772439f753c78f5dc086130d6eaa6bb81fad4314fe7bf2ceb6bda43da8dd" args="" -->DSLockReadOnly</em>&nbsp;</td><td>
+<p>The value of the Variable pool lock indicating read/. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a62ad4772439f753c78f5dc086130d6eaaf65e504000b2618c52ff0f6ece2a3c25"></a><!-- doxytag: member="DSLockLocked" ref="a62ad4772439f753c78f5dc086130d6eaaf65e504000b2618c52ff0f6ece2a3c25" args="" -->DSLockLocked</em>&nbsp;</td><td>
+<p>The value of the Variable pool lock indicating no access. </p>
+</td></tr>
+</table>
+</dd>
+</dl>
 
 </div>
 </div>
@@ -129,7 +188,7 @@ typedef unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSUIn
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -138,7 +197,7 @@ typedef unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSUIn
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:35 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:03 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

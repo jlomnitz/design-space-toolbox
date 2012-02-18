@@ -26,6 +26,7 @@
  * \date 2011
  */
 
+#include <string.h>
 #include "DSMatrixArray.h"
 #include "DSMemoryManager.h"
 

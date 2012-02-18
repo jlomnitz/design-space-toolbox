@@ -12,5 +12,57 @@ CRITERIA for A_DS_ERROR
 
 
 CRITERIA for A_DS_FATAL
-* A_DS_FATAL represents an error that cannot be recovered, reflecting the most critical of
-* errors such as unable to allocate data.
+* A_DS_FATAL represents an error presenting a situation from which it cannot be
+* recovered, reflecting the most critical of errors, such as unable to allocate
+* more memory.
+
+
+/** To be deleted **/
+/** Finding number of cores **/
+
+#if defined (MAC_OS_X) || defined (BSD)
+#include <sys/sysctl.h>
+#elif defined (LINUX)
+#include <sys/sysinfo.h>
+#elif defined(WINDOWS)
+#include <Windows.h>
+#endif
+
+
+Win32:
+
+SYSTEM_INFO sysinfo;
+GetSystemInfo( &sysinfo );
+
+numCPU = sysinfo.dwNumberOfProcessors;
+Linux, Solaris, & AIX (per comments):
+
+numCPU = sysconf( _SC_NPROCESSORS_ONLN );
+FreeBSD, MacOS X, NetBSD, OpenBSD, etc.:
+
+int mib[4];
+size_t len = sizeof(numCPU); 
+
+/* set the mib for hw.ncpu */
+mib[0] = CTL_HW;
+mib[1] = HW_AVAILCPU;  // alternatively, try HW_NCPU;
+
+/* get the number of CPUs from the system */
+sysctl(mib, 2, &numCPU, &len, NULL, 0);
+
+if( numCPU < 1 ) 
+{
+mib[1] = HW_NCPU;
+sysctl( mib, 2, &numCPU, &len, NULL, 0 );
+
+if( numCPU < 1 )
+{
+numCPU = 1;
+}
+}
+HPUX:
+
+numCPU = mpctl(MPC_GETNUMSPUS, NULL, NULL);
+IRIX:
+
+numCPU = sysconf( _SC_NPROC_ONLN );

@@ -66,25 +66,35 @@
 extern DSExpression * DSExpressionAllocWithOperator(const char op_code);
 extern DSExpression * DSExpressionAllocWithConstant(const double value);
 extern DSExpression * DSExpressionAllocWithVariableName(const char * name);
+
 extern void DSExpressionFree(DSExpression *root);
+
+extern DSExpression * DSExpressionCopy(const DSExpression * expression);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Factory functions
 #endif
 
 extern DSExpression * DSExpressionByParsingString(const char *string);
+extern DSExpression * DSExpressionAddExpressions(DSExpression *lvalue, DSExpression *rvalue);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Expression properties
 #endif
 
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Utility functions
+#endif
+
+extern double DSExpressionEvaluateWithVariablePool(const DSExpression *expression, const DSVariablePool *pool);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
 #endif
 
 extern char * DSExpressionAsString(const DSExpression *expression);
+extern char * DSExpressionAsTroffString(const DSExpression *expression);
 extern void DSExpressionPrint(const DSExpression *expression);
 
 

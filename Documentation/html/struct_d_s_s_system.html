@@ -59,6 +59,10 @@ Collaboration diagram for DSSSystem:</div>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Data Fields</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3d42a9503ac28b35558ac1138c0bd0fc"></a><!-- doxytag: member="DSSSystem::alpha" ref="a3d42a9503ac28b35558ac1138c0bd0fc" args="" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>alpha</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1bb699dd7e2b8dadbb12f86cb9697004"></a><!-- doxytag: member="DSSSystem::beta" ref="a1bb699dd7e2b8dadbb12f86cb9697004" args="" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>beta</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b4cbb7b74e363d29d8bb9286bd2cebb"></a><!-- doxytag: member="DSSSystem::Gd" ref="a9b4cbb7b74e363d29d8bb9286bd2cebb" args="" -->
 <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>Gd</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75132febb300c23365aac8c8aeea7cd5"></a><!-- doxytag: member="DSSSystem::Gi" ref="a75132febb300c23365aac8c8aeea7cd5" args="" -->
@@ -69,8 +73,16 @@ Collaboration diagram for DSSSystem:</div>
 <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>Hi</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bfad635e3f986eb9fce52925d149caf"></a><!-- doxytag: member="DSSSystem::M" ref="a8bfad635e3f986eb9fce52925d149caf" args="" -->
 <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>M</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a08641d45cd6f68a2f784268bf3e6d3cd"></a><!-- doxytag: member="DSSSystem::Ai" ref="a08641d45cd6f68a2f784268bf3e6d3cd" args="" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>Ai</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2827047336233c327d6eeb0564d3b3aa"></a><!-- doxytag: member="DSSSystem::Xd" ref="a2827047336233c327d6eeb0564d3b3aa" args="" -->
+<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>Xd</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0f2d639685f52fa1a385a8ceaff90686"></a><!-- doxytag: member="DSSSystem::Xi" ref="a0f2d639685f52fa1a385a8ceaff90686" args="" -->
+<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>Xi</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a706afdc6a5b397e4bf95618eacb2e128"></a><!-- doxytag: member="DSSSystem::isSingular" ref="a706afdc6a5b397e4bf95618eacb2e128" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>isSingular</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5663937709bfe1f95645a10a4c2b5ad8"></a><!-- doxytag: member="DSSSystem::shouldFreeXd" ref="a5663937709bfe1f95645a10a4c2b5ad8" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>shouldFreeXd</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac4ed22f10fc35532616b1527ebe3ebad"></a><!-- doxytag: member="DSSSystem::shouldFreeXi" ref="ac4ed22f10fc35532616b1527ebe3ebad" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>shouldFreeXi</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Data type representing an S-System. </p>
@@ -84,7 +96,7 @@ Collaboration diagram for DSSSystem:</div>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -93,7 +105,7 @@ Collaboration diagram for DSSSystem:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:35 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:03 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -43,6 +43,8 @@
 #define DS_VARIABLE_TOKEN_DOUBLE     TOKEN_VALUE       //!< Token indicating a numerical value.
 #define DS_VARIABLE_TOKEN_SEPERATOR  TOKEN_SEPERATOR   //!< Token indicating a seperator.
 #define DS_VARIABLE_TOKEN_ASSIGN     TOKEN_ASSIGN      //!< Token indicating assignation. 
+#define DS_VARIABLE_TOKEN_QUOTE      TOKEN_QUOTE      //!< Token indicating assignation. 
+#define DS_VARIABLE_TOKEN_OTHER      TOKEN_OTHER
 
 #define DSVariableTokenNext(x)         ((x)->next)
 #define DSVariableTokenData(x)         ((x)->data)

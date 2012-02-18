@@ -13,10 +13,7 @@ Implementation file with functions for error and exception handling.
 {\ttfamily \#include $<$string.h$>$}\par
 {\ttfamily \#include $<$execinfo.h$>$}\par
 {\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
-{\ttfamily \#include $<$stdbool.h$>$}\par
-{\ttfamily \#include $<$stdarg.h$>$}\par
-{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
-{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
 Include dependency graph for DSErrors.c:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -24,38 +21,15 @@ Include dependency graph for DSErrors.c:\nopagebreak
 \includegraphics[width=308pt]{_d_s_errors_8c__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=67pt]{_d_s_errors_8c__dep__incl}
-\end{center}
-\end{figure}
 \subsection*{Defines}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{_d_s_errors_8c_af86fc5cdaf2e11d46f2aa2201d74f0a4}{
-\#define {\bfseries STACK\_\-TRACE\_\-NUM}~10}
-\label{_d_s_errors_8c_af86fc5cdaf2e11d46f2aa2201d74f0a4}
-
-\item 
-\hypertarget{_d_s_errors_8c_a849adc9d20371988bb26f86618fa75ba}{
-\#define {\bfseries MSIZE}~1500}
-\label{_d_s_errors_8c_a849adc9d20371988bb26f86618fa75ba}
-
-\end{DoxyCompactItemize}
+\#define \hyperlink{_d_s_errors_8c_af86fc5cdaf2e11d46f2aa2201d74f0a4}{STACK\_\-TRACE\_\-NUM}~10
+\begin{DoxyCompactList}\small\item\em Maximum number of traces on the call stack. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{_d_s_errors_8c_a849adc9d20371988bb26f86618fa75ba}{MSIZE}~1500
+\begin{DoxyCompactList}\small\item\em The maximum size of the error message string. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
-\item 
-\hypertarget{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}{
-void {\bfseries DSErrorSetPrintFunction} (void($\ast$function)(const char $\ast$restrict))}
-\label{_d_s_errors_8c_a835a62d5dadb2499cc180b27fb77868e}
-
-\item 
-\hypertarget{_d_s_errors_8c_a4b43fbbf45cfa65d56dbe161948afe18}{
-void {\bfseries DSErrorSetErrorFile} (FILE $\ast$aFile)}
-\label{_d_s_errors_8c_a4b43fbbf45cfa65d56dbe161948afe18}
-
 \item 
 void \hyperlink{_d_s_errors_8c_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} (const char $\ast$M\_\-DS\_\-Message, char A\_\-DS\_\-ACTION, const char $\ast$FILEN, int LINE, const char $\ast$FUNC)
 \begin{DoxyCompactList}\small\item\em Implicit error handling function. Called by DSError which automatically adds file and line arguments. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -89,9 +63,32 @@ You should have received a copy of the GNU General Public License along with the
 Jason Lomnitz. 
 \end{DoxyAuthor}
 \begin{DoxyDate}{Date}
-2011 
+2011
 \end{DoxyDate}
+\begin{Desc}
+\item[\hyperlink{todo__todo000001}{Todo}]Implement locks when making the error strings. \end{Desc}
 
+
+\subsection{Define Documentation}
+\hypertarget{_d_s_errors_8c_a849adc9d20371988bb26f86618fa75ba}{
+\index{DSErrors.c@{DSErrors.c}!MSIZE@{MSIZE}}
+\index{MSIZE@{MSIZE}!DSErrors.c@{DSErrors.c}}
+\subsubsection[{MSIZE}]{\setlength{\rightskip}{0pt plus 5cm}\#define MSIZE~1500}}
+\label{_d_s_errors_8c_a849adc9d20371988bb26f86618fa75ba}
+
+
+The maximum size of the error message string. 
+
+This represents the maximum number of characters that an error string can contain. The error string is a statically allocated string. \hypertarget{_d_s_errors_8c_af86fc5cdaf2e11d46f2aa2201d74f0a4}{
+\index{DSErrors.c@{DSErrors.c}!STACK\_\-TRACE\_\-NUM@{STACK\_\-TRACE\_\-NUM}}
+\index{STACK\_\-TRACE\_\-NUM@{STACK\_\-TRACE\_\-NUM}!DSErrors.c@{DSErrors.c}}
+\subsubsection[{STACK\_\-TRACE\_\-NUM}]{\setlength{\rightskip}{0pt plus 5cm}\#define STACK\_\-TRACE\_\-NUM~10}}
+\label{_d_s_errors_8c_af86fc5cdaf2e11d46f2aa2201d74f0a4}
+
+
+Maximum number of traces on the call stack. 
+
+This number represents the maximum number of traces on the call stack that the DSError function adds to the error string. The trace represents all the functions called up to the error. 
 
 \subsection{Function Documentation}
 \hypertarget{_d_s_errors_8c_a363f9c264b785ec509da1b11af9ae314}{
@@ -103,8 +100,11 @@ Jason Lomnitz.
 
 Implicit error handling function. Called by DSError which automatically adds file and line arguments. 
 
-This function is called implicity when using the DSError macro. The DSError adds the FILE and LINE argument, to report the error/warning at the appropriate file and line.
+This function is called implicity when using the DSError macro. The DSError adds the FILE, LINE and FUNC arguments, to report the error/warning at the appropriate file, line and function.
 
+
+\begin{DoxyParams}{Parameters}
+\item[{\em M\_\-DS\_\-Message}]A string containing the error message. \item[{\em A\_\-DS\_\-ACTION}]A character representing an error code as described in A\_\-DS\_\-Actions. \item[{\em FILEN}]A string with the name of the file where the error was reported. \item[{\em LINE}]An integer with the line number in the file where the error was reported. \item[{\em FUNC}]A string with the name of the function where the error was reported.\end{DoxyParams}
 \begin{DoxySeeAlso}{See also}
 \hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError} 
 

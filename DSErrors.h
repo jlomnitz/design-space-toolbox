@@ -78,13 +78,6 @@
 #pragma mark - Error Actions
 #endif
 
-
-#define A_DS_NOERROR     0                          //!< Value for no error.
-#define A_DS_WARN       -1                          //!< Value for a warning
-#define A_DS_ERROR      -2                          //!< Value for an error.
-#define A_DS_FATAL      -3                          //!< Value for a fatal error, kills program.
-#define A_DS_KILLNOW    A_DS_FATAL                  //!< DEPRECATED: 
-
 /**
  *\defgroup A_DS_Actions Actions for DS Errors.
  *
@@ -94,13 +87,13 @@
  *\see M_DS_Messages
  *\see DS_ERROR
  */
+
 /*@{*/
-/**
- * \def A_DS_NOERROR
- * \def A_DS_WARN
- * \def A_DS_ERROR
- * \def A_DS_FATAL
- */
+#define A_DS_NOERROR     0                          //!< Value for no error.
+#define A_DS_WARN       -1                          //!< Value for a warning
+#define A_DS_ERROR      -2                          //!< Value for an error.
+#define A_DS_FATAL      -3                          //!< Value for a fatal error, kills program.
+#define A_DS_KILLNOW    A_DS_FATAL                  //!< DEPRECATED: 
 /*@}*/
 
 
@@ -134,8 +127,6 @@ __BEGIN_DECLS
  */
 #define DSError(M_DS_Message, A_DS_Action) DSErrorFunction(M_DS_Message, A_DS_Action, __FILE__, __LINE__, __func__)
 
-__deprecated extern void DSErrorSetPrintFunction(void (*function)(const char * restrict));
-__deprecated extern void DSErrorSetErrorFile(FILE *aFile);
 extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char * FUNC);
 
 

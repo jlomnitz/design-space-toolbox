@@ -36,6 +36,8 @@
  *
  * \author Jason Lomnitz.
  * \date 2011
+ *
+ * \todo Implement locks when making the error strings.
  */
 
 #include <stdio.h>
@@ -47,21 +49,22 @@
 #include "DSErrors.h"
 #include "DSMemoryManager.h"
 
+/**
+ * \brief Maximum number of traces on the call stack.
+ *
+ * \details This number represents the maximum number of traces on the call
+ * stack that the DSError function adds to the error string.  The trace
+ * represents all the functions called up to the error.
+ */
 #define STACK_TRACE_NUM 10
+
+/**
+ * \brief The maximum size of the error message string.
+ *
+ * \details This represents the maximum number of characters that an error
+ * string can contain.  The error string is a statically allocated string.
+ */
 #define MSIZE           1500
-
-extern void DSErrorSetPrintFunction(void (*function)(const char * restrict))
-{
-        DSIOSetPostErrorFunction(function);
-        DSIOSetPostWarningFunction(function);
-        DSIOSetPostFatalErrorFunction(function);
-        return;
-}
-
-extern void DSErrorSetErrorFile(FILE *aFile)
-{
-        DSIOSetErrorFile(aFile);
-}
 
 /**
  * \brief Implicit error handling function.  Called by DSError which

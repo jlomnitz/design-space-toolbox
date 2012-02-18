@@ -1,4 +1,3 @@
-//  
 /**
  * \file DSSSystemGrammar.y
  * \brief Grammar file with functions for parsing S-systems, specifying the
@@ -41,8 +40,8 @@
 
 %left PLUS MINUS.
 %left DIVIDE TIMES.
-%right POWER.
 %left NOT.
+%right POWER.
 
 %extra_argument {void **parser_aux}
 

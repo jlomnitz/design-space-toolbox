@@ -46,7 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <h1>DSVariable Struct Reference</h1><!-- doxytag: class="DSVariable" -->
-<p>Data type that is used to store errors.  
+<p>Basic variable structure containing name, value and NSString with special unicode characters for greek letters.  
 <a href="#_details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_d_s_types_8h_source.html">DSTypes.h</a>&gt;</code></p>
@@ -63,13 +63,11 @@ DSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retain counter for memory management. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<p>Data type that is used to store errors. </p>
-<p>Type definition for the internal error handling, independent from the error reporting mentioned in M_DS_Messages and A_DS_Actions. The possible values this type definition has only symbolizes the severity of the error.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_errors_8h.html" title="Header file with functions for error and exception handling.">DSErrors.h</a></dd>
+<p>Basic variable structure containing name, value and NSString with special unicode characters for greek letters. </p>
+<p>Structure that carries variable information. Internal to BSTVariables class and should not be created and/or freed manually and beyond the context of the BSTVariables class.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_variable_8h.html" title="Header file with functions for dealing with variables.">DSVariable.h</a> </dd>
 <dd>
-<a class="el" href="group___m___d_s___messages.html">Messages for DS Errors.</a> </dd>
-<dd>
-<a class="el" href="group___a___d_s___actions.html">Actions for DS Errors.</a> Basic variable structure containing <a class="el" href="struct_d_s_variable.html#a5ac083a645d964373f022d03df4849c8" title="Dynamically allocated name of the variable.">name</a>, <a class="el" href="struct_d_s_variable.html#aee90379adb0307effb138f4871edbc5c" title="Value of the variable.">value</a> and NSString with special unicode characters for greek letters. Structure that carries variable information. Internal to BSTVariables class and should not be created and/or freed manually and beyond the context of the BSTVariables class. </dd></dl>
+<a class="el" href="_d_s_variable_8c.html" title="Implementation file with functions for dealing with variables.">DSVariable.c</a> </dd></dl>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="_d_s_types_8h_source.html">DSTypes.h</a></li>
 </ul>
@@ -79,7 +77,7 @@ DSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -88,7 +86,7 @@ DSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:35 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:03 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

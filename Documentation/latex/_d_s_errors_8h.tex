@@ -68,6 +68,11 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \label{group___m___d_s___messages_ga79c48eacc7951aa68e4d094f0989faac}
 
 \begin{DoxyCompactList}\small\item\em Message for a feature not yet implemented. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_errors_8h_a2073c22dca19fb517f4b709ea58c7c2a}{
+\#define \hyperlink{_d_s_errors_8h_a2073c22dca19fb517f4b709ea58c7c2a}{M\_\-DS\_\-PARSE}~\char`\"{}Could not parse data\char`\"{}}
+\label{_d_s_errors_8h_a2073c22dca19fb517f4b709ea58c7c2a}
+
+\begin{DoxyCompactList}\small\item\em Message for an error during parsing. \item\end{DoxyCompactList}\item 
 \hypertarget{group___a___d_s___actions_ga83fd1c7379ac085b8a9550b8d64f3449}{
 \#define \hyperlink{group___a___d_s___actions_ga83fd1c7379ac085b8a9550b8d64f3449}{A\_\-DS\_\-NOERROR}~0}
 \label{group___a___d_s___actions_ga83fd1c7379ac085b8a9550b8d64f3449}
@@ -88,25 +93,15 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \label{group___a___d_s___actions_gad3e083f0c8d34073d3597724c2a264f6}
 
 \begin{DoxyCompactList}\small\item\em Value for a fatal error, kills program. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_errors_8h_afc6d540dbb27b62f52427a845a33212f}{
-\#define \hyperlink{_d_s_errors_8h_afc6d540dbb27b62f52427a845a33212f}{A\_\-DS\_\-KILLNOW}~A\_\-DS\_\-FATAL}
-\label{_d_s_errors_8h_afc6d540dbb27b62f52427a845a33212f}
+\hypertarget{group___a___d_s___actions_gafc6d540dbb27b62f52427a845a33212f}{
+\#define \hyperlink{group___a___d_s___actions_gafc6d540dbb27b62f52427a845a33212f}{A\_\-DS\_\-KILLNOW}~A\_\-DS\_\-FATAL}
+\label{group___a___d_s___actions_gafc6d540dbb27b62f52427a845a33212f}
 
 \begin{DoxyCompactList}\small\item\em DEPRECATED: \item\end{DoxyCompactList}\item 
 \#define \hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError}(M\_\-DS\_\-Message, A\_\-DS\_\-Action)~DSErrorFunction(M\_\-DS\_\-Message, A\_\-DS\_\-Action, \_\-\_\-FILE\_\-\_\-, \_\-\_\-LINE\_\-\_\-, \_\-\_\-func\_\-\_\-)
 \begin{DoxyCompactList}\small\item\em Error reporting macro. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
-\item 
-\hypertarget{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}{
-\_\-\_\-deprecated void {\bfseries DSErrorSetPrintFunction} (void($\ast$function)(const char $\ast$restrict))}
-\label{_d_s_errors_8h_a71b6e7a909b430863f1a850122a17f78}
-
-\item 
-\hypertarget{_d_s_errors_8h_a3b412662349f03e9fc9fbb782ec3b373}{
-\_\-\_\-deprecated void {\bfseries DSErrorSetErrorFile} (FILE $\ast$aFile)}
-\label{_d_s_errors_8h_a3b412662349f03e9fc9fbb782ec3b373}
-
 \item 
 void \hyperlink{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} (const char $\ast$M\_\-DS\_\-Message, char A\_\-DS\_\-ACTION, const char $\ast$FILEN, int LINE, const char $\ast$FUNC)
 \begin{DoxyCompactList}\small\item\em Implicit error handling function. Called by DSError which automatically adds file and line arguments. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -170,8 +165,11 @@ Definition of the error reporting macro used within the DesignSpace C toolbox, t
 
 Implicit error handling function. Called by DSError which automatically adds file and line arguments. 
 
-This function is called implicity when using the DSError macro. The DSError adds the FILE and LINE argument, to report the error/warning at the appropriate file and line.
+This function is called implicity when using the DSError macro. The DSError adds the FILE, LINE and FUNC arguments, to report the error/warning at the appropriate file, line and function.
 
+
+\begin{DoxyParams}{Parameters}
+\item[{\em M\_\-DS\_\-Message}]A string containing the error message. \item[{\em A\_\-DS\_\-ACTION}]A character representing an error code as described in A\_\-DS\_\-Actions. \item[{\em FILEN}]A string with the name of the file where the error was reported. \item[{\em LINE}]An integer with the line number in the file where the error was reported. \item[{\em FUNC}]A string with the name of the function where the error was reported.\end{DoxyParams}
 \begin{DoxySeeAlso}{See also}
 \hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError} 
 

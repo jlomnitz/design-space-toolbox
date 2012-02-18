@@ -53,11 +53,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;math.h&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
 <code>#include &lt;execinfo.h&gt;</code><br/>
-<code>#include &quot;<a class="el" href="_d_s_errors_8c.html">DSErrors.h</a>&quot;</code><br/>
-<code>#include &lt;stdbool.h&gt;</code><br/>
-<code>#include &lt;stdarg.h&gt;</code><br/>
-<code>#include &quot;<a class="el" href="_d_s_types_8h_source.html">DSTypes.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_errors_8h_source.html">DSErrors.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_d_s_memory_manager_8h_source.html">DSMemoryManager.h</a>&quot;</code><br/>
 <div class="dynheader">
 Include dependency graph for DSErrors.c:</div>
 <div class="dynsection">
@@ -65,22 +62,13 @@ Include dependency graph for DSErrors.c:</div>
 <map name="_d_s_errors_8c_map" id="_d_s_errors_8c">
 <area shape="rect" href="_d_s_types_8h.html" title="Header file with definitions for data types." alt="" coords="243,231,353,258" /><area shape="rect" href="_d_s_errors_8h.html" title="Header file with functions for error and exception handling." alt="" coords="166,82,275,109" /><area shape="rect" href="_d_s_i_o_8h.html" title="Header file with standard input and output functions." alt="" coords="109,157,183,183" /></map>
 </div>
-<div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dynsection">
-<div class="center"><img src="_d_s_errors_8c__dep__incl.png" border="0" usemap="#_d_s_errors_8cdep_map" alt=""/></div>
-</div>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Defines</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af86fc5cdaf2e11d46f2aa2201d74f0a4"></a><!-- doxytag: member="DSErrors.c::STACK_TRACE_NUM" ref="af86fc5cdaf2e11d46f2aa2201d74f0a4" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>STACK_TRACE_NUM</b>&nbsp;&nbsp;&nbsp;10</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a849adc9d20371988bb26f86618fa75ba"></a><!-- doxytag: member="DSErrors.c::MSIZE" ref="a849adc9d20371988bb26f86618fa75ba" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>MSIZE</b>&nbsp;&nbsp;&nbsp;1500</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_errors_8c.html#af86fc5cdaf2e11d46f2aa2201d74f0a4">STACK_TRACE_NUM</a>&nbsp;&nbsp;&nbsp;10</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Maximum number of traces on the call stack.  <a href="#af86fc5cdaf2e11d46f2aa2201d74f0a4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_errors_8c.html#a849adc9d20371988bb26f86618fa75ba">MSIZE</a>&nbsp;&nbsp;&nbsp;1500</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The maximum size of the error message string.  <a href="#a849adc9d20371988bb26f86618fa75ba"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a835a62d5dadb2499cc180b27fb77868e"></a><!-- doxytag: member="DSErrors.c::DSErrorSetPrintFunction" ref="a835a62d5dadb2499cc180b27fb77868e" args="(void(*function)(const char *restrict))" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetPrintFunction</b> (void(*function)(const char *restrict))</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b43fbbf45cfa65d56dbe161948afe18"></a><!-- doxytag: member="DSErrors.c::DSErrorSetErrorFile" ref="a4b43fbbf45cfa65d56dbe161948afe18" args="(FILE *aFile)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</b> (FILE *aFile)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_errors_8c.html#a363f9c264b785ec509da1b11af9ae314">DSErrorFunction</a> (const char *M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char *FUNC)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Implicit error handling function. Called by DSError which automatically adds file and line arguments.  <a href="#a363f9c264b785ec509da1b11af9ae314"></a><br/></td></tr>
 </table>
@@ -102,7 +90,41 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</
 <p>The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
 <p>You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 <dl class="author"><dt><b>Author:</b></dt><dd>Jason Lomnitz. </dd></dl>
-<dl class="date"><dt><b>Date:</b></dt><dd>2011 </dd></dl>
+<dl class="date"><dt><b>Date:</b></dt><dd>2011</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Implement locks when making the error strings. </dd></dl>
+<hr/><h2>Define Documentation</h2>
+<a class="anchor" id="a849adc9d20371988bb26f86618fa75ba"></a><!-- doxytag: member="DSErrors.c::MSIZE" ref="a849adc9d20371988bb26f86618fa75ba" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MSIZE&nbsp;&nbsp;&nbsp;1500</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>The maximum size of the error message string. </p>
+<p>This represents the maximum number of characters that an error string can contain. The error string is a statically allocated string. </p>
+
+</div>
+</div>
+<a class="anchor" id="af86fc5cdaf2e11d46f2aa2201d74f0a4"></a><!-- doxytag: member="DSErrors.c::STACK_TRACE_NUM" ref="af86fc5cdaf2e11d46f2aa2201d74f0a4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STACK_TRACE_NUM&nbsp;&nbsp;&nbsp;10</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Maximum number of traces on the call stack. </p>
+<p>This number represents the maximum number of traces on the call stack that the DSError function adds to the error string. The trace represents all the functions called up to the error. </p>
+
+</div>
+</div>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="a363f9c264b785ec509da1b11af9ae314"></a><!-- doxytag: member="DSErrors.c::DSErrorFunction" ref="a363f9c264b785ec509da1b11af9ae314" args="(const char *M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char *FUNC)" -->
 <div class="memitem">
@@ -148,7 +170,17 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</
 <div class="memdoc">
 
 <p>Implicit error handling function. Called by DSError which automatically adds file and line arguments. </p>
-<p>This function is called implicity when using the DSError macro. The DSError adds the FILE and LINE argument, to report the error/warning at the appropriate file and line.</p>
+<p>This function is called implicity when using the DSError macro. The DSError adds the FILE, LINE and FUNC arguments, to report the error/warning at the appropriate file, line and function.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>M_DS_Message</em>&nbsp;</td><td>A string containing the error message. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>A_DS_ACTION</em>&nbsp;</td><td>A character representing an error code as described in A_DS_Actions. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>FILEN</em>&nbsp;</td><td>A string with the name of the file where the error was reported. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>LINE</em>&nbsp;</td><td>An integer with the line number in the file where the error was reported. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>FUNC</em>&nbsp;</td><td>A string with the name of the function where the error was reported.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_errors_8h.html#a09b28eb2b01986855910ca97dfe91144" title="Error reporting macro.">DSError</a> </dd>
 <dd>
 <a class="el" href="group___a___d_s___actions.html">Actions for DS Errors.</a> </dd></dl>
@@ -161,7 +193,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -170,7 +202,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSErrorSetErrorFile</
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:34 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:02 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

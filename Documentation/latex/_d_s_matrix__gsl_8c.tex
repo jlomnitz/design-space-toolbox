@@ -9,13 +9,15 @@ Implementation file with functions for dealing with matrices using the GNU Scien
 
 {\ttfamily \#include $<$time.h$>$}\par
 {\ttfamily \#include $<$stdarg.h$>$}\par
-{\ttfamily \#include \char`\"{}DSMatrix.h\char`\"{}}\par
-{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
-{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
-{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
-{\ttfamily \#include \char`\"{}DSMatrix.h\char`\"{}}\par
+{\ttfamily \#include $<$string.h$>$}\par
 {\ttfamily \#include $<$gsl/gsl\_\-linalg.h$>$}\par
 {\ttfamily \#include $<$gsl/gsl\_\-blas.h$>$}\par
+{\ttfamily \#include \char`\"{}DSMatrix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMatrixArray.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMatrixTokenizer.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
 Include dependency graph for DSMatrix\_\-gsl.c:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -30,6 +32,19 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \includegraphics[width=81pt]{_d_s_matrix__gsl_8c__dep__incl}
 \end{center}
 \end{figure}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_ad6dbca80a166e990b667278effb31731}{
+\#define {\bfseries DSMatrixSetRows}(x, y)~((x)-\/$>$rows = (y))}
+\label{_d_s_matrix__gsl_8c_ad6dbca80a166e990b667278effb31731}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_aa1051e84e33639a1cd4b276695bfe52e}{
+\#define {\bfseries DSMatrixSetColumns}(x, y)~((x)-\/$>$columns = (y))}
+\label{_d_s_matrix__gsl_8c_aa1051e84e33639a1cd4b276695bfe52e}
+
+\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -45,19 +60,54 @@ void \hyperlink{_d_s_matrix__gsl_8c_ae5fc6bceef5e7e9e2c6300a86bdfb5fc}{DSMatrixF
 \begin{DoxyCompactList}\small\item\em Allocates a new \hyperlink{struct_d_s_matrix}{DSMatrix} as an identity matrix. \item\end{DoxyCompactList}\item 
 \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ \hyperlink{_d_s_matrix__gsl_8c_a8980e6c6dc06dbbda9cde939cff831cc}{DSMatrixRandomNumbers} (const DSUInteger rows, const DSUInteger columns)
 \begin{DoxyCompactList}\small\item\em Allocates a new \hyperlink{struct_d_s_matrix}{DSMatrix} with random values between 0 and 1. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_matrix__gsl_8c_ad542fab68c7147002d3e5d4b136f188b}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixWithVariablePoolValues} (const \hyperlink{struct__var_dictionary}{DSVariablePool} $\ast$variablePool)}
-\label{_d_s_matrix__gsl_8c_ad542fab68c7147002d3e5d4b136f188b}
+\hypertarget{_d_s_matrix__gsl_8c_a6bc16a09f2f1c6e994cde99917388985}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByParsingString} (const char $\ast$string)}
+\label{_d_s_matrix__gsl_8c_a6bc16a09f2f1c6e994cde99917388985}
 
 \item 
-\hypertarget{_d_s_matrix__gsl_8c_acdf23ab773e0822d370c5cedf8ef52a6}{
-void {\bfseries DSMatrixSetRows} (\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix, const DSUInteger rows)}
-\label{_d_s_matrix__gsl_8c_acdf23ab773e0822d370c5cedf8ef52a6}
+\hypertarget{_d_s_matrix__gsl_8c_a3205b0946508ed84873347cafacd5eb3}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixBySubstractingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
+\label{_d_s_matrix__gsl_8c_a3205b0946508ed84873347cafacd5eb3}
 
 \item 
-\hypertarget{_d_s_matrix__gsl_8c_adf7db42a38601dc8ccc254aae94ab42d}{
-void {\bfseries DSMatrixSetColumns} (\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix, const DSUInteger columns)}
-\label{_d_s_matrix__gsl_8c_adf7db42a38601dc8ccc254aae94ab42d}
+\hypertarget{_d_s_matrix__gsl_8c_aa1c9f578946f7d5fe69d5e4a1ebaaadf}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByAddingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
+\label{_d_s_matrix__gsl_8c_aa1c9f578946f7d5fe69d5e4a1ebaaadf}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_aecdf05e600ce503d4e54ae43720bde8d}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByDividingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
+\label{_d_s_matrix__gsl_8c_aecdf05e600ce503d4e54ae43720bde8d}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_a6ca3f3a56a30db46fdfa2035121515da}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByMultiplyingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
+\label{_d_s_matrix__gsl_8c_a6ca3f3a56a30db46fdfa2035121515da}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_a9dbd160849a73f61a42f9356daac2d8f}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByApplyingFunction} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$mvalue, double($\ast$function)(double))}
+\label{_d_s_matrix__gsl_8c_a9dbd160849a73f61a42f9356daac2d8f}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_a70c586f979ed9697ba532079a063e482}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixBySubstractingScalar} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const double rvalue)}
+\label{_d_s_matrix__gsl_8c_a70c586f979ed9697ba532079a063e482}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_af75d930f6cd98e4df848415456614aea}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByAddingScalar} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const double rvalue)}
+\label{_d_s_matrix__gsl_8c_af75d930f6cd98e4df848415456614aea}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_a60b24f071ca4800d11c597e01972cd92}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByDividingScalar} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const double rvalue)}
+\label{_d_s_matrix__gsl_8c_a60b24f071ca4800d11c597e01972cd92}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_a85636b6b07304278117d244ea9ae2dfe}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByMultiplyingScalar} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const double rvalue)}
+\label{_d_s_matrix__gsl_8c_a85636b6b07304278117d244ea9ae2dfe}
 
 \item 
 double \hyperlink{_d_s_matrix__gsl_8c_abc810db5fab16f43f5279815726577de}{DSMatrixDoubleValue} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix, const DSUInteger row, const DSUInteger column)
@@ -159,9 +209,14 @@ void {\bfseries DSMatrixSwitchColumns} (\hyperlink{struct_d_s_matrix}{DSMatrix} 
 \label{_d_s_matrix__gsl_8c_aef190e8f762eb55b71830a4b9b6ce029}
 
 \item 
-\hypertarget{_d_s_matrix__gsl_8c_aafc2224cfb968cc0ec445fb547a1a1f8}{
-void {\bfseries DSMatrixPrint} (\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix)}
-\label{_d_s_matrix__gsl_8c_aafc2224cfb968cc0ec445fb547a1a1f8}
+\hypertarget{_d_s_matrix__gsl_8c_a0c786f6a1a4b2a9530b8d80bcad96974}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixWithUniqueRows} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix)}
+\label{_d_s_matrix__gsl_8c_a0c786f6a1a4b2a9530b8d80bcad96974}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_a7221b842f0974bfaa33d76554c99c6eb}{
+void {\bfseries DSMatrixPrint} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix)}
+\label{_d_s_matrix__gsl_8c_a7221b842f0974bfaa33d76554c99c6eb}
 
 \item 
 \hypertarget{_d_s_matrix__gsl_8c_aab4e40a4f3db7f41a1f24a106b0bcaae}{
@@ -189,46 +244,24 @@ double {\bfseries maximumValue} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $
 \label{_d_s_matrix__gsl_8c_acf33f61fc91fd02dacfbc31c6ffeeaf8}
 
 \item 
-\hypertarget{_d_s_matrix__gsl_8c_a3205b0946508ed84873347cafacd5eb3}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixBySubstractingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
-\label{_d_s_matrix__gsl_8c_a3205b0946508ed84873347cafacd5eb3}
+\hypertarget{_d_s_matrix__gsl_8c_a549cf4468c5038572f21cb10019b65d0}{
+void {\bfseries DSMatrixAddByMatrix} (\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$addTo, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$addBy)}
+\label{_d_s_matrix__gsl_8c_a549cf4468c5038572f21cb10019b65d0}
 
 \item 
-\hypertarget{_d_s_matrix__gsl_8c_aa1c9f578946f7d5fe69d5e4a1ebaaadf}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByAddingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
-\label{_d_s_matrix__gsl_8c_aa1c9f578946f7d5fe69d5e4a1ebaaadf}
+\hypertarget{_d_s_matrix__gsl_8c_a5e5a31063d2eece4094c40f4d83ccf45}{
+void {\bfseries DSMatrixSubstractByMatrix} (\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$addTo, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$addBy)}
+\label{_d_s_matrix__gsl_8c_a5e5a31063d2eece4094c40f4d83ccf45}
 
 \item 
-\hypertarget{_d_s_matrix__gsl_8c_aecdf05e600ce503d4e54ae43720bde8d}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByDividingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
-\label{_d_s_matrix__gsl_8c_aecdf05e600ce503d4e54ae43720bde8d}
+\hypertarget{_d_s_matrix__gsl_8c_a3cd0f9b93f0e2d53c97ce3cea02c47f0}{
+void {\bfseries DSMatrixApplyFunction} (\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix, double($\ast$function)(double))}
+\label{_d_s_matrix__gsl_8c_a3cd0f9b93f0e2d53c97ce3cea02c47f0}
 
 \item 
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ \hyperlink{_d_s_matrix__gsl_8c_a6ca3f3a56a30db46fdfa2035121515da}{DSMatrixByMultiplyingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)
-\item 
-\hypertarget{_d_s_matrix__gsl_8c_a9dbd160849a73f61a42f9356daac2d8f}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByApplyingFunction} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$mvalue, double($\ast$function)(double))}
-\label{_d_s_matrix__gsl_8c_a9dbd160849a73f61a42f9356daac2d8f}
-
-\item 
-\hypertarget{_d_s_matrix__gsl_8c_a70c586f979ed9697ba532079a063e482}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixBySubstractingScalar} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const double rvalue)}
-\label{_d_s_matrix__gsl_8c_a70c586f979ed9697ba532079a063e482}
-
-\item 
-\hypertarget{_d_s_matrix__gsl_8c_af75d930f6cd98e4df848415456614aea}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByAddingScalar} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const double rvalue)}
-\label{_d_s_matrix__gsl_8c_af75d930f6cd98e4df848415456614aea}
-
-\item 
-\hypertarget{_d_s_matrix__gsl_8c_a60b24f071ca4800d11c597e01972cd92}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByDividingScalar} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const double rvalue)}
-\label{_d_s_matrix__gsl_8c_a60b24f071ca4800d11c597e01972cd92}
-
-\item 
-\hypertarget{_d_s_matrix__gsl_8c_a85636b6b07304278117d244ea9ae2dfe}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByMultiplyingScalar} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const double rvalue)}
-\label{_d_s_matrix__gsl_8c_a85636b6b07304278117d244ea9ae2dfe}
+\hypertarget{_d_s_matrix__gsl_8c_a588f749c9ac4dee7fe201425ce10997a}{
+void {\bfseries DSMatrixMultiplyByScalar} (\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix, const double value)}
+\label{_d_s_matrix__gsl_8c_a588f749c9ac4dee7fe201425ce10997a}
 
 \item 
 \hypertarget{_d_s_matrix__gsl_8c_a81c24f3537a442778c36dc1168104a18}{
@@ -314,12 +347,7 @@ Creates a new matrix of a particular size. The matrix that is allocated has all 
 \begin{DoxyReturn}{Returns}
 If the matrix was created, a new pointer to a \hyperlink{struct_d_s_matrix}{DSMatrix} is returned. Otherwise, NULL is returned. 
 \end{DoxyReturn}
-\hypertarget{_d_s_matrix__gsl_8c_a6ca3f3a56a30db46fdfa2035121515da}{
-\index{DSMatrix\_\-gsl.c@{DSMatrix\_\-gsl.c}!DSMatrixByMultiplyingMatrix@{DSMatrixByMultiplyingMatrix}}
-\index{DSMatrixByMultiplyingMatrix@{DSMatrixByMultiplyingMatrix}!DSMatrix_gsl.c@{DSMatrix\_\-gsl.c}}
-\subsubsection[{DSMatrixByMultiplyingMatrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSMatrix}$\ast$ DSMatrixByMultiplyingMatrix (const {\bf DSMatrix} $\ast$ {\em lvalue}, \/  const {\bf DSMatrix} $\ast$ {\em rvalue})}}
-\label{_d_s_matrix__gsl_8c_a6ca3f3a56a30db46fdfa2035121515da}
-Multiplication by a matrix inverse or pseudoinverse \hypertarget{_d_s_matrix__gsl_8c_a1b228ecc7be521c40160173fc1cecea2}{
+\hypertarget{_d_s_matrix__gsl_8c_a1b228ecc7be521c40160173fc1cecea2}{
 \index{DSMatrix\_\-gsl.c@{DSMatrix\_\-gsl.c}!DSMatrixCalloc@{DSMatrixCalloc}}
 \index{DSMatrixCalloc@{DSMatrixCalloc}!DSMatrix_gsl.c@{DSMatrix\_\-gsl.c}}
 \subsubsection[{DSMatrixCalloc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSMatrix}$\ast$ DSMatrixCalloc (const DSUInteger {\em rows}, \/  const DSUInteger {\em columns})}}

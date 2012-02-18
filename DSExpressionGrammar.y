@@ -39,8 +39,8 @@
 
 %left PLUS MINUS.
 %left DIVIDE TIMES.
-%right POWER.
 %left NOT.
+%right POWER.
 
 %extra_argument {void *parsed}
 

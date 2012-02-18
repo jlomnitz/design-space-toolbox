@@ -41,6 +41,35 @@ __BEGIN_DECLS
 #endif
 
 /**
+ *\defgroup DS_CASE_JSON_OPTIONS Options for JSON conversion of DSCase object.
+ *
+ * Defined here are different options determining the information stored in a
+ * JSON string for a DSCase object.  These options are passed to the
+ * DSIOSetCaseJSONOptions function.  These options designate the value
+ * for a global flag variable
+ */
+
+/*\{*/
+#define DS_CASE_JSON_NO_SSYSTEM           1  //!< Flag value indicating that the S-System information should not be included in the JSON string.
+#define DS_CASE_JSON_NO_CASE_SIGNATURE    2  //!< Flag value indicating that the case signature should not be included in the JSON string.
+#define DS_CASE_JSON_NO_CONDITIONS        4  //!< Flag value indicating that the conditions for validity should not be included in the JSON string.
+/*\}*/
+
+/**
+ *\defgroup DS_SSYSTEM_JSON_OPTIONS Options for JSON conversion of DSSSystem object.
+ *
+ * Defined here are different options determining the information stored in a
+ * JSON string for a DSSSystem object.  These options are passed to the
+ * DSIOSetSSystemJSONOptions function.  These options designate the value
+ * for a global flag variable.
+ */
+
+/*\{*/
+#define DS_SSYSTEM_JSON_NO_SOLUTION       1  //!< Flag value indicating that the S-System solution should not be included in the JSON string.
+#define DS_SSYSTEM_JSON_NO_SINGULAR       2  //!< Flag value indicating that the JSON string will not indicate if the S-System is singular.
+/*\}*/
+
+/**
  * \brief Pointer to a function determining how messages are printed.
  *
  * This pointer to a function tells the error handling system which function to
@@ -123,6 +152,38 @@ extern void DSIOSetPrintFunction(int (*printFunction)(const char *, ...));
 extern void DSIOSetPostWarningFunction(void (*warningFunction)(const char *message));
 extern void DSIOSetPostErrorFunction(void (*errorFunction)(const char *message));
 extern void DSIOSetPostFatalErrorFunction(void (*fatalErrorFunction)(const char *message));
+
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark - Export objects to JSON format
+#endif
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Functions controlling output
+#endif
+
+extern void DSIOSetCaseJSONOptions(const DSUInteger options);
+extern void DSIOSetSSystemJSONOptions(const DSUInteger options);
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Write JSON data
+#endif
+
+extern char * DSVariablePoolStringInJSONFormat(const DSVariablePool *pool);
+extern char * DSMatrixStringInJSONFormat(const DSMatrix * matrix);
+extern char * DSMatrixArrayStringInJSONFormat(const DSMatrixArray *array);
+extern char * DSSSystemStringInJSONFormat(const DSSSystem *ssys);
+extern char * DSCaseStringInJSONFormat(const DSCase * aCase);
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Read JSON data
+#endif
+
+extern DSVariablePool * DSVariablePoolByParsingStringInJSONFormat(const char * string);
+extern DSMatrix * DSMatrixByParsingStringInJSONFormat(const char * string);
+extern DSMatrixArray * DSMatrixArrayByParsingStringInJSONFormat(const char * string);
+extern DSSSystem * DSSSystemByParsingStringInJSONFormat(const char * string);
+extern DSCase * DSCaseByParsingStringInJSONFormat(const char * string);
+
 
 #ifdef __cplusplus
 __END_DECLS

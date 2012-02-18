@@ -55,36 +55,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_variable_8h.html" title="Header file with functions for dealing with variables.">DSVariable.h</a>&quot;</span>
 <a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_matrix_8h.html" title="Header file with functions for dealing with matrices.">DSMatrix.h</a>&quot;</span>
 <a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_matrix_array_8h.html" title="Header file with functions for dealing with matrix arrays.">DSMatrixArray.h</a>&quot;</span>
-<a name="l00044"></a>00044 
-<a name="l00045"></a>00045 <span class="preprocessor">#ifndef __DS_STD_INCLUDE__</span>
-<a name="l00046"></a>00046 <span class="preprocessor"></span><span class="preprocessor">#define __DS_STD_INCLUDE__</span>
-<a name="l00047"></a>00047 <span class="preprocessor"></span>
-<a name="l00048"></a>00048 <span class="preprocessor">#ifdef __cplusplus</span>
-<a name="l00049"></a>00049 <span class="preprocessor"></span>__BEGIN_DECLS
-<a name="l00050"></a>00050 <span class="preprocessor">#endif</span>
-<a name="l00051"></a>00051 <span class="preprocessor"></span>
-<a name="l00052"></a>00052 <span class="preprocessor">#define free(x) DSSecureFree(x)</span>
-<a name="l00053"></a>00053 <span class="preprocessor"></span><span class="preprocessor">#define malloc(x) DSSecureMalloc(x)</span>
-<a name="l00054"></a>00054 <span class="preprocessor"></span><span class="preprocessor">#define calloc(x, y) DSSecureCalloc(x, y)</span>
-<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="preprocessor">#define realloc(x, y) DSSecureRealloc(x, y)</span>
-<a name="l00056"></a>00056 <span class="preprocessor"></span>
-<a name="l00057"></a>00057 <span class="preprocessor">#ifdef __cplusplus</span>
-<a name="l00058"></a>00058 <span class="preprocessor"></span>__END_DECLS
-<a name="l00059"></a>00059 <span class="preprocessor">#endif</span>
-<a name="l00060"></a>00060 <span class="preprocessor"></span>
-<a name="l00061"></a>00061 <span class="preprocessor">#endif</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_expression_8h.html" title="Header file with functions for dealing with mathematical expressions.">DSExpression.h</a>&quot;</span>
+<a name="l00045"></a>00045 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_g_m_a_system_8h.html" title="Header file with functions for dealing with GMA Systems.">DSGMASystem.h</a>&quot;</span>
+<a name="l00046"></a>00046 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_s_system_8h.html" title="Header file with functions for dealing with S-System.">DSSSystem.h</a>&quot;</span>
+<a name="l00047"></a>00047 <span class="preprocessor">#include &quot;DSCase.h&quot;</span>
+<a name="l00048"></a>00048 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_design_space_8h.html" title="Header file with functions for dealing with Design Spaces.">DSDesignSpace.h</a>&quot;</span>
+<a name="l00049"></a>00049 <span class="preprocessor">#include &quot;DSVertices.h&quot;</span>
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 <span class="preprocessor">#ifndef __DS_STD_INCLUDE__</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span><span class="preprocessor">#define __DS_STD_INCLUDE__</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span>
+<a name="l00054"></a>00054 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span>__BEGIN_DECLS
+<a name="l00056"></a>00056 <span class="preprocessor">#endif</span>
+<a name="l00057"></a>00057 <span class="preprocessor"></span>
+<a name="l00058"></a>00058 <span class="preprocessor">#define free(x) DSSecureFree(x)</span>
+<a name="l00059"></a>00059 <span class="preprocessor"></span><span class="preprocessor">#define malloc(x) DSSecureMalloc(x)</span>
+<a name="l00060"></a>00060 <span class="preprocessor"></span><span class="preprocessor">#define calloc(x, y) DSSecureCalloc(x, y)</span>
+<a name="l00061"></a>00061 <span class="preprocessor"></span><span class="preprocessor">#define realloc(x, y) DSSecureRealloc(x, y)</span>
 <a name="l00062"></a>00062 <span class="preprocessor"></span>
-<a name="l00063"></a>00063 
-<a name="l00064"></a>00064 
-<a name="l00065"></a>00065 
-<a name="l00066"></a>00066 
+<a name="l00063"></a>00063 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00064"></a>00064 <span class="preprocessor"></span>__END_DECLS
+<a name="l00065"></a>00065 <span class="preprocessor">#endif</span>
+<a name="l00066"></a>00066 <span class="preprocessor"></span>
+<a name="l00067"></a>00067 <span class="preprocessor">#endif</span>
+<a name="l00068"></a>00068 <span class="preprocessor"></span>
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 
 </pre></div></div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -93,7 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 26 10:31:34 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:02 2011 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

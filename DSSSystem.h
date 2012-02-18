@@ -35,24 +35,34 @@
 __BEGIN_DECLS
 #endif
 
+#define M_DS_SSYS_NULL                  M_DS_NULL ": S-System is NULL"
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, deallocation and initialization
 #endif
 
-extern DSSSystem * DSSSystemAlloc(void);
 extern void DSSSystemFree(DSSSystem * ssys);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Factory functions
 #endif
 
-extern DSSSystem * DSSSystemFromGMAWithDominantTerms(const DSGMASystem * gma, const DSUInteger * termList);
+__deprecated extern DSSSystem * DSSSystemFromGMAWithDominantTerms(const DSGMASystem * gma, const DSUInteger * termList);
+extern DSSSystem * DSSSystemWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger * termArray);
 extern DSSSystem * DSSSystemByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...);
 extern DSSSystem * DSSSystemByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Getter functions
 #endif
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark S-System Properties
+#endif
+
+extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariablePool *Xi0, const char * function);
+extern DSMatrix * DSSSystemSteadyStateValues(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Equation-related functions
@@ -73,15 +83,20 @@ extern const DSMatrix * DSSSystemGd(const DSSSystem * ssys);
 extern const DSMatrix * DSSSystemGi(const DSSSystem * ssys);
 extern const DSMatrix * DSSSystemHd(const DSSSystem * ssys);
 extern const DSMatrix * DSSSystemHi(const DSSSystem * ssys);
-extern const DSMatrix * DSSSystemMAi(const DSSSystem * ssys);
+extern const DSMatrix * DSSSystemM(const DSSSystem * ssys);
+
+extern DSMatrix * DSSSystemAd(const DSSSystem * ssys);
+extern DSMatrix * DSSSystemAi(const DSSSystem * ssys);
+extern DSMatrix * DSSSystemB(const DSSSystem * ssys);
+extern DSMatrix * DSSSystemA(const DSSSystem * ssys);
+extern DSMatrix * DSSSystemG(const DSSSystem *ssys);
+extern DSMatrix * DSSSystemH(const DSSSystem *ssys);
 
 extern const DSVariablePool * DSSSystemXd(const DSSSystem * const ssys);
 extern const DSVariablePool * DSSSystemXi(const DSSSystem * const ssys);
-extern const DSMatrix * DSSSystemMB(const DSSSystem * ssys);
 
 extern const bool DSSSystemHasSolution(const DSSSystem * ssys);
 extern const bool DSSSystemIsSingular(const DSSSystem *ssys);
-
 
 
 #if defined (__APPLE__) && defined (__MACH__)
@@ -89,6 +104,9 @@ extern const bool DSSSystemIsSingular(const DSSSystem *ssys);
 #endif
 
 extern void DSSSystemPrint(const DSSSystem * ssys);
+extern void DSSSystemPrintEquations(const DSSSystem *ssys);
+extern void DSSSystemPrintSolution(const DSSSystem *ssys);
+extern void DSSSystemPrintLogarithmicSolution(const DSSSystem *ssys);
 
 #ifdef __cplusplus
 __END_DECLS

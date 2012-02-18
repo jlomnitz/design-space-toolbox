@@ -28,16 +28,28 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \subsection*{Data Structures}
 \begin{DoxyCompactItemize}
 \item 
+struct \hyperlink{struct_d_s_vertices}{DSVertices}
+\begin{DoxyCompactList}\small\item\em Data type that contains vertices of an N-\/Dimensional object. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_variable}{DSVariable}
-\begin{DoxyCompactList}\small\item\em Data type that is used to store errors. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Basic variable structure containing name, value and NSString with special unicode characters for greek letters. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct__var_dictionary}{\_\-varDictionary}
 \begin{DoxyCompactList}\small\item\em Internal dictionary structure. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_s_variable_pool}{DSVariablePool}
+\begin{DoxyCompactList}\small\item\em User-\/level variable pool. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_matrix}{DSMatrix}
 \begin{DoxyCompactList}\small\item\em Data type representing a matrix. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}
 \begin{DoxyCompactList}\small\item\em Data type representing an array of matrices. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structdsexpression}{dsexpression}
+\begin{DoxyCompactList}\small\item\em Data type representing mathematical expressions. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_s_g_m_a_system}{DSGMASystem}
+\begin{DoxyCompactList}\small\item\em Data type representing a GMA-\/System. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_s_system}{DSSSystem}
-\begin{DoxyCompactList}\small\item\em Data type representing an S-\/System. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Data type representing an S-\/System. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_s_case}{DSCase}
+\begin{DoxyCompactList}\small\item\em Data type used to represent a case. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_s_design_space}{DSDesignSpace}
+\begin{DoxyCompactList}\small\item\em Data type used to represent a design space/. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Defines}
 \begin{DoxyCompactItemize}
 \item 
@@ -69,12 +81,21 @@ typedef unsigned int {\bfseries DSUInteger}}
 \label{_d_s_types_8h_a176fc92c26d2116f67d6043e728adbb5}
 
 \item 
-typedef struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} \hyperlink{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}{DSVariablePool}
-\begin{DoxyCompactList}\small\item\em Internal dictionary structure. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+typedef struct \hyperlink{structdsexpression}{dsexpression} \hyperlink{_d_s_types_8h_a0e38606b8798b0ac4d071bdae90e38d2}{DSExpression}
+\begin{DoxyCompactList}\small\item\em Data type representing mathematical expressions. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}{DSVariablePoolLock} \{ \hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaa481b6d57568394fde0696c32dc6dbf74}{DSLockReadWriteAdd}, 
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaa96c1ac1cf4c59faf6b217dbf6d633ffd}{DSLockReadWrite}, 
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaa6bb81fad4314fe7bf2ceb6bda43da8dd}{DSLockReadOnly}, 
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaaf65e504000b2618c52ff0f6ece2a3c25}{DSLockLocked}
+ \}
+\begin{DoxyCompactList}\small\item\em Data type used to lock different properties of the \hyperlink{struct_d_s_variable_pool}{DSVariablePool}. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Header file with definitions for data types. This file specifies the design space standard data types. Contained here are strictly the data type definitions, and specific macros to access data in data structures. Functions applying to these data types are contained elsewhere, and the individual data structures should refer to these files.
+Header file with definitions for data types. This file specifies the design space standard data types. Contained here are strictly the data type definitions. Functions applying to these data types are contained elsewhere, and the individual data structures should refer to the respective files.
 
 Copyright (C) 2011 Jason Lomnitz.\par
 \par
@@ -97,17 +118,63 @@ Jason Lomnitz.
 
 
 \subsection{Typedef Documentation}
-\hypertarget{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}{
-\index{DSTypes.h@{DSTypes.h}!DSVariablePool@{DSVariablePool}}
-\index{DSVariablePool@{DSVariablePool}!DSTypes.h@{DSTypes.h}}
-\subsubsection[{DSVariablePool}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-varDictionary}  {\bf DSVariablePool}}}
-\label{_d_s_types_8h_a67b340fa4a564cc84d27b3647ef1ad75}
+\hypertarget{_d_s_types_8h_a0e38606b8798b0ac4d071bdae90e38d2}{
+\index{DSTypes.h@{DSTypes.h}!DSExpression@{DSExpression}}
+\index{DSExpression@{DSExpression}!DSTypes.h@{DSTypes.h}}
+\subsubsection[{DSExpression}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf dsexpression}  {\bf DSExpression}}}
+\label{_d_s_types_8h_a0e38606b8798b0ac4d071bdae90e38d2}
 
 
-Internal dictionary structure. 
+Data type representing mathematical expressions. 
 
-Internal dictionary for fast variable querying. The structure of the dictionary uses an alternative path, where each character is checked in order at each position, if there is a match, the next position is consequently checked. The dictionary should never be manipulated manually, adding, retrieving and removing variables should be done through the accesory functions.
+This data type is the internal representation of matematical expressions. This data type is an Abstracts Syntax Tree with only three operators: '+', '$\ast$' and '$^\wedge$'. All other operators ('-\/' and '/') are represented by a combination of the former operators. The DSExpression automatically groups constant values, and reserves the first branch of the multiplication and addition operator for constant values. These operators can have any number of branches. The '$^\wedge$' operator can have two, and only two, branches.
+
+\begin{DoxyNote}{Note}
+Functions are handled as variables with a single argument
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_expression_8h}{DSExpression.h} 
+
+\hyperlink{_d_s_expression_8c}{DSExpression.c} 
+\end{DoxySeeAlso}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}{
+\index{DSTypes.h@{DSTypes.h}!DSVariablePoolLock@{DSVariablePoolLock}}
+\index{DSVariablePoolLock@{DSVariablePoolLock}!DSTypes.h@{DSTypes.h}}
+\subsubsection[{DSVariablePoolLock}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf DSVariablePoolLock}}}
+\label{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}
+
+
+Data type used to lock different properties of the \hyperlink{struct_d_s_variable_pool}{DSVariablePool}. 
+
+This data type enumerates the properties of the variable pool access rights. Its values indicate the different operations that can be taken with a variable pool, such as read/write/add, read/write and read.
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{struct_d_s_variable}{DSVariable} 
+\hyperlink{_d_s_variable_8h}{DSVariable.h} 
+
+\hyperlink{_d_s_variable_8c}{DSVariable.c} 
 \end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{DSLockReadWriteAdd@{DSLockReadWriteAdd}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DSLockReadWriteAdd@{DSLockReadWriteAdd}}\item[{\em 
+\hypertarget{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaa481b6d57568394fde0696c32dc6dbf74}{
+DSLockReadWriteAdd}
+\label{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaa481b6d57568394fde0696c32dc6dbf74}
+}]The value of the Variable pool lock indicating read/write/add. \index{DSLockReadWrite@{DSLockReadWrite}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DSLockReadWrite@{DSLockReadWrite}}\item[{\em 
+\hypertarget{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaa96c1ac1cf4c59faf6b217dbf6d633ffd}{
+DSLockReadWrite}
+\label{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaa96c1ac1cf4c59faf6b217dbf6d633ffd}
+}]The value of the Variable pool lock indicating read/write. \index{DSLockReadOnly@{DSLockReadOnly}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DSLockReadOnly@{DSLockReadOnly}}\item[{\em 
+\hypertarget{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaa6bb81fad4314fe7bf2ceb6bda43da8dd}{
+DSLockReadOnly}
+\label{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaa6bb81fad4314fe7bf2ceb6bda43da8dd}
+}]The value of the Variable pool lock indicating read/. \index{DSLockLocked@{DSLockLocked}!DSTypes.h@{DSTypes.h}}\index{DSTypes.h@{DSTypes.h}!DSLockLocked@{DSLockLocked}}\item[{\em 
+\hypertarget{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaaf65e504000b2618c52ff0f6ece2a3c25}{
+DSLockLocked}
+\label{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6eaaf65e504000b2618c52ff0f6ece2a3c25}
+}]The value of the Variable pool lock indicating no access. \end{description}
+\end{Desc}
+

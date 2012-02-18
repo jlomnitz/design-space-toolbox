@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */; };
+		9A1033DF144229BF00C214AF /* DSSymbolicMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1033DE144229BF00C214AF /* DSSymbolicMatrix.h */; };
+		9A1033E1144229CD00C214AF /* DSSymbolicMatrix.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */; };
+		9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A1B18F913F5CD7500C36E71 /* DSGMASystemParsingAux.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */; };
+		9A36BC951400D5E900599A25 /* DSDesignSpaceParallel.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */; };
+		9A36BC981400D5FF00599A25 /* DSDesignSpaceParallel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A36BC971400D5FF00599A25 /* DSDesignSpaceParallel.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A3D588313FAFABD00C32875 /* DSSSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D588213FAFABD00C32875 /* DSSSystem.c */; };
 		9A3D588513FAFAD000C32875 /* DSSSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3D588413FAFAD000C32875 /* DSSSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3D588A13FB01D100C32875 /* DSSSystemGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D588813FB01D100C32875 /* DSSSystemGrammar.c */; };
-		9A3D588B13FB01D100C32875 /* DSSSystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3D588913FB01D100C32875 /* DSSSystemGrammar.h */; };
+		9A3D588B13FB01D100C32875 /* DSSSystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3D588913FB01D100C32875 /* DSSSystemGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A537BB113A9CFE50031378A /* DSMemoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB013A9CFE50031378A /* DSMemoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A537BB313A9D04F0031378A /* DSTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB213A9D04F0031378A /* DSTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A5833BC139D79170068B6B6 /* DSStd.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5833BB139D79170068B6B6 /* DSStd.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,23 +31,35 @@
 		9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0D813D480890051B472 /* libcblas.dylib */; };
 		9A71F0DB13D480950051B472 /* libgsl.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0DA13D480950051B472 /* libgsl.0.dylib */; };
 		9A81B38613A89D38007DADEC /* DSErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A81B38413A89D38007DADEC /* DSErrors.c */; };
+		9A85B47013FF9DFC00EA3795 /* DSDesignSpace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A85B47413FF9E1600EA3795 /* DSDesignSpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */; };
 		9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A8BAB6713C63DA10031F387 /* DSIO.c */; };
 		9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A754213D878990045FDFB /* DSMatrixArray.c */; };
 		9A9A754513D878990045FDFB /* DSMatrixArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9A754313D878990045FDFB /* DSMatrixArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9AA7C3461402DCBB00444B64 /* libglpk.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA7C3451402DCBB00444B64 /* libglpk.0.dylib */; };
+		9ABB560714295DFF003D74E2 /* DSSubcase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABB560614295DFF003D74E2 /* DSSubcase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9ABB560A14295E09003D74E2 /* DSSubcase.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB560914295E09003D74E2 /* DSSubcase.c */; };
 		9ABDC42913F1BE8600BC11D7 /* DSExpressionTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABDC42813F1BE8600BC11D7 /* DSExpressionTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9ABDC42B13F1BE9900BC11D7 /* DSExpressionTokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABDC42A13F1BE9900BC11D7 /* DSExpressionTokenizer.c */; };
 		9ABDC42F13F1C3C600BC11D7 /* DSExpressionTokenizerLex.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABDC42E13F1C3C600BC11D7 /* DSExpressionTokenizerLex.c */; };
 		9ABDC43A13F1C73400BC11D7 /* DSExpressionGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABDC43813F1C73400BC11D7 /* DSExpressionGrammar.c */; };
-		9ABDC43B13F1C73400BC11D7 /* DSExpressionGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABDC43913F1C73400BC11D7 /* DSExpressionGrammar.h */; };
+		9ABDC43B13F1C73400BC11D7 /* DSExpressionGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABDC43913F1C73400BC11D7 /* DSExpressionGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9ABF783E13F0C61700602B4B /* DSGMASystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABF783D13F0C61700602B4B /* DSGMASystem.c */; };
 		9ABF784013F0C62800602B4B /* DSGMASystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABF783F13F0C62800602B4B /* DSGMASystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AC0E3E513EC72EB0043D9E6 /* DSMatrixTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AC0E3E413EC72EB0043D9E6 /* DSMatrixTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9AC0E3E813EC749E0043D9E6 /* DSMatrixTokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC0E3E713EC749E0043D9E6 /* DSMatrixTokenizer.c */; };
 		9AC49AB213B53A4500E0E6B8 /* DSIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AC49AB113B53A4500E0E6B8 /* DSIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9AC58E69140D6BBD00BFA9A8 /* DSCaseLinearProgramming.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC58E68140D6BBD00BFA9A8 /* DSCaseLinearProgramming.c */; };
+		9AC62D1813FDC2CB00523AD7 /* DSCase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AC62D1713FDC2CB00523AD7 /* DSCase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9AC62D1B13FDC2D500523AD7 /* DSCase.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC62D1A13FDC2D500523AD7 /* DSCase.c */; };
 		9ACB2CFF13A1345F006A5F71 /* DSErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ACB2CFE13A1345F006A5F71 /* DSErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */; };
+		9AD071C014325C6900850ACE /* DSDesignSpaceStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AD071BF14325C6900850ACE /* DSDesignSpaceStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9AD071C314325CEC00850ACE /* DSDesignSpaceStack.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AD071C214325CEC00850ACE /* DSDesignSpaceStack.c */; };
 		9AE49FD913F5A4EC00C7A478 /* DSGMASystemGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */; };
-		9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */; };
+		9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE7759C140DAA8900F77747 /* DSVertices.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9AE7759F140DAB8800F77747 /* DSVertices.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AE7759E140DAB8800F77747 /* DSVertices.c */; };
 		9AFD4D5113B6FFD8001FCEC9 /* DSVariable.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */; };
 		9AFD4D5213B6FFD8001FCEC9 /* DSVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AFD4D5013B6FFD8001FCEC9 /* DSVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AFD4D5B13B706F6001FCEC9 /* DSMatrix_gsl.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */; };
@@ -52,8 +68,12 @@
 
 /* Begin PBXFileReference section */
 		9A0C3A7613F4627100B5561A /* DSGMASystemGrammar.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = DSGMASystemGrammar.y; sourceTree = "<group>"; };
+		9A1033DE144229BF00C214AF /* DSSymbolicMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSymbolicMatrix.h; sourceTree = "<group>"; };
+		9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSymbolicMatrix.c; sourceTree = "<group>"; };
 		9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemParsingAux.h; sourceTree = "<group>"; };
 		9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemParsingAux.c; sourceTree = "<group>"; };
+		9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDesignSpaceParallel.c; sourceTree = "<group>"; };
+		9A36BC971400D5FF00599A25 /* DSDesignSpaceParallel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpaceParallel.h; sourceTree = "<group>"; };
 		9A3D588213FAFABD00C32875 /* DSSSystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSSystem.c; sourceTree = "<group>"; };
 		9A3D588413FAFAD000C32875 /* DSSSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSSystem.h; sourceTree = "<group>"; };
 		9A3D588713FB008800C32875 /* DSSSystemGrammar.y */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.yacc; path = DSSSystemGrammar.y; sourceTree = "<group>"; };
@@ -75,9 +95,14 @@
 		9A71F0DA13D480950051B472 /* libgsl.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.0.dylib; path = usr/local/lib/libgsl.0.dylib; sourceTree = SDKROOT; };
 		9A81B38213A89C31007DADEC /* libdesignspace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libdesignspace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A81B38413A89D38007DADEC /* DSErrors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSErrors.c; sourceTree = "<group>"; };
+		9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpace.h; sourceTree = "<group>"; };
+		9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDesignSpace.c; sourceTree = "<group>"; };
 		9A8BAB6713C63DA10031F387 /* DSIO.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSIO.c; sourceTree = "<group>"; };
 		9A9A754213D878990045FDFB /* DSMatrixArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixArray.c; sourceTree = "<group>"; };
 		9A9A754313D878990045FDFB /* DSMatrixArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMatrixArray.h; sourceTree = "<group>"; };
+		9AA7C3451402DCBB00444B64 /* libglpk.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglpk.0.dylib; path = usr/local/lib/libglpk.0.dylib; sourceTree = SDKROOT; };
+		9ABB560614295DFF003D74E2 /* DSSubcase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSubcase.h; sourceTree = "<group>"; };
+		9ABB560914295E09003D74E2 /* DSSubcase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSubcase.c; sourceTree = "<group>"; };
 		9ABDC42813F1BE8600BC11D7 /* DSExpressionTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSExpressionTokenizer.h; sourceTree = "<group>"; };
 		9ABDC42A13F1BE9900BC11D7 /* DSExpressionTokenizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSExpressionTokenizer.c; sourceTree = "<group>"; };
 		9ABDC42C13F1BF4400BC11D7 /* DSExpressionGrammar.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = DSExpressionGrammar.l; sourceTree = "<group>"; };
@@ -92,11 +117,18 @@
 		9AC0E3E413EC72EB0043D9E6 /* DSMatrixTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMatrixTokenizer.h; sourceTree = "<group>"; };
 		9AC0E3E713EC749E0043D9E6 /* DSMatrixTokenizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixTokenizer.c; sourceTree = "<group>"; };
 		9AC49AB113B53A4500E0E6B8 /* DSIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSIO.h; sourceTree = "<group>"; };
+		9AC58E68140D6BBD00BFA9A8 /* DSCaseLinearProgramming.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSCaseLinearProgramming.c; sourceTree = "<group>"; };
+		9AC62D1713FDC2CB00523AD7 /* DSCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSCase.h; sourceTree = "<group>"; };
+		9AC62D1A13FDC2D500523AD7 /* DSCase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSCase.c; sourceTree = "<group>"; };
 		9ACB2CFE13A1345F006A5F71 /* DSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSErrors.h; sourceTree = "<group>"; };
 		9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMemoryManager.c; sourceTree = "<group>"; };
+		9AD071BF14325C6900850ACE /* DSDesignSpaceStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpaceStack.h; sourceTree = "<group>"; };
+		9AD071C214325CEC00850ACE /* DSDesignSpaceStack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDesignSpaceStack.c; sourceTree = "<group>"; };
 		9ADADD5B13EB467B00A2062D /* DSMatrixGrammar.l */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lex; path = DSMatrixGrammar.l; sourceTree = "<group>"; };
 		9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemGrammar.c; sourceTree = "<group>"; };
 		9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemGrammar.h; sourceTree = "<group>"; };
+		9AE7759C140DAA8900F77747 /* DSVertices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVertices.h; sourceTree = "<group>"; };
+		9AE7759E140DAB8800F77747 /* DSVertices.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVertices.c; sourceTree = "<group>"; };
 		9AFD4D4F13B6FFD8001FCEC9 /* DSVariable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariable.c; sourceTree = "<group>"; };
 		9AFD4D5013B6FFD8001FCEC9 /* DSVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVariable.h; sourceTree = "<group>"; };
 		9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrix_gsl.c; sourceTree = "<group>"; };
@@ -109,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A71F0DB13D480950051B472 /* libgsl.0.dylib in Frameworks */,
+				9AA7C3461402DCBB00444B64 /* libglpk.0.dylib in Frameworks */,
 				9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,6 +149,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A0701F31404226B00096159 /* Design Space thread pool */ = {
+			isa = PBXGroup;
+			children = (
+				9A36BC971400D5FF00599A25 /* DSDesignSpaceParallel.h */,
+				9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */,
+			);
+			name = "Design Space thread pool";
+			sourceTree = "<group>";
+		};
+		9A1033DC1442299800C214AF /* Symbolic Matrix */ = {
+			isa = PBXGroup;
+			children = (
+				9A1033DE144229BF00C214AF /* DSSymbolicMatrix.h */,
+				9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */,
+			);
+			name = "Symbolic Matrix";
+			sourceTree = "<group>";
+		};
 		9A3D587D13FAFA6300C32875 /* GMA */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +190,11 @@
 		9A3D588113FAFA7C00C32875 /* Cases */ = {
 			isa = PBXGroup;
 			children = (
+				9AC62D1713FDC2CB00523AD7 /* DSCase.h */,
+				9AC62D1A13FDC2D500523AD7 /* DSCase.c */,
+				9AC58E68140D6BBD00BFA9A8 /* DSCaseLinearProgramming.c */,
+				9ABB560614295DFF003D74E2 /* DSSubcase.h */,
+				9ABB560914295E09003D74E2 /* DSSubcase.c */,
 			);
 			name = Cases;
 			sourceTree = "<group>";
@@ -164,6 +220,7 @@
 		9A5833A9139D78A80068B6B6 = {
 			isa = PBXGroup;
 			children = (
+				9AA7C3451402DCBB00444B64 /* libglpk.0.dylib */,
 				9A71F0DA13D480950051B472 /* libgsl.0.dylib */,
 				9A71F0D813D480890051B472 /* libcblas.dylib */,
 				9A5833BB139D79170068B6B6 /* DSStd.h */,
@@ -204,6 +261,37 @@
 				9ABF784713F0CC4300602B4B /* DSVariableGrammar.y */,
 			);
 			name = "Variable Pool Parsing";
+			sourceTree = "<group>";
+		};
+		9A85B46D13FF9DC800EA3795 /* Design Space */ = {
+			isa = PBXGroup;
+			children = (
+				9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */,
+				9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */,
+				9AD071BF14325C6900850ACE /* DSDesignSpaceStack.h */,
+				9AD071C214325CEC00850ACE /* DSDesignSpaceStack.c */,
+				9A0701F31404226B00096159 /* Design Space thread pool */,
+			);
+			name = "Design Space";
+			sourceTree = "<group>";
+		};
+		9A9433A01427195800399C34 /* Double matrices */ = {
+			isa = PBXGroup;
+			children = (
+				9AFD4D5A13B706F6001FCEC9 /* DSMatrix.h */,
+				9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */,
+				9A68EF5D13EC9FEE00FBDDF5 /* Matrix Parsing */,
+				9A9A754313D878990045FDFB /* DSMatrixArray.h */,
+				9A9A754213D878990045FDFB /* DSMatrixArray.c */,
+			);
+			name = "Double matrices";
+			sourceTree = "<group>";
+		};
+		9A9433A21427196F00399C34 /* Complex matrices */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Complex matrices";
 			sourceTree = "<group>";
 		};
 		9ABDC42613F1BE1000BC11D7 /* Expression */ = {
@@ -265,13 +353,20 @@
 		9ACB57D113F09969006B6758 /* Matrices */ = {
 			isa = PBXGroup;
 			children = (
-				9AFD4D5A13B706F6001FCEC9 /* DSMatrix.h */,
-				9AFD4D5913B706F6001FCEC9 /* DSMatrix_gsl.c */,
-				9A68EF5D13EC9FEE00FBDDF5 /* Matrix Parsing */,
-				9A9A754313D878990045FDFB /* DSMatrixArray.h */,
-				9A9A754213D878990045FDFB /* DSMatrixArray.c */,
+				9A1033DC1442299800C214AF /* Symbolic Matrix */,
+				9A9433A01427195800399C34 /* Double matrices */,
+				9A9433A21427196F00399C34 /* Complex matrices */,
 			);
 			name = Matrices;
+			sourceTree = "<group>";
+		};
+		9AE7759A140DAA5A00F77747 /* Vertices */ = {
+			isa = PBXGroup;
+			children = (
+				9AE7759C140DAA8900F77747 /* DSVertices.h */,
+				9AE7759E140DAB8800F77747 /* DSVertices.c */,
+			);
+			name = Vertices;
 			sourceTree = "<group>";
 		};
 		9AFD4D5D13B70915001FCEC9 /* Support Data Functions */ = {
@@ -280,6 +375,7 @@
 				9ACB57D013F09947006B6758 /* Variables and Variable Pools */,
 				9ACB57D113F09969006B6758 /* Matrices */,
 				9ABDC42613F1BE1000BC11D7 /* Expression */,
+				9AE7759A140DAA5A00F77747 /* Vertices */,
 			);
 			name = "Support Data Functions";
 			sourceTree = "<group>";
@@ -304,6 +400,7 @@
 				9AFD4D5E13B70942001FCEC9 /* Basic Data and functions */,
 				9AFD4D5D13B70915001FCEC9 /* Support Data Functions */,
 				9ABF783813F0C1D800602B4B /* GMA, SSystem and Cases */,
+				9A85B46D13FF9DC800EA3795 /* Design Space */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -326,6 +423,11 @@
 				9ABF784013F0C62800602B4B /* DSGMASystem.h in Headers */,
 				9A707C5813F0D0EF00626845 /* DSExpression.h in Headers */,
 				9A3D588513FAFAD000C32875 /* DSSSystem.h in Headers */,
+				9AC62D1813FDC2CB00523AD7 /* DSCase.h in Headers */,
+				9A85B47013FF9DFC00EA3795 /* DSDesignSpace.h in Headers */,
+				9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */,
+				9AD071C014325C6900850ACE /* DSDesignSpaceStack.h in Headers */,
+				9ABB560714295DFF003D74E2 /* DSSubcase.h in Headers */,
 				9AC0E3E513EC72EB0043D9E6 /* DSMatrixTokenizer.h in Headers */,
 				9A68EF6E13ECA32900FBDDF5 /* DSVariableTokenizer.h in Headers */,
 				9A68EF7413ECB03000FBDDF5 /* DSVariableGrammar.h in Headers */,
@@ -334,6 +436,8 @@
 				9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */,
 				9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */,
 				9A3D588B13FB01D100C32875 /* DSSSystemGrammar.h in Headers */,
+				9A36BC981400D5FF00599A25 /* DSDesignSpaceParallel.h in Headers */,
+				9A1033DF144229BF00C214AF /* DSSymbolicMatrix.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +466,9 @@
 /* Begin PBXProject section */
 		9A5833AB139D78A80068B6B6 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 9A5833AE139D78A80068B6B6 /* Build configuration list for PBXProject "DesignSpaceToolboxV2" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -404,6 +511,14 @@
 				9A1B18F913F5CD7500C36E71 /* DSGMASystemParsingAux.c in Sources */,
 				9A3D588313FAFABD00C32875 /* DSSSystem.c in Sources */,
 				9A3D588A13FB01D100C32875 /* DSSSystemGrammar.c in Sources */,
+				9AC62D1B13FDC2D500523AD7 /* DSCase.c in Sources */,
+				9A85B47413FF9E1600EA3795 /* DSDesignSpace.c in Sources */,
+				9A36BC951400D5E900599A25 /* DSDesignSpaceParallel.c in Sources */,
+				9AC58E69140D6BBD00BFA9A8 /* DSCaseLinearProgramming.c in Sources */,
+				9AE7759F140DAB8800F77747 /* DSVertices.c in Sources */,
+				9ABB560A14295E09003D74E2 /* DSSubcase.c in Sources */,
+				9AD071C314325CEC00850ACE /* DSDesignSpaceStack.c in Sources */,
+				9A1033E1144229CD00C214AF /* DSSymbolicMatrix.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,7 +538,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
@@ -446,7 +561,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
@@ -471,7 +586,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -487,7 +604,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

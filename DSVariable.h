@@ -36,11 +36,51 @@
 #define DSVariableAssignValue(x, y) DSVariableSetValue(x, y)
 #define DSVariableReturnValue(x)    DSVariableValue(x)
 
-#define DSVariableSetValue(x, y)    (x)->value = (y)
-#define DSVariableValue(x)          (x)->value
-#define DSVariableName(x)           (x)->name
+/**
+ *\defgroup DS_VARIABLE_ACCESSORY Macros to manipulate variables.
+ *
+ * \details The following macros are in place for portability and consistency.
+ * As the structure of the BSTVariable is subject to change, due to the nature of
+ * early versions of the framework, using these macros will make the dependent
+ * code less subject to errors.
+ */
+/*\{*/
 
-#define M_DS_VAR_LOCKED             " DSVariablePool is locked for read-only"
+/**
+ * \brief Macro to set the value of a variable data structure.
+ *
+ * \details This macro provides a consistent way for changing the value of a
+ * variable, despite the internal structure of the data type.  This macro is expanded to
+ * a simple assignment.
+ */
+#define DSVariableSetValue(x, y)    ((x)->value = (y))
+
+/**
+ * \brief Macro to get the value of a variable data structure.
+ *
+ * \details This macro provides a consistent way for retrieving the value of a
+ * variable, despite the internal structure of the data type.
+ */
+#define DSVariableValue(x)          (((x) != NULL) ? (x)->value : NAN)
+
+/**
+ * \brief Macro to get the value of a variable data structure.
+ *
+ * \details This macro provides a consistent way for retrieving the value of a
+ * variable, despite the internal structure of the data type.
+ */
+#define DSVariableName(x)           ((x)->name)
+
+/*\}*/
+
+/**
+ *\addtogroup M_DS_Messages
+ * Messages for DSVariable related errors are M_DS_VAR_NULL and M_DS_VAR_LOCKED.
+ */
+/*\{*/
+#define M_DS_VAR_NULL               M_DS_NULL ": Variable Pool is NULL"        //!< Error message indicating a NULL variable pool.
+#define M_DS_VAR_LOCKED             " DSVariablePool: Insufficient priviliges" //!< Error message indicating insufficient priviliges to manipulate a variable pool.
+/*\}*/
 
 #ifdef __cplusplus
 __BEGIN_DECLS
@@ -59,7 +99,6 @@ extern void DSVariableRelease(DSVariable *aVariable);
 #pragma mark - Variable Pool
 #endif
 
-#define DSVariablePoolNumberOfVariables(x)   ((x)->numberOfVariables)
 #define DSVariablePoolInternalDictionary(x)  ((x)->root)
 #define DSVariablePoolVariableArray(x)       ((x)->variables)
 
@@ -83,19 +122,25 @@ extern DSVariablePool * DSVariablePoolByParsingString(const char *string);
 
 extern void DSVariablePoolSetReadOnly(DSVariablePool * pool);
 extern void DSVariablePoolSetReadWrite(DSVariablePool * pool);
+extern void DSVariablePoolSetReadWriteAdd(DSVariablePool * pool);
+
 extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char * name);
 extern void DSVariablePoolAddVariable(DSVariablePool *pool, DSVariable *newVar);
-extern void DSVariablePoolSetValueForVariableWithName(DSVariablePool *pool, const char *name, const double value);
+extern void DSVariablePoolSetValueForVariableWithName(const DSVariablePool *pool, const char *name, const double value);
 
 #if defined(__APPLE__) && defined(__MACH__)
 #pragma mark Getter functions
 #endif
 
-extern bool DSVariablePoolIsReadOnly(DSVariablePool *pool);
-extern bool DSVariablePoolIsReadWrite(DSVariablePool *pool);
+extern DSUInteger DSVariablePoolNumberOfVariables(const DSVariablePool *pool);
+
+extern bool DSVariablePoolIsReadOnly(const DSVariablePool *pool);
+extern bool DSVariablePoolIsReadWrite(const DSVariablePool *pool);
+extern bool DSVariablePoolIsReadWriteAdd(const DSVariablePool *pool);
 
 extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * const name);
 extern DSVariable *DSVariablePoolVariableWithName(const DSVariablePool *pool, const char *name);
+//extern double DSVariablePoolValueForVariable(con
 
 extern const DSVariable ** DSVariablePoolAllVariables(const DSVariablePool *pool);
 extern const char ** DSVariablePoolAllVariableNames(const DSVariablePool *pool);
@@ -108,6 +153,7 @@ extern DSUInteger DSVariablePoolIndexOfVariableWithName(const DSVariablePool *po
 #endif
 
 extern void DSVariablePoolPrint(const DSVariablePool * const pool);
+extern DSMatrix * DSVariablePoolValuesAsVector(const DSVariablePool *pool, const bool rowVector);
 
 #ifdef __cplusplus
 __END_DECLS

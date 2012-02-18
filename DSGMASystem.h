@@ -36,11 +36,15 @@
 __BEGIN_DECLS
 #endif
 
+#define M_DS_GMA_NULL              M_DS_NULL ": GMA System is NULL"
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, deallocation and initialization
 #endif
 
-void DSGMASystemFree(DSGMASystem * gma);
+extern DSGMASystem * DSGMASystemCopy(const DSGMASystem * gma);
+
+extern void DSGMASystemFree(DSGMASystem * gma);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Factory functions
@@ -48,7 +52,7 @@ void DSGMASystemFree(DSGMASystem * gma);
 
 extern DSGMASystem * DSGMASystemByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...);
 extern DSGMASystem * DSGMASystemByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations);
-
+extern DSGMASystem * DSGMASystemByParsingStringsWithXi(const DSVariablePool * const Xd, const DSVariablePool * const Xi, char * const * const strings, const DSUInteger numberOfEquations);
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Setter functions
 #endif
@@ -61,6 +65,9 @@ extern DSGMASystem * DSGMASystemByParsingStrings(const DSVariablePool * const Xd
 extern const DSUInteger DSGMASystemNumberOfEquations(const DSGMASystem *gma);
 extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma);
 
+extern DSExpression * DSGMASystemPositiveTermsForEquations(const DSGMASystem *gma, const DSUInteger equation);
+extern DSExpression * DSGMASystemNegativeTermsForEquations(const DSGMASystem *gma, const DSUInteger equation);
+
 extern const DSMatrix *DSGMASystemAlpha(const DSGMASystem *gma);
 extern const DSMatrix *DSGMASystemBeta(const DSGMASystem *gma);
 
@@ -72,13 +79,17 @@ extern const DSMatrixArray *DSGMASystemHi(const DSGMASystem *gma);
 extern const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma);
 extern const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma);
 
+extern const DSUInteger DSGMASystemNumberOfCases(const DSGMASystem *gma);
 extern const DSUInteger * DSGMASystemSignature(const DSGMASystem *gma);
+
+
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
 #endif
 
 extern void DSGMASystemPrint(const DSGMASystem * gma);
+extern void DSGMASystemPrintEquations(const DSGMASystem *gma);
 
 #ifdef __cplusplus
 __END_DECLS
