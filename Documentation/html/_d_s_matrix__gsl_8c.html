@@ -51,6 +51,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;time.h&gt;</code><br/>
 <code>#include &lt;stdarg.h&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;unistd.h&gt;</code><br/>
 <code>#include &lt;gsl/gsl_linalg.h&gt;</code><br/>
 <code>#include &lt;gsl/gsl_blas.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_matrix_8h_source.html">DSMatrix.h</a>&quot;</code><br/>
@@ -90,12 +91,12 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Allocates a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> as an identity matrix.  <a href="#a1636a4663250c4e54df28b35b121d27f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix__gsl_8c.html#a8980e6c6dc06dbbda9cde939cff831cc">DSMatrixRandomNumbers</a> (const DSUInteger rows, const DSUInteger columns)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Allocates a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> with random values between 0 and 1.  <a href="#a8980e6c6dc06dbbda9cde939cff831cc"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bc16a09f2f1c6e994cde99917388985"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixByParsingString" ref="a6bc16a09f2f1c6e994cde99917388985" args="(const char *string)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByParsingString</b> (const char *string)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3205b0946508ed84873347cafacd5eb3"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixBySubstractingMatrix" ref="a3205b0946508ed84873347cafacd5eb3" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixBySubstractingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1c9f578946f7d5fe69d5e4a1ebaaadf"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixByAddingMatrix" ref="aa1c9f578946f7d5fe69d5e4a1ebaaadf" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
-<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByAddingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix__gsl_8c.html#a6bc16a09f2f1c6e994cde99917388985">DSMatrixByParsingString</a> (const char *string)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a new matrix by parsing a tab-delimited matrix.  <a href="#a6bc16a09f2f1c6e994cde99917388985"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix__gsl_8c.html#a3205b0946508ed84873347cafacd5eb3">DSMatrixBySubstractingMatrix</a> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> object by substracting a matrix from another.  <a href="#a3205b0946508ed84873347cafacd5eb3"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix__gsl_8c.html#aa1c9f578946f7d5fe69d5e4a1ebaaadf">DSMatrixByAddingMatrix</a> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> object by adding a matrix to another.  <a href="#aa1c9f578946f7d5fe69d5e4a1ebaaadf"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aecdf05e600ce503d4e54ae43720bde8d"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixByDividingMatrix" ref="aecdf05e600ce503d4e54ae43720bde8d" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
 <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixByDividingMatrix</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *lvalue, const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *rvalue)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ca3f3a56a30db46fdfa2035121515da"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixByMultiplyingMatrix" ref="a6ca3f3a56a30db46fdfa2035121515da" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
@@ -184,6 +185,8 @@ double&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixDeterminant
 <a class="el" href="struct_d_s_matrix_array.html">DSMatrixArray</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixSVD</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a363c4377a0f3545bc686bc63845f36b3"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixRightNullspace" ref="a363c4377a0f3545bc686bc63845f36b3" args="(const DSMatrix *matrix)" -->
 <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixRightNullspace</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab4f610d94ad409a4a45f9324c6961b27"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixLeftNullspace" ref="ab4f610d94ad409a4a45f9324c6961b27" args="(const DSMatrix *matrix)" -->
+<a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixLeftNullspace</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_matrix_array.html">DSMatrixArray</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_matrix__gsl_8c.html#ab82225a0fd0f53735d8e9e81c350aa60">DSMatrixPLUDecomposition</a> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *A)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a LU decomposition and returns the permutation matrix.  <a href="#ab82225a0fd0f53735d8e9e81c350aa60"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a30f30a57d317b99eee2d0e5d55cb3a5c"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixDataForGLPK" ref="a30f30a57d317b99eee2d0e5d55cb3a5c" args="(const DSMatrix *matrix)" -->
@@ -240,6 +243,112 @@ int *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixColumnsForGL
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>If the matrix was created, a new pointer to a <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> is returned. Otherwise, NULL is returned. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa1c9f578946f7d5fe69d5e4a1ebaaadf"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixByAddingMatrix" ref="aa1c9f578946f7d5fe69d5e4a1ebaaadf" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a>* DSMatrixByAddingMatrix </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td>
+          <td class="paramname"> <em>lvalue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td>
+          <td class="paramname"> <em>rvalue</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Create a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> object by adding a matrix to another. </p>
+<p>This function takes two matrices of the same dimensions, and adds the ij element of the rvalue matrix to the ij element of the lvalue matrix. This function assumes constant matrices, and thus does not modify either of the inputs, but instead creates a copy of the first operand matrix, and calls DSMatrixAddByMatrix(), using the copy as the first operand.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>lvalue</em>&nbsp;</td><td>The first <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> object to be added. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rvalue</em>&nbsp;</td><td>The second <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> object to be added.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>If the addition operation was succesful, the function returns a pointer to the newly allocated matrix. Otherwise, NULL is returned.</dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>DSMatrixAddByMatrix() </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6bc16a09f2f1c6e994cde99917388985"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixByParsingString" ref="a6bc16a09f2f1c6e994cde99917388985" args="(const char *string)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a>* DSMatrixByParsingString </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>string</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Creates a new matrix by parsing a tab-delimited matrix. </p>
+<p>This function reads an input string, containing rows delimited by tabs and columns delimited by newlines. This function generates a token stream, and thus checks the dimensions of the matrix prior to creating it.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td>A string containing the data to parse.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> data object with the parsed data. If parsing failed, returns NULL. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3205b0946508ed84873347cafacd5eb3"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixBySubstractingMatrix" ref="a3205b0946508ed84873347cafacd5eb3" args="(const DSMatrix *lvalue, const DSMatrix *rvalue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_d_s_matrix.html">DSMatrix</a>* DSMatrixBySubstractingMatrix </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td>
+          <td class="paramname"> <em>lvalue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *&nbsp;</td>
+          <td class="paramname"> <em>rvalue</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Create a new <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> object by substracting a matrix from another. </p>
+<p>This function takes two matrices of the same dimensions, and substracts the ij element of the rvalue matrix to the ij element of the lvalue matrix. This function assumes constant matrices, and thus does not modify either of the inputs, but instead creates a copy of the minuend operand matrix, and called DSMatrixSubstractByMatrix() with the copy as the new minuend.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>lvalue</em>&nbsp;</td><td>The <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> object that is the minuend. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rvalue</em>&nbsp;</td><td>The <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> object that is the subtrahend.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>If the substraction operation was succesful, the function returns a pointer to the newly allocated difference matrix. Otherwise, NULL is returned.</dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>DSMatrixSubstractByMatrix() </dd></dl>
 
 </div>
 </div>
@@ -526,7 +635,7 @@ int *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixColumnsForGL
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Sep 14 10:54:03 2011 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Feb 17 23:40:59 2012 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

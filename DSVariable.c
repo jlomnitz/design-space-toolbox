@@ -38,6 +38,9 @@
 #include "DSVariableTokenizer.h"
 #include "DSMatrix.h"
 
+#define dsVarDictionarySetValue(x, y)  ((x != NULL) ? x->value = y : DSError(M_DS_WRONG ": Dictionary is NULL", A_DS_ERROR))
+
+#define dsVarDictionaryValue(x)        ((x != NULL) ? x->value : NULL)
 
 #define dsVariablePoolNumberOfVariables(x) ((x)->numberOfVariables)
 #if defined(__APPLE__) && defined(__MACH__)
@@ -81,11 +84,16 @@ bail:
 /**
  * \brief Function frees allocated memory of a DSVariable.
  *
- * This function should be
- * used for each newDSVariable that is called.  The internal structure is 
- * subject to changes in consequent versions and therefore freeing memory
- * of DSVariables should be strictly through this function.
+ * This function should not be used explicitly, as the DSVariable object has an 
+ * internal memory counter. This function is ultimately called when the variable
+ * memory counter reaches zero. Freeing a DSVariable object should be done
+ * through the DSVariableRelease function, and never should a DSVariable be 
+ * directly freed, as its internal structure may be subject to future changes.
+ *
  * \param var The pointer to the variable to free.
+ *
+ * \see DSVariableRetain()
+ * \see DSVariableRelease()
  */
 extern void DSVariableFree(DSVariable *var)
 {
@@ -107,7 +115,8 @@ bail:
  * \brief Function to increase variable retain count by one.
  *
  * Variables utilize a similar memory management system used in 
- * Objective-C NSObject subclasses, where objects a retained/released.
+ * Objective-C NSObject subclasses. A DSVariable recently allocated begins
+ * with a retain count of one.
  *
  * \param aVariable The variable which will have its retain count increased.
  *
@@ -132,11 +141,11 @@ bail:
 /**
  * \brief Function to decrease variable retain count by one.
  *
- * Fast processing tree is made to decrease its retain count by one, when the
+ * DSVariable object is made to decrease its retain count by one, when the
  * retain count hits zero, the function DSVariableFree() is invoked, freeing the 
- * memory space. Fast processing tree does not have an equivalent to
- * autorelease, forcing the developer to use greater care when directly managing
- * memory.
+ * memory of the DSVariable object. DSVariable objects do not have an
+ * equivalent to autorelease, forcing the developer to invoke a DSRelease for each
+ * DSRetain explicitly called.
  *
  * \param aVariable The variable which will have its retain count reduced.
  *
@@ -178,7 +187,7 @@ bail:
  * \see struct _varDictionary
  * \see DSVariablePoolAddVariable
  */
-static DSVariable *dsCheckNameAtPos(const char *name, struct _varDictionary *node, int pos)
+static void *dsCheckNameAtPos(const char *name, struct _varDictionary *node, int pos)
 {
         DSVariable *aVariable = NULL;
         if (node == NULL)
@@ -186,7 +195,7 @@ static DSVariable *dsCheckNameAtPos(const char *name, struct _varDictionary *nod
         while (node) {
                 if (name[pos] == node->current) {
                         if (node->current == '\0') {
-                                aVariable = node->variable;
+                                aVariable = dsVarDictionaryValue(node);
                                 break;
                         }
                         node = node->next;
@@ -236,7 +245,8 @@ static struct _varDictionary *dsAddNewBranch(DSVariable *var, int atPos)
                 current = current->next;
         }
         current->current = '\0';
-        current->variable = DSVariableRetain(var);
+        //        current->variable = DSVariableRetain(var);
+        dsVarDictionarySetValue(current, DSVariableRetain(var));
 bail:
         return root;
 }
@@ -388,14 +398,16 @@ bail:
  */
 static void dsVarDictionaryFree(struct _varDictionary *root)
 {
+        DSVariable *variable;
         if (root == NULL)
                 goto bail;
         dsVarDictionaryFree(root->alt);
         dsVarDictionaryFree(root->next);
         root->alt = NULL;
         root->next = NULL;
-        if (root->variable != NULL)
-                DSVariableRelease(root->variable);
+        variable = dsVarDictionaryValue(root);
+        if (variable != NULL)
+                DSVariableRelease(variable);
         DSSecureFree(root);
 bail:
         return;
@@ -406,7 +418,7 @@ bail:
  *
  * A debugging function which prints the dictionary structure to the stderr file
  */
-static void dsPrintVarDictionary(struct _varDictionary *root, DSUInteger indent)
+__deprecated static void dsVarDictionaryPrint(struct _varDictionary *root, DSUInteger indent)
 {
         DSUInteger i;
         int (*print)(const char *, ...);
@@ -418,7 +430,7 @@ static void dsPrintVarDictionary(struct _varDictionary *root, DSUInteger indent)
         for (i = 1; i < indent+1; i++)
                 print(" ");
         if (root->current == '\0')
-                print("+-[%s] = %lf\n", DSVariableName(root->variable), DSVariableValue(root->variable));
+                print("+-[%p]\n", dsVarDictionaryValue(root));
         else
                 print("+-%c\n", root->current);
         dsPrintVarDictionary(root->next, indent+2);
@@ -727,7 +739,7 @@ bail:
 }
 
 /**
- * \brief Adds a new variable to the variable pool.
+ * \brief Creates and adds a new variable to the variable pool.
  *
  * This function acts on an existing DSVariablePool object, creating a new
  * variable with a specified name and adding it to the internal dictionary
@@ -736,6 +748,7 @@ bail:
  *
  * \param pool The DSVariablePool object to which a new variable will be added.
  * \param name A null terminated string with the name of the variable to add.
+ *
  */
 extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char * name)
 {
@@ -773,6 +786,22 @@ bail:
         return;
 }
 
+/**
+ * \brief Adds an existing variable to the variable pool.
+ *
+ * This function acts on an existing DSVariablePool object, adding an existing
+ * variable with a specified name to the internal dictionary structure. The 
+ * variable added is not created, but this function calls DSVariableRetain, thus
+ * increasing the memory retain count of the variable by one. 
+ * If a variable already exists with the same name, this function
+ * does not add the variable to the pool, and throws a warning.
+ *
+ * \param pool The DSVariablePool object to which a new variable will be added.
+ * \param name A null terminated string with the name of the variable to add.
+ *
+ * \see DSVariablePoolAddVariableWithName()
+ * \see DSVariableRetain()
+ */
 extern void DSVariablePoolAddVariable(DSVariablePool * pool, DSVariable *newVar)
 {
         DSVariable * var = NULL;
@@ -801,6 +830,9 @@ bail:
         return;
 }
 
+/**
+ * \brief Checks if a DSVariablePool has a variable with a specified name.
+ */
 extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * const name)
 {
         bool hasVariable = false;
@@ -1022,13 +1054,42 @@ bail:
 }
 
 
+/**
+ * \brief Prints the VarDictionary.
+ *
+ * A debugging function which prints the dictionary structure to the stderr file
+ */
+static void dsVariablePoolPrintVarDictionary(struct _varDictionary *root, DSUInteger indent)
+{
+        DSUInteger i;
+        DSVariable *variable;
+        int (*print)(const char *, ...);
+        if (root == NULL)
+                goto bail;
+        print = DSPrintf;
+        if (DSPrintf == NULL)
+                print = printf;
+        for (i = 1; i < indent+1; i++)
+                print(" ");
+        if (root->current == '\0') {
+                variable = dsVarDictionaryValue(root);
+                print("+-[%s] = %lf\n", DSVariableName(variable), DSVariableValue(variable));
+        } else {
+                print("+-%c\n", root->current);
+        }
+        dsVariablePoolPrintVarDictionary(root->next, indent+2);
+        dsVariablePoolPrintVarDictionary(root->alt, indent);
+bail:
+        return;
+}
+
 extern void DSVariablePoolPrint(const DSVariablePool * const pool)
 {
         if (pool == NULL) {
                 DSError(M_DS_VAR_NULL ": Variable Pool is NULL", A_DS_ERROR);
                 goto bail;
         }
-        dsPrintVarDictionary(DSVariablePoolInternalDictionary(pool), 0);
+        dsVariablePoolPrintVarDictionary(DSVariablePoolInternalDictionary(pool), 0);
 bail:
         return;
 }

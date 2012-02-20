@@ -53,11 +53,6 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \label{group___m___d_s___messages_gaa3430366ad7beeafb53737b0174c5a0b}
 
 \begin{DoxyCompactList}\small\item\em Error message indicating insufficient priviliges to manipulate a variable pool. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_variable_8h_ac11f8d915d340843f26a6d3229d0d413}{
-\#define {\bfseries DSVariablePoolNumberOfVariables}(x)~((x)-\/$>$numberOfVariables)}
-\label{_d_s_variable_8h_ac11f8d915d340843f26a6d3229d0d413}
-
-\item 
 \hypertarget{_d_s_variable_8h_a2eba27e3c90e74233f65a3737cf82070}{
 \#define {\bfseries DSVariablePoolInternalDictionary}(x)~((x)-\/$>$root)}
 \label{_d_s_variable_8h_a2eba27e3c90e74233f65a3737cf82070}
@@ -81,71 +76,43 @@ void \hyperlink{_d_s_variable_8h_a4d83eec85c4d9340593a359fd1d5e506}{DSVariableRe
 \begin{DoxyCompactList}\small\item\em Function to decrease variable retain count by one. \item\end{DoxyCompactList}\item 
 \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ \hyperlink{_d_s_variable_8h_a1cff6b1af2bc3210cc65435c1844b5ef}{DSVariablePoolAlloc} (void)
 \begin{DoxyCompactList}\small\item\em Creates a new \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with an empty var dictionary. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_variable_8h_a11c76e0e57dbc00e57edb94b65ea0244}{
-\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ {\bfseries DSVariablePoolCopy} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const pool)}
-\label{_d_s_variable_8h_a11c76e0e57dbc00e57edb94b65ea0244}
-
-\item 
-\hypertarget{_d_s_variable_8h_abe8cde590093cb49af32d532135d0d57}{
-void {\bfseries DSVariablePoolFree} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
-\label{_d_s_variable_8h_abe8cde590093cb49af32d532135d0d57}
-
-\item 
+\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ \hyperlink{_d_s_variable_8h_a11c76e0e57dbc00e57edb94b65ea0244}{DSVariablePoolCopy} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const pool)
+\begin{DoxyCompactList}\small\item\em Creates a new \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with a copy of the reference variable pool. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_variable_8h_abe8cde590093cb49af32d532135d0d57}{DSVariablePoolFree} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)
+\begin{DoxyCompactList}\small\item\em Creates a new \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with a copy of the reference variable pool. \item\end{DoxyCompactList}\item 
 \hypertarget{_d_s_variable_8h_a0d21cf1b61f32965532d6bb86c8195d4}{
 \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ {\bfseries DSVariablePoolByParsingString} (const char $\ast$string)}
 \label{_d_s_variable_8h_a0d21cf1b61f32965532d6bb86c8195d4}
 
 \item 
-\hypertarget{_d_s_variable_8h_a2ac568a1be064c51cffc7751776b4403}{
-void {\bfseries DSVariablePoolSetReadOnly} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
-\label{_d_s_variable_8h_a2ac568a1be064c51cffc7751776b4403}
-
-\item 
-\hypertarget{_d_s_variable_8h_a80e57736e4bf63d4d88ea2af79b8417e}{
-void {\bfseries DSVariablePoolSetReadWrite} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
-\label{_d_s_variable_8h_a80e57736e4bf63d4d88ea2af79b8417e}
-
-\item 
-\hypertarget{_d_s_variable_8h_a66afd8da098073ab4ef8c06e5d5257b8}{
-void {\bfseries DSVariablePoolSetReadWriteAdd} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
-\label{_d_s_variable_8h_a66afd8da098073ab4ef8c06e5d5257b8}
-
-\item 
-\hypertarget{_d_s_variable_8h_a795b9def0c0cdd4fd1bd99dee0e18b24}{
-void {\bfseries DSVariablePoolAddVariableWithName} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name)}
-\label{_d_s_variable_8h_a795b9def0c0cdd4fd1bd99dee0e18b24}
-
-\item 
-\hypertarget{_d_s_variable_8h_aa9ecf8bde68b63daba6f83b95cb4a471}{
-void {\bfseries DSVariablePoolAddVariable} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, \hyperlink{struct_d_s_variable}{DSVariable} $\ast$newVar)}
-\label{_d_s_variable_8h_aa9ecf8bde68b63daba6f83b95cb4a471}
-
-\item 
+void \hyperlink{_d_s_variable_8h_a2ac568a1be064c51cffc7751776b4403}{DSVariablePoolSetReadOnly} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)
+\begin{DoxyCompactList}\small\item\em Changes the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to read only. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_variable_8h_a80e57736e4bf63d4d88ea2af79b8417e}{DSVariablePoolSetReadWrite} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)
+\begin{DoxyCompactList}\small\item\em Changes the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to read and write. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_variable_8h_a66afd8da098073ab4ef8c06e5d5257b8}{DSVariablePoolSetReadWriteAdd} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)
+\begin{DoxyCompactList}\small\item\em Changes the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to read, write and add. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_variable_8h_a795b9def0c0cdd4fd1bd99dee0e18b24}{DSVariablePoolAddVariableWithName} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Creates and adds a new variable to the variable pool. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_variable_8h_aa9ecf8bde68b63daba6f83b95cb4a471}{DSVariablePoolAddVariable} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, \hyperlink{struct_d_s_variable}{DSVariable} $\ast$newVar)
+\begin{DoxyCompactList}\small\item\em Adds an existing variable to the variable pool. \item\end{DoxyCompactList}\item 
 \hypertarget{_d_s_variable_8h_aca1491d35e9f15e6a00783f58b9e7c6c}{
 void {\bfseries DSVariablePoolSetValueForVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name, const double value)}
 \label{_d_s_variable_8h_aca1491d35e9f15e6a00783f58b9e7c6c}
 
 \item 
-\hypertarget{_d_s_variable_8h_aaa1b27aad0f93b52cf615a57d77cb142}{
-bool {\bfseries DSVariablePoolIsReadOnly} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
-\label{_d_s_variable_8h_aaa1b27aad0f93b52cf615a57d77cb142}
-
-\item 
-\hypertarget{_d_s_variable_8h_a7dc75250a954763bb8e9b217af50aa2f}{
-bool {\bfseries DSVariablePoolIsReadWrite} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
-\label{_d_s_variable_8h_a7dc75250a954763bb8e9b217af50aa2f}
-
-\item 
-\hypertarget{_d_s_variable_8h_a9c6dcd1e5ec12a5cdd18df0fdb753ca9}{
-bool {\bfseries DSVariablePoolIsReadWriteAdd} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
-\label{_d_s_variable_8h_a9c6dcd1e5ec12a5cdd18df0fdb753ca9}
-
-\item 
+DSUInteger \hyperlink{_d_s_variable_8h_a40cc4676d919ffddc43afb1d91cc31b5}{DSVariablePoolNumberOfVariables} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)
+\begin{DoxyCompactList}\small\item\em Function to retrieve the number of variables in a \hyperlink{struct_d_s_variable_pool}{DSVariablePool}. \item\end{DoxyCompactList}\item 
+bool \hyperlink{_d_s_variable_8h_aaa1b27aad0f93b52cf615a57d77cb142}{DSVariablePoolIsReadOnly} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)
+\begin{DoxyCompactList}\small\item\em Queries the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, checking it is read only. \item\end{DoxyCompactList}\item 
+bool \hyperlink{_d_s_variable_8h_a7dc75250a954763bb8e9b217af50aa2f}{DSVariablePoolIsReadWrite} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)
+\begin{DoxyCompactList}\small\item\em Queries the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, checking it is read and write. \item\end{DoxyCompactList}\item 
+bool \hyperlink{_d_s_variable_8h_a9c6dcd1e5ec12a5cdd18df0fdb753ca9}{DSVariablePoolIsReadWriteAdd} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)
+\begin{DoxyCompactList}\small\item\em Queries the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, checking it is read, write and add. \item\end{DoxyCompactList}\item 
 \hypertarget{_d_s_variable_8h_aa0ab405c594ec1e1ba47cd36703d8ae5}{
-bool {\bfseries DSVariablePoolHasVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$const name)}
+bool \hyperlink{_d_s_variable_8h_aa0ab405c594ec1e1ba47cd36703d8ae5}{DSVariablePoolHasVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$const name)}
 \label{_d_s_variable_8h_aa0ab405c594ec1e1ba47cd36703d8ae5}
 
-\item 
+\begin{DoxyCompactList}\small\item\em Checks if a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} has a variable with a specified name. \item\end{DoxyCompactList}\item 
 \hypertarget{_d_s_variable_8h_a4d59ca020b7df35f9d7320147800dad0}{
 \hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSVariablePoolVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name)}
 \label{_d_s_variable_8h_a4d59ca020b7df35f9d7320147800dad0}
@@ -234,9 +201,49 @@ The pointer to the newly allocated \hyperlink{struct_d_s_variable}{DSVariable}.
 
 Function frees allocated memory of a \hyperlink{struct_d_s_variable}{DSVariable}. 
 
-This function should be used for each newDSVariable that is called. The internal structure is subject to changes in consequent versions and therefore freeing memory of DSVariables should be strictly through this function. 
+This function should not be used explicitly, as the \hyperlink{struct_d_s_variable}{DSVariable} object has an internal memory counter. This function is ultimately called when the variable memory counter reaches zero. Freeing a \hyperlink{struct_d_s_variable}{DSVariable} object should be done through the DSVariableRelease function, and never should a \hyperlink{struct_d_s_variable}{DSVariable} be directly freed, as its internal structure may be subject to future changes.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em var}]The pointer to the variable to free. \end{DoxyParams}
+\item[{\em var}]The pointer to the variable to free.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_a1a5da69573335a86dea1e4a8a6770ea3}{DSVariableRetain()} 
+
+\hyperlink{_d_s_variable_8c_a4d83eec85c4d9340593a359fd1d5e506}{DSVariableRelease()} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_aa9ecf8bde68b63daba6f83b95cb4a471}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolAddVariable@{DSVariablePoolAddVariable}}
+\index{DSVariablePoolAddVariable@{DSVariablePoolAddVariable}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolAddVariable}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariablePoolAddVariable ({\bf DSVariablePool} $\ast$ {\em pool}, \/  {\bf DSVariable} $\ast$ {\em newVar})}}
+\label{_d_s_variable_8h_aa9ecf8bde68b63daba6f83b95cb4a471}
+
+
+Adds an existing variable to the variable pool. 
+
+This function acts on an existing \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, adding an existing variable with a specified name to the internal dictionary structure. The variable added is not created, but this function calls DSVariableRetain, thus increasing the memory retain count of the variable by one. If a variable already exists with the same name, this function does not add the variable to the pool, and throws a warning.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]The \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to which a new variable will be added. \item[{\em name}]A null terminated string with the name of the variable to add.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_a795b9def0c0cdd4fd1bd99dee0e18b24}{DSVariablePoolAddVariableWithName()} 
+
+\hyperlink{_d_s_variable_8c_a1a5da69573335a86dea1e4a8a6770ea3}{DSVariableRetain()} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_a795b9def0c0cdd4fd1bd99dee0e18b24}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}}
+\index{DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolAddVariableWithName}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariablePoolAddVariableWithName ({\bf DSVariablePool} $\ast$ {\em pool}, \/  const char $\ast$ {\em name})}}
+\label{_d_s_variable_8h_a795b9def0c0cdd4fd1bd99dee0e18b24}
+
+
+Creates and adds a new variable to the variable pool. 
+
+This function acts on an existing \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, creating a new variable with a specified name and adding it to the internal dictionary structure. If a variable already exists with the same name, this function does not create a new variable, and throws a warning.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]The \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to which a new variable will be added. \item[{\em name}]A null terminated string with the name of the variable to add. \end{DoxyParams}
 \hypertarget{_d_s_variable_8h_a1cff6b1af2bc3210cc65435c1844b5ef}{
 \index{DSVariable.h@{DSVariable.h}!DSVariablePoolAlloc@{DSVariablePoolAlloc}}
 \index{DSVariablePoolAlloc@{DSVariablePoolAlloc}!DSVariable.h@{DSVariable.h}}
@@ -252,7 +259,185 @@ The variable pool is initialized with read/write privilages. The variable pool s
 The pointer to the allocated \hyperlink{struct_d_s_variable_pool}{DSVariablePool}.
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-DSVariablePoolFree 
+\hyperlink{_d_s_variable_8h_abe8cde590093cb49af32d532135d0d57}{DSVariablePoolFree} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_a11c76e0e57dbc00e57edb94b65ea0244}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolCopy@{DSVariablePoolCopy}}
+\index{DSVariablePoolCopy@{DSVariablePoolCopy}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolCopy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSVariablePool}$\ast$ DSVariablePoolCopy (const {\bf DSVariablePool} $\ast$const  {\em reference})}}
+\label{_d_s_variable_8h_a11c76e0e57dbc00e57edb94b65ea0244}
+
+
+Creates a new \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with a copy of the reference variable pool. 
+
+The variable pool that is created is initialized with the same read/write/add priviliges as the reference variable pool. The contents of the variable pool are an exact copy of the reference variable pool. Despite the contents being the same, the variables in each pool are independent, thus new variables are created in the copy.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em reference}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} data type that serves as the reference variable pool, which is to be copied.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The copy of the reference \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object (must be freed by user).
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_abe8cde590093cb49af32d532135d0d57}{DSVariablePoolFree()} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_abe8cde590093cb49af32d532135d0d57}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolFree@{DSVariablePoolFree}}
+\index{DSVariablePoolFree@{DSVariablePoolFree}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolFree}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariablePoolFree ({\bf DSVariablePool} $\ast$ {\em pool})}}
+\label{_d_s_variable_8h_abe8cde590093cb49af32d532135d0d57}
+
+
+Creates a new \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with a copy of the reference variable pool. 
+
+The variable pool that is created is initialized with the same read/write/add priviliges as the reference variable pool. The contents of the variable pool are an exact copy of the reference variable pool. Despite the contents being the same, the variables in each pool are independent, thus new variables are created in the copy.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em reference}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} data type that serves as the reference variable pool, which is to be copied.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The copy of the reference \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object (must be freed by user).
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_abe8cde590093cb49af32d532135d0d57}{DSVariablePoolFree()} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_aaa1b27aad0f93b52cf615a57d77cb142}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}}
+\index{DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolIsReadOnly}]{\setlength{\rightskip}{0pt plus 5cm}bool DSVariablePoolIsReadOnly (const {\bf DSVariablePool} $\ast$ {\em pool})}}
+\label{_d_s_variable_8h_aaa1b27aad0f93b52cf615a57d77cb142}
+
+
+Queries the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, checking it is read only. 
+
+This function acts on an existing \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, and checks if its priviliges are read only.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to be queried for its priviliges.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_a7dc75250a954763bb8e9b217af50aa2f}{DSVariablePoolIsReadWrite()} 
+
+\hyperlink{_d_s_variable_8c_a9c6dcd1e5ec12a5cdd18df0fdb753ca9}{DSVariablePoolIsReadWriteAdd()} 
+
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}{DSVariablePoolLock} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_a7dc75250a954763bb8e9b217af50aa2f}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}}
+\index{DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolIsReadWrite}]{\setlength{\rightskip}{0pt plus 5cm}bool DSVariablePoolIsReadWrite (const {\bf DSVariablePool} $\ast$ {\em pool})}}
+\label{_d_s_variable_8h_a7dc75250a954763bb8e9b217af50aa2f}
+
+
+Queries the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, checking it is read and write. 
+
+This function acts on an existing \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, and checks if its priviliges are read and write.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to be queried for its priviliges.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_aaa1b27aad0f93b52cf615a57d77cb142}{DSVariablePoolIsReadOnly()} 
+
+\hyperlink{_d_s_variable_8c_a9c6dcd1e5ec12a5cdd18df0fdb753ca9}{DSVariablePoolIsReadWriteAdd()} 
+
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}{DSVariablePoolLock} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_a9c6dcd1e5ec12a5cdd18df0fdb753ca9}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}}
+\index{DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolIsReadWriteAdd}]{\setlength{\rightskip}{0pt plus 5cm}bool DSVariablePoolIsReadWriteAdd (const {\bf DSVariablePool} $\ast$ {\em pool})}}
+\label{_d_s_variable_8h_a9c6dcd1e5ec12a5cdd18df0fdb753ca9}
+
+
+Queries the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, checking it is read, write and add. 
+
+This function acts on an existing \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, and checks if its priviliges are read, write and add.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to be queried for its priviliges.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_aaa1b27aad0f93b52cf615a57d77cb142}{DSVariablePoolIsReadOnly()} 
+
+\hyperlink{_d_s_variable_8c_a7dc75250a954763bb8e9b217af50aa2f}{DSVariablePoolIsReadWrite()} 
+
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}{DSVariablePoolLock} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_a40cc4676d919ffddc43afb1d91cc31b5}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}}
+\index{DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolNumberOfVariables}]{\setlength{\rightskip}{0pt plus 5cm}DSUInteger DSVariablePoolNumberOfVariables (const {\bf DSVariablePool} $\ast$ {\em pool})}}
+\label{_d_s_variable_8h_a40cc4676d919ffddc43afb1d91cc31b5}
+
+
+Function to retrieve the number of variables in a \hyperlink{struct_d_s_variable_pool}{DSVariablePool}. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object that to query its number of variables. \end{DoxyParams}
+\hypertarget{_d_s_variable_8h_a2ac568a1be064c51cffc7751776b4403}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}}
+\index{DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolSetReadOnly}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariablePoolSetReadOnly ({\bf DSVariablePool} $\ast$ {\em pool})}}
+\label{_d_s_variable_8h_a2ac568a1be064c51cffc7751776b4403}
+
+
+Changes the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to read only. 
+
+This function acts on an existing \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, and changes the existing priviliges to read-\/only. This provilige setting prohibits adding new variables to the variable pool, or changing the value of a variable explictly. The value of a variable can be changed directly, but not through the variable pool interface.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object that will have its priviliges changed.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_a80e57736e4bf63d4d88ea2af79b8417e}{DSVariablePoolSetReadWrite()} 
+
+\hyperlink{_d_s_variable_8c_a66afd8da098073ab4ef8c06e5d5257b8}{DSVariablePoolSetReadWriteAdd()} 
+
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}{DSVariablePoolLock} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_a80e57736e4bf63d4d88ea2af79b8417e}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}}
+\index{DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolSetReadWrite}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariablePoolSetReadWrite ({\bf DSVariablePool} $\ast$ {\em pool})}}
+\label{_d_s_variable_8h_a80e57736e4bf63d4d88ea2af79b8417e}
+
+
+Changes the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to read and write. 
+
+This function acts on an existing \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, and changes its priviliges to read and write. This provilige setting prohibits adding new variables to the variable pool. The value of a variable can be changed through the variable pool interface.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object that will have its priviliges changed.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_a2ac568a1be064c51cffc7751776b4403}{DSVariablePoolSetReadOnly()} 
+
+\hyperlink{_d_s_variable_8c_a66afd8da098073ab4ef8c06e5d5257b8}{DSVariablePoolSetReadWriteAdd()} 
+
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}{DSVariablePoolLock} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_variable_8h_a66afd8da098073ab4ef8c06e5d5257b8}{
+\index{DSVariable.h@{DSVariable.h}!DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}}
+\index{DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}!DSVariable.h@{DSVariable.h}}
+\subsubsection[{DSVariablePoolSetReadWriteAdd}]{\setlength{\rightskip}{0pt plus 5cm}void DSVariablePoolSetReadWriteAdd ({\bf DSVariablePool} $\ast$ {\em pool})}}
+\label{_d_s_variable_8h_a66afd8da098073ab4ef8c06e5d5257b8}
+
+
+Changes the existing priviliges of a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object to read, write and add. 
+
+This function acts on an existing \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object, and changes its priviliges to read, write and add. This provilige setting allows adding new variables to the variable pool and changing the values of the variables.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} object that will have its priviliges changed.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_variable_8c_a2ac568a1be064c51cffc7751776b4403}{DSVariablePoolSetReadOnly()} 
+
+\hyperlink{_d_s_variable_8c_a80e57736e4bf63d4d88ea2af79b8417e}{DSVariablePoolSetReadWrite()} 
+
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}{DSVariablePoolLock} 
 \end{DoxySeeAlso}
 \hypertarget{_d_s_variable_8h_a4d83eec85c4d9340593a359fd1d5e506}{
 \index{DSVariable.h@{DSVariable.h}!DSVariableRelease@{DSVariableRelease}}
@@ -263,7 +448,7 @@ DSVariablePoolFree
 
 Function to decrease variable retain count by one. 
 
-Fast processing tree is made to decrease its retain count by one, when the retain count hits zero, the function \hyperlink{_d_s_variable_8c_aac8fadf2969493124be37a1076a2b885}{DSVariableFree()} is invoked, freeing the memory space. Fast processing tree does not have an equivalent to autorelease, forcing the developer to use greater care when directly managing memory.
+\hyperlink{struct_d_s_variable}{DSVariable} object is made to decrease its retain count by one, when the retain count hits zero, the function \hyperlink{_d_s_variable_8c_aac8fadf2969493124be37a1076a2b885}{DSVariableFree()} is invoked, freeing the memory of the \hyperlink{struct_d_s_variable}{DSVariable} object. \hyperlink{struct_d_s_variable}{DSVariable} objects do not have an equivalent to autorelease, forcing the developer to invoke a DSRelease for each DSRetain explicitly called.
 
 
 \begin{DoxyParams}{Parameters}
@@ -282,7 +467,7 @@ Fast processing tree is made to decrease its retain count by one, when the retai
 
 Function to increase variable retain count by one. 
 
-Variables utilize a similar memory management system used in Objective-\/C NSObject subclasses, where objects a retained/released.
+Variables utilize a similar memory management system used in Objective-\/C NSObject subclasses. A \hyperlink{struct_d_s_variable}{DSVariable} recently allocated begins with a retain count of one.
 
 
 \begin{DoxyParams}{Parameters}

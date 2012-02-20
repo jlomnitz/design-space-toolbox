@@ -40,7 +40,7 @@
  *\defgroup DS_VARIABLE_ACCESSORY Macros to manipulate variables.
  *
  * \details The following macros are in place for portability and consistency.
- * As the structure of the BSTVariable is subject to change, due to the nature of
+ * As the structure of the DSVariable is subject to change, due to the nature of
  * early versions of the framework, using these macros will make the dependent
  * code less subject to errors.
  */
@@ -53,7 +53,7 @@
  * variable, despite the internal structure of the data type.  This macro is expanded to
  * a simple assignment.
  */
-#define DSVariableSetValue(x, y)    ((x)->value = (y))
+#define DSVariableSetValue(x, y)    (((DSVariable*)(x))->value = (y))
 
 /**
  * \brief Macro to get the value of a variable data structure.
@@ -61,7 +61,7 @@
  * \details This macro provides a consistent way for retrieving the value of a
  * variable, despite the internal structure of the data type.
  */
-#define DSVariableValue(x)          (((x) != NULL) ? (x)->value : NAN)
+#define DSVariableValue(x)          (((x) != NULL) ? ((DSVariable*)x)->value : NAN)
 
 /**
  * \brief Macro to get the value of a variable data structure.
@@ -69,7 +69,7 @@
  * \details This macro provides a consistent way for retrieving the value of a
  * variable, despite the internal structure of the data type.
  */
-#define DSVariableName(x)           ((x)->name)
+#define DSVariableName(x)           (((DSVariable *)x)->name)
 
 /*\}*/
 

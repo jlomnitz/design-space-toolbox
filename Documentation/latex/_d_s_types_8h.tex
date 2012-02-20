@@ -11,6 +11,8 @@ Header file with definitions for data types.
 {\ttfamily \#include $<$stdbool.h$>$}\par
 {\ttfamily \#include $<$stdarg.h$>$}\par
 {\ttfamily \#include $<$math.h$>$}\par
+{\ttfamily \#include $<$complex.h$>$}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
 Include dependency graph for DSTypes.h:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -36,18 +38,22 @@ struct \hyperlink{struct__var_dictionary}{\_\-varDictionary}
 \begin{DoxyCompactList}\small\item\em Internal dictionary structure. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_variable_pool}{DSVariablePool}
 \begin{DoxyCompactList}\small\item\em User-\/level variable pool. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structdsexpression}{dsexpression}
+\begin{DoxyCompactList}\small\item\em Data type representing mathematical expressions. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix}
+\begin{DoxyCompactList}\small\item\em Data type representing a symbolic matrix. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_matrix}{DSMatrix}
 \begin{DoxyCompactList}\small\item\em Data type representing a matrix. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}
 \begin{DoxyCompactList}\small\item\em Data type representing an array of matrices. \item\end{DoxyCompactList}\item 
-struct \hyperlink{structdsexpression}{dsexpression}
-\begin{DoxyCompactList}\small\item\em Data type representing mathematical expressions. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_g_m_a_system}{DSGMASystem}
 \begin{DoxyCompactList}\small\item\em Data type representing a GMA-\/System. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_s_system}{DSSSystem}
 \begin{DoxyCompactList}\small\item\em Data type representing an S-\/System. \item\end{DoxyCompactList}\item 
 struct \hyperlink{struct_d_s_case}{DSCase}
 \begin{DoxyCompactList}\small\item\em Data type used to represent a case. \item\end{DoxyCompactList}\item 
+struct \hyperlink{struct_d_s_design_space_stack}{DSDesignSpaceStack}
+\item 
 struct \hyperlink{struct_d_s_design_space}{DSDesignSpace}
 \begin{DoxyCompactList}\small\item\em Data type used to represent a design space/. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Defines}
@@ -82,7 +88,9 @@ typedef unsigned int {\bfseries DSUInteger}}
 
 \item 
 typedef struct \hyperlink{structdsexpression}{dsexpression} \hyperlink{_d_s_types_8h_a0e38606b8798b0ac4d071bdae90e38d2}{DSExpression}
-\begin{DoxyCompactList}\small\item\em Data type representing mathematical expressions. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Data type representing mathematical expressions. \item\end{DoxyCompactList}\item 
+typedef \hyperlink{struct_d_s_matrix}{DSMatrix} \hyperlink{_d_s_types_8h_a5f12820c57baff63fddbef60dc6b53d7}{DSComplexMatrix}
+\begin{DoxyCompactList}\small\item\em Data type representing a matrix with complex values. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
@@ -118,6 +126,22 @@ Jason Lomnitz.
 
 
 \subsection{Typedef Documentation}
+\hypertarget{_d_s_types_8h_a5f12820c57baff63fddbef60dc6b53d7}{
+\index{DSTypes.h@{DSTypes.h}!DSComplexMatrix@{DSComplexMatrix}}
+\index{DSComplexMatrix@{DSComplexMatrix}!DSTypes.h@{DSTypes.h}}
+\subsubsection[{DSComplexMatrix}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf DSMatrix} {\bf DSComplexMatrix}}}
+\label{_d_s_types_8h_a5f12820c57baff63fddbef60dc6b53d7}
+
+
+Data type representing a matrix with complex values. 
+
+This data type is the front end of the matric manipulation portion of the design space toolbox. Currently, the DST library uses the gsl library; however, it is designed to be used with different back-\/ends. In particular, the CLAPACK package should be considered, as it will offer better performance. Thus, the matrix API should be independent of implementation, and hence a new matrix library could be used if chosen.
+
+\begin{DoxySeeAlso}{See also}
+DSComplexMatrix.h 
+
+DSComplexMatrix.c 
+\end{DoxySeeAlso}
 \hypertarget{_d_s_types_8h_a0e38606b8798b0ac4d071bdae90e38d2}{
 \index{DSTypes.h@{DSTypes.h}!DSExpression@{DSExpression}}
 \index{DSExpression@{DSExpression}!DSTypes.h@{DSTypes.h}}

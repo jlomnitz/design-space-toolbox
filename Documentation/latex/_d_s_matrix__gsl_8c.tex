@@ -10,6 +10,7 @@ Implementation file with functions for dealing with matrices using the GNU Scien
 {\ttfamily \#include $<$time.h$>$}\par
 {\ttfamily \#include $<$stdarg.h$>$}\par
 {\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
 {\ttfamily \#include $<$gsl/gsl\_\-linalg.h$>$}\par
 {\ttfamily \#include $<$gsl/gsl\_\-blas.h$>$}\par
 {\ttfamily \#include \char`\"{}DSMatrix.h\char`\"{}}\par
@@ -60,21 +61,12 @@ void \hyperlink{_d_s_matrix__gsl_8c_ae5fc6bceef5e7e9e2c6300a86bdfb5fc}{DSMatrixF
 \begin{DoxyCompactList}\small\item\em Allocates a new \hyperlink{struct_d_s_matrix}{DSMatrix} as an identity matrix. \item\end{DoxyCompactList}\item 
 \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ \hyperlink{_d_s_matrix__gsl_8c_a8980e6c6dc06dbbda9cde939cff831cc}{DSMatrixRandomNumbers} (const DSUInteger rows, const DSUInteger columns)
 \begin{DoxyCompactList}\small\item\em Allocates a new \hyperlink{struct_d_s_matrix}{DSMatrix} with random values between 0 and 1. \item\end{DoxyCompactList}\item 
-\hypertarget{_d_s_matrix__gsl_8c_a6bc16a09f2f1c6e994cde99917388985}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByParsingString} (const char $\ast$string)}
-\label{_d_s_matrix__gsl_8c_a6bc16a09f2f1c6e994cde99917388985}
-
-\item 
-\hypertarget{_d_s_matrix__gsl_8c_a3205b0946508ed84873347cafacd5eb3}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixBySubstractingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
-\label{_d_s_matrix__gsl_8c_a3205b0946508ed84873347cafacd5eb3}
-
-\item 
-\hypertarget{_d_s_matrix__gsl_8c_aa1c9f578946f7d5fe69d5e4a1ebaaadf}{
-\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByAddingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
-\label{_d_s_matrix__gsl_8c_aa1c9f578946f7d5fe69d5e4a1ebaaadf}
-
-\item 
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ \hyperlink{_d_s_matrix__gsl_8c_a6bc16a09f2f1c6e994cde99917388985}{DSMatrixByParsingString} (const char $\ast$string)
+\begin{DoxyCompactList}\small\item\em Creates a new matrix by parsing a tab-\/delimited matrix. \item\end{DoxyCompactList}\item 
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ \hyperlink{_d_s_matrix__gsl_8c_a3205b0946508ed84873347cafacd5eb3}{DSMatrixBySubstractingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)
+\begin{DoxyCompactList}\small\item\em Create a new \hyperlink{struct_d_s_matrix}{DSMatrix} object by substracting a matrix from another. \item\end{DoxyCompactList}\item 
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ \hyperlink{_d_s_matrix__gsl_8c_aa1c9f578946f7d5fe69d5e4a1ebaaadf}{DSMatrixByAddingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)
+\begin{DoxyCompactList}\small\item\em Create a new \hyperlink{struct_d_s_matrix}{DSMatrix} object by adding a matrix to another. \item\end{DoxyCompactList}\item 
 \hypertarget{_d_s_matrix__gsl_8c_aecdf05e600ce503d4e54ae43720bde8d}{
 \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixByDividingMatrix} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$lvalue, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$rvalue)}
 \label{_d_s_matrix__gsl_8c_aecdf05e600ce503d4e54ae43720bde8d}
@@ -289,6 +281,11 @@ double {\bfseries DSMatrixDeterminant} (const \hyperlink{struct_d_s_matrix}{DSMa
 \label{_d_s_matrix__gsl_8c_a363c4377a0f3545bc686bc63845f36b3}
 
 \item 
+\hypertarget{_d_s_matrix__gsl_8c_ab4f610d94ad409a4a45f9324c6961b27}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSMatrixLeftNullspace} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix)}
+\label{_d_s_matrix__gsl_8c_ab4f610d94ad409a4a45f9324c6961b27}
+
+\item 
 \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$ \hyperlink{_d_s_matrix__gsl_8c_ab82225a0fd0f53735d8e9e81c350aa60}{DSMatrixPLUDecomposition} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$A)
 \begin{DoxyCompactList}\small\item\em Creates a LU decomposition and returns the permutation matrix. \item\end{DoxyCompactList}\item 
 \hypertarget{_d_s_matrix__gsl_8c_a30f30a57d317b99eee2d0e5d55cb3a5c}{
@@ -347,6 +344,63 @@ Creates a new matrix of a particular size. The matrix that is allocated has all 
 \begin{DoxyReturn}{Returns}
 If the matrix was created, a new pointer to a \hyperlink{struct_d_s_matrix}{DSMatrix} is returned. Otherwise, NULL is returned. 
 \end{DoxyReturn}
+\hypertarget{_d_s_matrix__gsl_8c_aa1c9f578946f7d5fe69d5e4a1ebaaadf}{
+\index{DSMatrix\_\-gsl.c@{DSMatrix\_\-gsl.c}!DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}}
+\index{DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}!DSMatrix_gsl.c@{DSMatrix\_\-gsl.c}}
+\subsubsection[{DSMatrixByAddingMatrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSMatrix}$\ast$ DSMatrixByAddingMatrix (const {\bf DSMatrix} $\ast$ {\em lvalue}, \/  const {\bf DSMatrix} $\ast$ {\em rvalue})}}
+\label{_d_s_matrix__gsl_8c_aa1c9f578946f7d5fe69d5e4a1ebaaadf}
+
+
+Create a new \hyperlink{struct_d_s_matrix}{DSMatrix} object by adding a matrix to another. 
+
+This function takes two matrices of the same dimensions, and adds the ij element of the rvalue matrix to the ij element of the lvalue matrix. This function assumes constant matrices, and thus does not modify either of the inputs, but instead creates a copy of the first operand matrix, and calls DSMatrixAddByMatrix(), using the copy as the first operand.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em lvalue}]The first \hyperlink{struct_d_s_matrix}{DSMatrix} object to be added. \item[{\em rvalue}]The second \hyperlink{struct_d_s_matrix}{DSMatrix} object to be added.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If the addition operation was succesful, the function returns a pointer to the newly allocated matrix. Otherwise, NULL is returned.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+DSMatrixAddByMatrix() 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_matrix__gsl_8c_a6bc16a09f2f1c6e994cde99917388985}{
+\index{DSMatrix\_\-gsl.c@{DSMatrix\_\-gsl.c}!DSMatrixByParsingString@{DSMatrixByParsingString}}
+\index{DSMatrixByParsingString@{DSMatrixByParsingString}!DSMatrix_gsl.c@{DSMatrix\_\-gsl.c}}
+\subsubsection[{DSMatrixByParsingString}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSMatrix}$\ast$ DSMatrixByParsingString (const char $\ast$ {\em string})}}
+\label{_d_s_matrix__gsl_8c_a6bc16a09f2f1c6e994cde99917388985}
+
+
+Creates a new matrix by parsing a tab-\/delimited matrix. 
+
+This function reads an input string, containing rows delimited by tabs and columns delimited by newlines. This function generates a token stream, and thus checks the dimensions of the matrix prior to creating it.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em string}]A string containing the data to parse.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \hyperlink{struct_d_s_matrix}{DSMatrix} data object with the parsed data. If parsing failed, returns NULL. 
+\end{DoxyReturn}
+\hypertarget{_d_s_matrix__gsl_8c_a3205b0946508ed84873347cafacd5eb3}{
+\index{DSMatrix\_\-gsl.c@{DSMatrix\_\-gsl.c}!DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}}
+\index{DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}!DSMatrix_gsl.c@{DSMatrix\_\-gsl.c}}
+\subsubsection[{DSMatrixBySubstractingMatrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSMatrix}$\ast$ DSMatrixBySubstractingMatrix (const {\bf DSMatrix} $\ast$ {\em lvalue}, \/  const {\bf DSMatrix} $\ast$ {\em rvalue})}}
+\label{_d_s_matrix__gsl_8c_a3205b0946508ed84873347cafacd5eb3}
+
+
+Create a new \hyperlink{struct_d_s_matrix}{DSMatrix} object by substracting a matrix from another. 
+
+This function takes two matrices of the same dimensions, and substracts the ij element of the rvalue matrix to the ij element of the lvalue matrix. This function assumes constant matrices, and thus does not modify either of the inputs, but instead creates a copy of the minuend operand matrix, and called DSMatrixSubstractByMatrix() with the copy as the new minuend.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em lvalue}]The \hyperlink{struct_d_s_matrix}{DSMatrix} object that is the minuend. \item[{\em rvalue}]The \hyperlink{struct_d_s_matrix}{DSMatrix} object that is the subtrahend.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If the substraction operation was succesful, the function returns a pointer to the newly allocated difference matrix. Otherwise, NULL is returned.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+DSMatrixSubstractByMatrix() 
+\end{DoxySeeAlso}
 \hypertarget{_d_s_matrix__gsl_8c_a1b228ecc7be521c40160173fc1cecea2}{
 \index{DSMatrix\_\-gsl.c@{DSMatrix\_\-gsl.c}!DSMatrixCalloc@{DSMatrixCalloc}}
 \index{DSMatrixCalloc@{DSMatrixCalloc}!DSMatrix_gsl.c@{DSMatrix\_\-gsl.c}}

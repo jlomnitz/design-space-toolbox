@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A0BC2EE14F177470093E52B /* DSDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0BC2ED14F177470093E52B /* DSDictionary.h */; };
+		9A0BC2F114F17A7E0093E52B /* DSDictionary.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A0BC2EF14F177550093E52B /* DSDictionary.c */; };
 		9A1033DF144229BF00C214AF /* DSSymbolicMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1033DE144229BF00C214AF /* DSSymbolicMatrix.h */; };
 		9A1033E1144229CD00C214AF /* DSSymbolicMatrix.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */; };
 		9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -67,6 +69,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A0BC2ED14F177470093E52B /* DSDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDictionary.h; sourceTree = "<group>"; };
+		9A0BC2EF14F177550093E52B /* DSDictionary.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDictionary.c; sourceTree = "<group>"; };
 		9A0C3A7613F4627100B5561A /* DSGMASystemGrammar.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = DSGMASystemGrammar.y; sourceTree = "<group>"; };
 		9A1033DE144229BF00C214AF /* DSSymbolicMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSymbolicMatrix.h; sourceTree = "<group>"; };
 		9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSymbolicMatrix.c; sourceTree = "<group>"; };
@@ -156,6 +160,15 @@
 				9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */,
 			);
 			name = "Design Space thread pool";
+			sourceTree = "<group>";
+		};
+		9A0BC2EC14F176D90093E52B /* DSDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				9A0BC2ED14F177470093E52B /* DSDictionary.h */,
+				9A0BC2EF14F177550093E52B /* DSDictionary.c */,
+			);
+			name = DSDictionary;
 			sourceTree = "<group>";
 		};
 		9A1033DC1442299800C214AF /* Symbolic Matrix */ = {
@@ -266,13 +279,38 @@
 		9A85B46D13FF9DC800EA3795 /* Design Space */ = {
 			isa = PBXGroup;
 			children = (
+				9A8CD55114EF892C00818727 /* Numerical Design Space */,
+			);
+			name = "Design Space";
+			sourceTree = "<group>";
+		};
+		9A8CD54F14EF88E700818727 /* Numerical GMA/SSystem/Cases */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D588113FAFA7C00C32875 /* Cases */,
+				9A3D588013FAFA7900C32875 /* S-System */,
+				9A3D587D13FAFA6300C32875 /* GMA */,
+			);
+			name = "Numerical GMA/SSystem/Cases";
+			sourceTree = "<group>";
+		};
+		9A8CD55014EF890400818727 /* Symbolic GMA/SSystem/Cases */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Symbolic GMA/SSystem/Cases";
+			sourceTree = "<group>";
+		};
+		9A8CD55114EF892C00818727 /* Numerical Design Space */ = {
+			isa = PBXGroup;
+			children = (
 				9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */,
 				9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */,
 				9AD071BF14325C6900850ACE /* DSDesignSpaceStack.h */,
 				9AD071C214325CEC00850ACE /* DSDesignSpaceStack.c */,
 				9A0701F31404226B00096159 /* Design Space thread pool */,
 			);
-			name = "Design Space";
+			name = "Numerical Design Space";
 			sourceTree = "<group>";
 		};
 		9A9433A01427195800399C34 /* Double matrices */ = {
@@ -321,9 +359,8 @@
 		9ABF783813F0C1D800602B4B /* GMA, SSystem and Cases */ = {
 			isa = PBXGroup;
 			children = (
-				9A3D588113FAFA7C00C32875 /* Cases */,
-				9A3D588013FAFA7900C32875 /* S-System */,
-				9A3D587D13FAFA6300C32875 /* GMA */,
+				9A8CD55014EF890400818727 /* Symbolic GMA/SSystem/Cases */,
+				9A8CD54F14EF88E700818727 /* Numerical GMA/SSystem/Cases */,
 			);
 			name = "GMA, SSystem and Cases";
 			sourceTree = "<group>";
@@ -372,6 +409,7 @@
 		9AFD4D5D13B70915001FCEC9 /* Support Data Functions */ = {
 			isa = PBXGroup;
 			children = (
+				9A0BC2EC14F176D90093E52B /* DSDictionary */,
 				9ACB57D013F09947006B6758 /* Variables and Variable Pools */,
 				9ACB57D113F09969006B6758 /* Matrices */,
 				9ABDC42613F1BE1000BC11D7 /* Expression */,
@@ -438,6 +476,7 @@
 				9A3D588B13FB01D100C32875 /* DSSSystemGrammar.h in Headers */,
 				9A36BC981400D5FF00599A25 /* DSDesignSpaceParallel.h in Headers */,
 				9A1033DF144229BF00C214AF /* DSSymbolicMatrix.h in Headers */,
+				9A0BC2EE14F177470093E52B /* DSDictionary.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +530,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A0BC2F114F17A7E0093E52B /* DSDictionary.c in Sources */,
 				9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */,
 				9A81B38613A89D38007DADEC /* DSErrors.c in Sources */,
 				9AFD4D5113B6FFD8001FCEC9 /* DSVariable.c in Sources */,

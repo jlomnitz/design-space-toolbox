@@ -114,13 +114,13 @@ typedef struct {
  * \see DSVariable.h
  * \see DSVariable.c
  */
-struct _varDictionary
+typedef struct _varDictionary
 {
         char current;                //!< The current character in the dictionary.
         struct _varDictionary *alt;  //!< The alternative character in the dictionary.
         struct _varDictionary *next; //!< The next character in the dictionary.
-        DSVariable *variable;        //!< The variable stored. Only when current is '\\0'.
-};
+        void *value;              //!< The variable stored. Only when current is '\\0'.
+} DSDictionary;
 
 /**
  * \brief Data type used to lock different properties of the DSVariablePool.
