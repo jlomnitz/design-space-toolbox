@@ -42,7 +42,7 @@
  * Messages for DSVariable related errors are M_DS_VAR_NULL and M_DS_VAR_LOCKED.
  */
 /*\{*/
-#define M_DS_DICTIONARY_NULL               M_DS_NULL ": Variable Pool is NULL"        //!< Error message indicating a NULL variable pool.
+#define M_DS_DICTIONARY_NULL               M_DS_NULL ": Dictionary is NULL"        //!< Error message indicating a NULL variable pool.
 /*\}*/
 
 #ifdef __cplusplus
@@ -53,13 +53,13 @@ __BEGIN_DECLS
 #pragma mark - Allocation and freeing
 #endif
 
-extern DSDictionary * DSDictionaryInitialize(void);
+extern DSDictionary * DSDictionaryAlloc(void);
 extern void DSDictionaryFree(DSDictionary * aDictionary);
 extern void DSDictionaryFreeWithFunction(DSDictionary * aDictionary, void * freeFunction);
 
 
 extern void *DSDictionaryValueForName(const DSDictionary *dictionary, const char *name);
-extern DSDictionary * DSDictionaryAddValueWithName(DSDictionary *root, const char * name, void *value);
+extern void DSDictionaryAddValueWithName(DSDictionary *dictionary, const char * name, void *value);
 
 extern void DSDictionaryPrint(const DSDictionary *dictionary);
 extern void DSDictionaryPrintWithFunction(const DSDictionary *dictionary, const void * printFunction);

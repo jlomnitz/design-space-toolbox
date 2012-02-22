@@ -1,5 +1,5 @@
 //
-//  DSDesignSpaceStack.c
+//  DSStack.c
 //  DesignSpaceToolboxV2
 //
 //  Created by Jason Lomnitz on 9/27/11.
@@ -10,27 +10,30 @@
 
 #include "DSErrors.h"
 #include "DSMemoryManager.h"
-#include "DSDesignSpace.h"
-#include "DSDesignSpaceStack.h"
+#include "DSStack.h"
 
-#define DS_DESIGN_SPACE_STACKSIZE_INCREMENT 10
+#define DS_STACKSIZE_INCREMENT 10
 
-extern DSDesignSpaceStack * DSDesignSpaceStackAlloc(void)
+extern DSStack * DSStackAlloc(void)
 {
-        DSDesignSpaceStack * stack = NULL;
-        stack = DSSecureCalloc(sizeof(DSDesignSpaceStack), 1);
+        DSStack * stack = NULL;
+        stack = DSSecureCalloc(sizeof(DSStack), 1);
         pthread_mutex_init(&stack->pushpop, NULL);
         return stack;
 }
 
-extern void DSDesignSpaceStackFree(DSDesignSpaceStack *stack)
+extern void DSStackFreeWithFunction(DSStack *stack, void * function)
 {
+        void (*freeFunction)(void *) = function;
         if (stack == NULL) {
                 DSError(M_DS_NULL ": Design Space Stack is NULL", A_DS_ERROR);
                 goto bail;
         }
         while (stack->count > 0) {
-                DSDesignSpaceFree(DSDesignSpaceStackPop(stack));
+                if (freeFunction == NULL)
+                        DSStackPop(stack);
+                else
+                        freeFunction(DSStackPop(stack));
         }
         pthread_mutex_destroy(&stack->pushpop);
         DSSecureFree(stack);
@@ -38,7 +41,18 @@ bail:
         return;
 }
 
-extern void DSDesignSpaceStackPush(DSDesignSpaceStack *stack, DSDesignSpace * ds)
+extern void DSStackFree(DSStack *stack)
+{
+        if (stack == NULL) {
+                DSError(M_DS_NULL ": Design Space Stack is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        DSStackFreeWithFunction(stack, NULL);
+bail:
+        return;
+}
+
+extern void DSStackPush(DSStack *stack, void * object)
 {
         pthread_mutex_lock(&stack->pushpop);
         if (stack == NULL) {
@@ -47,32 +61,32 @@ extern void DSDesignSpaceStackPush(DSDesignSpaceStack *stack, DSDesignSpace * ds
         }
         stack->count++;
         if (stack->count >= stack->size) {
-                stack->size += DS_DESIGN_SPACE_STACKSIZE_INCREMENT;
+                stack->size += DS_STACKSIZE_INCREMENT;
                 if (stack->base == NULL)
                         stack->base = DSSecureMalloc(sizeof(void *)*stack->size);
                 else
                         stack->base = DSSecureRealloc(stack->base, sizeof(void *)*stack->size);
         }
         stack->current = stack->base+(stack->count-1);
-        *((DSDesignSpace **)(stack->current)) = ds;
+        *(stack->current) = object;
 bail:
         pthread_mutex_unlock(&stack->pushpop);
         return;
 }
 
-extern DSDesignSpace * DSDesignSpaceStackPop(DSDesignSpaceStack *stack)
+extern void * DSStackPop(DSStack *stack)
 {
         pthread_mutex_lock(&stack->pushpop);
-        DSDesignSpace * ds = NULL;
+        void * object = NULL;
         if (stack == NULL) {
                 DSError(M_DS_NULL ": Stack to pop is NULL", A_DS_ERROR);
                 goto bail;
         }
         if (stack->base == NULL || stack->count == 0)
                 goto bail;
-        ds = *((DSDesignSpace **)(stack->current));
-        if (stack->count == stack->size-DS_DESIGN_SPACE_STACKSIZE_INCREMENT) {
-                stack->size -= DS_DESIGN_SPACE_STACKSIZE_INCREMENT;
+        object = *(stack->current);
+        if (stack->count == stack->size-DS_STACKSIZE_INCREMENT) {
+                stack->size -= DS_STACKSIZE_INCREMENT;
                 if (stack->count == 0) {
                         DSSecureFree(stack->base);
                         stack->base = NULL;
@@ -87,12 +101,12 @@ extern DSDesignSpace * DSDesignSpaceStackPop(DSDesignSpaceStack *stack)
                 stack->current = stack->base+(stack->count-1);
 bail:
         pthread_mutex_unlock(&stack->pushpop);
-        return ds;
+        return object;
 }
 
-extern const DSDesignSpace * DSDesignSpaceStackDesignSpaceAtIndex(const DSDesignSpaceStack *stack, DSUInteger index)
+extern const void * DSStackObjectAtIndex(const DSStack *stack, DSUInteger index)
 {
-        DSDesignSpace * ds = NULL;
+        void * object = NULL;
         if (stack == NULL) {
                 DSError(M_DS_STACK_NULL, A_DS_ERROR);
                 goto bail;
@@ -101,12 +115,12 @@ extern const DSDesignSpace * DSDesignSpaceStackDesignSpaceAtIndex(const DSDesign
                 DSError(M_DS_WRONG ": Index is out of bounds", A_DS_ERROR);
                 goto bail;
         }
-        ds = ((DSDesignSpace **)stack->base)[index];
+        object = (stack->base)[index];
 bail:
-        return ds;
+        return object;
 }
 
-extern const DSUInteger DSDesignSpaceStackCount(const DSDesignSpaceStack *stack)
+extern const DSUInteger DSStackCount(const DSStack *stack)
 {
         DSUInteger count = 0;
         if (stack == NULL) {

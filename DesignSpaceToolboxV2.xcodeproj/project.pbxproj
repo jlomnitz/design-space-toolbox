@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A0BC2EE14F177470093E52B /* DSDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0BC2ED14F177470093E52B /* DSDictionary.h */; };
+		9A0BC2EE14F177470093E52B /* DSDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A0BC2ED14F177470093E52B /* DSDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A0BC2F114F17A7E0093E52B /* DSDictionary.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A0BC2EF14F177550093E52B /* DSDictionary.c */; };
 		9A1033DF144229BF00C214AF /* DSSymbolicMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1033DE144229BF00C214AF /* DSSymbolicMatrix.h */; };
 		9A1033E1144229CD00C214AF /* DSSymbolicMatrix.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */; };
@@ -22,6 +22,7 @@
 		9A537BB113A9CFE50031378A /* DSMemoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB013A9CFE50031378A /* DSMemoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A537BB313A9D04F0031378A /* DSTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB213A9D04F0031378A /* DSTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A5833BC139D79170068B6B6 /* DSStd.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5833BB139D79170068B6B6 /* DSStd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A681E6114F303DE0025735D /* DSStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A681E6014F303DE0025735D /* DSStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A68EF5513EC767800FBDDF5 /* DSMatrixTokenizerLex.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A68EF5413EC767700FBDDF5 /* DSMatrixTokenizerLex.c */; };
 		9A68EF6213ECA26F00FBDDF5 /* DSVariableTokenizerLex.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A68EF6113ECA26F00FBDDF5 /* DSVariableTokenizerLex.c */; };
 		9A68EF6C13ECA31900FBDDF5 /* DSVariableTokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A68EF6B13ECA31900FBDDF5 /* DSVariableTokenizer.c */; };
@@ -39,6 +40,7 @@
 		9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A754213D878990045FDFB /* DSMatrixArray.c */; };
 		9A9A754513D878990045FDFB /* DSMatrixArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9A754313D878990045FDFB /* DSMatrixArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AA7C3461402DCBB00444B64 /* libglpk.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA7C3451402DCBB00444B64 /* libglpk.0.dylib */; };
+		9AB9BE6D14F305C4002D9F43 /* DSStack.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A681E5E14F303C90025735D /* DSStack.c */; };
 		9ABB560714295DFF003D74E2 /* DSSubcase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABB560614295DFF003D74E2 /* DSSubcase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ABB560A14295E09003D74E2 /* DSSubcase.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB560914295E09003D74E2 /* DSSubcase.c */; };
 		9ABDC42913F1BE8600BC11D7 /* DSExpressionTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABDC42813F1BE8600BC11D7 /* DSExpressionTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -56,8 +58,6 @@
 		9AC62D1B13FDC2D500523AD7 /* DSCase.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC62D1A13FDC2D500523AD7 /* DSCase.c */; };
 		9ACB2CFF13A1345F006A5F71 /* DSErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ACB2CFE13A1345F006A5F71 /* DSErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */; };
-		9AD071C014325C6900850ACE /* DSDesignSpaceStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AD071BF14325C6900850ACE /* DSDesignSpaceStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9AD071C314325CEC00850ACE /* DSDesignSpaceStack.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AD071C214325CEC00850ACE /* DSDesignSpaceStack.c */; };
 		9AE49FD913F5A4EC00C7A478 /* DSGMASystemGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */; };
 		9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE7759C140DAA8900F77747 /* DSVertices.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -87,6 +87,8 @@
 		9A537BB013A9CFE50031378A /* DSMemoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMemoryManager.h; sourceTree = "<group>"; };
 		9A537BB213A9D04F0031378A /* DSTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSTypes.h; sourceTree = "<group>"; };
 		9A5833BB139D79170068B6B6 /* DSStd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSStd.h; sourceTree = "<group>"; };
+		9A681E5E14F303C90025735D /* DSStack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSStack.c; sourceTree = "<group>"; };
+		9A681E6014F303DE0025735D /* DSStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSStack.h; sourceTree = "<group>"; };
 		9A68EF5413EC767700FBDDF5 /* DSMatrixTokenizerLex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixTokenizerLex.c; sourceTree = "<group>"; };
 		9A68EF6113ECA26F00FBDDF5 /* DSVariableTokenizerLex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariableTokenizerLex.c; sourceTree = "<group>"; };
 		9A68EF6B13ECA31900FBDDF5 /* DSVariableTokenizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariableTokenizer.c; sourceTree = "<group>"; };
@@ -126,8 +128,6 @@
 		9AC62D1A13FDC2D500523AD7 /* DSCase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSCase.c; sourceTree = "<group>"; };
 		9ACB2CFE13A1345F006A5F71 /* DSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSErrors.h; sourceTree = "<group>"; };
 		9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMemoryManager.c; sourceTree = "<group>"; };
-		9AD071BF14325C6900850ACE /* DSDesignSpaceStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpaceStack.h; sourceTree = "<group>"; };
-		9AD071C214325CEC00850ACE /* DSDesignSpaceStack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDesignSpaceStack.c; sourceTree = "<group>"; };
 		9ADADD5B13EB467B00A2062D /* DSMatrixGrammar.l */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lex; path = DSMatrixGrammar.l; sourceTree = "<group>"; };
 		9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemGrammar.c; sourceTree = "<group>"; };
 		9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemGrammar.h; sourceTree = "<group>"; };
@@ -251,6 +251,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9A681E5D14F303B20025735D /* Stack */ = {
+			isa = PBXGroup;
+			children = (
+				9A681E6014F303DE0025735D /* DSStack.h */,
+				9A681E5E14F303C90025735D /* DSStack.c */,
+			);
+			name = Stack;
+			sourceTree = "<group>";
+		};
 		9A68EF5D13EC9FEE00FBDDF5 /* Matrix Parsing */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,8 +315,6 @@
 			children = (
 				9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */,
 				9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */,
-				9AD071BF14325C6900850ACE /* DSDesignSpaceStack.h */,
-				9AD071C214325CEC00850ACE /* DSDesignSpaceStack.c */,
 				9A0701F31404226B00096159 /* Design Space thread pool */,
 			);
 			name = "Numerical Design Space";
@@ -413,6 +420,7 @@
 				9ACB57D013F09947006B6758 /* Variables and Variable Pools */,
 				9ACB57D113F09969006B6758 /* Matrices */,
 				9ABDC42613F1BE1000BC11D7 /* Expression */,
+				9A681E5D14F303B20025735D /* Stack */,
 				9AE7759A140DAA5A00F77747 /* Vertices */,
 			);
 			name = "Support Data Functions";
@@ -464,8 +472,9 @@
 				9AC62D1813FDC2CB00523AD7 /* DSCase.h in Headers */,
 				9A85B47013FF9DFC00EA3795 /* DSDesignSpace.h in Headers */,
 				9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */,
-				9AD071C014325C6900850ACE /* DSDesignSpaceStack.h in Headers */,
 				9ABB560714295DFF003D74E2 /* DSSubcase.h in Headers */,
+				9A0BC2EE14F177470093E52B /* DSDictionary.h in Headers */,
+				9A681E6114F303DE0025735D /* DSStack.h in Headers */,
 				9AC0E3E513EC72EB0043D9E6 /* DSMatrixTokenizer.h in Headers */,
 				9A68EF6E13ECA32900FBDDF5 /* DSVariableTokenizer.h in Headers */,
 				9A68EF7413ECB03000FBDDF5 /* DSVariableGrammar.h in Headers */,
@@ -476,7 +485,6 @@
 				9A3D588B13FB01D100C32875 /* DSSSystemGrammar.h in Headers */,
 				9A36BC981400D5FF00599A25 /* DSDesignSpaceParallel.h in Headers */,
 				9A1033DF144229BF00C214AF /* DSSymbolicMatrix.h in Headers */,
-				9A0BC2EE14F177470093E52B /* DSDictionary.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,6 +538,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AB9BE6D14F305C4002D9F43 /* DSStack.c in Sources */,
 				9A0BC2F114F17A7E0093E52B /* DSDictionary.c in Sources */,
 				9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */,
 				9A81B38613A89D38007DADEC /* DSErrors.c in Sources */,
@@ -557,7 +566,6 @@
 				9AC58E69140D6BBD00BFA9A8 /* DSCaseLinearProgramming.c in Sources */,
 				9AE7759F140DAB8800F77747 /* DSVertices.c in Sources */,
 				9ABB560A14295E09003D74E2 /* DSSubcase.c in Sources */,
-				9AD071C314325CEC00850ACE /* DSDesignSpaceStack.c in Sources */,
 				9A1033E1144229CD00C214AF /* DSSymbolicMatrix.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

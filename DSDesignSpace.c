@@ -36,7 +36,7 @@
 #include "DSGMASystem.h"
 #include "DSSSystem.h"
 #include "DSCase.h"
-#include "DSDesignSpaceStack.h"
+#include "DSStack.h"
 #include "DSDesignSpaceParallel.h"
 #include "DSSubcase.h"
 
@@ -63,7 +63,7 @@ extern DSDesignSpace * DSDesignSpaceAlloc(void)
 {
         DSDesignSpace * ds = NULL;
         ds = DSSecureCalloc(sizeof(DSDesignSpace), 1);
-        DSDSSubcases(ds) = DSDesignSpaceStackAlloc();
+        DSDSSubcases(ds) = DSStackAlloc();
         return ds;
 }
 
@@ -83,7 +83,7 @@ void DSDesignSpaceFree(DSDesignSpace * ds)
                 DSMatrixFree(DSDSDelta(ds));
         if (DSDSValidPool(ds) != NULL) 
                 DSVariablePoolFree(DSDSValidPool(ds));
-        DSDesignSpaceStackFree(DSDSSubcases(ds));
+        DSStackFreeWithFunction(DSDSSubcases(ds), DSDesignSpaceFree);
         DSSecureFree(ds);
 bail:
         return;
@@ -802,7 +802,7 @@ extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds)
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (DSDesignSpaceStackCount(ds->subcases) != 0) {
+        if (DSStackCount(ds->subcases) != 0) {
                 DSError(M_DS_WRONG ": Underdetermined cases have been calculated", A_DS_ERROR);
                 goto bail;
         }

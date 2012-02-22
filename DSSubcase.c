@@ -17,7 +17,7 @@
 #include "DSCase.h"
 #include "DSGMASystem.h"
 #include "DSDesignSpace.h"
-#include "DSDesignSpaceStack.h"
+#include "DSStack.h"
 
 extern DSMatrix * DSSubcaseProblematicEquations(const DSCase * aCase)
 {
@@ -387,7 +387,7 @@ extern void DSSubcaseDesignSpaceForUnderdeterminedCase(const DSCase * aCase, con
         subcases = dsSubcaseCreateUniqueSystemSubcase(aCase, temp, problematicEquations, (const DSExpression **)augmentedEquations);
         if (subcases != NULL) {
                 DSDesignSpaceAddConditions(subcases, aCase->Cd, aCase->Ci, aCase->delta);
-                DSDesignSpaceStackPush(original->subcases, subcases);
+                DSStackPush(original->subcases, subcases);
         }
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++)
                 DSExpressionFree(augmentedEquations[i]);

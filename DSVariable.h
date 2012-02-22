@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "DSTypes.h"
+#include "DSDictionary.h"
 
 #ifndef __DS_VARIABLES__
 #define __DS_VARIABLES__
@@ -99,7 +100,7 @@ extern void DSVariableRelease(DSVariable *aVariable);
 #pragma mark - Variable Pool
 #endif
 
-#define DSVariablePoolInternalDictionary(x)  ((x)->root)
+#define DSVariablePoolInternalDictionary(x)  ((x)->dictionary)
 #define DSVariablePoolVariableArray(x)       ((x)->variables)
 
 #if defined(__APPLE__) && defined(__MACH__)

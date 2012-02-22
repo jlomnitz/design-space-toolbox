@@ -111,15 +111,20 @@ typedef struct {
  * retrieving and removing variables should be done through the accesory 
  * functions.
  *
- * \see DSVariable.h
- * \see DSVariable.c
+ * \see DSDictionary
  */
 typedef struct _varDictionary
 {
         char current;                //!< The current character in the dictionary.
         struct _varDictionary *alt;  //!< The alternative character in the dictionary.
         struct _varDictionary *next; //!< The next character in the dictionary.
-        void *value;              //!< The variable stored. Only when current is '\\0'.
+        void *value;                 //!< The variable stored. Only when current is '\\0'.
+} DSInternalDictionary;
+
+typedef struct {
+        DSInternalDictionary *internal;
+        DSUInteger count;
+        char ** names;
 } DSDictionary;
 
 /**
@@ -154,10 +159,11 @@ typedef enum {
  */
 typedef struct
 {
-        struct _varDictionary *root;   //!< The root of the internal dictionary.
-        DSUInteger numberOfVariables;  //!< Number of variables in the pool.
-        DSVariable **variables;        //!< A C array with the variables stored.
-        DSVariablePoolLock lock;       //!< Indicates if the variable pool is read-only.
+//        struct _varDictionary *root;   //!< The root of the internal dictionary.
+        DSDictionary * dictionary;      //!< The dictionary with the variables arranged.
+        DSUInteger numberOfVariables;   //!< Number of variables in the pool.
+        DSVariable **variables;         //!< A C array with the variables stored.
+        DSVariablePoolLock lock;        //!< Indicates if the variable pool is read-only.
 } DSVariablePool;
 
 /**
@@ -337,17 +343,23 @@ typedef struct {
         DSUInteger *signature;    //!< The case signature indicating the dominant terms used to generate the case.
 } DSCase;
 
-
-
 typedef struct {
-        DSUInteger *caseNumber;
-        DSUInteger *caseNumberCurrent;
         void ** base;                   //!< The pointer to the array of DSUIntegers storing the case numbers.
         void ** current;                //!< A pointer to the top of the stack.
         DSUInteger count;               //!< The number of elements in the stack.
         DSUInteger size;                //!< The current size of the base array.
         pthread_mutex_t pushpop;        //!< The mutex used when pushing and popping data from the stack.
-} DSDesignSpaceStack;
+} DSStack;
+
+//typedef struct {
+//        DSUInteger *caseNumber;
+//        DSUInteger *caseNumberCurrent;
+//        void ** base;                   //!< The pointer to the array of DSUIntegers storing the case numbers.
+//        void ** current;                //!< A pointer to the top of the stack.
+//        DSUInteger count;               //!< The number of elements in the stack.
+//        DSUInteger size;                //!< The current size of the base array.
+//        pthread_mutex_t pushpop;        //!< The mutex used when pushing and popping data from the stack.
+//} DSDesignSpaceStack;
 
 /**
  * \brief Data type used to represent a design space/
@@ -368,7 +380,7 @@ typedef struct {
         DSVariablePool * validCases;  //!< DSVariablePool with case number that are valid.
         DSUInteger numberOfCases;      //!< DSUInteger indicating the maximum number of cases in the design space.
         DSMatrix * Cd, *Ci, *delta;    //!< Condition matrices.
-        DSDesignSpaceStack *subcases;  //!< DSDesignSpaceStack containing design space objects with subcases.
+        DSStack *subcases;  //!< DSDesignSpaceStack containing design space objects with subcases.
 } DSDesignSpace;
 
 #ifdef __cplusplus

@@ -46,8 +46,9 @@
 #include "DSSSystem.h"
 #include "DSCase.h"
 #include "DSDesignSpace.h"
-#include "DSDesignSpaceStack.h"
 #include "DSVertices.h"
+#include "DSDictionary.h"
+#include "DSStack.h"
 
 #ifndef __DS_STD_INCLUDE__
 #define __DS_STD_INCLUDE__

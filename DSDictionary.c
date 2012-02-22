@@ -1,6 +1,6 @@
 /**
  * \file DSVariable.c
- * \brief Implementation file with functions for dealing with variables.
+ * \brief Implementation file with functions the DSInternalDictionary object.
  *
  * \details 
  *
@@ -40,13 +40,13 @@
  *\defgroup DS_DICTIONARY_ACCESSORY Macros to manipulate dictionary nodes.
  *
  * \details The following macros are in place for portability and consistency.
- * As the structure of the DSDictionary is subject to changes, using these
+ * As the structure of the DSInternalDictionary is subject to changes, using these
  * macros will make the dependent code less subject to errors.
  */
 /*\{*/
 
 /**
- * \brief Macro to set the value of a DSDictionary node.
+ * \brief Macro to set the value of a DSInternalDictionary node.
  *
  * \details This macro provides a consistent way for changing the value of a
  * dictionary node, despite the internal structure of the data type.  
@@ -58,7 +58,7 @@
  * \brief Macro to get the value of a dictionary node.
  *
  * \details This macro provides a consistent way for retrieving the value of a
- * DSDictionary node, despite changes in the internal structure of the data type.
+ * DSInternalDictionary node, despite changes in the internal structure of the data type.
  */
 #define dsInternalDictionaryValue(x)        ((x != NULL) ? x->value : NULL)
 
@@ -87,7 +87,7 @@
  * \see struct _varDictionary
  * \see DSVariablePoolAddVariable
  */
-extern void *DSDictionaryValueForName(const DSDictionary *dictionary, const char *name)
+static void *dsInternalDictionaryValueForName(const DSInternalDictionary *dictionary, const char *name)
 {
         DSVariable *value = NULL;
         DSUInteger position = 0;
@@ -96,7 +96,6 @@ extern void *DSDictionaryValueForName(const DSDictionary *dictionary, const char
                 goto bail;
         }
         if (dictionary == NULL) {
-                DSError(M_DS_NULL ": Dictionary is empty", A_DS_WARN);
                 goto bail;
         }
         while (dictionary) {
@@ -135,9 +134,9 @@ bail:
  * \see DSVariable
  * \see DSVariablePoolAddVariable
  */
-static DSDictionary *dsDictionaryBranchAlloc(void *var, const char *name, int atPos)
+static DSInternalDictionary *dsInternalDictionaryBranchAlloc(void *var, const char *name, int atPos)
 {
-        struct _varDictionary *root = NULL, *current;
+        DSInternalDictionary *root = NULL, *current;
         if (var == NULL) {
                 DSError(M_DS_NULL ": Variable being added is NULL", A_DS_WARN);
                 goto bail;
@@ -170,7 +169,7 @@ bail:
  * \see DSVariableWithName
  * \see _addNewBranch
  */
-extern DSDictionary * DSDictionaryAddValueWithName(DSDictionary *root, const char * name, void *value)
+static DSInternalDictionary * dsInternalDictionaryAddValueWithName(DSInternalDictionary *root, const char * name, void *value)
 {
         int pos;
         struct _varDictionary *current, *previous, *temp, *top;
@@ -183,10 +182,10 @@ extern DSDictionary * DSDictionaryAddValueWithName(DSDictionary *root, const cha
                 goto bail;
         }
         if (root == NULL) {
-                root = dsDictionaryBranchAlloc(value, name, 0);
+                root = dsInternalDictionaryBranchAlloc(value, name, 0);
                 goto bail;
         }
-        if (DSDictionaryValueForName(root, name) != NULL) {
+        if (dsInternalDictionaryValueForName(root, name) != NULL) {
                 sprintf(errorMessage, "%.30s: Dictionary has entry with name \"%.10s\"", M_DS_EXISTS, name);
                 DSError(errorMessage, A_DS_WARN);
                 goto bail;
@@ -199,7 +198,7 @@ extern DSDictionary * DSDictionaryAddValueWithName(DSDictionary *root, const cha
         changeRoot = true;
         while (current) {
                 if (name[pos] < current->current || current->current == '\0') {
-                        temp = dsDictionaryBranchAlloc(value, name, pos);
+                        temp = dsInternalDictionaryBranchAlloc(value, name, pos);
                         temp->alt = current;
                         if (changeRoot == true)
                                 root = temp;
@@ -216,7 +215,7 @@ extern DSDictionary * DSDictionaryAddValueWithName(DSDictionary *root, const cha
                         current = current->next;
                         pos++;
                 } else if (current->alt == NULL) {
-                        current->alt = dsDictionaryBranchAlloc(value, name, pos);
+                        current->alt = dsInternalDictionaryBranchAlloc(value, name, pos);
                         break;
                 } else {
                         previous = current;
@@ -266,53 +265,52 @@ bail:
  * The function RECURSIVELY frees all the nodes past the root which is passed.
  * This function could be used to clear a portion of the dictionary, yet doing
  * so would require direct manipulation of the dictionary which is strongly 
- * discouraged.  The values themselves are NOT freed. To free the values of a
- * dictionary, please see DSDictionaryFreeWithFunction().
- *
- * \param dictionary The root of the dictionary which is to be freed.
- *
- * \see DSDictionaryFreeWithFunction()
- */
-extern void DSDictionaryFree(DSDictionary * dictionary)
-{
-        if (dictionary == NULL) {
-                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        DSDictionaryFreeWithFunction(dictionary, NULL);
-bail:
-        return;
-}
-/**
- * \brief Function to remove all nodes in the dictionary.
- *
- * The function RECURSIVELY frees all the nodes past the root which is passed.
- * This function could be used to clear a portion of the dictionary, yet doing
- * so would require direct manipulation of the dictionary which is strongly 
  * discouraged.  The values themselves are freed by passing a function that is
  * called at each node with the value of the dictionary, unless the free 
  * function passed is NULL, at which point the data is not freed.
  *
  * \param dictionary The root of the dictionary which is to be freed.
  *
- * \see DSDictionaryFree()
+ * \see DSInternalDictionaryFree()
  */
-extern void DSDictionaryFreeWithFunction(DSDictionary * dictionary, void * freeFunction)
+static void dsInternalDictionaryFreeWithFunction(DSInternalDictionary * dictionary, void * freeFunction)
 {
         void (*Function)(void *);
         if (dictionary == NULL) {
-                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
                 goto bail;
         }
-        DSDictionaryFreeWithFunction(dictionary->alt, freeFunction);
-        DSDictionaryFreeWithFunction(dictionary->next, freeFunction);
+        dsInternalDictionaryFreeWithFunction(dictionary->alt, freeFunction);
+        dsInternalDictionaryFreeWithFunction(dictionary->next, freeFunction);
         dictionary->alt = NULL;
         dictionary->next = NULL;
-        if (freeFunction != NULL) {
+        if (dictionary->current == '\0' && freeFunction != NULL) {
                 Function = freeFunction;
-                Function(dsInternalDictionaryValue(dictionary));
+                Function(dictionary->value);
         }
         DSSecureFree(dictionary);
+bail:
+        return;
+}
+
+/**
+ * \brief Function to remove all nodes in the dictionary.
+ *
+ * The function RECURSIVELY frees all the nodes past the root which is passed.
+ * This function could be used to clear a portion of the dictionary, yet doing
+ * so would require direct manipulation of the dictionary which is strongly 
+ * discouraged.  The values themselves are NOT freed. To free the values of a
+ * dictionary, please see DSInternalDictionaryFreeWithFunction().
+ *
+ * \param dictionary The root of the dictionary which is to be freed.
+ *
+ * \see DSInternalDictionaryFreeWithFunction()
+ */
+static void dsInternalDictionaryFree(DSInternalDictionary * dictionary)
+{
+        if (dictionary == NULL) {
+                goto bail;
+        }
+        dsInternalDictionaryFreeWithFunction(dictionary, NULL);
 bail:
         return;
 }
@@ -322,13 +320,12 @@ bail:
  *
  * A debugging function which prints the dictionary structure to the stderr file
  */
-static void dsDictionaryPrintInternalWithFunction(const DSDictionary *dictionary, const void *printFunction, const DSUInteger position)
+static void dsInternalDictionaryPrintInternalWithFunction(const DSInternalDictionary *dictionary, const void *printFunction, const DSUInteger position)
 {
         DSUInteger i;
         int (*print)(const char *,...) = DSPrintf;
         int (*printObject)(void *);
         if (dictionary == NULL) {
-                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
                 goto bail;
         }
         printObject = printFunction;
@@ -343,8 +340,8 @@ static void dsDictionaryPrintInternalWithFunction(const DSDictionary *dictionary
         } else {
                 print("+-%c\n", dictionary->current);
         }
-        dsDictionaryPrintInternalWithFunction(dictionary->next, printFunction, position+2);
-        dsDictionaryPrintInternalWithFunction(dictionary->alt, printFunction, position);
+        dsInternalDictionaryPrintInternalWithFunction(dictionary->next, printFunction, position+2);
+        dsInternalDictionaryPrintInternalWithFunction(dictionary->alt, printFunction, position);
 bail:
         return;
 }
@@ -354,12 +351,11 @@ bail:
  *
  * A debugging function which prints the dictionary structure to the stderr file
  */
-static void dsDictionaryPrintInternal(const DSDictionary *dictionary, const DSUInteger position)
+static void dsInternalDictionaryPrintInternal(const DSInternalDictionary *dictionary, const DSUInteger position)
 {
         DSUInteger i;
         int (*print)(const char *, ...) = DSPrintf;
         if (dictionary == NULL) {
-                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
                 goto bail;
         }
         if (print == NULL)
@@ -370,35 +366,33 @@ static void dsDictionaryPrintInternal(const DSDictionary *dictionary, const DSUI
                 print("+-[%p]\n", dsInternalDictionaryValue(dictionary));
         else
                 print("+-%c\n", dictionary->current);
-        dsDictionaryPrintInternal(dictionary->next, position+2);
-        dsDictionaryPrintInternal(dictionary->alt, position);
+        dsInternalDictionaryPrintInternal(dictionary->next, position+2);
+        dsInternalDictionaryPrintInternal(dictionary->alt, position);
 bail:
         return;
 }
 
 
-extern void DSDictionaryPrint(const DSDictionary *dictionary)
+static void dsInternalDictionaryPrint(const DSInternalDictionary *dictionary)
 {
         if (dictionary == NULL) {
-                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
                 goto bail;
         } 
-        dsDictionaryPrintInternal(dictionary, 0);
+        dsInternalDictionaryPrintInternal(dictionary, 0);
 bail:
         return;
 }
 
-extern void DSDictionaryPrintWithFunction(const DSDictionary *dictionary, const void * printFunction)
+static void dsInternalDictionaryPrintWithFunction(const DSInternalDictionary *dictionary, const void * printFunction)
 {
         if (dictionary == NULL) {
-                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
                 goto bail;
         }
         if (printFunction == NULL) {
-                DSDictionaryPrint(dictionary);
+                dsInternalDictionaryPrint(dictionary);
                 goto bail;
         }
-        dsDictionaryPrintInternalWithFunction(dictionary, printFunction, 0);
+        dsInternalDictionaryPrintInternalWithFunction(dictionary, printFunction, 0);
 bail:
         return;        
 }
@@ -434,10 +428,119 @@ static void dsPrintMembers(struct _varDictionary *root, char *buffer, int positi
 #if defined(__APPLE__) && defined(__MACH__)
 #pragma mark - Allocation and freeing
 #endif
-extern DSDictionary * DSDictionaryInitialize()
+static DSInternalDictionary * dsInternalDictionaryInitialize()
 {
-        DSDictionary * dictionary = NULL;
+        DSInternalDictionary * dictionary = NULL;
         return dictionary;
 }
+
+extern DSDictionary * DSDictionaryAlloc()
+{
+        DSDictionary * dictionary = NULL;
+        dictionary = DSSecureCalloc(sizeof(DSDictionary), 1);
+        dictionary->internal = dsInternalDictionaryInitialize();
+        dictionary->count = 0;
+        dictionary->names = NULL;
+        return dictionary;
+}
+
+extern void DSDictionaryFree(DSDictionary * aDictionary)
+{
+        DSUInteger i;
+        if (aDictionary == NULL) {
+                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        dsInternalDictionaryFree(aDictionary->internal);
+        if (aDictionary->count != 0) {
+                for (i = 0; i < aDictionary->count; i++)
+                        DSSecureFree(aDictionary->names[i]);
+                DSSecureFree(aDictionary->names);
+        }
+        DSSecureFree(aDictionary);
+bail:
+        return;
+}
+
+extern void DSDictionaryFreeWithFunction(DSDictionary * aDictionary, void * freeFunction)
+{
+        DSUInteger i;
+        if (aDictionary == NULL) {
+                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        dsInternalDictionaryFreeWithFunction(aDictionary->internal, freeFunction);
+        if (aDictionary->count != 0) {
+                for (i = 0; i < aDictionary->count; i++)
+                        DSSecureFree(aDictionary->names[i]);
+                DSSecureFree(aDictionary->names);
+        }
+        DSSecureFree(aDictionary);
+bail:
+        return;
+}
+
+extern void *DSDictionaryValueForName(const DSDictionary *dictionary, const char *name)
+{
+        void * value = NULL;
+        if (dictionary == NULL) {
+                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (name == NULL) {
+                DSError(M_DS_WRONG ": NULL key is invalid", A_DS_ERROR);
+                goto bail;
+        }
+        value = dsInternalDictionaryValueForName(dictionary->internal, name);
+bail:
+        return value;
+}
+
+extern void DSDictionaryAddValueWithName(DSDictionary *dictionary, const char * name, void *value)
+{
+        if (dictionary == NULL) {
+                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (name == NULL) {
+                DSError(M_DS_WRONG ": NULL key is invalid", A_DS_ERROR);
+                goto bail;
+        }
+        if (dsInternalDictionaryValueForName(dictionary->internal, name) != NULL) {
+                DSError(M_DS_WRONG ": Value with name exists", A_DS_WARN);
+                goto bail;
+        }
+        if (dictionary->count == 0)
+                dictionary->names = DSSecureMalloc(sizeof(char *)*(dictionary->count+1));
+        else
+                dictionary->names = DSSecureRealloc(dictionary->names, sizeof(char *)*(dictionary->count+1));
+        dictionary->names[(dictionary->count)++] = strdup(name);
+        dictionary->internal = dsInternalDictionaryAddValueWithName(dictionary->internal, name, value);
+bail:
+        return;
+}
+
+extern void DSDictionaryPrint(const DSDictionary *dictionary)
+{
+        if (dictionary == NULL) {
+                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        dsInternalDictionaryPrint(dictionary->internal);
+bail:
+        return;
+}
+
+extern void DSDictionaryPrintWithFunction(const DSDictionary *dictionary, const void * printFunction)
+{
+        if (dictionary == NULL) {
+                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        dsInternalDictionaryPrintWithFunction(dictionary->internal, printFunction);
+bail:
+        return;
+}
+
 
 
