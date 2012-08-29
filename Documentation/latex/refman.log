@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  17 FEB 2012 23:41
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  5 MAR 2012 11:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -727,28 +727,30 @@ File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
 
 
 Writing index file refman.idx
-(./refman.aux (./group___a___d_s___actions.aux)
-(./group___d_s_g_m_a_a_c_c_e_s_s_o_r_s.aux)
+(./refman.aux (./group___m___d_s___messages.aux)
+(./group___a___d_s___actions.aux) (./group___d_s_g_m_a_a_c_c_e_s_s_o_r_s.aux)
+(./group___d_s___i_o___t_a_g___t_y_p_e_s.aux)
 (./group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s.aux)
 (./group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s.aux)
 (./group___d_s_s_sys_a_c_c_e_s_s_o_r_s.aux)
 (./group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y.aux)
 (./unionparser__aux_1_1base__info.aux) (./structds__parallelstack__t.aux)
 (./struct_d_s_case.aux) (./struct_d_s_design_space.aux)
-(./struct_d_s_design_space_stack.aux) (./structdsexpression.aux)
+(./struct_d_s_dictionary.aux) (./structdsexpression.aux)
 (./struct_d_s_g_m_a_system.aux) (./struct_d_s_matrix.aux)
 (./struct_d_s_matrix_array.aux) (./struct_d_s_s_system.aux)
-(./struct_d_s_symbolic_matrix.aux) (./struct_d_s_variable.aux)
-(./struct_d_s_variable_pool.aux) (./struct_d_s_vertices.aux)
-(./structexpression__token.aux) (./structmatrix__token.aux)
-(./structparse__expression__s.aux) (./structparser__aux.aux)
-(./structpthread__struct.aux) (./unionv__token__data.aux)
-(./structvariable__token.aux) (./structyy__buffer__state.aux)
-(./structyy__trans__info.aux) (./structyyguts__t.aux)
-(./union_y_y_m_i_n_o_r_t_y_p_e.aux) (./structyy_parser.aux)
-(./structyy_stack_entry.aux) (./_d_s_design_space_8h.aux)
-(./_d_s_design_space_parallel_8c.aux) (./_d_s_design_space_parallel_8h.aux)
-(./_d_s_errors_8c.aux) (./_d_s_errors_8h.aux
+(./struct_d_s_stack.aux) (./struct_d_s_symbolic_matrix.aux)
+(./struct_d_s_variable.aux) (./struct_d_s_variable_pool.aux)
+(./struct_d_s_vertices.aux) (./structexpression__token.aux)
+(./structmatrix__token.aux) (./structparse__expression__s.aux)
+(./structparser__aux.aux) (./structpthread__struct.aux)
+(./unionv__token__data.aux) (./structvariable__token.aux)
+(./structyy__buffer__state.aux) (./structyy__trans__info.aux)
+(./structyyguts__t.aux) (./union_y_y_m_i_n_o_r_t_y_p_e.aux)
+(./structyy_parser.aux) (./structyy_stack_entry.aux)
+(./_d_s_design_space_8h.aux) (./_d_s_design_space_parallel_8c.aux)
+(./_d_s_design_space_parallel_8h.aux) (./_d_s_errors_8c.aux)
+(./_d_s_errors_8h.aux
 
 LaTeX Warning: Label `group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c
 167b' multiply defined.
@@ -837,7 +839,36 @@ LaTeX Warning: Label `group___d_s_g_m_a_a_c_c_e_s_s_o_r_s_gaf2a003c9d0cc443cb9d
 d89e1e722b6bb' multiply defined.
 
 ) (./_d_s_g_m_a_system_8h.aux) (./_d_s_g_m_a_system_parsing_aux_8h.aux)
-(./_d_s_i_o_8c.aux) (./_d_s_i_o_8h.aux
+(./_d_s_i_o_8c.aux
+
+LaTeX Warning: Label `group___d_s___i_o___t_a_g___t_y_p_e_s_gad9110308f40b701fa
+7a8ac65d48716c6' multiply defined.
+
+
+LaTeX Warning: Label `group___d_s___i_o___t_a_g___t_y_p_e_s_ga26f0a22ebdc3e22f4
+53d06fe231c3477' multiply defined.
+
+
+LaTeX Warning: Label `group___d_s___i_o___t_a_g___t_y_p_e_s_ga33b8d327f394e774d
+81e2702d27673ec' multiply defined.
+
+
+LaTeX Warning: Label `group___d_s___i_o___t_a_g___t_y_p_e_s_ga48168f56a3bd807c4
+f677f50236f3fd9' multiply defined.
+
+
+LaTeX Warning: Label `group___d_s___i_o___t_a_g___t_y_p_e_s_ga9e91e3c5dab3046aa
+518bf339e1f13e0' multiply defined.
+
+
+LaTeX Warning: Label `group___d_s___i_o___t_a_g___t_y_p_e_s_gab40a361af4d08bed8
+503c9a681f5a51a' multiply defined.
+
+
+LaTeX Warning: Label `group___d_s___i_o___t_a_g___t_y_p_e_s_ga4f6f8a8ee7b238729
+2daf78f6b5fe7ef' multiply defined.
+
+) (./_d_s_i_o_8h.aux
 
 LaTeX Warning: Label `group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s_gae22b11d
 61deb34f2a04597b5b52e0186' multiply defined.
@@ -1005,12 +1036,9 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 ]
-Underfull \vbox (badness 1389) has occurred while \output is active []
-
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 64.
- [2]
-[3]
+ [2] [3]
 Underfull \vbox (badness 1389) has occurred while \output is active []
 
  [4]
@@ -1066,8 +1094,8 @@ Chapter 4.
 LaTeX Warning: Reference `_d_s_case_8h' on page 7 undefined on input line 3.
 
 
-LaTeX Warning: Reference `_d_s_design_space_stack_8h' on page 7 undefined on in
-put line 8.
+LaTeX Warning: Reference `_d_s_dictionary_8h' on page 7 undefined on input line
+ 8.
 
 
 LaTeX Warning: Reference `_d_s_expression_grammar_8h' on page 7 undefined on in
@@ -1087,71 +1115,87 @@ LaTeX Warning: Reference `_d_s_s_system_grammar_8h' on page 8 undefined on inpu
 t line 32.
 
 
-LaTeX Warning: Reference `_d_s_subcase_8h' on page 8 undefined on input line 34
+LaTeX Warning: Reference `_d_s_stack_8h' on page 8 undefined on input line 33.
+
+
+LaTeX Warning: Reference `_d_s_subcase_8h' on page 8 undefined on input line 35
 .
 
 
 LaTeX Warning: Reference `_d_s_variable_grammar_8h' on page 8 undefined on inpu
-t line 39.
+t line 40.
 
 
 LaTeX Warning: Reference `_d_s_variable_tokenizer_8h' on page 8 undefined on in
-put line 41.
+put line 42.
 
 
 LaTeX Warning: Reference `_d_s_vertices_8h' on page 8 undefined on input line 4
-3.
+4.
 
 ) [8]
 Chapter 5.
-(./group___m___d_s___messages.tex
+(./group___d_s___d_i_c_t_i_o_n_a_r_y___a_c_c_e_s_s_o_r_y.tex
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
 LaTeX Font Info:    Try loading font information for TS1+ptm on input line 8.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [9
+)) [9
 
-]) [10]
+]
+\openout2 = `group___m___d_s___messages.aux'.
+
+
+(./group___m___d_s___messages.tex [10
+
+]) [11]
 \openout2 = `group___a___d_s___actions.aux'.
 
+ (./group___a___d_s___actions.tex)
+[12
 
-(./group___a___d_s___actions.tex) [11
 
 ]
 \openout2 = `group___d_s_g_m_a_a_c_c_e_s_s_o_r_s.aux'.
 
+ (./group___d_s_g_m_a_a_c_c_e_s_s_o_r_s.tex) [13
 
-(./group___d_s_g_m_a_a_c_c_e_s_s_o_r_s.tex) [12
+
+]
+\openout2 = `group___d_s___i_o___t_a_g___t_y_p_e_s.aux'.
+
+
+(./group___d_s___i_o___t_a_g___t_y_p_e_s.tex) [14
 
 
 ]
 \openout2 = `group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s.aux'.
 
 
-(./group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s.tex) [13
+(./group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s.tex) [15
 
 
 ]
 \openout2 = `group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s.aux'.
 
 
-(./group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s.tex) [14
+(./group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s.tex) [16
 
 
 ]
 \openout2 = `group___d_s_s_sys_a_c_c_e_s_s_o_r_s.aux'.
 
 
-(./group___d_s_s_sys_a_c_c_e_s_s_o_r_s.tex) [15
+(./group___d_s_s_sys_a_c_c_e_s_s_o_r_s.tex) [17
 
 
 ]
 \openout2 = `group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y.aux'.
 
 
-(./group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y.tex) [16
+(./group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y.tex) [18
 
 
 ]
@@ -1162,80 +1206,62 @@ LaTeX Font Info:    Try loading font information for T1+pcr on input line 12.
 (/usr/local/texlive/2010/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-Package epstopdf Info: Source file: <struct__var_dictionary__coll__graph.eps>
-(epstopdf)                    date: 2011-06-24 18:04:50
-(epstopdf)                    size: 6890 bytes
-(epstopdf)             Output file: <struct__var_dictionary__coll__graph-eps-co
-nverted-to.pdf>
-(epstopdf)                    date: 2011-06-24 18:16:39
-(epstopdf)                    size: 5559 bytes
-(epstopdf)             Command: <repstopdf --outfile=struct__var_dictionary__co
-ll__graph-eps-converted-to.pdf struct__var_dictionary__coll__graph.eps>
-(epstopdf)             \includegraphics on input line 20.
-Package epstopdf Info: Output file is already uptodate.
-
-<struct__var_dictionary__coll__graph-eps-converted-to.pdf, id=2233, 153.57375pt
- x 94.3525pt>
-File: struct__var_dictionary__coll__graph-eps-converted-to.pdf Graphic file (ty
-pe pdf)
- <use struct__var_dictionary__coll__graph-eps-converted-to.pdf>
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 45.
+(Font)              <9> on input line 38.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 45.
+(Font)              <6> on input line 38.
+) [19
 
-[17
 
-
- <./struct__var_dictionary__coll__graph-eps-converted-to.pdf>]) [18]
+] [20]
 \openout2 = `unionparser__aux_1_1base__info.aux'.
 
 
-(./unionparser__aux_1_1base__info.tex) [19
+(./unionparser__aux_1_1base__info.tex) [21
 
 ]
 \openout2 = `structds__parallelstack__t.aux'.
 
  (./structds__parallelstack__t.tex)
-[20
+[22
 
 
 ]
 \openout2 = `struct_d_s_case.aux'.
 
- (./struct_d_s_case.tex [21
+ (./struct_d_s_case.tex [23
 
 
-]) [22]
+]) [24]
 \openout2 = `struct_d_s_design_space.aux'.
 
- (./struct_d_s_design_space.tex) [23
+ (./struct_d_s_design_space.tex) [25
 
 
 ]
-\openout2 = `struct_d_s_design_space_stack.aux'.
+\openout2 = `struct_d_s_dictionary.aux'.
 
 
-(./struct_d_s_design_space_stack.tex) [24
+(./struct_d_s_dictionary.tex) [26
 
 
 ]
 \openout2 = `structdsexpression.aux'.
 
- (./structdsexpression.tex) [25
+ (./structdsexpression.tex) [27
 
 
 ]
 \openout2 = `struct_d_s_g_m_a_system.aux'.
 
 
-(./struct_d_s_g_m_a_system.tex) [26
+(./struct_d_s_g_m_a_system.tex) [28
 
 
 ]
 \openout2 = `struct_d_s_matrix.aux'.
 
- (./struct_d_s_matrix.tex) [27
+ (./struct_d_s_matrix.tex) [29
 
 
 ]
@@ -1243,152 +1269,141 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 (./struct_d_s_matrix_array.tex
-<struct_d_s_matrix_array__coll__graph.pdf, id=2453, 107.40125pt x 90.3375pt>
+<struct_d_s_matrix_array__coll__graph.pdf, id=2518, 107.40125pt x 90.3375pt>
 File: struct_d_s_matrix_array__coll__graph.pdf Graphic file (type pdf)
 
-<use struct_d_s_matrix_array__coll__graph.pdf>) [28
+<use struct_d_s_matrix_array__coll__graph.pdf>) [30
 
 
  <./struct_d_s_matrix_array__coll__graph.pdf>]
 \openout2 = `struct_d_s_s_system.aux'.
 
- (./struct_d_s_s_system.tex
-Package epstopdf Info: Source file: <struct_d_s_s_system__coll__graph.eps>
-(epstopdf)                    date: 2011-06-24 18:04:51
-(epstopdf)                    size: 6530 bytes
-(epstopdf)             Output file: <struct_d_s_s_system__coll__graph-eps-conve
-rted-to.pdf>
-(epstopdf)                    date: 2011-06-24 18:16:39
-(epstopdf)                    size: 5719 bytes
-(epstopdf)             Command: <repstopdf --outfile=struct_d_s_s_system__coll_
-_graph-eps-converted-to.pdf struct_d_s_s_system__coll__graph.eps>
-(epstopdf)             \includegraphics on input line 20.
-Package epstopdf Info: Output file is already uptodate.
-
-<struct_d_s_s_system__coll__graph-eps-converted-to.pdf, id=2472, 90.3375pt x 15
-0.5625pt>
-File: struct_d_s_s_system__coll__graph-eps-converted-to.pdf Graphic file (type 
-pdf)
- <use struct_d_s_s_system__coll__graph-eps-converted-to.pdf>) [29
+ (./struct_d_s_s_system.tex) [31
 
 
- <./struct_d_s_s_system__coll__graph-eps-converted-to.pdf>]
+]
+\openout2 = `struct_d_s_stack.aux'.
+
+ (./struct_d_s_stack.tex)
+[32
+
+
+]
 \openout2 = `struct_d_s_symbolic_matrix.aux'.
 
-
-(./struct_d_s_symbolic_matrix.tex) [30
+ (./struct_d_s_symbolic_matrix.tex) [33
 
 
 ]
 \openout2 = `struct_d_s_variable.aux'.
 
- (./struct_d_s_variable.tex) [31
+ (./struct_d_s_variable.tex)
+[34
 
 
 ]
 \openout2 = `struct_d_s_variable_pool.aux'.
 
-
-(./struct_d_s_variable_pool.tex) [32
+ (./struct_d_s_variable_pool.tex) [35
 
 
 ]
 \openout2 = `struct_d_s_vertices.aux'.
 
- (./struct_d_s_vertices.tex) [33
+ (./struct_d_s_vertices.tex) [36
 
 
 ]
 \openout2 = `structexpression__token.aux'.
 
 
-(./structexpression__token.tex) [34
+(./structexpression__token.tex) [37
 
 
 ]
 \openout2 = `structmatrix__token.aux'.
 
- (./structmatrix__token.tex) [35
+ (./structmatrix__token.tex) [38
 
 
 ]
 \openout2 = `structparse__expression__s.aux'.
 
 
-(./structparse__expression__s.tex) [36
+(./structparse__expression__s.tex) [39
 
 
 ]
 \openout2 = `structparser__aux.aux'.
 
- (./structparser__aux.tex) [37
+ (./structparser__aux.tex) [40
 
 
 ]
 \openout2 = `structpthread__struct.aux'.
 
 
-(./structpthread__struct.tex) [38
+(./structpthread__struct.tex) [41
 
 
 ]
 \openout2 = `unionv__token__data.aux'.
 
- (./unionv__token__data.tex) [39
+ (./unionv__token__data.tex) [42
 
 
 ]
 \openout2 = `structvariable__token.aux'.
 
 
-(./structvariable__token.tex) [40
+(./structvariable__token.tex) [43
 
 
 ]
 \openout2 = `structyy__buffer__state.aux'.
 
- (./structyy__buffer__state.tex) [41
+ (./structyy__buffer__state.tex) [44
 
 
 ]
 \openout2 = `structyy__trans__info.aux'.
 
 
-(./structyy__trans__info.tex) [42
+(./structyy__trans__info.tex) [45
 
 
 ]
 \openout2 = `structyyguts__t.aux'.
 
- (./structyyguts__t.tex) [43
+ (./structyyguts__t.tex) [46
 
 
 ]
 \openout2 = `union_y_y_m_i_n_o_r_t_y_p_e.aux'.
 
 
-(./union_y_y_m_i_n_o_r_t_y_p_e.tex) [44
+(./union_y_y_m_i_n_o_r_t_y_p_e.tex) [47
 
 
 ]
 \openout2 = `structyy_parser.aux'.
 
- (./structyy_parser.tex) [45
+ (./structyy_parser.tex) [48
 
 
 ]
 \openout2 = `structyy_stack_entry.aux'.
 
 
-(./structyy_stack_entry.tex) [46
+(./structyy_stack_entry.tex) [49
+
+
+] [50
 
 
 ]
 Chapter 7.
-(./_d_s_design_space_8c.tex [47
-
-
-]
+(./_d_s_design_space_8c.tex [51]
 Underfull \hbox (badness 1019) in paragraph at lines 101--103
 [][][]\T1/ptm/m/n/10 DSDesignSpace[][] $\OMS/cmsy/m/n/10 ^^C$ \T1/ptm/b/n/10 DS
 -De-signSpace-By-Pars-ingStrings \T1/ptm/m/n/10 (const [][]DSVari-able-Pool[][]
@@ -1402,7 +1417,7 @@ rIs-Valid \T1/ptm/m/n/10 (const [][]DS-De-signSpace[][] $\OMS/cmsy/m/n/10 ^^C$\
 T1/ptm/m/n/10 ds, const
  []
 
-[48]) [49]
+[52]) [53]
 \openout2 = `_d_s_design_space_8h.aux'.
 
  (./_d_s_design_space_8h.tex
@@ -1419,128 +1434,124 @@ rIs-Valid \T1/ptm/m/n/10 (const [][]DS-De-signSpace[][] $\OMS/cmsy/m/n/10 ^^C$\
 T1/ptm/m/n/10 ds, const
  []
 
-[50
+[54
 
-]) [51]
+]) [55]
 \openout2 = `_d_s_design_space_parallel_8c.aux'.
 
- (./_d_s_design_space_parallel_8c.tex [52
+ (./_d_s_design_space_parallel_8c.tex [56
 
 
-]) [53]
+]) [57]
 \openout2 = `_d_s_design_space_parallel_8h.aux'.
 
 
-(./_d_s_design_space_parallel_8h.tex [54
+(./_d_s_design_space_parallel_8h.tex [58
 
 
-]) [55]
+]) [59]
 \openout2 = `_d_s_errors_8c.aux'.
 
  (./_d_s_errors_8c.tex
-<_d_s_errors_8c__incl.pdf, id=2995, 395.4775pt x 190.7125pt>
+<_d_s_errors_8c__incl.pdf, id=3076, 395.4775pt x 190.7125pt>
 File: _d_s_errors_8c__incl.pdf Graphic file (type pdf)
 
-<use _d_s_errors_8c__incl.pdf> [56
+<use _d_s_errors_8c__incl.pdf> [60
 
 
  <./_d_s_errors_8c__incl.pdf>]
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10> not available
 (Font)              Font shape `T1/ptm/b/it' tried instead on input line 97.
- [57]) [58]
+ [61]) [62]
 \openout2 = `_d_s_errors_8h.aux'.
 
 
 (./_d_s_errors_8h.tex
-<_d_s_errors_8h__incl.pdf, id=3034, 268.00125pt x 134.5025pt>
+<_d_s_errors_8h__incl.pdf, id=3116, 268.00125pt x 134.5025pt>
 File: _d_s_errors_8h__incl.pdf Graphic file (type pdf)
 
-<use _d_s_errors_8h__incl.pdf>
-<_d_s_errors_8h__dep__incl.pdf, id=3035, 642.4pt x 134.5025pt>
-File: _d_s_errors_8h__dep__incl.pdf Graphic file (type pdf)
-
-<use _d_s_errors_8h__dep__incl.pdf>pdfTeX warning (ext4): destination with the 
-same identifier (name{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c
-167b}) has been already used, duplicate ignored
+<use _d_s_errors_8h__incl.pdf>pdfTeX warning (ext4): destination with the same 
+identifier (name{group___m___d_s___messages_gadd043ccc956aaee49b9c646f940c167b}
+) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.32 ...OFILE}~\char`\"{}File not found\char`\"{}}
+l.25 ...OFILE}~\char`\"{}File not found\char`\"{}}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___m___d_s___messages_ga0d502db70be06
 6b76fa94dc1eb9ef75c}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.37 ..._\-NULL}~\char`\"{}NULL pointer\char`\"{}}
+l.30 ..._\-NULL}~\char`\"{}NULL pointer\char`\"{}}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___m___d_s___messages_ga05191be522c29
 caa6f80baddfb2a109c}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.42 ...MAT}~\char`\"{}Format not known\char`\"{}}
+l.35 ...MAT}~\char`\"{}Format not known\char`\"{}}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___m___d_s___messages_ga33ff33533363f
 f94af03b832587f47c6}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.52 ...}~\char`\"{}Data already exists\char`\"{}}
+l.45 ...}~\char`\"{}Data already exists\char`\"{}}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___m___d_s___messages_ga47106b8852d8b
 aaf66a0e7f9bd67d36b}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.62 ...}~\char`\"{}Memory alloc failed\char`\"{}}
-                                                   [59
-
-
- <./_d_s_errors_8h__incl.pdf> <./_d_s_errors_8h__dep__incl.pdf>]pdfTeX warning 
-(ext4): destination with the same identifier (name{group___m___d_s___messages_g
-a79c48eacc7951aa68e4d094f0989faac}) has been already used, duplicate ignored
+l.55 ...}~\char`\"{}Memory alloc failed\char`\"{}}
+                                                  pdfTeX warning (ext4): destin
+ation with the same identifier (name{group___m___d_s___messages_ga79c48eacc7951
+aa68e4d094f0989faac}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.67 ...{}Functionality not implemented\char`\"{}}
+l.60 ...{}Functionality not implemented\char`\"{}}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___a___d_s___actions_ga83fd1c7379ac08
 5b8a9550b8d64f3449}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.77 ...5b8a9550b8d64f3449}{A\_\-DS\_\-NOERROR}~0}
-                                                  pdfTeX warning (ext4): destin
-ation with the same identifier (name{group___a___d_s___actions_gad61c12e433c47d
-a75f4322d9358c3617}) has been already used, duplicate ignored
+l.70 ...5b8a9550b8d64f3449}{A\_\-DS\_\-NOERROR}~0}
+                                                   [63
+
+
+ <./_d_s_errors_8h__incl.pdf>]pdfTeX warning (ext4): destination with the same 
+identifier (name{group___a___d_s___actions_gad61c12e433c47da75f4322d9358c3617})
+ has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.82 ...a75f4322d9358c3617}{A\_\-DS\_\-WARN}~-\/1}
+l.75 ...a75f4322d9358c3617}{A\_\-DS\_\-WARN}~-\/1}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___a___d_s___actions_gabaa9a22cc1abc7
 8916b99695489f8df8}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.87 ...916b99695489f8df8}{A\_\-DS\_\-ERROR}~-\/2}
+l.80 ...916b99695489f8df8}{A\_\-DS\_\-ERROR}~-\/2}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___a___d_s___actions_gad3e083f0c8d340
 73d3597724c2a264f6}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.92 ...3d3597724c2a264f6}{A\_\-DS\_\-FATAL}~-\/3}
+l.85 ...3d3597724c2a264f6}{A\_\-DS\_\-FATAL}~-\/3}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___a___d_s___actions_gafc6d540dbb27b6
 2f52427a845a33212f}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.97 ...12f}{A\_\-DS\_\-KILLNOW}~A\_\-DS\_\-FATAL}
+l.90 ...12f}{A\_\-DS\_\-KILLNOW}~A\_\-DS\_\-FATAL}
                                                   
-Underfull \hbox (badness 1881) in paragraph at lines 101--102
+Underfull \hbox (badness 1881) in paragraph at lines 94--95
 []\T1/ptm/m/n/10 #define [][]DSEr-ror[][](M_-DS_-Message, A_-DS_-Action) DSErro
 rFunction(M_-DS_-Message, A_-DS_-
  []
 
-[60]) [61]
+[64]) [65]
 \openout2 = `_d_s_expression_8c.aux'.
 
- (./_d_s_expression_8c.tex [62
+ (./_d_s_expression_8c.tex [66
 
 
-]) [63]
+]) [67]
 \openout2 = `_d_s_expression_8h.aux'.
 
  (./_d_s_expression_8h.tex
@@ -1557,13 +1568,13 @@ Underfull \hbox (badness 1043) in paragraph at lines 75--77
 BLE $\OMS/cmsy/m/n/10 j$$j$ \T1/ptm/m/n/10 x-
  []
 
-[64
+[68
 
 
-]) [65]
+]) [69]
 \openout2 = `_d_s_expression_tokenizer_lex_8c.aux'.
 
- (./_d_s_expression_tokenizer_lex_8c.tex [66
+ (./_d_s_expression_tokenizer_lex_8c.tex [70
 
 
 ]
@@ -1572,20 +1583,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 266--268
 essionFlex_-flush_-buffer(YY_-CURRENT_-BUFFER
  []
 
-[67]
+[71]
 Underfull \hbox (badness 2495) in paragraph at lines 497--499
 [][][]\T1/ptm/m/n/10 YY_-BUFFER_-STATE[][] [][]DSExpressionFlex_-scan_-buffer[]
 [] (char $\OMS/cmsy/m/n/10 ^^C$\T1/ptm/m/n/10 base, yy_-size_-t size, yyscan_-
  []
 
-[68] [69] [70] [71pdfTeX warning (ext4): destination with the same identifier (
+[72] [73] [74] [75pdfTeX warning (ext4): destination with the same identifier (
 name{_d_s_expression_tokenizer_lex_8c_ae65cb72d09db0abdc4b8e8c4d533ab14}) has b
 een already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.762 \begin{DoxyParams}{Parameters}
-                                    ] [72] [73] [74]) [75]
+                                    ] [76] [77] [78]) [79]
 \openout2 = `_d_s_g_m_a_system_8c.aux'.
 
 
@@ -1643,7 +1654,7 @@ ation with the same identifier (name{group___d_s_g_m_a_a_c_c_e_s_s_o_r_s_gaf2a0
 <to be read again> 
                    \relax 
 l.71 ...s DSGMASignature}(x)~((x)-\/$>$signature)}
-                                                   [76
+                                                   [80
 
 
 ]
@@ -1653,7 +1664,7 @@ G-MASys-tem-Neg-a-tiveT-erms-ForE-qua-tions \T1/ptm/m/n/10 (const [][]DS-G-MASy
 s-tem[][] $\OMS/cmsy/m/n/10 ^^C$\T1/ptm/m/n/10 gma,
  []
 
-) [77]
+) [81]
 \openout2 = `_d_s_g_m_a_system_8h.aux'.
 
  (./_d_s_g_m_a_system_8h.tex
@@ -1663,10 +1674,10 @@ G-MASys-tem-Neg-a-tiveT-erms-ForE-qua-tions \T1/ptm/m/n/10 (const [][]DS-G-MASy
 s-tem[][] $\OMS/cmsy/m/n/10 ^^C$\T1/ptm/m/n/10 gma,
  []
 
-[78
+[82
 
 
-]) [79]
+]) [83]
 \openout2 = `_d_s_g_m_a_system_parsing_aux_8h.aux'.
 
  (./_d_s_g_m_a_system_parsing_aux_8h.tex
@@ -1675,110 +1686,138 @@ Underfull \hbox (badness 10000) in paragraph at lines 57--59
 ble\T1/ptm/m/n/10 (x, y) (!is-
  []
 
-[80
+[84
 
 
-]) [81]
+]) [85]
 \openout2 = `_d_s_i_o_8c.aux'.
 
- (./_d_s_i_o_8c.tex
-<_d_s_i_o_8c__incl.pdf, id=3590, 317.185pt x 190.7125pt>
-File: _d_s_i_o_8c__incl.pdf Graphic file (type pdf)
+ (./_d_s_i_o_8c.texpdfTeX warning (ext4): destination with the same identifier 
+(name{group___d_s___i_o___t_a_g___t_y_p_e_s_gad9110308f40b701fa7a8ac65d4871\ETC
+.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.24 ...DSMatrix}$\backslash$\char`\"{}\char`\"{}}
+                                                  pdfTeX warning (ext4): destin
+ation with the same identifier (name{group___d_s___i_o___t_a_g___t_y_p_e_s_ga26
+f0a22ebdc3e22f453d06fe231c3\ETC.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.29 ...rixArray}$\backslash$\char`\"{}\char`\"{}}
+                                                  pdfTeX warning (ext4): destin
+ation with the same identifier (name{group___d_s___i_o___t_a_g___t_y_p_e_s_ga33
+b8d327f394e774d81e2702d2767\ETC.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.34 ...ablePool}$\backslash$\char`\"{}\char`\"{}}
+                                                  pdfTeX warning (ext4): destin
+ation with the same identifier (name{group___d_s___i_o___t_a_g___t_y_p_e_s_ga48
+168f56a3bd807c4f677f50236f3\ETC.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.39 ...ctionary}$\backslash$\char`\"{}\char`\"{}}
+                                                  pdfTeX warning (ext4): destin
+ation with the same identifier (name{group___d_s___i_o___t_a_g___t_y_p_e_s_ga9e
+91e3c5dab3046aa518bf339e1f1\ETC.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.44 ...SSSystem}$\backslash$\char`\"{}\char`\"{}}
+                                                  pdfTeX warning (ext4): destin
+ation with the same identifier (name{group___d_s___i_o___t_a_g___t_y_p_e_s_gab4
+0a361af4d08bed8503c9a681f5a\ETC.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.49 ...}{DSCase}$\backslash$\char`\"{}\char`\"{}}
+                                                  pdfTeX warning (ext4): destin
+ation with the same identifier (name{group___d_s___i_o___t_a_g___t_y_p_e_s_ga4f
+6f8a8ee7b2387292daf78f6b5fe\ETC.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.54 ...ignSpace}$\backslash$\char`\"{}\char`\"{}}
+                                                   [86
 
-<use _d_s_i_o_8c__incl.pdf> [82
 
-
- <./_d_s_i_o_8c__incl.pdf>] [83] [84] [85]
-[86]) [87]
+] [87] [88] [89] [90])
+[91]
 \openout2 = `_d_s_i_o_8h.aux'.
 
  (./_d_s_i_o_8h.tex
-<_d_s_i_o_8h__incl.pdf, id=3708, 290.08376pt x 190.7125pt>
+<_d_s_i_o_8h__incl.pdf, id=3786, 290.08376pt x 190.7125pt>
 File: _d_s_i_o_8h__incl.pdf Graphic file (type pdf)
 
-<use _d_s_i_o_8h__incl.pdf>
-<_d_s_i_o_8h__dep__incl.pdf, id=3709, 675.52374pt x 190.7125pt>
-File: _d_s_i_o_8h__dep__incl.pdf Graphic file (type pdf)
-
-<use _d_s_i_o_8h__dep__incl.pdf>pdfTeX warning (ext4): destination with the sam
-e identifier (name{group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s_gae22b11d61d
-eb34f2a04\ETC.}) has been already used, duplicate ignored
+<use _d_s_i_o_8h__incl.pdf>pdfTeX warning (ext4): destination with the same ide
+ntifier (name{group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s_gae22b11d61deb34f
+2a04\ETC.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.30 ...6}{DS\_\-CASE\_\-JSON\_\-NO\_\-SSYSTEM}~1}
+l.23 ...6}{DS\_\-CASE\_\-JSON\_\-NO\_\-SSYSTEM}~1}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_
 o_n_s_gaae3a87d36892fd5744e\ETC.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.35 ...ASE\_\-JSON\_\-NO\_\-CASE\_\-SIGNATURE}~2}
+l.28 ...ASE\_\-JSON\_\-NO\_\-CASE\_\-SIGNATURE}~2}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_
 o_n_s_ga43b67d5fc5384d7f112\ETC.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.40 ...DS\_\-CASE\_\-JSON\_\-NO\_\-CONDITIONS}~4}
+l.33 ...DS\_\-CASE\_\-JSON\_\-NO\_\-CONDITIONS}~4}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_
 p_t_i_o_n_s_gade5134b08dd7f\ETC.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.45 ...S\_\-SSYSTEM\_\-JSON\_\-NO\_\-SOLUTION}~1}
+l.38 ...S\_\-SSYSTEM\_\-JSON\_\-NO\_\-SOLUTION}~1}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_
 p_t_i_o_n_s_ga81352fdd00a52\ETC.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.50 ...S\_\-SSYSTEM\_\-JSON\_\-NO\_\-SINGULAR}~2}
-                                                   [88
+l.43 ...S\_\-SSYSTEM\_\-JSON\_\-NO\_\-SINGULAR}~2}
+                                                   [92
 
 
- <./_d_s_i_o_8h__incl.pdf> <./_d_s_i_o_8h__dep__incl.pdf>] [89] [90] [91] [92] 
-[93] [94]) [95]
+ <./_d_s_i_o_8h__incl.pdf>] [93] [94] [95] [96] [97] [98]) [99]
 \openout2 = `_d_s_matrix_8h.aux'.
 
-
-(./_d_s_matrix_8h.tex
-<_d_s_matrix_8h__incl.pdf, id=3857, 238.8925pt x 134.5025pt>
+ (./_d_s_matrix_8h.tex
+<_d_s_matrix_8h__incl.pdf, id=3927, 238.8925pt x 134.5025pt>
 File: _d_s_matrix_8h__incl.pdf Graphic file (type pdf)
 
-<use _d_s_matrix_8h__incl.pdf>
-<_d_s_matrix_8h__dep__incl.pdf, id=3858, 342.27875pt x 134.5025pt>
-File: _d_s_matrix_8h__dep__incl.pdf Graphic file (type pdf)
-
-<use _d_s_matrix_8h__dep__incl.pdf>pdfTeX warning (ext4): destination with the 
-same identifier (name{group___m___d_s___messages_gad80933e02bded8d239593be18ed3
-dea9}) has been already used, duplicate ignored
+<use _d_s_matrix_8h__incl.pdf>pdfTeX warning (ext4): destination with the same 
+identifier (name{group___m___d_s___messages_gad80933e02bded8d239593be18ed3dea9}
+) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.29 ...r`\"{}Pointer to matrix is NULL\char`\"{}}
+l.22 ...r`\"{}Pointer to matrix is NULL\char`\"{}}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___m___d_s___messages_gaeb861d5820b98
 4719e6f2ff0ed0d66d5}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.34 ...\"{}Row or column out of bounds\char`\"{}}
+l.27 ...\"{}Row or column out of bounds\char`\"{}}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___m___d_s___messages_ga834bdead8f9b0
 e20331b57e051c7f379}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.39 ...~\char`\"{}Matrix data is empty\char`\"{}}
-                                                   [96
+l.32 ...~\char`\"{}Matrix data is empty\char`\"{}}
+                                                   [100
 
 
- <./_d_s_matrix_8h__incl.pdf> <./_d_s_matrix_8h__dep__incl.pdf>] [97]
-Underfull \hbox (badness 8094) in paragraph at lines 201--203
+ <./_d_s_matrix_8h__incl.pdf>] [101]
+Underfull \hbox (badness 8094) in paragraph at lines 194--196
 [][][]\T1/ptm/m/n/10 DSMatrix[][] $\OMS/cmsy/m/n/10 ^^C$ \T1/ptm/b/n/10 DS-Ma-t
 rixAp-pend-Ma-tri-ces \T1/ptm/m/n/10 (const [][]DS-Ma-trix[][] $\OMS/cmsy/m/n/1
 0 ^^C$\T1/ptm/m/n/10 firstMatrix, const [][]DS-Ma-trix[][]
  []
 
-[98] [99] [100] [101] [102]) [103]
+[102] [103] [104] [105]) [106]
 \openout2 = `_d_s_matrix__gsl_8c.aux'.
 
  (./_d_s_matrix__gsl_8c.tex
-<_d_s_matrix__gsl_8c__incl.pdf, id=4119, 684.5575pt x 303.1325pt>
+<_d_s_matrix__gsl_8c__incl.pdf, id=4180, 684.5575pt x 303.1325pt>
 File: _d_s_matrix__gsl_8c__incl.pdf Graphic file (type pdf)
 
 <use _d_s_matrix__gsl_8c__incl.pdf>
@@ -1794,69 +1833,69 @@ incl-eps-converted-to.pdf _d_s_matrix__gsl_8c__dep__incl.eps>
 (epstopdf)             \includegraphics on input line 33.
 Package epstopdf Info: Output file is already uptodate.
 
-<_d_s_matrix__gsl_8c__dep__incl-eps-converted-to.pdf, id=4120, 128.48pt x 22.08
+<_d_s_matrix__gsl_8c__dep__incl-eps-converted-to.pdf, id=4181, 128.48pt x 22.08
 25pt>
 File: _d_s_matrix__gsl_8c__dep__incl-eps-converted-to.pdf Graphic file (type pd
 f)
- <use _d_s_matrix__gsl_8c__dep__incl-eps-converted-to.pdf> [104
+ <use _d_s_matrix__gsl_8c__dep__incl-eps-converted-to.pdf> [107
 
 
  <./_d_s_matrix__gsl_8c__incl.pdf> <./_d_s_matrix__gsl_8c__dep__incl-eps-conver
-ted-to.pdf>] [105]
+ted-to.pdf>] [108]
 Underfull \hbox (badness 8094) in paragraph at lines 190--192
 [][][]\T1/ptm/m/n/10 DSMatrix[][] $\OMS/cmsy/m/n/10 ^^C$ \T1/ptm/b/n/10 DS-Ma-t
 rixAp-pend-Ma-tri-ces \T1/ptm/m/n/10 (const [][]DS-Ma-trix[][] $\OMS/cmsy/m/n/1
 0 ^^C$\T1/ptm/m/n/10 firstMatrix, const [][]DS-Ma-trix[][]
  []
 
-[106] [107] [108] [109] [110]) [111]
+[109] [110] [111] [112] [113]) [114]
 \openout2 = `_d_s_matrix_array_8c.aux'.
 
  (./_d_s_matrix_array_8c.tex
-<_d_s_matrix_array_8c__incl.pdf, id=4378, 353.32pt x 303.1325pt>
+<_d_s_matrix_array_8c__incl.pdf, id=4439, 353.32pt x 303.1325pt>
 File: _d_s_matrix_array_8c__incl.pdf Graphic file (type pdf)
 
-<use _d_s_matrix_array_8c__incl.pdf> [112
+<use _d_s_matrix_array_8c__incl.pdf> [115
 
 
  <./_d_s_matrix_array_8c__incl.pdf>]
-[113]) [114]
+[116]) [117]
 \openout2 = `_d_s_matrix_array_8h.aux'.
 
  (./_d_s_matrix_array_8h.tex
-<_d_s_matrix_array_8h__incl.pdf, id=4455, 317.185pt x 190.7125pt>
+<_d_s_matrix_array_8h__incl.pdf, id=4515, 317.185pt x 190.7125pt>
 File: _d_s_matrix_array_8h__incl.pdf Graphic file (type pdf)
 
 <use _d_s_matrix_array_8h__incl.pdf>
-<_d_s_matrix_array_8h__dep__incl.pdf, id=4456, 220.825pt x 78.2925pt>
+<_d_s_matrix_array_8h__dep__incl.pdf, id=4516, 220.825pt x 78.2925pt>
 File: _d_s_matrix_array_8h__dep__incl.pdf Graphic file (type pdf)
 
-<use _d_s_matrix_array_8h__dep__incl.pdf> [115
+<use _d_s_matrix_array_8h__dep__incl.pdf> [118
 
 
  <./_d_s_matrix_array_8h__incl.pdf> <./_d_s_matrix_array_8h__dep__incl.pdf>] [1
-16]) [117]
+19]) [120]
 \openout2 = `_d_s_matrix_tokenizer_8c.aux'.
 
 
-(./_d_s_matrix_tokenizer_8c.tex) [118
+(./_d_s_matrix_tokenizer_8c.tex) [121
 
 
 ]
 \openout2 = `_d_s_matrix_tokenizer_8h.aux'.
 
- (./_d_s_matrix_tokenizer_8h.tex [119
+ (./_d_s_matrix_tokenizer_8h.tex [122
 
 
 ])
-[120]
+[123]
 \openout2 = `_d_s_matrix_tokenizer_lex_8c.aux'.
 
- (./_d_s_matrix_tokenizer_lex_8c.tex [121
+ (./_d_s_matrix_tokenizer_lex_8c.tex [124
 
 
-] [122] [123] [124] [125]
-[126pdfTeX warning (ext4): destination with the same identifier (name{_d_s_matr
+] [125] [126] [127] [128]
+[129pdfTeX warning (ext4): destination with the same identifier (name{_d_s_matr
 ix_tokenizer_lex_8c_ae65cb72d09db0abdc4b8e8c4d533ab14}) has been already used, 
 duplicate ignored
 
@@ -1864,55 +1903,45 @@ duplicate ignored
                                                   \fi \fi 
 l.758 ...e}]the character buffer \item[{\em size}]
                                                   the size in bytes of the c...
-] [127] [128] [129]) [130]
+] [130] [131] [132]) [133]
 \openout2 = `_d_s_memory_manager_8c.aux'.
 
  (./_d_s_memory_manager_8c.tex
-<_d_s_memory_manager_8c__incl.pdf, id=4793, 348.30125pt x 246.9225pt>
+<_d_s_memory_manager_8c__incl.pdf, id=4855, 348.30125pt x 246.9225pt>
 File: _d_s_memory_manager_8c__incl.pdf Graphic file (type pdf)
 
-<use _d_s_memory_manager_8c__incl.pdf> [131
+<use _d_s_memory_manager_8c__incl.pdf> [134
 
 
- <./_d_s_memory_manager_8c__incl.pdf>] [132]) [133]
+ <./_d_s_memory_manager_8c__incl.pdf>] [135]) [136]
 \openout2 = `_d_s_memory_manager_8h.aux'.
 
  (./_d_s_memory_manager_8h.tex
-<_d_s_memory_manager_8h__incl.pdf, id=4822, 272.01625pt x 190.7125pt>
+<_d_s_memory_manager_8h__incl.pdf, id=4883, 272.01625pt x 190.7125pt>
 File: _d_s_memory_manager_8h__incl.pdf Graphic file (type pdf)
 
-<use _d_s_memory_manager_8h__incl.pdf>
-<_d_s_memory_manager_8h__dep__incl.pdf, id=4823, 642.4pt x 78.2925pt>
-File: _d_s_memory_manager_8h__dep__incl.pdf Graphic file (type pdf)
-
-<use _d_s_memory_manager_8h__dep__incl.pdf> [134
+<use _d_s_memory_manager_8h__incl.pdf> [137
 
 
- <./_d_s_memory_manager_8h__incl.pdf> <./_d_s_memory_manager_8h__dep__incl.pdf>
-] [135]) [136]
+ <./_d_s_memory_manager_8h__incl.pdf>] [138]) [139]
 \openout2 = `_d_s_s_system_8h.aux'.
 
+ (./_d_s_s_system_8h.tex [140
 
-(./_d_s_s_system_8h.tex [137
 
-
-]) [138]
+]) [141]
 \openout2 = `_d_s_std_8h.aux'.
 
  (./_d_s_std_8h.tex
-<_d_s_std_8h__incl.pdf, id=4964, 511.9125pt x 303.1325pt>
-File: _d_s_std_8h__incl.pdf Graphic file (type pdf)
-
-<use _d_s_std_8h__incl.pdf> [139
+[142
 
 
- <./_d_s_std_8h__incl.pdf>]) [140]
+]) [143]
 \openout2 = `_d_s_symbolic_matrix_8h.aux'.
 
-
-(./_d_s_symbolic_matrix_8h.texpdfTeX warning (ext4): destination with the same 
-identifier (name{group___m___d_s___messages_gab1c842ea678de8daa76a55fc68750d5e}
-) has been already used, duplicate ignored
+ (./_d_s_symbolic_matrix_8h.texpdfTeX warning (ext4): destination with the same
+ identifier (name{group___m___d_s___messages_gab1c842ea678de8daa76a55fc68750d5e
+}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.17 ...nter to symbolic matrix is NULL\char`\"{}}
@@ -1949,131 +1978,116 @@ Underfull \hbox (badness 2521) in paragraph at lines 60--62
 const
  []
 
-[141
+[144
 
 
-]) [142]
+]) [145]
 \openout2 = `_d_s_types_8h.aux'.
 
  (./_d_s_types_8h.tex
-<_d_s_types_8h__incl.pdf, id=5033, 238.8925pt x 78.2925pt>
+<_d_s_types_8h__incl.pdf, id=5082, 238.8925pt x 78.2925pt>
 File: _d_s_types_8h__incl.pdf Graphic file (type pdf)
 
-<use _d_s_types_8h__incl.pdf>
-<_d_s_types_8h__dep__incl.pdf, id=5034, 817.0525pt x 246.9225pt>
-File: _d_s_types_8h__dep__incl.pdf Graphic file (type pdf)
-
-<use _d_s_types_8h__dep__incl.pdf> [143
+<use _d_s_types_8h__incl.pdf> [146
 
 
- <./_d_s_types_8h__incl.pdf> <./_d_s_types_8h__dep__incl.pdf>]
-Underfull \hbox (badness 2213) in paragraph at lines 97--102
+ <./_d_s_types_8h__incl.pdf>]
+Underfull \hbox (badness 2213) in paragraph at lines 94--99
 []\T1/ptm/m/n/10 enum [][]DSVari-able-Pool-Lock[][] { [][]DSLock-Read-WriteAdd[
 ][], [][]DSLock-Read-Write[][], [][]DSLock-Read-Only[][],
  []
 
-[144] [145]) [146]
+[147] [148]) [149]
 \openout2 = `_d_s_variable_8c.aux'.
 
- (./_d_s_variable_8c.tex
-<_d_s_variable_8c__incl.pdf, id=5106, 479.7925pt x 246.9225pt>
-File: _d_s_variable_8c__incl.pdf Graphic file (type pdf)
-
-<use _d_s_variable_8c__incl.pdf> [147
+ (./_d_s_variable_8c.tex [150
 
 
- <./_d_s_variable_8c__incl.pdf>] [148]
-[149] [150] [151] [152] [153]) [154]
+] [151] [152] [153] [154]
+[155] [156]) [157]
 \openout2 = `_d_s_variable_8h.aux'.
 
- (./_d_s_variable_8h.tex
-<_d_s_variable_8h__incl.pdf, id=5320, 268.00125pt x 134.5025pt>
-File: _d_s_variable_8h__incl.pdf Graphic file (type pdf)
-
-<use _d_s_variable_8h__incl.pdf>
-<_d_s_variable_8h__dep__incl.pdf, id=5321, 180.675pt x 78.2925pt>
-File: _d_s_variable_8h__dep__incl.pdf Graphic file (type pdf)
-
-<use _d_s_variable_8h__dep__incl.pdf>pdfTeX warning (ext4): destination with th
-e same identifier (name{group___m___d_s___messages_gac31f10e693824b630ea7bd80f5
-9acadf}) has been already used, duplicate ignored
+ (./_d_s_variable_8h.texpdfTeX warning (ext4): destination with the same identi
+fier (name{group___m___d_s___messages_gac31f10e693824b630ea7bd80f59acadf}) has 
+been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.47 ...har`\"{}: Variable Pool is NULL\char`\"{}}
+l.34 ...har`\"{}: Variable Pool is NULL\char`\"{}}
                                                   pdfTeX warning (ext4): destin
 ation with the same identifier (name{group___m___d_s___messages_gaa3430366ad7be
 eafb53737b0174c5a0b}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.52 ...lePool: Insufficient priviliges\char`\"{}}
-                                                   [155
+l.39 ...lePool: Insufficient priviliges\char`\"{}}
+                                                   [158
 
 
- <./_d_s_variable_8h__incl.pdf> <./_d_s_variable_8h__dep__incl.pdf>] [156] [157
-] [158] [159] [160]
-[161]) [162]
+] [159] [160] [161]
+[162] [163] [164]) [165]
 \openout2 = `_d_s_variable_tokenizer_8c.aux'.
 
- (./_d_s_variable_tokenizer_8c.tex) [163
+ (./_d_s_variable_tokenizer_8c.tex) [166
 
 
 ]
 \openout2 = `_d_s_variable_tokenizer_lex_8c.aux'.
 
 
-(./_d_s_variable_tokenizer_lex_8c.tex [164
+(./_d_s_variable_tokenizer_lex_8c.tex [167
 
 
-] [165] [166] [167] [168] [169pdfTeX warning (ext4): destination with the same 
+] [168] [169] [170] [171] [172pdfTeX warning (ext4): destination with the same 
 identifier (name{_d_s_variable_tokenizer_lex_8c_ae65cb72d09db0abdc4b8e8c4d533ab
 14}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.777 \begin{DoxyParams}{Parameters}
-                                    ] [170] [171] [172] [173]) [174]
-(./refman.ind [175
+                                    ] [173] [174] [175] [176]) [177]
+(./refman.ind [178
 
 
-] [176] [177] [178] [179] [180])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 133.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 133.
+] [179] [180] [181] [182] [183])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 136.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 136.
  (./refman.aux
-(./group___a___d_s___actions.aux) (./group___d_s_g_m_a_a_c_c_e_s_s_o_r_s.aux)
+(./group___m___d_s___messages.aux) (./group___a___d_s___actions.aux)
+(./group___d_s_g_m_a_a_c_c_e_s_s_o_r_s.aux)
+(./group___d_s___i_o___t_a_g___t_y_p_e_s.aux)
 (./group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s.aux)
 (./group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s.aux)
 (./group___d_s_s_sys_a_c_c_e_s_s_o_r_s.aux)
 (./group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y.aux)
 (./unionparser__aux_1_1base__info.aux) (./structds__parallelstack__t.aux)
 (./struct_d_s_case.aux) (./struct_d_s_design_space.aux)
-(./struct_d_s_design_space_stack.aux) (./structdsexpression.aux)
+(./struct_d_s_dictionary.aux) (./structdsexpression.aux)
 (./struct_d_s_g_m_a_system.aux) (./struct_d_s_matrix.aux)
 (./struct_d_s_matrix_array.aux) (./struct_d_s_s_system.aux)
-(./struct_d_s_symbolic_matrix.aux) (./struct_d_s_variable.aux)
-(./struct_d_s_variable_pool.aux) (./struct_d_s_vertices.aux)
-(./structexpression__token.aux) (./structmatrix__token.aux)
-(./structparse__expression__s.aux) (./structparser__aux.aux)
-(./structpthread__struct.aux) (./unionv__token__data.aux)
-(./structvariable__token.aux) (./structyy__buffer__state.aux)
-(./structyy__trans__info.aux) (./structyyguts__t.aux)
-(./union_y_y_m_i_n_o_r_t_y_p_e.aux) (./structyy_parser.aux)
-(./structyy_stack_entry.aux) (./_d_s_design_space_8h.aux)
-(./_d_s_design_space_parallel_8c.aux) (./_d_s_design_space_parallel_8h.aux)
-(./_d_s_errors_8c.aux) (./_d_s_errors_8h.aux) (./_d_s_expression_8c.aux)
-(./_d_s_expression_8h.aux) (./_d_s_expression_tokenizer_lex_8c.aux)
-(./_d_s_g_m_a_system_8c.aux) (./_d_s_g_m_a_system_8h.aux)
-(./_d_s_g_m_a_system_parsing_aux_8h.aux) (./_d_s_i_o_8c.aux) (./_d_s_i_o_8h.aux
-) (./_d_s_matrix_8h.aux) (./_d_s_matrix__gsl_8c.aux)
-(./_d_s_matrix_array_8c.aux) (./_d_s_matrix_array_8h.aux)
-(./_d_s_matrix_tokenizer_8c.aux) (./_d_s_matrix_tokenizer_8h.aux)
-(./_d_s_matrix_tokenizer_lex_8c.aux) (./_d_s_memory_manager_8c.aux)
-(./_d_s_memory_manager_8h.aux) (./_d_s_s_system_8h.aux) (./_d_s_std_8h.aux)
-(./_d_s_symbolic_matrix_8h.aux) (./_d_s_types_8h.aux) (./_d_s_variable_8c.aux)
-(./_d_s_variable_8h.aux) (./_d_s_variable_tokenizer_8c.aux)
-(./_d_s_variable_tokenizer_lex_8c.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 133.
+(./struct_d_s_stack.aux) (./struct_d_s_symbolic_matrix.aux)
+(./struct_d_s_variable.aux) (./struct_d_s_variable_pool.aux)
+(./struct_d_s_vertices.aux) (./structexpression__token.aux)
+(./structmatrix__token.aux) (./structparse__expression__s.aux)
+(./structparser__aux.aux) (./structpthread__struct.aux)
+(./unionv__token__data.aux) (./structvariable__token.aux)
+(./structyy__buffer__state.aux) (./structyy__trans__info.aux)
+(./structyyguts__t.aux) (./union_y_y_m_i_n_o_r_t_y_p_e.aux)
+(./structyy_parser.aux) (./structyy_stack_entry.aux)
+(./_d_s_design_space_8h.aux) (./_d_s_design_space_parallel_8c.aux)
+(./_d_s_design_space_parallel_8h.aux) (./_d_s_errors_8c.aux)
+(./_d_s_errors_8h.aux) (./_d_s_expression_8c.aux) (./_d_s_expression_8h.aux)
+(./_d_s_expression_tokenizer_lex_8c.aux) (./_d_s_g_m_a_system_8c.aux)
+(./_d_s_g_m_a_system_8h.aux) (./_d_s_g_m_a_system_parsing_aux_8h.aux)
+(./_d_s_i_o_8c.aux) (./_d_s_i_o_8h.aux) (./_d_s_matrix_8h.aux)
+(./_d_s_matrix__gsl_8c.aux) (./_d_s_matrix_array_8c.aux)
+(./_d_s_matrix_array_8h.aux) (./_d_s_matrix_tokenizer_8c.aux)
+(./_d_s_matrix_tokenizer_8h.aux) (./_d_s_matrix_tokenizer_lex_8c.aux)
+(./_d_s_memory_manager_8c.aux) (./_d_s_memory_manager_8h.aux)
+(./_d_s_s_system_8h.aux) (./_d_s_std_8h.aux) (./_d_s_symbolic_matrix_8h.aux)
+(./_d_s_types_8h.aux) (./_d_s_variable_8c.aux) (./_d_s_variable_8h.aux)
+(./_d_s_variable_tokenizer_8c.aux) (./_d_s_variable_tokenizer_lex_8c.aux))
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 136.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: 0E2CE527EFB6AE79C22E6C3143628855;65247.
+(rerunfilecheck)             Checksum: 982C4A96AB23C41DB2CF9B3145E324ED;66716.
 
 
 LaTeX Warning: There were undefined references.
@@ -2083,13 +2097,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 12864 strings out of 493747
- 292908 string characters out of 3143546
- 288875 words of memory out of 3000000
- 13639 multiletter control sequences out of 15000+200000
+ 12890 strings out of 493747
+ 294068 string characters out of 3143546
+ 290655 words of memory out of 3000000
+ 13622 multiletter control sequences out of 15000+200000
  48884 words of font info for 55 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 42i,12n,58p,896b,522s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,13n,58p,896b,522s stack positions out of 5000i,500n,10000p,200000b,50000s
 pdfTeX warning (dest): name{structexpression__token_aee90379adb0307effb138f48
 71edbc5c} has been referenced but does not exist, replaced by a fixed one
 
@@ -2113,10 +2127,10 @@ dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts
 /type1/urw/times/utmbi8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/ur
 w/times/utmr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/times/ut
 mri8a.pfb>
-Output written on refman.pdf (194 pages, 655540 bytes).
+Output written on refman.pdf (197 pages, 620016 bytes).
 PDF statistics:
- 6698 PDF objects out of 7423 (max. 8388607)
- 6378 compressed objects within 64 object streams
- 1833 named destinations out of 2073 (max. 500000)
- 3014 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6751 PDF objects out of 7423 (max. 8388607)
+ 6451 compressed objects within 65 object streams
+ 1867 named destinations out of 2073 (max. 500000)
+ 3018 words of extra memory for PDF output out of 10000 (max. 10000000)
 

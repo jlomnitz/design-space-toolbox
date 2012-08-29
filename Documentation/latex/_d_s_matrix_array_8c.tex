@@ -1,0 +1,145 @@
+\hypertarget{_d_s_matrix_array_8c}{
+\section{DSMatrixArray.c File Reference}
+\label{_d_s_matrix_array_8c}\index{DSMatrixArray.c@{DSMatrixArray.c}}
+}
+
+
+Implementation file with functions for dealing with matrix arrays.  
+
+
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include \char`\"{}DSMatrixArray.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
+Include dependency graph for DSMatrixArray.c:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{_d_s_matrix_array_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$ \hyperlink{_d_s_matrix_array_8c_ac28a8d64f99862378acc435e54c91c53}{DSMatrixArrayAlloc} (void)
+\begin{DoxyCompactList}\small\item\em Memory allocation for a \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. \item\end{DoxyCompactList}\item 
+\hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$ \hyperlink{_d_s_matrix_array_8c_a694f4a21842a5e5bda0f4bdcb2e56626}{DSMatrixArrayCopy} (const \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$array)
+\begin{DoxyCompactList}\small\item\em Copies a \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_matrix_array_8c_a99f7d3e74613f43f22d8faa4bed25d1a}{DSMatrixArrayFree} (\hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$array)
+\begin{DoxyCompactList}\small\item\em Freeing memory for \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. \item\end{DoxyCompactList}\item 
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ \hyperlink{_d_s_matrix_array_8c_a4d9a430514e9384eea4a35ca826717c1}{DSMatrixArrayMatrix} (const \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$array, const DSUInteger index)
+\begin{DoxyCompactList}\small\item\em Function to access a matrix in the \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_matrix_array_8c_a91dd77e0cd7cff2173b6bfce9b9e7f4f}{DSMatrixArrayAddMatrix} (\hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$array, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrixToAdd)
+\begin{DoxyCompactList}\small\item\em Function to add a new matrix to the \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_matrix_array_8c_a78218c70cec38b886d663ad05c7031cf}{
+double {\bfseries DSMatrixArrayDoubleWithIndices} (const \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$array, const DSUInteger i, const DSUInteger j, const DSUInteger k)}
+\label{_d_s_matrix_array_8c_a78218c70cec38b886d663ad05c7031cf}
+
+\item 
+\hypertarget{_d_s_matrix_array_8c_ad4998c91be723d705130e33c3f554e14}{
+void {\bfseries DSMatrixArrayPrint} (const \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$array)}
+\label{_d_s_matrix_array_8c_ad4998c91be723d705130e33c3f554e14}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file with functions for dealing with matrix arrays. Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{_d_s_matrix_array_8c_a91dd77e0cd7cff2173b6bfce9b9e7f4f}{
+\index{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}}
+\index{DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}!DSMatrixArray.c@{DSMatrixArray.c}}
+\subsubsection[{DSMatrixArrayAddMatrix}]{\setlength{\rightskip}{0pt plus 5cm}void DSMatrixArrayAddMatrix ({\bf DSMatrixArray} $\ast$ {\em array}, \/  const {\bf DSMatrix} $\ast$ {\em matrixToAdd})}}
+\label{_d_s_matrix_array_8c_a91dd77e0cd7cff2173b6bfce9b9e7f4f}
+
+
+Function to add a new matrix to the \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. 
+
+This function is the standard mechanism to add a \hyperlink{struct_d_s_matrix}{DSMatrix} to a \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. This function allocates the necessary space in the internal C array, and adds the \hyperlink{struct_d_s_matrix}{DSMatrix} to the end of the array. Once added to the matrix array, the memory is managed by the matrix array and is freed upon calling DSMatrixArrayFree.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em array}]The \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} that will have a new matrix added. \item[{\em matrixToAdd}]The \hyperlink{struct_d_s_matrix}{DSMatrix} to be added to the matrix array. \end{DoxyParams}
+\hypertarget{_d_s_matrix_array_8c_ac28a8d64f99862378acc435e54c91c53}{
+\index{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayAlloc@{DSMatrixArrayAlloc}}
+\index{DSMatrixArrayAlloc@{DSMatrixArrayAlloc}!DSMatrixArray.c@{DSMatrixArray.c}}
+\subsubsection[{DSMatrixArrayAlloc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSMatrixArray}$\ast$ DSMatrixArrayAlloc (void)}}
+\label{_d_s_matrix_array_8c_ac28a8d64f99862378acc435e54c91c53}
+
+
+Memory allocation for a \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. 
+
+Creates a new \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} with no matrices. As matrices are added, the matrix array grows, therefore the matrix array is initialized to 0, with a NULL internal pointer and number of matrices set to 0.
+
+\begin{DoxyReturn}{Returns}
+If the matrix array was created, a new pointer to a \hyperlink{struct_d_s_matrix}{DSMatrix} is returned. Otherwise, NULL is returned. 
+\end{DoxyReturn}
+\hypertarget{_d_s_matrix_array_8c_a694f4a21842a5e5bda0f4bdcb2e56626}{
+\index{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayCopy@{DSMatrixArrayCopy}}
+\index{DSMatrixArrayCopy@{DSMatrixArrayCopy}!DSMatrixArray.c@{DSMatrixArray.c}}
+\subsubsection[{DSMatrixArrayCopy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSMatrixArray}$\ast$ DSMatrixArrayCopy (const {\bf DSMatrixArray} $\ast$ {\em array})}}
+\label{_d_s_matrix_array_8c_a694f4a21842a5e5bda0f4bdcb2e56626}
+
+
+Copies a \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. 
+
+Creates a new \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} with the exact same data and contents as some other matrix array. The matrices in the new \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} are copies of the matrices in the original matrix array.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em array}]The \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} to be copied.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If the copy was succesful, a pointer to a copy of the \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} is returned. Otherwise, NULL is returned.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_matrix__gsl_8c_a6d0f0f74bdd85829ba07dd33f51cfa11}{DSMatrixCopy} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_matrix_array_8c_a99f7d3e74613f43f22d8faa4bed25d1a}{
+\index{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayFree@{DSMatrixArrayFree}}
+\index{DSMatrixArrayFree@{DSMatrixArrayFree}!DSMatrixArray.c@{DSMatrixArray.c}}
+\subsubsection[{DSMatrixArrayFree}]{\setlength{\rightskip}{0pt plus 5cm}void DSMatrixArrayFree ({\bf DSMatrixArray} $\ast$ {\em array})}}
+\label{_d_s_matrix_array_8c_a99f7d3e74613f43f22d8faa4bed25d1a}
+
+
+Freeing memory for \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. 
+
+Frees the memory associated with a \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} data type. This function is a wrapper for the necessary steps needed to free the internal structure of the \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}, this includes calling DSMatrixFree for each of the contained matrices, freeing the internal pointer to the array of matrices, and the \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} data type itself.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em array}]The \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} to be freed. \end{DoxyParams}
+\hypertarget{_d_s_matrix_array_8c_a4d9a430514e9384eea4a35ca826717c1}{
+\index{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayMatrix@{DSMatrixArrayMatrix}}
+\index{DSMatrixArrayMatrix@{DSMatrixArrayMatrix}!DSMatrixArray.c@{DSMatrixArray.c}}
+\subsubsection[{DSMatrixArrayMatrix}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DSMatrix}$\ast$ DSMatrixArrayMatrix (const {\bf DSMatrixArray} $\ast$ {\em array}, \/  const DSUInteger {\em index})}}
+\label{_d_s_matrix_array_8c_a4d9a430514e9384eea4a35ca826717c1}
+
+
+Function to access a matrix in the \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. 
+
+This accessor function returns the \hyperlink{struct_d_s_matrix}{DSMatrix} at the specified index of the \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}. This function is the basic accessor function, and should always be used to access a matrix in a \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em array}]The \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} containing the matrix to be accessed. \item[{\em index}]The DSUInteger specifying the index in the C array of matrices contained in the \hyperlink{struct_d_s_matrix_array}{DSMatrixArray}.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If the \hyperlink{struct_d_s_matrix}{DSMatrix} at the specified index was found, the pointer to that matrix is returned. Otherwise, NULL is returned. 
+\end{DoxyReturn}

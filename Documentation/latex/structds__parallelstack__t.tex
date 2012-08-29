@@ -1,0 +1,66 @@
+\hypertarget{structds__parallelstack__t}{
+\section{ds\_\-parallelstack\_\-t Struct Reference}
+\label{structds__parallelstack__t}\index{ds\_\-parallelstack\_\-t@{ds\_\-parallelstack\_\-t}}
+}
+
+
+Stack object used by the worker threads.  
+
+
+
+
+{\ttfamily \#include $<$DSDesignSpaceParallel.h$>$}
+
+
+
+Collaboration diagram for ds\_\-parallelstack\_\-t:\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structds__parallelstack__t_a8add4d29bc25bbbee2f804a4d9707d40}{
+DSUInteger $\ast$ \hyperlink{structds__parallelstack__t_a8add4d29bc25bbbee2f804a4d9707d40}{base}}
+\label{structds__parallelstack__t_a8add4d29bc25bbbee2f804a4d9707d40}
+
+\begin{DoxyCompactList}\small\item\em The pointer to the array of DSUIntegers storing the case numbers. \item\end{DoxyCompactList}\item 
+\hypertarget{structds__parallelstack__t_aff609a2b2facf914d571229fd71fbfa6}{
+DSUInteger $\ast$ \hyperlink{structds__parallelstack__t_aff609a2b2facf914d571229fd71fbfa6}{current}}
+\label{structds__parallelstack__t_aff609a2b2facf914d571229fd71fbfa6}
+
+\begin{DoxyCompactList}\small\item\em A pointer to the top of the stack. \item\end{DoxyCompactList}\item 
+\hypertarget{structds__parallelstack__t_a6e9cf56a395f2344f3c8b59e09d6ae69}{
+DSUInteger \hyperlink{structds__parallelstack__t_a6e9cf56a395f2344f3c8b59e09d6ae69}{count}}
+\label{structds__parallelstack__t_a6e9cf56a395f2344f3c8b59e09d6ae69}
+
+\begin{DoxyCompactList}\small\item\em The number of elements in the stack. \item\end{DoxyCompactList}\item 
+\hypertarget{structds__parallelstack__t_ad8fde692241cfe9be893d63d9cc061a6}{
+DSUInteger \hyperlink{structds__parallelstack__t_ad8fde692241cfe9be893d63d9cc061a6}{size}}
+\label{structds__parallelstack__t_ad8fde692241cfe9be893d63d9cc061a6}
+
+\begin{DoxyCompactList}\small\item\em The current size of the base array. \item\end{DoxyCompactList}\item 
+\hypertarget{structds__parallelstack__t_aae101357fa322c8d155dd03b50a7a13b}{
+DSUInteger \hyperlink{structds__parallelstack__t_aae101357fa322c8d155dd03b50a7a13b}{nextIndex}}
+\label{structds__parallelstack__t_aae101357fa322c8d155dd03b50a7a13b}
+
+\begin{DoxyCompactList}\small\item\em The index of the current case. \item\end{DoxyCompactList}\item 
+\hypertarget{structds__parallelstack__t_afa7b439dc6ec7721726441e704fe6493}{
+\hyperlink{struct_d_s_case}{DSCase} $\ast$$\ast$ \hyperlink{structds__parallelstack__t_afa7b439dc6ec7721726441e704fe6493}{cases}}
+\label{structds__parallelstack__t_afa7b439dc6ec7721726441e704fe6493}
+
+\begin{DoxyCompactList}\small\item\em The array of cases processed. \item\end{DoxyCompactList}\item 
+\hypertarget{structds__parallelstack__t_a7710776f2028c036203f5b6f77686749}{
+pthread\_\-mutex\_\-t \hyperlink{structds__parallelstack__t_a7710776f2028c036203f5b6f77686749}{pushpop}}
+\label{structds__parallelstack__t_a7710776f2028c036203f5b6f77686749}
+
+\begin{DoxyCompactList}\small\item\em The mutex used when pushing and popping data from the stack. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Stack object used by the worker threads. This structure is a stack of case numbers indicating the DSCases that need to be processed, and each pthread\_\-t used for processing cases and determining validity (currently disabled due to the non re-\/entrant GLPK) must have access to a \hyperlink{structds__parallelstack__t}{ds\_\-parallelstack\_\-t}.
+
+\begin{DoxyNote}{Note}
+One stack should be created per thread, to avoid one thread blocking another during popping and pushing operations. A single stack could be used, as the parallel stacks are thread safe, and under some conditions might be more efficient as all the threads in the thread pool will remain active until all cases have been processed. Currently, the number of cases to be processed by a thread are determined prior to launching the threads, and each thread has an equal number of cases to process. If a thread has many invalid cases, it may finish all of its cases before the other threads, and thus it is possible for the system to make less use of multiple processors. To avoid this situation, more threads than processors can be used or a single shared stack could be used. 
+\end{DoxyNote}
+
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_d_s_design_space_parallel_8h}{DSDesignSpaceParallel.h}\end{DoxyCompactItemize}

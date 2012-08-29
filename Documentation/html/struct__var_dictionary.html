@@ -62,22 +62,23 @@ Collaboration diagram for _varDictionary:</div>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6044b553e445970269cef9b91569d09d"></a><!-- doxytag: member="_varDictionary::current" ref="a6044b553e445970269cef9b91569d09d" args="" -->
 char&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html#a6044b553e445970269cef9b91569d09d">current</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The current character in the dictionary. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a916375645732b28192e23ad0745d00ca"></a><!-- doxytag: member="_varDictionary::alt" ref="a916375645732b28192e23ad0745d00ca" args="" -->
-struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html#a916375645732b28192e23ad0745d00ca">alt</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The alternative character in the dictionary. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4f42c4bd665dc7ce0eeb75463767339"></a><!-- doxytag: member="_varDictionary::lower" ref="af4f42c4bd665dc7ce0eeb75463767339" args="" -->
+struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html#af4f42c4bd665dc7ce0eeb75463767339">lower</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The alternative character in the dictionary that is less than the current. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae67896ead2bf6d8fe6307445102b2e0f"></a><!-- doxytag: member="_varDictionary::higher" ref="ae67896ead2bf6d8fe6307445102b2e0f" args="" -->
+struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html#ae67896ead2bf6d8fe6307445102b2e0f">higher</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The alternative character in the dictionary that is greater than current. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3fab7f59fc3c8c7babba590499c69f63"></a><!-- doxytag: member="_varDictionary::next" ref="a3fab7f59fc3c8c7babba590499c69f63" args="" -->
 struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html#a3fab7f59fc3c8c7babba590499c69f63">next</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The next character in the dictionary. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09be400084754591a8f182e4a2c83304"></a><!-- doxytag: member="_varDictionary::variable" ref="a09be400084754591a8f182e4a2c83304" args="" -->
-<a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html#a09be400084754591a8f182e4a2c83304">variable</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0f61d63b009d0880a89c843bd50d8d76"></a><!-- doxytag: member="_varDictionary::value" ref="a0f61d63b009d0880a89c843bd50d8d76" args="" -->
+void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html#a0f61d63b009d0880a89c843bd50d8d76">value</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The variable stored. Only when current is '\0'. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Internal dictionary structure. </p>
 <p>Internal dictionary for fast variable querying. The structure of the dictionary uses an alternative path, where each character is checked in order at each position, if there is a match, the next position is consequently checked. The dictionary should never be manipulated manually, adding, retrieving and removing variables should be done through the accesory functions.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_variable_8h.html" title="Header file with functions for dealing with variables.">DSVariable.h</a> </dd>
-<dd>
-<a class="el" href="_d_s_variable_8c.html" title="Implementation file with functions for dealing with variables.">DSVariable.c</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct_d_s_dictionary.html">DSDictionary</a> </dd></dl>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="_d_s_types_8h_source.html">DSTypes.h</a></li>
 </ul>
@@ -96,7 +97,7 @@ struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a> *&nbs
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Feb 17 23:41:00 2012 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Aug 15 11:46:00 2012 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

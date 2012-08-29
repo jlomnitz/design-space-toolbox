@@ -1,0 +1,39 @@
+\hypertarget{struct_d_s_dictionary}{
+\section{DSDictionary Struct Reference}
+\label{struct_d_s_dictionary}\index{DSDictionary@{DSDictionary}}
+}
+
+
+Collaboration diagram for DSDictionary:\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{struct_d_s_dictionary_a5e1e0fc0452d117d13cd6629dd707572}{
+\hyperlink{struct__var_dictionary}{DSInternalDictionary} $\ast$ \hyperlink{struct_d_s_dictionary_a5e1e0fc0452d117d13cd6629dd707572}{internal}}
+\label{struct_d_s_dictionary_a5e1e0fc0452d117d13cd6629dd707572}
+
+\begin{DoxyCompactList}\small\item\em The pointer to the internal ternary tree root. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_dictionary_a6e9cf56a395f2344f3c8b59e09d6ae69}{
+DSUInteger \hyperlink{struct_d_s_dictionary_a6e9cf56a395f2344f3c8b59e09d6ae69}{count}}
+\label{struct_d_s_dictionary_a6e9cf56a395f2344f3c8b59e09d6ae69}
+
+\begin{DoxyCompactList}\small\item\em The number of objects in the dictionary. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_dictionary_a26fc633cf551a2621e172633486c85ef}{
+char $\ast$$\ast$ \hyperlink{struct_d_s_dictionary_a26fc633cf551a2621e172633486c85ef}{names}}
+\label{struct_d_s_dictionary_a26fc633cf551a2621e172633486c85ef}
+
+\begin{DoxyCompactList}\small\item\em A standard C array with all the names in the dictionary. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_dictionary_a6a6893789caa66d02e3a46750bd6ff50}{
+void($\ast$ \hyperlink{struct_d_s_dictionary_a6a6893789caa66d02e3a46750bd6ff50}{freeFunction} )(void $\ast$)}
+\label{struct_d_s_dictionary_a6a6893789caa66d02e3a46750bd6ff50}
+
+\begin{DoxyCompactList}\small\item\em Free function (Not yet implemented). \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_dictionary_a0abaf4b5d42c4e5d19190035fade3599}{
+pthread\_\-mutex\_\-t \hyperlink{struct_d_s_dictionary_a0abaf4b5d42c4e5d19190035fade3599}{lock}}
+\label{struct_d_s_dictionary_a0abaf4b5d42c4e5d19190035fade3599}
+
+\begin{DoxyCompactList}\small\item\em A mutex lock to make the dictionary thread safe. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_d_s_types_8h}{DSTypes.h}\end{DoxyCompactItemize}

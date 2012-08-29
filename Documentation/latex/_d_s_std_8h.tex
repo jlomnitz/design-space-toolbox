@@ -9,6 +9,7 @@ Header file for the design space toolbox.
 
 {\ttfamily \#include $<$stdio.h$>$}\par
 {\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
 {\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
 {\ttfamily \#include \char`\"{}DSIO.h\char`\"{}}\par
 {\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
@@ -21,8 +22,10 @@ Header file for the design space toolbox.
 {\ttfamily \#include \char`\"{}DSSSystem.h\char`\"{}}\par
 {\ttfamily \#include \char`\"{}DSCase.h\char`\"{}}\par
 {\ttfamily \#include \char`\"{}DSDesignSpace.h\char`\"{}}\par
-{\ttfamily \#include \char`\"{}DSDesignSpaceStack.h\char`\"{}}\par
 {\ttfamily \#include \char`\"{}DSVertices.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSDictionary.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSStack.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSSubcase.h\char`\"{}}\par
 Include dependency graph for DSStd.h:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -75,6 +78,16 @@ Jason Lomnitz.
 2011
 \end{DoxyDate}
 \begin{Desc}
-\item[\hyperlink{todo__todo000003}{Todo}]Add all previous functionality. 
+\item[\hyperlink{todo__todo000005}{Todo}]Add all previous functionality. 
 
-Add vertex enumeration functionality.\end{Desc}
+Add vertex enumeration functionality. 
+
+Add symbolic matrix support, and conversion between symbolic and numerical matrices. 
+
+Add complex matrix support. 
+
+Modify subcase construction to identify corresponding equation for augmented equation based on decay term. 
+
+Add support for numerical solutions using a vODE library (e.g. sundials). 
+
+Add support for dominant eigenvalue estimation.\end{Desc}

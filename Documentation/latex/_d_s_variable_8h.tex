@@ -10,6 +10,7 @@ Header file with functions for dealing with variables.
 {\ttfamily \#include $<$stdio.h$>$}\par
 {\ttfamily \#include $<$stdlib.h$>$}\par
 {\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSDictionary.h\char`\"{}}\par
 Include dependency graph for DSVariable.h:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -37,11 +38,11 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 \label{_d_s_variable_8h_a912df8d84202953a573824aebcf2498f}
 
 \item 
-\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga218a0d1de0bb5ea62d7e5aa22fe50793}{DSVariableSetValue}(x, y)~((x)-\/$>$value = (y))
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga218a0d1de0bb5ea62d7e5aa22fe50793}{DSVariableSetValue}(x, y)~(((\hyperlink{struct_d_s_variable}{DSVariable}$\ast$)(x))-\/$>$value = (y))
 \begin{DoxyCompactList}\small\item\em Macro to set the value of a variable data structure. \item\end{DoxyCompactList}\item 
-\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga837d0718b28591df6f518eb50d98082a}{DSVariableValue}(x)~(((x) != NULL) ? (x)-\/$>$value : NAN)
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga837d0718b28591df6f518eb50d98082a}{DSVariableValue}(x)~(((x) != NULL) ? ((\hyperlink{struct_d_s_variable}{DSVariable}$\ast$)x)-\/$>$value : NAN)
 \begin{DoxyCompactList}\small\item\em Macro to get the value of a variable data structure. \item\end{DoxyCompactList}\item 
-\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga64afbf5e8e378ef611c25084211152c4}{DSVariableName}(x)~((x)-\/$>$name)
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga64afbf5e8e378ef611c25084211152c4}{DSVariableName}(x)~(((\hyperlink{struct_d_s_variable}{DSVariable} $\ast$)x)-\/$>$name)
 \begin{DoxyCompactList}\small\item\em Macro to get the value of a variable data structure. \item\end{DoxyCompactList}\item 
 \hypertarget{group___m___d_s___messages_gac31f10e693824b630ea7bd80f59acadf}{
 \#define \hyperlink{group___m___d_s___messages_gac31f10e693824b630ea7bd80f59acadf}{M\_\-DS\_\-VAR\_\-NULL}~M\_\-DS\_\-NULL \char`\"{}: Variable Pool is NULL\char`\"{}}
@@ -54,7 +55,7 @@ This graph shows which files directly or indirectly include this file:\nopagebre
 
 \begin{DoxyCompactList}\small\item\em Error message indicating insufficient priviliges to manipulate a variable pool. \item\end{DoxyCompactList}\item 
 \hypertarget{_d_s_variable_8h_a2eba27e3c90e74233f65a3737cf82070}{
-\#define {\bfseries DSVariablePoolInternalDictionary}(x)~((x)-\/$>$root)}
+\#define {\bfseries DSVariablePoolInternalDictionary}(x)~((x)-\/$>$dictionary)}
 \label{_d_s_variable_8h_a2eba27e3c90e74233f65a3737cf82070}
 
 \item 
@@ -116,6 +117,16 @@ bool \hyperlink{_d_s_variable_8h_aa0ab405c594ec1e1ba47cd36703d8ae5}{DSVariablePo
 \hypertarget{_d_s_variable_8h_a4d59ca020b7df35f9d7320147800dad0}{
 \hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSVariablePoolVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name)}
 \label{_d_s_variable_8h_a4d59ca020b7df35f9d7320147800dad0}
+
+\item 
+\hypertarget{_d_s_variable_8h_af2adea119e062ca1932c50808785e667}{
+const \hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSVariablePoolVariableAtIndex} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const DSUInteger index)}
+\label{_d_s_variable_8h_af2adea119e062ca1932c50808785e667}
+
+\item 
+\hypertarget{_d_s_variable_8h_a7d7984c84d2d9617f408310d342d02a3}{
+double {\bfseries DSVariablePoolValueForVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char const $\ast$name)}
+\label{_d_s_variable_8h_a7d7984c84d2d9617f408310d342d02a3}
 
 \item 
 \hypertarget{_d_s_variable_8h_a78241cc765be0432f0c6e9eb21b42782}{

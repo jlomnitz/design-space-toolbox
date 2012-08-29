@@ -1,10 +1,30 @@
-//
-//  DSCase.c
-//  DesignSpaceToolboxV2
-//
-//  Created by Jason Lomnitz on 8/18/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/**
+ * \file DSCase.c
+ * \brief Implementation file with functions for dealing with cases in design space.
+ *
+ * \details 
+ *
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
+ *
+ * This file is part of the Design Space Toolbox V2 (C Library).
+ *
+ * The Design Space Toolbox V2 is free software: you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Design Space Toolbox V2 is distributed in the hope that it will be 
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with the Design Space Toolbox. If not, see 
+ * <http://www.gnu.org/licenses/>.
+ *
+ * \author Jason Lomnitz.
+ * \date 2011
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -677,12 +697,9 @@ extern DSExpression ** DSCaseLogarithmicBoundaries(const DSCase *aCase)
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        numberOfConditions = DSMatrixRows(DSCaseCd(aCase));
+        numberOfConditions = DSMatrixRows(DSCaseU(aCase));
         if (numberOfConditions == 0) {
                 DSError("Case being accessed has no conditions", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
                 goto bail;
         }
         boundaries = DSSecureCalloc(sizeof(DSExpression *), numberOfConditions);
@@ -698,6 +715,31 @@ bail:
         return boundaries;
 }
 
+extern DSUInteger DSCaseNumber(const DSCase * aCase)
+{
+        DSUInteger caseNumber = 0;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        caseNumber = DSCaseNum(aCase);
+bail:
+        return caseNumber;
+}
+
+extern const DSUInteger * DSCaseSignature(const DSCase * aCase)
+{
+        const DSUInteger *signature = NULL;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        signature = DSCaseSig(aCase);
+bail:
+        return signature;
+}
+
+
 extern const DSSSystem *DSCaseSSystem(const DSCase * aCase)
 {
         DSSSystem * ssys = NULL;
@@ -710,7 +752,17 @@ bail:
         return ssys;
 }
 
-
+extern double DSCaseLogarithmicGain(const DSCase *aCase, const char *XdName, const char *XiName)
+{
+        double logGain = INFINITY;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        logGain = DSSSystemLogarithmicGain(DSCaseSSys(aCase), XdName, XiName);
+bail:
+        return logGain;
+}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
@@ -962,6 +1014,7 @@ extern void DSCasePrintBoundaries(const DSCase *aCase)
         boundaries = DSCaseBoundaries(aCase);
         if (boundaries != NULL) {
                 for (i= 0; i < DSCaseNumberOfBoundaries(aCase); i++) {
+                        printf("0 < ");
                         DSExpressionPrint(boundaries[i]);
                         DSExpressionFree(boundaries[i]);
                 }

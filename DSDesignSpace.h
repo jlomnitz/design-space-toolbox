@@ -63,13 +63,14 @@ extern void DSDesignSpaceAddConditions(DSDesignSpace *ds, const DSMatrix * Cd, c
 #pragma mark - Getter functions
 #endif
 
+extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds);
+
 extern const DSUInteger DSDesignSpaceNumberOfEquations(const DSDesignSpace *ds);
 extern DSExpression ** DSDesignSpaceEquations(const DSDesignSpace *ds);
+extern const DSUInteger * DSDesignSpaceSignature(const DSDesignSpace *ds);
 
 extern const DSUInteger DSDesignSpaceNumberOfValidCases(const DSDesignSpace *ds);
-
 extern const DSUInteger DSDesignSpaceNumberOfCases(const DSDesignSpace *ds);
-extern const DSUInteger * DSDesignSpaceSignature(const DSDesignSpace *ds);
 
 extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const DSUInteger caseNumber);
 extern DSCase * DSDesignSpaceCaseWithCaseSignature(const DSDesignSpace * ds, const DSUInteger * signature);
@@ -79,7 +80,10 @@ extern const bool DSDesignSpaceCaseWithCaseNumberIsValid(const DSDesignSpace *ds
 extern const bool DSDesignSpaceCaseWithCaseSignatureIsValid(const DSDesignSpace *ds, const DSUInteger * signature);
 extern const bool DSDesignSpaceCaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
 
+extern const DSStack * DSDesignSpaceSubcasesForCaseNumber(DSDesignSpace *ds, const DSUInteger caseNumber);
 extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds);
+
+extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
@@ -87,10 +91,11 @@ extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds);
 
 extern DSCase ** DSDesignSpaceCalculateCases(DSDesignSpace *ds, const DSUInteger numberOfCase, DSUInteger *cases);
 extern DSCase ** DSDesignSpaceCalculateAllValidCases(DSDesignSpace *ds);
-//extern void DSDesignSpaceCalculateAllCasesAndSaveToFile(DSDesignSpace *ds, const char * path, const bool overwrite);
+extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper);
+extern void DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(DSDesignSpace *ds, DSUInteger caseNumber);
 extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds);
-
 extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds);
+
 extern void DSDesignSpacePrint(const DSDesignSpace * ds);
 
 #ifdef __cplusplus

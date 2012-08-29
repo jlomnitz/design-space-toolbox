@@ -4,7 +4,7 @@
 }
 
 
-Implementation file with functions for dealing with variables.  
+Implementation file with functions the DSInternalDictionary object.  
 
 
 {\ttfamily \#include $<$stdbool.h$>$}\par
@@ -27,6 +27,16 @@ Include dependency graph for DSVariable.c:\nopagebreak
 This graph shows which files directly or indirectly include this file:\subsection*{Defines}
 \begin{DoxyCompactItemize}
 \item 
+\hypertarget{_d_s_variable_8c_a29cd4d5f310a14a4a285d5265d77bacb}{
+\#define {\bfseries dsVarDictionarySetValue}(x, y)~(((x) != NULL) ? x-\/$>$value = (y) : DSError(M\_\-DS\_\-WRONG \char`\"{}: Dictionary is NULL\char`\"{}, A\_\-DS\_\-ERROR))}
+\label{_d_s_variable_8c_a29cd4d5f310a14a4a285d5265d77bacb}
+
+\item 
+\hypertarget{_d_s_variable_8c_a9928074b7e4bab3f332faf478ae29e81}{
+\#define {\bfseries dsVarDictionaryValue}(x)~(((x) != NULL) ? (x)-\/$>$value : NULL)}
+\label{_d_s_variable_8c_a9928074b7e4bab3f332faf478ae29e81}
+
+\item 
 \hypertarget{_d_s_variable_8c_ac38eff6c6cf13f7b7c482de55c042252}{
 \#define {\bfseries dsVariablePoolNumberOfVariables}(x)~((x)-\/$>$numberOfVariables)}
 \label{_d_s_variable_8c_ac38eff6c6cf13f7b7c482de55c042252}
@@ -39,6 +49,11 @@ This graph shows which files directly or indirectly include this file:\subsectio
 \begin{DoxyCompactList}\small\item\em Creates a new \hyperlink{struct_d_s_variable}{DSVariable} with INFINITY as a default value. \item\end{DoxyCompactList}\item 
 void \hyperlink{_d_s_variable_8c_aac8fadf2969493124be37a1076a2b885}{DSVariableFree} (\hyperlink{struct_d_s_variable}{DSVariable} $\ast$var)
 \begin{DoxyCompactList}\small\item\em Function frees allocated memory of a \hyperlink{struct_d_s_variable}{DSVariable}. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_variable_8c_ab3d7a8b28623dff23762e1b305429117}{
+void {\bfseries DSVariablePrint} (const \hyperlink{struct_d_s_variable}{DSVariable} $\ast$var)}
+\label{_d_s_variable_8c_ab3d7a8b28623dff23762e1b305429117}
+
+\item 
 \hyperlink{struct_d_s_variable}{DSVariable} $\ast$ \hyperlink{_d_s_variable_8c_a1a5da69573335a86dea1e4a8a6770ea3}{DSVariableRetain} (\hyperlink{struct_d_s_variable}{DSVariable} $\ast$aVariable)
 \begin{DoxyCompactList}\small\item\em Function to increase variable retain count by one. \item\end{DoxyCompactList}\item 
 void \hyperlink{_d_s_variable_8c_a4d83eec85c4d9340593a359fd1d5e506}{DSVariableRelease} (\hyperlink{struct_d_s_variable}{DSVariable} $\ast$aVariable)
@@ -67,6 +82,11 @@ void \hyperlink{_d_s_variable_8c_a795b9def0c0cdd4fd1bd99dee0e18b24}{DSVariablePo
 \begin{DoxyCompactList}\small\item\em Creates and adds a new variable to the variable pool. \item\end{DoxyCompactList}\item 
 void \hyperlink{_d_s_variable_8c_aa9ecf8bde68b63daba6f83b95cb4a471}{DSVariablePoolAddVariable} (\hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, \hyperlink{struct_d_s_variable}{DSVariable} $\ast$newVar)
 \begin{DoxyCompactList}\small\item\em Adds an existing variable to the variable pool. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_variable_8c_a7d7984c84d2d9617f408310d342d02a3}{
+double {\bfseries DSVariablePoolValueForVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char const $\ast$name)}
+\label{_d_s_variable_8c_a7d7984c84d2d9617f408310d342d02a3}
+
+\item 
 \hypertarget{_d_s_variable_8c_aa0ab405c594ec1e1ba47cd36703d8ae5}{
 bool \hyperlink{_d_s_variable_8c_aa0ab405c594ec1e1ba47cd36703d8ae5}{DSVariablePoolHasVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$const name)}
 \label{_d_s_variable_8c_aa0ab405c594ec1e1ba47cd36703d8ae5}
@@ -75,6 +95,11 @@ bool \hyperlink{_d_s_variable_8c_aa0ab405c594ec1e1ba47cd36703d8ae5}{DSVariablePo
 \hypertarget{_d_s_variable_8c_a4d59ca020b7df35f9d7320147800dad0}{
 \hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSVariablePoolVariableWithName} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const char $\ast$name)}
 \label{_d_s_variable_8c_a4d59ca020b7df35f9d7320147800dad0}
+
+\item 
+\hypertarget{_d_s_variable_8c_af2adea119e062ca1932c50808785e667}{
+const \hyperlink{struct_d_s_variable}{DSVariable} $\ast$ {\bfseries DSVariablePoolVariableAtIndex} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool, const DSUInteger index)}
+\label{_d_s_variable_8c_af2adea119e062ca1932c50808785e667}
 
 \item 
 \hypertarget{_d_s_variable_8c_aca1491d35e9f15e6a00783f58b9e7c6c}{
@@ -128,7 +153,9 @@ pthread\_\-mutex\_\-t {\bfseries retaincount}}
 
 
 \subsection{Detailed Description}
-Implementation file with functions for dealing with variables. Copyright (C) 2011 Jason Lomnitz.\par
+Implementation file with functions the DSInternalDictionary object. Implementation file with functions for dealing with variables.
+
+Copyright (C) 2011 Jason Lomnitz.\par
 \par
 
 

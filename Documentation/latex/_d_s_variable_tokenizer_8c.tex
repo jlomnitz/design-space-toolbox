@@ -1,0 +1,65 @@
+\hypertarget{_d_s_variable_tokenizer_8c}{
+\section{DSVariableTokenizer.c File Reference}
+\label{_d_s_variable_tokenizer_8c}\index{DSVariableTokenizer.c@{DSVariableTokenizer.c}}
+}
+
+
+Implementation file with functions for tokenizing with matrices.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include \char`\"{}DSVariableTokenizer.h\char`\"{}}\par
+Include dependency graph for DSVariableTokenizer.c:\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_variable_tokenizer_8c_a311d79ebe5076c45e0e0514278df4392}{
+struct \hyperlink{structvariable__token}{variable\_\-token} $\ast$ {\bfseries DSVariableTokenAlloc} ()}
+\label{_d_s_variable_tokenizer_8c_a311d79ebe5076c45e0e0514278df4392}
+
+\item 
+\hypertarget{_d_s_variable_tokenizer_8c_a5f3b6f6de1f551f593030b68ae32a020}{
+void {\bfseries DSVariableTokenFree} (struct \hyperlink{structvariable__token}{variable\_\-token} $\ast$root)}
+\label{_d_s_variable_tokenizer_8c_a5f3b6f6de1f551f593030b68ae32a020}
+
+\item 
+\hypertarget{_d_s_variable_tokenizer_8c_a946009caa215b3adda15c4bf6330d4ee}{
+void {\bfseries DSVariableTokenSetString} (struct \hyperlink{structvariable__token}{variable\_\-token} $\ast$root, char $\ast$string)}
+\label{_d_s_variable_tokenizer_8c_a946009caa215b3adda15c4bf6330d4ee}
+
+\item 
+\hypertarget{_d_s_variable_tokenizer_8c_ae844e138fc19e239a6a93b90a168ecab}{
+void {\bfseries DSVariableTokenSetDouble} (struct \hyperlink{structvariable__token}{variable\_\-token} $\ast$root, double value)}
+\label{_d_s_variable_tokenizer_8c_ae844e138fc19e239a6a93b90a168ecab}
+
+\item 
+\hypertarget{_d_s_variable_tokenizer_8c_a7dc48c20a16e531356bd9740f098f4c7}{
+char $\ast$ {\bfseries DSVariableTokenString} (struct \hyperlink{structvariable__token}{variable\_\-token} $\ast$root)}
+\label{_d_s_variable_tokenizer_8c_a7dc48c20a16e531356bd9740f098f4c7}
+
+\item 
+\hypertarget{_d_s_variable_tokenizer_8c_ad13d69eaacde100a053e7e1f231a2430}{
+double {\bfseries DSVariableTokenDouble} (struct \hyperlink{structvariable__token}{variable\_\-token} $\ast$root)}
+\label{_d_s_variable_tokenizer_8c_ad13d69eaacde100a053e7e1f231a2430}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file with functions for tokenizing with matrices. Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}

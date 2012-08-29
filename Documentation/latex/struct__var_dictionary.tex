@@ -28,19 +28,24 @@ char \hyperlink{struct__var_dictionary_a6044b553e445970269cef9b91569d09d}{curren
 \label{struct__var_dictionary_a6044b553e445970269cef9b91569d09d}
 
 \begin{DoxyCompactList}\small\item\em The current character in the dictionary. \item\end{DoxyCompactList}\item 
-\hypertarget{struct__var_dictionary_a916375645732b28192e23ad0745d00ca}{
-struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} $\ast$ \hyperlink{struct__var_dictionary_a916375645732b28192e23ad0745d00ca}{alt}}
-\label{struct__var_dictionary_a916375645732b28192e23ad0745d00ca}
+\hypertarget{struct__var_dictionary_af4f42c4bd665dc7ce0eeb75463767339}{
+struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} $\ast$ \hyperlink{struct__var_dictionary_af4f42c4bd665dc7ce0eeb75463767339}{lower}}
+\label{struct__var_dictionary_af4f42c4bd665dc7ce0eeb75463767339}
 
-\begin{DoxyCompactList}\small\item\em The alternative character in the dictionary. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em The alternative character in the dictionary that is less than the current. \item\end{DoxyCompactList}\item 
+\hypertarget{struct__var_dictionary_ae67896ead2bf6d8fe6307445102b2e0f}{
+struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} $\ast$ \hyperlink{struct__var_dictionary_ae67896ead2bf6d8fe6307445102b2e0f}{higher}}
+\label{struct__var_dictionary_ae67896ead2bf6d8fe6307445102b2e0f}
+
+\begin{DoxyCompactList}\small\item\em The alternative character in the dictionary that is greater than current. \item\end{DoxyCompactList}\item 
 \hypertarget{struct__var_dictionary_a3fab7f59fc3c8c7babba590499c69f63}{
 struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} $\ast$ \hyperlink{struct__var_dictionary_a3fab7f59fc3c8c7babba590499c69f63}{next}}
 \label{struct__var_dictionary_a3fab7f59fc3c8c7babba590499c69f63}
 
 \begin{DoxyCompactList}\small\item\em The next character in the dictionary. \item\end{DoxyCompactList}\item 
-\hypertarget{struct__var_dictionary_a09be400084754591a8f182e4a2c83304}{
-\hyperlink{struct_d_s_variable}{DSVariable} $\ast$ \hyperlink{struct__var_dictionary_a09be400084754591a8f182e4a2c83304}{variable}}
-\label{struct__var_dictionary_a09be400084754591a8f182e4a2c83304}
+\hypertarget{struct__var_dictionary_a0f61d63b009d0880a89c843bd50d8d76}{
+void $\ast$ \hyperlink{struct__var_dictionary_a0f61d63b009d0880a89c843bd50d8d76}{value}}
+\label{struct__var_dictionary_a0f61d63b009d0880a89c843bd50d8d76}
 
 \begin{DoxyCompactList}\small\item\em The variable stored. Only when current is '$\backslash$0'. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -49,9 +54,7 @@ struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} $\ast$ \hyperlink{s
 Internal dictionary structure. Internal dictionary for fast variable querying. The structure of the dictionary uses an alternative path, where each character is checked in order at each position, if there is a match, the next position is consequently checked. The dictionary should never be manipulated manually, adding, retrieving and removing variables should be done through the accesory functions.
 
 \begin{DoxySeeAlso}{See also}
-\hyperlink{_d_s_variable_8h}{DSVariable.h} 
-
-\hyperlink{_d_s_variable_8c}{DSVariable.c} 
+\hyperlink{struct_d_s_dictionary}{DSDictionary} 
 \end{DoxySeeAlso}
 
 

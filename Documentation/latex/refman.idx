@@ -1,472 +1,481 @@
-\indexentry{Messages for DS Errors.@{Messages for DS Errors.}|hyperpage}{9}
-\indexentry{Actions for DS Errors.@{Actions for DS Errors.}|hyperpage}{11}
-\indexentry{DSGMAACCESSORS@{DSGMAACCESSORS}|hyperpage}{12}
-\indexentry{Options for JSON conversion of DSCase object.@{Options for JSON conversion of DSCase object.}|hyperpage}{13}
-\indexentry{Options for JSON conversion of DSSSystem object.@{Options for JSON conversion of DSSSystem object.}|hyperpage}{14}
-\indexentry{DSSSysACCESSORS@{DSSSysACCESSORS}|hyperpage}{15}
-\indexentry{Macros to manipulate variables.@{Macros to manipulate variables.}|hyperpage}{16}
-\indexentry{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}!DSVariableName@{DSVariableName}|hyperpage}{16}
-\indexentry{DSVariableName@{DSVariableName}!DS_VARIABLE_ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}|hyperpage}{16}
-\indexentry{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}!DSVariableSetValue@{DSVariableSetValue}|hyperpage}{16}
-\indexentry{DSVariableSetValue@{DSVariableSetValue}!DS_VARIABLE_ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}|hyperpage}{16}
-\indexentry{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}!DSVariableValue@{DSVariableValue}|hyperpage}{16}
-\indexentry{DSVariableValue@{DSVariableValue}!DS_VARIABLE_ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}|hyperpage}{16}
-\indexentry{\_\discretionary {-}{}{}varDictionary@{\_\discretionary {-}{}{}varDictionary}|hyperpage}{17}
-\indexentry{parser\_\discretionary {-}{}{}aux::base\_\discretionary {-}{}{}info@{parser\_\discretionary {-}{}{}aux::base\_\discretionary {-}{}{}info}|hyperpage}{19}
-\indexentry{ds\_\discretionary {-}{}{}parallelstack\_\discretionary {-}{}{}t@{ds\_\discretionary {-}{}{}parallelstack\_\discretionary {-}{}{}t}|hyperpage}{20}
-\indexentry{DSCase@{DSCase}|hyperpage}{21}
-\indexentry{DSDesignSpace@{DSDesignSpace}|hyperpage}{23}
-\indexentry{DSDesignSpaceStack@{DSDesignSpaceStack}|hyperpage}{24}
-\indexentry{dsexpression@{dsexpression}|hyperpage}{25}
-\indexentry{DSGMASystem@{DSGMASystem}|hyperpage}{26}
-\indexentry{DSMatrix@{DSMatrix}|hyperpage}{27}
-\indexentry{DSMatrixArray@{DSMatrixArray}|hyperpage}{28}
-\indexentry{DSSSystem@{DSSSystem}|hyperpage}{29}
-\indexentry{DSSymbolicMatrix@{DSSymbolicMatrix}|hyperpage}{30}
-\indexentry{DSVariable@{DSVariable}|hyperpage}{31}
-\indexentry{DSVariablePool@{DSVariablePool}|hyperpage}{32}
-\indexentry{DSVertices@{DSVertices}|hyperpage}{33}
-\indexentry{expression\_\discretionary {-}{}{}token@{expression\_\discretionary {-}{}{}token}|hyperpage}{34}
-\indexentry{matrix\_\discretionary {-}{}{}token@{matrix\_\discretionary {-}{}{}token}|hyperpage}{35}
-\indexentry{parse\_\discretionary {-}{}{}expression\_\discretionary {-}{}{}s@{parse\_\discretionary {-}{}{}expression\_\discretionary {-}{}{}s}|hyperpage}{36}
-\indexentry{parser\_\discretionary {-}{}{}aux@{parser\_\discretionary {-}{}{}aux}|hyperpage}{37}
-\indexentry{pthread\_\discretionary {-}{}{}struct@{pthread\_\discretionary {-}{}{}struct}|hyperpage}{38}
-\indexentry{v\_\discretionary {-}{}{}token\_\discretionary {-}{}{}data@{v\_\discretionary {-}{}{}token\_\discretionary {-}{}{}data}|hyperpage}{39}
-\indexentry{variable\_\discretionary {-}{}{}token@{variable\_\discretionary {-}{}{}token}|hyperpage}{40}
-\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{41}
-\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column@{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}|hyperpage}{41}
-\indexentry{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column@{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}!yy_buffer_state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{41}
-\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno@{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}|hyperpage}{41}
-\indexentry{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno@{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}!yy_buffer_state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{41}
-\indexentry{yy\_\discretionary {-}{}{}trans\_\discretionary {-}{}{}info@{yy\_\discretionary {-}{}{}trans\_\discretionary {-}{}{}info}|hyperpage}{42}
-\indexentry{yyguts\_\discretionary {-}{}{}t@{yyguts\_\discretionary {-}{}{}t}|hyperpage}{43}
-\indexentry{yyguts\_\discretionary {-}{}{}t@{yyguts\_\discretionary {-}{}{}t}!yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack}|hyperpage}{43}
-\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack}!yyguts_t@{yyguts\_\discretionary {-}{}{}t}|hyperpage}{43}
-\indexentry{yyguts\_\discretionary {-}{}{}t@{yyguts\_\discretionary {-}{}{}t}!yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max}|hyperpage}{43}
-\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max}!yyguts_t@{yyguts\_\discretionary {-}{}{}t}|hyperpage}{43}
-\indexentry{yyguts\_\discretionary {-}{}{}t@{yyguts\_\discretionary {-}{}{}t}!yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top}|hyperpage}{43}
-\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top}!yyguts_t@{yyguts\_\discretionary {-}{}{}t}|hyperpage}{43}
-\indexentry{YYMINORTYPE@{YYMINORTYPE}|hyperpage}{44}
-\indexentry{yyParser@{yyParser}|hyperpage}{45}
-\indexentry{yyStackEntry@{yyStackEntry}|hyperpage}{46}
-\indexentry{DSDesignSpace.c@{DSDesignSpace.c}|hyperpage}{47}
-\indexentry{DSDesignSpace.h@{DSDesignSpace.h}|hyperpage}{50}
-\indexentry{DSDesignSpaceParallel.c@{DSDesignSpaceParallel.c}|hyperpage}{52}
-\indexentry{DSDesignSpaceParallel.h@{DSDesignSpaceParallel.h}|hyperpage}{54}
-\indexentry{DSErrors.c@{DSErrors.c}|hyperpage}{56}
-\indexentry{DSErrors.c@{DSErrors.c}!MSIZE@{MSIZE}|hyperpage}{57}
-\indexentry{MSIZE@{MSIZE}!DSErrors.c@{DSErrors.c}|hyperpage}{57}
-\indexentry{DSErrors.c@{DSErrors.c}!STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM@{STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM}|hyperpage}{57}
-\indexentry{STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM@{STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM}!DSErrors.c@{DSErrors.c}|hyperpage}{57}
-\indexentry{DSErrors.c@{DSErrors.c}!DSErrorFunction@{DSErrorFunction}|hyperpage}{58}
-\indexentry{DSErrorFunction@{DSErrorFunction}!DSErrors.c@{DSErrors.c}|hyperpage}{58}
-\indexentry{DSErrors.h@{DSErrors.h}|hyperpage}{59}
-\indexentry{DSErrors.h@{DSErrors.h}!DSError@{DSError}|hyperpage}{61}
-\indexentry{DSError@{DSError}!DSErrors.h@{DSErrors.h}|hyperpage}{61}
-\indexentry{DSErrors.h@{DSErrors.h}!DSErrorFunction@{DSErrorFunction}|hyperpage}{61}
-\indexentry{DSErrorFunction@{DSErrorFunction}!DSErrors.h@{DSErrors.h}|hyperpage}{61}
-\indexentry{DSExpression.c@{DSExpression.c}|hyperpage}{62}
-\indexentry{DSExpression.h@{DSExpression.h}|hyperpage}{64}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{66}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}|hyperpage}{69}
-\indexentry{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{69}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}|hyperpage}{69}
-\indexentry{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{69}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}|hyperpage}{70}
-\indexentry{YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{70}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}|hyperpage}{70}
-\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{70}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}|hyperpage}{70}
-\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{70}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!yyless@{yyless}|hyperpage}{71}
-\indexentry{yyless@{yyless}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{71}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!yyless@{yyless}|hyperpage}{71}
-\indexentry{yyless@{yyless}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{71}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}|hyperpage}{71}
-\indexentry{DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{71}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}|hyperpage}{71}
-\indexentry{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{71}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}|hyperpage}{72}
-\indexentry{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{72}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}|hyperpage}{72}
-\indexentry{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{72}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}column@{DSExpressionFlexget\_\discretionary {-}{}{}column}|hyperpage}{72}
-\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}column@{DSExpressionFlexget\_\discretionary {-}{}{}column}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{72}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}extra@{DSExpressionFlexget\_\discretionary {-}{}{}extra}|hyperpage}{73}
-\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}extra@{DSExpressionFlexget\_\discretionary {-}{}{}extra}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{73}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}in@{DSExpressionFlexget\_\discretionary {-}{}{}in}|hyperpage}{73}
-\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}in@{DSExpressionFlexget\_\discretionary {-}{}{}in}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{73}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}leng@{DSExpressionFlexget\_\discretionary {-}{}{}leng}|hyperpage}{73}
-\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}leng@{DSExpressionFlexget\_\discretionary {-}{}{}leng}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{73}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}lineno@{DSExpressionFlexget\_\discretionary {-}{}{}lineno}|hyperpage}{73}
-\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}lineno@{DSExpressionFlexget\_\discretionary {-}{}{}lineno}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{73}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}out@{DSExpressionFlexget\_\discretionary {-}{}{}out}|hyperpage}{73}
-\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}out@{DSExpressionFlexget\_\discretionary {-}{}{}out}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{73}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}text@{DSExpressionFlexget\_\discretionary {-}{}{}text}|hyperpage}{73}
-\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}text@{DSExpressionFlexget\_\discretionary {-}{}{}text}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{73}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{74}
-\indexentry{DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{74}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{74}
-\indexentry{DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{74}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexset\_\discretionary {-}{}{}column@{DSExpressionFlexset\_\discretionary {-}{}{}column}|hyperpage}{74}
-\indexentry{DSExpressionFlexset\_\discretionary {-}{}{}column@{DSExpressionFlexset\_\discretionary {-}{}{}column}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{74}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexset\_\discretionary {-}{}{}extra@{DSExpressionFlexset\_\discretionary {-}{}{}extra}|hyperpage}{74}
-\indexentry{DSExpressionFlexset\_\discretionary {-}{}{}extra@{DSExpressionFlexset\_\discretionary {-}{}{}extra}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{74}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexset\_\discretionary {-}{}{}in@{DSExpressionFlexset\_\discretionary {-}{}{}in}|hyperpage}{74}
-\indexentry{DSExpressionFlexset\_\discretionary {-}{}{}in@{DSExpressionFlexset\_\discretionary {-}{}{}in}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{74}
-\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexset\_\discretionary {-}{}{}lineno@{DSExpressionFlexset\_\discretionary {-}{}{}lineno}|hyperpage}{75}
-\indexentry{DSExpressionFlexset\_\discretionary {-}{}{}lineno@{DSExpressionFlexset\_\discretionary {-}{}{}lineno}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{75}
-\indexentry{DSGMASystem.c@{DSGMASystem.c}|hyperpage}{76}
-\indexentry{DSGMASystem.h@{DSGMASystem.h}|hyperpage}{78}
-\indexentry{DSGMASystemParsingAux.h@{DSGMASystemParsingAux.h}|hyperpage}{80}
-\indexentry{DSGMASystemParsingAux.h@{DSGMASystemParsingAux.h}!gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t@{gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t}|hyperpage}{81}
-\indexentry{gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t@{gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t}!DSGMASystemParsingAux.h@{DSGMASystemParsingAux.h}|hyperpage}{81}
-\indexentry{DSIO.c@{DSIO.c}|hyperpage}{82}
-\indexentry{DSIO.c@{DSIO.c}!DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}|hyperpage}{84}
-\indexentry{DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{84}
-\indexentry{DSIO.c@{DSIO.c}!DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}|hyperpage}{84}
-\indexentry{DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}!DSIO.c@{DSIO.c}|hyperpage}{84}
-\indexentry{DSIO.c@{DSIO.c}!DSIOSetErrorFile@{DSIOSetErrorFile}|hyperpage}{84}
-\indexentry{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.c@{DSIO.c}|hyperpage}{84}
-\indexentry{DSIO.c@{DSIO.c}!DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}|hyperpage}{84}
-\indexentry{DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}!DSIO.c@{DSIO.c}|hyperpage}{84}
-\indexentry{DSIO.c@{DSIO.c}!DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}|hyperpage}{85}
-\indexentry{DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}!DSIO.c@{DSIO.c}|hyperpage}{85}
-\indexentry{DSIO.c@{DSIO.c}!DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}|hyperpage}{85}
-\indexentry{DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}!DSIO.c@{DSIO.c}|hyperpage}{85}
-\indexentry{DSIO.c@{DSIO.c}!DSIOSetPrintFunction@{DSIOSetPrintFunction}|hyperpage}{85}
-\indexentry{DSIOSetPrintFunction@{DSIOSetPrintFunction}!DSIO.c@{DSIO.c}|hyperpage}{85}
-\indexentry{DSIO.c@{DSIO.c}!DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}|hyperpage}{85}
-\indexentry{DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}!DSIO.c@{DSIO.c}|hyperpage}{85}
-\indexentry{DSIO.c@{DSIO.c}!DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}|hyperpage}{86}
-\indexentry{DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{86}
-\indexentry{DSIO.c@{DSIO.c}!DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}|hyperpage}{86}
-\indexentry{DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{86}
-\indexentry{DSIO.c@{DSIO.c}!DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}|hyperpage}{86}
-\indexentry{DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{86}
-\indexentry{DSIO.c@{DSIO.c}!DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}|hyperpage}{87}
-\indexentry{DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{87}
-\indexentry{DSIO.c@{DSIO.c}!DSCasePrintingOptions@{DSCasePrintingOptions}|hyperpage}{87}
-\indexentry{DSCasePrintingOptions@{DSCasePrintingOptions}!DSIO.c@{DSIO.c}|hyperpage}{87}
-\indexentry{DSIO.c@{DSIO.c}!DSSSystemPrintingOptions@{DSSSystemPrintingOptions}|hyperpage}{87}
-\indexentry{DSSSystemPrintingOptions@{DSSSystemPrintingOptions}!DSIO.c@{DSIO.c}|hyperpage}{87}
-\indexentry{DSIO.h@{DSIO.h}|hyperpage}{88}
-\indexentry{DSIO.h@{DSIO.h}!DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}|hyperpage}{90}
-\indexentry{DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{90}
-\indexentry{DSIO.h@{DSIO.h}!DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}|hyperpage}{91}
-\indexentry{DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}!DSIO.h@{DSIO.h}|hyperpage}{91}
-\indexentry{DSIO.h@{DSIO.h}!DSIOSetErrorFile@{DSIOSetErrorFile}|hyperpage}{91}
-\indexentry{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.h@{DSIO.h}|hyperpage}{91}
-\indexentry{DSIO.h@{DSIO.h}!DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}|hyperpage}{91}
-\indexentry{DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}!DSIO.h@{DSIO.h}|hyperpage}{91}
-\indexentry{DSIO.h@{DSIO.h}!DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}|hyperpage}{91}
-\indexentry{DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}!DSIO.h@{DSIO.h}|hyperpage}{91}
-\indexentry{DSIO.h@{DSIO.h}!DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}|hyperpage}{92}
-\indexentry{DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}!DSIO.h@{DSIO.h}|hyperpage}{92}
-\indexentry{DSIO.h@{DSIO.h}!DSIOSetPrintFunction@{DSIOSetPrintFunction}|hyperpage}{92}
-\indexentry{DSIOSetPrintFunction@{DSIOSetPrintFunction}!DSIO.h@{DSIO.h}|hyperpage}{92}
-\indexentry{DSIO.h@{DSIO.h}!DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}|hyperpage}{92}
-\indexentry{DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}!DSIO.h@{DSIO.h}|hyperpage}{92}
-\indexentry{DSIO.h@{DSIO.h}!DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}|hyperpage}{92}
-\indexentry{DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{92}
-\indexentry{DSIO.h@{DSIO.h}!DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}|hyperpage}{93}
-\indexentry{DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{93}
-\indexentry{DSIO.h@{DSIO.h}!DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}|hyperpage}{93}
-\indexentry{DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{93}
-\indexentry{DSIO.h@{DSIO.h}!DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}|hyperpage}{93}
-\indexentry{DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{93}
-\indexentry{DSIO.h@{DSIO.h}!DSIOErrorFile@{DSIOErrorFile}|hyperpage}{94}
-\indexentry{DSIOErrorFile@{DSIOErrorFile}!DSIO.h@{DSIO.h}|hyperpage}{94}
-\indexentry{DSIO.h@{DSIO.h}!DSPostError@{DSPostError}|hyperpage}{94}
-\indexentry{DSPostError@{DSPostError}!DSIO.h@{DSIO.h}|hyperpage}{94}
-\indexentry{DSIO.h@{DSIO.h}!DSPostFatalError@{DSPostFatalError}|hyperpage}{94}
-\indexentry{DSPostFatalError@{DSPostFatalError}!DSIO.h@{DSIO.h}|hyperpage}{94}
-\indexentry{DSIO.h@{DSIO.h}!DSPostWarning@{DSPostWarning}|hyperpage}{95}
-\indexentry{DSPostWarning@{DSPostWarning}!DSIO.h@{DSIO.h}|hyperpage}{95}
-\indexentry{DSIO.h@{DSIO.h}!DSPrintf@{DSPrintf}|hyperpage}{95}
-\indexentry{DSPrintf@{DSPrintf}!DSIO.h@{DSIO.h}|hyperpage}{95}
-\indexentry{DSMatrix.h@{DSMatrix.h}|hyperpage}{96}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixAlloc@{DSMatrixAlloc}|hyperpage}{99}
-\indexentry{DSMatrixAlloc@{DSMatrixAlloc}!DSMatrix.h@{DSMatrix.h}|hyperpage}{99}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}|hyperpage}{99}
-\indexentry{DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}!DSMatrix.h@{DSMatrix.h}|hyperpage}{99}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixByParsingString@{DSMatrixByParsingString}|hyperpage}{100}
-\indexentry{DSMatrixByParsingString@{DSMatrixByParsingString}!DSMatrix.h@{DSMatrix.h}|hyperpage}{100}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}|hyperpage}{100}
-\indexentry{DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}!DSMatrix.h@{DSMatrix.h}|hyperpage}{100}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixCalloc@{DSMatrixCalloc}|hyperpage}{100}
-\indexentry{DSMatrixCalloc@{DSMatrixCalloc}!DSMatrix.h@{DSMatrix.h}|hyperpage}{100}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixCopy@{DSMatrixCopy}|hyperpage}{101}
-\indexentry{DSMatrixCopy@{DSMatrixCopy}!DSMatrix.h@{DSMatrix.h}|hyperpage}{101}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixDoubleValue@{DSMatrixDoubleValue}|hyperpage}{101}
-\indexentry{DSMatrixDoubleValue@{DSMatrixDoubleValue}!DSMatrix.h@{DSMatrix.h}|hyperpage}{101}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixFree@{DSMatrixFree}|hyperpage}{101}
-\indexentry{DSMatrixFree@{DSMatrixFree}!DSMatrix.h@{DSMatrix.h}|hyperpage}{101}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixIdentity@{DSMatrixIdentity}|hyperpage}{102}
-\indexentry{DSMatrixIdentity@{DSMatrixIdentity}!DSMatrix.h@{DSMatrix.h}|hyperpage}{102}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}|hyperpage}{102}
-\indexentry{DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}!DSMatrix.h@{DSMatrix.h}|hyperpage}{102}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixRandomNumbers@{DSMatrixRandomNumbers}|hyperpage}{102}
-\indexentry{DSMatrixRandomNumbers@{DSMatrixRandomNumbers}!DSMatrix.h@{DSMatrix.h}|hyperpage}{102}
-\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}|hyperpage}{102}
-\indexentry{DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}!DSMatrix.h@{DSMatrix.h}|hyperpage}{102}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{104}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixAlloc@{DSMatrixAlloc}|hyperpage}{107}
-\indexentry{DSMatrixAlloc@{DSMatrixAlloc}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{107}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}|hyperpage}{107}
-\indexentry{DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{107}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixByParsingString@{DSMatrixByParsingString}|hyperpage}{108}
-\indexentry{DSMatrixByParsingString@{DSMatrixByParsingString}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{108}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}|hyperpage}{108}
-\indexentry{DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{108}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixCalloc@{DSMatrixCalloc}|hyperpage}{108}
-\indexentry{DSMatrixCalloc@{DSMatrixCalloc}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{108}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixCopy@{DSMatrixCopy}|hyperpage}{109}
-\indexentry{DSMatrixCopy@{DSMatrixCopy}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{109}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixDoubleValue@{DSMatrixDoubleValue}|hyperpage}{109}
-\indexentry{DSMatrixDoubleValue@{DSMatrixDoubleValue}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{109}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixFree@{DSMatrixFree}|hyperpage}{109}
-\indexentry{DSMatrixFree@{DSMatrixFree}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{109}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixIdentity@{DSMatrixIdentity}|hyperpage}{110}
-\indexentry{DSMatrixIdentity@{DSMatrixIdentity}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{110}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}|hyperpage}{110}
-\indexentry{DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{110}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixRandomNumbers@{DSMatrixRandomNumbers}|hyperpage}{110}
-\indexentry{DSMatrixRandomNumbers@{DSMatrixRandomNumbers}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{110}
-\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}|hyperpage}{110}
-\indexentry{DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{110}
-\indexentry{DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{112}
-\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}|hyperpage}{113}
-\indexentry{DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{113}
-\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayAlloc@{DSMatrixArrayAlloc}|hyperpage}{113}
-\indexentry{DSMatrixArrayAlloc@{DSMatrixArrayAlloc}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{113}
-\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayCopy@{DSMatrixArrayCopy}|hyperpage}{113}
-\indexentry{DSMatrixArrayCopy@{DSMatrixArrayCopy}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{113}
-\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayFree@{DSMatrixArrayFree}|hyperpage}{114}
-\indexentry{DSMatrixArrayFree@{DSMatrixArrayFree}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{114}
-\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayMatrix@{DSMatrixArrayMatrix}|hyperpage}{114}
-\indexentry{DSMatrixArrayMatrix@{DSMatrixArrayMatrix}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{114}
-\indexentry{DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{115}
-\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}|hyperpage}{116}
-\indexentry{DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{116}
-\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayAlloc@{DSMatrixArrayAlloc}|hyperpage}{116}
-\indexentry{DSMatrixArrayAlloc@{DSMatrixArrayAlloc}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{116}
-\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayCopy@{DSMatrixArrayCopy}|hyperpage}{117}
-\indexentry{DSMatrixArrayCopy@{DSMatrixArrayCopy}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{117}
-\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayFree@{DSMatrixArrayFree}|hyperpage}{117}
-\indexentry{DSMatrixArrayFree@{DSMatrixArrayFree}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{117}
-\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayMatrix@{DSMatrixArrayMatrix}|hyperpage}{117}
-\indexentry{DSMatrixArrayMatrix@{DSMatrixArrayMatrix}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{117}
-\indexentry{DSMatrixTokenizer.c@{DSMatrixTokenizer.c}|hyperpage}{118}
-\indexentry{DSMatrixTokenizer.h@{DSMatrixTokenizer.h}|hyperpage}{119}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{121}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}|hyperpage}{124}
-\indexentry{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{124}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}|hyperpage}{124}
-\indexentry{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{124}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}|hyperpage}{125}
-\indexentry{YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{125}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}|hyperpage}{125}
-\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{125}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}|hyperpage}{125}
-\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{125}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!yyless@{yyless}|hyperpage}{126}
-\indexentry{yyless@{yyless}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{126}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!yyless@{yyless}|hyperpage}{126}
-\indexentry{yyless@{yyless}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{126}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}|hyperpage}{126}
-\indexentry{DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{126}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}|hyperpage}{126}
-\indexentry{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{126}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}|hyperpage}{127}
-\indexentry{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{127}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}|hyperpage}{127}
-\indexentry{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{127}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}column@{DSMatrixFlexget\_\discretionary {-}{}{}column}|hyperpage}{127}
-\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}column@{DSMatrixFlexget\_\discretionary {-}{}{}column}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{127}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}extra@{DSMatrixFlexget\_\discretionary {-}{}{}extra}|hyperpage}{127}
-\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}extra@{DSMatrixFlexget\_\discretionary {-}{}{}extra}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{127}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}in@{DSMatrixFlexget\_\discretionary {-}{}{}in}|hyperpage}{128}
-\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}in@{DSMatrixFlexget\_\discretionary {-}{}{}in}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{128}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}leng@{DSMatrixFlexget\_\discretionary {-}{}{}leng}|hyperpage}{128}
-\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}leng@{DSMatrixFlexget\_\discretionary {-}{}{}leng}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{128}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}lineno@{DSMatrixFlexget\_\discretionary {-}{}{}lineno}|hyperpage}{128}
-\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}lineno@{DSMatrixFlexget\_\discretionary {-}{}{}lineno}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{128}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}out@{DSMatrixFlexget\_\discretionary {-}{}{}out}|hyperpage}{128}
-\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}out@{DSMatrixFlexget\_\discretionary {-}{}{}out}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{128}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}text@{DSMatrixFlexget\_\discretionary {-}{}{}text}|hyperpage}{128}
-\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}text@{DSMatrixFlexget\_\discretionary {-}{}{}text}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{128}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{128}
-\indexentry{DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{128}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{129}
-\indexentry{DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{129}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexset\_\discretionary {-}{}{}column@{DSMatrixFlexset\_\discretionary {-}{}{}column}|hyperpage}{129}
-\indexentry{DSMatrixFlexset\_\discretionary {-}{}{}column@{DSMatrixFlexset\_\discretionary {-}{}{}column}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{129}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexset\_\discretionary {-}{}{}extra@{DSMatrixFlexset\_\discretionary {-}{}{}extra}|hyperpage}{129}
-\indexentry{DSMatrixFlexset\_\discretionary {-}{}{}extra@{DSMatrixFlexset\_\discretionary {-}{}{}extra}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{129}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexset\_\discretionary {-}{}{}in@{DSMatrixFlexset\_\discretionary {-}{}{}in}|hyperpage}{129}
-\indexentry{DSMatrixFlexset\_\discretionary {-}{}{}in@{DSMatrixFlexset\_\discretionary {-}{}{}in}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{129}
-\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexset\_\discretionary {-}{}{}lineno@{DSMatrixFlexset\_\discretionary {-}{}{}lineno}|hyperpage}{129}
-\indexentry{DSMatrixFlexset\_\discretionary {-}{}{}lineno@{DSMatrixFlexset\_\discretionary {-}{}{}lineno}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{129}
-\indexentry{DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{131}
-\indexentry{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureCalloc@{DSSecureCalloc}|hyperpage}{132}
-\indexentry{DSSecureCalloc@{DSSecureCalloc}!DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{132}
-\indexentry{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureFree@{DSSecureFree}|hyperpage}{132}
-\indexentry{DSSecureFree@{DSSecureFree}!DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{132}
-\indexentry{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureMalloc@{DSSecureMalloc}|hyperpage}{132}
-\indexentry{DSSecureMalloc@{DSSecureMalloc}!DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{132}
-\indexentry{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureRealloc@{DSSecureRealloc}|hyperpage}{133}
-\indexentry{DSSecureRealloc@{DSSecureRealloc}!DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{133}
-\indexentry{DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{134}
-\indexentry{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureCalloc@{DSSecureCalloc}|hyperpage}{135}
-\indexentry{DSSecureCalloc@{DSSecureCalloc}!DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{135}
-\indexentry{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureFree@{DSSecureFree}|hyperpage}{135}
-\indexentry{DSSecureFree@{DSSecureFree}!DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{135}
-\indexentry{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureMalloc@{DSSecureMalloc}|hyperpage}{135}
-\indexentry{DSSecureMalloc@{DSSecureMalloc}!DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{135}
-\indexentry{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureRealloc@{DSSecureRealloc}|hyperpage}{136}
-\indexentry{DSSecureRealloc@{DSSecureRealloc}!DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{136}
-\indexentry{DSSSystem.h@{DSSSystem.h}|hyperpage}{137}
-\indexentry{DSStd.h@{DSStd.h}|hyperpage}{139}
-\indexentry{DSSymbolicMatrix.h@{DSSymbolicMatrix.h}|hyperpage}{141}
-\indexentry{DSTypes.h@{DSTypes.h}|hyperpage}{143}
-\indexentry{DSTypes.h@{DSTypes.h}!DSComplexMatrix@{DSComplexMatrix}|hyperpage}{145}
-\indexentry{DSComplexMatrix@{DSComplexMatrix}!DSTypes.h@{DSTypes.h}|hyperpage}{145}
-\indexentry{DSTypes.h@{DSTypes.h}!DSExpression@{DSExpression}|hyperpage}{145}
-\indexentry{DSExpression@{DSExpression}!DSTypes.h@{DSTypes.h}|hyperpage}{145}
-\indexentry{DSTypes.h@{DSTypes.h}!DSVariablePoolLock@{DSVariablePoolLock}|hyperpage}{146}
-\indexentry{DSVariablePoolLock@{DSVariablePoolLock}!DSTypes.h@{DSTypes.h}|hyperpage}{146}
-\indexentry{DSLockReadWriteAdd@{DSLockReadWriteAdd}!DSTypes.h@{DSTypes.h}|hyperpage}{146}
-\indexentry{DSTypes.h@{DSTypes.h}!DSLockReadWriteAdd@{DSLockReadWriteAdd}|hyperpage}{146}
-\indexentry{DSLockReadWrite@{DSLockReadWrite}!DSTypes.h@{DSTypes.h}|hyperpage}{146}
-\indexentry{DSTypes.h@{DSTypes.h}!DSLockReadWrite@{DSLockReadWrite}|hyperpage}{146}
-\indexentry{DSLockReadOnly@{DSLockReadOnly}!DSTypes.h@{DSTypes.h}|hyperpage}{146}
-\indexentry{DSTypes.h@{DSTypes.h}!DSLockReadOnly@{DSLockReadOnly}|hyperpage}{146}
-\indexentry{DSLockLocked@{DSLockLocked}!DSTypes.h@{DSTypes.h}|hyperpage}{146}
-\indexentry{DSTypes.h@{DSTypes.h}!DSLockLocked@{DSLockLocked}|hyperpage}{146}
-\indexentry{DSVariable.c@{DSVariable.c}|hyperpage}{147}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariableAlloc@{DSVariableAlloc}|hyperpage}{149}
-\indexentry{DSVariableAlloc@{DSVariableAlloc}!DSVariable.c@{DSVariable.c}|hyperpage}{149}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariableFree@{DSVariableFree}|hyperpage}{149}
-\indexentry{DSVariableFree@{DSVariableFree}!DSVariable.c@{DSVariable.c}|hyperpage}{149}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolAddVariable@{DSVariablePoolAddVariable}|hyperpage}{150}
-\indexentry{DSVariablePoolAddVariable@{DSVariablePoolAddVariable}!DSVariable.c@{DSVariable.c}|hyperpage}{150}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}|hyperpage}{150}
-\indexentry{DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}!DSVariable.c@{DSVariable.c}|hyperpage}{150}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolAlloc@{DSVariablePoolAlloc}|hyperpage}{150}
-\indexentry{DSVariablePoolAlloc@{DSVariablePoolAlloc}!DSVariable.c@{DSVariable.c}|hyperpage}{150}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolCopy@{DSVariablePoolCopy}|hyperpage}{151}
-\indexentry{DSVariablePoolCopy@{DSVariablePoolCopy}!DSVariable.c@{DSVariable.c}|hyperpage}{151}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolFree@{DSVariablePoolFree}|hyperpage}{151}
-\indexentry{DSVariablePoolFree@{DSVariablePoolFree}!DSVariable.c@{DSVariable.c}|hyperpage}{151}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}|hyperpage}{151}
-\indexentry{DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}!DSVariable.c@{DSVariable.c}|hyperpage}{151}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}|hyperpage}{152}
-\indexentry{DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}!DSVariable.c@{DSVariable.c}|hyperpage}{152}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}|hyperpage}{152}
-\indexentry{DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}!DSVariable.c@{DSVariable.c}|hyperpage}{152}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}|hyperpage}{152}
-\indexentry{DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}!DSVariable.c@{DSVariable.c}|hyperpage}{152}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}|hyperpage}{152}
-\indexentry{DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}!DSVariable.c@{DSVariable.c}|hyperpage}{152}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}|hyperpage}{153}
-\indexentry{DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}!DSVariable.c@{DSVariable.c}|hyperpage}{153}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}|hyperpage}{153}
-\indexentry{DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}!DSVariable.c@{DSVariable.c}|hyperpage}{153}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariableRelease@{DSVariableRelease}|hyperpage}{153}
-\indexentry{DSVariableRelease@{DSVariableRelease}!DSVariable.c@{DSVariable.c}|hyperpage}{153}
-\indexentry{DSVariable.c@{DSVariable.c}!DSVariableRetain@{DSVariableRetain}|hyperpage}{154}
-\indexentry{DSVariableRetain@{DSVariableRetain}!DSVariable.c@{DSVariable.c}|hyperpage}{154}
-\indexentry{DSVariable.h@{DSVariable.h}|hyperpage}{155}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariableAlloc@{DSVariableAlloc}|hyperpage}{157}
-\indexentry{DSVariableAlloc@{DSVariableAlloc}!DSVariable.h@{DSVariable.h}|hyperpage}{157}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariableFree@{DSVariableFree}|hyperpage}{158}
-\indexentry{DSVariableFree@{DSVariableFree}!DSVariable.h@{DSVariable.h}|hyperpage}{158}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolAddVariable@{DSVariablePoolAddVariable}|hyperpage}{158}
-\indexentry{DSVariablePoolAddVariable@{DSVariablePoolAddVariable}!DSVariable.h@{DSVariable.h}|hyperpage}{158}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}|hyperpage}{158}
-\indexentry{DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}!DSVariable.h@{DSVariable.h}|hyperpage}{158}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolAlloc@{DSVariablePoolAlloc}|hyperpage}{159}
-\indexentry{DSVariablePoolAlloc@{DSVariablePoolAlloc}!DSVariable.h@{DSVariable.h}|hyperpage}{159}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolCopy@{DSVariablePoolCopy}|hyperpage}{159}
-\indexentry{DSVariablePoolCopy@{DSVariablePoolCopy}!DSVariable.h@{DSVariable.h}|hyperpage}{159}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolFree@{DSVariablePoolFree}|hyperpage}{159}
-\indexentry{DSVariablePoolFree@{DSVariablePoolFree}!DSVariable.h@{DSVariable.h}|hyperpage}{159}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}|hyperpage}{160}
-\indexentry{DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}!DSVariable.h@{DSVariable.h}|hyperpage}{160}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}|hyperpage}{160}
-\indexentry{DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}!DSVariable.h@{DSVariable.h}|hyperpage}{160}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}|hyperpage}{160}
-\indexentry{DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}!DSVariable.h@{DSVariable.h}|hyperpage}{160}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}|hyperpage}{160}
-\indexentry{DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}!DSVariable.h@{DSVariable.h}|hyperpage}{160}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}|hyperpage}{161}
-\indexentry{DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}!DSVariable.h@{DSVariable.h}|hyperpage}{161}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}|hyperpage}{161}
-\indexentry{DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}!DSVariable.h@{DSVariable.h}|hyperpage}{161}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}|hyperpage}{161}
-\indexentry{DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}!DSVariable.h@{DSVariable.h}|hyperpage}{161}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariableRelease@{DSVariableRelease}|hyperpage}{162}
-\indexentry{DSVariableRelease@{DSVariableRelease}!DSVariable.h@{DSVariable.h}|hyperpage}{162}
-\indexentry{DSVariable.h@{DSVariable.h}!DSVariableRetain@{DSVariableRetain}|hyperpage}{162}
-\indexentry{DSVariableRetain@{DSVariableRetain}!DSVariable.h@{DSVariable.h}|hyperpage}{162}
-\indexentry{DSVariableTokenizer.c@{DSVariableTokenizer.c}|hyperpage}{163}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{164}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}|hyperpage}{168}
-\indexentry{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{168}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}|hyperpage}{168}
-\indexentry{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{168}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}|hyperpage}{168}
-\indexentry{YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{168}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}|hyperpage}{168}
-\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{168}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}|hyperpage}{169}
-\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{169}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yyless@{yyless}|hyperpage}{169}
-\indexentry{yyless@{yyless}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{169}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yyless@{yyless}|hyperpage}{169}
-\indexentry{yyless@{yyless}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{169}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer}|hyperpage}{170}
-\indexentry{DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{170}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer}|hyperpage}{170}
-\indexentry{DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{170}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}|hyperpage}{170}
-\indexentry{DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{170}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}|hyperpage}{170}
-\indexentry{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{170}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}|hyperpage}{170}
-\indexentry{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{170}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}|hyperpage}{171}
-\indexentry{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{171}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer}|hyperpage}{171}
-\indexentry{DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{171}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}column@{DSVariableFlexget\_\discretionary {-}{}{}column}|hyperpage}{171}
-\indexentry{DSVariableFlexget\_\discretionary {-}{}{}column@{DSVariableFlexget\_\discretionary {-}{}{}column}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{171}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}extra@{DSVariableFlexget\_\discretionary {-}{}{}extra}|hyperpage}{171}
-\indexentry{DSVariableFlexget\_\discretionary {-}{}{}extra@{DSVariableFlexget\_\discretionary {-}{}{}extra}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{171}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}in@{DSVariableFlexget\_\discretionary {-}{}{}in}|hyperpage}{172}
-\indexentry{DSVariableFlexget\_\discretionary {-}{}{}in@{DSVariableFlexget\_\discretionary {-}{}{}in}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{172}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}leng@{DSVariableFlexget\_\discretionary {-}{}{}leng}|hyperpage}{172}
-\indexentry{DSVariableFlexget\_\discretionary {-}{}{}leng@{DSVariableFlexget\_\discretionary {-}{}{}leng}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{172}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}lineno@{DSVariableFlexget\_\discretionary {-}{}{}lineno}|hyperpage}{172}
-\indexentry{DSVariableFlexget\_\discretionary {-}{}{}lineno@{DSVariableFlexget\_\discretionary {-}{}{}lineno}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{172}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}out@{DSVariableFlexget\_\discretionary {-}{}{}out}|hyperpage}{172}
-\indexentry{DSVariableFlexget\_\discretionary {-}{}{}out@{DSVariableFlexget\_\discretionary {-}{}{}out}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{172}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}text@{DSVariableFlexget\_\discretionary {-}{}{}text}|hyperpage}{172}
-\indexentry{DSVariableFlexget\_\discretionary {-}{}{}text@{DSVariableFlexget\_\discretionary {-}{}{}text}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{172}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{172}
-\indexentry{DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{172}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{173}
-\indexentry{DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexrestart@{DSVariableFlexrestart}|hyperpage}{173}
-\indexentry{DSVariableFlexrestart@{DSVariableFlexrestart}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexset\_\discretionary {-}{}{}column@{DSVariableFlexset\_\discretionary {-}{}{}column}|hyperpage}{173}
-\indexentry{DSVariableFlexset\_\discretionary {-}{}{}column@{DSVariableFlexset\_\discretionary {-}{}{}column}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexset\_\discretionary {-}{}{}extra@{DSVariableFlexset\_\discretionary {-}{}{}extra}|hyperpage}{173}
-\indexentry{DSVariableFlexset\_\discretionary {-}{}{}extra@{DSVariableFlexset\_\discretionary {-}{}{}extra}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexset\_\discretionary {-}{}{}in@{DSVariableFlexset\_\discretionary {-}{}{}in}|hyperpage}{173}
-\indexentry{DSVariableFlexset\_\discretionary {-}{}{}in@{DSVariableFlexset\_\discretionary {-}{}{}in}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexset\_\discretionary {-}{}{}lineno@{DSVariableFlexset\_\discretionary {-}{}{}lineno}|hyperpage}{174}
-\indexentry{DSVariableFlexset\_\discretionary {-}{}{}lineno@{DSVariableFlexset\_\discretionary {-}{}{}lineno}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{174}
-\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state}|hyperpage}{174}
-\indexentry{yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{174}
+\indexentry{Macros to manipulate dictionary nodes.@{Macros to manipulate dictionary nodes.}|hyperpage}{9}
+\indexentry{DS\_\discretionary {-}{}{}DICTIONARY\_\discretionary {-}{}{}ACCESSORY@{DS\_\discretionary {-}{}{}DICTIONARY\_\discretionary {-}{}{}ACCESSORY}!dsInternalDictionarySetValue@{dsInternalDictionarySetValue}|hyperpage}{9}
+\indexentry{dsInternalDictionarySetValue@{dsInternalDictionarySetValue}!DS_DICTIONARY_ACCESSORY@{DS\_\discretionary {-}{}{}DICTIONARY\_\discretionary {-}{}{}ACCESSORY}|hyperpage}{9}
+\indexentry{DS\_\discretionary {-}{}{}DICTIONARY\_\discretionary {-}{}{}ACCESSORY@{DS\_\discretionary {-}{}{}DICTIONARY\_\discretionary {-}{}{}ACCESSORY}!dsInternalDictionaryValue@{dsInternalDictionaryValue}|hyperpage}{9}
+\indexentry{dsInternalDictionaryValue@{dsInternalDictionaryValue}!DS_DICTIONARY_ACCESSORY@{DS\_\discretionary {-}{}{}DICTIONARY\_\discretionary {-}{}{}ACCESSORY}|hyperpage}{9}
+\indexentry{Messages for DS Errors.@{Messages for DS Errors.}|hyperpage}{10}
+\indexentry{Actions for DS Errors.@{Actions for DS Errors.}|hyperpage}{12}
+\indexentry{DSGMAACCESSORS@{DSGMAACCESSORS}|hyperpage}{13}
+\indexentry{DS\_\discretionary {-}{}{}IO\_\discretionary {-}{}{}TAG\_\discretionary {-}{}{}TYPES@{DS\_\discretionary {-}{}{}IO\_\discretionary {-}{}{}TAG\_\discretionary {-}{}{}TYPES}|hyperpage}{14}
+\indexentry{Options for JSON conversion of DSCase object.@{Options for JSON conversion of DSCase object.}|hyperpage}{15}
+\indexentry{Options for JSON conversion of DSSSystem object.@{Options for JSON conversion of DSSSystem object.}|hyperpage}{16}
+\indexentry{DSSSysACCESSORS@{DSSSysACCESSORS}|hyperpage}{17}
+\indexentry{Macros to manipulate variables.@{Macros to manipulate variables.}|hyperpage}{18}
+\indexentry{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}!DSVariableName@{DSVariableName}|hyperpage}{18}
+\indexentry{DSVariableName@{DSVariableName}!DS_VARIABLE_ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}|hyperpage}{18}
+\indexentry{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}!DSVariableSetValue@{DSVariableSetValue}|hyperpage}{18}
+\indexentry{DSVariableSetValue@{DSVariableSetValue}!DS_VARIABLE_ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}|hyperpage}{18}
+\indexentry{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}!DSVariableValue@{DSVariableValue}|hyperpage}{18}
+\indexentry{DSVariableValue@{DSVariableValue}!DS_VARIABLE_ACCESSORY@{DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}|hyperpage}{18}
+\indexentry{\_\discretionary {-}{}{}varDictionary@{\_\discretionary {-}{}{}varDictionary}|hyperpage}{19}
+\indexentry{parser\_\discretionary {-}{}{}aux::base\_\discretionary {-}{}{}info@{parser\_\discretionary {-}{}{}aux::base\_\discretionary {-}{}{}info}|hyperpage}{21}
+\indexentry{ds\_\discretionary {-}{}{}parallelstack\_\discretionary {-}{}{}t@{ds\_\discretionary {-}{}{}parallelstack\_\discretionary {-}{}{}t}|hyperpage}{22}
+\indexentry{DSCase@{DSCase}|hyperpage}{23}
+\indexentry{DSDesignSpace@{DSDesignSpace}|hyperpage}{25}
+\indexentry{DSDictionary@{DSDictionary}|hyperpage}{26}
+\indexentry{dsexpression@{dsexpression}|hyperpage}{27}
+\indexentry{DSGMASystem@{DSGMASystem}|hyperpage}{28}
+\indexentry{DSMatrix@{DSMatrix}|hyperpage}{29}
+\indexentry{DSMatrixArray@{DSMatrixArray}|hyperpage}{30}
+\indexentry{DSSSystem@{DSSSystem}|hyperpage}{31}
+\indexentry{DSStack@{DSStack}|hyperpage}{32}
+\indexentry{DSSymbolicMatrix@{DSSymbolicMatrix}|hyperpage}{33}
+\indexentry{DSVariable@{DSVariable}|hyperpage}{34}
+\indexentry{DSVariablePool@{DSVariablePool}|hyperpage}{35}
+\indexentry{DSVertices@{DSVertices}|hyperpage}{36}
+\indexentry{expression\_\discretionary {-}{}{}token@{expression\_\discretionary {-}{}{}token}|hyperpage}{37}
+\indexentry{matrix\_\discretionary {-}{}{}token@{matrix\_\discretionary {-}{}{}token}|hyperpage}{38}
+\indexentry{parse\_\discretionary {-}{}{}expression\_\discretionary {-}{}{}s@{parse\_\discretionary {-}{}{}expression\_\discretionary {-}{}{}s}|hyperpage}{39}
+\indexentry{parser\_\discretionary {-}{}{}aux@{parser\_\discretionary {-}{}{}aux}|hyperpage}{40}
+\indexentry{pthread\_\discretionary {-}{}{}struct@{pthread\_\discretionary {-}{}{}struct}|hyperpage}{41}
+\indexentry{v\_\discretionary {-}{}{}token\_\discretionary {-}{}{}data@{v\_\discretionary {-}{}{}token\_\discretionary {-}{}{}data}|hyperpage}{42}
+\indexentry{variable\_\discretionary {-}{}{}token@{variable\_\discretionary {-}{}{}token}|hyperpage}{43}
+\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{44}
+\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column@{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}|hyperpage}{44}
+\indexentry{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column@{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}!yy_buffer_state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{44}
+\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno@{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}|hyperpage}{44}
+\indexentry{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno@{yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}!yy_buffer_state@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{44}
+\indexentry{yy\_\discretionary {-}{}{}trans\_\discretionary {-}{}{}info@{yy\_\discretionary {-}{}{}trans\_\discretionary {-}{}{}info}|hyperpage}{45}
+\indexentry{yyguts\_\discretionary {-}{}{}t@{yyguts\_\discretionary {-}{}{}t}|hyperpage}{46}
+\indexentry{yyguts\_\discretionary {-}{}{}t@{yyguts\_\discretionary {-}{}{}t}!yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack}|hyperpage}{46}
+\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack}!yyguts_t@{yyguts\_\discretionary {-}{}{}t}|hyperpage}{46}
+\indexentry{yyguts\_\discretionary {-}{}{}t@{yyguts\_\discretionary {-}{}{}t}!yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max}|hyperpage}{46}
+\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max}!yyguts_t@{yyguts\_\discretionary {-}{}{}t}|hyperpage}{46}
+\indexentry{yyguts\_\discretionary {-}{}{}t@{yyguts\_\discretionary {-}{}{}t}!yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top}|hyperpage}{46}
+\indexentry{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top@{yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top}!yyguts_t@{yyguts\_\discretionary {-}{}{}t}|hyperpage}{46}
+\indexentry{YYMINORTYPE@{YYMINORTYPE}|hyperpage}{47}
+\indexentry{yyParser@{yyParser}|hyperpage}{48}
+\indexentry{yyStackEntry@{yyStackEntry}|hyperpage}{49}
+\indexentry{DSDesignSpace.c@{DSDesignSpace.c}|hyperpage}{51}
+\indexentry{DSDesignSpace.h@{DSDesignSpace.h}|hyperpage}{54}
+\indexentry{DSDesignSpaceParallel.c@{DSDesignSpaceParallel.c}|hyperpage}{56}
+\indexentry{DSDesignSpaceParallel.h@{DSDesignSpaceParallel.h}|hyperpage}{58}
+\indexentry{DSErrors.c@{DSErrors.c}|hyperpage}{60}
+\indexentry{DSErrors.c@{DSErrors.c}!MSIZE@{MSIZE}|hyperpage}{61}
+\indexentry{MSIZE@{MSIZE}!DSErrors.c@{DSErrors.c}|hyperpage}{61}
+\indexentry{DSErrors.c@{DSErrors.c}!STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM@{STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM}|hyperpage}{61}
+\indexentry{STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM@{STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM}!DSErrors.c@{DSErrors.c}|hyperpage}{61}
+\indexentry{DSErrors.c@{DSErrors.c}!DSErrorFunction@{DSErrorFunction}|hyperpage}{62}
+\indexentry{DSErrorFunction@{DSErrorFunction}!DSErrors.c@{DSErrors.c}|hyperpage}{62}
+\indexentry{DSErrors.h@{DSErrors.h}|hyperpage}{63}
+\indexentry{DSErrors.h@{DSErrors.h}!DSError@{DSError}|hyperpage}{65}
+\indexentry{DSError@{DSError}!DSErrors.h@{DSErrors.h}|hyperpage}{65}
+\indexentry{DSErrors.h@{DSErrors.h}!DSErrorFunction@{DSErrorFunction}|hyperpage}{65}
+\indexentry{DSErrorFunction@{DSErrorFunction}!DSErrors.h@{DSErrors.h}|hyperpage}{65}
+\indexentry{DSExpression.c@{DSExpression.c}|hyperpage}{66}
+\indexentry{DSExpression.h@{DSExpression.h}|hyperpage}{68}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{70}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}|hyperpage}{73}
+\indexentry{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{73}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}|hyperpage}{73}
+\indexentry{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{73}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}|hyperpage}{74}
+\indexentry{YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{74}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}|hyperpage}{74}
+\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{74}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}|hyperpage}{74}
+\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{74}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!yyless@{yyless}|hyperpage}{75}
+\indexentry{yyless@{yyless}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{75}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!yyless@{yyless}|hyperpage}{75}
+\indexentry{yyless@{yyless}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{75}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}|hyperpage}{75}
+\indexentry{DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{75}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}|hyperpage}{75}
+\indexentry{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{75}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}|hyperpage}{76}
+\indexentry{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{76}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}|hyperpage}{76}
+\indexentry{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{76}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}column@{DSExpressionFlexget\_\discretionary {-}{}{}column}|hyperpage}{76}
+\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}column@{DSExpressionFlexget\_\discretionary {-}{}{}column}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{76}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}extra@{DSExpressionFlexget\_\discretionary {-}{}{}extra}|hyperpage}{77}
+\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}extra@{DSExpressionFlexget\_\discretionary {-}{}{}extra}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{77}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}in@{DSExpressionFlexget\_\discretionary {-}{}{}in}|hyperpage}{77}
+\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}in@{DSExpressionFlexget\_\discretionary {-}{}{}in}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{77}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}leng@{DSExpressionFlexget\_\discretionary {-}{}{}leng}|hyperpage}{77}
+\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}leng@{DSExpressionFlexget\_\discretionary {-}{}{}leng}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{77}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}lineno@{DSExpressionFlexget\_\discretionary {-}{}{}lineno}|hyperpage}{77}
+\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}lineno@{DSExpressionFlexget\_\discretionary {-}{}{}lineno}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{77}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}out@{DSExpressionFlexget\_\discretionary {-}{}{}out}|hyperpage}{77}
+\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}out@{DSExpressionFlexget\_\discretionary {-}{}{}out}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{77}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexget\_\discretionary {-}{}{}text@{DSExpressionFlexget\_\discretionary {-}{}{}text}|hyperpage}{77}
+\indexentry{DSExpressionFlexget\_\discretionary {-}{}{}text@{DSExpressionFlexget\_\discretionary {-}{}{}text}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{77}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{78}
+\indexentry{DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{78}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{78}
+\indexentry{DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{78}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexset\_\discretionary {-}{}{}column@{DSExpressionFlexset\_\discretionary {-}{}{}column}|hyperpage}{78}
+\indexentry{DSExpressionFlexset\_\discretionary {-}{}{}column@{DSExpressionFlexset\_\discretionary {-}{}{}column}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{78}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexset\_\discretionary {-}{}{}extra@{DSExpressionFlexset\_\discretionary {-}{}{}extra}|hyperpage}{78}
+\indexentry{DSExpressionFlexset\_\discretionary {-}{}{}extra@{DSExpressionFlexset\_\discretionary {-}{}{}extra}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{78}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexset\_\discretionary {-}{}{}in@{DSExpressionFlexset\_\discretionary {-}{}{}in}|hyperpage}{78}
+\indexentry{DSExpressionFlexset\_\discretionary {-}{}{}in@{DSExpressionFlexset\_\discretionary {-}{}{}in}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{78}
+\indexentry{DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}!DSExpressionFlexset\_\discretionary {-}{}{}lineno@{DSExpressionFlexset\_\discretionary {-}{}{}lineno}|hyperpage}{79}
+\indexentry{DSExpressionFlexset\_\discretionary {-}{}{}lineno@{DSExpressionFlexset\_\discretionary {-}{}{}lineno}!DSExpressionTokenizerLex.c@{DSExpressionTokenizerLex.c}|hyperpage}{79}
+\indexentry{DSGMASystem.c@{DSGMASystem.c}|hyperpage}{80}
+\indexentry{DSGMASystem.h@{DSGMASystem.h}|hyperpage}{82}
+\indexentry{DSGMASystemParsingAux.h@{DSGMASystemParsingAux.h}|hyperpage}{84}
+\indexentry{DSGMASystemParsingAux.h@{DSGMASystemParsingAux.h}!gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t@{gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t}|hyperpage}{85}
+\indexentry{gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t@{gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t}!DSGMASystemParsingAux.h@{DSGMASystemParsingAux.h}|hyperpage}{85}
+\indexentry{DSIO.c@{DSIO.c}|hyperpage}{86}
+\indexentry{DSIO.c@{DSIO.c}!DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}|hyperpage}{88}
+\indexentry{DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{88}
+\indexentry{DSIO.c@{DSIO.c}!DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}|hyperpage}{88}
+\indexentry{DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}!DSIO.c@{DSIO.c}|hyperpage}{88}
+\indexentry{DSIO.c@{DSIO.c}!DSIOSetErrorFile@{DSIOSetErrorFile}|hyperpage}{88}
+\indexentry{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.c@{DSIO.c}|hyperpage}{88}
+\indexentry{DSIO.c@{DSIO.c}!DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}|hyperpage}{88}
+\indexentry{DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}!DSIO.c@{DSIO.c}|hyperpage}{88}
+\indexentry{DSIO.c@{DSIO.c}!DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}|hyperpage}{89}
+\indexentry{DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}!DSIO.c@{DSIO.c}|hyperpage}{89}
+\indexentry{DSIO.c@{DSIO.c}!DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}|hyperpage}{89}
+\indexentry{DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}!DSIO.c@{DSIO.c}|hyperpage}{89}
+\indexentry{DSIO.c@{DSIO.c}!DSIOSetPrintFunction@{DSIOSetPrintFunction}|hyperpage}{89}
+\indexentry{DSIOSetPrintFunction@{DSIOSetPrintFunction}!DSIO.c@{DSIO.c}|hyperpage}{89}
+\indexentry{DSIO.c@{DSIO.c}!DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}|hyperpage}{89}
+\indexentry{DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}!DSIO.c@{DSIO.c}|hyperpage}{89}
+\indexentry{DSIO.c@{DSIO.c}!DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}|hyperpage}{90}
+\indexentry{DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{90}
+\indexentry{DSIO.c@{DSIO.c}!DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}|hyperpage}{90}
+\indexentry{DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{90}
+\indexentry{DSIO.c@{DSIO.c}!DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}|hyperpage}{90}
+\indexentry{DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{90}
+\indexentry{DSIO.c@{DSIO.c}!DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}|hyperpage}{91}
+\indexentry{DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}!DSIO.c@{DSIO.c}|hyperpage}{91}
+\indexentry{DSIO.c@{DSIO.c}!DSCasePrintingOptions@{DSCasePrintingOptions}|hyperpage}{91}
+\indexentry{DSCasePrintingOptions@{DSCasePrintingOptions}!DSIO.c@{DSIO.c}|hyperpage}{91}
+\indexentry{DSIO.c@{DSIO.c}!DSSSystemPrintingOptions@{DSSSystemPrintingOptions}|hyperpage}{91}
+\indexentry{DSSSystemPrintingOptions@{DSSSystemPrintingOptions}!DSIO.c@{DSIO.c}|hyperpage}{91}
+\indexentry{DSIO.h@{DSIO.h}|hyperpage}{92}
+\indexentry{DSIO.h@{DSIO.h}!DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}|hyperpage}{94}
+\indexentry{DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{94}
+\indexentry{DSIO.h@{DSIO.h}!DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}|hyperpage}{94}
+\indexentry{DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}!DSIO.h@{DSIO.h}|hyperpage}{94}
+\indexentry{DSIO.h@{DSIO.h}!DSIOSetErrorFile@{DSIOSetErrorFile}|hyperpage}{95}
+\indexentry{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.h@{DSIO.h}|hyperpage}{95}
+\indexentry{DSIO.h@{DSIO.h}!DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}|hyperpage}{95}
+\indexentry{DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}!DSIO.h@{DSIO.h}|hyperpage}{95}
+\indexentry{DSIO.h@{DSIO.h}!DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}|hyperpage}{95}
+\indexentry{DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}!DSIO.h@{DSIO.h}|hyperpage}{95}
+\indexentry{DSIO.h@{DSIO.h}!DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}|hyperpage}{95}
+\indexentry{DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}!DSIO.h@{DSIO.h}|hyperpage}{95}
+\indexentry{DSIO.h@{DSIO.h}!DSIOSetPrintFunction@{DSIOSetPrintFunction}|hyperpage}{96}
+\indexentry{DSIOSetPrintFunction@{DSIOSetPrintFunction}!DSIO.h@{DSIO.h}|hyperpage}{96}
+\indexentry{DSIO.h@{DSIO.h}!DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}|hyperpage}{96}
+\indexentry{DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}!DSIO.h@{DSIO.h}|hyperpage}{96}
+\indexentry{DSIO.h@{DSIO.h}!DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}|hyperpage}{96}
+\indexentry{DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{96}
+\indexentry{DSIO.h@{DSIO.h}!DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}|hyperpage}{97}
+\indexentry{DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{97}
+\indexentry{DSIO.h@{DSIO.h}!DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}|hyperpage}{97}
+\indexentry{DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{97}
+\indexentry{DSIO.h@{DSIO.h}!DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}|hyperpage}{97}
+\indexentry{DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}!DSIO.h@{DSIO.h}|hyperpage}{97}
+\indexentry{DSIO.h@{DSIO.h}!DSIOErrorFile@{DSIOErrorFile}|hyperpage}{98}
+\indexentry{DSIOErrorFile@{DSIOErrorFile}!DSIO.h@{DSIO.h}|hyperpage}{98}
+\indexentry{DSIO.h@{DSIO.h}!DSPostError@{DSPostError}|hyperpage}{98}
+\indexentry{DSPostError@{DSPostError}!DSIO.h@{DSIO.h}|hyperpage}{98}
+\indexentry{DSIO.h@{DSIO.h}!DSPostFatalError@{DSPostFatalError}|hyperpage}{98}
+\indexentry{DSPostFatalError@{DSPostFatalError}!DSIO.h@{DSIO.h}|hyperpage}{98}
+\indexentry{DSIO.h@{DSIO.h}!DSPostWarning@{DSPostWarning}|hyperpage}{98}
+\indexentry{DSPostWarning@{DSPostWarning}!DSIO.h@{DSIO.h}|hyperpage}{98}
+\indexentry{DSIO.h@{DSIO.h}!DSPrintf@{DSPrintf}|hyperpage}{99}
+\indexentry{DSPrintf@{DSPrintf}!DSIO.h@{DSIO.h}|hyperpage}{99}
+\indexentry{DSMatrix.h@{DSMatrix.h}|hyperpage}{100}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixAlloc@{DSMatrixAlloc}|hyperpage}{103}
+\indexentry{DSMatrixAlloc@{DSMatrixAlloc}!DSMatrix.h@{DSMatrix.h}|hyperpage}{103}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}|hyperpage}{103}
+\indexentry{DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}!DSMatrix.h@{DSMatrix.h}|hyperpage}{103}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixByParsingString@{DSMatrixByParsingString}|hyperpage}{103}
+\indexentry{DSMatrixByParsingString@{DSMatrixByParsingString}!DSMatrix.h@{DSMatrix.h}|hyperpage}{103}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}|hyperpage}{104}
+\indexentry{DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}!DSMatrix.h@{DSMatrix.h}|hyperpage}{104}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixCalloc@{DSMatrixCalloc}|hyperpage}{104}
+\indexentry{DSMatrixCalloc@{DSMatrixCalloc}!DSMatrix.h@{DSMatrix.h}|hyperpage}{104}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixCopy@{DSMatrixCopy}|hyperpage}{104}
+\indexentry{DSMatrixCopy@{DSMatrixCopy}!DSMatrix.h@{DSMatrix.h}|hyperpage}{104}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixDoubleValue@{DSMatrixDoubleValue}|hyperpage}{105}
+\indexentry{DSMatrixDoubleValue@{DSMatrixDoubleValue}!DSMatrix.h@{DSMatrix.h}|hyperpage}{105}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixFree@{DSMatrixFree}|hyperpage}{105}
+\indexentry{DSMatrixFree@{DSMatrixFree}!DSMatrix.h@{DSMatrix.h}|hyperpage}{105}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixIdentity@{DSMatrixIdentity}|hyperpage}{105}
+\indexentry{DSMatrixIdentity@{DSMatrixIdentity}!DSMatrix.h@{DSMatrix.h}|hyperpage}{105}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}|hyperpage}{106}
+\indexentry{DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}!DSMatrix.h@{DSMatrix.h}|hyperpage}{106}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixRandomNumbers@{DSMatrixRandomNumbers}|hyperpage}{106}
+\indexentry{DSMatrixRandomNumbers@{DSMatrixRandomNumbers}!DSMatrix.h@{DSMatrix.h}|hyperpage}{106}
+\indexentry{DSMatrix.h@{DSMatrix.h}!DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}|hyperpage}{106}
+\indexentry{DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}!DSMatrix.h@{DSMatrix.h}|hyperpage}{106}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{107}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixAlloc@{DSMatrixAlloc}|hyperpage}{110}
+\indexentry{DSMatrixAlloc@{DSMatrixAlloc}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{110}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}|hyperpage}{110}
+\indexentry{DSMatrixByAddingMatrix@{DSMatrixByAddingMatrix}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{110}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixByParsingString@{DSMatrixByParsingString}|hyperpage}{111}
+\indexentry{DSMatrixByParsingString@{DSMatrixByParsingString}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{111}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}|hyperpage}{111}
+\indexentry{DSMatrixBySubstractingMatrix@{DSMatrixBySubstractingMatrix}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{111}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixCalloc@{DSMatrixCalloc}|hyperpage}{111}
+\indexentry{DSMatrixCalloc@{DSMatrixCalloc}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{111}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixCopy@{DSMatrixCopy}|hyperpage}{112}
+\indexentry{DSMatrixCopy@{DSMatrixCopy}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{112}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixDoubleValue@{DSMatrixDoubleValue}|hyperpage}{112}
+\indexentry{DSMatrixDoubleValue@{DSMatrixDoubleValue}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{112}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixFree@{DSMatrixFree}|hyperpage}{112}
+\indexentry{DSMatrixFree@{DSMatrixFree}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{112}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixIdentity@{DSMatrixIdentity}|hyperpage}{113}
+\indexentry{DSMatrixIdentity@{DSMatrixIdentity}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{113}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}|hyperpage}{113}
+\indexentry{DSMatrixPLUDecomposition@{DSMatrixPLUDecomposition}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{113}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixRandomNumbers@{DSMatrixRandomNumbers}|hyperpage}{113}
+\indexentry{DSMatrixRandomNumbers@{DSMatrixRandomNumbers}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{113}
+\indexentry{DSMatrix\_\discretionary {-}{}{}gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}!DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}|hyperpage}{113}
+\indexentry{DSMatrixSetDoubleValueAll@{DSMatrixSetDoubleValueAll}!DSMatrix_gsl.c@{DSMatrix\_\discretionary {-}{}{}gsl.c}|hyperpage}{113}
+\indexentry{DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{115}
+\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}|hyperpage}{116}
+\indexentry{DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{116}
+\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayAlloc@{DSMatrixArrayAlloc}|hyperpage}{116}
+\indexentry{DSMatrixArrayAlloc@{DSMatrixArrayAlloc}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{116}
+\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayCopy@{DSMatrixArrayCopy}|hyperpage}{116}
+\indexentry{DSMatrixArrayCopy@{DSMatrixArrayCopy}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{116}
+\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayFree@{DSMatrixArrayFree}|hyperpage}{117}
+\indexentry{DSMatrixArrayFree@{DSMatrixArrayFree}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{117}
+\indexentry{DSMatrixArray.c@{DSMatrixArray.c}!DSMatrixArrayMatrix@{DSMatrixArrayMatrix}|hyperpage}{117}
+\indexentry{DSMatrixArrayMatrix@{DSMatrixArrayMatrix}!DSMatrixArray.c@{DSMatrixArray.c}|hyperpage}{117}
+\indexentry{DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{118}
+\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}|hyperpage}{119}
+\indexentry{DSMatrixArrayAddMatrix@{DSMatrixArrayAddMatrix}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{119}
+\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayAlloc@{DSMatrixArrayAlloc}|hyperpage}{119}
+\indexentry{DSMatrixArrayAlloc@{DSMatrixArrayAlloc}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{119}
+\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayCopy@{DSMatrixArrayCopy}|hyperpage}{120}
+\indexentry{DSMatrixArrayCopy@{DSMatrixArrayCopy}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{120}
+\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayFree@{DSMatrixArrayFree}|hyperpage}{120}
+\indexentry{DSMatrixArrayFree@{DSMatrixArrayFree}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{120}
+\indexentry{DSMatrixArray.h@{DSMatrixArray.h}!DSMatrixArrayMatrix@{DSMatrixArrayMatrix}|hyperpage}{120}
+\indexentry{DSMatrixArrayMatrix@{DSMatrixArrayMatrix}!DSMatrixArray.h@{DSMatrixArray.h}|hyperpage}{120}
+\indexentry{DSMatrixTokenizer.c@{DSMatrixTokenizer.c}|hyperpage}{121}
+\indexentry{DSMatrixTokenizer.h@{DSMatrixTokenizer.h}|hyperpage}{122}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{124}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}|hyperpage}{127}
+\indexentry{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{127}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}|hyperpage}{127}
+\indexentry{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{127}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}|hyperpage}{128}
+\indexentry{YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{128}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}|hyperpage}{128}
+\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{128}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}|hyperpage}{128}
+\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{128}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!yyless@{yyless}|hyperpage}{129}
+\indexentry{yyless@{yyless}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{129}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!yyless@{yyless}|hyperpage}{129}
+\indexentry{yyless@{yyless}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{129}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}|hyperpage}{129}
+\indexentry{DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{129}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}|hyperpage}{129}
+\indexentry{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{129}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}|hyperpage}{130}
+\indexentry{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{130}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}|hyperpage}{130}
+\indexentry{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{130}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}column@{DSMatrixFlexget\_\discretionary {-}{}{}column}|hyperpage}{130}
+\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}column@{DSMatrixFlexget\_\discretionary {-}{}{}column}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{130}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}extra@{DSMatrixFlexget\_\discretionary {-}{}{}extra}|hyperpage}{130}
+\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}extra@{DSMatrixFlexget\_\discretionary {-}{}{}extra}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{130}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}in@{DSMatrixFlexget\_\discretionary {-}{}{}in}|hyperpage}{131}
+\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}in@{DSMatrixFlexget\_\discretionary {-}{}{}in}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{131}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}leng@{DSMatrixFlexget\_\discretionary {-}{}{}leng}|hyperpage}{131}
+\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}leng@{DSMatrixFlexget\_\discretionary {-}{}{}leng}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{131}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}lineno@{DSMatrixFlexget\_\discretionary {-}{}{}lineno}|hyperpage}{131}
+\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}lineno@{DSMatrixFlexget\_\discretionary {-}{}{}lineno}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{131}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}out@{DSMatrixFlexget\_\discretionary {-}{}{}out}|hyperpage}{131}
+\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}out@{DSMatrixFlexget\_\discretionary {-}{}{}out}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{131}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexget\_\discretionary {-}{}{}text@{DSMatrixFlexget\_\discretionary {-}{}{}text}|hyperpage}{131}
+\indexentry{DSMatrixFlexget\_\discretionary {-}{}{}text@{DSMatrixFlexget\_\discretionary {-}{}{}text}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{131}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{131}
+\indexentry{DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{131}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{132}
+\indexentry{DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{132}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexset\_\discretionary {-}{}{}column@{DSMatrixFlexset\_\discretionary {-}{}{}column}|hyperpage}{132}
+\indexentry{DSMatrixFlexset\_\discretionary {-}{}{}column@{DSMatrixFlexset\_\discretionary {-}{}{}column}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{132}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexset\_\discretionary {-}{}{}extra@{DSMatrixFlexset\_\discretionary {-}{}{}extra}|hyperpage}{132}
+\indexentry{DSMatrixFlexset\_\discretionary {-}{}{}extra@{DSMatrixFlexset\_\discretionary {-}{}{}extra}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{132}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexset\_\discretionary {-}{}{}in@{DSMatrixFlexset\_\discretionary {-}{}{}in}|hyperpage}{132}
+\indexentry{DSMatrixFlexset\_\discretionary {-}{}{}in@{DSMatrixFlexset\_\discretionary {-}{}{}in}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{132}
+\indexentry{DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}!DSMatrixFlexset\_\discretionary {-}{}{}lineno@{DSMatrixFlexset\_\discretionary {-}{}{}lineno}|hyperpage}{132}
+\indexentry{DSMatrixFlexset\_\discretionary {-}{}{}lineno@{DSMatrixFlexset\_\discretionary {-}{}{}lineno}!DSMatrixTokenizerLex.c@{DSMatrixTokenizerLex.c}|hyperpage}{132}
+\indexentry{DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{134}
+\indexentry{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureCalloc@{DSSecureCalloc}|hyperpage}{135}
+\indexentry{DSSecureCalloc@{DSSecureCalloc}!DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{135}
+\indexentry{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureFree@{DSSecureFree}|hyperpage}{135}
+\indexentry{DSSecureFree@{DSSecureFree}!DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{135}
+\indexentry{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureMalloc@{DSSecureMalloc}|hyperpage}{135}
+\indexentry{DSSecureMalloc@{DSSecureMalloc}!DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{135}
+\indexentry{DSMemoryManager.c@{DSMemoryManager.c}!DSSecureRealloc@{DSSecureRealloc}|hyperpage}{136}
+\indexentry{DSSecureRealloc@{DSSecureRealloc}!DSMemoryManager.c@{DSMemoryManager.c}|hyperpage}{136}
+\indexentry{DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{137}
+\indexentry{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureCalloc@{DSSecureCalloc}|hyperpage}{138}
+\indexentry{DSSecureCalloc@{DSSecureCalloc}!DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{138}
+\indexentry{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureFree@{DSSecureFree}|hyperpage}{138}
+\indexentry{DSSecureFree@{DSSecureFree}!DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{138}
+\indexentry{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureMalloc@{DSSecureMalloc}|hyperpage}{138}
+\indexentry{DSSecureMalloc@{DSSecureMalloc}!DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{138}
+\indexentry{DSMemoryManager.h@{DSMemoryManager.h}!DSSecureRealloc@{DSSecureRealloc}|hyperpage}{139}
+\indexentry{DSSecureRealloc@{DSSecureRealloc}!DSMemoryManager.h@{DSMemoryManager.h}|hyperpage}{139}
+\indexentry{DSSSystem.h@{DSSSystem.h}|hyperpage}{140}
+\indexentry{DSStd.h@{DSStd.h}|hyperpage}{142}
+\indexentry{DSSymbolicMatrix.h@{DSSymbolicMatrix.h}|hyperpage}{144}
+\indexentry{DSTypes.h@{DSTypes.h}|hyperpage}{146}
+\indexentry{DSTypes.h@{DSTypes.h}!DSComplexMatrix@{DSComplexMatrix}|hyperpage}{148}
+\indexentry{DSComplexMatrix@{DSComplexMatrix}!DSTypes.h@{DSTypes.h}|hyperpage}{148}
+\indexentry{DSTypes.h@{DSTypes.h}!DSExpression@{DSExpression}|hyperpage}{148}
+\indexentry{DSExpression@{DSExpression}!DSTypes.h@{DSTypes.h}|hyperpage}{148}
+\indexentry{DSTypes.h@{DSTypes.h}!DSInternalDictionary@{DSInternalDictionary}|hyperpage}{148}
+\indexentry{DSInternalDictionary@{DSInternalDictionary}!DSTypes.h@{DSTypes.h}|hyperpage}{148}
+\indexentry{DSTypes.h@{DSTypes.h}!DSVariablePoolLock@{DSVariablePoolLock}|hyperpage}{149}
+\indexentry{DSVariablePoolLock@{DSVariablePoolLock}!DSTypes.h@{DSTypes.h}|hyperpage}{149}
+\indexentry{DSLockReadWriteAdd@{DSLockReadWriteAdd}!DSTypes.h@{DSTypes.h}|hyperpage}{149}
+\indexentry{DSTypes.h@{DSTypes.h}!DSLockReadWriteAdd@{DSLockReadWriteAdd}|hyperpage}{149}
+\indexentry{DSLockReadWrite@{DSLockReadWrite}!DSTypes.h@{DSTypes.h}|hyperpage}{149}
+\indexentry{DSTypes.h@{DSTypes.h}!DSLockReadWrite@{DSLockReadWrite}|hyperpage}{149}
+\indexentry{DSLockReadOnly@{DSLockReadOnly}!DSTypes.h@{DSTypes.h}|hyperpage}{149}
+\indexentry{DSTypes.h@{DSTypes.h}!DSLockReadOnly@{DSLockReadOnly}|hyperpage}{149}
+\indexentry{DSLockLocked@{DSLockLocked}!DSTypes.h@{DSTypes.h}|hyperpage}{149}
+\indexentry{DSTypes.h@{DSTypes.h}!DSLockLocked@{DSLockLocked}|hyperpage}{149}
+\indexentry{DSVariable.c@{DSVariable.c}|hyperpage}{150}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariableAlloc@{DSVariableAlloc}|hyperpage}{152}
+\indexentry{DSVariableAlloc@{DSVariableAlloc}!DSVariable.c@{DSVariable.c}|hyperpage}{152}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariableFree@{DSVariableFree}|hyperpage}{152}
+\indexentry{DSVariableFree@{DSVariableFree}!DSVariable.c@{DSVariable.c}|hyperpage}{152}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolAddVariable@{DSVariablePoolAddVariable}|hyperpage}{153}
+\indexentry{DSVariablePoolAddVariable@{DSVariablePoolAddVariable}!DSVariable.c@{DSVariable.c}|hyperpage}{153}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}|hyperpage}{153}
+\indexentry{DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}!DSVariable.c@{DSVariable.c}|hyperpage}{153}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolAlloc@{DSVariablePoolAlloc}|hyperpage}{153}
+\indexentry{DSVariablePoolAlloc@{DSVariablePoolAlloc}!DSVariable.c@{DSVariable.c}|hyperpage}{153}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolCopy@{DSVariablePoolCopy}|hyperpage}{153}
+\indexentry{DSVariablePoolCopy@{DSVariablePoolCopy}!DSVariable.c@{DSVariable.c}|hyperpage}{153}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolFree@{DSVariablePoolFree}|hyperpage}{154}
+\indexentry{DSVariablePoolFree@{DSVariablePoolFree}!DSVariable.c@{DSVariable.c}|hyperpage}{154}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}|hyperpage}{154}
+\indexentry{DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}!DSVariable.c@{DSVariable.c}|hyperpage}{154}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}|hyperpage}{154}
+\indexentry{DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}!DSVariable.c@{DSVariable.c}|hyperpage}{154}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}|hyperpage}{155}
+\indexentry{DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}!DSVariable.c@{DSVariable.c}|hyperpage}{155}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}|hyperpage}{155}
+\indexentry{DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}!DSVariable.c@{DSVariable.c}|hyperpage}{155}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}|hyperpage}{155}
+\indexentry{DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}!DSVariable.c@{DSVariable.c}|hyperpage}{155}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}|hyperpage}{155}
+\indexentry{DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}!DSVariable.c@{DSVariable.c}|hyperpage}{155}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}|hyperpage}{156}
+\indexentry{DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}!DSVariable.c@{DSVariable.c}|hyperpage}{156}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariableRelease@{DSVariableRelease}|hyperpage}{156}
+\indexentry{DSVariableRelease@{DSVariableRelease}!DSVariable.c@{DSVariable.c}|hyperpage}{156}
+\indexentry{DSVariable.c@{DSVariable.c}!DSVariableRetain@{DSVariableRetain}|hyperpage}{156}
+\indexentry{DSVariableRetain@{DSVariableRetain}!DSVariable.c@{DSVariable.c}|hyperpage}{156}
+\indexentry{DSVariable.h@{DSVariable.h}|hyperpage}{158}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariableAlloc@{DSVariableAlloc}|hyperpage}{160}
+\indexentry{DSVariableAlloc@{DSVariableAlloc}!DSVariable.h@{DSVariable.h}|hyperpage}{160}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariableFree@{DSVariableFree}|hyperpage}{160}
+\indexentry{DSVariableFree@{DSVariableFree}!DSVariable.h@{DSVariable.h}|hyperpage}{160}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolAddVariable@{DSVariablePoolAddVariable}|hyperpage}{161}
+\indexentry{DSVariablePoolAddVariable@{DSVariablePoolAddVariable}!DSVariable.h@{DSVariable.h}|hyperpage}{161}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}|hyperpage}{161}
+\indexentry{DSVariablePoolAddVariableWithName@{DSVariablePoolAddVariableWithName}!DSVariable.h@{DSVariable.h}|hyperpage}{161}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolAlloc@{DSVariablePoolAlloc}|hyperpage}{161}
+\indexentry{DSVariablePoolAlloc@{DSVariablePoolAlloc}!DSVariable.h@{DSVariable.h}|hyperpage}{161}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolCopy@{DSVariablePoolCopy}|hyperpage}{161}
+\indexentry{DSVariablePoolCopy@{DSVariablePoolCopy}!DSVariable.h@{DSVariable.h}|hyperpage}{161}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolFree@{DSVariablePoolFree}|hyperpage}{162}
+\indexentry{DSVariablePoolFree@{DSVariablePoolFree}!DSVariable.h@{DSVariable.h}|hyperpage}{162}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}|hyperpage}{162}
+\indexentry{DSVariablePoolIsReadOnly@{DSVariablePoolIsReadOnly}!DSVariable.h@{DSVariable.h}|hyperpage}{162}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}|hyperpage}{162}
+\indexentry{DSVariablePoolIsReadWrite@{DSVariablePoolIsReadWrite}!DSVariable.h@{DSVariable.h}|hyperpage}{162}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}|hyperpage}{163}
+\indexentry{DSVariablePoolIsReadWriteAdd@{DSVariablePoolIsReadWriteAdd}!DSVariable.h@{DSVariable.h}|hyperpage}{163}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}|hyperpage}{163}
+\indexentry{DSVariablePoolNumberOfVariables@{DSVariablePoolNumberOfVariables}!DSVariable.h@{DSVariable.h}|hyperpage}{163}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}|hyperpage}{163}
+\indexentry{DSVariablePoolSetReadOnly@{DSVariablePoolSetReadOnly}!DSVariable.h@{DSVariable.h}|hyperpage}{163}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}|hyperpage}{163}
+\indexentry{DSVariablePoolSetReadWrite@{DSVariablePoolSetReadWrite}!DSVariable.h@{DSVariable.h}|hyperpage}{163}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}|hyperpage}{164}
+\indexentry{DSVariablePoolSetReadWriteAdd@{DSVariablePoolSetReadWriteAdd}!DSVariable.h@{DSVariable.h}|hyperpage}{164}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariableRelease@{DSVariableRelease}|hyperpage}{164}
+\indexentry{DSVariableRelease@{DSVariableRelease}!DSVariable.h@{DSVariable.h}|hyperpage}{164}
+\indexentry{DSVariable.h@{DSVariable.h}!DSVariableRetain@{DSVariableRetain}|hyperpage}{164}
+\indexentry{DSVariableRetain@{DSVariableRetain}!DSVariable.h@{DSVariable.h}|hyperpage}{164}
+\indexentry{DSVariableTokenizer.c@{DSVariableTokenizer.c}|hyperpage}{166}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{167}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}|hyperpage}{171}
+\indexentry{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER@{YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{171}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}|hyperpage}{171}
+\indexentry{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION@{YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{171}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}|hyperpage}{171}
+\indexentry{YY\_\discretionary {-}{}{}INPUT@{YY\_\discretionary {-}{}{}INPUT}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{171}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}|hyperpage}{171}
+\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{171}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}|hyperpage}{172}
+\indexentry{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive@{yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{172}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yyless@{yyless}|hyperpage}{172}
+\indexentry{yyless@{yyless}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{172}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yyless@{yyless}|hyperpage}{172}
+\indexentry{yyless@{yyless}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{172}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer}|hyperpage}{173}
+\indexentry{DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer}|hyperpage}{173}
+\indexentry{DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}|hyperpage}{173}
+\indexentry{DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}|hyperpage}{173}
+\indexentry{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}|hyperpage}{173}
+\indexentry{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{173}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}|hyperpage}{174}
+\indexentry{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string@{DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{174}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer}|hyperpage}{174}
+\indexentry{DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer@{DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{174}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}column@{DSVariableFlexget\_\discretionary {-}{}{}column}|hyperpage}{174}
+\indexentry{DSVariableFlexget\_\discretionary {-}{}{}column@{DSVariableFlexget\_\discretionary {-}{}{}column}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{174}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}extra@{DSVariableFlexget\_\discretionary {-}{}{}extra}|hyperpage}{174}
+\indexentry{DSVariableFlexget\_\discretionary {-}{}{}extra@{DSVariableFlexget\_\discretionary {-}{}{}extra}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{174}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}in@{DSVariableFlexget\_\discretionary {-}{}{}in}|hyperpage}{175}
+\indexentry{DSVariableFlexget\_\discretionary {-}{}{}in@{DSVariableFlexget\_\discretionary {-}{}{}in}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{175}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}leng@{DSVariableFlexget\_\discretionary {-}{}{}leng}|hyperpage}{175}
+\indexentry{DSVariableFlexget\_\discretionary {-}{}{}leng@{DSVariableFlexget\_\discretionary {-}{}{}leng}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{175}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}lineno@{DSVariableFlexget\_\discretionary {-}{}{}lineno}|hyperpage}{175}
+\indexentry{DSVariableFlexget\_\discretionary {-}{}{}lineno@{DSVariableFlexget\_\discretionary {-}{}{}lineno}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{175}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}out@{DSVariableFlexget\_\discretionary {-}{}{}out}|hyperpage}{175}
+\indexentry{DSVariableFlexget\_\discretionary {-}{}{}out@{DSVariableFlexget\_\discretionary {-}{}{}out}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{175}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexget\_\discretionary {-}{}{}text@{DSVariableFlexget\_\discretionary {-}{}{}text}|hyperpage}{175}
+\indexentry{DSVariableFlexget\_\discretionary {-}{}{}text@{DSVariableFlexget\_\discretionary {-}{}{}text}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{175}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{175}
+\indexentry{DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{175}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}|hyperpage}{176}
+\indexentry{DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state@{DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{176}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexrestart@{DSVariableFlexrestart}|hyperpage}{176}
+\indexentry{DSVariableFlexrestart@{DSVariableFlexrestart}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{176}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexset\_\discretionary {-}{}{}column@{DSVariableFlexset\_\discretionary {-}{}{}column}|hyperpage}{176}
+\indexentry{DSVariableFlexset\_\discretionary {-}{}{}column@{DSVariableFlexset\_\discretionary {-}{}{}column}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{176}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexset\_\discretionary {-}{}{}extra@{DSVariableFlexset\_\discretionary {-}{}{}extra}|hyperpage}{176}
+\indexentry{DSVariableFlexset\_\discretionary {-}{}{}extra@{DSVariableFlexset\_\discretionary {-}{}{}extra}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{176}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexset\_\discretionary {-}{}{}in@{DSVariableFlexset\_\discretionary {-}{}{}in}|hyperpage}{176}
+\indexentry{DSVariableFlexset\_\discretionary {-}{}{}in@{DSVariableFlexset\_\discretionary {-}{}{}in}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{176}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!DSVariableFlexset\_\discretionary {-}{}{}lineno@{DSVariableFlexset\_\discretionary {-}{}{}lineno}|hyperpage}{177}
+\indexentry{DSVariableFlexset\_\discretionary {-}{}{}lineno@{DSVariableFlexset\_\discretionary {-}{}{}lineno}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{177}
+\indexentry{DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}!yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state}|hyperpage}{177}
+\indexentry{yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state@{yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state}!DSVariableTokenizerLex.c@{DSVariableTokenizerLex.c}|hyperpage}{177}

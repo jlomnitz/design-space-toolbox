@@ -1,10 +1,35 @@
-//
-//  DSCaseLinearProgramming.c
-//  DesignSpaceToolboxV2
-//
-//  Created by Jason Lomnitz on 8/30/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/**
+ * \file DSCaseLinearProgramming.c
+ * \brief Implementation file with functions for linear programming
+ *        operations dealing with cases in design space.
+ *
+ * \details 
+ *
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
+ *
+ * This file is part of the Design Space Toolbox V2 (C Library).
+ *
+ * The Design Space Toolbox V2 is free software: you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Design Space Toolbox V2 is distributed in the hope that it will be 
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with the Design Space Toolbox. If not, see 
+ * <http://www.gnu.org/licenses/>.
+ *
+ * \author Jason Lomnitz.
+ * \date 2011
+ */
+
+/**
+ * \todo Find/write a parallelizable linear programming package
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -136,9 +161,8 @@ extern const bool DSCaseIsValid(const DSCase *aCase)
         linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
         if (linearProblem != NULL) {
                 glp_simplex(linearProblem, NULL);
-                if (glp_get_obj_val(linearProblem) < 0 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
                         isValid = true;
-                
                 glp_delete_prob(linearProblem);
         }
 bail:
@@ -194,6 +218,31 @@ extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool
         DSMatrixFree(Xi);
 bail:
         return isValid;
+}
+
+extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase)
+{
+        DSVariablePool * Xi = NULL;
+        glp_prob *linearProblem = NULL;
+        DSUInteger i;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
+        if (linearProblem != NULL) {
+                glp_simplex(linearProblem, NULL);
+                Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+                DSVariablePoolSetReadWriteAdd(Xi);
+                for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                        DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
+                }
+                glp_delete_prob(linearProblem);
+        }
+        if (DSCaseIsValid(aCase) == false)
+                goto bail;
+bail:
+        return Xi;
 }
 
 //extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * variablesToFix)
@@ -327,10 +376,10 @@ static DSUInteger dsCaseSetVariableBoundsLinearProblem(const DSCase *aCase, glp_
                 
                 lowVariable = DSVariablePoolAllVariables(lowerBounds)[i];
                 highVariable = DSVariablePoolVariableWithName(upperBounds, DSVariableName(lowVariable));
-                
                 if (lowVariable == NULL || highVariable == NULL) {
                         DSError(M_DS_WRONG ": Variables to bound are not consistent", A_DS_WARN);
-                        continue;
+                        freeVariables = 0;
+                        break;
                 }
                 
                 variableIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), 
@@ -341,11 +390,14 @@ static DSUInteger dsCaseSetVariableBoundsLinearProblem(const DSCase *aCase, glp_
                 
                 if (low > high) {
                         DSError(M_DS_WRONG ": Variable bounds are not consistent", A_DS_WARN);
-                        continue;
+                        freeVariables = 0;
+                        break;
                 }
                 
-                if (variableIndex >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase)))
-                        continue;
+                if (variableIndex >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                        freeVariables = 0;
+                        break;
+                }
                 if (low == -INFINITY && high == INFINITY)
                         glp_set_col_bnds(linearProblem, variableIndex+1, GLP_FR, 0.0, 0.0);
                 else if (low == -INFINITY)
@@ -362,6 +414,50 @@ static DSUInteger dsCaseSetVariableBoundsLinearProblem(const DSCase *aCase, glp_
         }
 bail:
         return freeVariables;
+}
+
+extern DSVariablePool * DSCaseValidParameterSetAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
+{
+        bool isValid = false;
+        glp_prob *linearProblem = NULL;
+        DSVariablePool * Xi = NULL;
+        DSUInteger i;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseHasSolution(aCase) == false) {
+                goto bail;
+        }
+        if (lowerBounds == NULL || upperBounds == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable pool with variables to fix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(lowerBounds) != DSVariablePoolNumberOfVariables(upperBounds)) {
+                DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
+                goto bail;
+        }
+        linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
+        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem was not created", A_DS_WARN);
+                goto bail;
+        }
+        if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) <= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                glp_simplex(linearProblem, NULL);
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                        isValid = true;
+        }
+        if (isValid == true) {
+                Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+                DSVariablePoolSetReadWrite(Xi);
+                for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                        DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i],
+                                           pow(10, glp_get_col_prim(linearProblem, i+1)));
+                }
+        }
+        glp_delete_prob(linearProblem);
+bail:
+        return Xi;
 }
 
 extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
@@ -391,7 +487,7 @@ extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool
         }
         if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) <= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
                 glp_simplex(linearProblem, NULL);
-                if (glp_get_obj_val(linearProblem) < 0 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
                         isValid = true;
         }
         
@@ -417,6 +513,99 @@ static DSUInteger nchoosek(DSUInteger n, DSUInteger k)
         value = (DSUInteger)(numerator/denominator);
 bail:
         return value;
+}
+
+static DSVertices * dsCaseCalculate1DVertices(const DSCase * aCase, glp_prob * linearProblem, const DSMatrix * A, const DSMatrix *Zeta, const DSUInteger xIndex, const DSVariablePool * lower, const DSVariablePool * upper)
+{
+        DSVertices *vertices = NULL;
+        double minVal, maxVal, val[1] = {INFINITY};
+        vertices = DSVerticesAlloc(1);
+        glp_set_obj_coef(linearProblem, xIndex+1, 1.0);
+        glp_simplex(linearProblem, NULL);
+        maxVal = glp_get_obj_val(linearProblem);
+        if (glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                val[0] = maxVal;
+                DSVerticesAddVertex(vertices, val);
+        }
+        glp_set_obj_coef(linearProblem, xIndex+1, -1.0);
+        glp_simplex(linearProblem, NULL); 
+        if (glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                minVal = -glp_get_obj_val(linearProblem);
+                if (minVal != maxVal) {
+                        val[0] = minVal;
+                        DSVerticesAddVertex(vertices, val);        
+                }
+        }
+bail:
+        return vertices;
+}
+
+extern DSVertices * DSCaseVerticesFor1DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable)
+{
+        DSVertices *vertices = NULL;
+        DSUInteger xIndex;
+        DSMatrix *A, *Zeta, *temp;
+        glp_prob * linearProblem = NULL;
+        
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        
+        if (dsCaseNumberOfFreeVariablesForBounds(aCase, lowerBounds, upperBounds) != 1) {
+                DSError(M_DS_WRONG ": Must have only one free variables", A_DS_ERROR);
+                goto bail;
+        }
+        
+        xIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), xVariable);
+        
+        if (xIndex >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                DSError(M_DS_WRONG ": Case does not have X variable", A_DS_ERROR);
+                goto bail;
+        }
+        
+        temp = DSMatrixCalloc(2, DSVariablePoolNumberOfVariables(DSCaseXi(aCase)));
+        DSMatrixSetDoubleValue(temp, 0, xIndex, 1.0);
+        DSMatrixSetDoubleValue(temp, 1, xIndex, -1.0);
+        A = DSMatrixAppendMatrices(DSCaseU(aCase), temp, false);
+        DSMatrixFree(temp);
+        temp = DSMatrixCalloc(2, 1);
+        DSMatrixSetDoubleValue(temp, 0, 0, -log10(DSVariableValue(DSVariablePoolVariableWithName(lowerBounds, xVariable))));
+        DSMatrixSetDoubleValue(temp, 1, 0, log10(DSVariableValue(DSVariablePoolVariableWithName(upperBounds, xVariable))));
+        Zeta = DSMatrixAppendMatrices(DSCaseZeta(aCase), temp, false);
+        DSMatrixFree(temp);
+        DSMatrixMultiplyByScalar(A, -1.0);
+        linearProblem = dsCaseLinearProblemForMatrices(A, Zeta);
+        
+        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem is NULL", A_DS_ERROR);
+                DSMatrixFree(A);
+                DSMatrixFree(Zeta);
+                goto bail;
+        }
+        
+        if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) != 1) {
+                DSError(M_DS_WRONG ": Need one free variables", A_DS_ERROR);
+                DSMatrixFree(A);
+                DSMatrixFree(Zeta);
+                glp_delete_prob(linearProblem);
+                goto bail;
+        }
+        
+        if (glp_get_col_type(linearProblem, DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), xVariable)+1) != GLP_DB) {
+                DSError(M_DS_WRONG ": X Variable is not double bound", A_DS_ERROR);
+                DSMatrixFree(A);
+                DSMatrixFree(Zeta);
+                glp_delete_prob(linearProblem);
+                goto bail;
+        }
+        
+        vertices = dsCaseCalculate1DVertices(aCase, linearProblem, A, Zeta, xIndex, lowerBounds, upperBounds);
+        DSMatrixFree(A);
+        DSMatrixFree(Zeta);
+        glp_delete_prob(linearProblem);
+bail:
+        return vertices;
 }
 
 static DSVertices * dsCaseCalculate2DVertices(const DSCase * aCase, glp_prob * linearProblem, const DSMatrix * A, const DSMatrix *Zeta, const DSUInteger xIndex, const DSUInteger yIndex)
@@ -484,17 +673,12 @@ static DSVertices * dsCaseCalculate2DVertices(const DSCase * aCase, glp_prob * l
         return vertices;
 }
 
-//static DSVertices * DSCaseVertices2DForValidRegion(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable)
-//{
-//        
-//}
-
 extern DSVertices * DSCaseVerticesFor2DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable)
 {
         DSVertices *vertices = NULL;
         DSUInteger yIndex, xIndex;
         DSMatrix *A, *Zeta, *temp;
-        glp_prob * linearProblem;
+        glp_prob * linearProblem = NULL;
         
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
@@ -502,7 +686,7 @@ extern DSVertices * DSCaseVerticesFor2DSlice(const DSCase *aCase, const DSVariab
         }
         
         if (dsCaseNumberOfFreeVariablesForBounds(aCase, lowerBounds, upperBounds) != 2) {
-                DSError(M_DS_WRONG ": Must have obly two free variables", A_DS_ERROR);
+                DSError(M_DS_WRONG ": Must have only two free variables", A_DS_ERROR);
                 goto bail;
         }
         
@@ -533,7 +717,6 @@ extern DSVertices * DSCaseVerticesFor2DSlice(const DSCase *aCase, const DSVariab
         Zeta = DSMatrixAppendMatrices(DSCaseZeta(aCase), temp, false);
         DSMatrixFree(temp);
         DSMatrixMultiplyByScalar(A, -1.0);
-        
         linearProblem = dsCaseLinearProblemForMatrices(A, Zeta);
         
         if (linearProblem == NULL) {
@@ -652,19 +835,24 @@ extern const bool DSCaseIntersectionListIsValid(const DSUInteger numberOfCases, 
         va_end(ap);
         if (i == numberOfCases)
                 isValid = DSCaseIntersectionIsValid(numberOfCases, cases);
-        //        submatrix = DSMatrixSubMatrixIncludingColumns(matrix, numberOfCases, cases);
         DSSecureFree(cases);
 
 bail:
         return isValid;
 }
 
-extern const bool DSCaseIntersectionIsValid(const DSUInteger numberOfCases, const DSCase **cases)
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Pseudocase with intersection of cases
+#endif
+
+/**
+ * 
+ */
+static DSPseudoCase * dsPseudoCaseFromIntersectionOfCases(const DSUInteger numberOfCases, const DSCase ** cases)
 {
-        bool isValid = false;
-        DSMatrix *U = NULL, *Zeta = NULL, *temp;
         DSUInteger i;
         DSPseudoCase * caseIntersection = NULL;
+        DSMatrix *U = NULL, *Zeta = NULL, *temp;
         if (numberOfCases == 0) {
                 DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
                 goto bail;
@@ -673,13 +861,13 @@ extern const bool DSCaseIntersectionIsValid(const DSUInteger numberOfCases, cons
                 DSError(M_DS_NULL ": Array of cases is NULL", A_DS_ERROR);
                 goto bail;
         }
-        if (DSCaseHasSolution(cases[0]) == false)
-                goto bail;
-        U = DSMatrixCopy(DSCaseU(cases[0]));
-        Zeta = DSMatrixCopy(DSCaseZeta(cases[0]));
         for (i = 0; i < numberOfCases; i++) {
                 if (DSCaseHasSolution(cases[i]) == false)
                         goto bail;
+        }
+        U = DSMatrixCopy(DSCaseU(cases[0]));
+        Zeta = DSMatrixCopy(DSCaseZeta(cases[0]));
+        for (i = 1; i < numberOfCases; i++) {
                 temp = DSMatrixAppendMatrices(U, DSCaseU(cases[i]), false);
                 DSMatrixFree(U);
                 U = temp;
@@ -694,74 +882,45 @@ extern const bool DSCaseIntersectionIsValid(const DSUInteger numberOfCases, cons
         DSCaseXi(caseIntersection) = DSCaseXi(cases[0]);
         DSCaseU(caseIntersection) = U;
         DSCaseZeta(caseIntersection) = Zeta;
-        isValid = DSCaseIsValid(caseIntersection);
-        DSSecureFree(caseIntersection);
+        U = NULL;
+        Zeta = NULL;
 bail:
         if (U != NULL)
                 DSMatrixFree(U);
         if (Zeta != NULL)
                 DSMatrixFree(Zeta);
+        return caseIntersection;
+}
+
+extern const bool DSCaseIntersectionIsValid(const DSUInteger numberOfCases, const DSCase **cases)
+{
+        bool isValid = false;
+        DSPseudoCase * caseIntersection = NULL;
+        caseIntersection = dsPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
+        if (caseIntersection == NULL)
+                goto bail;
+        isValid = DSCaseIsValid(caseIntersection);
+        DSSecureFree(caseIntersection);
+bail:
         return isValid;
 }
 
 extern const bool DSCaseIntersectionIsValidAtSlice(const DSUInteger numberOfCases, const DSCase **cases,  const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
 {
         bool isValid = false;
-        DSMatrix *U = NULL, *Zeta = NULL, *temp;
-        DSUInteger i;
         DSPseudoCase *caseIntersection = NULL;
-        if (numberOfCases == 0) {
-                DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
+        caseIntersection = dsPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
+        if (caseIntersection == NULL)
                 goto bail;
-        }
-        if (cases == NULL) {
-                DSError(M_DS_NULL ": Array of cases is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (lowerBounds == NULL && upperBounds == NULL) {
-                DSError(M_DS_VAR_NULL ": Variable pool with variables to fix is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSVariablePoolNumberOfVariables(lowerBounds) != DSVariablePoolNumberOfVariables(upperBounds)) {
-                DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSCaseHasSolution(cases[0]) == false)
-                goto bail;
-        U = DSMatrixCopy(DSCaseU(cases[0]));
-        Zeta = DSMatrixCopy(DSCaseZeta(cases[0]));
-        for (i = 0; i < numberOfCases; i++) {
-                if (DSCaseHasSolution(cases[i]) == false)
-                        goto bail;
-                temp = DSMatrixAppendMatrices(U, DSCaseU(cases[i]), false);
-                DSMatrixFree(U);
-                U = temp;
-                temp = DSMatrixAppendMatrices(Zeta, DSCaseZeta(cases[i]), false);
-                DSMatrixFree(Zeta);
-                Zeta = temp;
-                if (U == NULL || Zeta == NULL)
-                        goto bail;
-        }
-        caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
-        DSCaseXd(caseIntersection) = DSCaseXd(cases[0]);
-        DSCaseXi(caseIntersection) = DSCaseXi(cases[0]);
-        DSCaseU(caseIntersection) = U;
-        DSCaseZeta(caseIntersection) = Zeta;
         isValid = DSCaseIsValidAtSlice(caseIntersection, lowerBounds, upperBounds);
         DSSecureFree(caseIntersection);
 bail:
-        if (U != NULL)
-                DSMatrixFree(U);
-        if (Zeta != NULL)
-                DSMatrixFree(Zeta);
         return isValid;
 }
 
 extern DSVertices * DSCaseIntersectionVerticesForSlice(const DSUInteger numberOfCases, const DSCase **cases, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables)
 {
         DSVertices * vertices = NULL;
-        DSMatrix *U = NULL, *Zeta = NULL, *temp;
-        DSUInteger i;
         DSPseudoCase *caseIntersection = NULL;
         if (numberOfCases == 0) {
                 DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
@@ -779,33 +938,11 @@ extern DSVertices * DSCaseIntersectionVerticesForSlice(const DSUInteger numberOf
                 DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
                 goto bail;
         }
-        if (DSCaseHasSolution(cases[0]) == false)
+        caseIntersection = dsPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
+        if (cases == NULL)
                 goto bail;
-        U = DSMatrixCopy(DSCaseU(cases[0]));
-        Zeta = DSMatrixCopy(DSCaseZeta(cases[0]));
-        for (i = 0; i < numberOfCases; i++) {
-                if (DSCaseHasSolution(cases[i]) == false)
-                        goto bail;
-                temp = DSMatrixAppendMatrices(U, DSCaseU(cases[i]), false);
-                DSMatrixFree(U);
-                U = temp;
-                temp = DSMatrixAppendMatrices(Zeta, DSCaseZeta(cases[i]), false);
-                DSMatrixFree(Zeta);
-                Zeta = temp;
-                if (U == NULL || Zeta == NULL)
-                        goto bail;
-        }
-        caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
-        DSCaseXd(caseIntersection) = DSCaseXd(cases[0]);
-        DSCaseXi(caseIntersection) = DSCaseXi(cases[0]);
-        DSCaseU(caseIntersection) = U;
-        DSCaseZeta(caseIntersection) = Zeta;
         vertices = DSCaseVerticesForSlice(caseIntersection, lowerBounds, upperBounds, numberOfVariables, variables);
         DSSecureFree(caseIntersection);
 bail:
-        if (U != NULL)
-                DSMatrixFree(U);
-        if (Zeta != NULL)
-                DSMatrixFree(Zeta);
         return vertices;
 }

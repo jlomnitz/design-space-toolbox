@@ -1,0 +1,212 @@
+\hypertarget{_d_s_s_system_8h}{
+\section{DSSSystem.h File Reference}
+\label{_d_s_s_system_8h}\index{DSSSystem.h@{DSSSystem.h}}
+}
+
+
+Header file with functions for dealing with S-\/System.  
+
+
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+Include dependency graph for DSSSystem.h:This graph shows which files directly or indirectly include this file:\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_s_system_8h_a16c8079b4cbc8f2a17538c7c53364766}{
+\#define {\bfseries M\_\-DS\_\-SSYS\_\-NULL}~M\_\-DS\_\-NULL \char`\"{}: S-\/System is NULL\char`\"{}}
+\label{_d_s_s_system_8h_a16c8079b4cbc8f2a17538c7c53364766}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_s_system_8h_a918bcc35a719890cbd283c2741dc2c08}{
+void {\bfseries DSSSystemFree} (\hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a918bcc35a719890cbd283c2741dc2c08}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a503c63fd680f851163a4873e2b8a270c}{
+\_\-\_\-deprecated \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ {\bfseries DSSSystemFromGMAWithDominantTerms} (const \hyperlink{struct_d_s_g_m_a_system}{DSGMASystem} $\ast$gma, const DSUInteger $\ast$termList)}
+\label{_d_s_s_system_8h_a503c63fd680f851163a4873e2b8a270c}
+
+\item 
+\hypertarget{_d_s_s_system_8h_afd84cf6fdb78ce28c46e611a11310d5c}{
+\hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ {\bfseries DSSSystemWithTermsFromGMA} (const \hyperlink{struct_d_s_g_m_a_system}{DSGMASystem} $\ast$gma, const DSUInteger $\ast$termArray)}
+\label{_d_s_s_system_8h_afd84cf6fdb78ce28c46e611a11310d5c}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a8a18055fdff2b5e1be1128f0e4f0a2f4}{
+\hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ {\bfseries DSSSystemByParsingStringList} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const Xd, const char $\ast$const string,...)}
+\label{_d_s_s_system_8h_a8a18055fdff2b5e1be1128f0e4f0a2f4}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a71291efd60229ce2b23b8a39f0a44cbf}{
+\hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ {\bfseries DSSSystemByParsingStrings} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const Xd, char $\ast$const $\ast$const strings, const DSUInteger numberOfEquations)}
+\label{_d_s_s_system_8h_a71291efd60229ce2b23b8a39f0a44cbf}
+
+\item 
+\hypertarget{_d_s_s_system_8h_ad29393e1797e25f7e1b75548fd3cd959}{
+double {\bfseries DSSSystemSteadyStateFunction} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$Xi0, const char $\ast$function)}
+\label{_d_s_s_system_8h_ad29393e1797e25f7e1b75548fd3cd959}
+
+\item 
+\hypertarget{_d_s_s_system_8h_ac420caaa61b877f3edf89db3a9261dc0}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemSteadyStateValues} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$Xi0)}
+\label{_d_s_s_system_8h_ac420caaa61b877f3edf89db3a9261dc0}
+
+\item 
+\hypertarget{_d_s_s_system_8h_ad0dcc109dfd59c370a9f6b8a59be94d3}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemSteadyStateFlux} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$Xi0)}
+\label{_d_s_s_system_8h_ad0dcc109dfd59c370a9f6b8a59be94d3}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a2c2c63463d29640b7750de1f96cea765}{
+double {\bfseries DSSSystemLogarithmicGain} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys, const char $\ast$XdName, const char $\ast$XiName)}
+\label{_d_s_s_system_8h_a2c2c63463d29640b7750de1f96cea765}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a8ef7755c32c9997c95238670a6c52676}{
+const DSUInteger {\bfseries DSSSystemNumberOfEquations} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a8ef7755c32c9997c95238670a6c52676}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a8efc2c86abcdb529b3f851b0f672804c}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$$\ast$ {\bfseries DSSSystemEquations} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a8efc2c86abcdb529b3f851b0f672804c}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a170d638331da941fe5b5e3025a997b15}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$$\ast$ {\bfseries DSSSystemSolution} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a170d638331da941fe5b5e3025a997b15}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a0cd87ab4881f4404991ecc0c87b243aa}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$$\ast$ {\bfseries DSSSystemLogarithmicSolution} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a0cd87ab4881f4404991ecc0c87b243aa}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a9a3b4f6a9abe3375ced44e05d875f95a}{
+const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemAlpha} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a9a3b4f6a9abe3375ced44e05d875f95a}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a764f09f9873af8e2c8fc962a8e59d88e}{
+const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemBeta} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a764f09f9873af8e2c8fc962a8e59d88e}
+
+\item 
+\hypertarget{_d_s_s_system_8h_ab53ee7cbe794d8afc202d71839c58cb0}{
+const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemGd} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_ab53ee7cbe794d8afc202d71839c58cb0}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a283cec32e8288a1b252c3755224ef869}{
+const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemGi} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a283cec32e8288a1b252c3755224ef869}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a82f0c565968c4bbd2015a15462b3a802}{
+const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemHd} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a82f0c565968c4bbd2015a15462b3a802}
+
+\item 
+\hypertarget{_d_s_s_system_8h_ae55c9e81f941886f385b399d8c419dee}{
+const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemHi} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_ae55c9e81f941886f385b399d8c419dee}
+
+\item 
+\hypertarget{_d_s_s_system_8h_af8978bd4ef0e70765d827272c9191f8c}{
+const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemM} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_af8978bd4ef0e70765d827272c9191f8c}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a1d1e9352ba698c191af48268548e8a7a}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemAd} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a1d1e9352ba698c191af48268548e8a7a}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a212bdaac9db42460785d678410a9af3b}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemAi} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a212bdaac9db42460785d678410a9af3b}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a51805a26073ac81d06ea53d3fe485f8b}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemB} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a51805a26073ac81d06ea53d3fe485f8b}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a4b015039900d5c07f180127e310cdca4}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemA} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a4b015039900d5c07f180127e310cdca4}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a773b984ac5761bec7af37cafdbf7706f}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemG} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a773b984ac5761bec7af37cafdbf7706f}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a5a49260995d086491bbfafd399235530}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSSystemH} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a5a49260995d086491bbfafd399235530}
+
+\item 
+\hypertarget{_d_s_s_system_8h_ae0feec4d3c4e10f39d0bdb74f65c244d}{
+const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ {\bfseries DSSSystemXd} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$const ssys)}
+\label{_d_s_s_system_8h_ae0feec4d3c4e10f39d0bdb74f65c244d}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a43309ae0043c77df7f70d54d9b70a1c5}{
+const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ {\bfseries DSSSystemXi} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$const ssys)}
+\label{_d_s_s_system_8h_a43309ae0043c77df7f70d54d9b70a1c5}
+
+\item 
+\hypertarget{_d_s_s_system_8h_abc405834b14a3a34cb45c40be6f61939}{
+const bool {\bfseries DSSSystemHasSolution} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_abc405834b14a3a34cb45c40be6f61939}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a39b9fec2a3f14b0dd499093af9bd0ac3}{
+const bool {\bfseries DSSSystemIsSingular} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a39b9fec2a3f14b0dd499093af9bd0ac3}
+
+\item 
+\hypertarget{_d_s_s_system_8h_aa49a5035055d1520458f0dbec259302d}{
+void {\bfseries DSSSystemPrint} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_aa49a5035055d1520458f0dbec259302d}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a7d99eec40ba2f76950196564259aae6d}{
+void {\bfseries DSSSystemPrintEquations} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a7d99eec40ba2f76950196564259aae6d}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a4ef67a113a97c2a91796f0c3065fe0aa}{
+void {\bfseries DSSSystemPrintSolution} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a4ef67a113a97c2a91796f0c3065fe0aa}
+
+\item 
+\hypertarget{_d_s_s_system_8h_a7db3262e6d2b87e643a7930f6ad7bfb9}{
+void {\bfseries DSSSystemPrintLogarithmicSolution} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)}
+\label{_d_s_s_system_8h_a7db3262e6d2b87e643a7930f6ad7bfb9}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file with functions for dealing with S-\/System. Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}

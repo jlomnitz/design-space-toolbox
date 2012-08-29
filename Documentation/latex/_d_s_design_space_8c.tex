@@ -1,0 +1,252 @@
+\hypertarget{_d_s_design_space_8c}{
+\section{DSDesignSpace.c File Reference}
+\label{_d_s_design_space_8c}\index{DSDesignSpace.c@{DSDesignSpace.c}}
+}
+
+
+Implementation file with functions for dealing with Design Spaces.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$stdarg.h$>$}\par
+{\ttfamily \#include $<$glpk.h$>$}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSDesignSpace.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMatrix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSGMASystem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSSSystem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSCase.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSStack.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSDesignSpaceParallel.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSSubcase.h\char`\"{}}\par
+Include dependency graph for DSDesignSpace.c:This graph shows which files directly or indirectly include this file:\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_design_space_8c_a6bf82cfe3b390121ea65e08b30cd9a9b}{
+\#define {\bfseries \_\-\_\-DS\_\-MAC\_\-OS\_\-X\_\-\_\-}}
+\label{_d_s_design_space_8c_a6bf82cfe3b390121ea65e08b30cd9a9b}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a6071316537e667a1f7ae86cf5338204d}{
+\#define {\bfseries DS\_\-PARALLEL\_\-DEFAULT\_\-THREADS}~4}
+\label{_d_s_design_space_8c_a6071316537e667a1f7ae86cf5338204d}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a1890a134d55582b3ba12ee92a67a10fc}{
+\#define {\bfseries DSDSGMA}(x)~((x)-\/$>$gma)}
+\label{_d_s_design_space_8c_a1890a134d55582b3ba12ee92a67a10fc}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a9714221a34c75acd26bfc5a6cf635554}{
+\#define {\bfseries DSDSNumCases}(x)~((x)-\/$>$numberOfCases)}
+\label{_d_s_design_space_8c_a9714221a34c75acd26bfc5a6cf635554}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a83ce8b0b6eae5ff89a320522b29c8559}{
+\#define {\bfseries DSDSXd}(x)~((x)-\/$>$Xd)}
+\label{_d_s_design_space_8c_a83ce8b0b6eae5ff89a320522b29c8559}
+
+\item 
+\hypertarget{_d_s_design_space_8c_ad7399aada0caace19e17e6de42cc4632}{
+\#define {\bfseries DSDSXi}(x)~((x)-\/$>$Xi)}
+\label{_d_s_design_space_8c_ad7399aada0caace19e17e6de42cc4632}
+
+\item 
+\hypertarget{_d_s_design_space_8c_ac6f984077f29cb35bbc3e434d4fe535e}{
+\#define {\bfseries DSDSSubcases}(x)~((x)-\/$>$subcases)}
+\label{_d_s_design_space_8c_ac6f984077f29cb35bbc3e434d4fe535e}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a4d4a0cfd6ee8431be06231ee8eac45c7}{
+\#define {\bfseries DSDSCi}(x)~((x)-\/$>$Ci)}
+\label{_d_s_design_space_8c_a4d4a0cfd6ee8431be06231ee8eac45c7}
+
+\item 
+\hypertarget{_d_s_design_space_8c_aba8b45c87d967a17004deff310676437}{
+\#define {\bfseries DSDSCd}(x)~((x)-\/$>$Cd)}
+\label{_d_s_design_space_8c_aba8b45c87d967a17004deff310676437}
+
+\item 
+\hypertarget{_d_s_design_space_8c_abc0a7ce4ee9b006c695c96499fe08519}{
+\#define {\bfseries DSDSDelta}(x)~((x)-\/$>$delta)}
+\label{_d_s_design_space_8c_abc0a7ce4ee9b006c695c96499fe08519}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a918ed6408e19b56633c3197726374b3c}{
+\#define {\bfseries DSDSValidPool}(x)~((x)-\/$>$validCases)}
+\label{_d_s_design_space_8c_a918ed6408e19b56633c3197726374b3c}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_design_space_8c_a8f27e465ece4d8919438c06d7caa1394}{
+\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ {\bfseries DSDesignSpaceAlloc} (void)}
+\label{_d_s_design_space_8c_a8f27e465ece4d8919438c06d7caa1394}
+
+\item 
+\hypertarget{_d_s_design_space_8c_ad3b2964fd53a75aea857d059c0b777f3}{
+void {\bfseries DSDesignSpaceFree} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_ad3b2964fd53a75aea857d059c0b777f3}
+
+\item 
+\hypertarget{_d_s_design_space_8c_ab88c177ad9ef60810a1c8c604166cbbf}{
+\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ {\bfseries DSDesignSpaceByParsingStringList} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const Xd, const char $\ast$const string,...)}
+\label{_d_s_design_space_8c_ab88c177ad9ef60810a1c8c604166cbbf}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a1f41e2c2a0772c5aba6da75e250d6453}{
+\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ {\bfseries DSDesignSpaceByParsingStrings} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const Xd, char $\ast$const $\ast$const strings, const DSUInteger numberOfEquations)}
+\label{_d_s_design_space_8c_a1f41e2c2a0772c5aba6da75e250d6453}
+
+\item 
+\hypertarget{_d_s_design_space_8c_aa05ac7be6c1f8e10751276f7f00a3ccd}{
+\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ {\bfseries DSDesignSpaceByParsingStringsWithXi} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const Xd, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$const Xi, char $\ast$const $\ast$const strings, const DSUInteger numberOfEquations)}
+\label{_d_s_design_space_8c_aa05ac7be6c1f8e10751276f7f00a3ccd}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a98cb2582d43eeb077b0edc5e7c64c85c}{
+void {\bfseries DSDesignSpaceSetGMA} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, \hyperlink{struct_d_s_g_m_a_system}{DSGMASystem} $\ast$gma)}
+\label{_d_s_design_space_8c_a98cb2582d43eeb077b0edc5e7c64c85c}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a0cdee81c0f4faed111c8f0183667488f}{
+void {\bfseries DSDesignSpaceAddConditions} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$Cd, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$Ci, const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$delta)}
+\label{_d_s_design_space_8c_a0cdee81c0f4faed111c8f0183667488f}
+
+\item 
+\hypertarget{_d_s_design_space_8c_ac1608b5f0aeba9ebae2797907a5d867f}{
+const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ {\bfseries DSDesignSpaceXi} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_ac1608b5f0aeba9ebae2797907a5d867f}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a7adeb7fecec8a065c7a3ee774ee65efe}{
+const DSUInteger {\bfseries DSDesignSpaceNumberOfEquations} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_a7adeb7fecec8a065c7a3ee774ee65efe}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a6d1e7eba4879eba77dd608bce37a07d5}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$$\ast$ {\bfseries DSDesignSpaceEquations} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_a6d1e7eba4879eba77dd608bce37a07d5}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a9964b40b306d4d7ecaf40da35d20ab5f}{
+const DSUInteger {\bfseries DSDesignSpaceNumberOfCases} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_a9964b40b306d4d7ecaf40da35d20ab5f}
+
+\item 
+\hypertarget{_d_s_design_space_8c_ac97c6c11e2a120b7a28ba8d9283b8b4b}{
+const DSUInteger {\bfseries DSDesignSpaceNumberOfValidCases} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_ac97c6c11e2a120b7a28ba8d9283b8b4b}
+
+\item 
+\hypertarget{_d_s_design_space_8c_af7cf54e7a005e0330a7ac113a8d1f56b}{
+const DSUInteger $\ast$ {\bfseries DSDesignSpaceSignature} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_af7cf54e7a005e0330a7ac113a8d1f56b}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a023090c36e84fbe771aeb64f7aa789d4}{
+\hyperlink{struct_d_s_case}{DSCase} $\ast$ {\bfseries DSDesignSpaceCaseWithCaseNumber} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const DSUInteger caseNumber)}
+\label{_d_s_design_space_8c_a023090c36e84fbe771aeb64f7aa789d4}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a18760394a025429adb71022413092e7e}{
+\hyperlink{struct_d_s_case}{DSCase} $\ast$ {\bfseries DSDesignSpaceCaseWithCaseSignature} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const DSUInteger $\ast$signature)}
+\label{_d_s_design_space_8c_a18760394a025429adb71022413092e7e}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a0bcfc8b7975c2c60f82e45afe15107ea}{
+\hyperlink{struct_d_s_case}{DSCase} $\ast$ {\bfseries DSDesignSpaceCaseWithCaseSignatureList} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const DSUInteger firstTerm,...)}
+\label{_d_s_design_space_8c_a0bcfc8b7975c2c60f82e45afe15107ea}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a8ceda76b24c5fc71b90975af062f837d}{
+const bool {\bfseries DSDesignSpaceCaseWithCaseNumberIsValid} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const DSUInteger caseNumber)}
+\label{_d_s_design_space_8c_a8ceda76b24c5fc71b90975af062f837d}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a0ce6fd237ea5acd550b543c38900c01e}{
+const bool {\bfseries DSDesignSpaceCaseWithCaseSignatureIsValid} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const DSUInteger $\ast$signature)}
+\label{_d_s_design_space_8c_a0ce6fd237ea5acd550b543c38900c01e}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a45043e1523a8094ea30ae7396d09f2b7}{
+const bool {\bfseries DSDesignSpaceCaseWithCaseSignatureListIsValid} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const DSUInteger firstTerm,...)}
+\label{_d_s_design_space_8c_a45043e1523a8094ea30ae7396d09f2b7}
+
+\item 
+\hypertarget{_d_s_design_space_8c_acb3d4386af215802c3701133b5844ae5}{
+const \hyperlink{struct_d_s_stack}{DSStack} $\ast$ {\bfseries DSDesignSpaceSubcasesForCaseNumber} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const DSUInteger caseNumber)}
+\label{_d_s_design_space_8c_acb3d4386af215802c3701133b5844ae5}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a5089a444259bdc4eac839ea169f50c8a}{
+const \hyperlink{struct_d_s_g_m_a_system}{DSGMASystem} $\ast$ {\bfseries DSDesignSpaceGMASystem} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_a5089a444259bdc4eac839ea169f50c8a}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a9579d712a4a04d6640b6ee4c2a526d6d}{
+const \hyperlink{struct_d_s_dictionary}{DSDictionary} $\ast$ {\bfseries DSDesignSpaceSubcaseDictionary} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_a9579d712a4a04d6640b6ee4c2a526d6d}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a6ea8130e9b5e34104d11dc0bdadbc982}{
+\hyperlink{struct_d_s_case}{DSCase} $\ast$$\ast$ {\bfseries DSDesignSpaceCalculateCases} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const DSUInteger numberOfCase, DSUInteger $\ast$cases)}
+\label{_d_s_design_space_8c_a6ea8130e9b5e34104d11dc0bdadbc982}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a12ea93ab255cd9a6a2b9c32e7af672cf}{
+\hyperlink{struct_d_s_case}{DSCase} $\ast$$\ast$ {\bfseries DSDesignSpaceCalculateAllValidCases} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_a12ea93ab255cd9a6a2b9c32e7af672cf}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a9d426855727a6218ce488681e27c2226}{
+\hyperlink{struct_d_s_dictionary}{DSDictionary} $\ast$ {\bfseries DSDesignSpaceCalculateAllValidCasesForSlice} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$lower, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$upper)}
+\label{_d_s_design_space_8c_a9d426855727a6218ce488681e27c2226}
+
+\item 
+\hypertarget{_d_s_design_space_8c_aeccc8400b4ed7a7fefb899c917e549df}{
+void {\bfseries DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds, DSUInteger caseNumber)}
+\label{_d_s_design_space_8c_aeccc8400b4ed7a7fefb899c917e549df}
+
+\item 
+\hypertarget{_d_s_design_space_8c_a03547b407df0637a893e27d78c60742f}{
+void {\bfseries DSDesignSpaceCalculateUnderdeterminedCases} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_a03547b407df0637a893e27d78c60742f}
+
+\item 
+\hypertarget{_d_s_design_space_8c_ad9eae03d08889251d6ddb67850186b24}{
+void {\bfseries DSDesignSpaceCalculateValidityOfCases} (\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_ad9eae03d08889251d6ddb67850186b24}
+
+\item 
+\hypertarget{_d_s_design_space_8c_aaf5101bdd0718b22cea817a32cd81ea0}{
+void {\bfseries DSDesignSpacePrint} (const \hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ds)}
+\label{_d_s_design_space_8c_aaf5101bdd0718b22cea817a32cd81ea0}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file with functions for dealing with Design Spaces. Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}

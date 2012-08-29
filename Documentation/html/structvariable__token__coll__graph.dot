@@ -1,0 +1,9 @@
+digraph G
+{
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="variable_token",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="data",fontname="FreeSans"];
+  Node2 [label="v_token_data",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$unionv__token__data.html",tooltip="Union containing the alternative values a struct variable_token can take."];
+  Node1 -> Node1 [dir=back,color="darkorchid3",fontsize="10",style="dashed",label="next",fontname="FreeSans"];
+}

@@ -34,6 +34,7 @@
 
 #include <gsl/gsl_linalg.h>
 #include <gsl/gsl_blas.h>
+#include <gsl/gsl_eigen.h>
 
 #include "DSMatrix.h"
 #include "DSErrors.h"
@@ -1101,9 +1102,17 @@ extern void DSMatrixPrint(const DSMatrix *matrix)
         else
                 print = DSPrintf;
         for (i = 0; i < DSMatrixRows(matrix); i++) {
+                printf("[");
                 for (j = 0; j < DSMatrixColumns(matrix); j++) {
-                        print("%lf%c", DSMatrixDoubleValue(matrix, i, j), 
-                              ((j == DSMatrixColumns(matrix)-1) ? '\n' : '\t'));
+                        print("%lf", DSMatrixDoubleValue(matrix, i, j), 
+                              ((j == DSMatrixColumns(matrix)-1) ? "]" : ", "));
+                        if (j == DSMatrixColumns(matrix)-1 && i == DSMatrixRows(matrix)-1) {
+                                printf("]\n");
+                        } else if (j == DSMatrixColumns(matrix)-1) {
+                                printf("],\n");
+                        } else {
+                                printf(", ");
+                        }
                 }
         }
 bail:
@@ -1242,6 +1251,41 @@ extern double minimumValue(const DSMatrix *matrix, const bool shouldExcludeZero)
         minValue =gsl_matrix_min(DSMatrixInternalPointer(matrix));
 bail:
         return minValue;
+}
+
+extern double complex DSMatrixDominantEigenvalue(const DSMatrix *matrix)
+{
+        DSMatrix * copy = NULL;
+        double complex eigenValue = 0+0i;
+        gsl_vector_complex *eval;
+        gsl_matrix_complex *evec;
+        gsl_eigen_nonsymmv_workspace * w;
+        gsl_complex gslcomplex;
+        
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSMatrixRows(matrix) != DSMatrixColumns(matrix)) {
+                DSError(M_DS_WRONG ": DSMatrix is not a square matrix", A_DS_ERROR);
+                goto bail;
+        }
+        copy = DSMatrixCopy(matrix);
+        eval = gsl_vector_complex_alloc (DSMatrixRows(copy));
+        evec = gsl_matrix_complex_alloc (DSMatrixRows(copy), DSMatrixColumns(copy));
+        w = gsl_eigen_nonsymmv_alloc(DSMatrixRows(copy));
+        
+        gsl_eigen_nonsymmv(DSMatrixInternalPointer(copy), eval, evec, w);
+        gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_ABS_ASC);
+        gslcomplex = gsl_vector_complex_get(eval, 0);
+        eigenValue = GSL_REAL(gslcomplex)+GSL_IMAG(gslcomplex)*1i;
+        printf("%lf+%lfi\n", creal(eigenValue), cimag(eigenValue));
+        gsl_vector_complex_free(eval);
+        gsl_matrix_complex_free(evec);
+        gsl_eigen_nonsymmv_free(w);
+        DSMatrixFree(copy);
+bail:
+        return eigenValue;
 }
 extern double maximumValue(const DSMatrix *matrix, const bool shouldExcludeZero)
 {

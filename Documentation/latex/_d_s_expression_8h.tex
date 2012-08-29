@@ -1,0 +1,164 @@
+\hypertarget{_d_s_expression_8h}{
+\section{DSExpression.h File Reference}
+\label{_d_s_expression_8h}\index{DSExpression.h@{DSExpression.h}}
+}
+
+
+Header file with functions for dealing with mathematical expressions.  
+
+
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+Include dependency graph for DSExpression.h:This graph shows which files directly or indirectly include this file:\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_expression_8h_a018e4498b5023777c3316b3d06779af6}{
+\#define {\bfseries DS\_\-EXPRESSION\_\-TYPE\_\-UNDEFINED}~0}
+\label{_d_s_expression_8h_a018e4498b5023777c3316b3d06779af6}
+
+\item 
+\hypertarget{_d_s_expression_8h_a52c5f265c27f174b5862253bbd2bafbc}{
+\#define {\bfseries DS\_\-EXPRESSION\_\-TYPE\_\-OPERATOR}~1}
+\label{_d_s_expression_8h_a52c5f265c27f174b5862253bbd2bafbc}
+
+\item 
+\hypertarget{_d_s_expression_8h_a521d0799b0b6c950e69f94fb7d492c8a}{
+\#define {\bfseries DS\_\-EXPRESSION\_\-TYPE\_\-CONSTANT}~2}
+\label{_d_s_expression_8h_a521d0799b0b6c950e69f94fb7d492c8a}
+
+\item 
+\hypertarget{_d_s_expression_8h_a2ad8725730cc1dd4a1bd121c6d0a30bf}{
+\#define {\bfseries DS\_\-EXPRESSION\_\-TYPE\_\-VARIABLE}~3}
+\label{_d_s_expression_8h_a2ad8725730cc1dd4a1bd121c6d0a30bf}
+
+\item 
+\hypertarget{_d_s_expression_8h_a7cb9ccc7c5be2415c750a0bef744ac6e}{
+\#define {\bfseries DS\_\-EXPRESSION\_\-TYPE\_\-FUNCTION}~4}
+\label{_d_s_expression_8h_a7cb9ccc7c5be2415c750a0bef744ac6e}
+
+\item 
+\hypertarget{_d_s_expression_8h_af51632ada2fed1e2313c4e40c226e1d6}{
+\#define {\bfseries DSExpressionSetOperator}(x, y)~((x-\/$>$node.op\_\-code) = y, (x-\/$>$type = DS\_\-EXPRESSION\_\-TYPE\_\-OPERATOR))}
+\label{_d_s_expression_8h_af51632ada2fed1e2313c4e40c226e1d6}
+
+\item 
+\hypertarget{_d_s_expression_8h_ab3b520fd7d0dfac38ae7f6bb13c824fb}{
+\#define {\bfseries DSExpressionSetVariable}(x, y)~((x-\/$>$node.variable) = y, (x-\/$>$type = DS\_\-EXPRESSION\_\-TYPE\_\-VARIABLE))}
+\label{_d_s_expression_8h_ab3b520fd7d0dfac38ae7f6bb13c824fb}
+
+\item 
+\hypertarget{_d_s_expression_8h_af5535e79fde8eab01648730aee62da14}{
+\#define {\bfseries DSExpressionSetConstant}(x, y)~((x-\/$>$node.constant) = y, (x-\/$>$type = DS\_\-EXPRESSION\_\-TYPE\_\-CONSTANT))}
+\label{_d_s_expression_8h_af5535e79fde8eab01648730aee62da14}
+
+\item 
+\hypertarget{_d_s_expression_8h_a99efea0eeb9a6e5d763b023c644d73a1}{
+\#define {\bfseries DSExpressionType}(x)~(x-\/$>$type)}
+\label{_d_s_expression_8h_a99efea0eeb9a6e5d763b023c644d73a1}
+
+\item 
+\hypertarget{_d_s_expression_8h_a5ee5d9e809898d3496d2cd2ed314c511}{
+\#define {\bfseries DSExpressionNumberOfBranches}(x)~(x-\/$>$numberOfBranches)}
+\label{_d_s_expression_8h_a5ee5d9e809898d3496d2cd2ed314c511}
+
+\item 
+\hypertarget{_d_s_expression_8h_a67ca4ff30059f1a82e27ac4a8e906ae1}{
+\#define {\bfseries DSExpressionBranchAtIndex}(x, y)~((y $<$ DSExpressionNumberOfBranches(x)) ? x-\/$>$branches\mbox{[}y\mbox{]} : NULL)}
+\label{_d_s_expression_8h_a67ca4ff30059f1a82e27ac4a8e906ae1}
+
+\item 
+\hypertarget{_d_s_expression_8h_ae0151e3213caca6ce5ac85a5236386cf}{
+\#define {\bfseries DSExpressionOperator}(x)~((x-\/$>$type == DS\_\-EXPRESSION\_\-TYPE\_\-OPERATOR) ? x-\/$>$node.op\_\-code : '?')}
+\label{_d_s_expression_8h_ae0151e3213caca6ce5ac85a5236386cf}
+
+\item 
+\hypertarget{_d_s_expression_8h_a98dcd8a603ecdcb86c19f213dcf2b792}{
+\#define {\bfseries DSExpressionVariable}(x)~((x-\/$>$type == DS\_\-EXPRESSION\_\-TYPE\_\-VARIABLE $|$$|$ x-\/$>$type == DS\_\-EXPRESSION\_\-TYPE\_\-FUNCTION) ? x-\/$>$node.variable : NULL)}
+\label{_d_s_expression_8h_a98dcd8a603ecdcb86c19f213dcf2b792}
+
+\item 
+\hypertarget{_d_s_expression_8h_a73e36aab11049ec9c16184c885be3e1e}{
+\#define {\bfseries DSExpressionConstant}(x)~((x-\/$>$type == DS\_\-EXPRESSION\_\-TYPE\_\-CONSTANT) ? x-\/$>$node.constant : NAN)}
+\label{_d_s_expression_8h_a73e36aab11049ec9c16184c885be3e1e}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_expression_8h_a0d3722a222023a8677952bb5aa0b56dd}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionAllocWithOperator} (const char op\_\-code)}
+\label{_d_s_expression_8h_a0d3722a222023a8677952bb5aa0b56dd}
+
+\item 
+\hypertarget{_d_s_expression_8h_aea7d132c63527347f3e1474312a89126}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionAllocWithConstant} (const double value)}
+\label{_d_s_expression_8h_aea7d132c63527347f3e1474312a89126}
+
+\item 
+\hypertarget{_d_s_expression_8h_a7801cf181c8c5eb7d47505d9dc98cf4d}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionAllocWithVariableName} (const char $\ast$name)}
+\label{_d_s_expression_8h_a7801cf181c8c5eb7d47505d9dc98cf4d}
+
+\item 
+\hypertarget{_d_s_expression_8h_a421fb70482a371a9c1cccad85f843a67}{
+void {\bfseries DSExpressionFree} (\hyperlink{structdsexpression}{DSExpression} $\ast$root)}
+\label{_d_s_expression_8h_a421fb70482a371a9c1cccad85f843a67}
+
+\item 
+\hypertarget{_d_s_expression_8h_a6d4867e24915ebd378abd3a9762f350d}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionCopy} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression)}
+\label{_d_s_expression_8h_a6d4867e24915ebd378abd3a9762f350d}
+
+\item 
+\hypertarget{_d_s_expression_8h_a179f6a5530ff0852d3e266cf22e535b0}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionByParsingString} (const char $\ast$string)}
+\label{_d_s_expression_8h_a179f6a5530ff0852d3e266cf22e535b0}
+
+\item 
+\hypertarget{_d_s_expression_8h_a6d563f2b52ae0c1b62416af2eba06425}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionAddExpressions} (\hyperlink{structdsexpression}{DSExpression} $\ast$lvalue, \hyperlink{structdsexpression}{DSExpression} $\ast$rvalue)}
+\label{_d_s_expression_8h_a6d563f2b52ae0c1b62416af2eba06425}
+
+\item 
+\hypertarget{_d_s_expression_8h_a0ab75800267c17508893a11a900e2e36}{
+double {\bfseries DSExpressionEvaluateWithVariablePool} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_expression_8h_a0ab75800267c17508893a11a900e2e36}
+
+\item 
+\hypertarget{_d_s_expression_8h_aecf7720bc7fff6cacde0a5e27df83074}{
+char $\ast$ {\bfseries DSExpressionAsString} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression)}
+\label{_d_s_expression_8h_aecf7720bc7fff6cacde0a5e27df83074}
+
+\item 
+\hypertarget{_d_s_expression_8h_a255aad510b69f8a0691ccff4ad3702c9}{
+char $\ast$ {\bfseries DSExpressionAsTroffString} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression)}
+\label{_d_s_expression_8h_a255aad510b69f8a0691ccff4ad3702c9}
+
+\item 
+\hypertarget{_d_s_expression_8h_a9bb539af87116d9890053b0fcc710ced}{
+void {\bfseries DSExpressionPrint} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression)}
+\label{_d_s_expression_8h_a9bb539af87116d9890053b0fcc710ced}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file with functions for dealing with mathematical expressions. The mathematical expressions are converted into a form similar to the model used in MUPAD. Internally, only three operators are used: '+', '$\ast$' and '$^\wedge$'. The '-\/' operator is converted, such that \$A-\/B\$ would actually be \$A+B$\ast$(-\/1)\$ and the '/' operator is converted such that \$A/B\$ would actually be \$A$\ast$B$^\wedge$-\/1\$. The '$\ast$' and '+' operators must have at least two branches, but may have any number of branches. The first branch for these operators is reserved for constant values, such that a+b is actually 0+a+b, and a$\ast$b is actually 1$\ast$a$\ast$b. This canonical form is used to speed up the processing of mathematical expressions when converting them to matrices for the GMA and SSystem. The '$^\wedge$' must have only two branches.
+
+Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}

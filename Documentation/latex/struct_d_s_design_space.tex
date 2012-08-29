@@ -1,0 +1,78 @@
+\hypertarget{struct_d_s_design_space}{
+\section{DSDesignSpace Struct Reference}
+\label{struct_d_s_design_space}\index{DSDesignSpace@{DSDesignSpace}}
+}
+
+
+Data type used to represent a design space.  
+
+
+
+
+{\ttfamily \#include $<$DSTypes.h$>$}
+
+
+
+Collaboration diagram for DSDesignSpace:\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{struct_d_s_design_space_ace45d99580d7db1513538aeb7678b6db}{
+\hyperlink{struct_d_s_g_m_a_system}{DSGMASystem} $\ast$ \hyperlink{struct_d_s_design_space_ace45d99580d7db1513538aeb7678b6db}{gma}}
+\label{struct_d_s_design_space_ace45d99580d7db1513538aeb7678b6db}
+
+\begin{DoxyCompactList}\small\item\em The gma system of the design space. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_design_space_a739550585a18a79b3f809fc0b0d2658b}{
+const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ \hyperlink{struct_d_s_design_space_a739550585a18a79b3f809fc0b0d2658b}{Xd}}
+\label{struct_d_s_design_space_a739550585a18a79b3f809fc0b0d2658b}
+
+\begin{DoxyCompactList}\small\item\em A pointer to the \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with the dependent variables. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_design_space_a00cfed7027afc5b8218687b951287742}{
+const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$ \hyperlink{struct_d_s_design_space_a00cfed7027afc5b8218687b951287742}{Xi}}
+\label{struct_d_s_design_space_a00cfed7027afc5b8218687b951287742}
+
+\begin{DoxyCompactList}\small\item\em A pointer to the \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with the dependent variables. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_design_space_ac9ccac5ae8d5a9b6255b2bb394d90b53}{
+\hyperlink{struct_d_s_dictionary}{DSDictionary} $\ast$ \hyperlink{struct_d_s_design_space_ac9ccac5ae8d5a9b6255b2bb394d90b53}{validCases}}
+\label{struct_d_s_design_space_ac9ccac5ae8d5a9b6255b2bb394d90b53}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{struct_d_s_variable_pool}{DSVariablePool} with case number that are valid. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_design_space_a13b1ed4c5a74f8af8c169edc3a04d41a}{
+DSUInteger \hyperlink{struct_d_s_design_space_a13b1ed4c5a74f8af8c169edc3a04d41a}{numberOfCases}}
+\label{struct_d_s_design_space_a13b1ed4c5a74f8af8c169edc3a04d41a}
+
+\begin{DoxyCompactList}\small\item\em DSUInteger indicating the maximum number of cases in the design space. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_design_space_a3f0ef631e7fc4b26d38a5ddb6555cf99}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries Cd}}
+\label{struct_d_s_design_space_a3f0ef631e7fc4b26d38a5ddb6555cf99}
+
+\item 
+\hypertarget{struct_d_s_design_space_abc83f4bb21d43d8bc1f6228d3c66853e}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries Ci}}
+\label{struct_d_s_design_space_abc83f4bb21d43d8bc1f6228d3c66853e}
+
+\item 
+\hypertarget{struct_d_s_design_space_a565e0140e786d762f8a608dcc2e227ef}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ \hyperlink{struct_d_s_design_space_a565e0140e786d762f8a608dcc2e227ef}{delta}}
+\label{struct_d_s_design_space_a565e0140e786d762f8a608dcc2e227ef}
+
+\begin{DoxyCompactList}\small\item\em Condition matrices. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_design_space_a246cb0cf43ca5193adfd233273c34009}{
+\hyperlink{struct_d_s_dictionary}{DSDictionary} $\ast$ \hyperlink{struct_d_s_design_space_a246cb0cf43ca5193adfd233273c34009}{subcases}}
+\label{struct_d_s_design_space_a246cb0cf43ca5193adfd233273c34009}
+
+\begin{DoxyCompactList}\small\item\em DSDesignSpaceStack containing design space objects with subcases. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data type used to represent a design space. The design space data structure is a convenience structure that automates the construction and analysis of cases, and manages the memory associated with these cases. This behavior can be avoided by working directly with the gma system of the designspace.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_design_space_8h}{DSDesignSpace.h} 
+
+\hyperlink{_d_s_design_space_8c}{DSDesignSpace.c} 
+\end{DoxySeeAlso}
+
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_d_s_types_8h}{DSTypes.h}\end{DoxyCompactItemize}

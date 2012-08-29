@@ -1,0 +1,120 @@
+\hypertarget{_d_s_design_space_parallel_8c}{
+\section{DSDesignSpaceParallel.c File Reference}
+\label{_d_s_design_space_parallel_8c}\index{DSDesignSpaceParallel.c@{DSDesignSpaceParallel.c}}
+}
+
+
+Implementation file with functions for dealing with parallel operatirons used by the design spaces.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
+{\ttfamily \#include $<$glpk.h$>$}\par
+{\ttfamily \#include \char`\"{}DSDesignSpaceParallel.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSDesignSpace.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSGMASystem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSSSystem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSCase.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMatrix.h\char`\"{}}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+Include dependency graph for DSDesignSpaceParallel.c:\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_a85d6ab1ae7d756bde5140ff7390b2a20}{
+\#define {\bfseries PARALLEL\_\-STACK\_\-SIZE\_\-INCREMENT}~5000}
+\label{_d_s_design_space_parallel_8c_a85d6ab1ae7d756bde5140ff7390b2a20}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_a07bb31b9c9eed9a8bbde4dae967d4390}{
+void {\bfseries DSParallelInitMutexes} (void)}
+\label{_d_s_design_space_parallel_8c_a07bb31b9c9eed9a8bbde4dae967d4390}
+
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_a5418775b3ff97afcbdfe5505d9321e32}{
+\hyperlink{structds__parallelstack__t}{ds\_\-parallelstack\_\-t} $\ast$ {\bfseries DSParallelStackAlloc} (void)}
+\label{_d_s_design_space_parallel_8c_a5418775b3ff97afcbdfe5505d9321e32}
+
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_aac93db1ec659a47c90826cf5f3632297}{
+void {\bfseries DSParallelStackFree} (\hyperlink{structds__parallelstack__t}{ds\_\-parallelstack\_\-t} $\ast$stack)}
+\label{_d_s_design_space_parallel_8c_aac93db1ec659a47c90826cf5f3632297}
+
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_a7287eb10d10d6b9b998eb41da273ba7d}{
+void {\bfseries DSParallelStackPush} (\hyperlink{structds__parallelstack__t}{ds\_\-parallelstack\_\-t} $\ast$stack, const DSUInteger integer)}
+\label{_d_s_design_space_parallel_8c_a7287eb10d10d6b9b998eb41da273ba7d}
+
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_ad127b2180dd5ed9d6b90231970b19d4a}{
+const DSUInteger {\bfseries DSParallelStackPop} (\hyperlink{structds__parallelstack__t}{ds\_\-parallelstack\_\-t} $\ast$stack)}
+\label{_d_s_design_space_parallel_8c_ad127b2180dd5ed9d6b90231970b19d4a}
+
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_adcf310524614840a60710b0e697fbd1e}{
+void {\bfseries DSParallelStackAddCase} (\hyperlink{structds__parallelstack__t}{ds\_\-parallelstack\_\-t} $\ast$stack, \hyperlink{struct_d_s_case}{DSCase} $\ast$aCase)}
+\label{_d_s_design_space_parallel_8c_adcf310524614840a60710b0e697fbd1e}
+
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_ab76eb6e63d2649cf2e8ec150ad920ce1}{
+void $\ast$ {\bfseries DSParallelWorker} (void $\ast$\hyperlink{structpthread__struct}{pthread\_\-struct})}
+\label{_d_s_design_space_parallel_8c_ab76eb6e63d2649cf2e8ec150ad920ce1}
+
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_a54ed3b5a753c1850f3350cd9ffbc24bb}{
+void $\ast$ {\bfseries DSParallelWorkerCases} (void $\ast$\hyperlink{structpthread__struct}{pthread\_\-struct})}
+\label{_d_s_design_space_parallel_8c_a54ed3b5a753c1850f3350cd9ffbc24bb}
+
+\item 
+void $\ast$ \hyperlink{_d_s_design_space_parallel_8c_ab1b546f68ad3ef651d0d4f03b55b6cdb}{DSParallelWorkerValidity} (void $\ast$\hyperlink{structpthread__struct}{pthread\_\-struct})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_a51644a691860c2faf8b290cf8c1302fe}{
+pthread\_\-mutex\_\-t {\bfseries workeradd}}
+\label{_d_s_design_space_parallel_8c_a51644a691860c2faf8b290cf8c1302fe}
+
+\item 
+\hypertarget{_d_s_design_space_parallel_8c_a7f62628eafc831d763dcccea8086356f}{
+pthread\_\-mutex\_\-t {\bfseries iomutex}}
+\label{_d_s_design_space_parallel_8c_a7f62628eafc831d763dcccea8086356f}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file with functions for dealing with parallel operatirons used by the design spaces. Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{_d_s_design_space_parallel_8c_ab1b546f68ad3ef651d0d4f03b55b6cdb}{
+\index{DSDesignSpaceParallel.c@{DSDesignSpaceParallel.c}!DSParallelWorkerValidity@{DSParallelWorkerValidity}}
+\index{DSParallelWorkerValidity@{DSParallelWorkerValidity}!DSDesignSpaceParallel.c@{DSDesignSpaceParallel.c}}
+\subsubsection[{DSParallelWorkerValidity}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ DSParallelWorkerValidity (void $\ast$ {\em pthread\_\-struct})}}
+\label{_d_s_design_space_parallel_8c_ab1b546f68ad3ef651d0d4f03b55b6cdb}
+
+
+Data in stack MUST be a case number, if not an error will occur 
+

@@ -1,0 +1,41 @@
+\hypertarget{structpthread__struct}{
+\section{pthread\_\-struct Struct Reference}
+\label{structpthread__struct}\index{pthread\_\-struct@{pthread\_\-struct}}
+}
+
+
+Data structure passed to a pthread.  
+
+
+
+
+{\ttfamily \#include $<$DSDesignSpaceParallel.h$>$}
+
+
+
+Collaboration diagram for pthread\_\-struct:\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structpthread__struct_a32b52047d490a4dc379730c4da799839}{
+\hyperlink{structds__parallelstack__t}{ds\_\-parallelstack\_\-t} $\ast$ {\bfseries stack}}
+\label{structpthread__struct_a32b52047d490a4dc379730c4da799839}
+
+\item 
+\hypertarget{structpthread__struct_a6b6930b2a1fc8c1132825686223af6ad}{
+\hyperlink{struct_d_s_design_space}{DSDesignSpace} $\ast$ {\bfseries ds}}
+\label{structpthread__struct_a6b6930b2a1fc8c1132825686223af6ad}
+
+\item 
+\hypertarget{structpthread__struct_a702945180aa732857b380a007a7e2a21}{
+FILE $\ast$ {\bfseries file}}
+\label{structpthread__struct_a702945180aa732857b380a007a7e2a21}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data structure passed to a pthread. This data structure has two fields, one is a pointer to a \hyperlink{structds__parallelstack__t}{ds\_\-parallelstack\_\-t} object; this stack containes a stack of case numbers to be processed in parallel. Each stack is not designed to be accessed concurrently, but should still be thread safe. 
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_d_s_design_space_parallel_8h}{DSDesignSpaceParallel.h}\end{DoxyCompactItemize}

@@ -38,9 +38,9 @@
 #include "DSVariableTokenizer.h"
 #include "DSMatrix.h"
 
-#define dsVarDictionarySetValue(x, y)  ((x != NULL) ? x->value = y : DSError(M_DS_WRONG ": Dictionary is NULL", A_DS_ERROR))
+#define dsVarDictionarySetValue(x, y)  (((x) != NULL) ? x->value = (y) : DSError(M_DS_WRONG ": Dictionary is NULL", A_DS_ERROR))
 
-#define dsVarDictionaryValue(x)        ((x != NULL) ? x->value : NULL)
+#define dsVarDictionaryValue(x)        (((x) != NULL) ? (x)->value : NULL)
 
 #define dsVariablePoolNumberOfVariables(x) ((x)->numberOfVariables)
 #if defined(__APPLE__) && defined(__MACH__)
@@ -548,6 +548,29 @@ bail:
         return;
 }
 
+
+extern double DSVariablePoolValueForVariableWithName(const DSVariablePool *pool, const char const *name)
+{
+        DSVariable * var = NULL;
+        double value = -INFINITY;
+        if (pool == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolIsReadWriteAdd(pool) == false) {
+                DSError(M_DS_VAR_LOCKED, A_DS_ERROR);
+                goto bail;
+        }
+        var = DSVariablePoolVariableWithName(pool, name);
+        if (var == NULL) {
+                DSError(M_DS_WRONG ": Variable Pool does not have variable with given name", A_DS_WARN);
+                goto bail;
+        }
+        value = DSVariableValue(var);
+bail:
+        return value;
+}
+
 /**
  * \brief Checks if a DSVariablePool has a variable with a specified name.
  */
@@ -590,6 +613,22 @@ extern DSVariable *DSVariablePoolVariableWithName(const DSVariablePool *pool, co
                 goto bail;                
         }
         variable = DSDictionaryValueForName(DSVariablePoolInternalDictionary(pool), name);
+bail:
+        return variable;
+}
+
+extern const DSVariable * DSVariablePoolVariableAtIndex(const DSVariablePool *pool, const DSUInteger index)
+{
+        const DSVariable * variable = NULL;
+        if (pool == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (index >= DSVariablePoolNumberOfVariables(pool)) {
+                DSError(M_DS_WRONG ": Index of variable out of bounds", A_DS_ERROR);
+                goto bail;
+        }
+        variable = DSVariablePoolAllVariables(pool)[index];
 bail:
         return variable;
 }
@@ -769,36 +808,6 @@ extern DSVariablePool * DSVariablePoolByParsingString(const char *string)
         DSVariableTokenFree(tokens);
 bail:
         return pool;
-}
-
-
-/**
- * \brief Prints the VarDictionary.
- *
- * A debugging function which prints the dictionary structure to the stderr file
- */
-static void dsVariablePoolPrintVarDictionary(struct _varDictionary *root, DSUInteger indent)
-{
-        DSUInteger i;
-        DSVariable *variable;
-        int (*print)(const char *, ...);
-        if (root == NULL)
-                goto bail;
-        print = DSPrintf;
-        if (DSPrintf == NULL)
-                print = printf;
-        for (i = 1; i < indent+1; i++)
-                print(" ");
-        if (root->current == '\0') {
-                variable = dsVarDictionaryValue(root);
-                print("+-[%s] = %lf\n", DSVariableName(variable), DSVariableValue(variable));
-        } else {
-                print("+-%c\n", root->current);
-        }
-        dsVariablePoolPrintVarDictionary(root->next, indent+2);
-        dsVariablePoolPrintVarDictionary(root->alt, indent);
-bail:
-        return;
 }
 
 extern void DSVariablePoolPrint(const DSVariablePool * const pool)

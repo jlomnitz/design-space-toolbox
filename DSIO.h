@@ -80,7 +80,7 @@ __BEGIN_DECLS
  *
  * \see DSIOSetPrintFunction
  */
-int (*DSPrintf)(const char *, ...);
+extern int (*DSPrintf)(const char *, ...);
 
 /**
  * \brief Pointer to a function determining how warning are handled.
@@ -95,7 +95,7 @@ int (*DSPrintf)(const char *, ...);
  *
  * \see DSIOSetPostWarningFunction
  */
-void (*DSPostWarning)(const char *message);
+extern void (*DSPostWarning)(const char *message);
 
 /**
  * \brief Pointer to a function determining how errors are handled.
@@ -111,7 +111,7 @@ void (*DSPostWarning)(const char *message);
  *
  * \see DSIOSetPostErrorFunction
  */
-void (*DSPostError)(const char *message);
+extern void (*DSPostError)(const char *message);
 
 /**
  * \brief Pointer to a function determining how fatal errors are handled.
@@ -127,7 +127,7 @@ void (*DSPostError)(const char *message);
  *
  * \see DSIOSetPostErrorFunction
  */
-void (*DSPostFatalError)(const char *message);
+extern void (*DSPostFatalError)(const char *message);
 
 /**
  * \brief FILE pointer used for default error/warning printing.
@@ -143,7 +143,7 @@ void (*DSPostFatalError)(const char *message);
  * \see DSIOSetErrorFile
  * \see DSErrorFunction
  */
-FILE * DSIOErrorFile;
+extern FILE * DSIOErrorFile;
 
 
 extern void DSIOSetErrorFile(FILE *aFile);

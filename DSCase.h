@@ -1,10 +1,30 @@
-//
-//  DSCase.h
-//  DesignSpaceToolboxV2
-//
-//  Created by Jason Lomnitz on 8/18/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/**
+ * \file DSCase.h
+ * \brief Header file with functions for dealing with cases in design space.
+ *
+ * \details 
+ *
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
+ *
+ * This file is part of the Design Space Toolbox V2 (C Library).
+ *
+ * The Design Space Toolbox V2 is free software: you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Design Space Toolbox V2 is distributed in the hope that it will be 
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with the Design Space Toolbox. If not, see 
+ * <http://www.gnu.org/licenses/>.
+ *
+ * \author Jason Lomnitz.
+ * \date 2011
+ */
 
 #ifndef __DS_CASE__
 #define __DS_CASE__
@@ -38,7 +58,7 @@ extern char DSCaseEndianness(void);
 #pragma mark - Allocation, deallocation and initialization
 #endif
 
-extern void DSCaseFree(DSCase * ssys);
+extern void DSCaseFree(DSCase * aCase);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Factory functions
@@ -68,8 +88,11 @@ extern const DSUInteger DSCaseNumberOfBoundaries(const DSCase *aCase);
 extern DSExpression ** DSCaseBoundaries(const DSCase *aCase);
 extern DSExpression ** DSCaseLogarithmicBoundaries(const DSCase *aCase);
 
-
+extern DSUInteger DSCaseNumber(const DSCase * aCase);
+extern const DSUInteger * DSCaseSignature(const DSCase * aCase);
 extern const DSSSystem *DSCaseSSystem(const DSCase * aCase);
+
+extern double DSCaseLogarithmicGain(const DSCase *aCase, const char *XdName, const char *XiName);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
@@ -85,7 +108,11 @@ extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool
 extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
 
 extern DSVertices * DSCaseVerticesForSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);
+extern DSVertices * DSCaseVerticesFor1DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable);
 extern DSVertices * DSCaseVerticesFor2DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable);
+
+extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase);
+extern DSVariablePool * DSCaseValidParameterSetAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
 
 
 #if defined (__APPLE__) && defined (__MACH__)

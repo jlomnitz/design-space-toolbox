@@ -1,0 +1,119 @@
+\hypertarget{_d_s_symbolic_matrix_8h}{
+\section{DSSymbolicMatrix.h File Reference}
+\label{_d_s_symbolic_matrix_8h}\index{DSSymbolicMatrix.h@{DSSymbolicMatrix.h}}
+}
+
+
+Header file with functions for dealing with symbolic matrices.  
+
+
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSIO.h\char`\"{}}\par
+Include dependency graph for DSSymbolicMatrix.h:\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___m___d_s___messages_gab1c842ea678de8daa76a55fc68750d5e}{
+\#define \hyperlink{group___m___d_s___messages_gab1c842ea678de8daa76a55fc68750d5e}{M\_\-DS\_\-SYM\_\-MAT\_\-NULL}~\char`\"{}Pointer to symbolic matrix is NULL\char`\"{}}
+\label{group___m___d_s___messages_gab1c842ea678de8daa76a55fc68750d5e}
+
+\begin{DoxyCompactList}\small\item\em Message for a NULL \hyperlink{struct_d_s_matrix}{DSMatrix} pointer. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_gad8ee7418e1f3268fa9841bc7d7fcf898}{
+\#define \hyperlink{group___m___d_s___messages_gad8ee7418e1f3268fa9841bc7d7fcf898}{M\_\-DS\_\-SYM\_\-MAT\_\-OUTOFBOUNDS}~\char`\"{}Row or column out of bounds\char`\"{}}
+\label{group___m___d_s___messages_gad8ee7418e1f3268fa9841bc7d7fcf898}
+
+\begin{DoxyCompactList}\small\item\em Message for a row or column exceeding matrix bounds. \item\end{DoxyCompactList}\item 
+\hypertarget{group___m___d_s___messages_ga24ff99c3a2bfe77b32048fa05cb19a44}{
+\#define \hyperlink{group___m___d_s___messages_ga24ff99c3a2bfe77b32048fa05cb19a44}{M\_\-DS\_\-SYM\_\-MAT\_\-NOINTERNAL}~\char`\"{}Matrix data is empty\char`\"{}}
+\label{group___m___d_s___messages_ga24ff99c3a2bfe77b32048fa05cb19a44}
+
+\begin{DoxyCompactList}\small\item\em Message for a NULL internal matrix structure. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a4b7fd098bd8dc965978aa00d57c2c7d5}{
+\hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$ {\bfseries DSSymbolicMatrixAlloc} (const DSUInteger rows, const DSUInteger columns)}
+\label{_d_s_symbolic_matrix_8h_a4b7fd098bd8dc965978aa00d57c2c7d5}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a492cf3083fe5c0eaadabe88bf08f7de3}{
+\hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$ {\bfseries DSSymbolicMatrixCalloc} (const DSUInteger rows, const DSUInteger columns)}
+\label{_d_s_symbolic_matrix_8h_a492cf3083fe5c0eaadabe88bf08f7de3}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a0188961f55294e306fcc0a79a6151663}{
+\hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$ {\bfseries DSSymbolicMatrixCopy} (const \hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$original)}
+\label{_d_s_symbolic_matrix_8h_a0188961f55294e306fcc0a79a6151663}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a4055044640592f91b929344c06ddcf8b}{
+void {\bfseries DSSymbolicMatrixFree} (\hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$matrix)}
+\label{_d_s_symbolic_matrix_8h_a4055044640592f91b929344c06ddcf8b}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_af21334df2f4a1bf2edc0791f7e1bff6c}{
+\hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$ {\bfseries DSSymbolicMatrixIdentity} (const DSUInteger size)}
+\label{_d_s_symbolic_matrix_8h_af21334df2f4a1bf2edc0791f7e1bff6c}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a0c6936024d354fec921095f9547b86a6}{
+\hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$ {\bfseries DSSymbolicMatrixRandomNumbers} (const DSUInteger rows, const DSUInteger columns)}
+\label{_d_s_symbolic_matrix_8h_a0c6936024d354fec921095f9547b86a6}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a8f195b67eea1c1f4d6c58670f2a5846b}{
+\hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$ {\bfseries DSSymbolicMatrixByParsingString} (const char $\ast$string)}
+\label{_d_s_symbolic_matrix_8h_a8f195b67eea1c1f4d6c58670f2a5846b}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a4ec0ac21882b231201349f02f9f548ba}{
+double {\bfseries DSSymbolicMatrixDoubleByEvaluatingExpression} (const \hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$matrix, const DSUInteger row, const DSUInteger column, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$variableValues)}
+\label{_d_s_symbolic_matrix_8h_a4ec0ac21882b231201349f02f9f548ba}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a6e1d4efa6febaa15824b83d13d589ba6}{
+const \hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSSymbolicMatrixExpression} (const \hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$matrix, const DSUInteger row, const DSUInteger column)}
+\label{_d_s_symbolic_matrix_8h_a6e1d4efa6febaa15824b83d13d589ba6}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a7b70b30e6b36de2fb046499a68f8040e}{
+void {\bfseries DSSymbolicMatrixSetExpression} (\hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$matrix, const DSUInteger row, const DSUInteger column, const \hyperlink{structdsexpression}{DSExpression} $\ast$expr)}
+\label{_d_s_symbolic_matrix_8h_a7b70b30e6b36de2fb046499a68f8040e}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_a3f5d9df863ea543a3eaa7fa730356798}{
+DSUInteger {\bfseries DSSymbolicMatrixRows} (const \hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$matrix)}
+\label{_d_s_symbolic_matrix_8h_a3f5d9df863ea543a3eaa7fa730356798}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_afe15ec211669bc9320c621aead760ba5}{
+DSUInteger {\bfseries DSSymbolicMatrixColumns} (const \hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$matrix)}
+\label{_d_s_symbolic_matrix_8h_afe15ec211669bc9320c621aead760ba5}
+
+\item 
+\hypertarget{_d_s_symbolic_matrix_8h_abe0e3c607cd22a51368300c14f5cca1c}{
+\hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$ {\bfseries DSSymbolicMatrixToNumericalMatrix} (const \hyperlink{struct_d_s_symbolic_matrix}{DSSymbolicMatrix} $\ast$matrix, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$variables)}
+\label{_d_s_symbolic_matrix_8h_abe0e3c607cd22a51368300c14f5cca1c}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file with functions for dealing with symbolic matrices. Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}

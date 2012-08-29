@@ -1,0 +1,151 @@
+\hypertarget{_d_s_matrix_tokenizer_8h}{
+\section{DSMatrixTokenizer.h File Reference}
+\label{_d_s_matrix_tokenizer_8h}\index{DSMatrixTokenizer.h@{DSMatrixTokenizer.h}}
+}
+
+
+Header file with functions for tokenizing matrices.  
+
+
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
+Include dependency graph for DSMatrixTokenizer.h:This graph shows which files directly or indirectly include this file:\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmatrix__token}{matrix\_\-token}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_afb9241dfd12d62583187267ce880dbc4}{
+\#define \hyperlink{_d_s_matrix_tokenizer_8h_afb9241dfd12d62583187267ce880dbc4}{DS\_\-MATRIX\_\-TOKEN\_\-START}~0}
+\label{_d_s_matrix_tokenizer_8h_afb9241dfd12d62583187267ce880dbc4}
+
+\begin{DoxyCompactList}\small\item\em Token indicating the start of a tokenization. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_a58952e47f0dfb776a9df004d3cb7f678}{
+\#define \hyperlink{_d_s_matrix_tokenizer_8h_a58952e47f0dfb776a9df004d3cb7f678}{DS\_\-MATRIX\_\-TOKEN\_\-DOUBLE}~1}
+\label{_d_s_matrix_tokenizer_8h_a58952e47f0dfb776a9df004d3cb7f678}
+
+\begin{DoxyCompactList}\small\item\em Token indicating a numerical value. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_aa92efbc0ffbfe186b8976262301ee6f2}{
+\#define \hyperlink{_d_s_matrix_tokenizer_8h_aa92efbc0ffbfe186b8976262301ee6f2}{DS\_\-MATRIX\_\-TOKEN\_\-NEWLINE}~2}
+\label{_d_s_matrix_tokenizer_8h_aa92efbc0ffbfe186b8976262301ee6f2}
+
+\begin{DoxyCompactList}\small\item\em Token indicating a newline, indicative of a new row. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_a6b45c2b28004946c0bc42cb88f381544}{
+\#define \hyperlink{_d_s_matrix_tokenizer_8h_a6b45c2b28004946c0bc42cb88f381544}{DS\_\-MATRIX\_\-TOKEN\_\-ERROR}~3}
+\label{_d_s_matrix_tokenizer_8h_a6b45c2b28004946c0bc42cb88f381544}
+
+\begin{DoxyCompactList}\small\item\em Token indicating an error during tokenization. \item\end{DoxyCompactList}\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_afb1e04e4d142f486e0a342147a08cce7}{
+\#define {\bfseries DSMatrixTokenNext}(x)~((x)-\/$>$next)}
+\label{_d_s_matrix_tokenizer_8h_afb1e04e4d142f486e0a342147a08cce7}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_acbe81d77c75f0551b0607c83fbe53051}{
+\#define {\bfseries DSMatrixTokenValue}(x)~((x)-\/$>$value)}
+\label{_d_s_matrix_tokenizer_8h_acbe81d77c75f0551b0607c83fbe53051}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_a38bb235b766f70ef023459de2469cc07}{
+\#define {\bfseries DSMatrixTokenType}(x)~((x)-\/$>$token)}
+\label{_d_s_matrix_tokenizer_8h_a38bb235b766f70ef023459de2469cc07}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_a58ef09840dc2ecfbef159214fb73d652}{
+\#define {\bfseries DSMatrixTokenRow}(x)~((x)-\/$>$row)}
+\label{_d_s_matrix_tokenizer_8h_a58ef09840dc2ecfbef159214fb73d652}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_ae94916baa4dde2b2a56367e4eaa03c84}{
+\#define {\bfseries DSMatrixTokenColumn}(x)~((x)-\/$>$column)}
+\label{_d_s_matrix_tokenizer_8h_ae94916baa4dde2b2a56367e4eaa03c84}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_aac1e81659e69123069ebff2c6b9204e0}{
+\#define {\bfseries DSMatrixTokenSetNext}(x, y)~((x)-\/$>$next = (y))}
+\label{_d_s_matrix_tokenizer_8h_aac1e81659e69123069ebff2c6b9204e0}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_a7cadfcd946824627e0529d03562f955a}{
+\#define {\bfseries DSMatrixTokenSetValue}(x, y)~((x)-\/$>$value = (y))}
+\label{_d_s_matrix_tokenizer_8h_a7cadfcd946824627e0529d03562f955a}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_a45bdcbfaea99011b561aa71d9ee1d14a}{
+\#define {\bfseries DSMatrixTokenSetType}(x, y)~((x)-\/$>$token = (y))}
+\label{_d_s_matrix_tokenizer_8h_a45bdcbfaea99011b561aa71d9ee1d14a}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_a9946a83268d09eca85ff13eef15e0aca}{
+\#define {\bfseries DSMatrixTokenSetRow}(x, y)~((x)-\/$>$row = (y))}
+\label{_d_s_matrix_tokenizer_8h_a9946a83268d09eca85ff13eef15e0aca}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_ae3f4ee027ec95665318606751bcb9268}{
+\#define {\bfseries DSMatrixTokenSetColumn}(x, y)~((x)-\/$>$column = (y))}
+\label{_d_s_matrix_tokenizer_8h_ae3f4ee027ec95665318606751bcb9268}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_ae96d345bf776c1f541097e208df35238}{
+struct \hyperlink{structmatrix__token}{matrix\_\-token} $\ast$ {\bfseries DSMatrixTokenAlloc} ()}
+\label{_d_s_matrix_tokenizer_8h_ae96d345bf776c1f541097e208df35238}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_ac248874858bfc45bb57d74f008a79e32}{
+void {\bfseries DSMatrixTokenFree} (struct \hyperlink{structmatrix__token}{matrix\_\-token} $\ast$root)}
+\label{_d_s_matrix_tokenizer_8h_ac248874858bfc45bb57d74f008a79e32}
+
+\item 
+\hypertarget{_d_s_matrix_tokenizer_8h_ac946564137ea5b66ee2f08e5867c8c43}{
+struct \hyperlink{structmatrix__token}{matrix\_\-token} $\ast$ {\bfseries DSMatrixTokenizeString} (const char $\ast$string)}
+\label{_d_s_matrix_tokenizer_8h_ac946564137ea5b66ee2f08e5867c8c43}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file with functions for tokenizing matrices. This header file specifies the data structure relating to the tokenization of an input string to be parsed as a matrix, as well as all the functions necessary to tokenize it. This file is a provate file, and therefore its contents will be invisible to the public API. As such, it is not necessary to place the C++ compatability decleration.
+
+Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011
+\end{DoxyDate}
+This header file specifies the data structure relating to the tokenization of an input string to be parsed as a matrix, as well as all the functions necessary to tokenize it. This file is a private file, and therefore its contents will be invisible to the public API. Therefore, it is unnecessary to place the C++ compatability declerations.
+
+Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}

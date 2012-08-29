@@ -191,15 +191,7 @@ extern void * DSParallelWorkerCases(void * pthread_struct)
                 termSignature = DSCaseSignatureForCaseNumber(caseNumber, pdata->ds->gma);
                 if (termSignature != NULL) {
                         aCase = DSCaseWithTermsFromDesignSpace(pdata->ds, termSignature);
-//                        pthread_mutex_lock(&workeradd);
                         DSParallelStackAddCase(pdata->stack, aCase);
-//                        if (pdata->ds->cases[caseNumber-1] != NULL) {
-//                                DSError(M_DS_WRONG ": Case has already been processed", A_DS_ERROR);
-//                                DSCaseFree(aCase);
-//                        } else {
-//                                pdata->ds->cases[caseNumber-1] = aCase;
-//                        }
-//                        pthread_mutex_unlock(&workeradd);
                         DSSecureFree(termSignature);
                 }
         }
@@ -207,116 +199,53 @@ bail:
         pthread_exit(NULL);
 }
 
-//extern void * DSParallelWorkerCasesSaveToDisk(void * pthread_struct)
-//{
-//        DSUInteger * termSignature = NULL;
-//        struct pthread_struct * pdata = NULL;
-//        DSUInteger caseNumber;
-//        DSCase *aCase; 
-//        char * string = NULL;
-//        if (pthread_struct == NULL) {
-//                DSError(M_DS_NULL ": Parallel worker data is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        pdata = (struct pthread_struct *)pthread_struct;
-//        if (pdata->stack == NULL) {
-//                DSError(M_DS_NULL ": Stack in parallel worker is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (pdata->ds == NULL) {
-//                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (pdata->ds->cases == NULL) {
-//                DSError(M_DS_NULL ": Case array in design space is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (pdata->ds->gma == NULL) {
-//                DSError(M_DS_GMA_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (pdata->file == NULL) {
-//                DSError(M_DS_NOFILE ": Output file is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        /** Data in stack MUST be term signature if not an error will occur **/
-//        while (pdata->stack->count > 0)  {
-//                caseNumber = DSParallelStackPop(pdata->stack);
-//                if (caseNumber == 0)
-//                        break;
-//                if (caseNumber > DSDesignSpaceNumberOfCases(pdata->ds)) {
-//                        DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
-//                        continue;
-//                }
-//                if (pdata->ds->cases[caseNumber-1] != NULL)
-//                        continue;
-//                termSignature = DSCaseSignatureForCaseNumber(caseNumber, pdata->ds->gma);
-//                if (termSignature != NULL) {
-//                        aCase = DSCaseWithTermsFromDesignSpace(pdata->ds, termSignature);
-//                        if (pdata->ds->cases[caseNumber-1] != NULL) {
-//                                DSError(M_DS_WRONG ": Case has already been processed", A_DS_ERROR);
-//                                DSCaseFree(aCase);
-//                        } else {
-//                                string = DSCaseStringInJSONFormat(aCase);
-//                                pthread_mutex_lock(&iomutex);
-//                                fprintf(pdata->file, "%s,", string);
-//                                pthread_mutex_unlock(&iomutex);
-//                                DSSecureFree(string);
-//                                string = NULL;
-//                                DSCaseFree(aCase);
-//                        }
-//                        DSSecureFree(termSignature);
-//                }
-//        }
-//bail:
-//        pthread_exit(NULL);
-//}
-//
-//extern void * DSParallelWorkerValidity(void * pthread_struct)
-//{
-//        /* GLPK is not currently thread safe */
-//        struct pthread_struct * pdata = NULL;
-//        DSUInteger caseNumber;
-//        const DSCase *aCase;
-//        if (pthread_struct == NULL) {
-//                DSError(M_DS_NULL ": Parallel worker data is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        pdata = (struct pthread_struct *)pthread_struct;
-//        if (pdata->stack == NULL) {
-//                DSError(M_DS_NULL ": Stack in parallel worker is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (pdata->ds == NULL) {
-//                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (pdata->ds->cases == NULL) {
-//                DSError(M_DS_NULL ": Case array in design space is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (pdata->ds->gma == NULL) {
-//                DSError(M_DS_GMA_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-//        /** Data in stack MUST be a case number, if not an error will occur **/
-//        while (pdata->stack->count > 0)  {
-//                caseNumber = DSParallelStackPop(pdata->stack);
-//                if (caseNumber == 0) {
-//                        DSError(M_DS_WRONG ": Case number is 0", A_DS_ERROR);
-//                        continue;
-//                }
-//                if (caseNumber > DSDesignSpaceNumberOfCases(pdata->ds)) {
-//                        DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
-//                        continue;
-//                }
-//                aCase = DSDesignSpaceCaseWithCaseNumber(pdata->ds, caseNumber);
-//                if (DSCaseIsValid(aCase) == true) {
-//                        // Add case validity
-//                }
-////                pdata->ds->validCases[caseNumber-1] = DSCaseIsValid(aCase);
-//        }
-//bail:
-//        pthread_exit(NULL);
-//}
+extern void * DSParallelWorkerValidity(void * pthread_struct)
+{
+        struct pthread_struct * pdata = NULL;
+        DSUInteger caseNumber;
+        DSCase *aCase;
+        char string[100];
+        if (pthread_struct == NULL) {
+                DSError(M_DS_NULL ": Parallel worker data is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        pdata = (struct pthread_struct *)pthread_struct;
+        if (pdata->stack == NULL) {
+                DSError(M_DS_NULL ": Stack in parallel worker is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds->validCases == NULL) {
+                DSError(M_DS_NULL ": Dictionary of valid cases is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds->gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        glp_init_env();
+        /** Data in stack MUST be a case number, if not an error will occur **/
+        while (pdata->stack->count > 0)  {
+                caseNumber = DSParallelStackPop(pdata->stack);
+                if (caseNumber == 0) {
+                        continue;
+                }
+                if (caseNumber > DSDesignSpaceNumberOfCases(pdata->ds)) {
+                        DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
+                        continue;
+                }
+                aCase = DSDesignSpaceCaseWithCaseNumber(pdata->ds, caseNumber);
+                if (DSCaseIsValid(aCase) == true) {
+                        sprintf(string, "%d", aCase->caseNumber);//aCase->caseNumber);
+                        DSDictionaryAddValueWithName(pdata->ds->validCases, string, (void*)1);
+                }
+                DSCaseFree(aCase);
+        }
+        glp_free_env();
+bail:
+        pthread_exit(NULL);
+}
 

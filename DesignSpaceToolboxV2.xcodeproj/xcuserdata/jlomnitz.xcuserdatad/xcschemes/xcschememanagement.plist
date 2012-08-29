@@ -4,10 +4,20 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>DesignSpaceToolboxModule.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>DesignSpaceToolboxV2.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>Python Interface.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 		<key>designspace copy.xcscheme</key>
 		<dict>
@@ -28,6 +38,16 @@
 			<true/>
 		</dict>
 		<key>9A5833B3139D78A80068B6B6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9AC4260015227D00000859D4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9AC4260615227DEF000859D4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -1,0 +1,441 @@
+\hypertarget{_d_s_i_o_8c}{
+\section{DSIO.c File Reference}
+\label{_d_s_i_o_8c}\index{DSIO.c@{DSIO.c}}
+}
+
+
+Implementation file with standard input and output functions.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include \char`\"{}DSIO.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSVariable.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMatrix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMatrixArray.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSGMASystem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSSSystem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSCase.h\char`\"{}}\par
+Include dependency graph for DSIO.c:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{_d_s_i_o_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___d_s___i_o___t_a_g___t_y_p_e_s_gad9110308f40b701fa7a8ac65d48716c6}{
+\#define {\bfseries DS\_\-IO\_\-TAG\_\-TYPE\_\-Matrix}~\char`\"{}$\backslash$\char`\"{}\hyperlink{struct_d_s_matrix}{DSMatrix}$\backslash$\char`\"{}\char`\"{}}
+\label{group___d_s___i_o___t_a_g___t_y_p_e_s_gad9110308f40b701fa7a8ac65d48716c6}
+
+\item 
+\hypertarget{group___d_s___i_o___t_a_g___t_y_p_e_s_ga26f0a22ebdc3e22f453d06fe231c3477}{
+\#define {\bfseries DS\_\-IO\_\-TAG\_\-TYPE\_\-MatrixArray}~\char`\"{}$\backslash$\char`\"{}\hyperlink{struct_d_s_matrix_array}{DSMatrixArray}$\backslash$\char`\"{}\char`\"{}}
+\label{group___d_s___i_o___t_a_g___t_y_p_e_s_ga26f0a22ebdc3e22f453d06fe231c3477}
+
+\item 
+\hypertarget{group___d_s___i_o___t_a_g___t_y_p_e_s_ga33b8d327f394e774d81e2702d27673ec}{
+\#define {\bfseries DS\_\-IO\_\-TAG\_\-TYPE\_\-VariablePool}~\char`\"{}$\backslash$\char`\"{}\hyperlink{struct_d_s_variable_pool}{DSVariablePool}$\backslash$\char`\"{}\char`\"{}}
+\label{group___d_s___i_o___t_a_g___t_y_p_e_s_ga33b8d327f394e774d81e2702d27673ec}
+
+\item 
+\hypertarget{group___d_s___i_o___t_a_g___t_y_p_e_s_ga48168f56a3bd807c4f677f50236f3fd9}{
+\#define {\bfseries DS\_\-IO\_\-TAG\_\-TYPE\_\-Dictionary}~\char`\"{}$\backslash$\char`\"{}\hyperlink{struct_d_s_dictionary}{DSDictionary}$\backslash$\char`\"{}\char`\"{}}
+\label{group___d_s___i_o___t_a_g___t_y_p_e_s_ga48168f56a3bd807c4f677f50236f3fd9}
+
+\item 
+\hypertarget{group___d_s___i_o___t_a_g___t_y_p_e_s_ga9e91e3c5dab3046aa518bf339e1f13e0}{
+\#define {\bfseries DS\_\-IO\_\-TAG\_\-TYPE\_\-SSystem}~\char`\"{}$\backslash$\char`\"{}\hyperlink{struct_d_s_s_system}{DSSSystem}$\backslash$\char`\"{}\char`\"{}}
+\label{group___d_s___i_o___t_a_g___t_y_p_e_s_ga9e91e3c5dab3046aa518bf339e1f13e0}
+
+\item 
+\hypertarget{group___d_s___i_o___t_a_g___t_y_p_e_s_gab40a361af4d08bed8503c9a681f5a51a}{
+\#define {\bfseries DS\_\-IO\_\-TAG\_\-TYPE\_\-Case}~\char`\"{}$\backslash$\char`\"{}\hyperlink{struct_d_s_case}{DSCase}$\backslash$\char`\"{}\char`\"{}}
+\label{group___d_s___i_o___t_a_g___t_y_p_e_s_gab40a361af4d08bed8503c9a681f5a51a}
+
+\item 
+\hypertarget{group___d_s___i_o___t_a_g___t_y_p_e_s_ga4f6f8a8ee7b2387292daf78f6b5fe7ef}{
+\#define {\bfseries DS\_\-IO\_\-TAG\_\-TYPE\_\-DesignSpace}~\char`\"{}$\backslash$\char`\"{}\hyperlink{struct_d_s_design_space}{DSDesignSpace}$\backslash$\char`\"{}\char`\"{}}
+\label{group___d_s___i_o___t_a_g___t_y_p_e_s_ga4f6f8a8ee7b2387292daf78f6b5fe7ef}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{_d_s_i_o_8c_a71e4035e82cf614f1be280b127213ca6}{DSIOSetErrorFile} (FILE $\ast$aFile)
+\begin{DoxyCompactList}\small\item\em Function to assign default error file. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_i_o_8c_aaa699261767672e938101744e4032249}{DSIOSetPrintFunction} (int($\ast$printFunction)(const char $\ast$,...))
+\begin{DoxyCompactList}\small\item\em Function to assign default printf function. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_i_o_8c_a37a5183ebd833f0cf9bc2ed19e43fb84}{DSIOSetPostWarningFunction} (void($\ast$warningFunction)(const char $\ast$message))
+\begin{DoxyCompactList}\small\item\em Function to assign default warning posting function. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_i_o_8c_a8c9be4c3d8b1802aa5295165c3f0b861}{DSIOSetPostErrorFunction} (void($\ast$errorFunction)(const char $\ast$message))
+\begin{DoxyCompactList}\small\item\em Function to assign default error posting function. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_i_o_8c_a1fbcb57d54a5ac852484b43e317aa43f}{DSIOSetPostFatalErrorFunction} (void($\ast$fatalErrorFunction)(const char $\ast$message))
+\begin{DoxyCompactList}\small\item\em Function to assign default fatal error posting function. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_i_o_8c_a6cb102dc8b55faa48dca0c51fa0fb517}{DSIOSetCaseJSONOptions} (const DSUInteger options)
+\begin{DoxyCompactList}\small\item\em Function that sets the conversion options for a \hyperlink{struct_d_s_case}{DSCase} to JSON format. \item\end{DoxyCompactList}\item 
+void \hyperlink{_d_s_i_o_8c_a2a957ad88bd1a2f4d5b0ed616344c7ac}{DSIOSetSSystemJSONOptions} (const DSUInteger options)
+\begin{DoxyCompactList}\small\item\em Function that sets the conversion options for a \hyperlink{struct_d_s_s_system}{DSSSystem} to JSON format. \item\end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{_d_s_i_o_8c_a754fa75644786b862aabc2660f191d14}{DSVariablePoolStringInJSONFormat} (const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)
+\begin{DoxyCompactList}\small\item\em Function to convert a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} into a JSON formatted string. \item\end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{_d_s_i_o_8c_a6a9e23721286736288947c43461f12ae}{DSMatrixStringInJSONFormat} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix)
+\begin{DoxyCompactList}\small\item\em Function to convert a \hyperlink{struct_d_s_matrix}{DSMatrix} into a JSON formatted string. \item\end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{_d_s_i_o_8c_ab8cae51e1c113fc52e1da34fffdc6f40}{DSMatrixArrayStringInJSONFormat} (const \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} $\ast$array)
+\begin{DoxyCompactList}\small\item\em Function to convert a \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} into a JSON formatted string. \item\end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{_d_s_i_o_8c_a2679d81ab81c12c930cbb7a5e2791d73}{DSSSystemStringInJSONFormat} (const \hyperlink{struct_d_s_s_system}{DSSSystem} $\ast$ssys)
+\begin{DoxyCompactList}\small\item\em Function to convert a \hyperlink{struct_d_s_s_system}{DSSSystem} into a JSON formatted string. \item\end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{_d_s_i_o_8c_a08dbac8a5ae623c94cf44bd620e46060}{DSCaseStringInJSONFormat} (const \hyperlink{struct_d_s_case}{DSCase} $\ast$aCase)
+\begin{DoxyCompactList}\small\item\em Function to convert a \hyperlink{struct_d_s_case}{DSCase} into a JSON formatted string. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int($\ast$ \hyperlink{_d_s_i_o_8c_a01ab8215975bf8e2086ad342cfa6be26}{DSPrintf} )(const char $\ast$,...)
+\begin{DoxyCompactList}\small\item\em Pointer to a function determining how messages are printed. \item\end{DoxyCompactList}\item 
+void($\ast$ \hyperlink{_d_s_i_o_8c_af12cf032b729ba022698fadaccfea33d}{DSPostWarning} )(const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Pointer to a function determining how warning are handled. \item\end{DoxyCompactList}\item 
+void($\ast$ \hyperlink{_d_s_i_o_8c_a40c3f80fe9e5002beb7d258e4f89c8d2}{DSPostError} )(const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Pointer to a function determining how errors are handled. \item\end{DoxyCompactList}\item 
+void($\ast$ \hyperlink{_d_s_i_o_8c_a41b7b42028f3c25f17ca479154c7492d}{DSPostFatalError} )(const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Pointer to a function determining how fatal errors are handled. \item\end{DoxyCompactList}\item 
+FILE $\ast$ \hyperlink{_d_s_i_o_8c_af8405bae84409f99d5fa564ebaff4c91}{DSIOErrorFile}
+\begin{DoxyCompactList}\small\item\em FILE pointer used for default error/warning printing. \item\end{DoxyCompactList}\item 
+DSUInteger \hyperlink{_d_s_i_o_8c_a54a8bab51a88d9b670634fbe6174c865}{DSSSystemPrintingOptions}
+\begin{DoxyCompactList}\small\item\em Variable with flags controlling S-\/System to JSON string conversion. \item\end{DoxyCompactList}\item 
+DSUInteger \hyperlink{_d_s_i_o_8c_a3d4acaf78ffb997163a7705876c1feb1}{DSCasePrintingOptions}
+\begin{DoxyCompactList}\small\item\em Variable with flags controlling the conversion of a Case to a JSON string. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file with standard input and output functions. Copyright (C) 2011 Jason Lomnitz.
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{_d_s_i_o_8c_a08dbac8a5ae623c94cf44bd620e46060}{
+\index{DSIO.c@{DSIO.c}!DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}}
+\index{DSCaseStringInJSONFormat@{DSCaseStringInJSONFormat}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSCaseStringInJSONFormat}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ DSCaseStringInJSONFormat (const {\bf DSCase} $\ast$ {\em aCase})}}
+\label{_d_s_i_o_8c_a08dbac8a5ae623c94cf44bd620e46060}
+
+
+Function to convert a \hyperlink{struct_d_s_case}{DSCase} into a JSON formatted string. 
+
+This function is used to convert a \hyperlink{struct_d_s_case}{DSCase} into a JSON object. The \hyperlink{struct_d_s_case}{DSCase} is represented with a set of objects, where each object is a field of the \hyperlink{struct_d_s_case}{DSCase} object. The default behavior exports all of the fields, this behavior can be overwritten by changing the \hyperlink{struct_d_s_case}{DSCase} conversion options.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em aCase}]A \hyperlink{struct_d_s_case}{DSCase} that will be used to create the JSON object.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A C string with the JSON formatted data. If NULL, the conversion failed.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8c_a6cb102dc8b55faa48dca0c51fa0fb517}{DSIOSetCaseJSONOptions()} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_a6cb102dc8b55faa48dca0c51fa0fb517}{
+\index{DSIO.c@{DSIO.c}!DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}}
+\index{DSIOSetCaseJSONOptions@{DSIOSetCaseJSONOptions}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSIOSetCaseJSONOptions}]{\setlength{\rightskip}{0pt plus 5cm}void DSIOSetCaseJSONOptions (const DSUInteger {\em options})}}
+\label{_d_s_i_o_8c_a6cb102dc8b55faa48dca0c51fa0fb517}
+
+
+Function that sets the conversion options for a \hyperlink{struct_d_s_case}{DSCase} to JSON format. 
+
+This function is used to overwrite the default export behavior of the \hyperlink{struct_d_s_case}{DSCase} object. The default behavior converts all of the data fields of the \hyperlink{struct_d_s_case}{DSCase} into a JSON format, these options can be changed so the JSON conversion only includes some fields, such as excluding the conditions, excluding the S-\/System, etc.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em options}]A DSUInteger with the option flags, as specified by the \hyperlink{struct_d_s_case}{DSCase} options.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s}{Options for JSON conversion of DSCase object.} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_a71e4035e82cf614f1be280b127213ca6}{
+\index{DSIO.c@{DSIO.c}!DSIOSetErrorFile@{DSIOSetErrorFile}}
+\index{DSIOSetErrorFile@{DSIOSetErrorFile}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSIOSetErrorFile}]{\setlength{\rightskip}{0pt plus 5cm}void DSIOSetErrorFile (FILE $\ast$ {\em aFile})}}
+\label{_d_s_i_o_8c_a71e4035e82cf614f1be280b127213ca6}
+
+
+Function to assign default error file. 
+
+This function is used to assign the default error file, DSIOErrorFile. Changing the error file should be done via this function, as it circumvents potential problems associated with dynamic linking.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em aFile}]A FILE $\ast$ that will be used to write error messages when the default error posting mechanism is used.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8h_a37a5183ebd833f0cf9bc2ed19e43fb84}{DSIOSetPostWarningFunction} 
+
+\hyperlink{_d_s_i_o_8h_a8c9be4c3d8b1802aa5295165c3f0b861}{DSIOSetPostErrorFunction} 
+
+\hyperlink{_d_s_i_o_8h_a1fbcb57d54a5ac852484b43e317aa43f}{DSIOSetPostFatalErrorFunction} 
+
+\hyperlink{_d_s_errors_8h_a09b28eb2b01986855910ca97dfe91144}{DSError} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_a8c9be4c3d8b1802aa5295165c3f0b861}{
+\index{DSIO.c@{DSIO.c}!DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}}
+\index{DSIOSetPostErrorFunction@{DSIOSetPostErrorFunction}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSIOSetPostErrorFunction}]{\setlength{\rightskip}{0pt plus 5cm}void DSIOSetPostErrorFunction (void($\ast$)(const char $\ast$message) {\em errorFunction})}}
+\label{_d_s_i_o_8c_a8c9be4c3d8b1802aa5295165c3f0b861}
+
+
+Function to assign default error posting function. 
+
+This function is used to assign the function that handles the errors generated from the design space toolbox. Internally, it assigns the global variable DSPostError which points to a function.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em errorFunction}]A pointer to a function of the form void function(const char $\ast$). If NULL, default behavior is restored. \end{DoxyParams}
+\hypertarget{_d_s_i_o_8c_a1fbcb57d54a5ac852484b43e317aa43f}{
+\index{DSIO.c@{DSIO.c}!DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}}
+\index{DSIOSetPostFatalErrorFunction@{DSIOSetPostFatalErrorFunction}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSIOSetPostFatalErrorFunction}]{\setlength{\rightskip}{0pt plus 5cm}void DSIOSetPostFatalErrorFunction (void($\ast$)(const char $\ast$message) {\em fatalErrorFunction})}}
+\label{_d_s_i_o_8c_a1fbcb57d54a5ac852484b43e317aa43f}
+
+
+Function to assign default fatal error posting function. 
+
+This function is used to assign the function that handles the fatal errors generated from the design space toolbox. Internally, it assigns the global variable DSPostFatalError which points to a function.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em errorFunction}]A pointer to a function of the form void function(const char $\ast$). If NULL, default behavior is restored. \end{DoxyParams}
+\hypertarget{_d_s_i_o_8c_a37a5183ebd833f0cf9bc2ed19e43fb84}{
+\index{DSIO.c@{DSIO.c}!DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}}
+\index{DSIOSetPostWarningFunction@{DSIOSetPostWarningFunction}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSIOSetPostWarningFunction}]{\setlength{\rightskip}{0pt plus 5cm}void DSIOSetPostWarningFunction (void($\ast$)(const char $\ast$message) {\em warningFunction})}}
+\label{_d_s_i_o_8c_a37a5183ebd833f0cf9bc2ed19e43fb84}
+
+
+Function to assign default warning posting function. 
+
+This function is used to assign the function that handles the warnings generated from the design space toolbox. Internally, it assigns the global variable DSPostWarning which points to a function.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em warningFunction}]A pointer to a function of the form void function(const char $\ast$). If NULL, default behavior is restored. \end{DoxyParams}
+\hypertarget{_d_s_i_o_8c_aaa699261767672e938101744e4032249}{
+\index{DSIO.c@{DSIO.c}!DSIOSetPrintFunction@{DSIOSetPrintFunction}}
+\index{DSIOSetPrintFunction@{DSIOSetPrintFunction}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSIOSetPrintFunction}]{\setlength{\rightskip}{0pt plus 5cm}void DSIOSetPrintFunction (int($\ast$)(const char $\ast$,...) {\em printFunction})}}
+\label{_d_s_i_o_8c_aaa699261767672e938101744e4032249}
+
+
+Function to assign default printf function. 
+
+This function is used to assign the formated print function, DSPrintf. This function assigns the DSPrintf pointer to the function that should be used to print formatted strings. This function MUST be used to avoid problems relating to dynamic linking; by using this function the global variable DSPrintf is loaded into memory prior to changing its value.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em printFunction}]A pointer to a function of the form int function(const char $\ast$, ...). If NULL, default behavior is restored. \end{DoxyParams}
+\hypertarget{_d_s_i_o_8c_a2a957ad88bd1a2f4d5b0ed616344c7ac}{
+\index{DSIO.c@{DSIO.c}!DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}}
+\index{DSIOSetSSystemJSONOptions@{DSIOSetSSystemJSONOptions}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSIOSetSSystemJSONOptions}]{\setlength{\rightskip}{0pt plus 5cm}void DSIOSetSSystemJSONOptions (const DSUInteger {\em options})}}
+\label{_d_s_i_o_8c_a2a957ad88bd1a2f4d5b0ed616344c7ac}
+
+
+Function that sets the conversion options for a \hyperlink{struct_d_s_s_system}{DSSSystem} to JSON format. 
+
+This function is used to overwrite the default export behavior of the \hyperlink{struct_d_s_s_system}{DSSSystem} object. The default behavior converts all of the data fields of the S-\/System into a JSON format, these options can be changed so the JSON conversion only includes some fields, such as excluding the solution.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em options}]A DSUInteger with the option flags, as specified by the \hyperlink{struct_d_s_s_system}{DSSSystem} options.\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s}{Options for JSON conversion of DSSSystem object.} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_ab8cae51e1c113fc52e1da34fffdc6f40}{
+\index{DSIO.c@{DSIO.c}!DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}}
+\index{DSMatrixArrayStringInJSONFormat@{DSMatrixArrayStringInJSONFormat}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSMatrixArrayStringInJSONFormat}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ DSMatrixArrayStringInJSONFormat (const {\bf DSMatrixArray} $\ast$ {\em array})}}
+\label{_d_s_i_o_8c_ab8cae51e1c113fc52e1da34fffdc6f40}
+
+
+Function to convert a \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} into a JSON formatted string. 
+
+This function is used to convert a \hyperlink{struct_d_s_matrix}{DSMatrix} into a JSON object. The matrix array is stored as an array of objects, where each object is a \hyperlink{struct_d_s_matrix}{DSMatrix}. The order of the \hyperlink{struct_d_s_matrix}{DSMatrix} object in the array represent the order of matrices in the matrix array.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em array}]A \hyperlink{struct_d_s_matrix_array}{DSMatrixArray} that will be used to create the JSON object.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A C string with the JSON formatted data. If NULL, the conversion failed. 
+\end{DoxyReturn}
+\hypertarget{_d_s_i_o_8c_a6a9e23721286736288947c43461f12ae}{
+\index{DSIO.c@{DSIO.c}!DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}}
+\index{DSMatrixStringInJSONFormat@{DSMatrixStringInJSONFormat}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSMatrixStringInJSONFormat}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ DSMatrixStringInJSONFormat (const {\bf DSMatrix} $\ast$ {\em matrix})}}
+\label{_d_s_i_o_8c_a6a9e23721286736288947c43461f12ae}
+
+
+Function to convert a \hyperlink{struct_d_s_matrix}{DSMatrix} into a JSON formatted string. 
+
+This function is used to convert a \hyperlink{struct_d_s_matrix}{DSMatrix} into a JSON object. The matrix is stored as an array of arrays. The array of arrays represents the rows of the matrix, whereas the arrays of value are the values at the columns for a particular row.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em matrix}]A \hyperlink{struct_d_s_matrix}{DSMatrix} that will be used to create the JSON object.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A C string with the JSON formatted data. If NULL, the conversion failed. 
+\end{DoxyReturn}
+\hypertarget{_d_s_i_o_8c_a2679d81ab81c12c930cbb7a5e2791d73}{
+\index{DSIO.c@{DSIO.c}!DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}}
+\index{DSSSystemStringInJSONFormat@{DSSSystemStringInJSONFormat}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSSSystemStringInJSONFormat}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ DSSSystemStringInJSONFormat (const {\bf DSSSystem} $\ast$ {\em ssys})}}
+\label{_d_s_i_o_8c_a2679d81ab81c12c930cbb7a5e2791d73}
+
+
+Function to convert a \hyperlink{struct_d_s_s_system}{DSSSystem} into a JSON formatted string. 
+
+This function is used to convert a \hyperlink{struct_d_s_s_system}{DSSSystem} into a JSON object. The S-\/System as a set of objects, where each object represents each of the fields of the \hyperlink{struct_d_s_s_system}{DSSSystem}. The default behavior exports all of the fields, this behavior can be overwritten by changing the S-\/System conversion options.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ssys}]A \hyperlink{struct_d_s_s_system}{DSSSystem} that will be used to create the JSON object.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A C string with the JSON formatted data. If NULL, the conversion failed.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8c_a2a957ad88bd1a2f4d5b0ed616344c7ac}{DSIOSetSSystemJSONOptions()} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_a754fa75644786b862aabc2660f191d14}{
+\index{DSIO.c@{DSIO.c}!DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}}
+\index{DSVariablePoolStringInJSONFormat@{DSVariablePoolStringInJSONFormat}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSVariablePoolStringInJSONFormat}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ DSVariablePoolStringInJSONFormat (const {\bf DSVariablePool} $\ast$ {\em pool})}}
+\label{_d_s_i_o_8c_a754fa75644786b862aabc2660f191d14}
+
+
+Function to convert a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} into a JSON formatted string. 
+
+This function is used to convert a \hyperlink{struct_d_s_variable_pool}{DSVariablePool} into a JSON object. The variables of the variable pool are stored as pairs of a string and value.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pool}]A \hyperlink{struct_d_s_variable_pool}{DSVariablePool} that will be used to create the JSON object.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A C string with the JSON formatted data. If NULL, the conversion failed. 
+\end{DoxyReturn}
+
+
+\subsection{Variable Documentation}
+\hypertarget{_d_s_i_o_8c_a3d4acaf78ffb997163a7705876c1feb1}{
+\index{DSIO.c@{DSIO.c}!DSCasePrintingOptions@{DSCasePrintingOptions}}
+\index{DSCasePrintingOptions@{DSCasePrintingOptions}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSCasePrintingOptions}]{\setlength{\rightskip}{0pt plus 5cm}DSUInteger {\bf DSCasePrintingOptions}}}
+\label{_d_s_i_o_8c_a3d4acaf78ffb997163a7705876c1feb1}
+
+
+Variable with flags controlling the conversion of a Case to a JSON string. 
+
+This global variable is checked when converting a Case structure to a JSON string. This variable will check several flags as specified by DS\_\-CASE\_\-JSON\_\-OPTIONS. The default value of the variable indicates that all the properties will be included in the JSON string.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{group___d_s___c_a_s_e___j_s_o_n___o_p_t_i_o_n_s}{Options for JSON conversion of DSCase object.} 
+
+\hyperlink{_d_s_i_o_8c_a6cb102dc8b55faa48dca0c51fa0fb517}{DSIOSetCaseJSONOptions()} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_af8405bae84409f99d5fa564ebaff4c91}{
+\index{DSIO.c@{DSIO.c}!DSIOErrorFile@{DSIOErrorFile}}
+\index{DSIOErrorFile@{DSIOErrorFile}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSIOErrorFile}]{\setlength{\rightskip}{0pt plus 5cm}FILE$\ast$ {\bf DSIOErrorFile}}}
+\label{_d_s_i_o_8c_af8405bae84409f99d5fa564ebaff4c91}
+
+
+FILE pointer used for default error/warning printing. 
+
+This pointer to a FILE tells the error handling system which FILE to print the error messages to. If this pointer is NULL, then the system sets it to the stderr file. This variable is only used internally with the default behavior of DSErrorFunction. To change the error file, the function DSIOSetErrorFile should be used in order to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8h_a71e4035e82cf614f1be280b127213ca6}{DSIOSetErrorFile} 
+
+\hyperlink{_d_s_errors_8h_a363f9c264b785ec509da1b11af9ae314}{DSErrorFunction} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_a40c3f80fe9e5002beb7d258e4f89c8d2}{
+\index{DSIO.c@{DSIO.c}!DSPostError@{DSPostError}}
+\index{DSPostError@{DSPostError}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSPostError}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf DSPostError})(const char $\ast$message)}}
+\label{_d_s_i_o_8c_a40c3f80fe9e5002beb7d258e4f89c8d2}
+
+
+Pointer to a function determining how errors are handled. 
+
+This pointer to a function is used by DSErrorFunction to post erros. This pointer should be used to allow better integration of errors in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the error message. To change the function used, the function DSIOSetPostErrorFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8h_a8c9be4c3d8b1802aa5295165c3f0b861}{DSIOSetPostErrorFunction} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_a41b7b42028f3c25f17ca479154c7492d}{
+\index{DSIO.c@{DSIO.c}!DSPostFatalError@{DSPostFatalError}}
+\index{DSPostFatalError@{DSPostFatalError}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSPostFatalError}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf DSPostFatalError})(const char $\ast$message)}}
+\label{_d_s_i_o_8c_a41b7b42028f3c25f17ca479154c7492d}
+
+
+Pointer to a function determining how fatal errors are handled. 
+
+This pointer to a function is used by DSErrorFunction to post fatal erros. This pointer should be used to allow better integration of errors in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the error message. To change the function used, the function DSIOSetPostFatalErrorFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8h_a8c9be4c3d8b1802aa5295165c3f0b861}{DSIOSetPostErrorFunction} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_af12cf032b729ba022698fadaccfea33d}{
+\index{DSIO.c@{DSIO.c}!DSPostWarning@{DSPostWarning}}
+\index{DSPostWarning@{DSPostWarning}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSPostWarning}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ {\bf DSPostWarning})(const char $\ast$message)}}
+\label{_d_s_i_o_8c_af12cf032b729ba022698fadaccfea33d}
+
+
+Pointer to a function determining how warning are handled. 
+
+This pointer to a function is used by DSErrorFunction to post warnings. This pointer should be used to allow better integration of warnings in programs that make use of the DesignSpaceToolbox. The function takes one argument, a constant C string with the warning message. To change the function used, the function DSIOSetPostWarningFunction should be used. This is to avoid errors caused by dynamic linking. These errors involve changing the value of a global variable that has not yet been loaded by the linker.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8h_a37a5183ebd833f0cf9bc2ed19e43fb84}{DSIOSetPostWarningFunction} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_a01ab8215975bf8e2086ad342cfa6be26}{
+\index{DSIO.c@{DSIO.c}!DSPrintf@{DSPrintf}}
+\index{DSPrintf@{DSPrintf}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSPrintf}]{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ {\bf DSPrintf})(const char $\ast$,...)}}
+\label{_d_s_i_o_8c_a01ab8215975bf8e2086ad342cfa6be26}
+
+
+Pointer to a function determining how messages are printed. 
+
+This pointer to a function tells the error handling system which function to call with the error messages. If this pointer is NULL, the design space toolbox should have a default printing format, using printf to stdout. This pointer is intended to be used to override default behavior to be override. An example could be by using the mexPrintf function in matlab.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_i_o_8h_aaa699261767672e938101744e4032249}{DSIOSetPrintFunction} 
+\end{DoxySeeAlso}
+\hypertarget{_d_s_i_o_8c_a54a8bab51a88d9b670634fbe6174c865}{
+\index{DSIO.c@{DSIO.c}!DSSSystemPrintingOptions@{DSSSystemPrintingOptions}}
+\index{DSSSystemPrintingOptions@{DSSSystemPrintingOptions}!DSIO.c@{DSIO.c}}
+\subsubsection[{DSSSystemPrintingOptions}]{\setlength{\rightskip}{0pt plus 5cm}DSUInteger {\bf DSSSystemPrintingOptions}}}
+\label{_d_s_i_o_8c_a54a8bab51a88d9b670634fbe6174c865}
+
+
+Variable with flags controlling S-\/System to JSON string conversion. 
+
+This global variable is checked when converting a S-\/System structure to a JSON string. This variable will check several flags as specified by DS\_\-SSYSTEM\_\-JSON\_\-OPTIONS. The default value of the variable indicates that all the properties will be included in the JSON string.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s}{Options for JSON conversion of DSSSystem object.} 
+
+\hyperlink{_d_s_i_o_8c_a2a957ad88bd1a2f4d5b0ed616344c7ac}{DSIOSetSSystemJSONOptions()} 
+\end{DoxySeeAlso}

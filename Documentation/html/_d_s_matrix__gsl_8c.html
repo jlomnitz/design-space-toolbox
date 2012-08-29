@@ -54,6 +54,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;unistd.h&gt;</code><br/>
 <code>#include &lt;gsl/gsl_linalg.h&gt;</code><br/>
 <code>#include &lt;gsl/gsl_blas.h&gt;</code><br/>
+<code>#include &lt;gsl/gsl_eigen.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_matrix_8h_source.html">DSMatrix.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_errors_8h_source.html">DSErrors.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_d_s_memory_manager_8h_source.html">DSMemoryManager.h</a>&quot;</code><br/>
@@ -165,6 +166,8 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixIsSquare</b> 
 DSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixRank</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf9d20837b2f87c74a454100429b64ac"></a><!-- doxytag: member="DSMatrix_gsl.c::minimumValue" ref="aaf9d20837b2f87c74a454100429b64ac" args="(const DSMatrix *matrix, const bool shouldExcludeZero)" -->
 double&nbsp;</td><td class="memItemRight" valign="bottom"><b>minimumValue</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const bool shouldExcludeZero)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a085dcc90f0f9a541839bb38e19ea8b38"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixDominantEigenvalue" ref="a085dcc90f0f9a541839bb38e19ea8b38" args="(const DSMatrix *matrix)" -->
+double complex&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixDominantEigenvalue</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf33f61fc91fd02dacfbc31c6ffeeaf8"></a><!-- doxytag: member="DSMatrix_gsl.c::maximumValue" ref="acf33f61fc91fd02dacfbc31c6ffeeaf8" args="(const DSMatrix *matrix, const bool shouldExcludeZero)" -->
 double&nbsp;</td><td class="memItemRight" valign="bottom"><b>maximumValue</b> (const <a class="el" href="struct_d_s_matrix.html">DSMatrix</a> *matrix, const bool shouldExcludeZero)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a549cf4468c5038572f21cb10019b65d0"></a><!-- doxytag: member="DSMatrix_gsl.c::DSMatrixAddByMatrix" ref="a549cf4468c5038572f21cb10019b65d0" args="(DSMatrix *addTo, const DSMatrix *addBy)" -->
@@ -635,7 +638,7 @@ int *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSMatrixColumnsForGL
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Feb 17 23:40:59 2012 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Aug 15 11:45:59 2012 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

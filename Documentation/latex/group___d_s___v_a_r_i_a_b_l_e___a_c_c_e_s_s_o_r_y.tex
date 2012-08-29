@@ -5,22 +5,22 @@
 \subsection*{Defines}
 \begin{DoxyCompactItemize}
 \item 
-\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga218a0d1de0bb5ea62d7e5aa22fe50793}{DSVariableSetValue}(x, y)~((x)-\/$>$value = (y))
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga218a0d1de0bb5ea62d7e5aa22fe50793}{DSVariableSetValue}(x, y)~(((\hyperlink{struct_d_s_variable}{DSVariable}$\ast$)(x))-\/$>$value = (y))
 \begin{DoxyCompactList}\small\item\em Macro to set the value of a variable data structure. \item\end{DoxyCompactList}\item 
-\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga837d0718b28591df6f518eb50d98082a}{DSVariableValue}(x)~(((x) != NULL) ? (x)-\/$>$value : NAN)
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga837d0718b28591df6f518eb50d98082a}{DSVariableValue}(x)~(((x) != NULL) ? ((\hyperlink{struct_d_s_variable}{DSVariable}$\ast$)x)-\/$>$value : NAN)
 \begin{DoxyCompactList}\small\item\em Macro to get the value of a variable data structure. \item\end{DoxyCompactList}\item 
-\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga64afbf5e8e378ef611c25084211152c4}{DSVariableName}(x)~((x)-\/$>$name)
+\#define \hyperlink{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga64afbf5e8e378ef611c25084211152c4}{DSVariableName}(x)~(((\hyperlink{struct_d_s_variable}{DSVariable} $\ast$)x)-\/$>$name)
 \begin{DoxyCompactList}\small\item\em Macro to get the value of a variable data structure. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-The following macros are in place for portability and consistency. As the structure of the BSTVariable is subject to change, due to the nature of early versions of the framework, using these macros will make the dependent code less subject to errors. 
+The following macros are in place for portability and consistency. As the structure of the \hyperlink{struct_d_s_variable}{DSVariable} is subject to change, due to the nature of early versions of the framework, using these macros will make the dependent code less subject to errors. 
 
 \subsection{Define Documentation}
 \hypertarget{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga64afbf5e8e378ef611c25084211152c4}{
 \index{DS\_\-VARIABLE\_\-ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}!DSVariableName@{DSVariableName}}
 \index{DSVariableName@{DSVariableName}!DS_VARIABLE_ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}}
-\subsubsection[{DSVariableName}]{\setlength{\rightskip}{0pt plus 5cm}\#define DSVariableName(x)~((x)-\/$>$name)}}
+\subsubsection[{DSVariableName}]{\setlength{\rightskip}{0pt plus 5cm}\#define DSVariableName(x)~((({\bf DSVariable} $\ast$)x)-\/$>$name)}}
 \label{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga64afbf5e8e378ef611c25084211152c4}
 
 
@@ -29,7 +29,7 @@ Macro to get the value of a variable data structure.
 This macro provides a consistent way for retrieving the value of a variable, despite the internal structure of the data type. \hypertarget{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga218a0d1de0bb5ea62d7e5aa22fe50793}{
 \index{DS\_\-VARIABLE\_\-ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}!DSVariableSetValue@{DSVariableSetValue}}
 \index{DSVariableSetValue@{DSVariableSetValue}!DS_VARIABLE_ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}}
-\subsubsection[{DSVariableSetValue}]{\setlength{\rightskip}{0pt plus 5cm}\#define DSVariableSetValue(x, \/  y)~((x)-\/$>$value = (y))}}
+\subsubsection[{DSVariableSetValue}]{\setlength{\rightskip}{0pt plus 5cm}\#define DSVariableSetValue(x, \/  y)~((({\bf DSVariable}$\ast$)(x))-\/$>$value = (y))}}
 \label{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga218a0d1de0bb5ea62d7e5aa22fe50793}
 
 
@@ -38,7 +38,7 @@ Macro to set the value of a variable data structure.
 This macro provides a consistent way for changing the value of a variable, despite the internal structure of the data type. This macro is expanded to a simple assignment. \hypertarget{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga837d0718b28591df6f518eb50d98082a}{
 \index{DS\_\-VARIABLE\_\-ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}!DSVariableValue@{DSVariableValue}}
 \index{DSVariableValue@{DSVariableValue}!DS_VARIABLE_ACCESSORY@{DS\_\-VARIABLE\_\-ACCESSORY}}
-\subsubsection[{DSVariableValue}]{\setlength{\rightskip}{0pt plus 5cm}\#define DSVariableValue(x)~(((x) != NULL) ? (x)-\/$>$value : NAN)}}
+\subsubsection[{DSVariableValue}]{\setlength{\rightskip}{0pt plus 5cm}\#define DSVariableValue(x)~(((x) != NULL) ? (({\bf DSVariable}$\ast$)x)-\/$>$value : NAN)}}
 \label{group___d_s___v_a_r_i_a_b_l_e___a_c_c_e_s_s_o_r_y_ga837d0718b28591df6f518eb50d98082a}
 
 

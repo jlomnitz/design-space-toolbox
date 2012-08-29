@@ -1,0 +1,169 @@
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h}{
+\section{DSGMASystemParsingAux.h File Reference}
+\label{_d_s_g_m_a_system_parsing_aux_8h}\index{DSGMASystemParsingAux.h@{DSGMASystemParsingAux.h}}
+}
+
+
+Implementation file with functions for dealing with the parsing of GMA Systems.  
+
+
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+Include dependency graph for DSGMASystemParsingAux.h:\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structparser__aux}{parser\_\-aux}
+\begin{DoxyCompactList}\small\item\em Data type used to parse strings to GMA System. \item\end{DoxyCompactList}\item 
+union \hyperlink{unionparser__aux_1_1base__info}{base\_\-info}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_aa11284ddf458c98537b0224114d4553f}{
+\#define {\bfseries AUX\_\-EXPONENT\_\-CONSTANT\_\-BASE}~NAN}
+\label{_d_s_g_m_a_system_parsing_aux_8h_aa11284ddf458c98537b0224114d4553f}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a60b2a04688de92d952114ed5cb74ebe0}{
+\#define {\bfseries AUX\_\-SIGN\_\-UNDEFINED}~'?'}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a60b2a04688de92d952114ed5cb74ebe0}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a8f2b9a044e233fb12b5c71cb8b49e73e}{
+\#define {\bfseries AUX\_\-SIGN\_\-POSITIVE}~'+'}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a8f2b9a044e233fb12b5c71cb8b49e73e}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_ac4c23588e2e2d3b35be45260ba49067b}{
+\#define {\bfseries AUX\_\-SIGN\_\-NEGATIVE}~'-\/'}
+\label{_d_s_g_m_a_system_parsing_aux_8h_ac4c23588e2e2d3b35be45260ba49067b}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_af9f5f03d7ad4fcfcef238ceda752a37a}{
+\#define {\bfseries AUX\_\-PARSER\_\-FAILED}~false}
+\label{_d_s_g_m_a_system_parsing_aux_8h_af9f5f03d7ad4fcfcef238ceda752a37a}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_aec7d7a41ce54f58d49f741bf492e0282}{
+\#define {\bfseries AUX\_\-PARSER\_\-SUCCESS}~true}
+\label{_d_s_g_m_a_system_parsing_aux_8h_aec7d7a41ce54f58d49f741bf492e0282}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a9cff7b1648ea81ec536a699396106618}{
+\#define {\bfseries DSGMAParserAuxNumberOfBases}(x)~(x-\/$>$numberOfBases)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a9cff7b1648ea81ec536a699396106618}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_ae429c3dae18b2d6533b8d8383d4d3fef}{
+\#define {\bfseries DSGMAParserAuxBaseAtIndexIsVariable}(x, y)~(!isnan(DSGMAParserAuxExponentAtIndex(x, y)))}
+\label{_d_s_g_m_a_system_parsing_aux_8h_ae429c3dae18b2d6533b8d8383d4d3fef}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_ac69182aff4c66894fab20e208baa9933}{
+\#define {\bfseries DSGMAParserAuxSetParserFailed}(x)~((x)-\/$>$succeded = false)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_ac69182aff4c66894fab20e208baa9933}
+
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structparser__aux}{parser\_\-aux} \hyperlink{_d_s_g_m_a_system_parsing_aux_8h_a8122cee13bb745e3a6c4e10a14e66d61}{gma\_\-parseraux\_\-t}
+\begin{DoxyCompactList}\small\item\em Data type used to parse strings to GMA System. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a84801ee66d9136b65371b7ad02599275}{
+\hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$ {\bfseries DSGMAParserAuxAlloc} (void)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a84801ee66d9136b65371b7ad02599275}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_afb9fb169a1fa7658da37c9e354864956}{
+void {\bfseries DSGMAParserAuxFree} (\hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$root)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_afb9fb169a1fa7658da37c9e354864956}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_adacccf228964b9aeb5c8c4eccae96376}{
+void {\bfseries DSGMAParserAuxNewTerm} (\hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$current)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_adacccf228964b9aeb5c8c4eccae96376}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_abe0ef3fa6b2ebf71add7968ac0507723}{
+\hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$ {\bfseries DSGMAParserAuxNextNode} (const \hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$const aux)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_abe0ef3fa6b2ebf71add7968ac0507723}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a7c8e935edd11b986bd64f9a90210029d}{
+void {\bfseries DSGMAParserAuxSetSign} (\hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$aux, const char sign)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a7c8e935edd11b986bd64f9a90210029d}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a2a80d5cbfcc9cf9eec086e067289b8d1}{
+void {\bfseries DSGMAParserAuxAddVariableExponentPair} (\hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$aux, const char $\ast$const name, const double exponent)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a2a80d5cbfcc9cf9eec086e067289b8d1}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a3dcc1e3f730e5bbcc5710ec900cee4f0}{
+void {\bfseries DSGMAParserAuxAddConstantBase} (\hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$aux, const double base)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a3dcc1e3f730e5bbcc5710ec900cee4f0}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a6ec816d1fb35f7a029e8661a11ab900f}{
+const char {\bfseries DSGMAParserAuxSign} (const \hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$const aux)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a6ec816d1fb35f7a029e8661a11ab900f}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a1e2444a9ce4b8c46fcfbe6b4fc29d862}{
+const double {\bfseries DSGMAParserAuxExponentAtIndex} (const \hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$const aux, const DSUInteger index)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a1e2444a9ce4b8c46fcfbe6b4fc29d862}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_aebd5626b8119d407210372330426633a}{
+const char $\ast$const {\bfseries DSGMAParserAuxVariableAtIndex} (const \hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$const aux, const DSUInteger index)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_aebd5626b8119d407210372330426633a}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_ac03d2e794ce52e0bc77135b464eac7bc}{
+const double {\bfseries DSGMAParseAuxsConstantBaseAtIndex} (const \hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$const aux, const DSUInteger index)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_ac03d2e794ce52e0bc77135b464eac7bc}
+
+\item 
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a3b81a8d72c25c88db2d135c92626104e}{
+const bool {\bfseries DSGMAParserAuxParsingFailed} (const \hyperlink{structparser__aux}{gma\_\-parseraux\_\-t} $\ast$const aux)}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a3b81a8d72c25c88db2d135c92626104e}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file with functions for dealing with the parsing of GMA Systems. Header file with functions for dealing with the parsing of GMA Systems.
+
+Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{_d_s_g_m_a_system_parsing_aux_8h_a8122cee13bb745e3a6c4e10a14e66d61}{
+\index{DSGMASystemParsingAux.h@{DSGMASystemParsingAux.h}!gma\_\-parseraux\_\-t@{gma\_\-parseraux\_\-t}}
+\index{gma\_\-parseraux\_\-t@{gma\_\-parseraux\_\-t}!DSGMASystemParsingAux.h@{DSGMASystemParsingAux.h}}
+\subsubsection[{gma\_\-parseraux\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf parser\_\-aux}  {\bf gma\_\-parseraux\_\-t}}}
+\label{_d_s_g_m_a_system_parsing_aux_8h_a8122cee13bb745e3a6c4e10a14e66d61}
+
+
+Data type used to parse strings to GMA System. 
+
+This data structure forms an organized list of terms, each with base exponent pairs that are then used to create the system matrices. This data structure is key for the parsing of GMA systems. Each node in the gma\_\-parseraux\_\-t list represent a term in an expression in the order it was found, and each node points to the next term. Each expression, or equation, has it's own list of terms. If a base is a constant, then it should not have an exponent, and hence it's exponent is assigned a NAN value and this is used to indicate that the base is a constant. 

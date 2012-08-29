@@ -1251,6 +1251,45 @@ bail:
         return flux;   
 }
 
+extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName, const char *XiName)
+{
+        double logGain = INFINITY;
+        DSUInteger XdIndex = 0;
+        DSUInteger XiIndex = 0;
+        DSMatrix * L = NULL;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (XdName == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (XiName == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolHasVariableWithName(DSSSysXd(ssys), XdName) == false) {
+                DSError(M_DS_WRONG, A_DS_ERROR);
+                goto bail;
+        } else {
+                XdIndex=DSVariablePoolIndexOfVariableWithName(DSSSysXd(ssys), XdName);
+        }
+        if (DSVariablePoolHasVariableWithName(DSSSysXi(ssys), XiName) == false) {
+                DSError(M_DS_WRONG, A_DS_ERROR);
+                goto bail;
+        } else {
+                XiIndex = DSVariablePoolIndexOfVariableWithName(DSSSysXi(ssys), XiName);                
+        }
+        L = DSMatrixByMultiplyingMatrix(DSSSystemM(ssys), DSSSystemAi(ssys));
+        if (L == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        logGain = -DSMatrixDoubleValue(L, XdIndex, XiIndex);
+bail:
+        return logGain;
+}
 
 
 #if defined (__APPLE__) && defined (__MACH__)

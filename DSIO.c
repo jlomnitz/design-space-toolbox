@@ -38,6 +38,27 @@
 #include "DSSSystem.h"
 #include "DSCase.h"
 
+
+/**
+ * \defgroup DS_IO_TAG_TYPES
+ * \{
+ */
+#define DS_IO_TAG_TYPE_Matrix         "\"DSMatrix\""
+#define DS_IO_TAG_TYPE_MatrixArray    "\"DSMatrixArray\""
+#define DS_IO_TAG_TYPE_VariablePool   "\"DSVariablePool\""
+#define DS_IO_TAG_TYPE_Dictionary     "\"DSDictionary\""
+#define DS_IO_TAG_TYPE_SSystem        "\"DSSSystem\""
+#define DS_IO_TAG_TYPE_Case           "\"DSCase\""
+#define DS_IO_TAG_TYPE_DesignSpace    "\"DSDesignSpace\""
+/**
+ * \}
+ */
+
+int (*DSPrintf)(const char *, ...);
+void (*DSPostWarning)(const char *message);
+void (*DSPostError)(const char *message);
+void (*DSPostFatalError)(const char *message);
+FILE * DSIOErrorFile;
 /**
  * \brief Variable with flags controlling S-System to JSON string conversion.
  *
@@ -240,7 +261,7 @@ extern char * DSVariablePoolStringInJSONFormat(const DSVariablePool *pool)
         }
         length = 100;
         string = DSSecureMalloc(sizeof(char)*length);
-        sprintf(string, "{");
+        sprintf(string, "{%s : {", DS_IO_TAG_TYPE_VariablePool);
         for (i = 0; i < DSVariablePoolNumberOfVariables(pool); i++) {
                 numDigits = 14;
                 current = DSVariableName(DSVariablePoolVariableArray(pool)[i]);
@@ -266,7 +287,7 @@ extern char * DSVariablePoolStringInJSONFormat(const DSVariablePool *pool)
                 if (i != DSVariablePoolNumberOfVariables(pool)-1)
                         strncat(string, ",", length-strlen(string));
         }
-        strncat(string, "}", length-strlen(string));
+        strncat(string, "}}", length-strlen(string));
         string = DSSecureRealloc(string, sizeof(char)*(strlen(string)+1));
 bail:
         return string;
@@ -297,7 +318,7 @@ extern char * DSMatrixStringInJSONFormat(const DSMatrix * matrix)
         }
         length = 1000;
         string = DSSecureMalloc(sizeof(char)*length);
-        sprintf(string, "[");
+        sprintf(string, "{%s:[", DS_IO_TAG_TYPE_Matrix);
         for (i = 0; i < DSMatrixRows(matrix); i++) {
                 strncat(string, "[", length-strlen(string));
                 for (j = 0; j < DSMatrixColumns(matrix); j++) {
@@ -319,7 +340,7 @@ extern char * DSMatrixStringInJSONFormat(const DSMatrix * matrix)
                 else
                         strncat(string, "],", length-strlen(string));
         }
-        strncat(string, "]", length-strlen(string));
+        strncat(string, "]}", length-strlen(string));
         string = DSSecureRealloc(string, sizeof(char)*(strlen(string)+1));
 bail:
         return string;
@@ -349,7 +370,7 @@ extern char * DSMatrixArrayStringInJSONFormat(const DSMatrixArray *array)
         }
         length = 1000;
         string = DSSecureMalloc(sizeof(char)*length);
-        sprintf(string, "[\n");
+        sprintf(string, "{%s:[\n", DS_IO_TAG_TYPE_MatrixArray);
         for (i = 0; i < DSMatrixArrayNumberOfMatrices(array); i++) {
                 temp = DSMatrixStringInJSONFormat(DSMatrixArrayMatrix(array, i));
                 if (strlen(string)+strlen(temp) >= length) {
@@ -363,7 +384,7 @@ extern char * DSMatrixArrayStringInJSONFormat(const DSMatrixArray *array)
                 else
                         strncat(string, ",\n", length-strlen(string));
         }
-        strncat(string, "]", length-strlen(string));
+        strncat(string, "]}", length-strlen(string));
         string = DSSecureRealloc(string, sizeof(char)*(strlen(string)+1));
 bail:
         return string;
@@ -397,7 +418,7 @@ extern char * DSSSystemStringInJSONFormat(const DSSSystem *ssys)
         }
         length = 1000;
         string = DSSecureMalloc(sizeof(char)*length);
-        sprintf(string, "{");
+        sprintf(string, "{%s:{", DS_IO_TAG_TYPE_SSystem);
         actualLength = (DSUInteger)strlen(string);
         for (i = 0; i < numberOfFields; i++) {
                 temp = NULL;
@@ -479,7 +500,7 @@ extern char * DSSSystemStringInJSONFormat(const DSSSystem *ssys)
                 DSSecureFree(temp);
         }
         edge = string+actualLength-1;
-        strncat(edge, "}", length-(actualLength++));
+        strncat(edge, "}}", length-(actualLength++));
         string = DSSecureRealloc(string, sizeof(char)*(actualLength+1));
 bail:
         return string;
@@ -513,7 +534,7 @@ extern char * DSCaseStringInJSONFormat(const DSCase * aCase)
         }
         length = 1000;
         string = DSSecureMalloc(sizeof(char)*length);
-        sprintf(string, "{");
+        sprintf(string, "{%s:{", DS_IO_TAG_TYPE_Case);
         actualLength = (DSUInteger)strlen(string);
         for (i = 0; i < numberOfFields; i++) {
                 temp = NULL;
@@ -590,9 +611,10 @@ extern char * DSCaseStringInJSONFormat(const DSCase * aCase)
                 DSSecureFree(temp);
         }
         edge = string+actualLength-1;
-        strncat(edge, "}", length-actualLength);
+        strncat(edge, "}}", length-actualLength);
         actualLength++;
         string = DSSecureRealloc(string, sizeof(char)*(actualLength+1));
 bail:
         return string;
 }
+

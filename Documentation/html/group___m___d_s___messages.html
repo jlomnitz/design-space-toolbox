@@ -43,6 +43,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2>Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga705c3e02cba93cfcf85ba8ad7777b054"></a><!-- doxytag: member="M_DS_Messages::M_DS_CASE_NULL" ref="ga705c3e02cba93cfcf85ba8ad7777b054" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>M_DS_CASE_NULL</b>&nbsp;&nbsp;&nbsp;M_DS_NULL &quot;: Case is NULL&quot;</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga37fa683598c03113c9d9667a1c0f7a9c"></a><!-- doxytag: member="M_DS_Messages::M_DS_DICTIONARY_NULL" ref="ga37fa683598c03113c9d9667a1c0f7a9c" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m___d_s___messages.html#ga37fa683598c03113c9d9667a1c0f7a9c">M_DS_DICTIONARY_NULL</a>&nbsp;&nbsp;&nbsp;M_DS_NULL &quot;: Dictionary is NULL&quot;</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Error message indicating a NULL variable pool. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gadd043ccc956aaee49b9c646f940c167b"></a><!-- doxytag: member="M_DS_Messages::M_DS_NOFILE" ref="gadd043ccc956aaee49b9c646f940c167b" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m___d_s___messages.html#gadd043ccc956aaee49b9c646f940c167b">M_DS_NOFILE</a>&nbsp;&nbsp;&nbsp;&quot;File not found&quot;</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Message for no file found. <br/></td></tr>
@@ -70,6 +73,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga834bdead8f9b0e20331b57e051c7f379"></a><!-- doxytag: member="M_DS_Messages::M_DS_MAT_NOINTERNAL" ref="ga834bdead8f9b0e20331b57e051c7f379" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m___d_s___messages.html#ga834bdead8f9b0e20331b57e051c7f379">M_DS_MAT_NOINTERNAL</a>&nbsp;&nbsp;&nbsp;&quot;Matrix data is empty&quot;</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Message for a NULL internal matrix structure. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga02efbba8bea9dd19aa20f9432257b351"></a><!-- doxytag: member="M_DS_Messages::M_DS_SUBCASE_NULL" ref="ga02efbba8bea9dd19aa20f9432257b351" args="" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>M_DS_SUBCASE_NULL</b>&nbsp;&nbsp;&nbsp;M_DS_NULL &quot;: Subcase is NULL&quot;</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gab1c842ea678de8daa76a55fc68750d5e"></a><!-- doxytag: member="M_DS_Messages::M_DS_SYM_MAT_NULL" ref="gab1c842ea678de8daa76a55fc68750d5e" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m___d_s___messages.html#gab1c842ea678de8daa76a55fc68750d5e">M_DS_SYM_MAT_NULL</a>&nbsp;&nbsp;&nbsp;&quot;Pointer to symbolic matrix is NULL&quot;</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Message for a NULL <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> pointer. <br/></td></tr>
@@ -92,8 +97,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dd>
 <a class="el" href="_d_s_errors_8h.html#a09b28eb2b01986855910ca97dfe91144" title="Error reporting macro.">DSError</a></dd></dl>
 <p>Messages for <a class="el" href="struct_d_s_case.html" title="Data type used to represent a case.">DSCase</a> related errors is M_DS_CASE_NULL.</p>
-<p>Messages for <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> related errors are M_DS_MAT_NULL, M_DS_MAT_OUTOFBOUNDS and M_DS_MAT_NOINTERNAL.</p>
-<p>Messages for <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a> related errors are M_DS_VAR_NULL and M_DS_VAR_LOCKED. </p>
+<p>Messages for <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a> related errors are M_DS_VAR_NULL and M_DS_VAR_LOCKED.</p>
+<p>Messages for <a class="el" href="struct_d_s_matrix.html" title="Data type representing a matrix.">DSMatrix</a> related errors are M_DS_MAT_NULL, M_DS_MAT_OUTOFBOUNDS and M_DS_MAT_NOINTERNAL. </p>
 </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -109,7 +114,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Feb 17 23:41:00 2012 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Aug 15 11:46:00 2012 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

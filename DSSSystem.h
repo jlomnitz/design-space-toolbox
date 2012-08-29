@@ -64,6 +64,8 @@ extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariab
 extern DSMatrix * DSSSystemSteadyStateValues(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0);
 
+extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName, const char *XiName);
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Equation-related functions
 #endif

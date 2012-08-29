@@ -13,6 +13,7 @@ Implementation file with functions for dealing with matrices using the GNU Scien
 {\ttfamily \#include $<$unistd.h$>$}\par
 {\ttfamily \#include $<$gsl/gsl\_\-linalg.h$>$}\par
 {\ttfamily \#include $<$gsl/gsl\_\-blas.h$>$}\par
+{\ttfamily \#include $<$gsl/gsl\_\-eigen.h$>$}\par
 {\ttfamily \#include \char`\"{}DSMatrix.h\char`\"{}}\par
 {\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
 {\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
@@ -229,6 +230,11 @@ DSUInteger {\bfseries DSMatrixRank} (const \hyperlink{struct_d_s_matrix}{DSMatri
 \hypertarget{_d_s_matrix__gsl_8c_aaf9d20837b2f87c74a454100429b64ac}{
 double {\bfseries minimumValue} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix, const bool shouldExcludeZero)}
 \label{_d_s_matrix__gsl_8c_aaf9d20837b2f87c74a454100429b64ac}
+
+\item 
+\hypertarget{_d_s_matrix__gsl_8c_a085dcc90f0f9a541839bb38e19ea8b38}{
+double complex {\bfseries DSMatrixDominantEigenvalue} (const \hyperlink{struct_d_s_matrix}{DSMatrix} $\ast$matrix)}
+\label{_d_s_matrix__gsl_8c_a085dcc90f0f9a541839bb38e19ea8b38}
 
 \item 
 \hypertarget{_d_s_matrix__gsl_8c_acf33f61fc91fd02dacfbc31c6ffeeaf8}{

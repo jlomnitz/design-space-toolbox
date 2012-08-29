@@ -44,47 +44,49 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 <h1>DSStd.h</h1><a href="_d_s_std_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
-<a name="l00033"></a>00033 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
-<a name="l00034"></a>00034 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
-<a name="l00035"></a>00035 <span class="comment">/* #include &lt;pthread.h&gt; */</span>
-<a name="l00036"></a>00036 
-<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_types_8h.html" title="Header file with definitions for data types.">DSTypes.h</a>&quot;</span>
-<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_i_o_8h.html" title="Header file with standard input and output functions.">DSIO.h</a>&quot;</span>
-<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_errors_8h.html" title="Header file with functions for error and exception handling.">DSErrors.h</a>&quot;</span>
-<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_memory_manager_8h.html" title="Header file with functions for secure memory allocation.">DSMemoryManager.h</a>&quot;</span>
-<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_variable_8h.html" title="Header file with functions for dealing with variables.">DSVariable.h</a>&quot;</span>
-<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_matrix_8h.html" title="Header file with functions for dealing with matrices.">DSMatrix.h</a>&quot;</span>
-<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_matrix_array_8h.html" title="Header file with functions for dealing with matrix arrays.">DSMatrixArray.h</a>&quot;</span>
-<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_expression_8h.html" title="Header file with functions for dealing with mathematical expressions.">DSExpression.h</a>&quot;</span>
-<a name="l00045"></a>00045 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_g_m_a_system_8h.html" title="Header file with functions for dealing with GMA Systems.">DSGMASystem.h</a>&quot;</span>
-<a name="l00046"></a>00046 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_s_system_8h.html" title="Header file with functions for dealing with S-System.">DSSSystem.h</a>&quot;</span>
-<a name="l00047"></a>00047 <span class="preprocessor">#include &quot;DSCase.h&quot;</span>
-<a name="l00048"></a>00048 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_design_space_8h.html" title="Header file with functions for dealing with Design Spaces.">DSDesignSpace.h</a>&quot;</span>
-<a name="l00049"></a>00049 <span class="preprocessor">#include &quot;DSDesignSpaceStack.h&quot;</span>
-<a name="l00050"></a>00050 <span class="preprocessor">#include &quot;DSVertices.h&quot;</span>
-<a name="l00051"></a>00051 
-<a name="l00052"></a>00052 <span class="preprocessor">#ifndef __DS_STD_INCLUDE__</span>
-<a name="l00053"></a>00053 <span class="preprocessor"></span><span class="preprocessor">#define __DS_STD_INCLUDE__</span>
-<a name="l00054"></a>00054 <span class="preprocessor"></span>
-<a name="l00055"></a>00055 <span class="preprocessor">#ifdef __cplusplus</span>
-<a name="l00056"></a>00056 <span class="preprocessor"></span>__BEGIN_DECLS
-<a name="l00057"></a>00057 <span class="preprocessor">#endif</span>
-<a name="l00058"></a>00058 <span class="preprocessor"></span>
-<a name="l00059"></a>00059 <span class="preprocessor">#define free(x) DSSecureFree(x)</span>
-<a name="l00060"></a>00060 <span class="preprocessor"></span><span class="preprocessor">#define malloc(x) DSSecureMalloc(x)</span>
-<a name="l00061"></a>00061 <span class="preprocessor"></span><span class="preprocessor">#define calloc(x, y) DSSecureCalloc(x, y)</span>
-<a name="l00062"></a>00062 <span class="preprocessor"></span><span class="preprocessor">#define realloc(x, y) DSSecureRealloc(x, y)</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &lt;pthread.h&gt;</span>
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_types_8h.html" title="Header file with definitions for data types.">DSTypes.h</a>&quot;</span>
+<a name="l00045"></a>00045 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_i_o_8h.html" title="Header file with standard input and output functions.">DSIO.h</a>&quot;</span>
+<a name="l00046"></a>00046 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_errors_8h.html" title="Header file with functions for error and exception handling.">DSErrors.h</a>&quot;</span>
+<a name="l00047"></a>00047 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_memory_manager_8h.html" title="Header file with functions for secure memory allocation.">DSMemoryManager.h</a>&quot;</span>
+<a name="l00048"></a>00048 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_variable_8h.html" title="Header file with functions for dealing with variables.">DSVariable.h</a>&quot;</span>
+<a name="l00049"></a>00049 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_matrix_8h.html" title="Header file with functions for dealing with matrices.">DSMatrix.h</a>&quot;</span>
+<a name="l00050"></a>00050 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_matrix_array_8h.html" title="Header file with functions for dealing with matrix arrays.">DSMatrixArray.h</a>&quot;</span>
+<a name="l00051"></a>00051 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_expression_8h.html" title="Header file with functions for dealing with mathematical expressions.">DSExpression.h</a>&quot;</span>
+<a name="l00052"></a>00052 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_g_m_a_system_8h.html" title="Header file with functions for dealing with GMA Systems.">DSGMASystem.h</a>&quot;</span>
+<a name="l00053"></a>00053 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_s_system_8h.html" title="Header file with functions for dealing with S-System.">DSSSystem.h</a>&quot;</span>
+<a name="l00054"></a>00054 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_case_8h.html" title="Header file with functions for dealing with cases in design space.">DSCase.h</a>&quot;</span>
+<a name="l00055"></a>00055 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_design_space_8h.html" title="Header file with functions for dealing with Design Spaces.">DSDesignSpace.h</a>&quot;</span>
+<a name="l00056"></a>00056 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_vertices_8h.html" title="Header file with functions for dealing with n-dimensional verices.">DSVertices.h</a>&quot;</span>
+<a name="l00057"></a>00057 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_dictionary_8h.html" title="Header file with functions for dealing with dictionaries.">DSDictionary.h</a>&quot;</span>
+<a name="l00058"></a>00058 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_stack_8h.html" title="Implementation file with functions for dealing with stack objects.">DSStack.h</a>&quot;</span>
+<a name="l00059"></a>00059 <span class="preprocessor">#include &quot;<a class="code" href="_d_s_subcase_8h.html" title="Header file with functions for dealing with subcases.">DSSubcase.h</a>&quot;</span>
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061 <span class="preprocessor">#ifndef __DS_STD_INCLUDE__</span>
+<a name="l00062"></a>00062 <span class="preprocessor"></span><span class="preprocessor">#define __DS_STD_INCLUDE__</span>
 <a name="l00063"></a>00063 <span class="preprocessor"></span>
 <a name="l00064"></a>00064 <span class="preprocessor">#ifdef __cplusplus</span>
-<a name="l00065"></a>00065 <span class="preprocessor"></span>__END_DECLS
+<a name="l00065"></a>00065 <span class="preprocessor"></span>__BEGIN_DECLS
 <a name="l00066"></a>00066 <span class="preprocessor">#endif</span>
 <a name="l00067"></a>00067 <span class="preprocessor"></span>
-<a name="l00068"></a>00068 <span class="preprocessor">#endif</span>
-<a name="l00069"></a>00069 <span class="preprocessor"></span>
-<a name="l00070"></a>00070 
-<a name="l00071"></a>00071 
-<a name="l00072"></a>00072 
-<a name="l00073"></a>00073 
+<a name="l00068"></a>00068 <span class="preprocessor">#define free(x) DSSecureFree(x)</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span><span class="preprocessor">#define malloc(x) DSSecureMalloc(x)</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span><span class="preprocessor">#define calloc(x, y) DSSecureCalloc(x, y)</span>
+<a name="l00071"></a>00071 <span class="preprocessor"></span><span class="preprocessor">#define realloc(x, y) DSSecureRealloc(x, y)</span>
+<a name="l00072"></a>00072 <span class="preprocessor"></span>
+<a name="l00073"></a>00073 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00074"></a>00074 <span class="preprocessor"></span>__END_DECLS
+<a name="l00075"></a>00075 <span class="preprocessor">#endif</span>
+<a name="l00076"></a>00076 <span class="preprocessor"></span>
+<a name="l00077"></a>00077 <span class="preprocessor">#endif</span>
+<a name="l00078"></a>00078 <span class="preprocessor"></span>
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082 
 </pre></div></div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -100,7 +102,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Feb 17 23:40:59 2012 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Aug 15 11:45:55 2012 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -115,17 +115,28 @@ typedef struct {
  */
 typedef struct _varDictionary
 {
-        char current;                //!< The current character in the dictionary.
-        struct _varDictionary *alt;  //!< The alternative character in the dictionary.
-        struct _varDictionary *next; //!< The next character in the dictionary.
-        void *value;                 //!< The variable stored. Only when current is '\\0'.
+        char current;                  //!< The current character in the dictionary.
+        struct _varDictionary *lower;  //!< The alternative character in the dictionary that is less than the current.
+        struct _varDictionary *higher; //!< The alternative character in the dictionary that is greater than current.
+        struct _varDictionary *next;   //!< The next character in the dictionary.
+        void *value;                   //!< The variable stored. Only when current is '\\0'.
 } DSInternalDictionary;
 
 typedef struct {
-        DSInternalDictionary *internal;
-        DSUInteger count;
-        char ** names;
+        DSInternalDictionary *internal; //!< The pointer to the internal ternary tree root.
+        DSUInteger count;               //!< The number of objects in the dictionary.
+        char ** names;                  //!< A standard C array with all the names in the dictionary.
+        void (*freeFunction)(void *);    //!< Free function (Not yet implemented)
+        pthread_mutex_t lock;           //!< A mutex lock to make the dictionary thread safe.
 } DSDictionary;
+
+typedef struct {
+        void ** base;                   //!< The pointer to the array of DSUIntegers storing the case numbers.
+        void ** current;                //!< A pointer to the top of the stack.
+        DSUInteger count;               //!< The number of elements in the stack.
+        DSUInteger size;                //!< The current size of the base array.
+        pthread_mutex_t pushpop;        //!< The mutex used when pushing and popping data from the stack.
+} DSStack;
 
 /**
  * \brief Data type used to lock different properties of the DSVariablePool.
@@ -316,7 +327,7 @@ typedef struct {
  * \brief Data type used to represent a case.
  *
  * \details This data type has all the necessary information for a case in
- * design space.  It a pointer to the dependent and independent variables of
+ * design space.  It has a pointer to the dependent and independent variables of
  * the system, a pointer to the corresponding S-System, the Condition matrices
  * and boundary matrices.  It also has information about the case number and
  * case signature.
@@ -325,8 +336,8 @@ typedef struct {
  * be either big endian or small endian.  For compatibility with the current
  * design space toolbox, big endian is the default.
  *
- * \note The case is not responsible for freeing the Xd and Xi variables.  If
- * the case is generated from a design space, then the design space is
+ * \note The case is not responsible for freeing the Xd and Xi data structures.
+ * If the case is generated from a design space, then the design space is
  * responsible for freeing the Xi and Xd variable pools; otherwise the internal
  * S-System is responsible for freeing this data.
  */
@@ -343,26 +354,8 @@ typedef struct {
         DSUInteger *signature;    //!< The case signature indicating the dominant terms used to generate the case.
 } DSCase;
 
-typedef struct {
-        void ** base;                   //!< The pointer to the array of DSUIntegers storing the case numbers.
-        void ** current;                //!< A pointer to the top of the stack.
-        DSUInteger count;               //!< The number of elements in the stack.
-        DSUInteger size;                //!< The current size of the base array.
-        pthread_mutex_t pushpop;        //!< The mutex used when pushing and popping data from the stack.
-} DSStack;
-
-//typedef struct {
-//        DSUInteger *caseNumber;
-//        DSUInteger *caseNumberCurrent;
-//        void ** base;                   //!< The pointer to the array of DSUIntegers storing the case numbers.
-//        void ** current;                //!< A pointer to the top of the stack.
-//        DSUInteger count;               //!< The number of elements in the stack.
-//        DSUInteger size;                //!< The current size of the base array.
-//        pthread_mutex_t pushpop;        //!< The mutex used when pushing and popping data from the stack.
-//} DSDesignSpaceStack;
-
 /**
- * \brief Data type used to represent a design space/
+ * \brief Data type used to represent a design space
  *
  * \details The design space data structure is a convenience structure that
  * automates the construction and analysis of cases, and manages the memory
@@ -376,12 +369,32 @@ typedef struct {
         DSGMASystem *gma;              //!< The gma system of the design space.
         const DSVariablePool *Xd;      //!< A pointer to the DSVariablePool with the dependent variables.
         const DSVariablePool *Xi;      //!< A pointer to the DSVariablePool with the dependent variables.
-//        DSCase ** cases;               //!< The array of all the cases in the design space.
-        DSVariablePool * validCases;  //!< DSVariablePool with case number that are valid.
+        DSDictionary * validCases;   //!< DSVariablePool with case number that are valid.
         DSUInteger numberOfCases;      //!< DSUInteger indicating the maximum number of cases in the design space.
         DSMatrix * Cd, *Ci, *delta;    //!< Condition matrices.
-        DSStack *subcases;  //!< DSDesignSpaceStack containing design space objects with subcases.
+        DSDictionary *subcases;             //!< DSDesignSpaceStack containing design space objects with subcases.
 } DSDesignSpace;
+
+/**
+ * \brief Data type used to represent a subcase.
+ *
+ * \details The subcase data structure is a structure that represents an 
+ * underdetermined system that arises by creating cycles while picking dominant
+ * terms, this creates an artificial singularity that would not exist in the 
+ * original system. The data structure contains a design space object that has
+ * all the individual subcases.
+ *
+ * \note This data structure will change in the forseable future, as it does not
+ * associate the newly generated equations with the appropriate dependent
+ * variable, which leads to the flux through a pool to be calculated incorrectly.
+ *
+ * \see DSSubcase.h
+ * \see DSSubcase.c
+ */
+typedef struct{
+        DSDesignSpace * internal;
+        DSUInteger caseNumber;
+} DSSubcase;
 
 #ifdef __cplusplus
 __END_DECLS

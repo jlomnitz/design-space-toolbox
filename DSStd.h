@@ -27,12 +27,19 @@
  *
  * \todo Add all previous functionality.
  * \todo Add vertex enumeration functionality.
+ * \todo Add symbolic matrix support, and conversion between symbolic and 
+ *       numerical matrices.
+ * \todo Add complex matrix support.
+ * \todo Modify subcase construction to identify corresponding equation for
+ *       augmented equation based on decay term.
+ * \todo Add support for numerical solutions using a vODE library (e.g. sundials).
+ * \todo Add support for dominant eigenvalue estimation.
  *
  */
 
 #include <stdio.h>
 #include <stdlib.h>
-/* #include <pthread.h> */
+#include <pthread.h>
 
 #include "DSTypes.h"
 #include "DSIO.h"
@@ -49,6 +56,7 @@
 #include "DSVertices.h"
 #include "DSDictionary.h"
 #include "DSStack.h"
+#include "DSSubcase.h"
 
 #ifndef __DS_STD_INCLUDE__
 #define __DS_STD_INCLUDE__

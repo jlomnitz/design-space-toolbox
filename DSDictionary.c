@@ -106,13 +106,10 @@ static void *dsInternalDictionaryValueForName(const DSInternalDictionary *dictio
                         }
                         dictionary = dictionary->next;
                         position++;
-                } else if (name[position] == '\0') {
-                        dictionary = dictionary->alt;
+                } else if (name[position] > dictionary->current) {
+                        dictionary = dictionary->higher;
                 } else if (name[position] < dictionary->current) {
-                        break;
-                }
-                else if (name[position] > dictionary->current) {
-                        dictionary = dictionary->alt;
+                        dictionary = dictionary->lower;
                 }
         }
 bail:
@@ -174,7 +171,6 @@ static DSInternalDictionary * dsInternalDictionaryAddValueWithName(DSInternalDic
         int pos;
         struct _varDictionary *current, *previous, *temp, *top;
         
-        bool changeRoot;
         char errorMessage[100];
         
         if (value == NULL) {
@@ -190,37 +186,33 @@ static DSInternalDictionary * dsInternalDictionaryAddValueWithName(DSInternalDic
                 DSError(errorMessage, A_DS_WARN);
                 goto bail;
         }
-        top = root;
+        top = NULL;
         current = root;
         previous = NULL;
         temp = NULL;
         pos = 0;
-        changeRoot = true;
         while (current) {
-                if (name[pos] < current->current || current->current == '\0') {
-                        temp = dsInternalDictionaryBranchAlloc(value, name, pos);
-                        temp->alt = current;
-                        if (changeRoot == true)
-                                root = temp;
-                        else if (previous == NULL) {
-                                top->next = temp;
+                if (name[pos] < current->current) {
+                        top = previous;
+                        previous = current;
+                        current = current->lower;
+                        if (current == NULL) {
+                                previous->lower = dsInternalDictionaryBranchAlloc(value, name, pos);
+                                break;
                         }
-                        else
-                                previous->alt = temp;
-                        break;
-                } else if (current->current == name[pos]) {
-                        top = current;
-                        changeRoot = false;
-                        previous = NULL;
+                } else if (name[pos] > current->current) {
+                        top = previous;
+                        previous = current;
+                        current = current->higher;
+                        if (current == NULL) {
+                                previous->higher = dsInternalDictionaryBranchAlloc(value, name, pos);
+                                break;
+                        }
+                } else if (name[pos] == current->current) {
+                        top = previous;
+                        previous = current;
                         current = current->next;
                         pos++;
-                } else if (current->alt == NULL) {
-                        current->alt = dsInternalDictionaryBranchAlloc(value, name, pos);
-                        break;
-                } else {
-                        previous = current;
-                        current = current->alt;
-                        changeRoot = false;
                 }
         }
 bail:
@@ -279,9 +271,11 @@ static void dsInternalDictionaryFreeWithFunction(DSInternalDictionary * dictiona
         if (dictionary == NULL) {
                 goto bail;
         }
-        dsInternalDictionaryFreeWithFunction(dictionary->alt, freeFunction);
+        dsInternalDictionaryFreeWithFunction(dictionary->lower, freeFunction);
+        dsInternalDictionaryFreeWithFunction(dictionary->higher, freeFunction);
         dsInternalDictionaryFreeWithFunction(dictionary->next, freeFunction);
-        dictionary->alt = NULL;
+        dictionary->lower = NULL;
+        dictionary->higher = NULL;
         dictionary->next = NULL;
         if (dictionary->current == '\0' && freeFunction != NULL) {
                 Function = freeFunction;
@@ -331,8 +325,9 @@ static void dsInternalDictionaryPrintInternalWithFunction(const DSInternalDictio
         printObject = printFunction;
         if (print == NULL)
                 print = printf;
+        dsInternalDictionaryPrintInternalWithFunction(dictionary->lower, printFunction, position+1);
         for (i = 1; i < position+1; i++)
-                print(" ");
+                print(".");
         if (dictionary->current == '\0') {
                 print("+-");
                 printObject(dsInternalDictionaryValue(dictionary));
@@ -341,7 +336,7 @@ static void dsInternalDictionaryPrintInternalWithFunction(const DSInternalDictio
                 print("+-%c\n", dictionary->current);
         }
         dsInternalDictionaryPrintInternalWithFunction(dictionary->next, printFunction, position+2);
-        dsInternalDictionaryPrintInternalWithFunction(dictionary->alt, printFunction, position);
+        dsInternalDictionaryPrintInternalWithFunction(dictionary->higher, printFunction, position+1);
 bail:
         return;
 }
@@ -360,14 +355,15 @@ static void dsInternalDictionaryPrintInternal(const DSInternalDictionary *dictio
         }
         if (print == NULL)
                 print = printf;
+        dsInternalDictionaryPrintInternal(dictionary->lower, position+1);
         for (i = 1; i < position+1; i++)
                 print(" ");
         if (dictionary->current == '\0')
                 print("+-[%p]\n", dsInternalDictionaryValue(dictionary));
         else
                 print("+-%c\n", dictionary->current);
-        dsInternalDictionaryPrintInternal(dictionary->next, position+2);
-        dsInternalDictionaryPrintInternal(dictionary->alt, position);
+        dsInternalDictionaryPrintInternal(dictionary->next, position+1);
+        dsInternalDictionaryPrintInternal(dictionary->higher, position+1);
 bail:
         return;
 }
@@ -420,8 +416,9 @@ static void dsPrintMembers(struct _varDictionary *root, char *buffer, int positi
         buffer[position] = root->current;
         if (root->current == '\0')
                 printf("%s\n", buffer);
+        dsPrintMembers(root->lower, buffer, position+1);
         dsPrintMembers(root->next, buffer, position+1);
-        dsPrintMembers(root->alt, buffer, position);
+        dsPrintMembers(root->higher, buffer, position+1);
 }
 
 
@@ -441,6 +438,7 @@ extern DSDictionary * DSDictionaryAlloc()
         dictionary->internal = dsInternalDictionaryInitialize();
         dictionary->count = 0;
         dictionary->names = NULL;
+        pthread_mutex_init(&dictionary->lock, NULL);
         return dictionary;
 }
 
@@ -457,6 +455,7 @@ extern void DSDictionaryFree(DSDictionary * aDictionary)
                         DSSecureFree(aDictionary->names[i]);
                 DSSecureFree(aDictionary->names);
         }
+        pthread_mutex_destroy(&aDictionary->lock);
         DSSecureFree(aDictionary);
 bail:
         return;
@@ -475,9 +474,23 @@ extern void DSDictionaryFreeWithFunction(DSDictionary * aDictionary, void * free
                         DSSecureFree(aDictionary->names[i]);
                 DSSecureFree(aDictionary->names);
         }
+        pthread_mutex_destroy(&aDictionary->lock);
         DSSecureFree(aDictionary);
 bail:
         return;
+}
+
+
+extern DSUInteger DSDictionaryCount(const DSDictionary *aDictionary)
+{
+        DSUInteger count = 0;
+        if (aDictionary == NULL) {
+                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        count = aDictionary->count;
+bail:
+        return  count;
 }
 
 extern void *DSDictionaryValueForName(const DSDictionary *dictionary, const char *name)
@@ -491,9 +504,23 @@ extern void *DSDictionaryValueForName(const DSDictionary *dictionary, const char
                 DSError(M_DS_WRONG ": NULL key is invalid", A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&dictionary->lock);
         value = dsInternalDictionaryValueForName(dictionary->internal, name);
+        pthread_mutex_unlock(&dictionary->lock);
 bail:
         return value;
+}
+
+extern const char ** DSDictionaryNames(const DSDictionary *aDictionary)
+{
+        const char ** names = NULL;
+        if (aDictionary == NULL) {
+                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        names = (const char **)aDictionary->names;
+bail:
+        return names;
 }
 
 extern void DSDictionaryAddValueWithName(DSDictionary *dictionary, const char * name, void *value)
@@ -510,12 +537,14 @@ extern void DSDictionaryAddValueWithName(DSDictionary *dictionary, const char * 
                 DSError(M_DS_WRONG ": Value with name exists", A_DS_WARN);
                 goto bail;
         }
+        pthread_mutex_lock(&dictionary->lock);
         if (dictionary->count == 0)
                 dictionary->names = DSSecureMalloc(sizeof(char *)*(dictionary->count+1));
         else
                 dictionary->names = DSSecureRealloc(dictionary->names, sizeof(char *)*(dictionary->count+1));
         dictionary->names[(dictionary->count)++] = strdup(name);
         dictionary->internal = dsInternalDictionaryAddValueWithName(dictionary->internal, name, value);
+        pthread_mutex_unlock(&dictionary->lock);
 bail:
         return;
 }
@@ -540,6 +569,29 @@ extern void DSDictionaryPrintWithFunction(const DSDictionary *dictionary, const 
         dsInternalDictionaryPrintWithFunction(dictionary->internal, printFunction);
 bail:
         return;
+}
+
+extern DSDictionary * DSDictionaryFromArray(void ** array, DSUInteger size)
+{
+        DSDictionary *aDictionary = NULL;
+        char name[1000] = {0};
+        DSUInteger i;
+        if (array == NULL) {
+                DSError(M_DS_NULL ": Array pointer is NULL", A_DS_ERROR);
+        }
+        aDictionary = DSDictionaryAlloc();
+        for (i = 0; i < size; i++) {
+                if (array[i] == NULL) {
+                        DSError(M_DS_NULL ": Cannot add a NULL entry to dictionary", A_DS_ERROR);
+                        DSDictionaryFree(aDictionary);
+                        aDictionary = NULL;
+                        goto bail;
+                }
+                sprintf(name, "%i", i);
+                DSDictionaryAddValueWithName(aDictionary, name, array[i]);
+        }
+bail:
+        return aDictionary;
 }
 
 

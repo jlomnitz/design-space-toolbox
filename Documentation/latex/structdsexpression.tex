@@ -1,0 +1,64 @@
+\hypertarget{structdsexpression}{
+\section{dsexpression Struct Reference}
+\label{structdsexpression}\index{dsexpression@{dsexpression}}
+}
+
+
+Data type representing mathematical expressions.  
+
+
+
+
+{\ttfamily \#include $<$DSTypes.h$>$}
+
+
+
+Collaboration diagram for dsexpression:\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structdsexpression_ac18b7c5a93ab2669c0060bda434e3954}{
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>char {\bfseries op\_code}\\
+\>double {\bfseries constant}\\
+\>char $\ast$ \hyperlink{structdsexpression_aab7679056ef1a7836a49d5a2eab18a8f}{variable}\\
+\>\>{\em A string with the name of the variable. }\\
+\} \hyperlink{structdsexpression_ac18b7c5a93ab2669c0060bda434e3954}{node}}
+\label{structdsexpression_ac18b7c5a93ab2669c0060bda434e3954}
+\\
+
+\end{tabbing}\begin{DoxyCompactList}\small\item\em Union of data types potentially contained in the node. \item\end{DoxyCompactList}\item 
+\hypertarget{structdsexpression_ac765329451135abec74c45e1897abf26}{
+int \hyperlink{structdsexpression_ac765329451135abec74c45e1897abf26}{type}}
+\label{structdsexpression_ac765329451135abec74c45e1897abf26}
+
+\begin{DoxyCompactList}\small\item\em Integer specifying the type of node. \item\end{DoxyCompactList}\item 
+\hypertarget{structdsexpression_abef8ea275a9a4e96c207d06a5b409d4a}{
+int \hyperlink{structdsexpression_abef8ea275a9a4e96c207d06a5b409d4a}{numberOfBranches}}
+\label{structdsexpression_abef8ea275a9a4e96c207d06a5b409d4a}
+
+\begin{DoxyCompactList}\small\item\em Number of branches of children, relevant to operators and functions. \item\end{DoxyCompactList}\item 
+\hypertarget{structdsexpression_a35237107e14601d760b6bcd9cc0af0e2}{
+struct \hyperlink{structdsexpression}{dsexpression} $\ast$$\ast$ \hyperlink{structdsexpression_a35237107e14601d760b6bcd9cc0af0e2}{branches}}
+\label{structdsexpression_a35237107e14601d760b6bcd9cc0af0e2}
+
+\begin{DoxyCompactList}\small\item\em Array of expression nodes with children nodes. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data type representing mathematical expressions. This data type is the internal representation of matematical expressions. This data type is an Abstracts Syntax Tree with only three operators: '+', '$\ast$' and '$^\wedge$'. All other operators ('-\/' and '/') are represented by a combination of the former operators. The DSExpression automatically groups constant values, and reserves the first branch of the multiplication and addition operator for constant values. These operators can have any number of branches. The '$^\wedge$' operator can have two, and only two, branches.
+
+\begin{DoxyNote}{Note}
+Functions are handled as variables with a single argument
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{_d_s_expression_8h}{DSExpression.h} 
+
+\hyperlink{_d_s_expression_8c}{DSExpression.c} 
+\end{DoxySeeAlso}
+
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_d_s_types_8h}{DSTypes.h}\end{DoxyCompactItemize}

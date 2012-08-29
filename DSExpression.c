@@ -406,10 +406,10 @@ static double dsExpressionEvaluateMathematicalFunction(const DSExpression *funct
         }
         value = DSExpressionEvaluateWithVariablePool(DSExpressionBranchAtIndex(function, 0), pool);
         switch (DSVariablePoolIndexOfVariableWithName(functionNames, DSExpressionVariable(function))) {
-                case ds_function_index_log:
                 case ds_function_index_ln:
                         eval = log(value);
                         break;
+                case ds_function_index_log:
                 case ds_function_index_log10:
                         eval = log10(value);
                         break;

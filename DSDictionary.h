@@ -1,6 +1,6 @@
 /**
- * \file DSVariable.h
- * \brief Header file with functions for dealing with variables.
+ * \file DSDictionary.h
+ * \brief Header file with functions for dealing with dictionaries.
  *
  * \details 
  *
@@ -57,12 +57,20 @@ extern DSDictionary * DSDictionaryAlloc(void);
 extern void DSDictionaryFree(DSDictionary * aDictionary);
 extern void DSDictionaryFreeWithFunction(DSDictionary * aDictionary, void * freeFunction);
 
-
+extern DSUInteger DSDictionaryCount(const DSDictionary *aDictionary);
 extern void *DSDictionaryValueForName(const DSDictionary *dictionary, const char *name);
+extern const char ** DSDictionaryNames(const DSDictionary *aDictionary);
+
 extern void DSDictionaryAddValueWithName(DSDictionary *dictionary, const char * name, void *value);
+
+#if defined(__APPLE__) && defined(__MACH__)
+#pragma mark - Utility functions
+#endif
 
 extern void DSDictionaryPrint(const DSDictionary *dictionary);
 extern void DSDictionaryPrintWithFunction(const DSDictionary *dictionary, const void * printFunction);
+
+extern DSDictionary * DSDictionaryFromArray(void ** array, DSUInteger size);
 
 #ifdef __cplusplus
 __END_DECLS

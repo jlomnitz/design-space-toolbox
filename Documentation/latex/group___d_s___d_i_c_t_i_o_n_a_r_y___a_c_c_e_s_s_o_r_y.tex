@@ -1,0 +1,36 @@
+\hypertarget{group___d_s___d_i_c_t_i_o_n_a_r_y___a_c_c_e_s_s_o_r_y}{
+\section{Macros to manipulate dictionary nodes.}
+\label{group___d_s___d_i_c_t_i_o_n_a_r_y___a_c_c_e_s_s_o_r_y}\index{Macros to manipulate dictionary nodes.@{Macros to manipulate dictionary nodes.}}
+}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{group___d_s___d_i_c_t_i_o_n_a_r_y___a_c_c_e_s_s_o_r_y_gafb8150844a937da605ec4aa474c4ccaa}{dsInternalDictionarySetValue}(x, y)~((x != NULL) ? x-\/$>$value = y : DSError(M\_\-DS\_\-WRONG \char`\"{}: Dictionary is NULL\char`\"{}, A\_\-DS\_\-ERROR))
+\begin{DoxyCompactList}\small\item\em Macro to set the value of a DSInternalDictionary node. \item\end{DoxyCompactList}\item 
+\#define \hyperlink{group___d_s___d_i_c_t_i_o_n_a_r_y___a_c_c_e_s_s_o_r_y_gab41d65e77a69ffe5fb577a042ab73cdc}{dsInternalDictionaryValue}(x)~((x != NULL) ? x-\/$>$value : NULL)
+\begin{DoxyCompactList}\small\item\em Macro to get the value of a dictionary node. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The following macros are in place for portability and consistency. As the structure of the DSInternalDictionary is subject to changes, using these macros will make the dependent code less subject to errors. 
+
+\subsection{Define Documentation}
+\hypertarget{group___d_s___d_i_c_t_i_o_n_a_r_y___a_c_c_e_s_s_o_r_y_gafb8150844a937da605ec4aa474c4ccaa}{
+\index{DS\_\-DICTIONARY\_\-ACCESSORY@{DS\_\-DICTIONARY\_\-ACCESSORY}!dsInternalDictionarySetValue@{dsInternalDictionarySetValue}}
+\index{dsInternalDictionarySetValue@{dsInternalDictionarySetValue}!DS_DICTIONARY_ACCESSORY@{DS\_\-DICTIONARY\_\-ACCESSORY}}
+\subsubsection[{dsInternalDictionarySetValue}]{\setlength{\rightskip}{0pt plus 5cm}\#define dsInternalDictionarySetValue(x, \/  y)~((x != NULL) ? x-\/$>$value = y : DSError(M\_\-DS\_\-WRONG \char`\"{}: Dictionary is NULL\char`\"{}, A\_\-DS\_\-ERROR))}}
+\label{group___d_s___d_i_c_t_i_o_n_a_r_y___a_c_c_e_s_s_o_r_y_gafb8150844a937da605ec4aa474c4ccaa}
+
+
+Macro to set the value of a DSInternalDictionary node. 
+
+This macro provides a consistent way for changing the value of a dictionary node, despite the internal structure of the data type. This macro is expanded to a simple assignment. \hypertarget{group___d_s___d_i_c_t_i_o_n_a_r_y___a_c_c_e_s_s_o_r_y_gab41d65e77a69ffe5fb577a042ab73cdc}{
+\index{DS\_\-DICTIONARY\_\-ACCESSORY@{DS\_\-DICTIONARY\_\-ACCESSORY}!dsInternalDictionaryValue@{dsInternalDictionaryValue}}
+\index{dsInternalDictionaryValue@{dsInternalDictionaryValue}!DS_DICTIONARY_ACCESSORY@{DS\_\-DICTIONARY\_\-ACCESSORY}}
+\subsubsection[{dsInternalDictionaryValue}]{\setlength{\rightskip}{0pt plus 5cm}\#define dsInternalDictionaryValue(x)~((x != NULL) ? x-\/$>$value : NULL)}}
+\label{group___d_s___d_i_c_t_i_o_n_a_r_y___a_c_c_e_s_s_o_r_y_gab41d65e77a69ffe5fb577a042ab73cdc}
+
+
+Macro to get the value of a dictionary node. 
+
+This macro provides a consistent way for retrieving the value of a DSInternalDictionary node, despite changes in the internal structure of the data type. 

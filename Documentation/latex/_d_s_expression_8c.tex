@@ -1,0 +1,140 @@
+\hypertarget{_d_s_expression_8c}{
+\section{DSExpression.c File Reference}
+\label{_d_s_expression_8c}\index{DSExpression.c@{DSExpression.c}}
+}
+
+
+Implementation file with functions for dealing with mathematical expressions.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$math.h$>$}\par
+{\ttfamily \#include \char`\"{}DSErrors.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSMemoryManager.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSVariable.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSExpression.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSExpressionTokenizer.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}DSTypes.h\char`\"{}}\par
+Include dependency graph for DSExpression.c:This graph shows which files directly or indirectly include this file:\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_expression_8c_a56826acaf50d31e4558375e1e482e971}{
+\#define {\bfseries DS\_\-EXPRESSION\_\-CONSTANT\_\-BRANCH}~0}
+\label{_d_s_expression_8c_a56826acaf50d31e4558375e1e482e971}
+
+\item 
+\hypertarget{_d_s_expression_8c_aacce28d2985e154d813e5f9aff6ccaa3}{
+\#define {\bfseries DS\_\-EXPRESSION\_\-STRING\_\-INIT\_\-LENGTH}~1000}
+\label{_d_s_expression_8c_aacce28d2985e154d813e5f9aff6ccaa3}
+
+\item 
+\hypertarget{_d_s_expression_8c_af1511853cea9b840caf04d927801834d}{
+\#define {\bfseries ds\_\-function\_\-index\_\-log}~0}
+\label{_d_s_expression_8c_af1511853cea9b840caf04d927801834d}
+
+\item 
+\hypertarget{_d_s_expression_8c_a30df4998e3a3f763daa0119faa591808}{
+\#define {\bfseries ds\_\-function\_\-index\_\-ln}~1}
+\label{_d_s_expression_8c_a30df4998e3a3f763daa0119faa591808}
+
+\item 
+\hypertarget{_d_s_expression_8c_a4e9a2e9973f5e1c8c9d61c7c4ac1d092}{
+\#define {\bfseries ds\_\-function\_\-index\_\-log10}~2}
+\label{_d_s_expression_8c_a4e9a2e9973f5e1c8c9d61c7c4ac1d092}
+
+\item 
+\hypertarget{_d_s_expression_8c_aa0f67ea20fcc685de99e4760497ba90b}{
+\#define {\bfseries ds\_\-function\_\-index\_\-cos}~3}
+\label{_d_s_expression_8c_aa0f67ea20fcc685de99e4760497ba90b}
+
+\item 
+\hypertarget{_d_s_expression_8c_a5eba39f6be9e7bc4d4b371a79c10db65}{
+\#define {\bfseries ds\_\-function\_\-index\_\-sin}~4}
+\label{_d_s_expression_8c_a5eba39f6be9e7bc4d4b371a79c10db65}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{_d_s_expression_8c_a0d3722a222023a8677952bb5aa0b56dd}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionAllocWithOperator} (const char op\_\-code)}
+\label{_d_s_expression_8c_a0d3722a222023a8677952bb5aa0b56dd}
+
+\item 
+\hypertarget{_d_s_expression_8c_aea7d132c63527347f3e1474312a89126}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionAllocWithConstant} (const double value)}
+\label{_d_s_expression_8c_aea7d132c63527347f3e1474312a89126}
+
+\item 
+\hypertarget{_d_s_expression_8c_a7801cf181c8c5eb7d47505d9dc98cf4d}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionAllocWithVariableName} (const char $\ast$name)}
+\label{_d_s_expression_8c_a7801cf181c8c5eb7d47505d9dc98cf4d}
+
+\item 
+\hypertarget{_d_s_expression_8c_a421fb70482a371a9c1cccad85f843a67}{
+void {\bfseries DSExpressionFree} (\hyperlink{structdsexpression}{DSExpression} $\ast$root)}
+\label{_d_s_expression_8c_a421fb70482a371a9c1cccad85f843a67}
+
+\item 
+\hypertarget{_d_s_expression_8c_a6d4867e24915ebd378abd3a9762f350d}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionCopy} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression)}
+\label{_d_s_expression_8c_a6d4867e24915ebd378abd3a9762f350d}
+
+\item 
+\hypertarget{_d_s_expression_8c_a179f6a5530ff0852d3e266cf22e535b0}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionByParsingString} (const char $\ast$string)}
+\label{_d_s_expression_8c_a179f6a5530ff0852d3e266cf22e535b0}
+
+\item 
+\hypertarget{_d_s_expression_8c_a6d563f2b52ae0c1b62416af2eba06425}{
+\hyperlink{structdsexpression}{DSExpression} $\ast$ {\bfseries DSExpressionAddExpressions} (\hyperlink{structdsexpression}{DSExpression} $\ast$lvalue, \hyperlink{structdsexpression}{DSExpression} $\ast$rvalue)}
+\label{_d_s_expression_8c_a6d563f2b52ae0c1b62416af2eba06425}
+
+\item 
+\hypertarget{_d_s_expression_8c_abe72cdb703bcc860b975b8cc4458018e}{
+void {\bfseries DSExpressionAddBranch} (\hyperlink{structdsexpression}{DSExpression} $\ast$expression, \hyperlink{structdsexpression}{DSExpression} $\ast$branch)}
+\label{_d_s_expression_8c_abe72cdb703bcc860b975b8cc4458018e}
+
+\item 
+\hypertarget{_d_s_expression_8c_a0ab75800267c17508893a11a900e2e36}{
+double {\bfseries DSExpressionEvaluateWithVariablePool} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression, const \hyperlink{struct_d_s_variable_pool}{DSVariablePool} $\ast$pool)}
+\label{_d_s_expression_8c_a0ab75800267c17508893a11a900e2e36}
+
+\item 
+\hypertarget{_d_s_expression_8c_aecf7720bc7fff6cacde0a5e27df83074}{
+char $\ast$ {\bfseries DSExpressionAsString} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression)}
+\label{_d_s_expression_8c_aecf7720bc7fff6cacde0a5e27df83074}
+
+\item 
+\hypertarget{_d_s_expression_8c_a255aad510b69f8a0691ccff4ad3702c9}{
+char $\ast$ {\bfseries DSExpressionAsTroffString} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression)}
+\label{_d_s_expression_8c_a255aad510b69f8a0691ccff4ad3702c9}
+
+\item 
+\hypertarget{_d_s_expression_8c_a9bb539af87116d9890053b0fcc710ced}{
+void {\bfseries DSExpressionPrint} (const \hyperlink{structdsexpression}{DSExpression} $\ast$expression)}
+\label{_d_s_expression_8c_a9bb539af87116d9890053b0fcc710ced}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file with functions for dealing with mathematical expressions. Copyright (C) 2011 Jason Lomnitz.\par
+\par
+
+
+This file is part of the Design Space Toolbox V2 (C Library).
+
+The Design Space Toolbox V2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The Design Space Toolbox V2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with the Design Space Toolbox. If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http://www.gnu.org/licenses/}$>$.
+
+\begin{DoxyAuthor}{Author}
+Jason Lomnitz. 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2011 
+\end{DoxyDate}

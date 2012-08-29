@@ -46,7 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <h1>DSVariable.c File Reference</h1>
-<p>Implementation file with functions for dealing with variables.  
+<p>Implementation file with functions the DSInternalDictionary object.  
 <a href="#_details">More...</a></p>
 <code>#include &lt;stdbool.h&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
@@ -72,6 +72,10 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Defines</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29cd4d5f310a14a4a285d5265d77bacb"></a><!-- doxytag: member="DSVariable.c::dsVarDictionarySetValue" ref="a29cd4d5f310a14a4a285d5265d77bacb" args="(x, y)" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>dsVarDictionarySetValue</b>(x, y)&nbsp;&nbsp;&nbsp;(((x) != NULL) ? x-&gt;value = (y) : DSError(M_DS_WRONG &quot;: Dictionary is NULL&quot;, A_DS_ERROR))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9928074b7e4bab3f332faf478ae29e81"></a><!-- doxytag: member="DSVariable.c::dsVarDictionaryValue" ref="a9928074b7e4bab3f332faf478ae29e81" args="(x)" -->
+#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>dsVarDictionaryValue</b>(x)&nbsp;&nbsp;&nbsp;(((x) != NULL) ? (x)-&gt;value : NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac38eff6c6cf13f7b7c482de55c042252"></a><!-- doxytag: member="DSVariable.c::dsVariablePoolNumberOfVariables" ref="ac38eff6c6cf13f7b7c482de55c042252" args="(x)" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>dsVariablePoolNumberOfVariables</b>(x)&nbsp;&nbsp;&nbsp;((x)-&gt;numberOfVariables)</td></tr>
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
@@ -79,6 +83,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a new <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a> with INFINITY as a default value.  <a href="#a6f0ce189a8dc8ce46fad1d7a9b34d31f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#aac8fadf2969493124be37a1076a2b885">DSVariableFree</a> (<a class="el" href="struct_d_s_variable.html">DSVariable</a> *var)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function frees allocated memory of a <a class="el" href="struct_d_s_variable.html" title="Basic variable structure containing name, value and NSString with special unicode...">DSVariable</a>.  <a href="#aac8fadf2969493124be37a1076a2b885"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab3d7a8b28623dff23762e1b305429117"></a><!-- doxytag: member="DSVariable.c::DSVariablePrint" ref="ab3d7a8b28623dff23762e1b305429117" args="(const DSVariable *var)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePrint</b> (const <a class="el" href="struct_d_s_variable.html">DSVariable</a> *var)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#a1a5da69573335a86dea1e4a8a6770ea3">DSVariableRetain</a> (<a class="el" href="struct_d_s_variable.html">DSVariable</a> *aVariable)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to increase variable retain count by one.  <a href="#a1a5da69573335a86dea1e4a8a6770ea3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#a4d83eec85c4d9340593a359fd1d5e506">DSVariableRelease</a> (<a class="el" href="struct_d_s_variable.html">DSVariable</a> *aVariable)</td></tr>
@@ -107,11 +113,15 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates and adds a new variable to the variable pool.  <a href="#a795b9def0c0cdd4fd1bd99dee0e18b24"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#aa9ecf8bde68b63daba6f83b95cb4a471">DSVariablePoolAddVariable</a> (<a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, <a class="el" href="struct_d_s_variable.html">DSVariable</a> *newVar)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds an existing variable to the variable pool.  <a href="#aa9ecf8bde68b63daba6f83b95cb4a471"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7d7984c84d2d9617f408310d342d02a3"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolValueForVariableWithName" ref="a7d7984c84d2d9617f408310d342d02a3" args="(const DSVariablePool *pool, const char const *name)" -->
+double&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolValueForVariableWithName</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const char const *name)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0ab405c594ec1e1ba47cd36703d8ae5"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolHasVariableWithName" ref="aa0ab405c594ec1e1ba47cd36703d8ae5" args="(const DSVariablePool *pool, const char *const name)" -->
 bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_variable_8c.html#aa0ab405c594ec1e1ba47cd36703d8ae5">DSVariablePoolHasVariableWithName</a> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const char *const name)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if a <a class="el" href="struct_d_s_variable_pool.html" title="User-level variable pool.">DSVariablePool</a> has a variable with a specified name. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d59ca020b7df35f9d7320147800dad0"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolVariableWithName" ref="a4d59ca020b7df35f9d7320147800dad0" args="(const DSVariablePool *pool, const char *name)" -->
 <a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolVariableWithName</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const char *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2adea119e062ca1932c50808785e667"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolVariableAtIndex" ref="af2adea119e062ca1932c50808785e667" args="(const DSVariablePool *pool, const DSUInteger index)" -->
+const <a class="el" href="struct_d_s_variable.html">DSVariable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolVariableAtIndex</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const DSUInteger index)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca1491d35e9f15e6a00783f58b9e7c6c"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolSetValueForVariableWithName" ref="aca1491d35e9f15e6a00783f58b9e7c6c" args="(const DSVariablePool *pool, const char *name, const double value)" -->
 void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolSetValueForVariableWithName</b> (const <a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a> *pool, const char *name, const double value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7c0345124038d444aa55c6210ac766f5"></a><!-- doxytag: member="DSVariable.c::DSVariablePoolAllVariables" ref="a7c0345124038d444aa55c6210ac766f5" args="(const DSVariablePool *pool)" -->
@@ -133,7 +143,8 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSVariablePoolPrint</
 pthread_mutex_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>retaincount</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<p>Implementation file with functions for dealing with variables. </p>
+<p>Implementation file with functions the DSInternalDictionary object. </p>
+<p>Implementation file with functions for dealing with variables.</p>
 <p>Copyright (C) 2011 Jason Lomnitz.<br/>
 <br/>
 </p>
@@ -655,7 +666,7 @@ pthread_mutex_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>retaincoun
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Feb 17 23:41:00 2012 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Aug 15 11:46:00 2012 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

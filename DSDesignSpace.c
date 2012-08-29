@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <pthread.h>
+#include <unistd.h>
+#include <stdarg.h>
 #include <glpk.h>
 #include "DSMemoryManager.h"
 #include "DSDesignSpace.h"
@@ -41,7 +43,7 @@
 #include "DSSubcase.h"
 
 #define __DS_MAC_OS_X__
-#define DS_PARALLEL_DEFAULT_THREADS             3
+#define DS_PARALLEL_DEFAULT_THREADS             4
 
 #define DSDSGMA(x)                              ((x)->gma)
 //#define DSDSCases(x)                            ((x)->cases)
@@ -63,12 +65,14 @@ extern DSDesignSpace * DSDesignSpaceAlloc(void)
 {
         DSDesignSpace * ds = NULL;
         ds = DSSecureCalloc(sizeof(DSDesignSpace), 1);
-        DSDSSubcases(ds) = DSStackAlloc();
+        DSDSSubcases(ds) = DSDictionaryAlloc();
         return ds;
 }
 
 void DSDesignSpaceFree(DSDesignSpace * ds)
 {
+//        DSUInteger i;
+//        DSStack *aStack = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -82,8 +86,12 @@ void DSDesignSpaceFree(DSDesignSpace * ds)
         if (DSDSDelta(ds) != NULL)
                 DSMatrixFree(DSDSDelta(ds));
         if (DSDSValidPool(ds) != NULL) 
-                DSVariablePoolFree(DSDSValidPool(ds));
-        DSStackFreeWithFunction(DSDSSubcases(ds), DSDesignSpaceFree);
+                DSDictionaryFree(DSDSValidPool(ds));
+//        for (i = 0; i < DSDSSubcases(ds)->count; i++) {
+//                aStack = DSDictionaryValueForName(DSDSSubcases(ds), DSDSSubcases(ds)->names[i]);
+//                DSStackFreeWithFunction(aStack, DSSubcaseFree);
+//        }
+        DSDictionaryFreeWithFunction(DSDSSubcases(ds), DSSubcaseFree);
         DSSecureFree(ds);
 bail:
         return;
@@ -196,8 +204,6 @@ extern void DSDesignSpaceSetGMA(DSDesignSpace * ds, DSGMASystem *gma)
         DSDSXd(ds) = DSGMASystemXd(gma);
         DSDSXi(ds) = DSGMASystemXi(gma);
         DSDSNumCases(ds) = DSGMASystemNumberOfCases(DSDSGMA(ds));
-//        DSDSCases(ds) = DSSecureCalloc(sizeof(DSCase *), DSDSNumCases(ds));
-//        DSDSValid(ds) = DSSecureCalloc(sizeof(bool), DSDSNumCases(ds));
 bail:
         return;
 }
@@ -265,6 +271,18 @@ bail:
 #pragma mark - Getter functions
 #endif
 
+extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds)
+{
+        const DSVariablePool * Xi = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        Xi = DSDSXi(ds);
+bail:
+        return Xi;
+}
+
 extern const DSUInteger DSDesignSpaceNumberOfEquations(const DSDesignSpace *ds)
 {
         DSUInteger numberOfEquations = 0;
@@ -276,7 +294,18 @@ extern const DSUInteger DSDesignSpaceNumberOfEquations(const DSDesignSpace *ds)
 bail:
         return numberOfEquations;
 }
-extern DSExpression ** DSDesignSpaceEquations(const DSDesignSpace *ds);
+
+extern DSExpression ** DSDesignSpaceEquations(const DSDesignSpace *ds)
+{
+        DSExpression ** equations =NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        equations = DSGMASystemEquations(DSDSGMA(ds));
+bail:
+        return equations;
+}
 
 extern const DSUInteger DSDesignSpaceNumberOfCases(const DSDesignSpace *ds)
 {
@@ -303,12 +332,25 @@ extern const DSUInteger DSDesignSpaceNumberOfValidCases(const DSDesignSpace *ds)
         }
         if (DSDSValidPool(ds) == NULL)
                 DSDesignSpaceCalculateValidityOfCases((DSDesignSpace *)ds);
-        numberValdCases = DSVariablePoolNumberOfVariables(DSDSValidPool(ds));
+        numberValdCases = DSDictionaryCount(DSDSValidPool(ds));
 bail:
         return numberValdCases;
 }
 
-extern const DSUInteger * DSDesignSpaceSignature(const DSDesignSpace *ds);
+extern const DSUInteger * DSDesignSpaceSignature(const DSDesignSpace *ds)
+{
+        const DSUInteger * signature = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDesignSpaceGMASystem(ds) == NULL) {
+                goto bail;
+        }
+        signature = DSGMASystemSignature(DSDesignSpaceGMASystem(ds));
+bail:
+        return signature;
+}
 
 extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const DSUInteger caseNumber)
 {
@@ -330,19 +372,11 @@ extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const 
                 DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
                 goto bail;
         }
-//        if (DSDSCases(ds) == NULL) {
-//                DSError(M_DS_NULL ": Array of cases is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        aCase = DSDSCases(ds)[caseNumber-1];
-//        if (aCase == NULL) {
-                terms = DSCaseSignatureForCaseNumber(caseNumber, DSDSGMA(ds));
-                if (terms != NULL) {
-                        aCase = DSCaseWithTermsFromDesignSpace(ds, terms);
-//                        DSDSCases(ds)[caseNumber-1] = aCase;
-                        DSSecureFree(terms);
-                }
-//        }
+        terms = DSCaseSignatureForCaseNumber(caseNumber, DSDSGMA(ds));
+        if (terms != NULL) {
+                aCase = DSCaseWithTermsFromDesignSpace(ds, terms);
+                DSSecureFree(terms);
+        }
 bail:
         return aCase;
 }
@@ -403,7 +437,7 @@ extern const bool DSDesignSpaceCaseWithCaseNumberIsValid(const DSDesignSpace *ds
                 DSDesignSpaceCalculateValidityOfCases((DSDesignSpace *)ds);
         string = DSSecureCalloc(sizeof(char), 100);
         sprintf(string, "%d", caseNumber);
-        isValid = DSVariablePoolHasVariableWithName(DSDSValidPool(ds), string);
+        isValid = ((DSDictionaryValueForName(DSDSValidPool(ds), string) != NULL) ? true : false);
 //        isValid = DSCaseIsValid(DSDesignSpaceCaseWithCaseNumber(ds, caseNumber));
         DSSecureFree(string);
 bail:
@@ -428,6 +462,27 @@ bail:
 
 extern const bool DSDesignSpaceCaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
 
+extern const DSStack * DSDesignSpaceSubcasesForCaseNumber(DSDesignSpace *ds, const DSUInteger caseNumber)
+{
+        DSStack * subcases = NULL;
+        char * string = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (caseNumber == 0 || caseNumber > DSDesignSpaceNumberOfCases(ds)) {
+                DSError(M_DS_WRONG ": Case number is out of bounds", A_DS_ERROR);
+                goto bail;
+        }
+        DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(ds, caseNumber);
+        string = DSSecureCalloc(sizeof(char), 100);
+        sprintf(string, "%i", caseNumber);
+        subcases = DSDictionaryValueForName(ds->subcases, string);
+        DSSecureFree(string);
+bail:
+        return subcases;
+}
+
 extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds)
 {
         DSGMASystem *gma = NULL;
@@ -438,6 +493,18 @@ extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds)
         gma = DSDSGMA(ds);
 bail:
         return gma;
+}
+
+extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds)
+{
+        DSDictionary * dictionary = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        dictionary = DSDSSubcases(ds);
+bail:
+        return dictionary;
 }
 
 #if defined (__APPLE__) && defined (__MACH__)
@@ -500,10 +567,51 @@ bail:
 //        return;  
 //}
 
+static void dsDesignSpaceCalculateValiditySeries(DSDesignSpace *ds)
+{
+        DSUInteger i;
+        char * string = NULL;
+        DSCase * aCase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSValidPool(ds) != NULL) {
+                DSError(M_DS_WRONG ": Valid cases has already been calculated.", A_DS_WARN);
+                goto bail;
+        }
+        
+        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
+                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        DSDSValidPool(ds) = DSDictionaryAlloc();//DSVariablePoolAlloc();
+        string = DSSecureCalloc(sizeof(char), 100);
+        for (i = 0; i < DSDSNumCases(ds); i++) {
+                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
+                if (aCase == NULL)
+                        continue;
+                if (DSCaseIsValid(aCase) == true) {
+                        sprintf(string, "%d", aCase->caseNumber);
+                        DSDictionaryAddValueWithName(DSDSValidPool(ds), string, (void*)1);
+                }
+                DSCaseFree(aCase);
+                
+        }
+        DSSecureFree(string);
+        
+bail:
+        return;
+}
+
 static DSCase ** dsDesignSpaceCalculateCasesParallelBSD(DSDesignSpace *ds, const DSUInteger numberOfCases, DSUInteger *cases)
 {
         DSUInteger i;
-        DSUInteger numberOfThreads = DS_PARALLEL_DEFAULT_THREADS;
+        DSUInteger numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
         pthread_t * threads = NULL;
         pthread_attr_t attr;
         ds_parallelstack_t *stack;
@@ -538,7 +646,6 @@ static DSCase ** dsDesignSpaceCalculateCasesParallelBSD(DSDesignSpace *ds, const
         /* Should optimize number of threads to system Optimal ~ 2*number of processors */
 
         /* Initializing parallel data stacks and pthreads data structure */
-//        stacks = DSSecureMalloc(sizeof(ds_parallelstack_t *)*numberOfThreads);
         pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
         stack = DSParallelStackAlloc();
         stack->cases = processedCases;
@@ -557,8 +664,7 @@ static DSCase ** dsDesignSpaceCalculateCasesParallelBSD(DSDesignSpace *ds, const
         for (i = 0; i < numberOfThreads; i++)
                 pthread_join(threads[i], NULL);
         
-//        for (i = 0; i < numberOfThreads; i++) 
-                DSParallelStackFree(stack);
+        DSParallelStackFree(stack);
 
         DSSecureFree(threads);
         DSSecureFree(pdatas);
@@ -567,136 +673,15 @@ bail:
         return processedCases;
 }
 
-//static void  dsDesignSpaceCalculateCasesParallelBSDSaveToFile(DSDesignSpace *ds, const char *filename, const bool overwrite)
-//{
-//        DSUInteger i;
-//        DSUInteger numberOfThreads = 2;
-//        FILE *outfile = NULL;
-//        pthread_t * threads = NULL;
-//        pthread_attr_t attr;
-//        ds_parallelstack_t *stack;
-//        struct pthread_struct pdata;
-//        
-//        if (ds == NULL) {
-//                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-////        if (DSDSCases(ds) == NULL) {
-////                DSError(M_DS_NULL ": Array of cases is NULL", A_DS_ERROR);
-////        }
-//        if (DSDSGMA(ds) == NULL) {
-//                DSError(M_DS_GMA_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
-//                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (filename == NULL) {
-//                DSError(M_DS_NULL ": String with filename is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (strlen(filename) == 0) {
-//                DSError(M_DS_WRONG ": String with filename is empty", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (overwrite == false) {
-//                outfile = fopen(filename, "r");
-//                if (outfile != NULL) {
-//                        DSError(M_DS_WRONG ": File exists and overwrite is restricted", A_DS_WARN);
-//                        fclose(outfile);
-//                        goto bail;
-//                }
-//        }
-//        outfile = fopen(filename, "w");
-//        DSParallelInitMutexes();
-//        pthread_attr_init(&attr);
-//        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-//        /* Should optimize number of threads to system Optimal = number of processors */
-//        
-//        /* Initializing parallel data stacks and pthreads data structure */
-//        stack = DSParallelStackAlloc();
-//        pdata.ds = ds;
-//        pdata.stack = stack;
-//        pdata.file = outfile;
-//        
-//        for (i = DSDSNumCases(ds); i > 0; i--)
-//                DSParallelStackPush(stack, i);
-//        
-//        threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
-//        
-//        fprintf(outfile, "{ \"Cases\" : [ ");
-//        for (i = 0; i < numberOfThreads; i++)
-//                pthread_create(&threads[i], &attr, DSParallelWorkerCasesSaveToDisk, (void *)(&pdata));
-//        /* Joining all the N-threads, indicating all cases have been processed */
-//        for (i = 0; i < numberOfThreads; i++)
-//                pthread_join(threads[i], NULL);
-//        
-//        fprintf(outfile, "true]}");
-//        
-//        DSSecureFree(threads);
-//        DSParallelStackFree(stack);
-//        pthread_attr_destroy(&attr); 
-//        fclose(outfile);
-//bail:
-//        return;
-//}
-
-static void dsDesignSpaceCalculateValiditySeries(DSDesignSpace *ds)
-{
-        DSUInteger i;
-        char * string = NULL;
-        DSCase * aCase = NULL;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (DSDSGMA(ds) == NULL) {
-                DSError(M_DS_GMA_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (DSDSValidPool(ds) != NULL) {
-                DSError(M_DS_WRONG ": Valid cases has already been calculated.", A_DS_WARN);
-                goto bail;
-        }
-
-        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
-                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        DSDSValidPool(ds) = DSVariablePoolAlloc();
-        string = DSSecureCalloc(sizeof(char), 100);
-        for (i = 0; i < DSDSNumCases(ds); i++) {
-                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
-                if (aCase == NULL)
-                        continue;
-                if (DSCaseIsValid(aCase) == true) {
-                        sprintf(string, "%d", i+1);//aCase->caseNumber);
-                        DSVariablePoolAddVariableWithName(DSDSValidPool(ds), string);
-                }
-                DSCaseFree(aCase);
-                    
-        }
-        DSSecureFree(string);
-        
-bail:
-        return;
-}
 
 static void  dsDesignSpaceCalculateValidityParallelBSD(DSDesignSpace *ds)
 {
         DSUInteger i;
-        DSUInteger numberOfThreads = DS_PARALLEL_DEFAULT_THREADS;
+        DSUInteger numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
         pthread_t * threads = NULL;
         pthread_attr_t attr;
-        ds_parallelstack_t **stacks;
+        ds_parallelstack_t *stack;
         struct pthread_struct *pdatas;
-        /* GLPK is *NOT* Thread-safe or re-entrant */
-        {
-                DSError("Calculate validity in parallel requires GLPK: GLPK is not re-entrant", A_DS_ERROR);
-                dsDesignSpaceCalculateValiditySeries(ds);
-                goto bail;
-        }
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -709,21 +694,21 @@ static void  dsDesignSpaceCalculateValidityParallelBSD(DSDesignSpace *ds)
                 DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
                 goto bail;
         }
-        
+        DSDSValidPool(ds) = DSDictionaryAlloc();//DSVariablePoolAlloc();
         pthread_attr_init(&attr);
         pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
         /* Should optimize number of threads to system */
         
         /* Initializing parallel data stacks and pthreads data structure */
-        stacks = DSSecureMalloc(sizeof(ds_parallelstack_t *)*numberOfThreads);
+//        stack = DSSecureMalloc(sizeof(ds_parallelstack_t *)*numberOfThreads);
+        stack = DSParallelStackAlloc();
         pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
         for (i = 0; i < numberOfThreads; i++) {
-                stacks[i] = DSParallelStackAlloc();
                 pdatas[i].ds = ds;
-                pdatas[i].stack = stacks[i];
+                pdatas[i].stack = stack;
         }
         for (i = 0; i < DSDSNumCases(ds); i++)
-                DSParallelStackPush(stacks[i % numberOfThreads], i+1);
+                DSParallelStackPush(stack, i+1);
         
         threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
         /* Creating the N-threads with their data */
@@ -732,11 +717,9 @@ static void  dsDesignSpaceCalculateValidityParallelBSD(DSDesignSpace *ds)
         /* Joining all the N-threads, indicating all cases have been processed */
         for (i = 0; i < numberOfThreads; i++)
                 pthread_join(threads[i], NULL);
-        for (i = 0; i < numberOfThreads; i++) 
-                DSParallelStackFree(stacks[i]);
-        
+        DSParallelStackFree(stack);
+
         DSSecureFree(threads);
-        DSSecureFree(stacks);
         DSSecureFree(pdatas);
         pthread_attr_destroy(&attr); 
 bail:
@@ -780,7 +763,7 @@ extern DSCase ** DSDesignSpaceCalculateAllValidCases(DSDesignSpace *ds)
                 goto bail;
         validCaseNumbers = DSSecureMalloc(sizeof(DSUInteger)*numberValid);
         for (i = 0; i < numberValid; i++) {
-                validCaseNumbers[i] = atoi(DSVariableName(DSVariablePoolAllVariables(ds->validCases)[i]));
+                validCaseNumbers[i] = atoi(ds->validCases->names[i]);
         }
         validCases = DSDesignSpaceCalculateCases(ds, numberValid, validCaseNumbers);
         DSSecureFree(validCaseNumbers);
@@ -788,22 +771,75 @@ bail:
         return validCases;
 }
 
-//extern void DSDesignSpaceCalculateAllCasesAndSaveToFile(DSDesignSpace *ds, const char * path, const bool overwrite)
-//{
-//        //        FILE *file = NULL;
-////        dsDesignSpaceCalculateCasesParallelBSDSaveToFile(ds, path, overwrite);
-//}
-
-extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds)
+extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
 {
-        DSUInteger i, numberOfCases;
-        DSCase *aCase;
+        DSDictionary * caseDictionary = NULL;
+        DSUInteger i, numberValid = 0, numberValidSlice = 0;
+        DSUInteger validCaseNumbers = 0;
+        char nameString[100];
+        DSCase * aCase = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (DSStackCount(ds->subcases) != 0) {
-                DSError(M_DS_WRONG ": Underdetermined cases have been calculated", A_DS_ERROR);
+        caseDictionary = DSDictionaryAlloc();
+        numberValidSlice = 0;
+        numberValid = DSDesignSpaceNumberOfValidCases(ds);
+        if (numberValid == 0)
+                goto bail;
+        for (i = 0; i < numberValid; i++) {
+                validCaseNumbers = atoi(ds->validCases->names[i]);
+                aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
+                sprintf(nameString, "%d", validCaseNumbers);
+                if (DSCaseIsValidAtSlice(aCase, lower, upper) == true)
+                        DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
+                else
+                        DSCaseFree(aCase);
+        }
+bail:
+        return caseDictionary;
+}
+
+extern void DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(DSDesignSpace *ds, DSUInteger caseNumber)
+{
+        DSUInteger numberOfCases;
+        char * string = NULL;
+        DSCase *aCase = NULL;
+        DSSubcase * aSubcase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberOfCases = DSDesignSpaceNumberOfCases(ds);
+        if (numberOfCases == 0 || caseNumber > numberOfCases) {
+                goto bail;
+        }
+        if (DSDesignSpaceCaseWithCaseNumberIsValid(ds, caseNumber) == true) {
+                goto bail;
+        }
+        string = DSSecureCalloc(sizeof(char), 100);
+        aCase = DSDesignSpaceCaseWithCaseNumber(ds, caseNumber);
+        sprintf(string, "%i", caseNumber);
+        if (DSDictionaryValueForName(DSDSSubcases(ds), string) == NULL) {
+//                DSSubcaseDesignSpaceForUnderdeterminedCase(aCase, ds);
+                aSubcase = DSSubcaseForCaseInDesignSpace(ds, aCase);
+                if (aSubcase != NULL)
+//                        if (DSSubcaseIsValid(aSubcase) == true)
+                                DSDictionaryAddValueWithName(ds->subcases, string, aSubcase);
+        }
+        if (string != NULL)
+                DSSecureFree(string);
+        if (aCase != NULL)
+                DSCaseFree(aCase);
+bail:
+        return;
+}
+
+extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds)
+{
+        DSUInteger i, numberOfCases;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
         numberOfCases = DSDesignSpaceNumberOfCases(ds);
@@ -811,11 +847,12 @@ extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds)
                 goto bail;
         }
         for (i = 0; i < numberOfCases; i++) {
-                if (DSDesignSpaceCaseWithCaseNumberIsValid(ds, i+1) == true)
-                        continue;
-                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
-                DSSubcaseDesignSpaceForUnderdeterminedCase(aCase, ds);
-                DSCaseFree(aCase);
+                DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(ds, i+1);
+//                if (DSDesignSpaceCaseWithCaseNumberIsValid(ds, i+1) == true)
+//                        continue;
+//                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
+//                DSSubcaseDesignSpaceForUnderdeterminedCase(aCase, ds);
+//                DSCaseFree(aCase);
         }
 bail:
         return;
@@ -823,12 +860,14 @@ bail:
 
 extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds)
 {
-        dsDesignSpaceCalculateValiditySeries(ds);
+        dsDesignSpaceCalculateValidityParallelBSD(ds);
+//        dsDesignSpaceCalculateValiditySeries(ds);
 }
 
 extern void DSDesignSpacePrint(const DSDesignSpace * ds)
 {
         int (*print)(const char *, ...);
+//        printf("%p\n", ds);
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;

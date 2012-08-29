@@ -1,0 +1,61 @@
+\hypertarget{structparser__aux}{
+\section{parser\_\-aux Struct Reference}
+\label{structparser__aux}\index{parser\_\-aux@{parser\_\-aux}}
+}
+
+
+Data type used to parse strings to GMA System.  
+
+
+
+
+{\ttfamily \#include $<$DSGMASystemParsingAux.h$>$}
+
+
+
+Collaboration diagram for parser\_\-aux:\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+union \hyperlink{unionparser__aux_1_1base__info}{base\_\-info}
+\end{DoxyCompactItemize}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structparser__aux_af58136c20626613559589ae2ac0aace8}{
+char \hyperlink{structparser__aux_af58136c20626613559589ae2ac0aace8}{sign}}
+\label{structparser__aux_af58136c20626613559589ae2ac0aace8}
+
+\begin{DoxyCompactList}\small\item\em The sign of the term represented by the current node. \item\end{DoxyCompactList}\item 
+\hypertarget{structparser__aux_a51143f67fc1a8646e37748f07f121abb}{
+union \hyperlink{unionparser__aux_1_1base__info}{parser\_\-aux::base\_\-info} $\ast$ \hyperlink{structparser__aux_a51143f67fc1a8646e37748f07f121abb}{bases}}
+\label{structparser__aux_a51143f67fc1a8646e37748f07f121abb}
+
+\begin{DoxyCompactList}\small\item\em Dynamically allocated array of bases, can be either variables or constants. \item\end{DoxyCompactList}\item 
+\hypertarget{structparser__aux_aeb0b956846d368445f544330406728e7}{
+bool \hyperlink{structparser__aux_aeb0b956846d368445f544330406728e7}{succeded}}
+\label{structparser__aux_aeb0b956846d368445f544330406728e7}
+
+\begin{DoxyCompactList}\small\item\em A flag indicating if the parsing of the expression was succesful. \item\end{DoxyCompactList}\item 
+\hypertarget{structparser__aux_ad4a14cee9667439f874f08eea0df7df3}{
+double $\ast$ \hyperlink{structparser__aux_ad4a14cee9667439f874f08eea0df7df3}{exponents}}
+\label{structparser__aux_ad4a14cee9667439f874f08eea0df7df3}
+
+\begin{DoxyCompactList}\small\item\em A dynamically allocated array of exponents, must be constants. \item\end{DoxyCompactList}\item 
+\hypertarget{structparser__aux_a766614a87ce6e43661815b8f9f3560f7}{
+DSUInteger \hyperlink{structparser__aux_a766614a87ce6e43661815b8f9f3560f7}{numberOfBases}}
+\label{structparser__aux_a766614a87ce6e43661815b8f9f3560f7}
+
+\begin{DoxyCompactList}\small\item\em The number of base-\/exponents pairs in the term. \item\end{DoxyCompactList}\item 
+\hypertarget{structparser__aux_aa1021e1ebd964427cfc06e1400180a26}{
+struct \hyperlink{structparser__aux}{parser\_\-aux} $\ast$ \hyperlink{structparser__aux_aa1021e1ebd964427cfc06e1400180a26}{next}}
+\label{structparser__aux_aa1021e1ebd964427cfc06e1400180a26}
+
+\begin{DoxyCompactList}\small\item\em A pointer to the next node, representing the next term in the equation. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data type used to parse strings to GMA System. This data structure forms an organized list of terms, each with base exponent pairs that are then used to create the system matrices. This data structure is key for the parsing of GMA systems. Each node in the gma\_\-parseraux\_\-t list represent a term in an expression in the order it was found, and each node points to the next term. Each expression, or equation, has it's own list of terms. If a base is a constant, then it should not have an exponent, and hence it's exponent is assigned a NAN value and this is used to indicate that the base is a constant. 
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_d_s_g_m_a_system_parsing_aux_8h}{DSGMASystemParsingAux.h}\end{DoxyCompactItemize}

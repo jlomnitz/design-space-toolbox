@@ -163,6 +163,7 @@ extern bool DSMatrixIsSquare(const DSMatrix *matrix);
 extern DSUInteger DSMatrixRank(const DSMatrix *matrix);
 extern double minimumValue(const DSMatrix *matrix, const bool shouldExcludeZero);
 extern double maximumValue(const DSMatrix *matrix, const bool shouldExcludeZero);
+extern complex double DSMatrixDominantEigenvalue(const DSMatrix *matrix);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Matrix Operations

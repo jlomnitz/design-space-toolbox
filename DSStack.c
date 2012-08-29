@@ -1,10 +1,30 @@
-//
-//  DSStack.c
-//  DesignSpaceToolboxV2
-//
-//  Created by Jason Lomnitz on 9/27/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/**
+ * \file DSStack.h
+ * \brief Implementation file with functions for dealing with stack objects.
+ *
+ * \details 
+ *
+ * Copyright (C) 2011 Jason Lomnitz.\n\n
+ *
+ * This file is part of the Design Space Toolbox V2 (C Library).
+ *
+ * The Design Space Toolbox V2 is free software: you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Design Space Toolbox V2 is distributed in the hope that it will be 
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with the Design Space Toolbox. If not, see 
+ * <http://www.gnu.org/licenses/>.
+ *
+ * \author Jason Lomnitz.
+ * \date 2011
+ */
 
 #include <stdio.h>
 
@@ -12,7 +32,7 @@
 #include "DSMemoryManager.h"
 #include "DSStack.h"
 
-#define DS_STACKSIZE_INCREMENT 10
+#define DS_STACKSIZE_INCREMENT 100
 
 extern DSStack * DSStackAlloc(void)
 {
@@ -87,18 +107,18 @@ extern void * DSStackPop(DSStack *stack)
         object = *(stack->current);
         if (stack->count == stack->size-DS_STACKSIZE_INCREMENT) {
                 stack->size -= DS_STACKSIZE_INCREMENT;
-                if (stack->count == 0) {
-                        DSSecureFree(stack->base);
-                        stack->base = NULL;
-                } else {
+                if (stack->count != 1) {
                         stack->base = DSSecureRealloc(stack->base, sizeof(void *)*stack->size);
                 }
         }
         stack->count--;
-        if (stack->count == 0)
+        if (stack->count == 0) {
+                DSSecureFree(stack->base);
+                stack->base = NULL;
                 stack->current = NULL;
-        else
+        } else {
                 stack->current = stack->base+(stack->count-1);
+        }
 bail:
         pthread_mutex_unlock(&stack->pushpop);
         return object;

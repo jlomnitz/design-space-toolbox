@@ -65,15 +65,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00069"></a><a class="code" href="group___d_s___s_s_y_s_t_e_m___j_s_o_n___o_p_t_i_o_n_s.html#ga81352fdd00a529e9a2bc2be107fd7a9b">00069</a> <span class="preprocessor"></span><span class="preprocessor">#define DS_SSYSTEM_JSON_NO_SINGULAR       2  //!&lt; Flag value indicating that the JSON string will not indicate if the S-System is singular.</span>
 <a name="l00070"></a>00070 <span class="preprocessor"></span><span class="comment">/*\}*/</span>
 <a name="l00071"></a>00071 
-<a name="l00083"></a><a class="code" href="_d_s_i_o_8h.html#a01ab8215975bf8e2086ad342cfa6be26">00083</a> int (*<a class="code" href="_d_s_i_o_8h.html#a01ab8215975bf8e2086ad342cfa6be26" title="Pointer to a function determining how messages are printed.">DSPrintf</a>)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, ...);
+<a name="l00083"></a>00083 <span class="keyword">extern</span> int (*<a class="code" href="_d_s_i_o_8c.html#a01ab8215975bf8e2086ad342cfa6be26" title="Pointer to a function determining how messages are printed.">DSPrintf</a>)(<span class="keyword">const</span> <span class="keywordtype">char</span> *, ...);
 <a name="l00084"></a>00084 
-<a name="l00098"></a><a class="code" href="_d_s_i_o_8h.html#af12cf032b729ba022698fadaccfea33d">00098</a> void (*<a class="code" href="_d_s_i_o_8h.html#af12cf032b729ba022698fadaccfea33d" title="Pointer to a function determining how warning are handled.">DSPostWarning</a>)(<span class="keyword">const</span> <span class="keywordtype">char</span> *message);
+<a name="l00098"></a>00098 <span class="keyword">extern</span> void (*<a class="code" href="_d_s_i_o_8c.html#af12cf032b729ba022698fadaccfea33d" title="Pointer to a function determining how warning are handled.">DSPostWarning</a>)(<span class="keyword">const</span> <span class="keywordtype">char</span> *message);
 <a name="l00099"></a>00099 
-<a name="l00114"></a><a class="code" href="_d_s_i_o_8h.html#a40c3f80fe9e5002beb7d258e4f89c8d2">00114</a> void (*<a class="code" href="_d_s_i_o_8h.html#a40c3f80fe9e5002beb7d258e4f89c8d2" title="Pointer to a function determining how errors are handled.">DSPostError</a>)(<span class="keyword">const</span> <span class="keywordtype">char</span> *message);
+<a name="l00114"></a>00114 <span class="keyword">extern</span> void (*<a class="code" href="_d_s_i_o_8c.html#a40c3f80fe9e5002beb7d258e4f89c8d2" title="Pointer to a function determining how errors are handled.">DSPostError</a>)(<span class="keyword">const</span> <span class="keywordtype">char</span> *message);
 <a name="l00115"></a>00115 
-<a name="l00130"></a><a class="code" href="_d_s_i_o_8h.html#a41b7b42028f3c25f17ca479154c7492d">00130</a> void (*<a class="code" href="_d_s_i_o_8h.html#a41b7b42028f3c25f17ca479154c7492d" title="Pointer to a function determining how fatal errors are handled.">DSPostFatalError</a>)(<span class="keyword">const</span> <span class="keywordtype">char</span> *message);
+<a name="l00130"></a>00130 <span class="keyword">extern</span> void (*<a class="code" href="_d_s_i_o_8c.html#a41b7b42028f3c25f17ca479154c7492d" title="Pointer to a function determining how fatal errors are handled.">DSPostFatalError</a>)(<span class="keyword">const</span> <span class="keywordtype">char</span> *message);
 <a name="l00131"></a>00131 
-<a name="l00146"></a><a class="code" href="_d_s_i_o_8h.html#af8405bae84409f99d5fa564ebaff4c91">00146</a> FILE * <a class="code" href="_d_s_i_o_8h.html#af8405bae84409f99d5fa564ebaff4c91" title="FILE pointer used for default error/warning printing.">DSIOErrorFile</a>;
+<a name="l00146"></a>00146 <span class="keyword">extern</span> FILE * <a class="code" href="_d_s_i_o_8c.html#af8405bae84409f99d5fa564ebaff4c91" title="FILE pointer used for default error/warning printing.">DSIOErrorFile</a>;
 <a name="l00147"></a>00147 
 <a name="l00148"></a>00148 
 <a name="l00149"></a>00149 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="_d_s_i_o_8c.html#a71e4035e82cf614f1be280b127213ca6" title="Function to assign default error file.">DSIOSetErrorFile</a>(FILE *aFile);
@@ -135,7 +135,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Feb 17 23:40:59 2012 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Aug 15 11:45:55 2012 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

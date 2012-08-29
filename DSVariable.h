@@ -140,11 +140,15 @@ extern bool DSVariablePoolIsReadWrite(const DSVariablePool *pool);
 extern bool DSVariablePoolIsReadWriteAdd(const DSVariablePool *pool);
 
 extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * const name);
+
 extern DSVariable *DSVariablePoolVariableWithName(const DSVariablePool *pool, const char *name);
-//extern double DSVariablePoolValueForVariable(con
+extern const DSVariable * DSVariablePoolVariableAtIndex(const DSVariablePool *pool, const DSUInteger index);
+
+extern double DSVariablePoolValueForVariableWithName(const DSVariablePool *pool, const char const *name);
 
 extern const DSVariable ** DSVariablePoolAllVariables(const DSVariablePool *pool);
 extern const char ** DSVariablePoolAllVariableNames(const DSVariablePool *pool);
+
 
 extern DSUInteger DSVariablePoolIndexOfVariable(const DSVariablePool *pool, const DSVariable *var);
 extern DSUInteger DSVariablePoolIndexOfVariableWithName(const DSVariablePool *pool, const char *name);

@@ -62,9 +62,6 @@ Include dependency graph for DSTypes.h:</div>
 <div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dynsection">
-<div class="center"><img src="_d_s_types_8h__dep__incl.png" border="0" usemap="#_d_s_types_8hdep_map" alt=""/></div>
-<map name="_d_s_types_8hdep_map" id="_d_s_types_8hdep">
-<area shape="rect" href="_d_s_errors_8c.html" title="Implementation file with functions for error and exception handling." alt="" coords="208,231,314,258" /><area shape="rect" href="_d_s_errors_8h.html" title="Header file with functions for error and exception handling." alt="" coords="464,157,573,183" /><area shape="rect" href="_d_s_matrix__gsl_8c.html" title="Implementation file with functions for dealing with matrices using the GNU Scientific..." alt="" coords="338,306,482,333" /><area shape="rect" href="_d_s_std_8h.html" title="Header file for the design space toolbox." alt="" coords="928,306,1016,333" /><area shape="rect" href="_d_s_i_o_8h.html" title="Header file with standard input and output functions." alt="" coords="700,82,774,109" /><area shape="rect" href="_d_s_matrix_8h.html" title="Header file with functions for dealing with matrices." alt="" coords="597,157,706,183" /><area shape="rect" href="_d_s_matrix_array_8h.html" title="Header file with functions for dealing with matrix arrays." alt="" coords="834,231,989,258" /><area shape="rect" href="_d_s_variable_8h.html" title="Header file with functions for dealing with variables." alt="" coords="8,82,133,109" /><area shape="rect" href="_d_s_memory_manager_8h.html" title="Header file with functions for secure memory allocation." alt="" coords="514,231,709,258" /><area shape="rect" href="_d_s_variable_8c.html" title="Implementation file with functions for dealing with variables." alt="" coords="189,306,314,333" /><area shape="rect" href="_d_s_matrix_array_8c.html" title="Implementation file with functions for dealing with matrix arrays." alt="" coords="749,306,904,333" /><area shape="rect" href="_d_s_memory_manager_8c.html" title="implementation file with functions for secure memory management." alt="" coords="530,306,725,333" /><area shape="rect" href="_d_s_i_o_8c.html" title="Implementation file with standard input and output functions." alt="" coords="730,157,805,183" /></map>
 </div>
 
 <p><a href="_d_s_types_8h_source.html">Go to the source code of this file.</a></p>
@@ -76,6 +73,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Basic variable structure containing name, value and NSString with special unicode characters for greek letters.  <a href="struct_d_s_variable.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__var_dictionary.html">_varDictionary</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal dictionary structure.  <a href="struct__var_dictionary.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_dictionary.html">DSDictionary</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_stack.html">DSStack</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_variable_pool.html">DSVariablePool</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">User-level variable pool.  <a href="struct_d_s_variable_pool.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdsexpression.html">dsexpression</a></td></tr>
@@ -92,9 +91,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type representing an S-System.  <a href="struct_d_s_s_system.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_case.html">DSCase</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type used to represent a case.  <a href="struct_d_s_case.html#_details">More...</a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_design_space_stack.html">DSDesignSpaceStack</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_design_space.html">DSDesignSpace</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type used to represent a design space/.  <a href="struct_d_s_design_space.html#_details">More...</a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type used to represent a design space.  <a href="struct_d_s_design_space.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d_s_subcase.html">DSSubcase</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type used to represent a subcase.  <a href="struct_d_s_subcase.html#_details">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2>Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0c1167bb311135eecf24a0e7c885b7f"></a><!-- doxytag: member="DSTypes.h::endif" ref="aa0c1167bb311135eecf24a0e7c885b7f" args="" -->
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><b>endif</b></td></tr>
@@ -107,6 +107,8 @@ This graph shows which files directly or indirectly include this file:</div>
 typedef int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSInteger</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a176fc92c26d2116f67d6043e728adbb5"></a><!-- doxytag: member="DSTypes.h::DSUInteger" ref="a176fc92c26d2116f67d6043e728adbb5" args="" -->
 typedef unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><b>DSUInteger</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_types_8h.html#aa8c7ec369cceb873a0dd53d522ad40b3">DSInternalDictionary</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal dictionary structure.  <a href="#aa8c7ec369cceb873a0dd53d522ad40b3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdsexpression.html">dsexpression</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_types_8h.html#a0e38606b8798b0ac4d071bdae90e38d2">DSExpression</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Data type representing mathematical expressions.  <a href="#a0e38606b8798b0ac4d071bdae90e38d2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="struct_d_s_matrix.html">DSMatrix</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_d_s_types_8h.html#a5f12820c57baff63fddbef60dc6b53d7">DSComplexMatrix</a></td></tr>
@@ -172,6 +174,23 @@ DSComplexMatrix.c </dd></dl>
 
 </div>
 </div>
+<a class="anchor" id="aa8c7ec369cceb873a0dd53d522ad40b3"></a><!-- doxytag: member="DSTypes.h::DSInternalDictionary" ref="aa8c7ec369cceb873a0dd53d522ad40b3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct__var_dictionary.html">_varDictionary</a>  <a class="el" href="struct__var_dictionary.html">DSInternalDictionary</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Internal dictionary structure. </p>
+<p>Internal dictionary for fast variable querying. The structure of the dictionary uses an alternative path, where each character is checked in order at each position, if there is a match, the next position is consequently checked. The dictionary should never be manipulated manually, adding, retrieving and removing variables should be done through the accesory functions.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="struct_d_s_dictionary.html">DSDictionary</a> </dd></dl>
+
+</div>
+</div>
 <hr/><h2>Enumeration Type Documentation</h2>
 <a class="anchor" id="a62ad4772439f753c78f5dc086130d6ea"></a><!-- doxytag: member="DSTypes.h::DSVariablePoolLock" ref="a62ad4772439f753c78f5dc086130d6ea" args="" -->
 <div class="memitem">
@@ -188,7 +207,7 @@ DSComplexMatrix.c </dd></dl>
 <p>This data type enumerates the properties of the variable pool access rights. Its values indicate the different operations that can be taken with a variable pool, such as read/write/add, read/write and read.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_d_s_variable_8h.html" title="Header file with functions for dealing with variables.">DSVariable.h</a> </dd>
 <dd>
-<a class="el" href="_d_s_variable_8c.html" title="Implementation file with functions for dealing with variables.">DSVariable.c</a> </dd></dl>
+<a class="el" href="_d_s_variable_8c.html" title="Implementation file with functions the DSInternalDictionary object.">DSVariable.c</a> </dd></dl>
 <dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
 <tr><td valign="top"><em><a class="anchor" id="a62ad4772439f753c78f5dc086130d6eaa481b6d57568394fde0696c32dc6dbf74"></a><!-- doxytag: member="DSLockReadWriteAdd" ref="a62ad4772439f753c78f5dc086130d6eaa481b6d57568394fde0696c32dc6dbf74" args="" -->DSLockReadWriteAdd</em>&nbsp;</td><td>
 <p>The value of the Variable pool lock indicating read/write/add. </p>
@@ -223,7 +242,7 @@ DSComplexMatrix.c </dd></dl>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Fri Feb 17 23:41:00 2012 for Design Space Toolbox by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Aug 15 11:45:59 2012 for Design Space Toolbox by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -1,725 +1,741 @@
 \begin{theindex}
 
-  \item {\_\discretionary {-}{}{}varDictionary}, \hyperpage{17}
+  \item {\_\discretionary {-}{}{}varDictionary}, \hyperpage{19}
 
   \indexspace
 
-  \item {Actions for DS Errors.}, \hyperpage{11}
+  \item {Actions for DS Errors.}, \hyperpage{12}
 
   \indexspace
 
+  \item {DS\_\discretionary {-}{}{}DICTIONARY\_\discretionary {-}{}{}ACCESSORY}
+    \subitem {dsInternalDictionarySetValue}, \hyperpage{9}
+    \subitem {dsInternalDictionaryValue}, \hyperpage{9}
+  \item {DS\_\discretionary {-}{}{}IO\_\discretionary {-}{}{}TAG\_\discretionary {-}{}{}TYPES}, 
+		\hyperpage{14}
   \item {ds\_\discretionary {-}{}{}parallelstack\_\discretionary {-}{}{}t}, 
-		\hyperpage{20}
+		\hyperpage{22}
   \item {DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}
-    \subitem {DSVariableName}, \hyperpage{16}
-    \subitem {DSVariableSetValue}, \hyperpage{16}
-    \subitem {DSVariableValue}, \hyperpage{16}
-  \item {DSCase}, \hyperpage{21}
+    \subitem {DSVariableName}, \hyperpage{18}
+    \subitem {DSVariableSetValue}, \hyperpage{18}
+    \subitem {DSVariableValue}, \hyperpage{18}
+  \item {DSCase}, \hyperpage{23}
   \item {DSCasePrintingOptions}
-    \subitem {DSIO.c}, \hyperpage{87}
+    \subitem {DSIO.c}, \hyperpage{91}
   \item {DSCaseStringInJSONFormat}
-    \subitem {DSIO.c}, \hyperpage{84}
-    \subitem {DSIO.h}, \hyperpage{90}
-  \item {DSComplexMatrix}
-    \subitem {DSTypes.h}, \hyperpage{145}
-  \item {DSDesignSpace}, \hyperpage{23}
-  \item {DSDesignSpace.c}, \hyperpage{47}
-  \item {DSDesignSpace.h}, \hyperpage{50}
-  \item {DSDesignSpaceParallel.c}, \hyperpage{52}
-  \item {DSDesignSpaceParallel.h}, \hyperpage{54}
-  \item {DSDesignSpaceStack}, \hyperpage{24}
-  \item {DSError}
-    \subitem {DSErrors.h}, \hyperpage{61}
-  \item {DSErrorFunction}
-    \subitem {DSErrors.c}, \hyperpage{58}
-    \subitem {DSErrors.h}, \hyperpage{61}
-  \item {DSErrors.c}, \hyperpage{56}
-    \subitem {DSErrorFunction}, \hyperpage{58}
-    \subitem {MSIZE}, \hyperpage{57}
-    \subitem {STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM}, 
-		\hyperpage{57}
-  \item {DSErrors.h}, \hyperpage{59}
-    \subitem {DSError}, \hyperpage{61}
-    \subitem {DSErrorFunction}, \hyperpage{61}
-  \item {DSExpression}
-    \subitem {DSTypes.h}, \hyperpage{145}
-  \item {dsexpression}, \hyperpage{25}
-  \item {DSExpression.c}, \hyperpage{62}
-  \item {DSExpression.h}, \hyperpage{64}
-  \item {DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{71}
-  \item {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{71}
-  \item {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{72}
-  \item {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{72}
-  \item {DSExpressionFlexget\_\discretionary {-}{}{}column}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{72}
-  \item {DSExpressionFlexget\_\discretionary {-}{}{}extra}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{73}
-  \item {DSExpressionFlexget\_\discretionary {-}{}{}in}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{73}
-  \item {DSExpressionFlexget\_\discretionary {-}{}{}leng}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{73}
-  \item {DSExpressionFlexget\_\discretionary {-}{}{}lineno}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{73}
-  \item {DSExpressionFlexget\_\discretionary {-}{}{}out}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{73}
-  \item {DSExpressionFlexget\_\discretionary {-}{}{}text}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{73}
-  \item {DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{74}
-  \item {DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{74}
-  \item {DSExpressionFlexset\_\discretionary {-}{}{}column}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{74}
-  \item {DSExpressionFlexset\_\discretionary {-}{}{}extra}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{74}
-  \item {DSExpressionFlexset\_\discretionary {-}{}{}in}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{74}
-  \item {DSExpressionFlexset\_\discretionary {-}{}{}lineno}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{75}
-  \item {DSExpressionTokenizerLex.c}, \hyperpage{66}
-    \subitem {DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}, 
-		\hyperpage{71}
-    \subitem {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}, 
-		\hyperpage{71}
-    \subitem {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}, 
-		\hyperpage{72}
-    \subitem {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}, 
-		\hyperpage{72}
-    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}column}, 
-		\hyperpage{72}
-    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}extra}, 
-		\hyperpage{73}
-    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}in}, 
-		\hyperpage{73}
-    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}leng}, 
-		\hyperpage{73}
-    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}lineno}, 
-		\hyperpage{73}
-    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}out}, 
-		\hyperpage{73}
-    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}text}, 
-		\hyperpage{73}
-    \subitem {DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
-		\hyperpage{74}
-    \subitem {DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
-		\hyperpage{74}
-    \subitem {DSExpressionFlexset\_\discretionary {-}{}{}column}, 
-		\hyperpage{74}
-    \subitem {DSExpressionFlexset\_\discretionary {-}{}{}extra}, 
-		\hyperpage{74}
-    \subitem {DSExpressionFlexset\_\discretionary {-}{}{}in}, 
-		\hyperpage{74}
-    \subitem {DSExpressionFlexset\_\discretionary {-}{}{}lineno}, 
-		\hyperpage{75}
-    \subitem {YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}, 
-		\hyperpage{69}
-    \subitem {YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}, 
-		\hyperpage{69}
-    \subitem {YY\_\discretionary {-}{}{}INPUT}, \hyperpage{70}
-    \subitem {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}, 
-		\hyperpage{70}
-    \subitem {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}, 
-		\hyperpage{70}
-    \subitem {yyless}, \hyperpage{71}
-  \item {DSGMAACCESSORS}, \hyperpage{12}
-  \item {DSGMASystem}, \hyperpage{26}
-  \item {DSGMASystem.c}, \hyperpage{76}
-  \item {DSGMASystem.h}, \hyperpage{78}
-  \item {DSGMASystemParsingAux.h}, \hyperpage{80}
-    \subitem {gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t}, 
-		\hyperpage{81}
-  \item {DSIO.c}, \hyperpage{82}
-    \subitem {DSCasePrintingOptions}, \hyperpage{87}
-    \subitem {DSCaseStringInJSONFormat}, \hyperpage{84}
-    \subitem {DSIOSetCaseJSONOptions}, \hyperpage{84}
-    \subitem {DSIOSetErrorFile}, \hyperpage{84}
-    \subitem {DSIOSetPostErrorFunction}, \hyperpage{84}
-    \subitem {DSIOSetPostFatalErrorFunction}, \hyperpage{85}
-    \subitem {DSIOSetPostWarningFunction}, \hyperpage{85}
-    \subitem {DSIOSetPrintFunction}, \hyperpage{85}
-    \subitem {DSIOSetSSystemJSONOptions}, \hyperpage{85}
-    \subitem {DSMatrixArrayStringInJSONFormat}, \hyperpage{86}
-    \subitem {DSMatrixStringInJSONFormat}, \hyperpage{86}
-    \subitem {DSSSystemPrintingOptions}, \hyperpage{87}
-    \subitem {DSSSystemStringInJSONFormat}, \hyperpage{86}
-    \subitem {DSVariablePoolStringInJSONFormat}, \hyperpage{87}
-  \item {DSIO.h}, \hyperpage{88}
-    \subitem {DSCaseStringInJSONFormat}, \hyperpage{90}
-    \subitem {DSIOErrorFile}, \hyperpage{94}
-    \subitem {DSIOSetCaseJSONOptions}, \hyperpage{91}
-    \subitem {DSIOSetErrorFile}, \hyperpage{91}
-    \subitem {DSIOSetPostErrorFunction}, \hyperpage{91}
-    \subitem {DSIOSetPostFatalErrorFunction}, \hyperpage{91}
-    \subitem {DSIOSetPostWarningFunction}, \hyperpage{92}
-    \subitem {DSIOSetPrintFunction}, \hyperpage{92}
-    \subitem {DSIOSetSSystemJSONOptions}, \hyperpage{92}
-    \subitem {DSMatrixArrayStringInJSONFormat}, \hyperpage{92}
-    \subitem {DSMatrixStringInJSONFormat}, \hyperpage{93}
-    \subitem {DSPostError}, \hyperpage{94}
-    \subitem {DSPostFatalError}, \hyperpage{94}
-    \subitem {DSPostWarning}, \hyperpage{95}
-    \subitem {DSPrintf}, \hyperpage{95}
-    \subitem {DSSSystemStringInJSONFormat}, \hyperpage{93}
-    \subitem {DSVariablePoolStringInJSONFormat}, \hyperpage{93}
-  \item {DSIOErrorFile}
+    \subitem {DSIO.c}, \hyperpage{88}
     \subitem {DSIO.h}, \hyperpage{94}
+  \item {DSComplexMatrix}
+    \subitem {DSTypes.h}, \hyperpage{148}
+  \item {DSDesignSpace}, \hyperpage{25}
+  \item {DSDesignSpace.c}, \hyperpage{51}
+  \item {DSDesignSpace.h}, \hyperpage{54}
+  \item {DSDesignSpaceParallel.c}, \hyperpage{56}
+  \item {DSDesignSpaceParallel.h}, \hyperpage{58}
+  \item {DSDictionary}, \hyperpage{26}
+  \item {DSError}
+    \subitem {DSErrors.h}, \hyperpage{65}
+  \item {DSErrorFunction}
+    \subitem {DSErrors.c}, \hyperpage{62}
+    \subitem {DSErrors.h}, \hyperpage{65}
+  \item {DSErrors.c}, \hyperpage{60}
+    \subitem {DSErrorFunction}, \hyperpage{62}
+    \subitem {MSIZE}, \hyperpage{61}
+    \subitem {STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM}, 
+		\hyperpage{61}
+  \item {DSErrors.h}, \hyperpage{63}
+    \subitem {DSError}, \hyperpage{65}
+    \subitem {DSErrorFunction}, \hyperpage{65}
+  \item {DSExpression}
+    \subitem {DSTypes.h}, \hyperpage{148}
+  \item {dsexpression}, \hyperpage{27}
+  \item {DSExpression.c}, \hyperpage{66}
+  \item {DSExpression.h}, \hyperpage{68}
+  \item {DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{75}
+  \item {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{75}
+  \item {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{76}
+  \item {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{76}
+  \item {DSExpressionFlexget\_\discretionary {-}{}{}column}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{76}
+  \item {DSExpressionFlexget\_\discretionary {-}{}{}extra}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{77}
+  \item {DSExpressionFlexget\_\discretionary {-}{}{}in}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{77}
+  \item {DSExpressionFlexget\_\discretionary {-}{}{}leng}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{77}
+  \item {DSExpressionFlexget\_\discretionary {-}{}{}lineno}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{77}
+  \item {DSExpressionFlexget\_\discretionary {-}{}{}out}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{77}
+  \item {DSExpressionFlexget\_\discretionary {-}{}{}text}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{77}
+  \item {DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{78}
+  \item {DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{78}
+  \item {DSExpressionFlexset\_\discretionary {-}{}{}column}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{78}
+  \item {DSExpressionFlexset\_\discretionary {-}{}{}extra}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{78}
+  \item {DSExpressionFlexset\_\discretionary {-}{}{}in}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{78}
+  \item {DSExpressionFlexset\_\discretionary {-}{}{}lineno}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{79}
+  \item {DSExpressionTokenizerLex.c}, \hyperpage{70}
+    \subitem {DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}, 
+		\hyperpage{75}
+    \subitem {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}, 
+		\hyperpage{75}
+    \subitem {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}, 
+		\hyperpage{76}
+    \subitem {DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}, 
+		\hyperpage{76}
+    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}column}, 
+		\hyperpage{76}
+    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}extra}, 
+		\hyperpage{77}
+    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}in}, 
+		\hyperpage{77}
+    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}leng}, 
+		\hyperpage{77}
+    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}lineno}, 
+		\hyperpage{77}
+    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}out}, 
+		\hyperpage{77}
+    \subitem {DSExpressionFlexget\_\discretionary {-}{}{}text}, 
+		\hyperpage{77}
+    \subitem {DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
+		\hyperpage{78}
+    \subitem {DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
+		\hyperpage{78}
+    \subitem {DSExpressionFlexset\_\discretionary {-}{}{}column}, 
+		\hyperpage{78}
+    \subitem {DSExpressionFlexset\_\discretionary {-}{}{}extra}, 
+		\hyperpage{78}
+    \subitem {DSExpressionFlexset\_\discretionary {-}{}{}in}, 
+		\hyperpage{78}
+    \subitem {DSExpressionFlexset\_\discretionary {-}{}{}lineno}, 
+		\hyperpage{79}
+    \subitem {YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}, 
+		\hyperpage{73}
+    \subitem {YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}, 
+		\hyperpage{73}
+    \subitem {YY\_\discretionary {-}{}{}INPUT}, \hyperpage{74}
+    \subitem {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}, 
+		\hyperpage{74}
+    \subitem {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}, 
+		\hyperpage{74}
+    \subitem {yyless}, \hyperpage{75}
+  \item {DSGMAACCESSORS}, \hyperpage{13}
+  \item {DSGMASystem}, \hyperpage{28}
+  \item {DSGMASystem.c}, \hyperpage{80}
+  \item {DSGMASystem.h}, \hyperpage{82}
+  \item {DSGMASystemParsingAux.h}, \hyperpage{84}
+    \subitem {gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t}, 
+		\hyperpage{85}
+  \item {DSInternalDictionary}
+    \subitem {DSTypes.h}, \hyperpage{148}
+  \item {dsInternalDictionarySetValue}
+    \subitem {DS\_\discretionary {-}{}{}DICTIONARY\_\discretionary {-}{}{}ACCESSORY}, 
+		\hyperpage{9}
+  \item {dsInternalDictionaryValue}
+    \subitem {DS\_\discretionary {-}{}{}DICTIONARY\_\discretionary {-}{}{}ACCESSORY}, 
+		\hyperpage{9}
+  \item {DSIO.c}, \hyperpage{86}
+    \subitem {DSCasePrintingOptions}, \hyperpage{91}
+    \subitem {DSCaseStringInJSONFormat}, \hyperpage{88}
+    \subitem {DSIOSetCaseJSONOptions}, \hyperpage{88}
+    \subitem {DSIOSetErrorFile}, \hyperpage{88}
+    \subitem {DSIOSetPostErrorFunction}, \hyperpage{88}
+    \subitem {DSIOSetPostFatalErrorFunction}, \hyperpage{89}
+    \subitem {DSIOSetPostWarningFunction}, \hyperpage{89}
+    \subitem {DSIOSetPrintFunction}, \hyperpage{89}
+    \subitem {DSIOSetSSystemJSONOptions}, \hyperpage{89}
+    \subitem {DSMatrixArrayStringInJSONFormat}, \hyperpage{90}
+    \subitem {DSMatrixStringInJSONFormat}, \hyperpage{90}
+    \subitem {DSSSystemPrintingOptions}, \hyperpage{91}
+    \subitem {DSSSystemStringInJSONFormat}, \hyperpage{90}
+    \subitem {DSVariablePoolStringInJSONFormat}, \hyperpage{91}
+  \item {DSIO.h}, \hyperpage{92}
+    \subitem {DSCaseStringInJSONFormat}, \hyperpage{94}
+    \subitem {DSIOErrorFile}, \hyperpage{98}
+    \subitem {DSIOSetCaseJSONOptions}, \hyperpage{94}
+    \subitem {DSIOSetErrorFile}, \hyperpage{95}
+    \subitem {DSIOSetPostErrorFunction}, \hyperpage{95}
+    \subitem {DSIOSetPostFatalErrorFunction}, \hyperpage{95}
+    \subitem {DSIOSetPostWarningFunction}, \hyperpage{95}
+    \subitem {DSIOSetPrintFunction}, \hyperpage{96}
+    \subitem {DSIOSetSSystemJSONOptions}, \hyperpage{96}
+    \subitem {DSMatrixArrayStringInJSONFormat}, \hyperpage{96}
+    \subitem {DSMatrixStringInJSONFormat}, \hyperpage{97}
+    \subitem {DSPostError}, \hyperpage{98}
+    \subitem {DSPostFatalError}, \hyperpage{98}
+    \subitem {DSPostWarning}, \hyperpage{98}
+    \subitem {DSPrintf}, \hyperpage{99}
+    \subitem {DSSSystemStringInJSONFormat}, \hyperpage{97}
+    \subitem {DSVariablePoolStringInJSONFormat}, \hyperpage{97}
+  \item {DSIOErrorFile}
+    \subitem {DSIO.h}, \hyperpage{98}
   \item {DSIOSetCaseJSONOptions}
-    \subitem {DSIO.c}, \hyperpage{84}
-    \subitem {DSIO.h}, \hyperpage{91}
+    \subitem {DSIO.c}, \hyperpage{88}
+    \subitem {DSIO.h}, \hyperpage{94}
   \item {DSIOSetErrorFile}
-    \subitem {DSIO.c}, \hyperpage{84}
-    \subitem {DSIO.h}, \hyperpage{91}
+    \subitem {DSIO.c}, \hyperpage{88}
+    \subitem {DSIO.h}, \hyperpage{95}
   \item {DSIOSetPostErrorFunction}
-    \subitem {DSIO.c}, \hyperpage{84}
-    \subitem {DSIO.h}, \hyperpage{91}
+    \subitem {DSIO.c}, \hyperpage{88}
+    \subitem {DSIO.h}, \hyperpage{95}
   \item {DSIOSetPostFatalErrorFunction}
-    \subitem {DSIO.c}, \hyperpage{85}
-    \subitem {DSIO.h}, \hyperpage{91}
+    \subitem {DSIO.c}, \hyperpage{89}
+    \subitem {DSIO.h}, \hyperpage{95}
   \item {DSIOSetPostWarningFunction}
-    \subitem {DSIO.c}, \hyperpage{85}
-    \subitem {DSIO.h}, \hyperpage{92}
+    \subitem {DSIO.c}, \hyperpage{89}
+    \subitem {DSIO.h}, \hyperpage{95}
   \item {DSIOSetPrintFunction}
-    \subitem {DSIO.c}, \hyperpage{85}
-    \subitem {DSIO.h}, \hyperpage{92}
+    \subitem {DSIO.c}, \hyperpage{89}
+    \subitem {DSIO.h}, \hyperpage{96}
   \item {DSIOSetSSystemJSONOptions}
-    \subitem {DSIO.c}, \hyperpage{85}
-    \subitem {DSIO.h}, \hyperpage{92}
+    \subitem {DSIO.c}, \hyperpage{89}
+    \subitem {DSIO.h}, \hyperpage{96}
   \item {DSLockLocked}
-    \subitem {DSTypes.h}, \hyperpage{146}
+    \subitem {DSTypes.h}, \hyperpage{149}
   \item {DSLockReadOnly}
-    \subitem {DSTypes.h}, \hyperpage{146}
+    \subitem {DSTypes.h}, \hyperpage{149}
   \item {DSLockReadWrite}
-    \subitem {DSTypes.h}, \hyperpage{146}
+    \subitem {DSTypes.h}, \hyperpage{149}
   \item {DSLockReadWriteAdd}
-    \subitem {DSTypes.h}, \hyperpage{146}
-  \item {DSMatrix}, \hyperpage{27}
-  \item {DSMatrix.h}, \hyperpage{96}
-    \subitem {DSMatrixAlloc}, \hyperpage{99}
-    \subitem {DSMatrixByAddingMatrix}, \hyperpage{99}
-    \subitem {DSMatrixByParsingString}, \hyperpage{100}
-    \subitem {DSMatrixBySubstractingMatrix}, \hyperpage{100}
-    \subitem {DSMatrixCalloc}, \hyperpage{100}
-    \subitem {DSMatrixCopy}, \hyperpage{101}
-    \subitem {DSMatrixDoubleValue}, \hyperpage{101}
-    \subitem {DSMatrixFree}, \hyperpage{101}
-    \subitem {DSMatrixIdentity}, \hyperpage{102}
-    \subitem {DSMatrixPLUDecomposition}, \hyperpage{102}
-    \subitem {DSMatrixRandomNumbers}, \hyperpage{102}
-    \subitem {DSMatrixSetDoubleValueAll}, \hyperpage{102}
-  \item {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{104}
-    \subitem {DSMatrixAlloc}, \hyperpage{107}
-    \subitem {DSMatrixByAddingMatrix}, \hyperpage{107}
-    \subitem {DSMatrixByParsingString}, \hyperpage{108}
-    \subitem {DSMatrixBySubstractingMatrix}, \hyperpage{108}
-    \subitem {DSMatrixCalloc}, \hyperpage{108}
-    \subitem {DSMatrixCopy}, \hyperpage{109}
-    \subitem {DSMatrixDoubleValue}, \hyperpage{109}
-    \subitem {DSMatrixFree}, \hyperpage{109}
-    \subitem {DSMatrixIdentity}, \hyperpage{110}
-    \subitem {DSMatrixPLUDecomposition}, \hyperpage{110}
-    \subitem {DSMatrixRandomNumbers}, \hyperpage{110}
-    \subitem {DSMatrixSetDoubleValueAll}, \hyperpage{110}
+    \subitem {DSTypes.h}, \hyperpage{149}
+  \item {DSMatrix}, \hyperpage{29}
+  \item {DSMatrix.h}, \hyperpage{100}
+    \subitem {DSMatrixAlloc}, \hyperpage{103}
+    \subitem {DSMatrixByAddingMatrix}, \hyperpage{103}
+    \subitem {DSMatrixByParsingString}, \hyperpage{103}
+    \subitem {DSMatrixBySubstractingMatrix}, \hyperpage{104}
+    \subitem {DSMatrixCalloc}, \hyperpage{104}
+    \subitem {DSMatrixCopy}, \hyperpage{104}
+    \subitem {DSMatrixDoubleValue}, \hyperpage{105}
+    \subitem {DSMatrixFree}, \hyperpage{105}
+    \subitem {DSMatrixIdentity}, \hyperpage{105}
+    \subitem {DSMatrixPLUDecomposition}, \hyperpage{106}
+    \subitem {DSMatrixRandomNumbers}, \hyperpage{106}
+    \subitem {DSMatrixSetDoubleValueAll}, \hyperpage{106}
+  \item {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{107}
+    \subitem {DSMatrixAlloc}, \hyperpage{110}
+    \subitem {DSMatrixByAddingMatrix}, \hyperpage{110}
+    \subitem {DSMatrixByParsingString}, \hyperpage{111}
+    \subitem {DSMatrixBySubstractingMatrix}, \hyperpage{111}
+    \subitem {DSMatrixCalloc}, \hyperpage{111}
+    \subitem {DSMatrixCopy}, \hyperpage{112}
+    \subitem {DSMatrixDoubleValue}, \hyperpage{112}
+    \subitem {DSMatrixFree}, \hyperpage{112}
+    \subitem {DSMatrixIdentity}, \hyperpage{113}
+    \subitem {DSMatrixPLUDecomposition}, \hyperpage{113}
+    \subitem {DSMatrixRandomNumbers}, \hyperpage{113}
+    \subitem {DSMatrixSetDoubleValueAll}, \hyperpage{113}
   \item {DSMatrixAlloc}
-    \subitem {DSMatrix.h}, \hyperpage{99}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{107}
-  \item {DSMatrixArray}, \hyperpage{28}
-  \item {DSMatrixArray.c}, \hyperpage{112}
-    \subitem {DSMatrixArrayAddMatrix}, \hyperpage{113}
-    \subitem {DSMatrixArrayAlloc}, \hyperpage{113}
-    \subitem {DSMatrixArrayCopy}, \hyperpage{113}
-    \subitem {DSMatrixArrayFree}, \hyperpage{114}
-    \subitem {DSMatrixArrayMatrix}, \hyperpage{114}
-  \item {DSMatrixArray.h}, \hyperpage{115}
+    \subitem {DSMatrix.h}, \hyperpage{103}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{110}
+  \item {DSMatrixArray}, \hyperpage{30}
+  \item {DSMatrixArray.c}, \hyperpage{115}
     \subitem {DSMatrixArrayAddMatrix}, \hyperpage{116}
     \subitem {DSMatrixArrayAlloc}, \hyperpage{116}
-    \subitem {DSMatrixArrayCopy}, \hyperpage{117}
+    \subitem {DSMatrixArrayCopy}, \hyperpage{116}
     \subitem {DSMatrixArrayFree}, \hyperpage{117}
     \subitem {DSMatrixArrayMatrix}, \hyperpage{117}
+  \item {DSMatrixArray.h}, \hyperpage{118}
+    \subitem {DSMatrixArrayAddMatrix}, \hyperpage{119}
+    \subitem {DSMatrixArrayAlloc}, \hyperpage{119}
+    \subitem {DSMatrixArrayCopy}, \hyperpage{120}
+    \subitem {DSMatrixArrayFree}, \hyperpage{120}
+    \subitem {DSMatrixArrayMatrix}, \hyperpage{120}
   \item {DSMatrixArrayAddMatrix}
-    \subitem {DSMatrixArray.c}, \hyperpage{113}
-    \subitem {DSMatrixArray.h}, \hyperpage{116}
+    \subitem {DSMatrixArray.c}, \hyperpage{116}
+    \subitem {DSMatrixArray.h}, \hyperpage{119}
   \item {DSMatrixArrayAlloc}
-    \subitem {DSMatrixArray.c}, \hyperpage{113}
-    \subitem {DSMatrixArray.h}, \hyperpage{116}
+    \subitem {DSMatrixArray.c}, \hyperpage{116}
+    \subitem {DSMatrixArray.h}, \hyperpage{119}
   \item {DSMatrixArrayCopy}
-    \subitem {DSMatrixArray.c}, \hyperpage{113}
-    \subitem {DSMatrixArray.h}, \hyperpage{117}
+    \subitem {DSMatrixArray.c}, \hyperpage{116}
+    \subitem {DSMatrixArray.h}, \hyperpage{120}
   \item {DSMatrixArrayFree}
-    \subitem {DSMatrixArray.c}, \hyperpage{114}
-    \subitem {DSMatrixArray.h}, \hyperpage{117}
+    \subitem {DSMatrixArray.c}, \hyperpage{117}
+    \subitem {DSMatrixArray.h}, \hyperpage{120}
   \item {DSMatrixArrayMatrix}
-    \subitem {DSMatrixArray.c}, \hyperpage{114}
-    \subitem {DSMatrixArray.h}, \hyperpage{117}
+    \subitem {DSMatrixArray.c}, \hyperpage{117}
+    \subitem {DSMatrixArray.h}, \hyperpage{120}
   \item {DSMatrixArrayStringInJSONFormat}
-    \subitem {DSIO.c}, \hyperpage{86}
-    \subitem {DSIO.h}, \hyperpage{92}
+    \subitem {DSIO.c}, \hyperpage{90}
+    \subitem {DSIO.h}, \hyperpage{96}
   \item {DSMatrixByAddingMatrix}
-    \subitem {DSMatrix.h}, \hyperpage{99}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{107}
+    \subitem {DSMatrix.h}, \hyperpage{103}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{110}
   \item {DSMatrixByParsingString}
-    \subitem {DSMatrix.h}, \hyperpage{100}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{108}
+    \subitem {DSMatrix.h}, \hyperpage{103}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{111}
   \item {DSMatrixBySubstractingMatrix}
-    \subitem {DSMatrix.h}, \hyperpage{100}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{108}
+    \subitem {DSMatrix.h}, \hyperpage{104}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{111}
   \item {DSMatrixCalloc}
-    \subitem {DSMatrix.h}, \hyperpage{100}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{108}
+    \subitem {DSMatrix.h}, \hyperpage{104}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{111}
   \item {DSMatrixCopy}
-    \subitem {DSMatrix.h}, \hyperpage{101}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{109}
+    \subitem {DSMatrix.h}, \hyperpage{104}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{112}
   \item {DSMatrixDoubleValue}
-    \subitem {DSMatrix.h}, \hyperpage{101}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{109}
+    \subitem {DSMatrix.h}, \hyperpage{105}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{112}
   \item {DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{126}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{129}
   \item {DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{126}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{129}
   \item {DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{127}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{130}
   \item {DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{127}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{130}
   \item {DSMatrixFlexget\_\discretionary {-}{}{}column}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{127}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{130}
   \item {DSMatrixFlexget\_\discretionary {-}{}{}extra}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{127}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{130}
   \item {DSMatrixFlexget\_\discretionary {-}{}{}in}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{128}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{131}
   \item {DSMatrixFlexget\_\discretionary {-}{}{}leng}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{128}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{131}
   \item {DSMatrixFlexget\_\discretionary {-}{}{}lineno}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{128}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{131}
   \item {DSMatrixFlexget\_\discretionary {-}{}{}out}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{128}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{131}
   \item {DSMatrixFlexget\_\discretionary {-}{}{}text}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{128}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{131}
   \item {DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{128}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{131}
   \item {DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{129}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{132}
   \item {DSMatrixFlexset\_\discretionary {-}{}{}column}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{129}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{132}
   \item {DSMatrixFlexset\_\discretionary {-}{}{}extra}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{129}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{132}
   \item {DSMatrixFlexset\_\discretionary {-}{}{}in}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{129}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{132}
   \item {DSMatrixFlexset\_\discretionary {-}{}{}lineno}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{129}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{132}
   \item {DSMatrixFree}
-    \subitem {DSMatrix.h}, \hyperpage{101}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{109}
+    \subitem {DSMatrix.h}, \hyperpage{105}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{112}
   \item {DSMatrixIdentity}
-    \subitem {DSMatrix.h}, \hyperpage{102}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{110}
+    \subitem {DSMatrix.h}, \hyperpage{105}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{113}
   \item {DSMatrixPLUDecomposition}
-    \subitem {DSMatrix.h}, \hyperpage{102}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{110}
+    \subitem {DSMatrix.h}, \hyperpage{106}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{113}
   \item {DSMatrixRandomNumbers}
-    \subitem {DSMatrix.h}, \hyperpage{102}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{110}
+    \subitem {DSMatrix.h}, \hyperpage{106}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{113}
   \item {DSMatrixSetDoubleValueAll}
-    \subitem {DSMatrix.h}, \hyperpage{102}
-    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{110}
+    \subitem {DSMatrix.h}, \hyperpage{106}
+    \subitem {DSMatrix\_\discretionary {-}{}{}gsl.c}, \hyperpage{113}
   \item {DSMatrixStringInJSONFormat}
-    \subitem {DSIO.c}, \hyperpage{86}
-    \subitem {DSIO.h}, \hyperpage{93}
-  \item {DSMatrixTokenizer.c}, \hyperpage{118}
-  \item {DSMatrixTokenizer.h}, \hyperpage{119}
-  \item {DSMatrixTokenizerLex.c}, \hyperpage{121}
+    \subitem {DSIO.c}, \hyperpage{90}
+    \subitem {DSIO.h}, \hyperpage{97}
+  \item {DSMatrixTokenizer.c}, \hyperpage{121}
+  \item {DSMatrixTokenizer.h}, \hyperpage{122}
+  \item {DSMatrixTokenizerLex.c}, \hyperpage{124}
     \subitem {DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}, 
-		\hyperpage{126}
+		\hyperpage{129}
     \subitem {DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}, 
-		\hyperpage{126}
+		\hyperpage{129}
     \subitem {DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}, 
-		\hyperpage{127}
+		\hyperpage{130}
     \subitem {DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}, 
-		\hyperpage{127}
+		\hyperpage{130}
     \subitem {DSMatrixFlexget\_\discretionary {-}{}{}column}, 
-		\hyperpage{127}
+		\hyperpage{130}
     \subitem {DSMatrixFlexget\_\discretionary {-}{}{}extra}, 
-		\hyperpage{127}
+		\hyperpage{130}
     \subitem {DSMatrixFlexget\_\discretionary {-}{}{}in}, 
-		\hyperpage{128}
+		\hyperpage{131}
     \subitem {DSMatrixFlexget\_\discretionary {-}{}{}leng}, 
-		\hyperpage{128}
+		\hyperpage{131}
     \subitem {DSMatrixFlexget\_\discretionary {-}{}{}lineno}, 
-		\hyperpage{128}
+		\hyperpage{131}
     \subitem {DSMatrixFlexget\_\discretionary {-}{}{}out}, 
-		\hyperpage{128}
+		\hyperpage{131}
     \subitem {DSMatrixFlexget\_\discretionary {-}{}{}text}, 
-		\hyperpage{128}
+		\hyperpage{131}
     \subitem {DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
-		\hyperpage{128}
+		\hyperpage{131}
     \subitem {DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
-		\hyperpage{129}
+		\hyperpage{132}
     \subitem {DSMatrixFlexset\_\discretionary {-}{}{}column}, 
-		\hyperpage{129}
+		\hyperpage{132}
     \subitem {DSMatrixFlexset\_\discretionary {-}{}{}extra}, 
-		\hyperpage{129}
+		\hyperpage{132}
     \subitem {DSMatrixFlexset\_\discretionary {-}{}{}in}, 
-		\hyperpage{129}
+		\hyperpage{132}
     \subitem {DSMatrixFlexset\_\discretionary {-}{}{}lineno}, 
-		\hyperpage{129}
+		\hyperpage{132}
     \subitem {YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}, 
-		\hyperpage{124}
+		\hyperpage{127}
     \subitem {YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}, 
-		\hyperpage{124}
-    \subitem {YY\_\discretionary {-}{}{}INPUT}, \hyperpage{125}
+		\hyperpage{127}
+    \subitem {YY\_\discretionary {-}{}{}INPUT}, \hyperpage{128}
     \subitem {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}, 
-		\hyperpage{125}
+		\hyperpage{128}
     \subitem {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}, 
-		\hyperpage{125}
-    \subitem {yyless}, \hyperpage{126}
-  \item {DSMemoryManager.c}, \hyperpage{131}
-    \subitem {DSSecureCalloc}, \hyperpage{132}
-    \subitem {DSSecureFree}, \hyperpage{132}
-    \subitem {DSSecureMalloc}, \hyperpage{132}
-    \subitem {DSSecureRealloc}, \hyperpage{133}
-  \item {DSMemoryManager.h}, \hyperpage{134}
+		\hyperpage{128}
+    \subitem {yyless}, \hyperpage{129}
+  \item {DSMemoryManager.c}, \hyperpage{134}
     \subitem {DSSecureCalloc}, \hyperpage{135}
     \subitem {DSSecureFree}, \hyperpage{135}
     \subitem {DSSecureMalloc}, \hyperpage{135}
     \subitem {DSSecureRealloc}, \hyperpage{136}
+  \item {DSMemoryManager.h}, \hyperpage{137}
+    \subitem {DSSecureCalloc}, \hyperpage{138}
+    \subitem {DSSecureFree}, \hyperpage{138}
+    \subitem {DSSecureMalloc}, \hyperpage{138}
+    \subitem {DSSecureRealloc}, \hyperpage{139}
   \item {DSPostError}
-    \subitem {DSIO.h}, \hyperpage{94}
+    \subitem {DSIO.h}, \hyperpage{98}
   \item {DSPostFatalError}
-    \subitem {DSIO.h}, \hyperpage{94}
+    \subitem {DSIO.h}, \hyperpage{98}
   \item {DSPostWarning}
-    \subitem {DSIO.h}, \hyperpage{95}
+    \subitem {DSIO.h}, \hyperpage{98}
   \item {DSPrintf}
-    \subitem {DSIO.h}, \hyperpage{95}
+    \subitem {DSIO.h}, \hyperpage{99}
   \item {DSSecureCalloc}
-    \subitem {DSMemoryManager.c}, \hyperpage{132}
-    \subitem {DSMemoryManager.h}, \hyperpage{135}
+    \subitem {DSMemoryManager.c}, \hyperpage{135}
+    \subitem {DSMemoryManager.h}, \hyperpage{138}
   \item {DSSecureFree}
-    \subitem {DSMemoryManager.c}, \hyperpage{132}
-    \subitem {DSMemoryManager.h}, \hyperpage{135}
+    \subitem {DSMemoryManager.c}, \hyperpage{135}
+    \subitem {DSMemoryManager.h}, \hyperpage{138}
   \item {DSSecureMalloc}
-    \subitem {DSMemoryManager.c}, \hyperpage{132}
-    \subitem {DSMemoryManager.h}, \hyperpage{135}
+    \subitem {DSMemoryManager.c}, \hyperpage{135}
+    \subitem {DSMemoryManager.h}, \hyperpage{138}
   \item {DSSecureRealloc}
-    \subitem {DSMemoryManager.c}, \hyperpage{133}
-    \subitem {DSMemoryManager.h}, \hyperpage{136}
-  \item {DSSSysACCESSORS}, \hyperpage{15}
-  \item {DSSSystem}, \hyperpage{29}
-  \item {DSSSystem.h}, \hyperpage{137}
+    \subitem {DSMemoryManager.c}, \hyperpage{136}
+    \subitem {DSMemoryManager.h}, \hyperpage{139}
+  \item {DSSSysACCESSORS}, \hyperpage{17}
+  \item {DSSSystem}, \hyperpage{31}
+  \item {DSSSystem.h}, \hyperpage{140}
   \item {DSSSystemPrintingOptions}
-    \subitem {DSIO.c}, \hyperpage{87}
+    \subitem {DSIO.c}, \hyperpage{91}
   \item {DSSSystemStringInJSONFormat}
-    \subitem {DSIO.c}, \hyperpage{86}
-    \subitem {DSIO.h}, \hyperpage{93}
-  \item {DSStd.h}, \hyperpage{139}
-  \item {DSSymbolicMatrix}, \hyperpage{30}
-  \item {DSSymbolicMatrix.h}, \hyperpage{141}
-  \item {DSTypes.h}, \hyperpage{143}
-    \subitem {DSComplexMatrix}, \hyperpage{145}
-    \subitem {DSExpression}, \hyperpage{145}
-    \subitem {DSLockLocked}, \hyperpage{146}
-    \subitem {DSLockReadOnly}, \hyperpage{146}
-    \subitem {DSLockReadWrite}, \hyperpage{146}
-    \subitem {DSLockReadWriteAdd}, \hyperpage{146}
-    \subitem {DSVariablePoolLock}, \hyperpage{146}
-  \item {DSVariable}, \hyperpage{31}
-  \item {DSVariable.c}, \hyperpage{147}
-    \subitem {DSVariableAlloc}, \hyperpage{149}
-    \subitem {DSVariableFree}, \hyperpage{149}
-    \subitem {DSVariablePoolAddVariable}, \hyperpage{150}
-    \subitem {DSVariablePoolAddVariableWithName}, \hyperpage{150}
-    \subitem {DSVariablePoolAlloc}, \hyperpage{150}
-    \subitem {DSVariablePoolCopy}, \hyperpage{151}
-    \subitem {DSVariablePoolFree}, \hyperpage{151}
-    \subitem {DSVariablePoolIsReadOnly}, \hyperpage{151}
-    \subitem {DSVariablePoolIsReadWrite}, \hyperpage{152}
-    \subitem {DSVariablePoolIsReadWriteAdd}, \hyperpage{152}
-    \subitem {DSVariablePoolNumberOfVariables}, \hyperpage{152}
-    \subitem {DSVariablePoolSetReadOnly}, \hyperpage{152}
-    \subitem {DSVariablePoolSetReadWrite}, \hyperpage{153}
-    \subitem {DSVariablePoolSetReadWriteAdd}, \hyperpage{153}
-    \subitem {DSVariableRelease}, \hyperpage{153}
-    \subitem {DSVariableRetain}, \hyperpage{154}
-  \item {DSVariable.h}, \hyperpage{155}
-    \subitem {DSVariableAlloc}, \hyperpage{157}
-    \subitem {DSVariableFree}, \hyperpage{158}
-    \subitem {DSVariablePoolAddVariable}, \hyperpage{158}
-    \subitem {DSVariablePoolAddVariableWithName}, \hyperpage{158}
-    \subitem {DSVariablePoolAlloc}, \hyperpage{159}
-    \subitem {DSVariablePoolCopy}, \hyperpage{159}
-    \subitem {DSVariablePoolFree}, \hyperpage{159}
-    \subitem {DSVariablePoolIsReadOnly}, \hyperpage{160}
-    \subitem {DSVariablePoolIsReadWrite}, \hyperpage{160}
-    \subitem {DSVariablePoolIsReadWriteAdd}, \hyperpage{160}
-    \subitem {DSVariablePoolNumberOfVariables}, \hyperpage{160}
-    \subitem {DSVariablePoolSetReadOnly}, \hyperpage{161}
-    \subitem {DSVariablePoolSetReadWrite}, \hyperpage{161}
-    \subitem {DSVariablePoolSetReadWriteAdd}, \hyperpage{161}
-    \subitem {DSVariableRelease}, \hyperpage{162}
-    \subitem {DSVariableRetain}, \hyperpage{162}
+    \subitem {DSIO.c}, \hyperpage{90}
+    \subitem {DSIO.h}, \hyperpage{97}
+  \item {DSStack}, \hyperpage{32}
+  \item {DSStd.h}, \hyperpage{142}
+  \item {DSSymbolicMatrix}, \hyperpage{33}
+  \item {DSSymbolicMatrix.h}, \hyperpage{144}
+  \item {DSTypes.h}, \hyperpage{146}
+    \subitem {DSComplexMatrix}, \hyperpage{148}
+    \subitem {DSExpression}, \hyperpage{148}
+    \subitem {DSInternalDictionary}, \hyperpage{148}
+    \subitem {DSLockLocked}, \hyperpage{149}
+    \subitem {DSLockReadOnly}, \hyperpage{149}
+    \subitem {DSLockReadWrite}, \hyperpage{149}
+    \subitem {DSLockReadWriteAdd}, \hyperpage{149}
+    \subitem {DSVariablePoolLock}, \hyperpage{149}
+  \item {DSVariable}, \hyperpage{34}
+  \item {DSVariable.c}, \hyperpage{150}
+    \subitem {DSVariableAlloc}, \hyperpage{152}
+    \subitem {DSVariableFree}, \hyperpage{152}
+    \subitem {DSVariablePoolAddVariable}, \hyperpage{153}
+    \subitem {DSVariablePoolAddVariableWithName}, \hyperpage{153}
+    \subitem {DSVariablePoolAlloc}, \hyperpage{153}
+    \subitem {DSVariablePoolCopy}, \hyperpage{153}
+    \subitem {DSVariablePoolFree}, \hyperpage{154}
+    \subitem {DSVariablePoolIsReadOnly}, \hyperpage{154}
+    \subitem {DSVariablePoolIsReadWrite}, \hyperpage{154}
+    \subitem {DSVariablePoolIsReadWriteAdd}, \hyperpage{155}
+    \subitem {DSVariablePoolNumberOfVariables}, \hyperpage{155}
+    \subitem {DSVariablePoolSetReadOnly}, \hyperpage{155}
+    \subitem {DSVariablePoolSetReadWrite}, \hyperpage{155}
+    \subitem {DSVariablePoolSetReadWriteAdd}, \hyperpage{156}
+    \subitem {DSVariableRelease}, \hyperpage{156}
+    \subitem {DSVariableRetain}, \hyperpage{156}
+  \item {DSVariable.h}, \hyperpage{158}
+    \subitem {DSVariableAlloc}, \hyperpage{160}
+    \subitem {DSVariableFree}, \hyperpage{160}
+    \subitem {DSVariablePoolAddVariable}, \hyperpage{161}
+    \subitem {DSVariablePoolAddVariableWithName}, \hyperpage{161}
+    \subitem {DSVariablePoolAlloc}, \hyperpage{161}
+    \subitem {DSVariablePoolCopy}, \hyperpage{161}
+    \subitem {DSVariablePoolFree}, \hyperpage{162}
+    \subitem {DSVariablePoolIsReadOnly}, \hyperpage{162}
+    \subitem {DSVariablePoolIsReadWrite}, \hyperpage{162}
+    \subitem {DSVariablePoolIsReadWriteAdd}, \hyperpage{163}
+    \subitem {DSVariablePoolNumberOfVariables}, \hyperpage{163}
+    \subitem {DSVariablePoolSetReadOnly}, \hyperpage{163}
+    \subitem {DSVariablePoolSetReadWrite}, \hyperpage{163}
+    \subitem {DSVariablePoolSetReadWriteAdd}, \hyperpage{164}
+    \subitem {DSVariableRelease}, \hyperpage{164}
+    \subitem {DSVariableRetain}, \hyperpage{164}
   \item {DSVariableAlloc}
-    \subitem {DSVariable.c}, \hyperpage{149}
-    \subitem {DSVariable.h}, \hyperpage{157}
+    \subitem {DSVariable.c}, \hyperpage{152}
+    \subitem {DSVariable.h}, \hyperpage{160}
   \item {DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{170}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
   \item {DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{170}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
   \item {DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{170}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
   \item {DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{170}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
   \item {DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{170}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
   \item {DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{171}
-  \item {DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{171}
-  \item {DSVariableFlexget\_\discretionary {-}{}{}column}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{171}
-  \item {DSVariableFlexget\_\discretionary {-}{}{}extra}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{171}
-  \item {DSVariableFlexget\_\discretionary {-}{}{}in}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{172}
-  \item {DSVariableFlexget\_\discretionary {-}{}{}leng}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{172}
-  \item {DSVariableFlexget\_\discretionary {-}{}{}lineno}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{172}
-  \item {DSVariableFlexget\_\discretionary {-}{}{}out}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{172}
-  \item {DSVariableFlexget\_\discretionary {-}{}{}text}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{172}
-  \item {DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{172}
-  \item {DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
-  \item {DSVariableFlexrestart}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
-  \item {DSVariableFlexset\_\discretionary {-}{}{}column}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
-  \item {DSVariableFlexset\_\discretionary {-}{}{}extra}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
-  \item {DSVariableFlexset\_\discretionary {-}{}{}in}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{173}
-  \item {DSVariableFlexset\_\discretionary {-}{}{}lineno}
     \subitem {DSVariableTokenizerLex.c}, \hyperpage{174}
+  \item {DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{174}
+  \item {DSVariableFlexget\_\discretionary {-}{}{}column}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{174}
+  \item {DSVariableFlexget\_\discretionary {-}{}{}extra}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{174}
+  \item {DSVariableFlexget\_\discretionary {-}{}{}in}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{175}
+  \item {DSVariableFlexget\_\discretionary {-}{}{}leng}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{175}
+  \item {DSVariableFlexget\_\discretionary {-}{}{}lineno}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{175}
+  \item {DSVariableFlexget\_\discretionary {-}{}{}out}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{175}
+  \item {DSVariableFlexget\_\discretionary {-}{}{}text}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{175}
+  \item {DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{175}
+  \item {DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{176}
+  \item {DSVariableFlexrestart}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{176}
+  \item {DSVariableFlexset\_\discretionary {-}{}{}column}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{176}
+  \item {DSVariableFlexset\_\discretionary {-}{}{}extra}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{176}
+  \item {DSVariableFlexset\_\discretionary {-}{}{}in}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{176}
+  \item {DSVariableFlexset\_\discretionary {-}{}{}lineno}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{177}
   \item {DSVariableFree}
-    \subitem {DSVariable.c}, \hyperpage{149}
-    \subitem {DSVariable.h}, \hyperpage{158}
+    \subitem {DSVariable.c}, \hyperpage{152}
+    \subitem {DSVariable.h}, \hyperpage{160}
   \item {DSVariableName}
     \subitem {DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}, 
-		\hyperpage{16}
-  \item {DSVariablePool}, \hyperpage{32}
+		\hyperpage{18}
+  \item {DSVariablePool}, \hyperpage{35}
   \item {DSVariablePoolAddVariable}
-    \subitem {DSVariable.c}, \hyperpage{150}
-    \subitem {DSVariable.h}, \hyperpage{158}
+    \subitem {DSVariable.c}, \hyperpage{153}
+    \subitem {DSVariable.h}, \hyperpage{161}
   \item {DSVariablePoolAddVariableWithName}
-    \subitem {DSVariable.c}, \hyperpage{150}
-    \subitem {DSVariable.h}, \hyperpage{158}
+    \subitem {DSVariable.c}, \hyperpage{153}
+    \subitem {DSVariable.h}, \hyperpage{161}
   \item {DSVariablePoolAlloc}
-    \subitem {DSVariable.c}, \hyperpage{150}
-    \subitem {DSVariable.h}, \hyperpage{159}
+    \subitem {DSVariable.c}, \hyperpage{153}
+    \subitem {DSVariable.h}, \hyperpage{161}
   \item {DSVariablePoolCopy}
-    \subitem {DSVariable.c}, \hyperpage{151}
-    \subitem {DSVariable.h}, \hyperpage{159}
+    \subitem {DSVariable.c}, \hyperpage{153}
+    \subitem {DSVariable.h}, \hyperpage{161}
   \item {DSVariablePoolFree}
-    \subitem {DSVariable.c}, \hyperpage{151}
-    \subitem {DSVariable.h}, \hyperpage{159}
-  \item {DSVariablePoolIsReadOnly}
-    \subitem {DSVariable.c}, \hyperpage{151}
-    \subitem {DSVariable.h}, \hyperpage{160}
-  \item {DSVariablePoolIsReadWrite}
-    \subitem {DSVariable.c}, \hyperpage{152}
-    \subitem {DSVariable.h}, \hyperpage{160}
-  \item {DSVariablePoolIsReadWriteAdd}
-    \subitem {DSVariable.c}, \hyperpage{152}
-    \subitem {DSVariable.h}, \hyperpage{160}
-  \item {DSVariablePoolLock}
-    \subitem {DSTypes.h}, \hyperpage{146}
-  \item {DSVariablePoolNumberOfVariables}
-    \subitem {DSVariable.c}, \hyperpage{152}
-    \subitem {DSVariable.h}, \hyperpage{160}
-  \item {DSVariablePoolSetReadOnly}
-    \subitem {DSVariable.c}, \hyperpage{152}
-    \subitem {DSVariable.h}, \hyperpage{161}
-  \item {DSVariablePoolSetReadWrite}
-    \subitem {DSVariable.c}, \hyperpage{153}
-    \subitem {DSVariable.h}, \hyperpage{161}
-  \item {DSVariablePoolSetReadWriteAdd}
-    \subitem {DSVariable.c}, \hyperpage{153}
-    \subitem {DSVariable.h}, \hyperpage{161}
-  \item {DSVariablePoolStringInJSONFormat}
-    \subitem {DSIO.c}, \hyperpage{87}
-    \subitem {DSIO.h}, \hyperpage{93}
-  \item {DSVariableRelease}
-    \subitem {DSVariable.c}, \hyperpage{153}
-    \subitem {DSVariable.h}, \hyperpage{162}
-  \item {DSVariableRetain}
     \subitem {DSVariable.c}, \hyperpage{154}
     \subitem {DSVariable.h}, \hyperpage{162}
+  \item {DSVariablePoolIsReadOnly}
+    \subitem {DSVariable.c}, \hyperpage{154}
+    \subitem {DSVariable.h}, \hyperpage{162}
+  \item {DSVariablePoolIsReadWrite}
+    \subitem {DSVariable.c}, \hyperpage{154}
+    \subitem {DSVariable.h}, \hyperpage{162}
+  \item {DSVariablePoolIsReadWriteAdd}
+    \subitem {DSVariable.c}, \hyperpage{155}
+    \subitem {DSVariable.h}, \hyperpage{163}
+  \item {DSVariablePoolLock}
+    \subitem {DSTypes.h}, \hyperpage{149}
+  \item {DSVariablePoolNumberOfVariables}
+    \subitem {DSVariable.c}, \hyperpage{155}
+    \subitem {DSVariable.h}, \hyperpage{163}
+  \item {DSVariablePoolSetReadOnly}
+    \subitem {DSVariable.c}, \hyperpage{155}
+    \subitem {DSVariable.h}, \hyperpage{163}
+  \item {DSVariablePoolSetReadWrite}
+    \subitem {DSVariable.c}, \hyperpage{155}
+    \subitem {DSVariable.h}, \hyperpage{163}
+  \item {DSVariablePoolSetReadWriteAdd}
+    \subitem {DSVariable.c}, \hyperpage{156}
+    \subitem {DSVariable.h}, \hyperpage{164}
+  \item {DSVariablePoolStringInJSONFormat}
+    \subitem {DSIO.c}, \hyperpage{91}
+    \subitem {DSIO.h}, \hyperpage{97}
+  \item {DSVariableRelease}
+    \subitem {DSVariable.c}, \hyperpage{156}
+    \subitem {DSVariable.h}, \hyperpage{164}
+  \item {DSVariableRetain}
+    \subitem {DSVariable.c}, \hyperpage{156}
+    \subitem {DSVariable.h}, \hyperpage{164}
   \item {DSVariableSetValue}
     \subitem {DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}, 
-		\hyperpage{16}
-  \item {DSVariableTokenizer.c}, \hyperpage{163}
-  \item {DSVariableTokenizerLex.c}, \hyperpage{164}
+		\hyperpage{18}
+  \item {DSVariableTokenizer.c}, \hyperpage{166}
+  \item {DSVariableTokenizerLex.c}, \hyperpage{167}
     \subitem {DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer}, 
-		\hyperpage{170}
+		\hyperpage{173}
     \subitem {DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer}, 
-		\hyperpage{170}
+		\hyperpage{173}
     \subitem {DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}, 
-		\hyperpage{170}
+		\hyperpage{173}
     \subitem {DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}, 
-		\hyperpage{170}
+		\hyperpage{173}
     \subitem {DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}, 
-		\hyperpage{170}
+		\hyperpage{173}
     \subitem {DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}, 
-		\hyperpage{171}
+		\hyperpage{174}
     \subitem {DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer}, 
-		\hyperpage{171}
+		\hyperpage{174}
     \subitem {DSVariableFlexget\_\discretionary {-}{}{}column}, 
-		\hyperpage{171}
+		\hyperpage{174}
     \subitem {DSVariableFlexget\_\discretionary {-}{}{}extra}, 
-		\hyperpage{171}
+		\hyperpage{174}
     \subitem {DSVariableFlexget\_\discretionary {-}{}{}in}, 
-		\hyperpage{172}
+		\hyperpage{175}
     \subitem {DSVariableFlexget\_\discretionary {-}{}{}leng}, 
-		\hyperpage{172}
+		\hyperpage{175}
     \subitem {DSVariableFlexget\_\discretionary {-}{}{}lineno}, 
-		\hyperpage{172}
+		\hyperpage{175}
     \subitem {DSVariableFlexget\_\discretionary {-}{}{}out}, 
-		\hyperpage{172}
+		\hyperpage{175}
     \subitem {DSVariableFlexget\_\discretionary {-}{}{}text}, 
-		\hyperpage{172}
+		\hyperpage{175}
     \subitem {DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
-		\hyperpage{172}
+		\hyperpage{175}
     \subitem {DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
-		\hyperpage{173}
-    \subitem {DSVariableFlexrestart}, \hyperpage{173}
+		\hyperpage{176}
+    \subitem {DSVariableFlexrestart}, \hyperpage{176}
     \subitem {DSVariableFlexset\_\discretionary {-}{}{}column}, 
-		\hyperpage{173}
+		\hyperpage{176}
     \subitem {DSVariableFlexset\_\discretionary {-}{}{}extra}, 
-		\hyperpage{173}
+		\hyperpage{176}
     \subitem {DSVariableFlexset\_\discretionary {-}{}{}in}, 
-		\hyperpage{173}
+		\hyperpage{176}
     \subitem {DSVariableFlexset\_\discretionary {-}{}{}lineno}, 
-		\hyperpage{174}
+		\hyperpage{177}
     \subitem {YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}, 
-		\hyperpage{168}
+		\hyperpage{171}
     \subitem {yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state}, 
-		\hyperpage{174}
+		\hyperpage{177}
     \subitem {YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}, 
-		\hyperpage{168}
-    \subitem {YY\_\discretionary {-}{}{}INPUT}, \hyperpage{168}
+		\hyperpage{171}
+    \subitem {YY\_\discretionary {-}{}{}INPUT}, \hyperpage{171}
     \subitem {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}, 
-		\hyperpage{168}
+		\hyperpage{171}
     \subitem {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}, 
-		\hyperpage{169}
-    \subitem {yyless}, \hyperpage{169}
+		\hyperpage{172}
+    \subitem {yyless}, \hyperpage{172}
   \item {DSVariableValue}
     \subitem {DS\_\discretionary {-}{}{}VARIABLE\_\discretionary {-}{}{}ACCESSORY}, 
-		\hyperpage{16}
-  \item {DSVertices}, \hyperpage{33}
+		\hyperpage{18}
+  \item {DSVertices}, \hyperpage{36}
 
   \indexspace
 
-  \item {expression\_\discretionary {-}{}{}token}, \hyperpage{34}
+  \item {expression\_\discretionary {-}{}{}token}, \hyperpage{37}
 
   \indexspace
 
   \item {gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t}
-    \subitem {DSGMASystemParsingAux.h}, \hyperpage{81}
+    \subitem {DSGMASystemParsingAux.h}, \hyperpage{85}
 
   \indexspace
 
-  \item {Macros to manipulate variables.}, \hyperpage{16}
-  \item {matrix\_\discretionary {-}{}{}token}, \hyperpage{35}
-  \item {Messages for DS Errors.}, \hyperpage{9}
+  \item {Macros to manipulate dictionary nodes.}, \hyperpage{9}
+  \item {Macros to manipulate variables.}, \hyperpage{18}
+  \item {matrix\_\discretionary {-}{}{}token}, \hyperpage{38}
+  \item {Messages for DS Errors.}, \hyperpage{10}
   \item {MSIZE}
-    \subitem {DSErrors.c}, \hyperpage{57}
+    \subitem {DSErrors.c}, \hyperpage{61}
 
   \indexspace
 
-  \item {Options for JSON conversion of DSCase object.}, \hyperpage{13}
+  \item {Options for JSON conversion of DSCase object.}, \hyperpage{15}
   \item {Options for JSON conversion of DSSSystem object.}, 
-		\hyperpage{14}
+		\hyperpage{16}
 
   \indexspace
 
   \item {parse\_\discretionary {-}{}{}expression\_\discretionary {-}{}{}s}, 
-		\hyperpage{36}
-  \item {parser\_\discretionary {-}{}{}aux}, \hyperpage{37}
+		\hyperpage{39}
+  \item {parser\_\discretionary {-}{}{}aux}, \hyperpage{40}
   \item {parser\_\discretionary {-}{}{}aux::base\_\discretionary {-}{}{}info}, 
-		\hyperpage{19}
-  \item {pthread\_\discretionary {-}{}{}struct}, \hyperpage{38}
+		\hyperpage{21}
+  \item {pthread\_\discretionary {-}{}{}struct}, \hyperpage{41}
 
   \indexspace
 
   \item {STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM}
-    \subitem {DSErrors.c}, \hyperpage{57}
+    \subitem {DSErrors.c}, \hyperpage{61}
 
   \indexspace
 
   \item {v\_\discretionary {-}{}{}token\_\discretionary {-}{}{}data}, 
-		\hyperpage{39}
-  \item {variable\_\discretionary {-}{}{}token}, \hyperpage{40}
+		\hyperpage{42}
+  \item {variable\_\discretionary {-}{}{}token}, \hyperpage{43}
 
   \indexspace
 
   \item {yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}
     \subitem {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
-		\hyperpage{41}
+		\hyperpage{44}
   \item {yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}
     \subitem {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
-		\hyperpage{41}
+		\hyperpage{44}
   \item {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack}
-    \subitem {yyguts\_\discretionary {-}{}{}t}, \hyperpage{43}
+    \subitem {yyguts\_\discretionary {-}{}{}t}, \hyperpage{46}
   \item {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max}
-    \subitem {yyguts\_\discretionary {-}{}{}t}, \hyperpage{43}
+    \subitem {yyguts\_\discretionary {-}{}{}t}, \hyperpage{46}
   \item {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top}
-    \subitem {yyguts\_\discretionary {-}{}{}t}, \hyperpage{43}
+    \subitem {yyguts\_\discretionary {-}{}{}t}, \hyperpage{46}
   \item {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}, 
-		\hyperpage{41}
+		\hyperpage{44}
     \subitem {yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}, 
-		\hyperpage{41}
+		\hyperpage{44}
     \subitem {yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}, 
-		\hyperpage{41}
+		\hyperpage{44}
   \item {YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{69}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{124}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{168}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{73}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{127}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{171}
   \item {yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{174}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{177}
   \item {YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{69}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{124}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{168}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{73}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{127}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{171}
   \item {YY\_\discretionary {-}{}{}INPUT}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{70}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{125}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{168}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{74}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{128}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{171}
   \item {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{70}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{125}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{168}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{74}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{128}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{171}
   \item {yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{70}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{125}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{169}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{74}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{128}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{172}
   \item {yy\_\discretionary {-}{}{}trans\_\discretionary {-}{}{}info}, 
-		\hyperpage{42}
-  \item {yyguts\_\discretionary {-}{}{}t}, \hyperpage{43}
+		\hyperpage{45}
+  \item {yyguts\_\discretionary {-}{}{}t}, \hyperpage{46}
     \subitem {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack}, 
-		\hyperpage{43}
+		\hyperpage{46}
     \subitem {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max}, 
-		\hyperpage{43}
+		\hyperpage{46}
     \subitem {yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top}, 
-		\hyperpage{43}
+		\hyperpage{46}
   \item {yyless}
-    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{71}
-    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{126}
-    \subitem {DSVariableTokenizerLex.c}, \hyperpage{169}
-  \item {YYMINORTYPE}, \hyperpage{44}
-  \item {yyParser}, \hyperpage{45}
-  \item {yyStackEntry}, \hyperpage{46}
+    \subitem {DSExpressionTokenizerLex.c}, \hyperpage{75}
+    \subitem {DSMatrixTokenizerLex.c}, \hyperpage{129}
+    \subitem {DSVariableTokenizerLex.c}, \hyperpage{172}
+  \item {YYMINORTYPE}, \hyperpage{47}
+  \item {yyParser}, \hyperpage{48}
+  \item {yyStackEntry}, \hyperpage{49}
 
 \end{theindex}

@@ -6,356 +6,364 @@
 \contentsline {chapter}{\numberline {4}File Index}{7}{chapter.4}
 \contentsline {section}{\numberline {4.1}File List}{7}{section.4.1}
 \contentsline {chapter}{\numberline {5}Module Documentation}{9}{chapter.5}
-\contentsline {section}{\numberline {5.1}Messages for DS Errors.}{9}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{10}{subsection.5.1.1}
-\contentsline {section}{\numberline {5.2}Actions for DS Errors.}{11}{section.5.2}
+\contentsline {section}{\numberline {5.1}Macros to manipulate dictionary nodes.}{9}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{9}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Define Documentation}{9}{subsection.5.1.2}
+\contentsline {subsubsection}{\numberline {5.1.2.1}dsInternalDictionarySetValue}{9}{subsubsection.5.1.2.1}
+\contentsline {subsubsection}{\numberline {5.1.2.2}dsInternalDictionaryValue}{9}{subsubsection.5.1.2.2}
+\contentsline {section}{\numberline {5.2}Messages for DS Errors.}{10}{section.5.2}
 \contentsline {subsection}{\numberline {5.2.1}Detailed Description}{11}{subsection.5.2.1}
-\contentsline {section}{\numberline {5.3}DSGMAACCESSORS}{12}{section.5.3}
+\contentsline {section}{\numberline {5.3}Actions for DS Errors.}{12}{section.5.3}
 \contentsline {subsection}{\numberline {5.3.1}Detailed Description}{12}{subsection.5.3.1}
-\contentsline {section}{\numberline {5.4}Options for JSON conversion of DSCase object.}{13}{section.5.4}
+\contentsline {section}{\numberline {5.4}DSGMAACCESSORS}{13}{section.5.4}
 \contentsline {subsection}{\numberline {5.4.1}Detailed Description}{13}{subsection.5.4.1}
-\contentsline {section}{\numberline {5.5}Options for JSON conversion of DSSSystem object.}{14}{section.5.5}
-\contentsline {subsection}{\numberline {5.5.1}Detailed Description}{14}{subsection.5.5.1}
-\contentsline {section}{\numberline {5.6}DSSSysACCESSORS}{15}{section.5.6}
+\contentsline {section}{\numberline {5.5}DS\_\discretionary {-}{}{}IO\_\discretionary {-}{}{}TAG\_\discretionary {-}{}{}TYPES}{14}{section.5.5}
+\contentsline {section}{\numberline {5.6}Options for JSON conversion of DSCase object.}{15}{section.5.6}
 \contentsline {subsection}{\numberline {5.6.1}Detailed Description}{15}{subsection.5.6.1}
-\contentsline {section}{\numberline {5.7}Macros to manipulate variables.}{16}{section.5.7}
+\contentsline {section}{\numberline {5.7}Options for JSON conversion of DSSSystem object.}{16}{section.5.7}
 \contentsline {subsection}{\numberline {5.7.1}Detailed Description}{16}{subsection.5.7.1}
-\contentsline {subsection}{\numberline {5.7.2}Define Documentation}{16}{subsection.5.7.2}
-\contentsline {subsubsection}{\numberline {5.7.2.1}DSVariableName}{16}{subsubsection.5.7.2.1}
-\contentsline {subsubsection}{\numberline {5.7.2.2}DSVariableSetValue}{16}{subsubsection.5.7.2.2}
-\contentsline {subsubsection}{\numberline {5.7.2.3}DSVariableValue}{16}{subsubsection.5.7.2.3}
-\contentsline {chapter}{\numberline {6}Data Structure Documentation}{17}{chapter.6}
-\contentsline {section}{\numberline {6.1}\_\discretionary {-}{}{}varDictionary Struct Reference}{17}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Detailed Description}{18}{subsection.6.1.1}
-\contentsline {section}{\numberline {6.2}base\_\discretionary {-}{}{}info Union Reference}{19}{section.6.2}
-\contentsline {section}{\numberline {6.3}ds\_\discretionary {-}{}{}parallelstack\_\discretionary {-}{}{}t Struct Reference}{20}{section.6.3}
-\contentsline {subsection}{\numberline {6.3.1}Detailed Description}{20}{subsection.6.3.1}
-\contentsline {section}{\numberline {6.4}DSCase Struct Reference}{21}{section.6.4}
-\contentsline {subsection}{\numberline {6.4.1}Detailed Description}{21}{subsection.6.4.1}
-\contentsline {section}{\numberline {6.5}DSDesignSpace Struct Reference}{23}{section.6.5}
-\contentsline {subsection}{\numberline {6.5.1}Detailed Description}{23}{subsection.6.5.1}
-\contentsline {section}{\numberline {6.6}DSDesignSpaceStack Struct Reference}{24}{section.6.6}
-\contentsline {section}{\numberline {6.7}dsexpression Struct Reference}{25}{section.6.7}
-\contentsline {subsection}{\numberline {6.7.1}Detailed Description}{25}{subsection.6.7.1}
-\contentsline {section}{\numberline {6.8}DSGMASystem Struct Reference}{26}{section.6.8}
-\contentsline {subsection}{\numberline {6.8.1}Detailed Description}{26}{subsection.6.8.1}
-\contentsline {section}{\numberline {6.9}DSMatrix Struct Reference}{27}{section.6.9}
-\contentsline {subsection}{\numberline {6.9.1}Detailed Description}{27}{subsection.6.9.1}
-\contentsline {section}{\numberline {6.10}DSMatrixArray Struct Reference}{28}{section.6.10}
-\contentsline {subsection}{\numberline {6.10.1}Detailed Description}{28}{subsection.6.10.1}
-\contentsline {section}{\numberline {6.11}DSSSystem Struct Reference}{29}{section.6.11}
-\contentsline {subsection}{\numberline {6.11.1}Detailed Description}{29}{subsection.6.11.1}
-\contentsline {section}{\numberline {6.12}DSSymbolicMatrix Struct Reference}{30}{section.6.12}
-\contentsline {subsection}{\numberline {6.12.1}Detailed Description}{30}{subsection.6.12.1}
-\contentsline {section}{\numberline {6.13}DSVariable Struct Reference}{31}{section.6.13}
-\contentsline {subsection}{\numberline {6.13.1}Detailed Description}{31}{subsection.6.13.1}
-\contentsline {section}{\numberline {6.14}DSVariablePool Struct Reference}{32}{section.6.14}
-\contentsline {subsection}{\numberline {6.14.1}Detailed Description}{32}{subsection.6.14.1}
-\contentsline {section}{\numberline {6.15}DSVertices Struct Reference}{33}{section.6.15}
-\contentsline {subsection}{\numberline {6.15.1}Detailed Description}{33}{subsection.6.15.1}
-\contentsline {section}{\numberline {6.16}expression\_\discretionary {-}{}{}token Struct Reference}{34}{section.6.16}
-\contentsline {subsection}{\numberline {6.16.1}Detailed Description}{34}{subsection.6.16.1}
-\contentsline {section}{\numberline {6.17}matrix\_\discretionary {-}{}{}token Struct Reference}{35}{section.6.17}
-\contentsline {section}{\numberline {6.18}parse\_\discretionary {-}{}{}expression\_\discretionary {-}{}{}s Struct Reference}{36}{section.6.18}
-\contentsline {subsection}{\numberline {6.18.1}Detailed Description}{36}{subsection.6.18.1}
-\contentsline {section}{\numberline {6.19}parser\_\discretionary {-}{}{}aux Struct Reference}{37}{section.6.19}
-\contentsline {subsection}{\numberline {6.19.1}Detailed Description}{37}{subsection.6.19.1}
-\contentsline {section}{\numberline {6.20}pthread\_\discretionary {-}{}{}struct Struct Reference}{38}{section.6.20}
-\contentsline {subsection}{\numberline {6.20.1}Detailed Description}{38}{subsection.6.20.1}
-\contentsline {section}{\numberline {6.21}v\_\discretionary {-}{}{}token\_\discretionary {-}{}{}data Union Reference}{39}{section.6.21}
-\contentsline {subsection}{\numberline {6.21.1}Detailed Description}{39}{subsection.6.21.1}
-\contentsline {section}{\numberline {6.22}variable\_\discretionary {-}{}{}token Struct Reference}{40}{section.6.22}
-\contentsline {subsection}{\numberline {6.22.1}Detailed Description}{40}{subsection.6.22.1}
-\contentsline {section}{\numberline {6.23}yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state Struct Reference}{41}{section.6.23}
-\contentsline {subsection}{\numberline {6.23.1}Field Documentation}{41}{subsection.6.23.1}
-\contentsline {subsubsection}{\numberline {6.23.1.1}yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}{41}{subsubsection.6.23.1.1}
-\contentsline {subsubsection}{\numberline {6.23.1.2}yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}{41}{subsubsection.6.23.1.2}
-\contentsline {section}{\numberline {6.24}yy\_\discretionary {-}{}{}trans\_\discretionary {-}{}{}info Struct Reference}{42}{section.6.24}
-\contentsline {section}{\numberline {6.25}yyguts\_\discretionary {-}{}{}t Struct Reference}{43}{section.6.25}
-\contentsline {subsection}{\numberline {6.25.1}Field Documentation}{43}{subsection.6.25.1}
-\contentsline {subsubsection}{\numberline {6.25.1.1}yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack}{43}{subsubsection.6.25.1.1}
-\contentsline {subsubsection}{\numberline {6.25.1.2}yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max}{43}{subsubsection.6.25.1.2}
-\contentsline {subsubsection}{\numberline {6.25.1.3}yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top}{43}{subsubsection.6.25.1.3}
-\contentsline {section}{\numberline {6.26}YYMINORTYPE Union Reference}{44}{section.6.26}
-\contentsline {section}{\numberline {6.27}yyParser Struct Reference}{45}{section.6.27}
-\contentsline {section}{\numberline {6.28}yyStackEntry Struct Reference}{46}{section.6.28}
-\contentsline {chapter}{\numberline {7}File Documentation}{47}{chapter.7}
-\contentsline {section}{\numberline {7.1}DSDesignSpace.c File Reference}{47}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}Detailed Description}{49}{subsection.7.1.1}
-\contentsline {section}{\numberline {7.2}DSDesignSpace.h File Reference}{50}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}Detailed Description}{51}{subsection.7.2.1}
-\contentsline {section}{\numberline {7.3}DSDesignSpaceParallel.c File Reference}{52}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Detailed Description}{52}{subsection.7.3.1}
-\contentsline {section}{\numberline {7.4}DSDesignSpaceParallel.h File Reference}{54}{section.7.4}
-\contentsline {subsection}{\numberline {7.4.1}Detailed Description}{54}{subsection.7.4.1}
-\contentsline {section}{\numberline {7.5}DSErrors.c File Reference}{56}{section.7.5}
-\contentsline {subsection}{\numberline {7.5.1}Detailed Description}{56}{subsection.7.5.1}
-\contentsline {subsection}{\numberline {7.5.2}Define Documentation}{57}{subsection.7.5.2}
-\contentsline {subsubsection}{\numberline {7.5.2.1}MSIZE}{57}{subsubsection.7.5.2.1}
-\contentsline {subsubsection}{\numberline {7.5.2.2}STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM}{57}{subsubsection.7.5.2.2}
-\contentsline {subsection}{\numberline {7.5.3}Function Documentation}{58}{subsection.7.5.3}
-\contentsline {subsubsection}{\numberline {7.5.3.1}DSErrorFunction}{58}{subsubsection.7.5.3.1}
-\contentsline {section}{\numberline {7.6}DSErrors.h File Reference}{59}{section.7.6}
-\contentsline {subsection}{\numberline {7.6.1}Detailed Description}{60}{subsection.7.6.1}
-\contentsline {subsection}{\numberline {7.6.2}Define Documentation}{61}{subsection.7.6.2}
-\contentsline {subsubsection}{\numberline {7.6.2.1}DSError}{61}{subsubsection.7.6.2.1}
-\contentsline {subsection}{\numberline {7.6.3}Function Documentation}{61}{subsection.7.6.3}
-\contentsline {subsubsection}{\numberline {7.6.3.1}DSErrorFunction}{61}{subsubsection.7.6.3.1}
-\contentsline {section}{\numberline {7.7}DSExpression.c File Reference}{62}{section.7.7}
-\contentsline {subsection}{\numberline {7.7.1}Detailed Description}{63}{subsection.7.7.1}
-\contentsline {section}{\numberline {7.8}DSExpression.h File Reference}{64}{section.7.8}
-\contentsline {subsection}{\numberline {7.8.1}Detailed Description}{65}{subsection.7.8.1}
-\contentsline {section}{\numberline {7.9}DSExpressionTokenizerLex.c File Reference}{66}{section.7.9}
-\contentsline {subsection}{\numberline {7.9.1}Detailed Description}{69}{subsection.7.9.1}
-\contentsline {subsection}{\numberline {7.9.2}Define Documentation}{69}{subsection.7.9.2}
-\contentsline {subsubsection}{\numberline {7.9.2.1}YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}{69}{subsubsection.7.9.2.1}
-\contentsline {subsubsection}{\numberline {7.9.2.2}YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}{70}{subsubsection.7.9.2.2}
-\contentsline {subsubsection}{\numberline {7.9.2.3}YY\_\discretionary {-}{}{}INPUT}{70}{subsubsection.7.9.2.3}
-\contentsline {subsubsection}{\numberline {7.9.2.4}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}{70}{subsubsection.7.9.2.4}
-\contentsline {subsubsection}{\numberline {7.9.2.5}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}{71}{subsubsection.7.9.2.5}
-\contentsline {subsubsection}{\numberline {7.9.2.6}yyless}{71}{subsubsection.7.9.2.6}
-\contentsline {subsubsection}{\numberline {7.9.2.7}yyless}{71}{subsubsection.7.9.2.7}
-\contentsline {subsection}{\numberline {7.9.3}Function Documentation}{71}{subsection.7.9.3}
-\contentsline {subsubsection}{\numberline {7.9.3.1}DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}{71}{subsubsection.7.9.3.1}
-\contentsline {subsubsection}{\numberline {7.9.3.2}DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}{72}{subsubsection.7.9.3.2}
-\contentsline {subsubsection}{\numberline {7.9.3.3}DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}{72}{subsubsection.7.9.3.3}
-\contentsline {subsubsection}{\numberline {7.9.3.4}DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}{72}{subsubsection.7.9.3.4}
-\contentsline {subsubsection}{\numberline {7.9.3.5}DSExpressionFlexget\_\discretionary {-}{}{}column}{73}{subsubsection.7.9.3.5}
-\contentsline {subsubsection}{\numberline {7.9.3.6}DSExpressionFlexget\_\discretionary {-}{}{}extra}{73}{subsubsection.7.9.3.6}
-\contentsline {subsubsection}{\numberline {7.9.3.7}DSExpressionFlexget\_\discretionary {-}{}{}in}{73}{subsubsection.7.9.3.7}
-\contentsline {subsubsection}{\numberline {7.9.3.8}DSExpressionFlexget\_\discretionary {-}{}{}leng}{73}{subsubsection.7.9.3.8}
-\contentsline {subsubsection}{\numberline {7.9.3.9}DSExpressionFlexget\_\discretionary {-}{}{}lineno}{73}{subsubsection.7.9.3.9}
-\contentsline {subsubsection}{\numberline {7.9.3.10}DSExpressionFlexget\_\discretionary {-}{}{}out}{73}{subsubsection.7.9.3.10}
-\contentsline {subsubsection}{\numberline {7.9.3.11}DSExpressionFlexget\_\discretionary {-}{}{}text}{74}{subsubsection.7.9.3.11}
-\contentsline {subsubsection}{\numberline {7.9.3.12}DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{74}{subsubsection.7.9.3.12}
-\contentsline {subsubsection}{\numberline {7.9.3.13}DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{74}{subsubsection.7.9.3.13}
-\contentsline {subsubsection}{\numberline {7.9.3.14}DSExpressionFlexset\_\discretionary {-}{}{}column}{74}{subsubsection.7.9.3.14}
-\contentsline {subsubsection}{\numberline {7.9.3.15}DSExpressionFlexset\_\discretionary {-}{}{}extra}{74}{subsubsection.7.9.3.15}
-\contentsline {subsubsection}{\numberline {7.9.3.16}DSExpressionFlexset\_\discretionary {-}{}{}in}{75}{subsubsection.7.9.3.16}
-\contentsline {subsubsection}{\numberline {7.9.3.17}DSExpressionFlexset\_\discretionary {-}{}{}lineno}{75}{subsubsection.7.9.3.17}
-\contentsline {section}{\numberline {7.10}DSGMASystem.c File Reference}{76}{section.7.10}
-\contentsline {subsection}{\numberline {7.10.1}Detailed Description}{77}{subsection.7.10.1}
-\contentsline {section}{\numberline {7.11}DSGMASystem.h File Reference}{78}{section.7.11}
-\contentsline {subsection}{\numberline {7.11.1}Detailed Description}{78}{subsection.7.11.1}
-\contentsline {section}{\numberline {7.12}DSGMASystemParsingAux.h File Reference}{80}{section.7.12}
-\contentsline {subsection}{\numberline {7.12.1}Detailed Description}{81}{subsection.7.12.1}
-\contentsline {subsection}{\numberline {7.12.2}Typedef Documentation}{81}{subsection.7.12.2}
-\contentsline {subsubsection}{\numberline {7.12.2.1}gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t}{81}{subsubsection.7.12.2.1}
-\contentsline {section}{\numberline {7.13}DSIO.c File Reference}{82}{section.7.13}
-\contentsline {subsection}{\numberline {7.13.1}Detailed Description}{83}{subsection.7.13.1}
-\contentsline {subsection}{\numberline {7.13.2}Function Documentation}{84}{subsection.7.13.2}
-\contentsline {subsubsection}{\numberline {7.13.2.1}DSCaseStringInJSONFormat}{84}{subsubsection.7.13.2.1}
-\contentsline {subsubsection}{\numberline {7.13.2.2}DSIOSetCaseJSONOptions}{84}{subsubsection.7.13.2.2}
-\contentsline {subsubsection}{\numberline {7.13.2.3}DSIOSetErrorFile}{84}{subsubsection.7.13.2.3}
-\contentsline {subsubsection}{\numberline {7.13.2.4}DSIOSetPostErrorFunction}{85}{subsubsection.7.13.2.4}
-\contentsline {subsubsection}{\numberline {7.13.2.5}DSIOSetPostFatalErrorFunction}{85}{subsubsection.7.13.2.5}
-\contentsline {subsubsection}{\numberline {7.13.2.6}DSIOSetPostWarningFunction}{85}{subsubsection.7.13.2.6}
-\contentsline {subsubsection}{\numberline {7.13.2.7}DSIOSetPrintFunction}{85}{subsubsection.7.13.2.7}
-\contentsline {subsubsection}{\numberline {7.13.2.8}DSIOSetSSystemJSONOptions}{86}{subsubsection.7.13.2.8}
-\contentsline {subsubsection}{\numberline {7.13.2.9}DSMatrixArrayStringInJSONFormat}{86}{subsubsection.7.13.2.9}
-\contentsline {subsubsection}{\numberline {7.13.2.10}DSMatrixStringInJSONFormat}{86}{subsubsection.7.13.2.10}
-\contentsline {subsubsection}{\numberline {7.13.2.11}DSSSystemStringInJSONFormat}{86}{subsubsection.7.13.2.11}
-\contentsline {subsubsection}{\numberline {7.13.2.12}DSVariablePoolStringInJSONFormat}{87}{subsubsection.7.13.2.12}
-\contentsline {subsection}{\numberline {7.13.3}Variable Documentation}{87}{subsection.7.13.3}
-\contentsline {subsubsection}{\numberline {7.13.3.1}DSCasePrintingOptions}{87}{subsubsection.7.13.3.1}
-\contentsline {subsubsection}{\numberline {7.13.3.2}DSSSystemPrintingOptions}{87}{subsubsection.7.13.3.2}
-\contentsline {section}{\numberline {7.14}DSIO.h File Reference}{88}{section.7.14}
-\contentsline {subsection}{\numberline {7.14.1}Detailed Description}{90}{subsection.7.14.1}
-\contentsline {subsection}{\numberline {7.14.2}Function Documentation}{90}{subsection.7.14.2}
-\contentsline {subsubsection}{\numberline {7.14.2.1}DSCaseStringInJSONFormat}{90}{subsubsection.7.14.2.1}
-\contentsline {subsubsection}{\numberline {7.14.2.2}DSIOSetCaseJSONOptions}{91}{subsubsection.7.14.2.2}
-\contentsline {subsubsection}{\numberline {7.14.2.3}DSIOSetErrorFile}{91}{subsubsection.7.14.2.3}
-\contentsline {subsubsection}{\numberline {7.14.2.4}DSIOSetPostErrorFunction}{91}{subsubsection.7.14.2.4}
-\contentsline {subsubsection}{\numberline {7.14.2.5}DSIOSetPostFatalErrorFunction}{92}{subsubsection.7.14.2.5}
-\contentsline {subsubsection}{\numberline {7.14.2.6}DSIOSetPostWarningFunction}{92}{subsubsection.7.14.2.6}
-\contentsline {subsubsection}{\numberline {7.14.2.7}DSIOSetPrintFunction}{92}{subsubsection.7.14.2.7}
-\contentsline {subsubsection}{\numberline {7.14.2.8}DSIOSetSSystemJSONOptions}{92}{subsubsection.7.14.2.8}
-\contentsline {subsubsection}{\numberline {7.14.2.9}DSMatrixArrayStringInJSONFormat}{93}{subsubsection.7.14.2.9}
-\contentsline {subsubsection}{\numberline {7.14.2.10}DSMatrixStringInJSONFormat}{93}{subsubsection.7.14.2.10}
-\contentsline {subsubsection}{\numberline {7.14.2.11}DSSSystemStringInJSONFormat}{93}{subsubsection.7.14.2.11}
-\contentsline {subsubsection}{\numberline {7.14.2.12}DSVariablePoolStringInJSONFormat}{94}{subsubsection.7.14.2.12}
-\contentsline {subsection}{\numberline {7.14.3}Variable Documentation}{94}{subsection.7.14.3}
-\contentsline {subsubsection}{\numberline {7.14.3.1}DSIOErrorFile}{94}{subsubsection.7.14.3.1}
-\contentsline {subsubsection}{\numberline {7.14.3.2}DSPostError}{94}{subsubsection.7.14.3.2}
-\contentsline {subsubsection}{\numberline {7.14.3.3}DSPostFatalError}{94}{subsubsection.7.14.3.3}
-\contentsline {subsubsection}{\numberline {7.14.3.4}DSPostWarning}{95}{subsubsection.7.14.3.4}
-\contentsline {subsubsection}{\numberline {7.14.3.5}DSPrintf}{95}{subsubsection.7.14.3.5}
-\contentsline {section}{\numberline {7.15}DSMatrix.h File Reference}{96}{section.7.15}
-\contentsline {subsection}{\numberline {7.15.1}Detailed Description}{99}{subsection.7.15.1}
-\contentsline {subsection}{\numberline {7.15.2}Function Documentation}{99}{subsection.7.15.2}
-\contentsline {subsubsection}{\numberline {7.15.2.1}DSMatrixAlloc}{99}{subsubsection.7.15.2.1}
-\contentsline {subsubsection}{\numberline {7.15.2.2}DSMatrixByAddingMatrix}{99}{subsubsection.7.15.2.2}
-\contentsline {subsubsection}{\numberline {7.15.2.3}DSMatrixByParsingString}{100}{subsubsection.7.15.2.3}
-\contentsline {subsubsection}{\numberline {7.15.2.4}DSMatrixBySubstractingMatrix}{100}{subsubsection.7.15.2.4}
-\contentsline {subsubsection}{\numberline {7.15.2.5}DSMatrixCalloc}{101}{subsubsection.7.15.2.5}
-\contentsline {subsubsection}{\numberline {7.15.2.6}DSMatrixCopy}{101}{subsubsection.7.15.2.6}
-\contentsline {subsubsection}{\numberline {7.15.2.7}DSMatrixDoubleValue}{101}{subsubsection.7.15.2.7}
-\contentsline {subsubsection}{\numberline {7.15.2.8}DSMatrixFree}{102}{subsubsection.7.15.2.8}
-\contentsline {subsubsection}{\numberline {7.15.2.9}DSMatrixIdentity}{102}{subsubsection.7.15.2.9}
-\contentsline {subsubsection}{\numberline {7.15.2.10}DSMatrixPLUDecomposition}{102}{subsubsection.7.15.2.10}
-\contentsline {subsubsection}{\numberline {7.15.2.11}DSMatrixRandomNumbers}{102}{subsubsection.7.15.2.11}
-\contentsline {subsubsection}{\numberline {7.15.2.12}DSMatrixSetDoubleValueAll}{103}{subsubsection.7.15.2.12}
-\contentsline {section}{\numberline {7.16}DSMatrix\_\discretionary {-}{}{}gsl.c File Reference}{104}{section.7.16}
-\contentsline {subsection}{\numberline {7.16.1}Detailed Description}{107}{subsection.7.16.1}
-\contentsline {subsection}{\numberline {7.16.2}Function Documentation}{107}{subsection.7.16.2}
-\contentsline {subsubsection}{\numberline {7.16.2.1}DSMatrixAlloc}{107}{subsubsection.7.16.2.1}
-\contentsline {subsubsection}{\numberline {7.16.2.2}DSMatrixByAddingMatrix}{107}{subsubsection.7.16.2.2}
-\contentsline {subsubsection}{\numberline {7.16.2.3}DSMatrixByParsingString}{108}{subsubsection.7.16.2.3}
-\contentsline {subsubsection}{\numberline {7.16.2.4}DSMatrixBySubstractingMatrix}{108}{subsubsection.7.16.2.4}
-\contentsline {subsubsection}{\numberline {7.16.2.5}DSMatrixCalloc}{109}{subsubsection.7.16.2.5}
-\contentsline {subsubsection}{\numberline {7.16.2.6}DSMatrixCopy}{109}{subsubsection.7.16.2.6}
-\contentsline {subsubsection}{\numberline {7.16.2.7}DSMatrixDoubleValue}{109}{subsubsection.7.16.2.7}
-\contentsline {subsubsection}{\numberline {7.16.2.8}DSMatrixFree}{110}{subsubsection.7.16.2.8}
-\contentsline {subsubsection}{\numberline {7.16.2.9}DSMatrixIdentity}{110}{subsubsection.7.16.2.9}
-\contentsline {subsubsection}{\numberline {7.16.2.10}DSMatrixPLUDecomposition}{110}{subsubsection.7.16.2.10}
-\contentsline {subsubsection}{\numberline {7.16.2.11}DSMatrixRandomNumbers}{110}{subsubsection.7.16.2.11}
-\contentsline {subsubsection}{\numberline {7.16.2.12}DSMatrixSetDoubleValueAll}{111}{subsubsection.7.16.2.12}
-\contentsline {section}{\numberline {7.17}DSMatrixArray.c File Reference}{112}{section.7.17}
-\contentsline {subsection}{\numberline {7.17.1}Detailed Description}{112}{subsection.7.17.1}
-\contentsline {subsection}{\numberline {7.17.2}Function Documentation}{113}{subsection.7.17.2}
-\contentsline {subsubsection}{\numberline {7.17.2.1}DSMatrixArrayAddMatrix}{113}{subsubsection.7.17.2.1}
-\contentsline {subsubsection}{\numberline {7.17.2.2}DSMatrixArrayAlloc}{113}{subsubsection.7.17.2.2}
-\contentsline {subsubsection}{\numberline {7.17.2.3}DSMatrixArrayCopy}{113}{subsubsection.7.17.2.3}
-\contentsline {subsubsection}{\numberline {7.17.2.4}DSMatrixArrayFree}{114}{subsubsection.7.17.2.4}
-\contentsline {subsubsection}{\numberline {7.17.2.5}DSMatrixArrayMatrix}{114}{subsubsection.7.17.2.5}
-\contentsline {section}{\numberline {7.18}DSMatrixArray.h File Reference}{115}{section.7.18}
-\contentsline {subsection}{\numberline {7.18.1}Detailed Description}{116}{subsection.7.18.1}
-\contentsline {subsection}{\numberline {7.18.2}Function Documentation}{116}{subsection.7.18.2}
-\contentsline {subsubsection}{\numberline {7.18.2.1}DSMatrixArrayAddMatrix}{116}{subsubsection.7.18.2.1}
-\contentsline {subsubsection}{\numberline {7.18.2.2}DSMatrixArrayAlloc}{116}{subsubsection.7.18.2.2}
-\contentsline {subsubsection}{\numberline {7.18.2.3}DSMatrixArrayCopy}{117}{subsubsection.7.18.2.3}
-\contentsline {subsubsection}{\numberline {7.18.2.4}DSMatrixArrayFree}{117}{subsubsection.7.18.2.4}
-\contentsline {subsubsection}{\numberline {7.18.2.5}DSMatrixArrayMatrix}{117}{subsubsection.7.18.2.5}
-\contentsline {section}{\numberline {7.19}DSMatrixTokenizer.c File Reference}{118}{section.7.19}
-\contentsline {subsection}{\numberline {7.19.1}Detailed Description}{118}{subsection.7.19.1}
-\contentsline {section}{\numberline {7.20}DSMatrixTokenizer.h File Reference}{119}{section.7.20}
-\contentsline {subsection}{\numberline {7.20.1}Detailed Description}{120}{subsection.7.20.1}
-\contentsline {section}{\numberline {7.21}DSMatrixTokenizerLex.c File Reference}{121}{section.7.21}
-\contentsline {subsection}{\numberline {7.21.1}Detailed Description}{124}{subsection.7.21.1}
-\contentsline {subsection}{\numberline {7.21.2}Define Documentation}{124}{subsection.7.21.2}
-\contentsline {subsubsection}{\numberline {7.21.2.1}YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}{124}{subsubsection.7.21.2.1}
-\contentsline {subsubsection}{\numberline {7.21.2.2}YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}{124}{subsubsection.7.21.2.2}
-\contentsline {subsubsection}{\numberline {7.21.2.3}YY\_\discretionary {-}{}{}INPUT}{125}{subsubsection.7.21.2.3}
-\contentsline {subsubsection}{\numberline {7.21.2.4}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}{125}{subsubsection.7.21.2.4}
-\contentsline {subsubsection}{\numberline {7.21.2.5}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}{125}{subsubsection.7.21.2.5}
-\contentsline {subsubsection}{\numberline {7.21.2.6}yyless}{126}{subsubsection.7.21.2.6}
-\contentsline {subsubsection}{\numberline {7.21.2.7}yyless}{126}{subsubsection.7.21.2.7}
-\contentsline {subsection}{\numberline {7.21.3}Function Documentation}{126}{subsection.7.21.3}
-\contentsline {subsubsection}{\numberline {7.21.3.1}DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}{126}{subsubsection.7.21.3.1}
-\contentsline {subsubsection}{\numberline {7.21.3.2}DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}{126}{subsubsection.7.21.3.2}
-\contentsline {subsubsection}{\numberline {7.21.3.3}DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}{127}{subsubsection.7.21.3.3}
-\contentsline {subsubsection}{\numberline {7.21.3.4}DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}{127}{subsubsection.7.21.3.4}
-\contentsline {subsubsection}{\numberline {7.21.3.5}DSMatrixFlexget\_\discretionary {-}{}{}column}{127}{subsubsection.7.21.3.5}
-\contentsline {subsubsection}{\numberline {7.21.3.6}DSMatrixFlexget\_\discretionary {-}{}{}extra}{128}{subsubsection.7.21.3.6}
-\contentsline {subsubsection}{\numberline {7.21.3.7}DSMatrixFlexget\_\discretionary {-}{}{}in}{128}{subsubsection.7.21.3.7}
-\contentsline {subsubsection}{\numberline {7.21.3.8}DSMatrixFlexget\_\discretionary {-}{}{}leng}{128}{subsubsection.7.21.3.8}
-\contentsline {subsubsection}{\numberline {7.21.3.9}DSMatrixFlexget\_\discretionary {-}{}{}lineno}{128}{subsubsection.7.21.3.9}
-\contentsline {subsubsection}{\numberline {7.21.3.10}DSMatrixFlexget\_\discretionary {-}{}{}out}{128}{subsubsection.7.21.3.10}
-\contentsline {subsubsection}{\numberline {7.21.3.11}DSMatrixFlexget\_\discretionary {-}{}{}text}{128}{subsubsection.7.21.3.11}
-\contentsline {subsubsection}{\numberline {7.21.3.12}DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{129}{subsubsection.7.21.3.12}
-\contentsline {subsubsection}{\numberline {7.21.3.13}DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{129}{subsubsection.7.21.3.13}
-\contentsline {subsubsection}{\numberline {7.21.3.14}DSMatrixFlexset\_\discretionary {-}{}{}column}{129}{subsubsection.7.21.3.14}
-\contentsline {subsubsection}{\numberline {7.21.3.15}DSMatrixFlexset\_\discretionary {-}{}{}extra}{129}{subsubsection.7.21.3.15}
-\contentsline {subsubsection}{\numberline {7.21.3.16}DSMatrixFlexset\_\discretionary {-}{}{}in}{129}{subsubsection.7.21.3.16}
-\contentsline {subsubsection}{\numberline {7.21.3.17}DSMatrixFlexset\_\discretionary {-}{}{}lineno}{130}{subsubsection.7.21.3.17}
-\contentsline {section}{\numberline {7.22}DSMemoryManager.c File Reference}{131}{section.7.22}
-\contentsline {subsection}{\numberline {7.22.1}Detailed Description}{131}{subsection.7.22.1}
-\contentsline {subsection}{\numberline {7.22.2}Function Documentation}{132}{subsection.7.22.2}
-\contentsline {subsubsection}{\numberline {7.22.2.1}DSSecureCalloc}{132}{subsubsection.7.22.2.1}
-\contentsline {subsubsection}{\numberline {7.22.2.2}DSSecureFree}{132}{subsubsection.7.22.2.2}
-\contentsline {subsubsection}{\numberline {7.22.2.3}DSSecureMalloc}{133}{subsubsection.7.22.2.3}
-\contentsline {subsubsection}{\numberline {7.22.2.4}DSSecureRealloc}{133}{subsubsection.7.22.2.4}
-\contentsline {section}{\numberline {7.23}DSMemoryManager.h File Reference}{134}{section.7.23}
-\contentsline {subsection}{\numberline {7.23.1}Detailed Description}{134}{subsection.7.23.1}
-\contentsline {subsection}{\numberline {7.23.2}Function Documentation}{135}{subsection.7.23.2}
-\contentsline {subsubsection}{\numberline {7.23.2.1}DSSecureCalloc}{135}{subsubsection.7.23.2.1}
-\contentsline {subsubsection}{\numberline {7.23.2.2}DSSecureFree}{135}{subsubsection.7.23.2.2}
-\contentsline {subsubsection}{\numberline {7.23.2.3}DSSecureMalloc}{136}{subsubsection.7.23.2.3}
-\contentsline {subsubsection}{\numberline {7.23.2.4}DSSecureRealloc}{136}{subsubsection.7.23.2.4}
-\contentsline {section}{\numberline {7.24}DSSSystem.h File Reference}{137}{section.7.24}
-\contentsline {subsection}{\numberline {7.24.1}Detailed Description}{138}{subsection.7.24.1}
-\contentsline {section}{\numberline {7.25}DSStd.h File Reference}{139}{section.7.25}
-\contentsline {subsection}{\numberline {7.25.1}Detailed Description}{140}{subsection.7.25.1}
-\contentsline {section}{\numberline {7.26}DSSymbolicMatrix.h File Reference}{141}{section.7.26}
-\contentsline {subsection}{\numberline {7.26.1}Detailed Description}{141}{subsection.7.26.1}
-\contentsline {section}{\numberline {7.27}DSTypes.h File Reference}{143}{section.7.27}
-\contentsline {subsection}{\numberline {7.27.1}Detailed Description}{145}{subsection.7.27.1}
-\contentsline {subsection}{\numberline {7.27.2}Typedef Documentation}{145}{subsection.7.27.2}
-\contentsline {subsubsection}{\numberline {7.27.2.1}DSComplexMatrix}{145}{subsubsection.7.27.2.1}
-\contentsline {subsubsection}{\numberline {7.27.2.2}DSExpression}{145}{subsubsection.7.27.2.2}
-\contentsline {subsection}{\numberline {7.27.3}Enumeration Type Documentation}{146}{subsection.7.27.3}
-\contentsline {subsubsection}{\numberline {7.27.3.1}DSVariablePoolLock}{146}{subsubsection.7.27.3.1}
-\contentsline {section}{\numberline {7.28}DSVariable.c File Reference}{147}{section.7.28}
-\contentsline {subsection}{\numberline {7.28.1}Detailed Description}{149}{subsection.7.28.1}
-\contentsline {subsection}{\numberline {7.28.2}Function Documentation}{149}{subsection.7.28.2}
-\contentsline {subsubsection}{\numberline {7.28.2.1}DSVariableAlloc}{149}{subsubsection.7.28.2.1}
-\contentsline {subsubsection}{\numberline {7.28.2.2}DSVariableFree}{150}{subsubsection.7.28.2.2}
-\contentsline {subsubsection}{\numberline {7.28.2.3}DSVariablePoolAddVariable}{150}{subsubsection.7.28.2.3}
-\contentsline {subsubsection}{\numberline {7.28.2.4}DSVariablePoolAddVariableWithName}{150}{subsubsection.7.28.2.4}
-\contentsline {subsubsection}{\numberline {7.28.2.5}DSVariablePoolAlloc}{151}{subsubsection.7.28.2.5}
-\contentsline {subsubsection}{\numberline {7.28.2.6}DSVariablePoolCopy}{151}{subsubsection.7.28.2.6}
-\contentsline {subsubsection}{\numberline {7.28.2.7}DSVariablePoolFree}{151}{subsubsection.7.28.2.7}
-\contentsline {subsubsection}{\numberline {7.28.2.8}DSVariablePoolIsReadOnly}{152}{subsubsection.7.28.2.8}
-\contentsline {subsubsection}{\numberline {7.28.2.9}DSVariablePoolIsReadWrite}{152}{subsubsection.7.28.2.9}
-\contentsline {subsubsection}{\numberline {7.28.2.10}DSVariablePoolIsReadWriteAdd}{152}{subsubsection.7.28.2.10}
-\contentsline {subsubsection}{\numberline {7.28.2.11}DSVariablePoolNumberOfVariables}{152}{subsubsection.7.28.2.11}
-\contentsline {subsubsection}{\numberline {7.28.2.12}DSVariablePoolSetReadOnly}{153}{subsubsection.7.28.2.12}
-\contentsline {subsubsection}{\numberline {7.28.2.13}DSVariablePoolSetReadWrite}{153}{subsubsection.7.28.2.13}
-\contentsline {subsubsection}{\numberline {7.28.2.14}DSVariablePoolSetReadWriteAdd}{153}{subsubsection.7.28.2.14}
-\contentsline {subsubsection}{\numberline {7.28.2.15}DSVariableRelease}{154}{subsubsection.7.28.2.15}
-\contentsline {subsubsection}{\numberline {7.28.2.16}DSVariableRetain}{154}{subsubsection.7.28.2.16}
-\contentsline {section}{\numberline {7.29}DSVariable.h File Reference}{155}{section.7.29}
-\contentsline {subsection}{\numberline {7.29.1}Detailed Description}{157}{subsection.7.29.1}
-\contentsline {subsection}{\numberline {7.29.2}Function Documentation}{157}{subsection.7.29.2}
-\contentsline {subsubsection}{\numberline {7.29.2.1}DSVariableAlloc}{157}{subsubsection.7.29.2.1}
-\contentsline {subsubsection}{\numberline {7.29.2.2}DSVariableFree}{158}{subsubsection.7.29.2.2}
-\contentsline {subsubsection}{\numberline {7.29.2.3}DSVariablePoolAddVariable}{158}{subsubsection.7.29.2.3}
-\contentsline {subsubsection}{\numberline {7.29.2.4}DSVariablePoolAddVariableWithName}{158}{subsubsection.7.29.2.4}
-\contentsline {subsubsection}{\numberline {7.29.2.5}DSVariablePoolAlloc}{159}{subsubsection.7.29.2.5}
-\contentsline {subsubsection}{\numberline {7.29.2.6}DSVariablePoolCopy}{159}{subsubsection.7.29.2.6}
-\contentsline {subsubsection}{\numberline {7.29.2.7}DSVariablePoolFree}{159}{subsubsection.7.29.2.7}
-\contentsline {subsubsection}{\numberline {7.29.2.8}DSVariablePoolIsReadOnly}{160}{subsubsection.7.29.2.8}
-\contentsline {subsubsection}{\numberline {7.29.2.9}DSVariablePoolIsReadWrite}{160}{subsubsection.7.29.2.9}
-\contentsline {subsubsection}{\numberline {7.29.2.10}DSVariablePoolIsReadWriteAdd}{160}{subsubsection.7.29.2.10}
-\contentsline {subsubsection}{\numberline {7.29.2.11}DSVariablePoolNumberOfVariables}{161}{subsubsection.7.29.2.11}
-\contentsline {subsubsection}{\numberline {7.29.2.12}DSVariablePoolSetReadOnly}{161}{subsubsection.7.29.2.12}
-\contentsline {subsubsection}{\numberline {7.29.2.13}DSVariablePoolSetReadWrite}{161}{subsubsection.7.29.2.13}
-\contentsline {subsubsection}{\numberline {7.29.2.14}DSVariablePoolSetReadWriteAdd}{161}{subsubsection.7.29.2.14}
-\contentsline {subsubsection}{\numberline {7.29.2.15}DSVariableRelease}{162}{subsubsection.7.29.2.15}
-\contentsline {subsubsection}{\numberline {7.29.2.16}DSVariableRetain}{162}{subsubsection.7.29.2.16}
-\contentsline {section}{\numberline {7.30}DSVariableTokenizer.c File Reference}{163}{section.7.30}
-\contentsline {subsection}{\numberline {7.30.1}Detailed Description}{163}{subsection.7.30.1}
-\contentsline {section}{\numberline {7.31}DSVariableTokenizerLex.c File Reference}{164}{section.7.31}
-\contentsline {subsection}{\numberline {7.31.1}Detailed Description}{167}{subsection.7.31.1}
-\contentsline {subsection}{\numberline {7.31.2}Define Documentation}{168}{subsection.7.31.2}
-\contentsline {subsubsection}{\numberline {7.31.2.1}YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}{168}{subsubsection.7.31.2.1}
-\contentsline {subsubsection}{\numberline {7.31.2.2}YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}{168}{subsubsection.7.31.2.2}
-\contentsline {subsubsection}{\numberline {7.31.2.3}YY\_\discretionary {-}{}{}INPUT}{168}{subsubsection.7.31.2.3}
-\contentsline {subsubsection}{\numberline {7.31.2.4}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}{168}{subsubsection.7.31.2.4}
-\contentsline {subsubsection}{\numberline {7.31.2.5}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}{169}{subsubsection.7.31.2.5}
-\contentsline {subsubsection}{\numberline {7.31.2.6}yyless}{169}{subsubsection.7.31.2.6}
-\contentsline {subsubsection}{\numberline {7.31.2.7}yyless}{169}{subsubsection.7.31.2.7}
-\contentsline {subsection}{\numberline {7.31.3}Function Documentation}{170}{subsection.7.31.3}
-\contentsline {subsubsection}{\numberline {7.31.3.1}DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer}{170}{subsubsection.7.31.3.1}
-\contentsline {subsubsection}{\numberline {7.31.3.2}DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer}{170}{subsubsection.7.31.3.2}
-\contentsline {subsubsection}{\numberline {7.31.3.3}DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}{170}{subsubsection.7.31.3.3}
-\contentsline {subsubsection}{\numberline {7.31.3.4}DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}{170}{subsubsection.7.31.3.4}
-\contentsline {subsubsection}{\numberline {7.31.3.5}DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}{171}{subsubsection.7.31.3.5}
-\contentsline {subsubsection}{\numberline {7.31.3.6}DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}{171}{subsubsection.7.31.3.6}
-\contentsline {subsubsection}{\numberline {7.31.3.7}DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer}{171}{subsubsection.7.31.3.7}
-\contentsline {subsubsection}{\numberline {7.31.3.8}DSVariableFlexget\_\discretionary {-}{}{}column}{171}{subsubsection.7.31.3.8}
-\contentsline {subsubsection}{\numberline {7.31.3.9}DSVariableFlexget\_\discretionary {-}{}{}extra}{172}{subsubsection.7.31.3.9}
-\contentsline {subsubsection}{\numberline {7.31.3.10}DSVariableFlexget\_\discretionary {-}{}{}in}{172}{subsubsection.7.31.3.10}
-\contentsline {subsubsection}{\numberline {7.31.3.11}DSVariableFlexget\_\discretionary {-}{}{}leng}{172}{subsubsection.7.31.3.11}
-\contentsline {subsubsection}{\numberline {7.31.3.12}DSVariableFlexget\_\discretionary {-}{}{}lineno}{172}{subsubsection.7.31.3.12}
-\contentsline {subsubsection}{\numberline {7.31.3.13}DSVariableFlexget\_\discretionary {-}{}{}out}{172}{subsubsection.7.31.3.13}
-\contentsline {subsubsection}{\numberline {7.31.3.14}DSVariableFlexget\_\discretionary {-}{}{}text}{172}{subsubsection.7.31.3.14}
-\contentsline {subsubsection}{\numberline {7.31.3.15}DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{173}{subsubsection.7.31.3.15}
-\contentsline {subsubsection}{\numberline {7.31.3.16}DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{173}{subsubsection.7.31.3.16}
-\contentsline {subsubsection}{\numberline {7.31.3.17}DSVariableFlexrestart}{173}{subsubsection.7.31.3.17}
-\contentsline {subsubsection}{\numberline {7.31.3.18}DSVariableFlexset\_\discretionary {-}{}{}column}{173}{subsubsection.7.31.3.18}
-\contentsline {subsubsection}{\numberline {7.31.3.19}DSVariableFlexset\_\discretionary {-}{}{}extra}{173}{subsubsection.7.31.3.19}
-\contentsline {subsubsection}{\numberline {7.31.3.20}DSVariableFlexset\_\discretionary {-}{}{}in}{174}{subsubsection.7.31.3.20}
-\contentsline {subsubsection}{\numberline {7.31.3.21}DSVariableFlexset\_\discretionary {-}{}{}lineno}{174}{subsubsection.7.31.3.21}
-\contentsline {subsection}{\numberline {7.31.4}Variable Documentation}{174}{subsection.7.31.4}
-\contentsline {subsubsection}{\numberline {7.31.4.1}yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state}{174}{subsubsection.7.31.4.1}
+\contentsline {section}{\numberline {5.8}DSSSysACCESSORS}{17}{section.5.8}
+\contentsline {subsection}{\numberline {5.8.1}Detailed Description}{17}{subsection.5.8.1}
+\contentsline {section}{\numberline {5.9}Macros to manipulate variables.}{18}{section.5.9}
+\contentsline {subsection}{\numberline {5.9.1}Detailed Description}{18}{subsection.5.9.1}
+\contentsline {subsection}{\numberline {5.9.2}Define Documentation}{18}{subsection.5.9.2}
+\contentsline {subsubsection}{\numberline {5.9.2.1}DSVariableName}{18}{subsubsection.5.9.2.1}
+\contentsline {subsubsection}{\numberline {5.9.2.2}DSVariableSetValue}{18}{subsubsection.5.9.2.2}
+\contentsline {subsubsection}{\numberline {5.9.2.3}DSVariableValue}{18}{subsubsection.5.9.2.3}
+\contentsline {chapter}{\numberline {6}Data Structure Documentation}{19}{chapter.6}
+\contentsline {section}{\numberline {6.1}\_\discretionary {-}{}{}varDictionary Struct Reference}{19}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Detailed Description}{19}{subsection.6.1.1}
+\contentsline {section}{\numberline {6.2}base\_\discretionary {-}{}{}info Union Reference}{21}{section.6.2}
+\contentsline {section}{\numberline {6.3}ds\_\discretionary {-}{}{}parallelstack\_\discretionary {-}{}{}t Struct Reference}{22}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Detailed Description}{22}{subsection.6.3.1}
+\contentsline {section}{\numberline {6.4}DSCase Struct Reference}{23}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}Detailed Description}{23}{subsection.6.4.1}
+\contentsline {section}{\numberline {6.5}DSDesignSpace Struct Reference}{25}{section.6.5}
+\contentsline {subsection}{\numberline {6.5.1}Detailed Description}{25}{subsection.6.5.1}
+\contentsline {section}{\numberline {6.6}DSDictionary Struct Reference}{26}{section.6.6}
+\contentsline {section}{\numberline {6.7}dsexpression Struct Reference}{27}{section.6.7}
+\contentsline {subsection}{\numberline {6.7.1}Detailed Description}{27}{subsection.6.7.1}
+\contentsline {section}{\numberline {6.8}DSGMASystem Struct Reference}{28}{section.6.8}
+\contentsline {subsection}{\numberline {6.8.1}Detailed Description}{28}{subsection.6.8.1}
+\contentsline {section}{\numberline {6.9}DSMatrix Struct Reference}{29}{section.6.9}
+\contentsline {subsection}{\numberline {6.9.1}Detailed Description}{29}{subsection.6.9.1}
+\contentsline {section}{\numberline {6.10}DSMatrixArray Struct Reference}{30}{section.6.10}
+\contentsline {subsection}{\numberline {6.10.1}Detailed Description}{30}{subsection.6.10.1}
+\contentsline {section}{\numberline {6.11}DSSSystem Struct Reference}{31}{section.6.11}
+\contentsline {subsection}{\numberline {6.11.1}Detailed Description}{31}{subsection.6.11.1}
+\contentsline {section}{\numberline {6.12}DSStack Struct Reference}{32}{section.6.12}
+\contentsline {section}{\numberline {6.13}DSSymbolicMatrix Struct Reference}{33}{section.6.13}
+\contentsline {subsection}{\numberline {6.13.1}Detailed Description}{33}{subsection.6.13.1}
+\contentsline {section}{\numberline {6.14}DSVariable Struct Reference}{34}{section.6.14}
+\contentsline {subsection}{\numberline {6.14.1}Detailed Description}{34}{subsection.6.14.1}
+\contentsline {section}{\numberline {6.15}DSVariablePool Struct Reference}{35}{section.6.15}
+\contentsline {subsection}{\numberline {6.15.1}Detailed Description}{35}{subsection.6.15.1}
+\contentsline {section}{\numberline {6.16}DSVertices Struct Reference}{36}{section.6.16}
+\contentsline {subsection}{\numberline {6.16.1}Detailed Description}{36}{subsection.6.16.1}
+\contentsline {section}{\numberline {6.17}expression\_\discretionary {-}{}{}token Struct Reference}{37}{section.6.17}
+\contentsline {subsection}{\numberline {6.17.1}Detailed Description}{37}{subsection.6.17.1}
+\contentsline {section}{\numberline {6.18}matrix\_\discretionary {-}{}{}token Struct Reference}{38}{section.6.18}
+\contentsline {section}{\numberline {6.19}parse\_\discretionary {-}{}{}expression\_\discretionary {-}{}{}s Struct Reference}{39}{section.6.19}
+\contentsline {subsection}{\numberline {6.19.1}Detailed Description}{39}{subsection.6.19.1}
+\contentsline {section}{\numberline {6.20}parser\_\discretionary {-}{}{}aux Struct Reference}{40}{section.6.20}
+\contentsline {subsection}{\numberline {6.20.1}Detailed Description}{40}{subsection.6.20.1}
+\contentsline {section}{\numberline {6.21}pthread\_\discretionary {-}{}{}struct Struct Reference}{41}{section.6.21}
+\contentsline {subsection}{\numberline {6.21.1}Detailed Description}{41}{subsection.6.21.1}
+\contentsline {section}{\numberline {6.22}v\_\discretionary {-}{}{}token\_\discretionary {-}{}{}data Union Reference}{42}{section.6.22}
+\contentsline {subsection}{\numberline {6.22.1}Detailed Description}{42}{subsection.6.22.1}
+\contentsline {section}{\numberline {6.23}variable\_\discretionary {-}{}{}token Struct Reference}{43}{section.6.23}
+\contentsline {subsection}{\numberline {6.23.1}Detailed Description}{43}{subsection.6.23.1}
+\contentsline {section}{\numberline {6.24}yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state Struct Reference}{44}{section.6.24}
+\contentsline {subsection}{\numberline {6.24.1}Field Documentation}{44}{subsection.6.24.1}
+\contentsline {subsubsection}{\numberline {6.24.1.1}yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}column}{44}{subsubsection.6.24.1.1}
+\contentsline {subsubsection}{\numberline {6.24.1.2}yy\_\discretionary {-}{}{}bs\_\discretionary {-}{}{}lineno}{44}{subsubsection.6.24.1.2}
+\contentsline {section}{\numberline {6.25}yy\_\discretionary {-}{}{}trans\_\discretionary {-}{}{}info Struct Reference}{45}{section.6.25}
+\contentsline {section}{\numberline {6.26}yyguts\_\discretionary {-}{}{}t Struct Reference}{46}{section.6.26}
+\contentsline {subsection}{\numberline {6.26.1}Field Documentation}{46}{subsection.6.26.1}
+\contentsline {subsubsection}{\numberline {6.26.1.1}yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack}{46}{subsubsection.6.26.1.1}
+\contentsline {subsubsection}{\numberline {6.26.1.2}yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}max}{46}{subsubsection.6.26.1.2}
+\contentsline {subsubsection}{\numberline {6.26.1.3}yy\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}stack\_\discretionary {-}{}{}top}{46}{subsubsection.6.26.1.3}
+\contentsline {section}{\numberline {6.27}YYMINORTYPE Union Reference}{47}{section.6.27}
+\contentsline {section}{\numberline {6.28}yyParser Struct Reference}{48}{section.6.28}
+\contentsline {section}{\numberline {6.29}yyStackEntry Struct Reference}{49}{section.6.29}
+\contentsline {chapter}{\numberline {7}File Documentation}{51}{chapter.7}
+\contentsline {section}{\numberline {7.1}DSDesignSpace.c File Reference}{51}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Detailed Description}{53}{subsection.7.1.1}
+\contentsline {section}{\numberline {7.2}DSDesignSpace.h File Reference}{54}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Detailed Description}{55}{subsection.7.2.1}
+\contentsline {section}{\numberline {7.3}DSDesignSpaceParallel.c File Reference}{56}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Detailed Description}{56}{subsection.7.3.1}
+\contentsline {section}{\numberline {7.4}DSDesignSpaceParallel.h File Reference}{58}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Detailed Description}{58}{subsection.7.4.1}
+\contentsline {section}{\numberline {7.5}DSErrors.c File Reference}{60}{section.7.5}
+\contentsline {subsection}{\numberline {7.5.1}Detailed Description}{60}{subsection.7.5.1}
+\contentsline {subsection}{\numberline {7.5.2}Define Documentation}{61}{subsection.7.5.2}
+\contentsline {subsubsection}{\numberline {7.5.2.1}MSIZE}{61}{subsubsection.7.5.2.1}
+\contentsline {subsubsection}{\numberline {7.5.2.2}STACK\_\discretionary {-}{}{}TRACE\_\discretionary {-}{}{}NUM}{61}{subsubsection.7.5.2.2}
+\contentsline {subsection}{\numberline {7.5.3}Function Documentation}{62}{subsection.7.5.3}
+\contentsline {subsubsection}{\numberline {7.5.3.1}DSErrorFunction}{62}{subsubsection.7.5.3.1}
+\contentsline {section}{\numberline {7.6}DSErrors.h File Reference}{63}{section.7.6}
+\contentsline {subsection}{\numberline {7.6.1}Detailed Description}{64}{subsection.7.6.1}
+\contentsline {subsection}{\numberline {7.6.2}Define Documentation}{65}{subsection.7.6.2}
+\contentsline {subsubsection}{\numberline {7.6.2.1}DSError}{65}{subsubsection.7.6.2.1}
+\contentsline {subsection}{\numberline {7.6.3}Function Documentation}{65}{subsection.7.6.3}
+\contentsline {subsubsection}{\numberline {7.6.3.1}DSErrorFunction}{65}{subsubsection.7.6.3.1}
+\contentsline {section}{\numberline {7.7}DSExpression.c File Reference}{66}{section.7.7}
+\contentsline {subsection}{\numberline {7.7.1}Detailed Description}{67}{subsection.7.7.1}
+\contentsline {section}{\numberline {7.8}DSExpression.h File Reference}{68}{section.7.8}
+\contentsline {subsection}{\numberline {7.8.1}Detailed Description}{69}{subsection.7.8.1}
+\contentsline {section}{\numberline {7.9}DSExpressionTokenizerLex.c File Reference}{70}{section.7.9}
+\contentsline {subsection}{\numberline {7.9.1}Detailed Description}{73}{subsection.7.9.1}
+\contentsline {subsection}{\numberline {7.9.2}Define Documentation}{73}{subsection.7.9.2}
+\contentsline {subsubsection}{\numberline {7.9.2.1}YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}{73}{subsubsection.7.9.2.1}
+\contentsline {subsubsection}{\numberline {7.9.2.2}YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}{74}{subsubsection.7.9.2.2}
+\contentsline {subsubsection}{\numberline {7.9.2.3}YY\_\discretionary {-}{}{}INPUT}{74}{subsubsection.7.9.2.3}
+\contentsline {subsubsection}{\numberline {7.9.2.4}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}{74}{subsubsection.7.9.2.4}
+\contentsline {subsubsection}{\numberline {7.9.2.5}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}{75}{subsubsection.7.9.2.5}
+\contentsline {subsubsection}{\numberline {7.9.2.6}yyless}{75}{subsubsection.7.9.2.6}
+\contentsline {subsubsection}{\numberline {7.9.2.7}yyless}{75}{subsubsection.7.9.2.7}
+\contentsline {subsection}{\numberline {7.9.3}Function Documentation}{75}{subsection.7.9.3}
+\contentsline {subsubsection}{\numberline {7.9.3.1}DSExpressionFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}{75}{subsubsection.7.9.3.1}
+\contentsline {subsubsection}{\numberline {7.9.3.2}DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}{76}{subsubsection.7.9.3.2}
+\contentsline {subsubsection}{\numberline {7.9.3.3}DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}{76}{subsubsection.7.9.3.3}
+\contentsline {subsubsection}{\numberline {7.9.3.4}DSExpressionFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}{76}{subsubsection.7.9.3.4}
+\contentsline {subsubsection}{\numberline {7.9.3.5}DSExpressionFlexget\_\discretionary {-}{}{}column}{77}{subsubsection.7.9.3.5}
+\contentsline {subsubsection}{\numberline {7.9.3.6}DSExpressionFlexget\_\discretionary {-}{}{}extra}{77}{subsubsection.7.9.3.6}
+\contentsline {subsubsection}{\numberline {7.9.3.7}DSExpressionFlexget\_\discretionary {-}{}{}in}{77}{subsubsection.7.9.3.7}
+\contentsline {subsubsection}{\numberline {7.9.3.8}DSExpressionFlexget\_\discretionary {-}{}{}leng}{77}{subsubsection.7.9.3.8}
+\contentsline {subsubsection}{\numberline {7.9.3.9}DSExpressionFlexget\_\discretionary {-}{}{}lineno}{77}{subsubsection.7.9.3.9}
+\contentsline {subsubsection}{\numberline {7.9.3.10}DSExpressionFlexget\_\discretionary {-}{}{}out}{77}{subsubsection.7.9.3.10}
+\contentsline {subsubsection}{\numberline {7.9.3.11}DSExpressionFlexget\_\discretionary {-}{}{}text}{78}{subsubsection.7.9.3.11}
+\contentsline {subsubsection}{\numberline {7.9.3.12}DSExpressionFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{78}{subsubsection.7.9.3.12}
+\contentsline {subsubsection}{\numberline {7.9.3.13}DSExpressionFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{78}{subsubsection.7.9.3.13}
+\contentsline {subsubsection}{\numberline {7.9.3.14}DSExpressionFlexset\_\discretionary {-}{}{}column}{78}{subsubsection.7.9.3.14}
+\contentsline {subsubsection}{\numberline {7.9.3.15}DSExpressionFlexset\_\discretionary {-}{}{}extra}{78}{subsubsection.7.9.3.15}
+\contentsline {subsubsection}{\numberline {7.9.3.16}DSExpressionFlexset\_\discretionary {-}{}{}in}{79}{subsubsection.7.9.3.16}
+\contentsline {subsubsection}{\numberline {7.9.3.17}DSExpressionFlexset\_\discretionary {-}{}{}lineno}{79}{subsubsection.7.9.3.17}
+\contentsline {section}{\numberline {7.10}DSGMASystem.c File Reference}{80}{section.7.10}
+\contentsline {subsection}{\numberline {7.10.1}Detailed Description}{81}{subsection.7.10.1}
+\contentsline {section}{\numberline {7.11}DSGMASystem.h File Reference}{82}{section.7.11}
+\contentsline {subsection}{\numberline {7.11.1}Detailed Description}{82}{subsection.7.11.1}
+\contentsline {section}{\numberline {7.12}DSGMASystemParsingAux.h File Reference}{84}{section.7.12}
+\contentsline {subsection}{\numberline {7.12.1}Detailed Description}{85}{subsection.7.12.1}
+\contentsline {subsection}{\numberline {7.12.2}Typedef Documentation}{85}{subsection.7.12.2}
+\contentsline {subsubsection}{\numberline {7.12.2.1}gma\_\discretionary {-}{}{}parseraux\_\discretionary {-}{}{}t}{85}{subsubsection.7.12.2.1}
+\contentsline {section}{\numberline {7.13}DSIO.c File Reference}{86}{section.7.13}
+\contentsline {subsection}{\numberline {7.13.1}Detailed Description}{87}{subsection.7.13.1}
+\contentsline {subsection}{\numberline {7.13.2}Function Documentation}{88}{subsection.7.13.2}
+\contentsline {subsubsection}{\numberline {7.13.2.1}DSCaseStringInJSONFormat}{88}{subsubsection.7.13.2.1}
+\contentsline {subsubsection}{\numberline {7.13.2.2}DSIOSetCaseJSONOptions}{88}{subsubsection.7.13.2.2}
+\contentsline {subsubsection}{\numberline {7.13.2.3}DSIOSetErrorFile}{88}{subsubsection.7.13.2.3}
+\contentsline {subsubsection}{\numberline {7.13.2.4}DSIOSetPostErrorFunction}{89}{subsubsection.7.13.2.4}
+\contentsline {subsubsection}{\numberline {7.13.2.5}DSIOSetPostFatalErrorFunction}{89}{subsubsection.7.13.2.5}
+\contentsline {subsubsection}{\numberline {7.13.2.6}DSIOSetPostWarningFunction}{89}{subsubsection.7.13.2.6}
+\contentsline {subsubsection}{\numberline {7.13.2.7}DSIOSetPrintFunction}{89}{subsubsection.7.13.2.7}
+\contentsline {subsubsection}{\numberline {7.13.2.8}DSIOSetSSystemJSONOptions}{90}{subsubsection.7.13.2.8}
+\contentsline {subsubsection}{\numberline {7.13.2.9}DSMatrixArrayStringInJSONFormat}{90}{subsubsection.7.13.2.9}
+\contentsline {subsubsection}{\numberline {7.13.2.10}DSMatrixStringInJSONFormat}{90}{subsubsection.7.13.2.10}
+\contentsline {subsubsection}{\numberline {7.13.2.11}DSSSystemStringInJSONFormat}{90}{subsubsection.7.13.2.11}
+\contentsline {subsubsection}{\numberline {7.13.2.12}DSVariablePoolStringInJSONFormat}{91}{subsubsection.7.13.2.12}
+\contentsline {subsection}{\numberline {7.13.3}Variable Documentation}{91}{subsection.7.13.3}
+\contentsline {subsubsection}{\numberline {7.13.3.1}DSCasePrintingOptions}{91}{subsubsection.7.13.3.1}
+\contentsline {subsubsection}{\numberline {7.13.3.2}DSSSystemPrintingOptions}{91}{subsubsection.7.13.3.2}
+\contentsline {section}{\numberline {7.14}DSIO.h File Reference}{92}{section.7.14}
+\contentsline {subsection}{\numberline {7.14.1}Detailed Description}{94}{subsection.7.14.1}
+\contentsline {subsection}{\numberline {7.14.2}Function Documentation}{94}{subsection.7.14.2}
+\contentsline {subsubsection}{\numberline {7.14.2.1}DSCaseStringInJSONFormat}{94}{subsubsection.7.14.2.1}
+\contentsline {subsubsection}{\numberline {7.14.2.2}DSIOSetCaseJSONOptions}{94}{subsubsection.7.14.2.2}
+\contentsline {subsubsection}{\numberline {7.14.2.3}DSIOSetErrorFile}{95}{subsubsection.7.14.2.3}
+\contentsline {subsubsection}{\numberline {7.14.2.4}DSIOSetPostErrorFunction}{95}{subsubsection.7.14.2.4}
+\contentsline {subsubsection}{\numberline {7.14.2.5}DSIOSetPostFatalErrorFunction}{95}{subsubsection.7.14.2.5}
+\contentsline {subsubsection}{\numberline {7.14.2.6}DSIOSetPostWarningFunction}{96}{subsubsection.7.14.2.6}
+\contentsline {subsubsection}{\numberline {7.14.2.7}DSIOSetPrintFunction}{96}{subsubsection.7.14.2.7}
+\contentsline {subsubsection}{\numberline {7.14.2.8}DSIOSetSSystemJSONOptions}{96}{subsubsection.7.14.2.8}
+\contentsline {subsubsection}{\numberline {7.14.2.9}DSMatrixArrayStringInJSONFormat}{96}{subsubsection.7.14.2.9}
+\contentsline {subsubsection}{\numberline {7.14.2.10}DSMatrixStringInJSONFormat}{97}{subsubsection.7.14.2.10}
+\contentsline {subsubsection}{\numberline {7.14.2.11}DSSSystemStringInJSONFormat}{97}{subsubsection.7.14.2.11}
+\contentsline {subsubsection}{\numberline {7.14.2.12}DSVariablePoolStringInJSONFormat}{97}{subsubsection.7.14.2.12}
+\contentsline {subsection}{\numberline {7.14.3}Variable Documentation}{98}{subsection.7.14.3}
+\contentsline {subsubsection}{\numberline {7.14.3.1}DSIOErrorFile}{98}{subsubsection.7.14.3.1}
+\contentsline {subsubsection}{\numberline {7.14.3.2}DSPostError}{98}{subsubsection.7.14.3.2}
+\contentsline {subsubsection}{\numberline {7.14.3.3}DSPostFatalError}{98}{subsubsection.7.14.3.3}
+\contentsline {subsubsection}{\numberline {7.14.3.4}DSPostWarning}{98}{subsubsection.7.14.3.4}
+\contentsline {subsubsection}{\numberline {7.14.3.5}DSPrintf}{99}{subsubsection.7.14.3.5}
+\contentsline {section}{\numberline {7.15}DSMatrix.h File Reference}{100}{section.7.15}
+\contentsline {subsection}{\numberline {7.15.1}Detailed Description}{102}{subsection.7.15.1}
+\contentsline {subsection}{\numberline {7.15.2}Function Documentation}{103}{subsection.7.15.2}
+\contentsline {subsubsection}{\numberline {7.15.2.1}DSMatrixAlloc}{103}{subsubsection.7.15.2.1}
+\contentsline {subsubsection}{\numberline {7.15.2.2}DSMatrixByAddingMatrix}{103}{subsubsection.7.15.2.2}
+\contentsline {subsubsection}{\numberline {7.15.2.3}DSMatrixByParsingString}{104}{subsubsection.7.15.2.3}
+\contentsline {subsubsection}{\numberline {7.15.2.4}DSMatrixBySubstractingMatrix}{104}{subsubsection.7.15.2.4}
+\contentsline {subsubsection}{\numberline {7.15.2.5}DSMatrixCalloc}{104}{subsubsection.7.15.2.5}
+\contentsline {subsubsection}{\numberline {7.15.2.6}DSMatrixCopy}{105}{subsubsection.7.15.2.6}
+\contentsline {subsubsection}{\numberline {7.15.2.7}DSMatrixDoubleValue}{105}{subsubsection.7.15.2.7}
+\contentsline {subsubsection}{\numberline {7.15.2.8}DSMatrixFree}{105}{subsubsection.7.15.2.8}
+\contentsline {subsubsection}{\numberline {7.15.2.9}DSMatrixIdentity}{105}{subsubsection.7.15.2.9}
+\contentsline {subsubsection}{\numberline {7.15.2.10}DSMatrixPLUDecomposition}{106}{subsubsection.7.15.2.10}
+\contentsline {subsubsection}{\numberline {7.15.2.11}DSMatrixRandomNumbers}{106}{subsubsection.7.15.2.11}
+\contentsline {subsubsection}{\numberline {7.15.2.12}DSMatrixSetDoubleValueAll}{106}{subsubsection.7.15.2.12}
+\contentsline {section}{\numberline {7.16}DSMatrix\_\discretionary {-}{}{}gsl.c File Reference}{107}{section.7.16}
+\contentsline {subsection}{\numberline {7.16.1}Detailed Description}{110}{subsection.7.16.1}
+\contentsline {subsection}{\numberline {7.16.2}Function Documentation}{110}{subsection.7.16.2}
+\contentsline {subsubsection}{\numberline {7.16.2.1}DSMatrixAlloc}{110}{subsubsection.7.16.2.1}
+\contentsline {subsubsection}{\numberline {7.16.2.2}DSMatrixByAddingMatrix}{110}{subsubsection.7.16.2.2}
+\contentsline {subsubsection}{\numberline {7.16.2.3}DSMatrixByParsingString}{111}{subsubsection.7.16.2.3}
+\contentsline {subsubsection}{\numberline {7.16.2.4}DSMatrixBySubstractingMatrix}{111}{subsubsection.7.16.2.4}
+\contentsline {subsubsection}{\numberline {7.16.2.5}DSMatrixCalloc}{112}{subsubsection.7.16.2.5}
+\contentsline {subsubsection}{\numberline {7.16.2.6}DSMatrixCopy}{112}{subsubsection.7.16.2.6}
+\contentsline {subsubsection}{\numberline {7.16.2.7}DSMatrixDoubleValue}{112}{subsubsection.7.16.2.7}
+\contentsline {subsubsection}{\numberline {7.16.2.8}DSMatrixFree}{113}{subsubsection.7.16.2.8}
+\contentsline {subsubsection}{\numberline {7.16.2.9}DSMatrixIdentity}{113}{subsubsection.7.16.2.9}
+\contentsline {subsubsection}{\numberline {7.16.2.10}DSMatrixPLUDecomposition}{113}{subsubsection.7.16.2.10}
+\contentsline {subsubsection}{\numberline {7.16.2.11}DSMatrixRandomNumbers}{113}{subsubsection.7.16.2.11}
+\contentsline {subsubsection}{\numberline {7.16.2.12}DSMatrixSetDoubleValueAll}{114}{subsubsection.7.16.2.12}
+\contentsline {section}{\numberline {7.17}DSMatrixArray.c File Reference}{115}{section.7.17}
+\contentsline {subsection}{\numberline {7.17.1}Detailed Description}{115}{subsection.7.17.1}
+\contentsline {subsection}{\numberline {7.17.2}Function Documentation}{116}{subsection.7.17.2}
+\contentsline {subsubsection}{\numberline {7.17.2.1}DSMatrixArrayAddMatrix}{116}{subsubsection.7.17.2.1}
+\contentsline {subsubsection}{\numberline {7.17.2.2}DSMatrixArrayAlloc}{116}{subsubsection.7.17.2.2}
+\contentsline {subsubsection}{\numberline {7.17.2.3}DSMatrixArrayCopy}{116}{subsubsection.7.17.2.3}
+\contentsline {subsubsection}{\numberline {7.17.2.4}DSMatrixArrayFree}{117}{subsubsection.7.17.2.4}
+\contentsline {subsubsection}{\numberline {7.17.2.5}DSMatrixArrayMatrix}{117}{subsubsection.7.17.2.5}
+\contentsline {section}{\numberline {7.18}DSMatrixArray.h File Reference}{118}{section.7.18}
+\contentsline {subsection}{\numberline {7.18.1}Detailed Description}{119}{subsection.7.18.1}
+\contentsline {subsection}{\numberline {7.18.2}Function Documentation}{119}{subsection.7.18.2}
+\contentsline {subsubsection}{\numberline {7.18.2.1}DSMatrixArrayAddMatrix}{119}{subsubsection.7.18.2.1}
+\contentsline {subsubsection}{\numberline {7.18.2.2}DSMatrixArrayAlloc}{119}{subsubsection.7.18.2.2}
+\contentsline {subsubsection}{\numberline {7.18.2.3}DSMatrixArrayCopy}{120}{subsubsection.7.18.2.3}
+\contentsline {subsubsection}{\numberline {7.18.2.4}DSMatrixArrayFree}{120}{subsubsection.7.18.2.4}
+\contentsline {subsubsection}{\numberline {7.18.2.5}DSMatrixArrayMatrix}{120}{subsubsection.7.18.2.5}
+\contentsline {section}{\numberline {7.19}DSMatrixTokenizer.c File Reference}{121}{section.7.19}
+\contentsline {subsection}{\numberline {7.19.1}Detailed Description}{121}{subsection.7.19.1}
+\contentsline {section}{\numberline {7.20}DSMatrixTokenizer.h File Reference}{122}{section.7.20}
+\contentsline {subsection}{\numberline {7.20.1}Detailed Description}{123}{subsection.7.20.1}
+\contentsline {section}{\numberline {7.21}DSMatrixTokenizerLex.c File Reference}{124}{section.7.21}
+\contentsline {subsection}{\numberline {7.21.1}Detailed Description}{127}{subsection.7.21.1}
+\contentsline {subsection}{\numberline {7.21.2}Define Documentation}{127}{subsection.7.21.2}
+\contentsline {subsubsection}{\numberline {7.21.2.1}YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}{127}{subsubsection.7.21.2.1}
+\contentsline {subsubsection}{\numberline {7.21.2.2}YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}{127}{subsubsection.7.21.2.2}
+\contentsline {subsubsection}{\numberline {7.21.2.3}YY\_\discretionary {-}{}{}INPUT}{128}{subsubsection.7.21.2.3}
+\contentsline {subsubsection}{\numberline {7.21.2.4}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}{128}{subsubsection.7.21.2.4}
+\contentsline {subsubsection}{\numberline {7.21.2.5}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}{128}{subsubsection.7.21.2.5}
+\contentsline {subsubsection}{\numberline {7.21.2.6}yyless}{129}{subsubsection.7.21.2.6}
+\contentsline {subsubsection}{\numberline {7.21.2.7}yyless}{129}{subsubsection.7.21.2.7}
+\contentsline {subsection}{\numberline {7.21.3}Function Documentation}{129}{subsection.7.21.3}
+\contentsline {subsubsection}{\numberline {7.21.3.1}DSMatrixFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}{129}{subsubsection.7.21.3.1}
+\contentsline {subsubsection}{\numberline {7.21.3.2}DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}{129}{subsubsection.7.21.3.2}
+\contentsline {subsubsection}{\numberline {7.21.3.3}DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}{130}{subsubsection.7.21.3.3}
+\contentsline {subsubsection}{\numberline {7.21.3.4}DSMatrixFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}{130}{subsubsection.7.21.3.4}
+\contentsline {subsubsection}{\numberline {7.21.3.5}DSMatrixFlexget\_\discretionary {-}{}{}column}{130}{subsubsection.7.21.3.5}
+\contentsline {subsubsection}{\numberline {7.21.3.6}DSMatrixFlexget\_\discretionary {-}{}{}extra}{131}{subsubsection.7.21.3.6}
+\contentsline {subsubsection}{\numberline {7.21.3.7}DSMatrixFlexget\_\discretionary {-}{}{}in}{131}{subsubsection.7.21.3.7}
+\contentsline {subsubsection}{\numberline {7.21.3.8}DSMatrixFlexget\_\discretionary {-}{}{}leng}{131}{subsubsection.7.21.3.8}
+\contentsline {subsubsection}{\numberline {7.21.3.9}DSMatrixFlexget\_\discretionary {-}{}{}lineno}{131}{subsubsection.7.21.3.9}
+\contentsline {subsubsection}{\numberline {7.21.3.10}DSMatrixFlexget\_\discretionary {-}{}{}out}{131}{subsubsection.7.21.3.10}
+\contentsline {subsubsection}{\numberline {7.21.3.11}DSMatrixFlexget\_\discretionary {-}{}{}text}{131}{subsubsection.7.21.3.11}
+\contentsline {subsubsection}{\numberline {7.21.3.12}DSMatrixFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{132}{subsubsection.7.21.3.12}
+\contentsline {subsubsection}{\numberline {7.21.3.13}DSMatrixFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{132}{subsubsection.7.21.3.13}
+\contentsline {subsubsection}{\numberline {7.21.3.14}DSMatrixFlexset\_\discretionary {-}{}{}column}{132}{subsubsection.7.21.3.14}
+\contentsline {subsubsection}{\numberline {7.21.3.15}DSMatrixFlexset\_\discretionary {-}{}{}extra}{132}{subsubsection.7.21.3.15}
+\contentsline {subsubsection}{\numberline {7.21.3.16}DSMatrixFlexset\_\discretionary {-}{}{}in}{132}{subsubsection.7.21.3.16}
+\contentsline {subsubsection}{\numberline {7.21.3.17}DSMatrixFlexset\_\discretionary {-}{}{}lineno}{133}{subsubsection.7.21.3.17}
+\contentsline {section}{\numberline {7.22}DSMemoryManager.c File Reference}{134}{section.7.22}
+\contentsline {subsection}{\numberline {7.22.1}Detailed Description}{134}{subsection.7.22.1}
+\contentsline {subsection}{\numberline {7.22.2}Function Documentation}{135}{subsection.7.22.2}
+\contentsline {subsubsection}{\numberline {7.22.2.1}DSSecureCalloc}{135}{subsubsection.7.22.2.1}
+\contentsline {subsubsection}{\numberline {7.22.2.2}DSSecureFree}{135}{subsubsection.7.22.2.2}
+\contentsline {subsubsection}{\numberline {7.22.2.3}DSSecureMalloc}{136}{subsubsection.7.22.2.3}
+\contentsline {subsubsection}{\numberline {7.22.2.4}DSSecureRealloc}{136}{subsubsection.7.22.2.4}
+\contentsline {section}{\numberline {7.23}DSMemoryManager.h File Reference}{137}{section.7.23}
+\contentsline {subsection}{\numberline {7.23.1}Detailed Description}{137}{subsection.7.23.1}
+\contentsline {subsection}{\numberline {7.23.2}Function Documentation}{138}{subsection.7.23.2}
+\contentsline {subsubsection}{\numberline {7.23.2.1}DSSecureCalloc}{138}{subsubsection.7.23.2.1}
+\contentsline {subsubsection}{\numberline {7.23.2.2}DSSecureFree}{138}{subsubsection.7.23.2.2}
+\contentsline {subsubsection}{\numberline {7.23.2.3}DSSecureMalloc}{138}{subsubsection.7.23.2.3}
+\contentsline {subsubsection}{\numberline {7.23.2.4}DSSecureRealloc}{139}{subsubsection.7.23.2.4}
+\contentsline {section}{\numberline {7.24}DSSSystem.h File Reference}{140}{section.7.24}
+\contentsline {subsection}{\numberline {7.24.1}Detailed Description}{141}{subsection.7.24.1}
+\contentsline {section}{\numberline {7.25}DSStd.h File Reference}{142}{section.7.25}
+\contentsline {subsection}{\numberline {7.25.1}Detailed Description}{142}{subsection.7.25.1}
+\contentsline {section}{\numberline {7.26}DSSymbolicMatrix.h File Reference}{144}{section.7.26}
+\contentsline {subsection}{\numberline {7.26.1}Detailed Description}{144}{subsection.7.26.1}
+\contentsline {section}{\numberline {7.27}DSTypes.h File Reference}{146}{section.7.27}
+\contentsline {subsection}{\numberline {7.27.1}Detailed Description}{147}{subsection.7.27.1}
+\contentsline {subsection}{\numberline {7.27.2}Typedef Documentation}{148}{subsection.7.27.2}
+\contentsline {subsubsection}{\numberline {7.27.2.1}DSComplexMatrix}{148}{subsubsection.7.27.2.1}
+\contentsline {subsubsection}{\numberline {7.27.2.2}DSExpression}{148}{subsubsection.7.27.2.2}
+\contentsline {subsubsection}{\numberline {7.27.2.3}DSInternalDictionary}{149}{subsubsection.7.27.2.3}
+\contentsline {subsection}{\numberline {7.27.3}Enumeration Type Documentation}{149}{subsection.7.27.3}
+\contentsline {subsubsection}{\numberline {7.27.3.1}DSVariablePoolLock}{149}{subsubsection.7.27.3.1}
+\contentsline {section}{\numberline {7.28}DSVariable.c File Reference}{150}{section.7.28}
+\contentsline {subsection}{\numberline {7.28.1}Detailed Description}{152}{subsection.7.28.1}
+\contentsline {subsection}{\numberline {7.28.2}Function Documentation}{152}{subsection.7.28.2}
+\contentsline {subsubsection}{\numberline {7.28.2.1}DSVariableAlloc}{152}{subsubsection.7.28.2.1}
+\contentsline {subsubsection}{\numberline {7.28.2.2}DSVariableFree}{152}{subsubsection.7.28.2.2}
+\contentsline {subsubsection}{\numberline {7.28.2.3}DSVariablePoolAddVariable}{153}{subsubsection.7.28.2.3}
+\contentsline {subsubsection}{\numberline {7.28.2.4}DSVariablePoolAddVariableWithName}{153}{subsubsection.7.28.2.4}
+\contentsline {subsubsection}{\numberline {7.28.2.5}DSVariablePoolAlloc}{153}{subsubsection.7.28.2.5}
+\contentsline {subsubsection}{\numberline {7.28.2.6}DSVariablePoolCopy}{154}{subsubsection.7.28.2.6}
+\contentsline {subsubsection}{\numberline {7.28.2.7}DSVariablePoolFree}{154}{subsubsection.7.28.2.7}
+\contentsline {subsubsection}{\numberline {7.28.2.8}DSVariablePoolIsReadOnly}{154}{subsubsection.7.28.2.8}
+\contentsline {subsubsection}{\numberline {7.28.2.9}DSVariablePoolIsReadWrite}{155}{subsubsection.7.28.2.9}
+\contentsline {subsubsection}{\numberline {7.28.2.10}DSVariablePoolIsReadWriteAdd}{155}{subsubsection.7.28.2.10}
+\contentsline {subsubsection}{\numberline {7.28.2.11}DSVariablePoolNumberOfVariables}{155}{subsubsection.7.28.2.11}
+\contentsline {subsubsection}{\numberline {7.28.2.12}DSVariablePoolSetReadOnly}{155}{subsubsection.7.28.2.12}
+\contentsline {subsubsection}{\numberline {7.28.2.13}DSVariablePoolSetReadWrite}{156}{subsubsection.7.28.2.13}
+\contentsline {subsubsection}{\numberline {7.28.2.14}DSVariablePoolSetReadWriteAdd}{156}{subsubsection.7.28.2.14}
+\contentsline {subsubsection}{\numberline {7.28.2.15}DSVariableRelease}{156}{subsubsection.7.28.2.15}
+\contentsline {subsubsection}{\numberline {7.28.2.16}DSVariableRetain}{157}{subsubsection.7.28.2.16}
+\contentsline {section}{\numberline {7.29}DSVariable.h File Reference}{158}{section.7.29}
+\contentsline {subsection}{\numberline {7.29.1}Detailed Description}{160}{subsection.7.29.1}
+\contentsline {subsection}{\numberline {7.29.2}Function Documentation}{160}{subsection.7.29.2}
+\contentsline {subsubsection}{\numberline {7.29.2.1}DSVariableAlloc}{160}{subsubsection.7.29.2.1}
+\contentsline {subsubsection}{\numberline {7.29.2.2}DSVariableFree}{160}{subsubsection.7.29.2.2}
+\contentsline {subsubsection}{\numberline {7.29.2.3}DSVariablePoolAddVariable}{161}{subsubsection.7.29.2.3}
+\contentsline {subsubsection}{\numberline {7.29.2.4}DSVariablePoolAddVariableWithName}{161}{subsubsection.7.29.2.4}
+\contentsline {subsubsection}{\numberline {7.29.2.5}DSVariablePoolAlloc}{161}{subsubsection.7.29.2.5}
+\contentsline {subsubsection}{\numberline {7.29.2.6}DSVariablePoolCopy}{162}{subsubsection.7.29.2.6}
+\contentsline {subsubsection}{\numberline {7.29.2.7}DSVariablePoolFree}{162}{subsubsection.7.29.2.7}
+\contentsline {subsubsection}{\numberline {7.29.2.8}DSVariablePoolIsReadOnly}{162}{subsubsection.7.29.2.8}
+\contentsline {subsubsection}{\numberline {7.29.2.9}DSVariablePoolIsReadWrite}{163}{subsubsection.7.29.2.9}
+\contentsline {subsubsection}{\numberline {7.29.2.10}DSVariablePoolIsReadWriteAdd}{163}{subsubsection.7.29.2.10}
+\contentsline {subsubsection}{\numberline {7.29.2.11}DSVariablePoolNumberOfVariables}{163}{subsubsection.7.29.2.11}
+\contentsline {subsubsection}{\numberline {7.29.2.12}DSVariablePoolSetReadOnly}{163}{subsubsection.7.29.2.12}
+\contentsline {subsubsection}{\numberline {7.29.2.13}DSVariablePoolSetReadWrite}{164}{subsubsection.7.29.2.13}
+\contentsline {subsubsection}{\numberline {7.29.2.14}DSVariablePoolSetReadWriteAdd}{164}{subsubsection.7.29.2.14}
+\contentsline {subsubsection}{\numberline {7.29.2.15}DSVariableRelease}{164}{subsubsection.7.29.2.15}
+\contentsline {subsubsection}{\numberline {7.29.2.16}DSVariableRetain}{165}{subsubsection.7.29.2.16}
+\contentsline {section}{\numberline {7.30}DSVariableTokenizer.c File Reference}{166}{section.7.30}
+\contentsline {subsection}{\numberline {7.30.1}Detailed Description}{166}{subsection.7.30.1}
+\contentsline {section}{\numberline {7.31}DSVariableTokenizerLex.c File Reference}{167}{section.7.31}
+\contentsline {subsection}{\numberline {7.31.1}Detailed Description}{170}{subsection.7.31.1}
+\contentsline {subsection}{\numberline {7.31.2}Define Documentation}{171}{subsection.7.31.2}
+\contentsline {subsubsection}{\numberline {7.31.2.1}YY\_\discretionary {-}{}{}CURRENT\_\discretionary {-}{}{}BUFFER}{171}{subsubsection.7.31.2.1}
+\contentsline {subsubsection}{\numberline {7.31.2.2}YY\_\discretionary {-}{}{}DO\_\discretionary {-}{}{}BEFORE\_\discretionary {-}{}{}ACTION}{171}{subsubsection.7.31.2.2}
+\contentsline {subsubsection}{\numberline {7.31.2.3}YY\_\discretionary {-}{}{}INPUT}{171}{subsubsection.7.31.2.3}
+\contentsline {subsubsection}{\numberline {7.31.2.4}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}bol}{171}{subsubsection.7.31.2.4}
+\contentsline {subsubsection}{\numberline {7.31.2.5}yy\_\discretionary {-}{}{}set\_\discretionary {-}{}{}interactive}{172}{subsubsection.7.31.2.5}
+\contentsline {subsubsection}{\numberline {7.31.2.6}yyless}{172}{subsubsection.7.31.2.6}
+\contentsline {subsubsection}{\numberline {7.31.2.7}yyless}{172}{subsubsection.7.31.2.7}
+\contentsline {subsection}{\numberline {7.31.3}Function Documentation}{173}{subsection.7.31.3}
+\contentsline {subsubsection}{\numberline {7.31.3.1}DSVariableFlex\_\discretionary {-}{}{}create\_\discretionary {-}{}{}buffer}{173}{subsubsection.7.31.3.1}
+\contentsline {subsubsection}{\numberline {7.31.3.2}DSVariableFlex\_\discretionary {-}{}{}delete\_\discretionary {-}{}{}buffer}{173}{subsubsection.7.31.3.2}
+\contentsline {subsubsection}{\numberline {7.31.3.3}DSVariableFlex\_\discretionary {-}{}{}flush\_\discretionary {-}{}{}buffer}{173}{subsubsection.7.31.3.3}
+\contentsline {subsubsection}{\numberline {7.31.3.4}DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}buffer}{173}{subsubsection.7.31.3.4}
+\contentsline {subsubsection}{\numberline {7.31.3.5}DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}bytes}{174}{subsubsection.7.31.3.5}
+\contentsline {subsubsection}{\numberline {7.31.3.6}DSVariableFlex\_\discretionary {-}{}{}scan\_\discretionary {-}{}{}string}{174}{subsubsection.7.31.3.6}
+\contentsline {subsubsection}{\numberline {7.31.3.7}DSVariableFlex\_\discretionary {-}{}{}switch\_\discretionary {-}{}{}to\_\discretionary {-}{}{}buffer}{174}{subsubsection.7.31.3.7}
+\contentsline {subsubsection}{\numberline {7.31.3.8}DSVariableFlexget\_\discretionary {-}{}{}column}{174}{subsubsection.7.31.3.8}
+\contentsline {subsubsection}{\numberline {7.31.3.9}DSVariableFlexget\_\discretionary {-}{}{}extra}{175}{subsubsection.7.31.3.9}
+\contentsline {subsubsection}{\numberline {7.31.3.10}DSVariableFlexget\_\discretionary {-}{}{}in}{175}{subsubsection.7.31.3.10}
+\contentsline {subsubsection}{\numberline {7.31.3.11}DSVariableFlexget\_\discretionary {-}{}{}leng}{175}{subsubsection.7.31.3.11}
+\contentsline {subsubsection}{\numberline {7.31.3.12}DSVariableFlexget\_\discretionary {-}{}{}lineno}{175}{subsubsection.7.31.3.12}
+\contentsline {subsubsection}{\numberline {7.31.3.13}DSVariableFlexget\_\discretionary {-}{}{}out}{175}{subsubsection.7.31.3.13}
+\contentsline {subsubsection}{\numberline {7.31.3.14}DSVariableFlexget\_\discretionary {-}{}{}text}{175}{subsubsection.7.31.3.14}
+\contentsline {subsubsection}{\numberline {7.31.3.15}DSVariableFlexpop\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{176}{subsubsection.7.31.3.15}
+\contentsline {subsubsection}{\numberline {7.31.3.16}DSVariableFlexpush\_\discretionary {-}{}{}buffer\_\discretionary {-}{}{}state}{176}{subsubsection.7.31.3.16}
+\contentsline {subsubsection}{\numberline {7.31.3.17}DSVariableFlexrestart}{176}{subsubsection.7.31.3.17}
+\contentsline {subsubsection}{\numberline {7.31.3.18}DSVariableFlexset\_\discretionary {-}{}{}column}{176}{subsubsection.7.31.3.18}
+\contentsline {subsubsection}{\numberline {7.31.3.19}DSVariableFlexset\_\discretionary {-}{}{}extra}{176}{subsubsection.7.31.3.19}
+\contentsline {subsubsection}{\numberline {7.31.3.20}DSVariableFlexset\_\discretionary {-}{}{}in}{177}{subsubsection.7.31.3.20}
+\contentsline {subsubsection}{\numberline {7.31.3.21}DSVariableFlexset\_\discretionary {-}{}{}lineno}{177}{subsubsection.7.31.3.21}
+\contentsline {subsection}{\numberline {7.31.4}Variable Documentation}{177}{subsection.7.31.4}
+\contentsline {subsubsection}{\numberline {7.31.4.1}yy\_\discretionary {-}{}{}current\_\discretionary {-}{}{}state}{177}{subsubsection.7.31.4.1}

@@ -1,0 +1,55 @@
+\hypertarget{struct_d_s_variable_pool}{
+\section{DSVariablePool Struct Reference}
+\label{struct_d_s_variable_pool}\index{DSVariablePool@{DSVariablePool}}
+}
+
+
+User-\/level variable pool.  
+
+
+
+
+{\ttfamily \#include $<$DSTypes.h$>$}
+
+
+
+Collaboration diagram for DSVariablePool:\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{struct_d_s_variable_pool_a16fbefb689b48e0f527e719dd511a61a}{
+\hyperlink{struct_d_s_dictionary}{DSDictionary} $\ast$ \hyperlink{struct_d_s_variable_pool_a16fbefb689b48e0f527e719dd511a61a}{dictionary}}
+\label{struct_d_s_variable_pool_a16fbefb689b48e0f527e719dd511a61a}
+
+\begin{DoxyCompactList}\small\item\em The dictionary with the variables arranged. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_variable_pool_a8009f1b6a6b6928ede40a712f02fcf76}{
+DSUInteger \hyperlink{struct_d_s_variable_pool_a8009f1b6a6b6928ede40a712f02fcf76}{numberOfVariables}}
+\label{struct_d_s_variable_pool_a8009f1b6a6b6928ede40a712f02fcf76}
+
+\begin{DoxyCompactList}\small\item\em Number of variables in the pool. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_variable_pool_a648ae5e458f3a5847972fe54e7d80b05}{
+\hyperlink{struct_d_s_variable}{DSVariable} $\ast$$\ast$ \hyperlink{struct_d_s_variable_pool_a648ae5e458f3a5847972fe54e7d80b05}{variables}}
+\label{struct_d_s_variable_pool_a648ae5e458f3a5847972fe54e7d80b05}
+
+\begin{DoxyCompactList}\small\item\em A C array with the variables stored. \item\end{DoxyCompactList}\item 
+\hypertarget{struct_d_s_variable_pool_a2a01a6a9c8466d41ba7598d4f811f4f9}{
+\hyperlink{_d_s_types_8h_a62ad4772439f753c78f5dc086130d6ea}{DSVariablePoolLock} \hyperlink{struct_d_s_variable_pool_a2a01a6a9c8466d41ba7598d4f811f4f9}{lock}}
+\label{struct_d_s_variable_pool_a2a01a6a9c8466d41ba7598d4f811f4f9}
+
+\begin{DoxyCompactList}\small\item\em Indicates if the variable pool is read-\/only. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+User-\/level variable pool. This data type keeps an internal dictionary structure of type struct \hyperlink{struct__var_dictionary}{\_\-varDictionary} to keep track of all the variables associated with a variable pool. This data type also records the number of variables in the dictionary and the order with which they were added.
+
+\begin{DoxySeeAlso}{See also}
+struct \hyperlink{struct__var_dictionary}{\_\-varDictionary}
+
+\hyperlink{_d_s_variable_8h}{DSVariable.h} 
+
+\hyperlink{_d_s_variable_8c}{DSVariable.c} 
+\end{DoxySeeAlso}
+
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_d_s_types_8h}{DSTypes.h}\end{DoxyCompactItemize}
