@@ -44,6 +44,21 @@
 #define DS_EXPRESSION_CONSTANT_BRANCH_INDEX     0
 #define DS_EXPRESSION_STRING_INIT_LENGTH        1000
 
+/**
+ * \brief Allocates a node in the DSExpression tree that holds a constant
+ *        double value.
+ *
+ * \details The function allocates a node in the expression tree and initializes
+ *          it such that it is internally recognized as a constant double value,
+ *          which is set upon calling this function.
+ *
+ * \param value A const double with the value assigned at the node.
+ * \return A DSExpression pointer to the node initialized as a constant.
+ *
+ * \warning This function should not be called directly by the user and is 
+ *          therefore not exposed; however, it is not a static function as it is
+ *          called by the parsing tools in the DSExpressionGrammar files.
+ */
 extern DSExpression * dsExpressionAllocWithConstant(const double value)
 {
         DSExpression *newNode = NULL;
@@ -53,6 +68,21 @@ extern DSExpression * dsExpressionAllocWithConstant(const double value)
         return newNode;
 }
 
+/**
+ * \brief Allocates a node in the DSExpression tree that holds an operator node.
+ *
+ * \details The function allocates a node in the expression tree and initializes
+ *          it such that it is internally recognized as a operator node with a,
+ *          specified operator type: a '+', '*' or '^'.
+ *          
+ *
+ * \param value A const char with the operator code.
+ * \return A DSExpression pointer to the node initialized as an operator.
+ * 
+ * \warning This function should not be called directly by the user and is 
+ *          therefore not exposed; however, it is not a static function as it is
+ *          called by the parsing tools in the DSExpressionGrammar files.
+ */
 extern DSExpression * dsExpressionAllocWithOperator(const char op_code)
 {
         DSExpression *newNode = NULL;
