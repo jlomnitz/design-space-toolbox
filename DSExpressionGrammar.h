@@ -24,3 +24,6 @@ void DSExpressionParserTrace(FILE *TraceFILE,char *zTracePrompt);
 #define TOKEN_EXPRESSION_PLUS                            2
 #define TOKEN_EXPRESSION_ID                              1
 #define INTERFACE 0
+DSExpression *dsExpressionAllocWithVariableName(const char *name);
+DSExpression *dsExpressionAllocWithConstant(const double value);
+DSExpression *dsExpressionAllocWithOperator(const char op_code);

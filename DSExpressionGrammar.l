@@ -47,6 +47,10 @@
 #define calloc(x, y)   DSSecureCalloc(x, y)
 #define realloc(x, y)  DSSecureRealloc(x, y)
 
+extern DSExpression * dsExpressionAllocWithOperator(const char op_code);
+extern DSExpression * dsExpressionAllocWithConstant(const double value);
+extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
+
 %}
 
 %%

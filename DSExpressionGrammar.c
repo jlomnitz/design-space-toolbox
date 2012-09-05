@@ -12,6 +12,11 @@
 #include "DSTypes.h"
 #include "DSExpression.h"
 #include "DSExpressionTokenizer.h"
+
+extern DSExpression * dsExpressionAllocWithOperator(const char op_code);
+extern DSExpression * dsExpressionAllocWithConstant(const double value);
+extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
+
 #include "DSExpressionGrammar.h"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
@@ -698,11 +703,11 @@ static void yy_reduce(
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
-                yygotominor.yy0 = DSExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)+DSExpressionConstant(yymsp[0].minor.yy0));
+                yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)+DSExpressionConstant(yymsp[0].minor.yy0));
                 DSExpressionFree(yymsp[-2].minor.yy0);
                 DSExpressionFree(yymsp[0].minor.yy0);
         } else {
-                yygotominor.yy0 = DSExpressionAllocWithOperator('+');
+                yygotominor.yy0 = dsExpressionAllocWithOperator('+');
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
         }
@@ -712,22 +717,22 @@ static void yy_reduce(
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
-                yygotominor.yy0 = DSExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)-DSExpressionConstant(yymsp[0].minor.yy0));
+                yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)-DSExpressionConstant(yymsp[0].minor.yy0));
                 DSExpressionFree(yymsp[-2].minor.yy0);
                 DSExpressionFree(yymsp[0].minor.yy0);
         } else if (DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
-                yygotominor.yy0 = DSExpressionAllocWithConstant(-DSExpressionConstant(yymsp[0].minor.yy0));
+                yygotominor.yy0 = dsExpressionAllocWithConstant(-DSExpressionConstant(yymsp[0].minor.yy0));
                 DSExpressionFree(yymsp[0].minor.yy0);
                 yymsp[0].minor.yy0 = yygotominor.yy0;
-                yygotominor.yy0 = DSExpressionAllocWithOperator('+');
+                yygotominor.yy0 = dsExpressionAllocWithOperator('+');
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
         } else {
-                yygotominor.yy0 = DSExpressionAllocWithOperator('*');
+                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, DSExpressionAllocWithConstant(-1.0));
+                DSExpressionAddBranch(yygotominor.yy0, dsExpressionAllocWithConstant(-1.0));
                 yymsp[0].minor.yy0 = yygotominor.yy0;
-                yygotominor.yy0 = DSExpressionAllocWithOperator('+');
+                yygotominor.yy0 = dsExpressionAllocWithOperator('+');
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
         }
@@ -737,11 +742,11 @@ static void yy_reduce(
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
-                yygotominor.yy0 = DSExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)*DSExpressionConstant(yymsp[0].minor.yy0));
+                yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)*DSExpressionConstant(yymsp[0].minor.yy0));
                 DSExpressionFree(yymsp[-2].minor.yy0);
                 DSExpressionFree(yymsp[0].minor.yy0);
         } else {
-                yygotominor.yy0 = DSExpressionAllocWithOperator('*');
+                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
         }
@@ -751,22 +756,22 @@ static void yy_reduce(
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
             DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
-                yygotominor.yy0 = DSExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)/DSExpressionConstant(yymsp[0].minor.yy0));
+                yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)/DSExpressionConstant(yymsp[0].minor.yy0));
                 DSExpressionFree(yymsp[-2].minor.yy0);
                 DSExpressionFree(yymsp[0].minor.yy0);
         } else if (DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
-                yygotominor.yy0 = DSExpressionAllocWithConstant(pow(DSExpressionConstant(yymsp[0].minor.yy0), -1.0));
+                yygotominor.yy0 = dsExpressionAllocWithConstant(pow(DSExpressionConstant(yymsp[0].minor.yy0), -1.0));
                 DSExpressionFree(yymsp[0].minor.yy0);
                 yymsp[0].minor.yy0 = yygotominor.yy0;
-                yygotominor.yy0 = DSExpressionAllocWithOperator('*');
+                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
         } else {
-                yygotominor.yy0 = DSExpressionAllocWithOperator('^');
+                yygotominor.yy0 = dsExpressionAllocWithOperator('^');
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, DSExpressionAllocWithConstant(-1.0));
+                DSExpressionAddBranch(yygotominor.yy0, dsExpressionAllocWithConstant(-1.0));
                 yymsp[0].minor.yy0 = yygotominor.yy0;
-                yygotominor.yy0 = DSExpressionAllocWithOperator('*');
+                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
         }
@@ -776,11 +781,11 @@ static void yy_reduce(
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
             DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
-                yygotominor.yy0 = DSExpressionAllocWithConstant(pow(DSExpressionConstant(yymsp[-2].minor.yy0), DSExpressionConstant(yymsp[0].minor.yy0)));
+                yygotominor.yy0 = dsExpressionAllocWithConstant(pow(DSExpressionConstant(yymsp[-2].minor.yy0), DSExpressionConstant(yymsp[0].minor.yy0)));
                 DSExpressionFree(yymsp[-2].minor.yy0);
                 DSExpressionFree(yymsp[0].minor.yy0);
         } else {
-                yygotominor.yy0 = DSExpressionAllocWithOperator('^');
+                yygotominor.yy0 = dsExpressionAllocWithOperator('^');
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
         }
@@ -789,11 +794,11 @@ static void yy_reduce(
       case 6: /* expr ::= MINUS expr */
 {
         if (DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
-                yygotominor.yy0 = DSExpressionAllocWithConstant(-DSExpressionConstant(yymsp[0].minor.yy0));
+                yygotominor.yy0 = dsExpressionAllocWithConstant(-DSExpressionConstant(yymsp[0].minor.yy0));
                 DSExpressionFree(yymsp[0].minor.yy0);
         } else {
-                yygotominor.yy0 = DSExpressionAllocWithOperator('*');
-                DSExpressionAddBranch(yygotominor.yy0, DSExpressionAllocWithConstant(-1.0));
+                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
+                DSExpressionAddBranch(yygotominor.yy0, dsExpressionAllocWithConstant(-1.0));
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
         }
 }
@@ -805,17 +810,17 @@ static void yy_reduce(
         break;
       case 8: /* expr ::= ID */
 {
-        yygotominor.yy0 = DSExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)yymsp[0].minor.yy0));
+        yygotominor.yy0 = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
       case 9: /* expr ::= VALUE */
 {
-        yygotominor.yy0 = DSExpressionAllocWithConstant(DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
+        yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
       case 10: /* expr ::= ID LPAREN expr RPAREN */
 {
-        yygotominor.yy0 = DSExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)yymsp[-3].minor.yy0));
+        yygotominor.yy0 = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)yymsp[-3].minor.yy0));
         DSExpressionAddBranch(yygotominor.yy0, yymsp[-1].minor.yy0);
 }
         break;

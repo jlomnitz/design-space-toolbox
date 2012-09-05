@@ -67,6 +67,11 @@
 #include "DSTypes.h"
 #include "DSExpression.h"
 #include "DSExpressionTokenizer.h"
+
+extern DSExpression * dsExpressionAllocWithOperator(const char op_code);
+extern DSExpression * dsExpressionAllocWithConstant(const double value);
+extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
+
 }
 
 program ::= expr(B). {
@@ -81,11 +86,11 @@ program ::= expr(B). {
 expr(A) ::= expr(B) PLUS expr(C). {
         if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(B) == DSExpressionType(C)) {
-                A = DSExpressionAllocWithConstant(DSExpressionConstant(B)+DSExpressionConstant(C));
+                A = dsExpressionAllocWithConstant(DSExpressionConstant(B)+DSExpressionConstant(C));
                 DSExpressionFree(B);
                 DSExpressionFree(C);
         } else {
-                A = DSExpressionAllocWithOperator('+');
+                A = dsExpressionAllocWithOperator('+');
                 DSExpressionAddBranch(A, B);
                 DSExpressionAddBranch(A, C);
         }
@@ -94,22 +99,22 @@ expr(A) ::= expr(B) PLUS expr(C). {
 expr(A) ::= expr(B) MINUS expr(C). {
         if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(B) == DSExpressionType(C)) {
-                A = DSExpressionAllocWithConstant(DSExpressionConstant(B)-DSExpressionConstant(C));
+                A = dsExpressionAllocWithConstant(DSExpressionConstant(B)-DSExpressionConstant(C));
                 DSExpressionFree(B);
                 DSExpressionFree(C);
         } else if (DSExpressionType(C) == DS_EXPRESSION_TYPE_CONSTANT) {
-                A = DSExpressionAllocWithConstant(-DSExpressionConstant(C));
+                A = dsExpressionAllocWithConstant(-DSExpressionConstant(C));
                 DSExpressionFree(C);
                 C = A;
-                A = DSExpressionAllocWithOperator('+');
+                A = dsExpressionAllocWithOperator('+');
                 DSExpressionAddBranch(A, B);
                 DSExpressionAddBranch(A, C);
         } else {
-                A = DSExpressionAllocWithOperator('*');
+                A = dsExpressionAllocWithOperator('*');
                 DSExpressionAddBranch(A, C);
-                DSExpressionAddBranch(A, DSExpressionAllocWithConstant(-1.0));
+                DSExpressionAddBranch(A, dsExpressionAllocWithConstant(-1.0));
                 C = A;
-                A = DSExpressionAllocWithOperator('+');
+                A = dsExpressionAllocWithOperator('+');
                 DSExpressionAddBranch(A, B);
                 DSExpressionAddBranch(A, C);
         }
@@ -118,11 +123,11 @@ expr(A) ::= expr(B) MINUS expr(C). {
 expr(A) ::= expr(B) TIMES expr(C). {
         if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(B) == DSExpressionType(C)) {
-                A = DSExpressionAllocWithConstant(DSExpressionConstant(B)*DSExpressionConstant(C));
+                A = dsExpressionAllocWithConstant(DSExpressionConstant(B)*DSExpressionConstant(C));
                 DSExpressionFree(B);
                 DSExpressionFree(C);
         } else {
-                A = DSExpressionAllocWithOperator('*');
+                A = dsExpressionAllocWithOperator('*');
                 DSExpressionAddBranch(A, B);
                 DSExpressionAddBranch(A, C);
         }
@@ -131,22 +136,22 @@ expr(A) ::= expr(B) TIMES expr(C). {
 expr(A) ::= expr(B) DIVIDE expr(C). {
         if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT &&
             DSExpressionType(B) == DSExpressionType(C)) {
-                A = DSExpressionAllocWithConstant(DSExpressionConstant(B)/DSExpressionConstant(C));
+                A = dsExpressionAllocWithConstant(DSExpressionConstant(B)/DSExpressionConstant(C));
                 DSExpressionFree(B);
                 DSExpressionFree(C);
         } else if (DSExpressionType(C) == DS_EXPRESSION_TYPE_CONSTANT) {
-                A = DSExpressionAllocWithConstant(pow(DSExpressionConstant(C), -1.0));
+                A = dsExpressionAllocWithConstant(pow(DSExpressionConstant(C), -1.0));
                 DSExpressionFree(C);
                 C = A;
-                A = DSExpressionAllocWithOperator('*');
+                A = dsExpressionAllocWithOperator('*');
                 DSExpressionAddBranch(A, B);
                 DSExpressionAddBranch(A, C);
         } else {
-                A = DSExpressionAllocWithOperator('^');
+                A = dsExpressionAllocWithOperator('^');
                 DSExpressionAddBranch(A, C);
-                DSExpressionAddBranch(A, DSExpressionAllocWithConstant(-1.0));
+                DSExpressionAddBranch(A, dsExpressionAllocWithConstant(-1.0));
                 C = A;
-                A = DSExpressionAllocWithOperator('*');
+                A = dsExpressionAllocWithOperator('*');
                 DSExpressionAddBranch(A, B);
                 DSExpressionAddBranch(A, C);
         }
@@ -155,11 +160,11 @@ expr(A) ::= expr(B) DIVIDE expr(C). {
 expr(A) ::= expr(B) POWER expr(C). {
         if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT &&
             DSExpressionType(B) == DSExpressionType(C)) {
-                A = DSExpressionAllocWithConstant(pow(DSExpressionConstant(B), DSExpressionConstant(C)));
+                A = dsExpressionAllocWithConstant(pow(DSExpressionConstant(B), DSExpressionConstant(C)));
                 DSExpressionFree(B);
                 DSExpressionFree(C);
         } else {
-                A = DSExpressionAllocWithOperator('^');
+                A = dsExpressionAllocWithOperator('^');
                 DSExpressionAddBranch(A, B);
                 DSExpressionAddBranch(A, C);
         }
@@ -167,11 +172,11 @@ expr(A) ::= expr(B) POWER expr(C). {
 
 expr(A) ::= MINUS expr(B). [NOT] {
         if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT) {
-                A = DSExpressionAllocWithConstant(-DSExpressionConstant(B));
+                A = dsExpressionAllocWithConstant(-DSExpressionConstant(B));
                 DSExpressionFree(B);
         } else {
-                A = DSExpressionAllocWithOperator('*');
-                DSExpressionAddBranch(A, DSExpressionAllocWithConstant(-1.0));
+                A = dsExpressionAllocWithOperator('*');
+                DSExpressionAddBranch(A, dsExpressionAllocWithConstant(-1.0));
                 DSExpressionAddBranch(A, B);
         }
 }
@@ -181,15 +186,15 @@ expr(A) ::= PLUS expr(B). [NOT] {
 }
 
 expr(A) ::= ID(B). {
-        A = DSExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)B));
+        A = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)B));
 }
 
 expr(A) ::= VALUE(B). {
-        A = DSExpressionAllocWithConstant(DSExpressionTokenDouble((struct expression_token *)B));
+        A = dsExpressionAllocWithConstant(DSExpressionTokenDouble((struct expression_token *)B));
 }
 
 expr(A) ::= ID(B) LPAREN expr(C) RPAREN. {
-        A = DSExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)B));
+        A = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)B));
         DSExpressionAddBranch(A, C);
 }
 

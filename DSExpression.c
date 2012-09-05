@@ -3,7 +3,10 @@
  * \brief Implementation file with functions for dealing with mathematical
  *        expressions.
  *
- * \details 
+ * \details The DSExpression object is used internally to parse mathematical
+ *          expressions and to evaluate these expressions using a variable pool.
+ *          The DSExpression object supports scalar adition, multiplication, 
+ *          powers and real valued functions of real variables.
  *
  * Copyright (C) 2011 Jason Lomnitz.\n\n
  *
@@ -25,6 +28,8 @@
  *
  * \author Jason Lomnitz.
  * \date 2011
+ *
+ * \todo Add options to register custom functions.
  */
 
 #include <stdio.h>
@@ -36,46 +41,10 @@
 #include "DSExpression.h"
 #include "DSExpressionTokenizer.h"
 
-#define DS_EXPRESSION_CONSTANT_BRANCH     0
-#define DS_EXPRESSION_STRING_INIT_LENGTH  1000
+#define DS_EXPRESSION_CONSTANT_BRANCH_INDEX     0
+#define DS_EXPRESSION_STRING_INIT_LENGTH        1000
 
-extern DSExpression * DSExpressionAllocWithOperator(const char op_code)
-{
-        DSExpression *newNode = NULL;
-        switch (op_code) {
-                case '+':
-                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
-                        DSExpressionSetOperator(newNode, '+');
-                        /* First branch reserved for constants */
-                        newNode->branches = DSSecureMalloc(sizeof(DSExpression *)*(DSExpressionNumberOfBranches(newNode)+1));
-                        newNode->branches[DSExpressionNumberOfBranches(newNode)] = DSExpressionAllocWithConstant(0.0);
-                        newNode->numberOfBranches++;
-                        break;
-                case '-':
-                        DSError(M_DS_WRONG ": DSExpression does not internally use '-' operators", A_DS_ERROR);
-                        break;
-                case '*':
-                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
-                        DSExpressionSetOperator(newNode, '*');
-                        /* First branch reserved for constants */
-                        newNode->branches = DSSecureMalloc(sizeof(DSExpression *)*(DSExpressionNumberOfBranches(newNode)+1));
-                        newNode->branches[DSExpressionNumberOfBranches(newNode)] = DSExpressionAllocWithConstant(1.0);
-                        newNode->numberOfBranches++;
-                        break;
-                case '/':
-                        DSError(M_DS_WRONG ": DSExpression does not internally use '/' operators", A_DS_ERROR);
-                        break;
-                case '^':
-                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
-                        DSExpressionSetOperator(newNode, op_code);
-                        break;
-                default:
-                        break;
-        }
-        return  newNode;
-}
-
-extern DSExpression * DSExpressionAllocWithConstant(const double value)
+extern DSExpression * dsExpressionAllocWithConstant(const double value)
 {
         DSExpression *newNode = NULL;
         newNode = DSSecureCalloc(1, sizeof(DSExpression));
@@ -84,7 +53,44 @@ extern DSExpression * DSExpressionAllocWithConstant(const double value)
         return newNode;
 }
 
-extern DSExpression * DSExpressionAllocWithVariableName(const char * name)
+extern DSExpression * dsExpressionAllocWithOperator(const char op_code)
+{
+        DSExpression *newNode = NULL;
+        switch (op_code) {
+                case '+':
+                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
+                        DSExpressionSetOperator(newNode, '+');
+                        /* First branch reserved for constants */
+                        newNode->branches = DSSecureMalloc(sizeof(DSExpression *));
+                        newNode->branches[DS_EXPRESSION_CONSTANT_BRANCH_INDEX] = dsExpressionAllocWithConstant(0.0);
+                        newNode->numberOfBranches = 1;
+                        break;
+                case '*':
+                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
+                        DSExpressionSetOperator(newNode, '*');
+                        /* First branch reserved for constants */
+                        newNode->branches = DSSecureMalloc(sizeof(DSExpression *));
+                        newNode->branches[DS_EXPRESSION_CONSTANT_BRANCH_INDEX] = dsExpressionAllocWithConstant(1.0);
+                        newNode->numberOfBranches = 1;
+                        break;
+                case '^':
+                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
+                        DSExpressionSetOperator(newNode, op_code);
+                        break;
+                case '-':
+                        DSError(M_DS_WRONG ": DSExpression does not internally use '-' operators", A_DS_ERROR);
+                        break;
+                case '/':
+                        DSError(M_DS_WRONG ": DSExpression does not internally use '/' operators", A_DS_ERROR);
+                        break;
+                default:
+                        DSError(M_DS_WRONG ": DSExpression found unrecognized operator.", A_DS_ERROR);
+                        break;
+        }
+        return  newNode;
+}
+
+extern DSExpression * dsExpressionAllocWithVariableName(const char * name)
 {
         DSExpression *newNode = NULL;
         if (name == NULL) {
@@ -207,7 +213,7 @@ extern DSExpression * DSExpressionAddExpressions(DSExpression *lvalue, DSExpress
                 newRoot = lvalue;
                 goto bail;
         }
-        newRoot = DSExpressionAllocWithOperator('+');
+        newRoot = dsExpressionAllocWithOperator('+');
         DSExpressionAddBranch(newRoot, lvalue);
         DSExpressionAddBranch(newRoot, rvalue);
 bail:
@@ -506,7 +512,7 @@ static bool operatorIsLowerPrecedence(char op1, char op2)
         return isLower;
 }
 
-static void expressionToStringInternal(const DSExpression *current, char ** string, DSUInteger *length)
+static void dsExpressionToStringInternal(const DSExpression *current, char ** string, DSUInteger *length)
 {
         DSUInteger i;
         DSExpression * branch;
@@ -542,7 +548,7 @@ static void expressionToStringInternal(const DSExpression *current, char ** stri
                                 if (DSExpressionType(branch) == DS_EXPRESSION_TYPE_OPERATOR &&
                                     operatorIsLowerPrecedence(DSExpressionOperator(current), DSExpressionOperator(branch)))
                                         strncat(*string, "(", *length-strlen(*string));
-                                expressionToStringInternal(branch, string, length);
+                                dsExpressionToStringInternal(branch, string, length);
                                 if (DSExpressionType(branch) == DS_EXPRESSION_TYPE_OPERATOR &&
                                     operatorIsLowerPrecedence(DSExpressionOperator(current), DSExpressionOperator(branch)))
                                         strncat(*string, ")", *length-strlen(*string));
@@ -560,7 +566,7 @@ static void expressionToStringInternal(const DSExpression *current, char ** stri
                                 *string = DSSecureRealloc(string, sizeof(char)**length);
                         }
                         strncat(*string, temp, *length-strlen(*string));
-                        expressionToStringInternal(DSExpressionBranchAtIndex(current, 0), string, length);
+                        dsExpressionToStringInternal(DSExpressionBranchAtIndex(current, 0), string, length);
                         strncat(*string, ")", *length-strlen(*string));
                         temp[0] = '\0';
                         break;
@@ -585,9 +591,7 @@ extern char * DSExpressionAsString(const DSExpression *expression)
                 goto bail;
         }
         string = DSSecureCalloc(sizeof(char), length);
-        expressionToStringInternal(expression, &string, &length);
-//        if (strlen(string) != 0)
-//                string = DSSecureRealloc(string, sizeof(char)*(strlen(string)+1));
+        dsExpressionToStringInternal(expression, &string, &length);
 bail:
         return string;
 }

@@ -487,7 +487,11 @@ static yyconst flex_int16_t yy_chk[56] =
 #define calloc(x, y)   DSSecureCalloc(x, y)
 #define realloc(x, y)  DSSecureRealloc(x, y)
 
-#line 491 "<stdout>"
+extern DSExpression * dsExpressionAllocWithOperator(const char op_code);
+extern DSExpression * dsExpressionAllocWithConstant(const double value);
+extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
+
+#line 495 "<stdout>"
 
 #define INITIAL 0
 
@@ -706,9 +710,9 @@ YY_DECL
 	register int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
-#line 52 "DSExpressionGrammar.l"
+#line 56 "DSExpressionGrammar.l"
 
-#line 712 "<stdout>"
+#line 716 "<stdout>"
 
 	if ( !yyg->yy_init )
 		{
@@ -793,7 +797,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 53 "DSExpressionGrammar.l"
+#line 57 "DSExpressionGrammar.l"
 {
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
         if (token == NULL) {
@@ -808,7 +812,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 65 "DSExpressionGrammar.l"
+#line 69 "DSExpressionGrammar.l"
 {
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
         if (token == NULL) {
@@ -823,7 +827,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 77 "DSExpressionGrammar.l"
+#line 81 "DSExpressionGrammar.l"
 {
         double temp;
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
@@ -840,7 +844,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 91 "DSExpressionGrammar.l"
+#line 95 "DSExpressionGrammar.l"
 {
         double temp;
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
@@ -857,7 +861,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 105 "DSExpressionGrammar.l"
+#line 109 "DSExpressionGrammar.l"
 {
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
         if (token == NULL) {
@@ -871,7 +875,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 116 "DSExpressionGrammar.l"
+#line 120 "DSExpressionGrammar.l"
 {
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
         if (token == NULL) {
@@ -885,7 +889,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 127 "DSExpressionGrammar.l"
+#line 131 "DSExpressionGrammar.l"
 {
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
         if (token == NULL) {
@@ -899,7 +903,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 138 "DSExpressionGrammar.l"
+#line 142 "DSExpressionGrammar.l"
 {
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
         if (token == NULL) {
@@ -913,7 +917,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 149 "DSExpressionGrammar.l"
+#line 153 "DSExpressionGrammar.l"
 {
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
         if (token == NULL) {
@@ -927,7 +931,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 160 "DSExpressionGrammar.l"
+#line 164 "DSExpressionGrammar.l"
 {
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
         if (token == NULL) {
@@ -941,7 +945,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 171 "DSExpressionGrammar.l"
+#line 175 "DSExpressionGrammar.l"
 {
         struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
         if (token == NULL) {
@@ -955,15 +959,15 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 182 "DSExpressionGrammar.l"
+#line 186 "DSExpressionGrammar.l"
 {/* Do nothing. */}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 183 "DSExpressionGrammar.l"
+#line 187 "DSExpressionGrammar.l"
 ECHO;
 	YY_BREAK
-#line 967 "<stdout>"
+#line 971 "<stdout>"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2117,7 +2121,7 @@ void DSExpressionFlexfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 183 "DSExpressionGrammar.l"
+#line 187 "DSExpressionGrammar.l"
 
 
 
