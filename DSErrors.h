@@ -113,10 +113,12 @@ __BEGIN_DECLS
  *
  * Definition of the error reporting macro used within the DesignSpace C
  * toolbox, this is a define which takes a string, which may be a standard
- * message, and an action and reports it via the standard warning and error
- * posting functions in the standard IO functions. A default behavior of the
- * DSError macro posts warning and errors to stderr, while a fatal error
- * posts the error to stderr and aborts the program.
+ * message, and an action. The errir us reported via the standard warning and 
+ * error posting functions. The error currently print, but are innefficient when
+ * multiple errors are reported. A new error notification function must be 
+ * implemented.
+ *
+ * \todo Implement an appropriate error notification mechanism.
  *
  * \see DSPostWarning
  * \see DSPostError

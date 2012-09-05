@@ -8,4 +8,11 @@
 #
 # THIS TAG INDICATES THAT THIS MAKEFILE IS NON-FUNCTIONAL.
 CC=gcc
-CFLAGS= -wall -O3
+CFLAGS= -std=gnu99 -wall -O3 -I/usr/local/include/ -shared -
+LIBS = -lglpk -lgsl -lcblas
+EXECUTABLE=libdesignspace
+
+SOURCE = $(wildcard *.c)
+
+all: $(SOURCE)
+        gcc -o $@ $^ $CFLAGS $LIBS

@@ -52,17 +52,17 @@
 __BEGIN_DECLS
 #endif
 
-enum {
-        __MAT_GSL__,
-        __MAT_CLAPACK__
-};
-
-#ifdef __GSL__
-#define __MATRIX_BACK__ __MAT_GSL__
-#elif defined(__LAPACK__)
-#define __MATRIX_BACK__
-#undef __MATRIX_BACK__
-#endif
+//enum {
+//        __MAT_GSL__,
+//        __MAT_CLAPACK__
+//};
+//
+//#ifdef __GSL__
+//#define __MATRIX_BACK__ __MAT_GSL__
+//#elif defined(__LAPACK__)
+//#define __MATRIX_BACK__
+//#undef __MATRIX_BACK__
+//#endif
 
 
 #if defined(__APPLE__) && defined (__MACH__)
