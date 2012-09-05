@@ -63,10 +63,6 @@
 #pragma mark - Allocation, Free and Initialization functions
 #endif
 
-//extern DSExpression * DSExpressionAllocWithOperator(const char op_code);
-//extern DSExpression * DSExpressionAllocWithConstant(const double value);
-//extern DSExpression * DSExpressionAllocWithVariableName(const char * name);
-
 extern void DSExpressionFree(DSExpression *root);
 
 extern DSExpression * DSExpressionCopy(const DSExpression * expression);
