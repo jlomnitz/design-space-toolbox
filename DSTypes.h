@@ -111,6 +111,8 @@ typedef struct {
  * retrieving and removing variables should be done through the accesory 
  * functions.
  *
+ * \todo Implement a tree balancing algorithm to make variable search more
+ *       efficient, such as the red and black tree.
  * \see DSDictionary
  */
 typedef struct _varDictionary
@@ -122,11 +124,22 @@ typedef struct _varDictionary
         void *value;                   //!< The variable stored. Only when current is '\\0'.
 } DSInternalDictionary;
 
+/**
+ * \brief Dictionary object with C strings for keys and pointers for values.
+ *
+ * \details A dictionary structure with strings for keys and pointers for values.
+ *          The dictionary uses a tree structure to minimize un-used memory usage
+ *          as look-up time is not expected to be a problem. The dictionary is
+ *          ordered by maintaining an ordered array of pointers.
+ *
+ * \see DSDictionary.h
+ * \see DSDictionary.c
+ */
 typedef struct {
         DSInternalDictionary *internal; //!< The pointer to the internal ternary tree root.
         DSUInteger count;               //!< The number of objects in the dictionary.
         char ** names;                  //!< A standard C array with all the names in the dictionary.
-        void (*freeFunction)(void *);    //!< Free function (Not yet implemented)
+        void (*freeFunction)(void *);   //!< Free function (Not yet implemented)
         pthread_mutex_t lock;           //!< A mutex lock to make the dictionary thread safe.
 } DSDictionary;
 
