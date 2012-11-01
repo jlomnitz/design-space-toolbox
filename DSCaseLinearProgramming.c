@@ -515,6 +515,140 @@ bail:
         return value;
 }
 
+static DSVertices * dsCaseCalculateBoundingRange(const DSCase * aCase, glp_prob * linearProblem, const DSUInteger index)
+{
+        DSVertices *vertices = NULL;
+        double minVal, maxVal, val[1] = {INFINITY};
+        vertices = DSVerticesAlloc(1);
+        glp_set_obj_coef(linearProblem, index+1, 1.0);
+        glp_simplex(linearProblem, NULL);
+        maxVal = glp_get_obj_val(linearProblem);
+        if (glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                val[0] = maxVal;
+                DSVerticesAddVertex(vertices, val);
+        }
+        glp_set_obj_coef(linearProblem, index+1, -1.0);
+        glp_simplex(linearProblem, NULL);
+        if (glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                minVal = -glp_get_obj_val(linearProblem);
+                if (minVal != maxVal) {
+                        val[0] = minVal;
+                        DSVerticesAddVertex(vertices, val);
+                }
+        }
+bail:
+        return vertices;
+}
+
+extern DSVertices * DSCaseBoundingRangeForVariableWithConstraints(const DSCase *aCase, const char * variable, DSVariablePool * lowerBounds, DSVariablePool * upperBounds)
+{
+        DSVertices *vertices = NULL;
+        DSUInteger index;
+        DSMatrix *A = NULL, *Zeta = NULL, *temp;
+        glp_prob * linearProblem = NULL;
+        
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        
+        index = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), variable);
+        
+        if (index >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                DSError(M_DS_WRONG ": Case does not have variable", A_DS_ERROR);
+                goto bail;
+        }
+        
+        temp = DSMatrixCalloc(2, DSVariablePoolNumberOfVariables(DSCaseXi(aCase)));
+        DSMatrixSetDoubleValue(temp, 0, index, 1.0);
+        DSMatrixSetDoubleValue(temp, 1, index, -1.0);
+        A = DSMatrixAppendMatrices(DSCaseU(aCase), temp, false);
+        DSMatrixFree(temp);
+        temp = DSMatrixCalloc(2, 1);
+        DSMatrixSetDoubleValue(temp, 0, 0, 15.0f);
+        DSMatrixSetDoubleValue(temp, 1, 0, 15.0f);
+        Zeta = DSMatrixAppendMatrices(DSCaseZeta(aCase), temp, false);
+        DSMatrixFree(temp);
+        DSMatrixMultiplyByScalar(A, -1.0);
+        linearProblem = dsCaseLinearProblemForMatrices(A, Zeta);
+        
+        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        
+        if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) == 0) {
+                DSError(M_DS_WRONG ": Needs at least one free variables", A_DS_ERROR);
+                glp_delete_prob(linearProblem);
+                goto bail;
+        }
+        
+        if (glp_get_col_type(linearProblem, DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), variable)+1) == GLP_FX) {
+                DSError(M_DS_WRONG ": variable is fixed", A_DS_ERROR);
+                glp_delete_prob(linearProblem);
+                goto bail;
+        }
+        
+        vertices = dsCaseCalculateBoundingRange(aCase, linearProblem, index);
+        glp_delete_prob(linearProblem);
+bail:
+        if (A != NULL)
+                DSMatrixFree(A);
+        if (Zeta != NULL)
+                DSMatrixFree(Zeta);
+        return vertices;
+}
+
+extern DSVertices * DSCaseBoundingRangeForVariable(const DSCase *aCase, const char * variable)
+{
+        DSVertices *vertices = NULL;
+        DSUInteger i, index;
+        DSMatrix *A = NULL, *Zeta = NULL, *temp;
+        glp_prob * linearProblem = NULL;
+        
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        
+        index = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), variable);
+        
+        if (index >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                DSError(M_DS_WRONG ": Case does not have variable", A_DS_ERROR);
+                goto bail;
+        }
+        
+        temp = DSMatrixCalloc(2, DSVariablePoolNumberOfVariables(DSCaseXi(aCase)));
+        DSMatrixSetDoubleValue(temp, 0, index, 1.0);
+        DSMatrixSetDoubleValue(temp, 1, index, -1.0);
+        A = DSMatrixAppendMatrices(DSCaseU(aCase), temp, false);
+        DSMatrixFree(temp);
+        temp = DSMatrixCalloc(2, 1);
+        DSMatrixSetDoubleValue(temp, 0, 0, 15.0f);
+        DSMatrixSetDoubleValue(temp, 1, 0, 15.0f);
+        Zeta = DSMatrixAppendMatrices(DSCaseZeta(aCase), temp, false);
+        DSMatrixFree(temp);
+        DSMatrixMultiplyByScalar(A, -1.0);
+        linearProblem = dsCaseLinearProblemForMatrices(A, Zeta);
+        
+        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXd(aCase)); i++)
+                glp_set_col_bnds(linearProblem, i+1, GLP_FR, 0.0, 0.0);
+        
+        vertices = dsCaseCalculateBoundingRange(aCase, linearProblem, index);
+        glp_delete_prob(linearProblem);
+bail:
+        if (A != NULL)
+                DSMatrixFree(A);
+        if (Zeta != NULL)
+                DSMatrixFree(Zeta);
+        return vertices;
+}
+
 static DSVertices * dsCaseCalculate1DVertices(const DSCase * aCase, glp_prob * linearProblem, const DSMatrix * A, const DSMatrix *Zeta, const DSUInteger xIndex, const DSVariablePool * lower, const DSVariablePool * upper)
 {
         DSVertices *vertices = NULL;
@@ -528,12 +662,12 @@ static DSVertices * dsCaseCalculate1DVertices(const DSCase * aCase, glp_prob * l
                 DSVerticesAddVertex(vertices, val);
         }
         glp_set_obj_coef(linearProblem, xIndex+1, -1.0);
-        glp_simplex(linearProblem, NULL); 
+        glp_simplex(linearProblem, NULL);
         if (glp_get_prim_stat(linearProblem) == GLP_FEAS) {
                 minVal = -glp_get_obj_val(linearProblem);
                 if (minVal != maxVal) {
                         val[0] = minVal;
-                        DSVerticesAddVertex(vertices, val);        
+                        DSVerticesAddVertex(vertices, val);
                 }
         }
 bail:

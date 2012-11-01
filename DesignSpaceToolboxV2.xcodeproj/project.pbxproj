@@ -33,7 +33,6 @@
 		9A707C5813F0D0EF00626845 /* DSExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A707C5713F0D0EF00626845 /* DSExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A707C5B13F0D0FC00626845 /* DSExpression.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A707C5A13F0D0FC00626845 /* DSExpression.c */; };
 		9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0D813D480890051B472 /* libcblas.dylib */; };
-		9A71F0DB13D480950051B472 /* libgsl.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0DA13D480950051B472 /* libgsl.0.dylib */; };
 		9A81B38613A89D38007DADEC /* DSErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A81B38413A89D38007DADEC /* DSErrors.c */; };
 		9A85B47013FF9DFC00EA3795 /* DSDesignSpace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A85B47413FF9E1600EA3795 /* DSDesignSpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */; };
@@ -58,6 +57,7 @@
 		9AC62D1B13FDC2D500523AD7 /* DSCase.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC62D1A13FDC2D500523AD7 /* DSCase.c */; };
 		9ACB2CFF13A1345F006A5F71 /* DSErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ACB2CFE13A1345F006A5F71 /* DSErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */; };
+		9ADD5B1515F92FBB001DF565 /* libgsl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD5B1415F92FBB001DF565 /* libgsl.a */; };
 		9AE49FD913F5A4EC00C7A478 /* DSGMASystemGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */; };
 		9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE7759C140DAA8900F77747 /* DSVertices.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -99,7 +99,6 @@
 		9A707C5713F0D0EF00626845 /* DSExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSExpression.h; sourceTree = "<group>"; };
 		9A707C5A13F0D0FC00626845 /* DSExpression.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSExpression.c; sourceTree = "<group>"; };
 		9A71F0D813D480890051B472 /* libcblas.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcblas.dylib; path = usr/lib/libcblas.dylib; sourceTree = SDKROOT; };
-		9A71F0DA13D480950051B472 /* libgsl.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.0.dylib; path = usr/local/lib/libgsl.0.dylib; sourceTree = SDKROOT; };
 		9A81B38213A89C31007DADEC /* libdesignspace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libdesignspace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A81B38413A89D38007DADEC /* DSErrors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSErrors.c; sourceTree = "<group>"; };
 		9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpace.h; sourceTree = "<group>"; };
@@ -130,6 +129,7 @@
 		9ACB2CFE13A1345F006A5F71 /* DSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSErrors.h; sourceTree = "<group>"; };
 		9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMemoryManager.c; sourceTree = "<group>"; };
 		9ADADD5B13EB467B00A2062D /* DSMatrixGrammar.l */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lex; path = DSMatrixGrammar.l; sourceTree = "<group>"; };
+		9ADD5B1415F92FBB001DF565 /* libgsl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgsl.a; path = ../../../../../usr/local/lib/libgsl.a; sourceTree = "<group>"; };
 		9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemGrammar.c; sourceTree = "<group>"; };
 		9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemGrammar.h; sourceTree = "<group>"; };
 		9AE7759C140DAA8900F77747 /* DSVertices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVertices.h; sourceTree = "<group>"; };
@@ -145,8 +145,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9ADD5B1515F92FBB001DF565 /* libgsl.a in Frameworks */,
 				9A47C2C5150211FF00AA0585 /* libglpk.0.dylib in Frameworks */,
-				9A71F0DB13D480950051B472 /* libgsl.0.dylib in Frameworks */,
 				9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,8 +232,8 @@
 		9A5833A9139D78A80068B6B6 = {
 			isa = PBXGroup;
 			children = (
+				9ADD5B1415F92FBB001DF565 /* libgsl.a */,
 				9A47C2C4150211FF00AA0585 /* libglpk.0.dylib */,
-				9A71F0DA13D480950051B472 /* libgsl.0.dylib */,
 				9A71F0D813D480890051B472 /* libcblas.dylib */,
 				9A5833BB139D79170068B6B6 /* DSStd.h */,
 				9A8C2F3215F6D672009B6323 /* Makefile */,
@@ -600,11 +600,11 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
+					"-L/usr/local/lib/",
 					"-D__GSL__",
-					"-L/Applications/MATLAB_R2011a.app/bin/maci64",
-					"-lmat",
+					"-lgsl",
 				);
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -623,11 +623,11 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
+					"-L/usr/local/lib/",
 					"-D__GSL__",
-					"-L/Applications/MATLAB_R2011a.app/bin/maci64",
-					"-lmat",
+					"-lgsl",
 				);
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -647,6 +647,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
+					"-L/usr/local/lib/",
 					"-D__GSL__",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -669,6 +670,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
+					"-L/usr/local/lib/",
 					"-D__GSL__",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";

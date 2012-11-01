@@ -422,6 +422,9 @@ bail:
 #define ds_function_index_log10  2
 #define ds_function_index_cos    3
 #define ds_function_index_sin    4
+#define ds_function_index_abs    5
+#define ds_function_index_sign   6
+
 
 static double dsExpressionEvaluateMathematicalFunction(const DSExpression *function, const DSVariablePool * pool)
 {
@@ -435,7 +438,7 @@ static double dsExpressionEvaluateMathematicalFunction(const DSExpression *funct
                 DSError(M_DS_WRONG ": Expression node must be a function", A_DS_ERROR);
                 goto bail;
         }
-        functionNames = DSVariablePoolByParsingString("log : 1, ln : 1, log10 : 1, cos : 1, sin : 1");
+        functionNames = DSVariablePoolByParsingString("log : 1, ln : 1, log10 : 1, cos : 1, sin : 1, abs : 1, sign : 1");
         if (DSVariablePoolHasVariableWithName(functionNames, DSExpressionVariable(function)) == false) {
                 DSError(M_DS_WRONG ": Function name not recognized", A_DS_ERROR);
                 goto bail;
@@ -454,6 +457,17 @@ static double dsExpressionEvaluateMathematicalFunction(const DSExpression *funct
                         break;
                 case ds_function_index_sin:
                         eval = sin(value);
+                        break;
+                case ds_function_index_abs:
+                        eval = fabs(value);
+                        break;
+                case ds_function_index_sign:
+                        if (value > 0.0f)
+                                eval = 1.0f;
+                        else if (value < 0.0f)
+                                eval = -1.0f;
+                        else
+                                eval = 0.0f;
                         break;
                 default:
                         break;
