@@ -495,6 +495,7 @@ extern double DSExpressionEvaluateWithVariablePool(const DSExpression *expressio
                                         value = DSVariableValue(variable);
                                 } else {
                                         DSError(M_DS_WRONG ": Variable pool does not have variable.", A_DS_ERROR);
+                                        printf("[%s] Not Found.\n", DSExpressionVariable(expression));
                                 }
                         } else {
                                 DSError(M_DS_VAR_NULL, A_DS_ERROR);
