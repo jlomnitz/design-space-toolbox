@@ -1790,12 +1790,12 @@ extern DSMatrix * DSMatrixCharacteristicPolynomialUndeterminedCoefficients(const
         }
         D = DSMatrixUndeterminedCoefficientsDArrayForMatrix(matrix);
         temp = DSMatrixByMultiplyingMatrix(Rn_internal, D);
-        coefficients = DSMatrixAlloc(DSMatrixRows(matrix)+1, 1);
-        for (i = 0; i < DSMatrixRows(temp); i++) {
-                DSMatrixSetDoubleValue(coefficients, i+1, 0, DSMatrixDoubleValue(temp, i, 0));
-        }
+        coefficients = DSMatrixAlloc(1, DSMatrixRows(matrix)+1);
         DSMatrixSetDoubleValue(coefficients, 0, 0, pow(-1, DSMatrixRows(matrix)));
-        DSMatrixSetDoubleValue(coefficients, DSMatrixRows(coefficients)-1, 0, DSMatrixDeterminant(matrix));
+        for (i = 0; i < DSMatrixRows(temp); i++) {
+                DSMatrixSetDoubleValue(coefficients, 0, i+1, DSMatrixDoubleValue(temp, i, 0));
+        }
+        DSMatrixSetDoubleValue(coefficients, 0, i+1, DSMatrixDeterminant(matrix));
         DSMatrixFree(temp);
         DSMatrixFree(D);
 bail:
