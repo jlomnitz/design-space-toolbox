@@ -1287,6 +1287,36 @@ extern double complex DSMatrixDominantEigenvalue(const DSMatrix *matrix)
 bail:
         return eigenValue;
 }
+
+extern gsl_vector_complex * DSMatrixEigenvalues(const DSMatrix *matrix)
+{
+        DSMatrix * copy = NULL;
+        gsl_vector_complex *eval;
+        gsl_matrix_complex *evec;
+        gsl_eigen_nonsymmv_workspace * w;
+        
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSMatrixRows(matrix) != DSMatrixColumns(matrix)) {
+                DSError(M_DS_WRONG ": DSMatrix is not a square matrix", A_DS_ERROR);
+                goto bail;
+        }
+        copy = DSMatrixCopy(matrix);
+        eval = gsl_vector_complex_alloc (DSMatrixRows(copy));
+        evec = gsl_matrix_complex_alloc (DSMatrixRows(copy), DSMatrixColumns(copy));
+        w = gsl_eigen_nonsymmv_alloc(DSMatrixRows(copy));
+        
+        gsl_eigen_nonsymmv(DSMatrixInternalPointer(copy), eval, evec, w);
+        gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_ABS_ASC);
+        gsl_matrix_complex_free(evec);
+        gsl_eigen_nonsymmv_free(w);
+        DSMatrixFree(copy);
+bail:
+        return eval;
+}
+
 extern double maximumValue(const DSMatrix *matrix, const bool shouldExcludeZero)
 {
         double maxValue = NAN;
@@ -1412,6 +1442,35 @@ extern double DSMatrixDeterminant(const DSMatrix *matrix)
        gsl_matrix_free(LU);
 bail:
         return determinant;
+}
+
+
+extern double DSMatrixMinor(const DSMatrix *matrix,
+                            const DSUInteger row,
+                            const DSUInteger column)
+{
+        double minor = NAN;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (row >= DSMatrixRows(matrix)) {
+                DSError(M_DS_WRONG, A_DS_ERROR);
+                goto bail;
+        }
+        if (column >= DSMatrixColumns(matrix)) {
+                DSError(M_DS_WRONG, A_DS_ERROR);
+                goto bail;
+        }
+        DSMatrix * submatrix = DSMatrixSubMatrixExcludingRowAndColumnList(matrix,
+                                                                          1,
+                                                                          1,
+                                                                          row,
+                                                                          column);
+        minor = DSMatrixDeterminant(submatrix);
+        DSMatrixFree(submatrix);
+bail:
+        return minor;
 }
 
 extern DSMatrix * DSMatrixTranspose(const DSMatrix *matrix)
@@ -1633,6 +1692,116 @@ extern DSMatrixArray * DSMatrixPLUDecomposition(const DSMatrix *A)
         DSSecureFree(PLU);
 bail:
         return array;
+}
+
+extern DSMatrix * DSMatrixCharacteristicPolynomialCoefficients(const DSMatrix * matrix)
+{
+        DSMatrix * coefficients = NULL;
+        coefficients = DSMatrixCharacteristicPolynomialUndeterminedCoefficients(matrix, NULL);
+        
+bail:
+        return coefficients;
+}
+
+extern DSMatrix * DSMatrixUndeterminedCoefficientsRnMatrixForSize(const DSUInteger matrixSize)
+{
+        DSMatrix * Sn = NULL;
+        DSMatrix * Rn = NULL;
+        DSUInteger i, j;
+        Sn = DSMatrixAlloc(matrixSize-1, matrixSize-1);
+        for (i = 0; i < matrixSize-1; i++) {
+                for (j = 0; j < matrixSize-1; j++) {
+                        DSMatrixSetDoubleValue(Sn,
+                                               i,
+                                               j, pow(i+1, matrixSize-(j+1)));
+                }
+        }
+        Rn = DSMatrixInverse(Sn);
+        DSMatrixFree(Sn);
+        return Rn;
+}
+
+extern DSMatrix * DSMatrixUndeterminedCoefficientsDArrayForMatrix(const DSMatrix *matrix)
+{
+        DSMatrix * D = NULL;
+        DSMatrix * d = NULL;
+        DSMatrix * identity = NULL;
+        DSMatrix * jI_A = NULL;
+        DSUInteger i;
+        DSUInteger matrixSize;
+        double value;
+        if (DSMatrixIsSquare(matrix) == false) {
+                DSError(M_DS_WRONG ": matrix is not square", A_DS_ERROR);
+                goto bail;
+        }
+        matrixSize = DSMatrixRows(matrix);
+        identity = DSMatrixIdentity(matrixSize);
+        jI_A = DSMatrixAlloc(matrixSize, matrixSize);
+        D = DSMatrixAlloc(matrixSize-1, 1);
+        d = DSMatrixAlloc(matrixSize, 1);
+        for (i = 0; i < matrixSize; i++) {
+                jI_A = DSMatrixByMultiplyingScalar(identity, 1.0f*i);
+                DSMatrixSubstractByMatrix(jI_A, matrix);
+                DSMatrixSetDoubleValue(d, i, 0, DSMatrixDeterminant(jI_A));
+                DSMatrixFree(jI_A);
+        }
+        for (i = 0; i < matrixSize-1; i++) {
+                value = DSMatrixDoubleValue(d, i+1, 0)-DSMatrixDoubleValue(d, 0, 0)-pow(i+1, matrixSize);
+                DSMatrixSetDoubleValue(D, i, 0, value);
+        }
+        DSMatrixFree(d);
+bail:
+        return D;
+}
+
+/**
+ * Uses method of undetermined coefficients to find the coefficients of a 
+ * characteristic polynomial.
+ */
+extern DSMatrix * DSMatrixCharacteristicPolynomialUndeterminedCoefficients(const DSMatrix * matrix, const DSMatrix * Rn)
+{
+        DSMatrix * coefficients = NULL;
+        DSMatrix * D = NULL;
+        DSMatrix * Rn_internal = NULL;
+        DSMatrix * temp = NULL;
+        DSUInteger i;
+        bool mustDealloc = false;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSMatrixIsSquare(matrix) == false) {
+                DSError(M_DS_WRONG ": Matrix must be square", A_DS_ERROR);
+                goto bail;
+        }
+        if (Rn != NULL) {
+                Rn_internal = (DSMatrix *)Rn;
+        } else {
+                Rn_internal = DSMatrixUndeterminedCoefficientsRnMatrixForSize(DSMatrixRows(matrix));
+                mustDealloc = true;
+        }
+        if (DSMatrixIsSquare(Rn_internal) == false) {
+                DSError(M_DS_WRONG "Rn matrix is not square", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSMatrixRows(matrix) != DSMatrixRows(Rn_internal)+1) {
+                DSError(M_DS_MAT_OUTOFBOUNDS ": matrix and Rn matrix of different sizes" , A_DS_ERROR);
+                goto bail;
+        }
+        D = DSMatrixUndeterminedCoefficientsDArrayForMatrix(matrix);
+        temp = DSMatrixByMultiplyingMatrix(Rn_internal, D);
+        coefficients = DSMatrixAlloc(DSMatrixRows(matrix)+1, 1);
+        for (i = 0; i < DSMatrixRows(temp); i++) {
+                DSMatrixSetDoubleValue(coefficients, i+1, 0, DSMatrixDoubleValue(temp, i, 0));
+        }
+        DSMatrixSetDoubleValue(coefficients, 0, 0, pow(-1, DSMatrixRows(matrix)));
+        DSMatrixSetDoubleValue(coefficients, DSMatrixRows(coefficients)-1, 0, DSMatrixDeterminant(matrix));
+        DSMatrixFree(temp);
+        DSMatrixFree(D);
+bail:
+        if (mustDealloc == true)
+                DSMatrixFree(Rn_internal);
+        return coefficients;
 }
 
 #if defined(__APPLE__) && defined (__MACH__)

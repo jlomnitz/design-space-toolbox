@@ -5,7 +5,7 @@ import mpl_toolkits.mplot3d.axes3d as Axes3D
 import mpl_toolkits.mplot3d.art3d as art3d
 import math
 import itertools
-
+from collections import OrderedDict
 
 class VariablePool(dict):
         """ A python class of the DSVariablePool object"""
@@ -81,7 +81,7 @@ class VariablePool(dict):
 class DesignSpacePlot:
         Variables = (None, None)
         Limits = ((None, None), (None, None))
-        Colormap = dict()
+        Colormap = OrderedDict()
         Mode = 'Slice'
         Dspace = None
         Xi=None
@@ -144,16 +144,20 @@ class DesignSpacePlot:
                 matplotlib.pyplot.xlim([math.log10(i) for i in self.Limits['X']])
                 matplotlib.pyplot.xlabel(r'$\log_{10}('+str(self.Variables['X'])+')$')
                 matplotlib.pyplot.ylabel(r'$\log_{10}('+str(self.Variables['Y'])+')$')
+                
         def _addToColormap(self, keys):
                 if self.Colormap == None:
-                        self.Colormap = dict()
+                        self.Colormap = OrderedDict()
                 for key in keys:
                         if self.Colormap.has_key(key) == False:
                                 self.Colormap[key] = 1
-                cm=matplotlib.colors.Normalize(vmin=0, vmax=len(self.Colormap))
+                cm=matplotlib.colors.Normalize()
+                temp = len(self.Colormap.keys())
+                cm.autoscale(range(temp+1))
                 for i in xrange(0, len(self.Colormap.keys())):
-                        color = matplotlib.colors.rgb2hex(matplotlib.cm.hsv(cm(i)))
-                        self.Colormap[self.Colormap.keys()[i]] = color
+                    color = matplotlib.colors.rgb2hex(matplotlib.cm.hsv(cm(i)))
+                    self.Colormap[self.Colormap.keys()[i]] = color
+
         def _regionColorbar(self, ax, keys):
                 keys.reverse()
                 ax.set_aspect(20./len(keys), 'box')
@@ -188,7 +192,6 @@ class DesignSpacePlot:
                                             self.Variables['Y'],
                                             self.Limits['X'],
                                             self.Limits['Y'])
-                self._addToColormap(str(case.caseNumber))
                 if V != []:
                         color = self.Colormap[str(case.caseNumber)]
                         matplotlib.pyplot.fill(V[:,0], V[:,1], color, hold=True)
@@ -753,6 +756,8 @@ class Case:
                         temp=designspacetoolbox_test.DSCaseLogarithmicSolution(self._data)
                 else: 
                         return None
+                if temp == None:
+                    return None
                 numberEquations=self.numberOfEquations
                 dict=designspacetoolbox_test.DSDictionaryFromArray(temp, numberEquations)
                 solution = list()

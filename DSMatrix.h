@@ -185,6 +185,10 @@ extern void DSMatrixMultiplyByScalar(DSMatrix *matrix, const double value);
 #endif
 
 extern double DSMatrixDeterminant(const DSMatrix *matrix); 
+extern double DSMatrixMinor(const DSMatrix *matrix,
+                            const DSUInteger row,
+                            const DSUInteger column);
+
 
 extern DSMatrix * DSMatrixTranspose(const DSMatrix *matrix);
 extern DSMatrix * DSMatrixInverse(const DSMatrix *matrix);
@@ -193,6 +197,11 @@ extern DSMatrix * DSMatrixRightNullspace(const DSMatrix *matrix);
 extern DSMatrix * DSMatrixLeftNullspace(const DSMatrix *matrix);
 
 extern DSMatrixArray * DSMatrixPLUDecomposition(const DSMatrix *matrix);
+
+extern DSMatrix * DSMatrixCharacteristicPolynomialCoefficients(const DSMatrix * matrix);
+
+extern DSMatrix * DSMatrixUndeterminedCoefficientsRnMatrixForSize(const DSUInteger matrixSize);
+extern DSMatrix * DSMatrixCharacteristicPolynomialUndeterminedCoefficients(const DSMatrix * matrix, const DSMatrix * Rn);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Matrix GLPK conversions
