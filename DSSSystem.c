@@ -1251,6 +1251,71 @@ bail:
         return flux;   
 }
 
+extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0)
+{
+        DSMatrix * FA = NULL;
+        DSMatrix * routhArray = NULL;
+        DSMatrix * phi = NULL;
+        DSMatrix * steadyState = NULL;
+        DSMatrix * routhMatrix = NULL;
+        DSMatrix * flux = NULL;
+        DSMatrix * F = NULL;
+        DSUInteger i, j;
+        double value;
+        
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemHasSolution(ssys) == false)
+                goto bail;
+        steadyState = DSSSystemSteadyStateValues(ssys, Xi0);
+        flux = DSSSystemSteadyStateFlux(ssys, Xi0);
+        F = DSMatrixAlloc(1, DSMatrixColumns(flux));
+        for (i = 0; i < DSMatrixColumns(F); i++) {
+                DSMatrixSetDoubleValue(F,
+                                       0,
+                                       i,
+                                       DSMatrixDoubleValue(flux, i, 0)/DSMatrixDoubleValue(steadyState, i, 0));
+        }
+        FA = DSMatrixByMultiplyingMatrix(F, DSSSystemA(ssys));
+        phi = DSMatrixCharacteristicPolynomialCoefficients(FA);
+        DSMatrixFree(steadyState);
+        DSMatrixFree(flux);
+        DSMatrixFree(F);
+        DSMatrixFree(FA);
+        routhMatrix = DSMatrixAlloc(DSMatrixColumns(phi), DSMatrixColumns(phi));
+        /* Make first row of routh matrix */
+        for (i = 0; i < DSMatrixRows(routhMatrix); i++) {
+                value = 0.0f;
+                if (2*i < DSMatrixRows(phi))
+                        value = DSMatrixDoubleValue(phi, 0, 2*i);
+                DSMatrixSetDoubleValue(routhMatrix, 0, i, value);
+        }
+        for (i = 0; i < DSMatrixRows(routhMatrix); i++) {
+                value = 0.0f;
+                if ((2*i)+1 < DSMatrixRows(phi))
+                        value = DSMatrixDoubleValue(phi, 0, (2*i)+1);
+                DSMatrixSetDoubleValue(routhMatrix, 1, i, value);
+        }
+        for (i = 2; i < DSMatrixRows(routhMatrix); i++) {
+                for (j = 0; j < DSMatrixColumns(routhMatrix)-1; j++) {
+                        value = DSMatrixDoubleValue(routhMatrix, i-1, 0);
+                        value = (value*DSMatrixDoubleValue(routhMatrix, i-2, j+1)-DSMatrixDoubleValue(routhMatrix, i-2, 0)*DSMatrixDoubleValue(routhMatrix, i-1, j+1))/value;
+                        DSMatrixSetDoubleValue(routhMatrix, i, j, value);
+                }
+        }
+        routhArray = DSMatrixSubMatrixIncludingColumnList(routhMatrix, 1, 0);
+        DSMatrixPrint(routhMatrix);
+        DSMatrixFree(routhMatrix);
+bail:
+        return routhArray;
+}
+
 extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName, const char *XiName)
 {
         double logGain = INFINITY;

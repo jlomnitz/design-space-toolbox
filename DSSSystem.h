@@ -63,6 +63,7 @@ extern DSSSystem * DSSSystemByParsingStrings(const DSVariablePool * const Xd, ch
 extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariablePool *Xi0, const char * function);
 extern DSMatrix * DSSSystemSteadyStateValues(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0);
 
 extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName, const char *XiName);
 
