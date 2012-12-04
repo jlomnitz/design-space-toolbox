@@ -64,6 +64,8 @@ extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariab
 extern DSMatrix * DSSSystemSteadyStateValues(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSUInteger DSSSystemRouthIndex(const DSSSystem *ssys, const DSVariablePool *Xi0);
+
 
 extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName, const char *XiName);
 

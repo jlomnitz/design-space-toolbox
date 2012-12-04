@@ -250,6 +250,13 @@ bail:
         return newRoot;
 }
 
+extern DSExpression * DSExpressionByCompressingConstantVariables(const DSExpression *expression, const DSVariablePool * assumedConstant)
+{
+        DSExpression * newExpression = NULL;
+//        DSExpression * temporary = NULL;
+bail:
+        return newExpression;
+}
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Branch adding functions

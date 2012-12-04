@@ -382,10 +382,11 @@ typedef struct {
         DSGMASystem *gma;              //!< The gma system of the design space.
         const DSVariablePool *Xd;      //!< A pointer to the DSVariablePool with the dependent variables.
         const DSVariablePool *Xi;      //!< A pointer to the DSVariablePool with the dependent variables.
-        DSDictionary * validCases;   //!< DSVariablePool with case number that are valid.
+        DSDictionary * validCases;     //!< DSVariablePool with case number that are valid.
         DSUInteger numberOfCases;      //!< DSUInteger indicating the maximum number of cases in the design space.
         DSMatrix * Cd, *Ci, *delta;    //!< Condition matrices.
-        DSDictionary *subcases;             //!< DSDesignSpaceStack containing design space objects with subcases.
+        DSDictionary *subcases;        //!< DSDesignSpaceStack containing design space objects with subcases.
+        DSMatrix * Rn;                 //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
 } DSDesignSpace;
 
 /**

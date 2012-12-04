@@ -1275,14 +1275,14 @@ extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePoo
                 goto bail;
         steadyState = DSSSystemSteadyStateValues(ssys, Xi0);
         flux = DSSSystemSteadyStateFlux(ssys, Xi0);
-        F = DSMatrixAlloc(1, DSMatrixColumns(flux));
+        F = DSMatrixIdentity(DSMatrixRows(flux));
         for (i = 0; i < DSMatrixColumns(F); i++) {
                 DSMatrixSetDoubleValue(F,
-                                       0,
                                        i,
-                                       DSMatrixDoubleValue(flux, i, 0)/DSMatrixDoubleValue(steadyState, i, 0));
+                                       i,
+                                       pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
         }
-        FA = DSMatrixByMultiplyingMatrix(F, DSSSystemA(ssys));
+        FA = DSMatrixByMultiplyingMatrix(F, DSSSystemAd(ssys));
         phi = DSMatrixCharacteristicPolynomialCoefficients(FA);
         DSMatrixFree(steadyState);
         DSMatrixFree(flux);
@@ -1290,30 +1290,67 @@ extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePoo
         DSMatrixFree(FA);
         routhMatrix = DSMatrixAlloc(DSMatrixColumns(phi), DSMatrixColumns(phi));
         /* Make first row of routh matrix */
-        for (i = 0; i < DSMatrixRows(routhMatrix); i++) {
+        for (i = 0; i < DSMatrixColumns(routhMatrix); i++) {
                 value = 0.0f;
-                if (2*i < DSMatrixRows(phi))
+                if (2*i < DSMatrixColumns(phi))
                         value = DSMatrixDoubleValue(phi, 0, 2*i);
                 DSMatrixSetDoubleValue(routhMatrix, 0, i, value);
         }
         for (i = 0; i < DSMatrixRows(routhMatrix); i++) {
                 value = 0.0f;
-                if ((2*i)+1 < DSMatrixRows(phi))
+                if ((2*i)+1 < DSMatrixColumns(phi))
                         value = DSMatrixDoubleValue(phi, 0, (2*i)+1);
                 DSMatrixSetDoubleValue(routhMatrix, 1, i, value);
         }
         for (i = 2; i < DSMatrixRows(routhMatrix); i++) {
-                for (j = 0; j < DSMatrixColumns(routhMatrix)-1; j++) {
+                for (j = 0; j < DSMatrixColumns(routhMatrix); j++) {
+                        if (j == DSMatrixColumns(routhMatrix)-1) {
+                                DSMatrixSetDoubleValue(routhMatrix, i, j, 0.0f);
+                                continue;
+                        }
                         value = DSMatrixDoubleValue(routhMatrix, i-1, 0);
                         value = (value*DSMatrixDoubleValue(routhMatrix, i-2, j+1)-DSMatrixDoubleValue(routhMatrix, i-2, 0)*DSMatrixDoubleValue(routhMatrix, i-1, j+1))/value;
                         DSMatrixSetDoubleValue(routhMatrix, i, j, value);
                 }
         }
         routhArray = DSMatrixSubMatrixIncludingColumnList(routhMatrix, 1, 0);
-        DSMatrixPrint(routhMatrix);
         DSMatrixFree(routhMatrix);
 bail:
         return routhArray;
+}
+
+extern DSUInteger DSSSystemRouthIndex(const DSSSystem *ssys, const DSVariablePool *Xi0)
+{
+        DSMatrix * routhArray = NULL;
+        DSUInteger routhIndex = 0;
+        DSUInteger i, length;
+        double value, baseSign = 1;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemHasSolution(ssys) == false)
+                goto bail;
+        routhArray = DSSSystemRouthArray(ssys, Xi0);
+        if (routhArray == NULL) {
+                goto bail;
+        }
+                
+        length = DSMatrixRows(routhArray);
+        baseSign = (DSMatrixDoubleValue(routhArray, 0, 0) > 0) ? 1. : -1.;
+        for (i = 0; i < length; i++) {
+                value = DSMatrixDoubleValue(routhArray, i, 0);
+                value *= baseSign;
+                if (value < 0)
+                        routhIndex += pow(2, i);
+        }
+        DSMatrixFree(routhArray);
+bail:
+        return routhIndex;
 }
 
 extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName, const char *XiName)

@@ -104,7 +104,7 @@ class DesignSpacePlot:
                 if Xi.has_key(self.Variables['Y']) == False:
                         self = None
                         raise ValueError, 'Design Space Plot Axis is not an Independnet Variable:' + self.Variables['Y']
-        def draw(self, colorbar=True, function=None, resolution=100, intersections=range(2, 100), isLogLinear=False, contourf=False):
+        def draw(self, colorbar=True, function=None, resolution=100, intersections=range(2, 100), isLogLinear=False, contourf=False, levels=None):
                 if ((str(self.Mode).lower() == 'function') & (function == None)):
                         raise ValueError, 'Draw Function mode requires a function for z direction'
                 lower = self.Xi.copy()
@@ -117,6 +117,8 @@ class DesignSpacePlot:
                         self._plot2DSlice(lower, upper, colorbar, intersections)
                 if str(self.Mode).lower() == 'function':
                         self._plot2DFunction(lower, upper, colorbar, function, resolution, isLogLinear, contourf=contourf)
+                if str(self.Mode).lower() == 'routh':
+                        self._plot2DRouth(lower, upper, colorbar, resolution, levels=levels, contourf=contourf)
                 matplotlib.pyplot.ylim([math.log10(i) for i in self.Limits['Y']])
                 matplotlib.pyplot.xlim([math.log10(i) for i in self.Limits['X']])
                 matplotlib.pyplot.xlabel(r'$\log_{10}('+str(self.Variables['X'])+')$')
@@ -402,8 +404,10 @@ class DesignSpacePlot:
                                                         self.Xi[self.Variables['X']] = 10**xj
                                                         Var[self.Variables['X']] = 10**xj
                                                         SS = case.steadyStateAtPoint(self.Xi)
+                                                        flux = case.steadyStateFluxAtPoint(self.Xi)
                                                         for k in xrange(len(SS)):
                                                                 Var[self.Dspace.dependentVariables.variableAtIndex(k)[0]] = 10**SS[k]
+                                                                Var['V_' + self.Dspace.dependentVariables.variableAtIndex(k)[0]] = 10**flux[k]
                                                         function_eval = designspacetoolbox_test.DSExpressionEvaluateWithVariablePool(expr, Var._data)
                                                         Z[i,j] *= function_eval
                                                 if zlim == None:
@@ -444,7 +448,51 @@ class DesignSpacePlot:
                         ax, _ = matplotlib.colorbar.make_axes(axis)
                         self._functionColorbar(ax, zlim)
                         matplotlib.pyplot.sca(axis)
-
+                        
+        def _plot2DRouth(self, lower, upper, colorbar, resolution, levels=None, contourf=True):
+                cases = self.Dspace.validCases(lower=lower, upper=upper)
+                keys = dict()
+                x=np.linspace(math.log10(lower[self.Variables['X']]),
+                              math.log10(upper[self.Variables['X']]),
+                              resolution)
+                y=np.linspace(math.log10(lower[self.Variables['Y']]),
+                              math.log10(upper[self.Variables['Y']]),
+                              resolution)
+                routh = np.zeros((resolution, resolution))
+                Var = self.Xi.copy()
+                for i in xrange(len(x)):
+                    Var[self.Variables['X']] = 10**x[i]
+                    for j in xrange(len(y)):
+                        temp = list()
+                        validCases=list()
+                        Var[self.Variables['Y']] = 10**y[j]
+                        for k in cases:
+                            if designspacetoolbox_test.DSCaseIsValidAtPoint(k._data, Var._data) == False:
+                                continue
+                            validCases.append(k.caseNumber)
+                            temp.append(designspacetoolbox_test.DSSSystemRouthIndex(
+                                         designspacetoolbox_test.DSCaseSSystem(k._data),
+                                         self.Xi._data))
+                        if len(temp) == 0:
+                            routh[i,j] = -1.
+                            continue
+                        routh[i,j] = max(temp)
+                        keys[max(temp)] = max(temp)
+                X, Y = np.meshgrid(x, y)
+                if levels == None:
+                    levels = keys.keys()
+                    levels.append(2**(len(self.Dspace.dependentVariables)+1))
+                    levels = np.sort([i-0.5 for i in levels])
+                cs=matplotlib.pyplot.contourf(X,
+                                              Y,
+                                              routh.T,
+                                              cmap=matplotlib.cm.jet,
+                                              levels=levels,
+                                              hold=True)
+                if colorbar == True:
+                    axis = matplotlib.pyplot.gca()
+                    matplotlib.pyplot.colorbar()
+                                                  
         def plot2DSliceWithSteadyStatesAsHeatmap(self, point, xVariable, yVariable, zVariable, xRange, yRange, resolution=500, zRange=[]):
                 lower = point.copy()
                 upper = point.copy()

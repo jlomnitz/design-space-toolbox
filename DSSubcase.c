@@ -494,7 +494,7 @@ static DSDesignSpace * dsSubcaseInternalDesignSpaceForUnderdeterminedCase(const 
         DSMatrixArray * coefficientArray = NULL;
         DSUInteger i, j, k, l;
         DSExpression **augmentedEquations;
-        char *string = NULL;
+//        char *string = NULL;
         double value;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
