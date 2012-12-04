@@ -262,12 +262,9 @@ extern void DSVerticesOrder2DVertices(DSVertices *vertices)
                 if (DSVerticesAddVertex(newVertices, allVertices[current]) == 0)
                         break;
         }
-        if (newVertices->numberOfVertices != vertices->numberOfVertices) {
-                DSError("Unable to order vertices", A_DS_ERROR);
-        } else {
-                vertices->vertices = newVertices->vertices;
-                newVertices->vertices = allVertices;
-        }
+        vertices->vertices = newVertices->vertices;
+        newVertices->vertices = allVertices;
+        vertices->numberOfVertices = newVertices->numberOfVertices;
         DSVerticesFree(newVertices);
 bail:
         return;
