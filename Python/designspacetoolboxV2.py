@@ -104,7 +104,7 @@ class DesignSpacePlot:
                 if Xi.has_key(self.Variables['Y']) == False:
                         self = None
                         raise ValueError, 'Design Space Plot Axis is not an Independnet Variable:' + self.Variables['Y']
-        def draw(self, colorbar=True, function=None, resolution=100, intersections=range(2, 100), isLogLinear=False, contourf=False, levels=None):
+        def draw(self, algebraic=None, colorbar=True, function=None, resolution=100, intersections=range(2, 100), isLogLinear=False, contourf=False, levels=None, boundaries=False):
                 if ((str(self.Mode).lower() == 'function') & (function == None)):
                         raise ValueError, 'Draw Function mode requires a function for z direction'
                 lower = self.Xi.copy()
@@ -118,7 +118,9 @@ class DesignSpacePlot:
                 if str(self.Mode).lower() == 'function':
                         self._plot2DFunction(lower, upper, colorbar, function, resolution, isLogLinear, contourf=contourf)
                 if str(self.Mode).lower() == 'routh':
-                        self._plot2DRouth(lower, upper, colorbar, resolution, levels=levels, contourf=contourf)
+                        self._plot2DRouth(algebraic, lower, upper, colorbar, resolution, levels=levels, contourf=contourf)
+                if boundaries==True and str(self.Mode).lower() != 'slice':
+                        self._plot2DBoundaries(lower, upper)
                 matplotlib.pyplot.ylim([math.log10(i) for i in self.Limits['Y']])
                 matplotlib.pyplot.xlim([math.log10(i) for i in self.Limits['X']])
                 matplotlib.pyplot.xlabel(r'$\log_{10}('+str(self.Variables['X'])+')$')
@@ -197,7 +199,18 @@ class DesignSpacePlot:
                 if V != []:
                         color = self.Colormap[str(case.caseNumber)]
                         matplotlib.pyplot.fill(V[:,0], V[:,1], color, hold=True)
-        def _plot2DSlice(self, lower, upper, colorbar, intersections):
+        def _plot2DBoundaries(self, lower, upper):
+                cases = self.Dspace.validCases(lower=lower, upper=upper)
+                keys = [str(case.caseNumber) for case in cases]
+                for case in cases:
+                    V = case.verticesFor2DSlice(self.Xi,
+                                                self.Variables['X'],
+                                                self.Variables['Y'],
+                                                self.Limits['X'],
+                                                self.Limits['Y'])
+                    if V != []:
+                        matplotlib.pyplot.fill(V[:,0], V[:,1], fc='none', ec='k', hold=True)
+        def _plot2DSlice(self, lower, upper, colorbar, intersections, fill=True, boundaries=True):
                 cases = self.Dspace.validCases(lower=lower, upper=upper)
                 Ints =self.Dspace.findIntersections(cases, n=intersections, lower=lower, upper=upper)
                 keys = [str(case.caseNumber) for case in cases]
@@ -221,8 +234,8 @@ class DesignSpacePlot:
                                                                                                            [self.Variables['X'], self.Variables['Y']]))
                                         if V != []:
                                                 key=','.join([str(case.caseNumber) for case in intersection])
-                                                color = self.Colormap[key]
-                                                matplotlib.pyplot.fill(V[:,0], V[:,1], color, hold=True)
+                                                color = self.Colormap[key]                                               
+                                                matplotlib.pyplot.fill(V[:,0], V[:,1], fc=color, hold=True)
                 if colorbar == True:
                         axis = matplotlib.pyplot.gca()
                         ax, _ = matplotlib.colorbar.make_axes(axis)
@@ -355,11 +368,8 @@ class DesignSpacePlot:
                 designspacetoolbox_test.DSVariablePoolSetReadWriteAdd(Var._data)
                 contours=list()
                 expr = designspacetoolbox_test.DSExpressionByParsingString(function)
-                ax=matplotlib.pyplot.gca()
-                if self.Zlim == None:
-                    zlim = None
-                else:
-                    zlim = self.Zlim
+                ax=matplotlib.pyplot.gca()  
+                zlim = self.Zlim
                 for case in cases:
                         V=case.verticesFor2DSlice(self.Xi,
                                                   self.Variables['X'],
@@ -449,8 +459,9 @@ class DesignSpacePlot:
                         self._functionColorbar(ax, zlim)
                         matplotlib.pyplot.sca(axis)
                         
-        def _plot2DRouth(self, lower, upper, colorbar, resolution, levels=None, contourf=True):
+        def _plot2DRouth(self, algebraic, lower, upper, colorbar, resolution, levels=None, contourf=True):
                 cases = self.Dspace.validCases(lower=lower, upper=upper)
+                ssystems = list()
                 keys = dict()
                 x=np.linspace(math.log10(lower[self.Variables['X']]),
                               math.log10(upper[self.Variables['X']]),
@@ -460,28 +471,37 @@ class DesignSpacePlot:
                               resolution)
                 routh = np.zeros((resolution, resolution))
                 Var = self.Xi.copy()
+                for k in cases:
+                    ssystems.append(designspacetoolbox_test.DSSSystemByRemovingAlgebraicConstraints(
+                                     designspacetoolbox_test.DSCaseSSystem(k._data), 
+                                     algebraic._data))
                 for i in xrange(len(x)):
                     Var[self.Variables['X']] = 10**x[i]
                     for j in xrange(len(y)):
                         temp = list()
                         validCases=list()
                         Var[self.Variables['Y']] = 10**y[j]
-                        for k in cases:
-                            if designspacetoolbox_test.DSCaseIsValidAtPoint(k._data, Var._data) == False:
+                        for k in xrange(len(cases)):   
+                            case = cases[k]           
+                            if designspacetoolbox_test.DSCaseIsValidAtPoint(case._data, Var._data) == False:
                                 continue
-                            validCases.append(k.caseNumber)
-                            temp.append(designspacetoolbox_test.DSSSystemRouthIndex(
-                                         designspacetoolbox_test.DSCaseSSystem(k._data),
-                                         self.Xi._data))
+#                            validCases.append(case.caseNumber)
+#                            print designspacetoolbox_test.DSSSystemRouthArray(ssystems[k],
+#                                                                               Var._data)
+                            temp.append(designspacetoolbox_test.DSSSystemRouthIndex(ssystems[k],
+                                         Var._data))
                         if len(temp) == 0:
                             routh[i,j] = -1.
                             continue
                         routh[i,j] = max(temp)
                         keys[max(temp)] = max(temp)
                 X, Y = np.meshgrid(x, y)
+                print keys.keys()
+                for k in ssystems:
+                    designspacetoolbox_test.DSSSystemFree(k)
                 if levels == None:
                     levels = keys.keys()
-                    levels.append(2**(len(self.Dspace.dependentVariables)+1))
+                    levels.append(2**(len(self.Dspace.dependentVariables)-len(algebraic)+1))
                     levels = np.sort([i-0.5 for i in levels])
                 cs=matplotlib.pyplot.contourf(X,
                                               Y,

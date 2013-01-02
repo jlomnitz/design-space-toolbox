@@ -182,12 +182,22 @@ extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds);
 /**
  * DSSSystem functions available to internal python module
  */
+
+extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem, const DSVariablePool * algebraicVariables);
+
+
 extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariablePool *Xi0, const char * function);
 extern DSMatrix * DSSSystemSteadyStateValues(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSUInteger DSSSystemRouthIndex(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0);
 
-extern void DSSSystemFree(DSSSystem *ssys);
+extern void DSSSystemPrint(DSSSystem * ssys);
+extern void DSSSystemPrintEquations(DSSSystem * ssys);
+extern void DSSSystemPrintSolution(DSSSystem * ssys);
+extern void DSSSystemPrintLogarithmicSolution(DSSSystem *ssys);
+
+extern void DSSSystemFree(DSSSystem * ssys);
 
 extern const DSVariablePool * DSSSystemXd(const DSSSystem * const ssys);
 extern const DSVariablePool * DSSSystemXi(const DSSSystem * const ssys);
@@ -225,6 +235,11 @@ extern const bool DSCaseIntersectionIsValidAtSlice(const DSUInteger numberOfCase
 extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool * variablesToFix);
 
 extern DSVertices * DSCaseIntersectionVerticesForSlice(const DSUInteger numberOfCases, const DSCase **cases, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);
+
+extern const bool DSCaseIntersectionExceptSliceIsValid(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames);
+extern const bool DSCaseIntersectionExceptSliceIsValidAtSlice(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const DSVariablePool * lowerBounds, const DSVariablePool * upperBounds);
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSet(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames);
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetAtSlice(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const DSVariablePool * lowerBounds, const DSVariablePool * upperBounds);
 
 extern double DSCaseLogarithmicGain(const DSCase *aCase, const char *XdName, const char *XiName);
 

@@ -920,7 +920,7 @@ extern DSMatrix * DSMatrixSubMatrixExcludingRowsAndColumns(const DSMatrix *matri
 {
         DSMatrix *submatrix = NULL, *tempSubmatrix;
         tempSubmatrix = DSMatrixSubMatrixExcludingColumns(matrix, numberOfColumns, columns);
-        submatrix = DSMatrixSubMatrixExcludingRows(matrix, numberOfRows, rows);
+        submatrix = DSMatrixSubMatrixExcludingRows(tempSubmatrix, numberOfRows, rows);
         DSMatrixFree(tempSubmatrix);
 bail:
         return submatrix;
@@ -1791,9 +1791,9 @@ extern DSMatrix * DSMatrixCharacteristicPolynomialUndeterminedCoefficients(const
         D = DSMatrixUndeterminedCoefficientsDArrayForMatrix(matrix);
         temp = DSMatrixByMultiplyingMatrix(Rn_internal, D);
         coefficients = DSMatrixAlloc(1, DSMatrixRows(matrix)+1);
-        DSMatrixSetDoubleValue(coefficients, 0, 0, pow(-1, DSMatrixRows(matrix)));
+        DSMatrixSetDoubleValue(coefficients, 0, 0, 1.);
         for (i = 0; i < DSMatrixRows(temp); i++) {
-                DSMatrixSetDoubleValue(coefficients, 0, i+1, DSMatrixDoubleValue(temp, i, 0));
+                DSMatrixSetDoubleValue(coefficients, 0, i+1,DSMatrixDoubleValue(temp, i, 0));
         }
         DSMatrixSetDoubleValue(coefficients, 0, i+1, DSMatrixDeterminant(matrix));
         DSMatrixFree(temp);

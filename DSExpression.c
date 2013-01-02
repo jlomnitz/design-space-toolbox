@@ -431,6 +431,8 @@ bail:
 #define ds_function_index_sin    4
 #define ds_function_index_abs    5
 #define ds_function_index_sign   6
+#define ds_function_index_sqrt   7
+
 
 
 static double dsExpressionEvaluateMathematicalFunction(const DSExpression *function, const DSVariablePool * pool)
@@ -445,7 +447,7 @@ static double dsExpressionEvaluateMathematicalFunction(const DSExpression *funct
                 DSError(M_DS_WRONG ": Expression node must be a function", A_DS_ERROR);
                 goto bail;
         }
-        functionNames = DSVariablePoolByParsingString("log : 1, ln : 1, log10 : 1, cos : 1, sin : 1, abs : 1, sign : 1");
+        functionNames = DSVariablePoolByParsingString("log : 1, ln : 1, log10 : 1, cos : 1, sin : 1, abs : 1, sign : 1, sqrt : 1");
         if (DSVariablePoolHasVariableWithName(functionNames, DSExpressionVariable(function)) == false) {
                 DSError(M_DS_WRONG ": Function name not recognized", A_DS_ERROR);
                 goto bail;
@@ -475,6 +477,9 @@ static double dsExpressionEvaluateMathematicalFunction(const DSExpression *funct
                                 eval = -1.0f;
                         else
                                 eval = 0.0f;
+                        break;
+                case ds_function_index_sqrt:
+                        eval = sqrt(value);
                         break;
                 default:
                         break;

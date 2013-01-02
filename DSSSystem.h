@@ -52,6 +52,8 @@ extern DSSSystem * DSSSystemWithTermsFromGMA(const DSGMASystem * gma, const DSUI
 extern DSSSystem * DSSSystemByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...);
 extern DSSSystem * DSSSystemByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations);
 
+extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem, const DSVariablePool * algebraicVariables);
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Getter functions
 #endif
