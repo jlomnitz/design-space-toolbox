@@ -190,6 +190,7 @@ extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariab
 extern DSMatrix * DSSSystemSteadyStateValues(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSUInteger DSSSystemRouthIndex(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSUInteger DSSSystemCharacteristicEquationCoefficientIndex(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0);
 
 extern void DSSSystemPrint(DSSSystem * ssys);
@@ -228,6 +229,7 @@ extern DSVertices * DSCaseBoundingRangeForVariableWithConstraints(const DSCase *
 
 extern DSUInteger DSCaseNumber(const DSCase * aCase);
 extern const DSUInteger * DSCaseSignature(const DSCase * aCase);
+extern char * DSCaseSignatureToString(const DSCase *aCase);
 extern const DSSSystem * DSCaseSSystem(const DSCase *aCase);
 
 extern const bool DSCaseIntersectionIsValid(const DSUInteger numberOfCases, const DSCase **cases);

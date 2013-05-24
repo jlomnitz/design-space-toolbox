@@ -7,6 +7,7 @@ import math
 import itertools
 from collections import OrderedDict
 
+ 
 class VariablePool(dict):
         """ A python class of the DSVariablePool object"""
         _data = None
@@ -104,7 +105,7 @@ class DesignSpacePlot:
                 if Xi.has_key(self.Variables['Y']) == False:
                         self = None
                         raise ValueError, 'Design Space Plot Axis is not an Independnet Variable:' + self.Variables['Y']
-        def draw(self, algebraic=None, colorbar=True, function=None, resolution=100, intersections=range(2, 100), isLogLinear=False, contourf=False, levels=None, boundaries=False):
+        def draw(self, algebraic=None, colorbar=True, function=None, resolution=100, intersections=range(1, 100), isLogLinear=False, contourf=False, levels=None, boundaries=False, colormap=None):
                 if ((str(self.Mode).lower() == 'function') & (function == None)):
                         raise ValueError, 'Draw Function mode requires a function for z direction'
                 lower = self.Xi.copy()
@@ -114,12 +115,14 @@ class DesignSpacePlot:
                 upper[self.Variables['X']] = max(self.Limits['X'])
                 upper[self.Variables['Y']] = max(self.Limits['Y'])
                 if str(self.Mode).lower() == 'slice':
-                        self._plot2DSlice(lower, upper, colorbar, intersections)
+                        self._plot2DSlice(lower, upper, colorbar, intersections, boundaries=boundaries)
                 if str(self.Mode).lower() == 'function':
-                        self._plot2DFunction(lower, upper, colorbar, function, resolution, isLogLinear, contourf=contourf)
+                        self._plot2DFunction(lower, upper, colorbar, function, resolution, isLogLinear, contourf=contourf, colormap=colormap)
                 if str(self.Mode).lower() == 'routh':
                         self._plot2DRouth(algebraic, lower, upper, colorbar, resolution, levels=levels, contourf=contourf)
-                if boundaries==True and str(self.Mode).lower() != 'slice':
+                if str(self.Mode).lower() == 'coefficients':
+                        self._plot2DCoefficients(algebraic, lower, upper, colorbar, resolution, levels=levels, contourf=contourf)
+                if boundaries==True:
                         self._plot2DBoundaries(lower, upper)
                 matplotlib.pyplot.ylim([math.log10(i) for i in self.Limits['Y']])
                 matplotlib.pyplot.xlim([math.log10(i) for i in self.Limits['X']])
@@ -175,7 +178,7 @@ class DesignSpacePlot:
                 ax.set_yticks(np.array(range(0,len(keys)), dtype='float')+0.5)
                 ax.set_yticklabels(keys)
                 ax.set_title('Cases')
-        def _functionColorbar(self, ax, zlim):
+        def _functionColorbar(self, ax, zlim, colormap):
                 x=np.array([0., 1.])
                 y0 = zlim[0]
                 y1 = zlim[1]
@@ -183,14 +186,15 @@ class DesignSpacePlot:
                 y=np.linspace(y0, y1, 250)
                 X, Y = np.meshgrid(x, y)
                 Z = matplotlib.mlab.griddata([0, 1, 1, 0], [y0, y0, y1, y1], [y0, y0, y1, y1], x, y)
-                ax.pcolor(X, Y, Z, cmap=matplotlib.cm.jet, vmin=y0, vmax=y1)
+                ax.pcolor(X, Y, Z, cmap=colormap, vmin=y0, vmax=y1, rasterized=True)
                 ax.set_xlim([0, 1])
                 ax.set_xticks([])
                 ax.set_yticks(np.round(np.linspace(y0, y1, 8), 3))
                 ax.set_ylim(np.round([y0, y1], 3))
                 ax.yaxis.set_ticks_position('right')
                 ax.set_title('Function')
-        def _plot_case2DSlice(self, case, lower, upper):
+        def _plot_case2DSlice(self, case, lower, upper, boundaries=True):
+                ec = 'k'
                 V = case.verticesFor2DSlice(self.Xi,
                                             self.Variables['X'],
                                             self.Variables['Y'],
@@ -198,7 +202,8 @@ class DesignSpacePlot:
                                             self.Limits['Y'])
                 if V != []:
                         color = self.Colormap[str(case.caseNumber)]
-                        matplotlib.pyplot.fill(V[:,0], V[:,1], color, hold=True)
+                        ec = color
+                        matplotlib.pyplot.fill(V[:,0], V[:,1], fc=color, ec=ec, hold=True, lw=0.1)
         def _plot2DBoundaries(self, lower, upper):
                 cases = self.Dspace.validCases(lower=lower, upper=upper)
                 keys = [str(case.caseNumber) for case in cases]
@@ -213,29 +218,32 @@ class DesignSpacePlot:
         def _plot2DSlice(self, lower, upper, colorbar, intersections, fill=True, boundaries=True):
                 cases = self.Dspace.validCases(lower=lower, upper=upper)
                 Ints =self.Dspace.findIntersections(cases, n=intersections, lower=lower, upper=upper)
-                keys = [str(case.caseNumber) for case in cases]
-                if Ints != None:
-                        for intersectGroup in Ints:
-                                for intersection in intersectGroup:
-                                        key=','.join([str(case.caseNumber) for case in intersection])
-                                        keys.append(key)
+                keys = list()#[str(case.caseNumber) for case in cases]
+                ec = 'k'                
+                #if Ints != None:
+                for intersectGroup in Ints:
+                    for intersection in intersectGroup:
+                        key=','.join([str(case.caseNumber) for case in intersection])
+                        keys.append(key)
                 self._addToColormap(keys)
-                for case in cases:
-                        self._plot_case2DSlice(case, lower, upper)
-                if Ints != None:
-                        for intersectGroup in Ints:
-                                for intersection in intersectGroup:
-                                        V = np.asarray(
-                                                designspacetoolbox_test.DSCaseIntersectionVerticesForSlice(len(intersection),
-                                                                                                           [case._data for case in intersection],
-                                                                                                           lower._data, 
-                                                                                                           upper._data,
-                                                                                                           2,
-                                                                                                           [self.Variables['X'], self.Variables['Y']]))
-                                        if V != []:
-                                                key=','.join([str(case.caseNumber) for case in intersection])
-                                                color = self.Colormap[key]                                               
-                                                matplotlib.pyplot.fill(V[:,0], V[:,1], fc=color, hold=True)
+                #for case in cases:
+                        #self._plot_case2DSlice(case, lower, upper, boundaries=boundaries)
+                #if Ints != None:
+                for intersectGroup in Ints:
+                    for intersection in intersectGroup:
+                        V = np.asarray(
+                             designspacetoolbox_test.DSCaseIntersectionVerticesForSlice(len(intersection),
+                                                                                        [case._data for case in intersection],
+                                                                                        lower._data, 
+                                                                                        upper._data,
+                                                                                        2,
+                                                                                        [self.Variables['X'], self.Variables['Y']])
+                             )
+                        if V != []:
+                            key=','.join([str(case.caseNumber) for case in intersection])
+                            color = self.Colormap[key]                                               
+                            ec = color
+                            matplotlib.pyplot.fill(V[:,0], V[:,1], fc=color, ec=ec, hold=True, lw=0.1)
                 if colorbar == True:
                         axis = matplotlib.pyplot.gca()
                         ax, _ = matplotlib.colorbar.make_axes(axis)
@@ -341,14 +349,16 @@ class DesignSpacePlot:
                                                 Y,
                                                 Z,
                                                 cmap=matplotlib.cm.jet,
-                                                hold=True)
+                                                hold=True,
+                                                rasterized=True)
                 else:
                     cs=matplotlib.pyplot.contourf(X,
                                                   Y,
                                                   Z,
                                                   cmap=matplotlib.cm.jet,
                                                   hold=True,
-                                                  levels=np.linspace(np.amin(Z), np.amax(Z), maxNumPoints))
+                                                  levels=np.linspace(np.amin(Z), np.amax(Z), maxNumPoints),
+                                                  rasterized=True)
                 contours.append(cs)
                 if zlim == None:
                     zlim = [np.amin(Z), np.amax(Z)]
@@ -361,7 +371,7 @@ class DesignSpacePlot:
                 cs.vmin=zlim[0]
                 cs.vmax=zlim[1]
                 
-        def _plot2DFunction(self, lower, upper, colorbar, function, resolution, isLogLinear=False, contourf=False):
+        def _plot2DFunction(self, lower, upper, colorbar, function, resolution, isLogLinear=False, contourf=False, colormap = matplotlib.cm.jet):
                 cases = self.Dspace.validCases(lower=lower, upper=upper)
                 keys = [str(case.caseNumber) for case in cases]
                 Var = self.Xi.copy()
@@ -431,15 +441,19 @@ class DesignSpacePlot:
                                         cs=matplotlib.pyplot.pcolor(X,
                                                                     Y,
                                                                     Z,
-                                                                    cmap=matplotlib.cm.jet,
-                                                                    hold=True)
+                                                                    cmap=colormap,
+                                                                    hold=True,
+                                                                    rasterized=True,
+                                                                    vmin=zlim[0],
+                                                                    vmax=zlim[1])
                                 else:
                                          cs=matplotlib.pyplot.contourf(X,
                                                                        Y,
                                                                        Z,
-                                                                       cmap=matplotlib.cm.jet,
+                                                                       cmap= colormap,
                                                                        hold=True,
-                                                                       levels=np.linspace(np.amin(Z), np.amax(Z), maxNumPoints))
+                                                                       levels=np.linspace(np.amin(Z), np.amax(Z), maxNumPoints),
+                                                                       rasterized=True)
                                 contours.append(cs)
                                 if zlim == None:
                                         zlim = [np.amin(Z), np.amax(Z)]
@@ -456,9 +470,61 @@ class DesignSpacePlot:
                 if colorbar == True:
                         axis = matplotlib.pyplot.gca()
                         ax, _ = matplotlib.colorbar.make_axes(axis)
-                        self._functionColorbar(ax, zlim)
+                        self. _functionColorbar(ax, zlim, colormap)
                         matplotlib.pyplot.sca(axis)
-                        
+        def _plot2DCoefficients(self, algebraic, lower, upper, colorbar, resolution, levels=None, contourf=True):
+                cases = self.Dspace.validCases(lower=lower, upper=upper)
+                ssystems = list()
+                keys = dict()
+                x=np.linspace(math.log10(lower[self.Variables['X']]),
+                              math.log10(upper[self.Variables['X']]),
+                              resolution)
+                y=np.linspace(math.log10(lower[self.Variables['Y']]),
+                              math.log10(upper[self.Variables['Y']]),
+                              resolution)
+                routh = np.zeros((resolution, resolution))
+                Var = self.Xi.copy()
+                for k in cases:
+                    ssystems.append(designspacetoolbox_test.DSSSystemByRemovingAlgebraicConstraints(
+                                     designspacetoolbox_test.DSCaseSSystem(k._data), 
+                                     algebraic._data))
+                for i in xrange(len(x)):
+                    Var[self.Variables['X']] = 10**x[i]
+                    for j in xrange(len(y)):
+                        temp = list()
+                        validCases=list()
+                        Var[self.Variables['Y']] = 10**y[j]
+                        for k in xrange(len(cases)):   
+                            case = cases[k]           
+                            if designspacetoolbox_test.DSCaseIsValidAtPoint(case._data, Var._data) == False:
+                                continue
+#                            validCases.append(case.caseNumber)
+#                            print designspacetoolbox_test.DSSSystemRouthArray(ssystems[k],
+#                                                                               Var._data)
+                            temp.append(designspacetoolbox_test.DSSSystemCharacteristicEquationCoefficientIndex(ssystems[k],
+                                         Var._data))
+                        if len(temp) == 0:
+                            routh[i,j] = -1.
+                            continue
+                        routh[i,j] = max(temp)
+                        keys[max(temp)] = max(temp)
+                X, Y = np.meshgrid(x, y)
+                print keys.keys()
+                for k in ssystems:
+                    designspacetoolbox_test.DSSSystemFree(k)
+                if levels == None:
+                    levels = keys.keys()
+                    levels.append(2**(len(self.Dspace.dependentVariables)-len(algebraic)+1))
+                    levels = np.sort([i-0.5 for i in levels])
+                cs=matplotlib.pyplot.contourf(X,
+                                              Y,
+                                              routh.T,
+                                              cmap=matplotlib.cm.jet,
+                                              levels=levels,
+                                              hold=True)
+                if colorbar == True:
+                    axis = matplotlib.pyplot.gca()
+                    matplotlib.pyplot.colorbar()                        
         def _plot2DRouth(self, algebraic, lower, upper, colorbar, resolution, levels=None, contourf=True):
                 cases = self.Dspace.validCases(lower=lower, upper=upper)
                 ssystems = list()
@@ -754,7 +820,130 @@ class DesignSpace:
                 Xi._data = designspacetoolbox_test.DSVariablePoolCopy(t)
                 designspacetoolbox_test.DSVariablePoolSetReadWrite(Xi._data)
                 return Xi
+        def region_plot(self, pvals, xaxis, rangex, yaxis, rangey, boundaries=False):
+                plotr_object = DesignSpacePlot(self, pvals,
+                                               xaxis, rangex,
+                                               yaxis, rangey,
+                                               Mode='Slice')
+                plotr_object.draw(boundaries=boundaries)
+                return plotr_object
+        def scalar_field(self, function, pvals, xaxis, rangex, yaxis, rangey, 
+                  resolution=100, isLogLinear=False, boundaries=False, contourf=True):
+                plotf_object = DesignSpacePlot(self, pvals,
+                                               xaxis, rangex,
+                                               yaxis, rangey,
+                                               Mode='function')
+                plotf_object.draw(function=function,
+                                  resolution=resolution,
+                                  isLogLinear=isLogLinear,
+                                  contourf=contourf,
+                                  boundaries=boundaries)
+                return plotf_object
+        def induction_curve(self, function, pvals, xaxis, rangex,
+                            resolution=100, isLogLinear = False, boundaries=False):
+                lower = pvals.copy()
+                upper = pvals.copy()
+                var = pvals.copy()
+                lower[xaxis] = rangex[0]
+                upper[xaxis] = rangex[1]
+                cases = self.validCases(lower, upper)
+                expr = designspacetoolbox_test.DSExpressionByParsingString(function)
+                for case in cases:
+                    V = designspacetoolbox_test.DSCaseVerticesFor1DSlice(case._data, lower._data, upper._data, xaxis)
+                    x = np.linspace(V[0][0], V[1][0], resolution)
+                    y=list()
+                    for i in x:
+                        var[xaxis]=10**i
+                        SS = case.steadyStateAtPoint(var)
+                        flux = case.steadyStateFluxAtPoint(var)
+                        for k in xrange(len(SS)):
+                                var[self.dependentVariables.variableAtIndex(k)[0]] = 10**SS[k]
+                                var['V_' + self.dependentVariables.variableAtIndex(k)[0]] = 10**flux[k]
+                        y.append(designspacetoolbox_test.DSExpressionEvaluateWithVariablePool(expr, var._data))
+                    matplotlib.pyplot.loglog([10**i for i in x], [10**i for i in y], 'k', hold=True)
+                matplotlib.pyplot.xlim(rangex)
+        def bifurcation_curve(self, function, algebraic, pvals, xaxis, rangex,
+                              line_dict=None, point_dict=None,
+                              resolution=100, boundaries=False):
+                ssystems = list()
+                lower = pvals.copy()
+                upper = pvals.copy()
+                var = pvals.copy()
+                lower[xaxis] = rangex[0]
+                upper[xaxis] = rangex[1]
+                cases = self.validCases(lower, upper)
+                expr = designspacetoolbox_test.DSExpressionByParsingString(function)
+                legend_keys = list()
+                routh = np.zeros(resolution)
+                y = np.zeros(resolution)
+                line_types = dict()
+                point_types = dict()
+                for case in cases:
+                    ssystem = designspacetoolbox_test.DSSSystemByRemovingAlgebraicConstraints(
+                               designspacetoolbox_test.DSCaseSSystem(case._data), 
+                               algebraic._data)
+                    V = designspacetoolbox_test.DSCaseVerticesFor1DSlice(case._data, lower._data, upper._data, xaxis)
+                    x = np.linspace(V[0][0], V[1][0], resolution)
+                    for i in xrange(0, len(x)):
+                        var[xaxis]=10**x[i]
+                        SS = case.steadyStateAtPoint(var)
+                        flux = case.steadyStateFluxAtPoint(var)
+                        for k in xrange(len(SS)):
+                                var[self.dependentVariables.variableAtIndex(k)[0]] = 10**SS[k]
+                                var['V_' + self.dependentVariables.variableAtIndex(k)[0]] = 10**flux[k]
+                        y[i]=designspacetoolbox_test.DSExpressionEvaluateWithVariablePool(expr, var._data)
+                        routh[i] = designspacetoolbox_test.DSSSystemRouthIndex(ssystem,
+                                                                               var._data)
+                    designspacetoolbox_test.DSSSystemFree(ssystem)
+                    startx = 0
+                    for i in xrange(0, len(x)):
+                        if routh[i] == routh[startx]:
+                            continue
+                        if routh[startx] not in line_types:
+                            line_types[routh[startx]] = list()
+                        if max(routh[i], routh[startx]) not in point_types:
+                            point_types[max(routh[i], routh[startx])] = list()
+                        line_types[routh[startx]].append(([10**j for j in x[startx:i-1]],
+                                                          [10**j for j in y[startx:i-1]]))
+                        point_types[max(routh[i], routh[startx])].append([10**x[i], 10**y[i]])
+                        startx = i
+                    if routh[startx] not in line_types:
+                        line_types[routh[startx]] = list()
+                    line_types[routh[startx]].append(([10**j for j in x[startx:i]],
+                                                      [10**j for j in y[startx:i]]))
+                for i in point_types.keys():
+                    D = None
+                    if point_dict is not None and i in point_dict:
+                        D = point_dict[i]
+                    else:
+                        D = {'marker':'o', 'mfc':'k', 'mec':'k'}
+                    for j in point_types[i]:
+                        matplotlib.pyplot.loglog(j[0],
+                                                 j[1],
+                                                 hold=True,
+                                                 label='P:'+str(i),
+                                                 ls='.',
+                                                  **D)
+                for i in line_types.keys():
+                    D = None
+                    if line_dict is not None and i in line_dict:
+                        D = line_dict[i]
+                    else:
+                        D = {'ls':'-', 'c':matplotlib.cm.hsv((1.0*line_types.keys().index(i))/len(line_types))}
+                    for j in line_types[i]:
+                        matplotlib.pyplot.loglog(j[0],
+                                                 j[1],
+                                                 hold=True,
+                                                 label=str(i),
+                                                  **D)
 
+                matplotlib.pyplot.xlim(rangex)
+                if line_dict is None:
+                    ax=matplotlib.pyplot.gca()
+                    handles, labels = ax.get_legend_handles_labels()
+                    temp = [labels.index(str(i)) for i in np.unique(labels)]
+                    matplotlib.pyplot.legend([handles[i] for i in temp], [labels[i] for i in temp])
+                        
         
 class Case:
         def __del__(self):
@@ -795,6 +984,7 @@ class Case:
                 Xd._data = designspacetoolbox_test.DSVariablePoolCopy(t)
                 designspacetoolbox_test.DSVariablePoolSetReadWrite(Xd._data)
                 return Xd
+        @property
         def equations(self):
                 if hasattr(self, '_data')==0:
                         return None
@@ -1094,5 +1284,8 @@ class Case:
         @property
         def caseNumber(self):
                 return designspacetoolbox_test.DSCaseNumber(self._data)
+        @property
+        def caseSignature(self):
+                return designspacetoolbox_test.DSCaseSignatureToString(self._data)
 
 

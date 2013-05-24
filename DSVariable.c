@@ -43,12 +43,15 @@
 #define dsVarDictionaryValue(x)        (((x) != NULL) ? (x)->value : NULL)
 
 #define dsVariablePoolNumberOfVariables(x) ((x)->numberOfVariables)
+#define dsVariablePoolThreadLock(x) ((x)->thread_lock)
+
+#define dsVariableThreadLock(x)     ((x)->thread_lock)
+
 #if defined(__APPLE__) && defined(__MACH__)
 #pragma mark - Symbol Variables
 #endif
 
 
-pthread_mutex_t retaincount;
 
 /**
  * \brief Creates a new DSVariable with INFINITY as a default value.
@@ -77,6 +80,7 @@ extern DSVariable *DSVariableAlloc(const char *name)
         DSVariableName(var) = strdup(name);
         var->retainCount = 1;
         DSVariableSetValue(var, INFINITY);
+        pthread_mutex_init(&dsVariableThreadLock(var), NULL);
 bail:
         return var;
 }
@@ -105,6 +109,7 @@ extern void DSVariableFree(DSVariable *var)
                 DSSecureFree(var->name);
         else
                 DSError(M_DS_WRONG ": Variable name is NULL", A_DS_WARN);
+        pthread_mutex_destroy(&dsVariableThreadLock(var));
         DSSecureFree(var);
 bail:
         return;
@@ -141,14 +146,14 @@ bail:
  */
 extern DSVariable * DSVariableRetain(DSVariable *aVariable)
 {
-        pthread_mutex_lock(&retaincount);
+        pthread_mutex_lock(&dsVariableThreadLock(aVariable));
         if (aVariable == NULL) {
                 DSError(M_DS_NULL ": Retaining a NULL varaible", A_DS_ERROR);
                 goto bail;
         }
         aVariable->retainCount++;
 bail:
-        pthread_mutex_unlock(&retaincount);
+        pthread_mutex_unlock(&dsVariableThreadLock(aVariable));
         return aVariable;
 }
 
@@ -168,7 +173,7 @@ bail:
  */
 extern void DSVariableRelease(DSVariable *aVariable)
 {
-        pthread_mutex_lock(&retaincount);
+        pthread_mutex_lock(&dsVariableThreadLock(aVariable));
         if (aVariable == NULL) {
                 DSError(M_DS_NULL ": releasing a NULL variable.", A_DS_ERROR);
                 goto bail;
@@ -177,7 +182,7 @@ extern void DSVariableRelease(DSVariable *aVariable)
         if (aVariable->retainCount == 0)
                 DSVariableFree(aVariable);
 bail:
-        pthread_mutex_unlock(&retaincount);
+        pthread_mutex_unlock(&dsVariableThreadLock(aVariable));
         return;
 }
 
@@ -204,6 +209,7 @@ extern DSVariablePool * DSVariablePoolAlloc(void)
         pool = DSSecureCalloc(1, sizeof(DSVariablePool));
         DSVariablePoolInternalDictionary(pool) = DSDictionaryAlloc();
         DSVariablePoolSetReadWriteAdd(pool);
+        pthread_mutex_init(&dsVariablePoolThreadLock(pool), NULL);
         return pool;
 }
 
@@ -265,7 +271,7 @@ bail:
  */
 extern void DSVariablePoolFree(DSVariablePool *pool)
 {
-        pthread_mutex_lock(&retaincount);
+        pthread_mutex_lock(&dsVariablePoolThreadLock(pool));
         if (pool == NULL) {
                 DSError(M_DS_VAR_NULL ": Variable Pool is NULL", A_DS_ERROR);
                 goto bail;
@@ -278,9 +284,10 @@ extern void DSVariablePoolFree(DSVariablePool *pool)
         if (DSVariablePoolVariableArray(pool) != NULL) {
                 DSSecureFree(DSVariablePoolVariableArray(pool));
         }
-        DSSecureFree(pool);
 bail:
-        pthread_mutex_unlock(&retaincount);
+        pthread_mutex_unlock(&dsVariablePoolThreadLock(pool));
+        pthread_mutex_destroy(&dsVariablePoolThreadLock(pool));
+        DSSecureFree(pool);
         return;
 }
 

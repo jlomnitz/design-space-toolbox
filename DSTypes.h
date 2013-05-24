@@ -99,6 +99,7 @@ typedef struct {
         char *name;             //!< Dynamically allocated name of the variable.
         double value;           //!< Value of the variable.
         DSUInteger retainCount; //!< Retain counter for memory management.
+        pthread_mutex_t thread_lock; //!< A mutex to ensure proper retain/release behavior.
 } DSVariable;
 
 /**
@@ -183,11 +184,12 @@ typedef enum {
  */
 typedef struct
 {
-//        struct _varDictionary *root;   //!< The root of the internal dictionary.
+//        struct _varDictionary *root;  //!< The root of the internal dictionary.
         DSDictionary * dictionary;      //!< The dictionary with the variables arranged.
         DSUInteger numberOfVariables;   //!< Number of variables in the pool.
         DSVariable **variables;         //!< A C array with the variables stored.
         DSVariablePoolLock lock;        //!< Indicates if the variable pool is read-only.
+        pthread_mutex_t thread_lock;    //!< A mutex that locks access to the variable pool.
 } DSVariablePool;
 
 /**
