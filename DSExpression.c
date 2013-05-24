@@ -262,6 +262,41 @@ bail:
 #pragma mark - Branch adding functions
 #endif
 
+static const bool dsExpressionOperatorBranchIsZero(DSExpression * expression)
+{
+        bool isZero = false;
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Branch being added is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSExpressionType(expression) != DS_EXPRESSION_TYPE_OPERATOR) {
+                goto bail;
+        }
+        switch (DSExpressionOperator(expression)) {
+                case '+':
+                        if (DSExpressionNumberOfBranches(expression) == 0) {
+                                isZero = true;
+                                break;
+                        } if (DSExpressionNumberOfBranches(expression) == 1) {
+                                if (DSExpressionConstant(DSExpressionBranchAtIndex(expression, 0)) == 0.0)
+                                        isZero = true;
+                                break;
+                        }
+                        break;
+                case '*':
+                        if (DSExpressionNumberOfBranches(expression) >= 1) {
+                                if (DSExpressionConstant(DSExpressionBranchAtIndex(expression, 0)) == 0.0)
+                                        isZero = true;
+                                break;
+                        }
+                        break;
+                default:
+                        break;
+        }
+bail:
+        return isZero;
+}
+
 static void DSExpressionAddNonConstantBranch(DSExpression *expression, DSExpression *branch)
 {
         if (expression == NULL) {
@@ -274,6 +309,10 @@ static void DSExpressionAddNonConstantBranch(DSExpression *expression, DSExpress
         }
         if (DSExpressionType(expression) != DS_EXPRESSION_TYPE_OPERATOR) {
                 DSError(M_DS_WRONG ": Expression root is not an operator", A_DS_ERROR);
+                goto bail;
+        }
+        if (dsExpressionOperatorBranchIsZero(branch) == true) {
+                DSExpressionFree(branch);
                 goto bail;
         }
         if (expression->branches == NULL)
@@ -379,7 +418,13 @@ extern void DSExpressionAddBranch(DSExpression *expression, DSExpression *branch
                 goto bail;
         }
         if (DSExpressionNumberOfBranches(branch) < 2) {
-                DSError(M_DS_WRONG ": branch has insufficient branches", A_DS_ERROR);
+                if (DSExpressionNumberOfBranches(branch) == 1) {
+                        DSExpressionAddBranch(expression, DSExpressionBranchAtIndex(branch, 0));
+                        branch->numberOfBranches = 0;
+                        DSExpressionFree(branch);
+                } else {
+                        DSError(M_DS_WRONG ": branch has insufficient branches", A_DS_ERROR);
+                }
                 goto bail;
         }
         expressionOperator = DSExpressionOperator(branch);

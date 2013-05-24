@@ -1766,6 +1766,8 @@ extern DSMatrix * DSMatrixCharacteristicPolynomialUndeterminedCoefficients(const
         DSMatrix * temp = NULL;
         DSUInteger i;
         bool mustDealloc = false;
+        DSMatrix * mA = NULL;
+        mA = DSMatrixByMultiplyingScalar(matrix, -1.);
         if (matrix == NULL) {
                 DSError(M_DS_MAT_NULL, A_DS_ERROR);
                 goto bail;
@@ -1795,9 +1797,10 @@ extern DSMatrix * DSMatrixCharacteristicPolynomialUndeterminedCoefficients(const
         for (i = 0; i < DSMatrixRows(temp); i++) {
                 DSMatrixSetDoubleValue(coefficients, 0, i+1,DSMatrixDoubleValue(temp, i, 0));
         }
-        DSMatrixSetDoubleValue(coefficients, 0, i+1, DSMatrixDeterminant(matrix));
+        DSMatrixSetDoubleValue(coefficients, 0, i+1, DSMatrixDeterminant(mA));
         DSMatrixFree(temp);
         DSMatrixFree(D);
+        DSMatrixFree(mA);
 bail:
         if (mustDealloc == true)
                 DSMatrixFree(Rn_internal);

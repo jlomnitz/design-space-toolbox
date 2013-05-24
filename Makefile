@@ -15,4 +15,4 @@ EXECUTABLE=libdesignspace
 SOURCE = $(wildcard *.c)
 
 all: $(SOURCE)
-        gcc -o $@ $^ $CFLAGS $LIBS
+	gcc -o $@ $^ $CFLAGS $LIBS

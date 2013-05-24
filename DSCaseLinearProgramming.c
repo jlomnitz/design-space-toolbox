@@ -161,8 +161,9 @@ extern const bool DSCaseIsValid(const DSCase *aCase)
         linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
         if (linearProblem != NULL) {
                 glp_simplex(linearProblem, NULL);
-                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
                         isValid = true;
+                }
                 glp_delete_prob(linearProblem);
         }
 bail:
@@ -483,6 +484,14 @@ extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool
         }
         if (DSVariablePoolNumberOfVariables(lowerBounds) != DSVariablePoolNumberOfVariables(upperBounds)) {
                 DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
+                goto bail;
+        }
+        if (lowerBounds == upperBounds) {
+                isValid = DSCaseIsValidAtPoint(aCase, lowerBounds);
+                goto bail;
+        }
+        if (dsCaseNumberOfFreeVariablesForBounds(aCase, lowerBounds, upperBounds) == 0) {
+                isValid = DSCaseIsValidAtPoint(aCase, lowerBounds);
                 goto bail;
         }
         linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
@@ -1071,7 +1080,6 @@ static DSPseudoCase * dsPseudoCaseFromIntersectionOfCasesExceptingSlice(const DS
         U = DSMatrixAlloc(rows, columns);
         Zeta = DSMatrixAlloc(rows, 1);
         currentRow = 0;
-        
         for (i = 0; i < numberOfCases; i++) {
                 tempU = DSCaseU(cases[i]);
                 tempZeta = DSCaseZeta(cases[i]);

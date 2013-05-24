@@ -347,6 +347,7 @@ static void dsSSysProcessNegativeExponentBasePairs(DSSSystem *sys, gma_parseraux
 }
 
 #include <unistd.h> 
+
 static void dsSSystemSolveEquations(DSSSystem *ssys)
 {
         DSMatrix *M, *Ad;
@@ -1490,6 +1491,57 @@ extern DSUInteger DSSSystemRouthIndex(const DSSSystem *ssys, const DSVariablePoo
         DSMatrixFree(routhArray);
 bail:
         return routhIndex;
+}
+
+extern DSUInteger DSSSystemCharacteristicEquationCoefficientIndex(const DSSSystem *ssys, const DSVariablePool *Xi0)
+{
+        DSMatrix * coefficientArray = NULL;
+        DSMatrix * F;
+        DSMatrix * FA;
+        DSMatrix * steadyState, * flux;
+        DSUInteger Index = 0;
+        DSUInteger i, length;
+        double value, baseSign = 1;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemHasSolution(ssys) == false)
+                goto bail;
+        steadyState = DSSSystemSteadyStateValues(ssys, Xi0);
+        flux = DSSSystemSteadyStateFlux(ssys, Xi0);
+        F = DSMatrixIdentity(DSMatrixRows(flux));
+        for (i = 0; i < DSMatrixColumns(F); i++) {
+                DSMatrixSetDoubleValue(F,
+                                       i,
+                                       i,
+                                       pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
+        }
+        FA = DSMatrixByMultiplyingMatrix(F, DSSSystemAd(ssys));
+        coefficientArray = DSMatrixCharacteristicPolynomialCoefficients(FA);
+        DSMatrixFree(steadyState);
+        DSMatrixFree(flux);
+        DSMatrixFree(F);
+        DSMatrixFree(FA);
+        if (coefficientArray == NULL) {
+                goto bail;
+        }
+        
+        length = DSMatrixRows(coefficientArray);
+        baseSign = (DSMatrixDoubleValue(coefficientArray, 0, 0) > 0) ? 1. : -1.;
+        for (i = 0; i < length; i++) {
+                value = DSMatrixDoubleValue(coefficientArray, i, 0);
+                value *= baseSign;
+                if (value < 0)
+                        Index += pow(2, i);
+        }
+        DSMatrixFree(coefficientArray);
+bail:
+        return Index;
 }
 
 extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName, const char *XiName)

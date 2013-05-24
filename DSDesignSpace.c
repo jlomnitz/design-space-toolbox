@@ -611,7 +611,7 @@ bail:
 static DSCase ** dsDesignSpaceCalculateCasesParallelBSD(DSDesignSpace *ds, const DSUInteger numberOfCases, DSUInteger *cases)
 {
         DSUInteger i;
-        DSUInteger numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
+        DSUInteger numberOfThreads = (DSUInteger)sysconf(_SC_NPROCESSORS_ONLN);
         pthread_t * threads = NULL;
         pthread_attr_t attr;
         ds_parallelstack_t *stack;
@@ -821,11 +821,9 @@ extern void DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(DSDesignSpac
         aCase = DSDesignSpaceCaseWithCaseNumber(ds, caseNumber);
         sprintf(string, "%i", caseNumber);
         if (DSDictionaryValueForName(DSDSSubcases(ds), string) == NULL) {
-//                DSSubcaseDesignSpaceForUnderdeterminedCase(aCase, ds);
                 aSubcase = DSSubcaseForCaseInDesignSpace(ds, aCase);
                 if (aSubcase != NULL)
-//                        if (DSSubcaseIsValid(aSubcase) == true)
-                                DSDictionaryAddValueWithName(ds->subcases, string, aSubcase);
+                        DSDictionaryAddValueWithName(ds->subcases, string, aSubcase);
         }
         if (string != NULL)
                 DSSecureFree(string);
