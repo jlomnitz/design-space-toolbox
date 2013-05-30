@@ -85,6 +85,9 @@ extern DSExpression * DSExpressionByCompressingConstantVariables(const DSExpress
 #endif
 
 extern double DSExpressionEvaluateWithVariablePool(const DSExpression *expression, const DSVariablePool *pool);
+extern DSExpression * DSExpressionEquationLHSExpression(const DSExpression *expression);
+extern DSExpression * DSExpressionEquationRHSExpression(const DSExpression *expression);
+extern DSVariablePool * DSExpressionVariablesInExpression(const DSExpression * expression);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions

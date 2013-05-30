@@ -612,6 +612,126 @@ bail:
         return value;
 }
 
+extern DSExpression * DSExpressionEquationLHSExpression(const DSExpression *expression)
+{
+        DSExpression * lhs = NULL;
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Expression is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSExpressionType(expression) != DS_EXPRESSION_TYPE_OPERATOR) {
+                DSError(M_DS_WRONG ": Expression is not an equation", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSExpressionOperator(expression) != '=') {
+                DSError(M_DS_WRONG ": Expression is not an equation", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSExpressionNumberOfBranches(expression) < 2) {
+                DSError(M_DS_WRONG ": Equation does not have a right hand side and left hand side", A_DS_ERROR);
+                goto bail;                
+        }
+        switch (DSExpressionType(expression)) {
+                case DS_EXPRESSION_TYPE_VARIABLE:
+                        break;
+                case DS_EXPRESSION_TYPE_CONSTANT:
+                        break;
+                case DS_EXPRESSION_TYPE_FUNCTION:
+                        break;
+                case DS_EXPRESSION_TYPE_OPERATOR:
+                        switch (DSExpressionOperator(expression)) {
+                                case '=':
+                                        lhs = DSExpressionCopy(DSExpressionBranchAtIndex(expression, 0));
+                                        break;
+                                default:
+                                        break;
+                        }
+                        break;
+                default:
+                        break;
+        }
+bail:
+        return lhs;
+}
+
+extern DSExpression * DSExpressionEquationRHSExpression(const DSExpression *expression)
+{
+        DSExpression * rhs = NULL;
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Expression is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSExpressionType(expression) != DS_EXPRESSION_TYPE_OPERATOR) {
+                DSError(M_DS_WRONG ": Expression is not an equation", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSExpressionOperator(expression) != '=') {
+                DSError(M_DS_WRONG ": Expression is not an equation", A_DS_ERROR);
+                goto bail;
+        }
+        switch (DSExpressionType(expression)) {
+                case DS_EXPRESSION_TYPE_VARIABLE:
+                        break;
+                case DS_EXPRESSION_TYPE_CONSTANT:
+                        break;
+                case DS_EXPRESSION_TYPE_FUNCTION:
+                        break;
+                case DS_EXPRESSION_TYPE_OPERATOR:
+                        switch (DSExpressionOperator(expression)) {
+                                case '=':
+                                        rhs = DSExpressionCopy(DSExpressionBranchAtIndex(expression, 1));
+                                        break;
+                                default:
+                                        break;
+                        }
+                        break;
+                default:
+                        break;
+        }
+bail:
+        return rhs;
+}
+
+static void dsExpressionVariablesInExpressionInternal(const DSExpression * current, DSVariablePool * pool)
+{
+        DSUInteger i;
+        if (current == NULL) {
+                DSError(M_DS_NULL ": Expression is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        switch (DSExpressionType(current)) {
+                case DS_EXPRESSION_TYPE_VARIABLE:
+                        DSVariablePoolAddVariableWithName(pool, DSExpressionVariable(current));
+                        break;
+                case DS_EXPRESSION_TYPE_CONSTANT:
+                        break;
+                case DS_EXPRESSION_TYPE_FUNCTION:
+                        dsExpressionVariablesInExpressionInternal(DSExpressionBranchAtIndex(current, 0), pool);
+                        break;
+                case DS_EXPRESSION_TYPE_OPERATOR:
+                        for (i = 0; i < DSExpressionNumberOfBranches(current); i++)
+                                dsExpressionVariablesInExpressionInternal(DSExpressionBranchAtIndex(current, i), pool);
+                        break;
+                default:
+                        break;
+        }
+bail:
+        return;
+}
+
+extern DSVariablePool * DSExpressionVariablesInExpression(const DSExpression * expression)
+{
+        DSVariablePool * variables = NULL;
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Expression is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        variables = DSVariablePoolAlloc();
+        dsExpressionVariablesInExpressionInternal(expression, variables);
+bail:
+        return variables;
+}
+
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
 #endif
@@ -619,21 +739,35 @@ bail:
 static bool operatorIsLowerPrecedence(char op1, char op2)
 {
         bool isLower = false;
-        switch (op1) {
-                case '^':
-                        if (op2 == '=' || op2 == '+' || op2 == '*')
-                                isLower = true;   
-                        break;
-                case '*':
-                        if (op2 == '=' || op2 == '+')
-                                isLower = true;
-                        break;
-                case '+':
-                        if (op2 == '=')
-                                isLower = true;
-                default:
-                        break;
+        char * precedence = "'^*+=";
+        DSUInteger i, index1, index2;
+        for (i = 0; i < strlen(precedence); i++) {
+                if (precedence[i] == op1)
+                        index1 = i;
+                if (precedence[i] == op2)
+                        index2 = i;
         }
+        if (index2 > index1)
+                isLower = true;
+//        switch (op1) {
+//                case '\'':
+//                        if (op2 == '^' || op2 == '=' || op2 == '+' || op2 == '*')
+//                                isLower = true;
+//                        break;
+//                case '^':
+//                        if (op2 == '=' || op2 == '+' || op2 == '*')
+//                                isLower = true;   
+//                        break;
+//                case '*':
+//                        if (op2 == '=' || op2 == '+')
+//                                isLower = true;
+//                        break;
+//                case '+':
+//                        if (op2 == '=')
+//                                isLower = true;
+//                default:
+//                        break;
+//        }
         return isLower;
 }
 
@@ -655,7 +789,6 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
                         sprintf(temp, "%s", DSExpressionVariable(current));
                         break;
                 case DS_EXPRESSION_TYPE_OPERATOR:
-                        printf("(%c)", DSExpressionOperator(current));
                         constant = DSExpressionConstant(DSExpressionBranchAtIndex(current, 0)); 
                         for (i=0; i < DSExpressionNumberOfBranches(current); i++) {
                                 if (i == 0 && DSExpressionOperator(current) == '+' && constant == 0.0)

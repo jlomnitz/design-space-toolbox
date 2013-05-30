@@ -177,14 +177,12 @@ static gma_parseraux_t * dsGmaSystemParseStringToTermList(const char * string)
                         current = DSExpressionTokenNext(current);
                         continue;
                 }
-                printf("T%d ", current->type);
-                DSGMASystemParser(parser, 
+                DSGMASystemParser(parser,
                                   DSExpressionTokenType(current), 
                                   current,
                                   ((void**)&parser_aux));
                 current = DSExpressionTokenNext(current);
         }
-        printf("\n");
         DSGMASystemParser(parser, 
                           0, 
                           NULL,
@@ -523,6 +521,9 @@ extern DSGMASystem * DSGMASystemByParsingStrings(const DSVariablePool * const Xd
         DSGMASystem * gma = NULL;
         gma_parseraux_t **aux = NULL;
         DSUInteger i;
+        DSExpression * expr = NULL;
+        DSExpression * lhs = NULL;
+        DSVariablePool * tempPool;
         if (Xd == NULL) {
                 DSError(M_DS_NULL ": Dependent Variables are NULL", A_DS_ERROR);
                 goto bail;
@@ -548,9 +549,18 @@ extern DSGMASystem * DSGMASystemByParsingStrings(const DSVariablePool * const Xd
         DSGMAXi(gma) = dsGmaSystemIdentifyIndependentVariables(Xd, aux, numberOfEquations);
         DSVariablePoolSetReadWrite(DSGMAXi(gma));
         dsGMASystemCreateSystemMatrices(gma, aux);
-        for (i=0; i < numberOfEquations; i++)
+        for (i=0; i < numberOfEquations; i++) {
+                expr = DSExpressionByParsingString(strings[i]);
+                lhs = DSExpressionEquationLHSExpression(expr);
+                tempPool = DSExpressionVariablesInExpression(lhs);
+                DSVariablePoolPrint(tempPool);
+                DSExpressionPrint(lhs);
                 if (aux[i] != NULL)
                         DSGMAParserAuxFree(aux[i]);
+                DSExpressionFree(lhs);
+                DSExpressionFree(expr);
+                DSVariablePoolFree(tempPool);
+        }
         DSSecureFree(aux);
 bail:
         return gma;

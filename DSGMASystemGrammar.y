@@ -75,17 +75,9 @@
 
 start ::= equation.
 
-equation ::= expression. {
-        printf("Not equations\n");
-}
+equation ::= ID PRIME EQUALS expression.
 
-equation ::= ID EQUALS expression.{
-        printf("Equation!\n");
-}
-
-equation ::= ID PRIME EQUALS expression.{
-        printf("Equation! (Prime)\n");
-}
+equation ::= CONSTANT EQUALS expression.
 
 expression ::= pterms PLUS mterms.
 

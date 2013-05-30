@@ -27,13 +27,15 @@
 */
 #if INTERFACE
 #define TOKEN_SSYS_ID                              1
-#define TOKEN_SSYS_PLUS                            2
-#define TOKEN_SSYS_MINUS                           3
-#define TOKEN_SSYS_DIVIDE                          4
-#define TOKEN_SSYS_TIMES                           5
-#define TOKEN_SSYS_NOT                             6
-#define TOKEN_SSYS_POWER                           7
-#define TOKEN_SSYS_CONSTANT                        8
+#define TOKEN_SSYS_EQUALS                          2
+#define TOKEN_SSYS_PLUS                            3
+#define TOKEN_SSYS_MINUS                           4
+#define TOKEN_SSYS_DIVIDE                          5
+#define TOKEN_SSYS_TIMES                           6
+#define TOKEN_SSYS_PRIME                           7
+#define TOKEN_SSYS_NOT                             8
+#define TOKEN_SSYS_POWER                           9
+#define TOKEN_SSYS_CONSTANT                       10
 #endif
 /* Make sure the INTERFACE macro is defined.
 */
@@ -75,7 +77,7 @@
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 17
+#define YYNOCODE 20
 #define YYACTIONTYPE unsigned char
 #if INTERFACE
 #define DSSSystemParserTOKENTYPE void*
@@ -93,8 +95,8 @@ typedef union {
 #define DSSSystemParserARG_FETCH void **parser_aux = yypParser->parser_aux
 #define DSSSystemParserARG_STORE yypParser->parser_aux = parser_aux
 #endif
-#define YYNSTATE 24
-#define YYNRULE 13
+#define YYNSTATE 31
+#define YYNRULE 15
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
 #define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
@@ -164,32 +166,35 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **  yy_default[]       Default action for each state.
 */
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    38,   10,   11,   14,    9,   17,   12,    3,    2,   12,
- /*    10 */     3,   12,   22,   18,    9,   17,   18,   13,   18,    8,
- /*    20 */     7,   17,   23,    4,    5,    2,   19,   24,   16,   20,
- /*    30 */    21,    6,   15,    1,
+ /*     0 */    20,   14,   18,   11,   28,   21,   14,   18,   11,   28,
+ /*    10 */    13,   16,    6,    4,   30,   13,   11,   28,   13,   24,
+ /*    20 */     6,   27,   47,   19,   24,    5,    7,   24,   15,   12,
+ /*    30 */     9,   28,   22,   29,   25,    4,   23,    8,   17,   10,
+ /*    40 */     2,    1,   26,    3,   31,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    10,   11,   12,   13,   14,   15,    1,    2,    3,    1,
- /*    10 */     2,    1,   12,    8,   14,   15,    8,    3,    8,    7,
- /*    20 */    14,   15,    8,    4,    5,    3,   15,    0,   15,   13,
- /*    30 */    15,    2,    8,    2,
+ /*     0 */    14,   15,   16,   17,   18,   14,   15,   16,   17,   18,
+ /*    10 */     1,    7,    3,    4,   15,    1,   17,   18,    1,   10,
+ /*    20 */     3,   18,   12,   13,   10,    5,    6,   10,    4,    1,
+ /*    30 */    17,   18,   16,   18,   10,    4,   18,    3,   10,    9,
+ /*    40 */     2,    2,   10,    3,    0,
 };
 #define YY_SHIFT_USE_DFLT (-1)
-#define YY_SHIFT_MAX 14
+#define YY_SHIFT_MAX 19
 static const signed char yy_shift_ofst[] = {
- /*     0 */     5,    8,    8,   10,   10,   10,   22,   19,   14,   19,
- /*    10 */    27,   29,   12,   24,   31,
+ /*     0 */    28,    9,    9,   17,   17,   14,   14,   14,   31,   20,
+ /*    10 */    24,   20,    4,   30,   34,   32,   38,   39,   40,   44,
 };
-#define YY_REDUCE_USE_DFLT (-11)
-#define YY_REDUCE_MAX 6
+#define YY_REDUCE_USE_DFLT (-15)
+#define YY_REDUCE_MAX 8
 static const signed char yy_reduce_ofst[] = {
- /*     0 */   -10,    0,    6,   11,   13,   15,   16,
+ /*     0 */    10,  -14,   -9,   -1,   13,    3,   15,   18,   16,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    37,   37,   37,   37,   37,   37,   37,   28,   37,   27,
- /*    10 */    37,   37,   34,   37,   37,   36,   32,   29,   33,   30,
- /*    20 */    25,   31,   26,   35,
+ /*     0 */    46,   46,   46,   46,   46,   46,   46,   46,   46,   37,
+ /*    10 */    46,   36,   46,   43,   46,   46,   46,   46,   46,   46,
+ /*    20 */    33,   32,   34,   40,   42,   44,   45,   41,   38,   39,
+ /*    30 */    35,
 };
 #define YY_SZ_ACTTAB (int)(sizeof(yy_action)/sizeof(yy_action[0]))
 
@@ -283,10 +288,11 @@ void DSSSystemParserTrace(FILE *TraceFILE, char *zTracePrompt){
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
 static const char *const yyTokenName[] = { 
-  "$",             "ID",            "PLUS",          "MINUS",       
-  "DIVIDE",        "TIMES",         "NOT",           "POWER",       
-  "CONSTANT",      "error",         "start",         "expression",  
-  "pterm",         "mterm",         "term",          "powerlaw",    
+  "$",             "ID",            "EQUALS",        "PLUS",        
+  "MINUS",         "DIVIDE",        "TIMES",         "PRIME",       
+  "NOT",           "POWER",         "CONSTANT",      "error",       
+  "start",         "equation",      "expression",    "pterm",       
+  "mterm",         "term",          "powerlaw",    
 };
 #endif /* NDEBUG */
 
@@ -294,19 +300,21 @@ static const char *const yyTokenName[] = {
 /* For tracing reduce actions, the names of all rules are required.
 */
 static const char *const yyRuleName[] = {
- /*   0 */ "start ::= expression",
- /*   1 */ "expression ::= pterm PLUS mterm",
- /*   2 */ "expression ::= mterm PLUS pterm",
- /*   3 */ "pterm ::= term",
- /*   4 */ "mterm ::= MINUS term",
- /*   5 */ "term ::= powerlaw",
- /*   6 */ "term ::= PLUS powerlaw",
- /*   7 */ "term ::= term TIMES powerlaw",
- /*   8 */ "term ::= term DIVIDE powerlaw",
- /*   9 */ "powerlaw ::= CONSTANT",
- /*  10 */ "powerlaw ::= ID",
- /*  11 */ "powerlaw ::= ID POWER CONSTANT",
- /*  12 */ "powerlaw ::= ID POWER MINUS CONSTANT",
+ /*   0 */ "start ::= equation",
+ /*   1 */ "equation ::= ID PRIME EQUALS expression",
+ /*   2 */ "equation ::= CONSTANT EQUALS expression",
+ /*   3 */ "expression ::= pterm PLUS mterm",
+ /*   4 */ "expression ::= mterm PLUS pterm",
+ /*   5 */ "pterm ::= term",
+ /*   6 */ "mterm ::= MINUS term",
+ /*   7 */ "term ::= powerlaw",
+ /*   8 */ "term ::= PLUS powerlaw",
+ /*   9 */ "term ::= term TIMES powerlaw",
+ /*  10 */ "term ::= term DIVIDE powerlaw",
+ /*  11 */ "powerlaw ::= CONSTANT",
+ /*  12 */ "powerlaw ::= ID",
+ /*  13 */ "powerlaw ::= ID POWER CONSTANT",
+ /*  14 */ "powerlaw ::= ID POWER MINUS CONSTANT",
 };
 #endif /* NDEBUG */
 
@@ -611,19 +619,21 @@ static const struct {
   YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } yyRuleInfo[] = {
-  { 10, 1 },
-  { 11, 3 },
-  { 11, 3 },
   { 12, 1 },
-  { 13, 2 },
-  { 14, 1 },
-  { 14, 2 },
+  { 13, 4 },
+  { 13, 3 },
   { 14, 3 },
   { 14, 3 },
   { 15, 1 },
-  { 15, 1 },
-  { 15, 3 },
-  { 15, 4 },
+  { 16, 2 },
+  { 17, 1 },
+  { 17, 2 },
+  { 17, 3 },
+  { 17, 3 },
+  { 18, 1 },
+  { 18, 1 },
+  { 18, 3 },
+  { 18, 4 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -678,39 +688,39 @@ static void yy_reduce(
   **  #line <lineno> <thisfile>
   **     break;
   */
-      case 3: /* pterm ::= term */
+      case 5: /* pterm ::= term */
 {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
         break;
-      case 4: /* mterm ::= MINUS term */
+      case 6: /* mterm ::= MINUS term */
 {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
         break;
-      case 9: /* powerlaw ::= CONSTANT */
+      case 11: /* powerlaw ::= CONSTANT */
 {
         DSGMAParserAuxAddConstantBase(*parser_aux, DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 10: /* powerlaw ::= ID */
+      case 12: /* powerlaw ::= ID */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[0].minor.yy0), 1.0);
 }
         break;
-      case 11: /* powerlaw ::= ID POWER CONSTANT */
+      case 13: /* powerlaw ::= ID POWER CONSTANT */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[-2].minor.yy0),
         DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 12: /* powerlaw ::= ID POWER MINUS CONSTANT */
+      case 14: /* powerlaw ::= ID POWER MINUS CONSTANT */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[-3].minor.yy0),
@@ -718,13 +728,15 @@ static void yy_reduce(
 }
         break;
       default:
-      /* (0) start ::= expression */ yytestcase(yyruleno==0);
-      /* (1) expression ::= pterm PLUS mterm */ yytestcase(yyruleno==1);
-      /* (2) expression ::= mterm PLUS pterm */ yytestcase(yyruleno==2);
-      /* (5) term ::= powerlaw */ yytestcase(yyruleno==5);
-      /* (6) term ::= PLUS powerlaw */ yytestcase(yyruleno==6);
-      /* (7) term ::= term TIMES powerlaw */ yytestcase(yyruleno==7);
-      /* (8) term ::= term DIVIDE powerlaw */ yytestcase(yyruleno==8);
+      /* (0) start ::= equation */ yytestcase(yyruleno==0);
+      /* (1) equation ::= ID PRIME EQUALS expression */ yytestcase(yyruleno==1);
+      /* (2) equation ::= CONSTANT EQUALS expression */ yytestcase(yyruleno==2);
+      /* (3) expression ::= pterm PLUS mterm */ yytestcase(yyruleno==3);
+      /* (4) expression ::= mterm PLUS pterm */ yytestcase(yyruleno==4);
+      /* (7) term ::= powerlaw */ yytestcase(yyruleno==7);
+      /* (8) term ::= PLUS powerlaw */ yytestcase(yyruleno==8);
+      /* (9) term ::= term TIMES powerlaw */ yytestcase(yyruleno==9);
+      /* (10) term ::= term DIVIDE powerlaw */ yytestcase(yyruleno==10);
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
