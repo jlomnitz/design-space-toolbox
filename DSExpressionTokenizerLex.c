@@ -408,9 +408,9 @@ static yyconst flex_int32_t yy_ec[256] =
        12,    1,    1,    1,   13,   13,   13,   13,   14,   13,
        13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
        13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
-        9,   13,   15,   16,   13,    1,   13,   13,   13,   13,
+       15,   13,   16,   17,   13,    1,   13,   13,   13,   13,
 
-       13,   17,   13,   13,   18,   13,   13,   13,   13,   19,
+       13,   18,   13,   13,   19,   13,   13,   13,   13,   20,
        13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
        13,   13,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -429,17 +429,17 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[20] =
+static yyconst flex_int32_t yy_meta[21] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        2,    1,    2,    2,    1,    1,    2,    2,    2
+        2,    1,    2,    2,    1,    1,    1,    2,    2,    2
     } ;
 
 static yyconst flex_int16_t yy_base[31] =
     {   0,
-        0,    0,   39,   40,   40,   40,   40,   40,   40,   40,
-       40,   40,   11,   40,   27,   40,   10,   26,    0,   16,
-       22,    0,   24,   17,   22,   21,   20,   40,   28,   21
+        0,    0,   41,   42,   42,   42,   42,   42,   42,   42,
+       42,   42,   12,   42,   29,   42,   11,   28,    0,   21,
+       24,    0,   25,   19,   24,   23,   22,   42,   23,   22
     } ;
 
 static yyconst flex_int16_t yy_def[31] =
@@ -449,24 +449,26 @@ static yyconst flex_int16_t yy_def[31] =
        28,   30,   29,   29,   28,   28,   29,    0,   28,   28
     } ;
 
-static yyconst flex_int16_t yy_nxt[60] =
+static yyconst flex_int16_t yy_nxt[63] =
     {   0,
-        4,    5,    6,    7,    8,    9,   10,   11,    4,   12,
-       13,   14,   15,   15,    4,   16,   15,   17,   15,   18,
-       22,   19,   22,   25,   20,   21,   26,   22,   24,   23,
-       22,   26,   26,   27,   22,   20,   18,   22,   28,    3,
+        4,    5,    6,    7,    8,    9,   10,   11,    6,   12,
+       13,   14,   15,   15,    4,    4,   16,   15,   17,   15,
+       18,   22,   19,   22,   23,   20,   18,   21,   25,   22,
+       24,   26,   22,   26,   26,   22,   27,   20,   18,   22,
+       28,    3,   28,   28,   28,   28,   28,   28,   28,   28,
        28,   28,   28,   28,   28,   28,   28,   28,   28,   28,
-       28,   28,   28,   28,   28,   28,   28,   28,   28
+       28,   28
     } ;
 
-static yyconst flex_int16_t yy_chk[60] =
+static yyconst flex_int16_t yy_chk[63] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,   13,
-       17,   13,   30,   20,   13,   13,   20,   24,   17,   29,
-       27,   26,   25,   24,   23,   21,   18,   15,    3,   28,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+       13,   17,   13,   30,   29,   13,   13,   13,   20,   24,
+       17,   20,   27,   26,   25,   23,   24,   21,   18,   15,
+        3,   28,   28,   28,   28,   28,   28,   28,   28,   28,
        28,   28,   28,   28,   28,   28,   28,   28,   28,   28,
-       28,   28,   28,   28,   28,   28,   28,   28,   28
+       28,   28
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -492,7 +494,7 @@ extern DSExpression * dsExpressionAllocWithOperator(const char op_code);
 extern DSExpression * dsExpressionAllocWithConstant(const double value);
 extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
 
-#line 496 "<stdout>"
+#line 498 "<stdout>"
 
 #define INITIAL 0
 
@@ -713,7 +715,7 @@ YY_DECL
 
 #line 56 "DSExpressionGrammar.l"
 
-#line 717 "<stdout>"
+#line 719 "<stdout>"
 
 	if ( !yyg->yy_init )
 		{
@@ -772,7 +774,7 @@ yy_match:
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 40 );
+		while ( yy_base[yy_current_state] != 42 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -996,7 +998,7 @@ YY_RULE_SETUP
 #line 209 "DSExpressionGrammar.l"
 ECHO;
 	YY_BREAK
-#line 1000 "<stdout>"
+#line 1002 "<stdout>"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

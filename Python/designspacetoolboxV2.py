@@ -663,9 +663,8 @@ class DesignSpacePlot:
 class DesignSpace:
         """ A python class of the DSVariablePool object"""
         dependentVariables = None
-        def __init__(self, dependentVariables, stringList):
-                self.dependentVariables = dependentVariables
-                self.__parseStrings__(dependentVariables, stringList)
+        def __init__(self, stringList, dependentVariables=[]):
+                self.__parseStrings__(stringList, algebraic_variables=dependentVariables)
         def __del__(self):
                 if hasattr(self, '_data')==0:
                         return
@@ -678,13 +677,14 @@ class DesignSpace:
                 if self._data != None:
                         designspacetoolbox_test.DSDesignSpacePrint(self._data)
                 return ''
-        def __parseStrings__(self, dependentVariables, stringList):
-                if isinstance(dependentVariables,VariablePool)==0:
-                        return
-                if type(stringList)!=list:
-                        return
+        def __parseStrings__(self, equations, algebraic_variables=[]):
+                if isinstance(algebraic_variables,list) is False:
+                    return
+                if isinstance(equations,list) is False:
+                    return
                 if hasattr(self, '_data')==0:
-                        self._data=designspacetoolbox_test.DSDesignSpaceByParsingStrings(dependentVariables._data, stringList, len(dependentVariables))
+                    self._data=designspacetoolbox_test.DSSWIGDesignSpaceParseWrapper(
+                     equations, len(equations), algebraic_variables, len(algebraic_variables))
         def caseWithCaseNumber(self, caseNumber):
                 caseNumber = long(caseNumber)
                 if hasattr(self, '_data')==0:

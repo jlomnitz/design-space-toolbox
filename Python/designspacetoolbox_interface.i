@@ -1,4 +1,4 @@
-%module dspace_interface
+%module designspacetoolbox_test
 
 %{
 #define SWIG_FILE_WITH_INIT
@@ -149,7 +149,7 @@ extern void DSVariablePoolSetReadWriteAdd(DSVariablePool *pool);
 /**
  * DSDesignSpace functions available to internal python module.
  */
-extern DSDesignSpace * DSDesignSpaceByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations);
+extern DSDesignSpace * DSDesignSpaceByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 void DSDesignSpaceFree(DSDesignSpace * ds);
 
 extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds);
@@ -319,17 +319,18 @@ extern DSExpression * DSSWIGVoidAsExpression(void * ptr)
         return ptr;
 }
         
-extern DSDesignSpace * DSSWIGDesignSpaceParseWrapper(const DSVariablePool * const Xd, char ** const strings, const DSUInteger numberOfEquations)
+extern DSDesignSpace * DSSWIGDesignSpaceParseWrapper(char ** const strings, const DSUInteger numberOfEquations, char ** Xd_list, const DSUInteger numberOfXd)
 {
         DSUInteger i;
-        DSDesignSpace * ds = DSDesignSpaceByParsingStrings(Xd, strings, numberOfEquations);
+        DSVariablePool * Xd = DSVariablePoolAlloc();
+        for (i = 0; i < numberOfXd; i++) {
+                DSVariablePoolAddVariableWithName(Xd, Xd_list[i]);
+        }
+        DSDesignSpace * ds = DSDesignSpaceByParsingStrings(strings, Xd, numberOfEquations);
         for (i = 0; i < numberOfEquations; i++) {
                 printf("%s\n", strings[i]);
-                if (strings[i] != NULL)
-                        DSSecureFree(strings[i]);
         }
-        if (strings != NULL)
-                DSSecureFree(strings);
+        DSVariablePoolFree(Xd);
         return ds;
 }
 %}
