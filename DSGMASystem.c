@@ -177,12 +177,14 @@ static gma_parseraux_t * dsGmaSystemParseStringToTermList(const char * string)
                         current = DSExpressionTokenNext(current);
                         continue;
                 }
+                printf("T%d ", current->type);
                 DSGMASystemParser(parser, 
                                   DSExpressionTokenType(current), 
                                   current,
                                   ((void**)&parser_aux));
                 current = DSExpressionTokenNext(current);
         }
+        printf("\n");
         DSGMASystemParser(parser, 
                           0, 
                           NULL,

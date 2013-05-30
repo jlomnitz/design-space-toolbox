@@ -47,7 +47,6 @@
 #define DS_EXPRESSION_TYPE_FUNCTION         4
 
 
-
 #define DSExpressionSetOperator(x, y)       ((x->node.op_code) = y, (x->type = DS_EXPRESSION_TYPE_OPERATOR))
 #define DSExpressionSetVariable(x, y)       ((x->node.variable) = y, (x->type = DS_EXPRESSION_TYPE_VARIABLE))
 #define DSExpressionSetConstant(x, y)       ((x->node.constant) = y, (x->type = DS_EXPRESSION_TYPE_CONSTANT))

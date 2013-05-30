@@ -87,6 +87,14 @@ extern DSExpression * dsExpressionAllocWithOperator(const char op_code)
 {
         DSExpression *newNode = NULL;
         switch (op_code) {
+                case '=':
+                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
+                        DSExpressionSetOperator(newNode, op_code);
+                        break;
+                case '\'':
+                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
+                        DSExpressionSetOperator(newNode, op_code);
+                        break;
                 case '+':
                         newNode = DSSecureCalloc(1, sizeof(DSExpression));
                         DSExpressionSetOperator(newNode, '+');
@@ -357,6 +365,12 @@ static void DSExpressionAddConstantBranch(DSExpression *expression, DSExpression
                                                 DSExpressionConstant(DSExpressionBranchAtIndex(expression, 0))*constant);
                         DSExpressionFree(branch);
                         break;
+                case '=':
+                        DSExpressionAddNonConstantBranch(expression, branch);
+                        break;
+                case '\'':
+                        DSExpressionAddNonConstantBranch(expression, branch);
+                        break;
                 case '^':
                         DSExpressionAddNonConstantBranch(expression, branch);
                         break;
@@ -417,7 +431,7 @@ extern void DSExpressionAddBranch(DSExpression *expression, DSExpression *branch
                 DSExpressionAddConstantBranch(expression, branch);
                 goto bail;
         }
-        if (DSExpressionNumberOfBranches(branch) < 2) {
+        if (DSExpressionNumberOfBranches(branch) < 2 && DSExpressionOperator(branch) != '\'') {
                 if (DSExpressionNumberOfBranches(branch) == 1) {
                         DSExpressionAddBranch(expression, DSExpressionBranchAtIndex(branch, 0));
                         branch->numberOfBranches = 0;
@@ -448,6 +462,12 @@ extern void DSExpressionAddBranch(DSExpression *expression, DSExpression *branch
                         } else {
                                 DSExpressionAddNonConstantBranch(expression, branch);
                         }
+                        break;
+                case '=':
+                        DSExpressionAddNonConstantBranch(expression, branch);
+                        break;
+                case '\'':
+                        DSExpressionAddNonConstantBranch(expression, branch);
                         break;
                 case '^':
                         DSExpressionAddNonConstantBranch(expression, branch);
@@ -601,13 +621,16 @@ static bool operatorIsLowerPrecedence(char op1, char op2)
         bool isLower = false;
         switch (op1) {
                 case '^':
-                        if (op2 == '+' || op2 == '*')
+                        if (op2 == '=' || op2 == '+' || op2 == '*')
                                 isLower = true;   
                         break;
                 case '*':
-                        if (op2 == '+')
+                        if (op2 == '=' || op2 == '+')
                                 isLower = true;
                         break;
+                case '+':
+                        if (op2 == '=')
+                                isLower = true;
                 default:
                         break;
         }
@@ -632,6 +655,7 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
                         sprintf(temp, "%s", DSExpressionVariable(current));
                         break;
                 case DS_EXPRESSION_TYPE_OPERATOR:
+                        printf("(%c)", DSExpressionOperator(current));
                         constant = DSExpressionConstant(DSExpressionBranchAtIndex(current, 0)); 
                         for (i=0; i < DSExpressionNumberOfBranches(current); i++) {
                                 if (i == 0 && DSExpressionOperator(current) == '+' && constant == 0.0)
@@ -654,7 +678,7 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
                                 if (DSExpressionType(branch) == DS_EXPRESSION_TYPE_OPERATOR &&
                                     operatorIsLowerPrecedence(DSExpressionOperator(current), DSExpressionOperator(branch)))
                                         strncat(*string, ")", *length-strlen(*string));
-                                if (i < DSExpressionNumberOfBranches(current)-1) {
+                                if (i < DSExpressionNumberOfBranches(current)-1 || DSExpressionOperator(current) == '\'') {
                                         sprintf(temp, "%c", DSExpressionOperator(current));
                                         strncat(*string,  temp, *length-strlen(*string));
                                         temp[0] = '\0';

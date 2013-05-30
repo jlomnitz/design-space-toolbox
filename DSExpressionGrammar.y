@@ -37,9 +37,10 @@
 %type ID {void *}
 %destructor expr {DSExpressionFree($$);}
 
+%nonassoc EQUALS.
 %left PLUS MINUS.
 %left DIVIDE TIMES.
-%left NOT.
+%left PRIME NOT.
 %right POWER.
 
 %extra_argument {void *parsed}
@@ -81,6 +82,21 @@ program ::= expr(B). {
         } else {
                 ((parse_expression_s *)parsed)->root = B;
         }
+}
+
+program ::= equation(B). {
+        if (parsed == NULL) {
+                DSError(M_DS_WRONG ": parser structure is NULL", A_DS_ERROR);
+                DSExpressionFree(B);
+        } else {
+                ((parse_expression_s *)parsed)->root = B;
+        }
+}
+
+equation(A) ::= expr(B) EQUALS expr(C). {
+        A = dsExpressionAllocWithOperator('=');
+        DSExpressionAddBranch(A, B);
+        DSExpressionAddBranch(A, C);
 }
 
 expr(A) ::= expr(B) PLUS expr(C). {
@@ -159,7 +175,7 @@ expr(A) ::= expr(B) DIVIDE expr(C). {
 
 expr(A) ::= expr(B) POWER expr(C). {
         if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT &&
-            DSExpressionType(B) == DSExpressionType(C)) {
+            DSExpressionType(C) == DS_EXPRESSION_TYPE_CONSTANT) {
                 A = dsExpressionAllocWithConstant(pow(DSExpressionConstant(B), DSExpressionConstant(C)));
                 DSExpressionFree(B);
                 DSExpressionFree(C);
@@ -183,6 +199,11 @@ expr(A) ::= MINUS expr(B). [NOT] {
 
 expr(A) ::= PLUS expr(B). [NOT] {
         A = B;
+}
+
+expr(A) ::= expr(B) PRIME. {
+        A = dsExpressionAllocWithOperator('\'');
+        DSExpressionAddBranch(A, B);
 }
 
 expr(A) ::= ID(B). {

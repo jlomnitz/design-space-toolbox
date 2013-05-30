@@ -27,13 +27,15 @@
 */
 #if INTERFACE
 #define TOKEN_GMA_ID                              1
-#define TOKEN_GMA_PLUS                            2
-#define TOKEN_GMA_MINUS                           3
-#define TOKEN_GMA_DIVIDE                          4
-#define TOKEN_GMA_TIMES                           5
-#define TOKEN_GMA_NOT                             6
-#define TOKEN_GMA_POWER                           7
-#define TOKEN_GMA_CONSTANT                        8
+#define TOKEN_GMA_EQUALS                          2
+#define TOKEN_GMA_PLUS                            3
+#define TOKEN_GMA_MINUS                           4
+#define TOKEN_GMA_DIVIDE                          5
+#define TOKEN_GMA_TIMES                           6
+#define TOKEN_GMA_PRIME                           7
+#define TOKEN_GMA_NOT                             8
+#define TOKEN_GMA_POWER                           9
+#define TOKEN_GMA_CONSTANT                       10
 #endif
 /* Make sure the INTERFACE macro is defined.
 */
@@ -75,7 +77,7 @@
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 18
+#define YYNOCODE 21
 #define YYACTIONTYPE unsigned char
 #if INTERFACE
 #define DSGMASystemParserTOKENTYPE void*
@@ -93,8 +95,8 @@ typedef union {
 #define DSGMASystemParserARG_FETCH void **parser_aux = yypParser->parser_aux
 #define DSGMASystemParserARG_STORE yypParser->parser_aux = parser_aux
 #endif
-#define YYNSTATE 32
-#define YYNRULE 18
+#define YYNSTATE 39
+#define YYNRULE 21
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
 #define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
@@ -164,35 +166,41 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **  yy_default[]       Default action for each state.
 */
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    51,   10,   15,   16,   14,   24,   30,   20,   28,   14,
- /*    10 */    24,   30,   17,    6,    5,    3,    7,    8,   23,   31,
- /*    20 */    14,   25,   30,   26,   13,   24,   30,   17,    6,   11,
- /*    30 */    17,   30,   19,   13,   31,   30,   29,   31,   18,   32,
- /*    40 */    21,    1,   25,   27,    5,    2,   22,   12,
+ /*     0 */    61,   25,   18,   22,   23,   16,   38,   36,   17,   22,
+ /*    10 */    23,   16,   38,   36,   21,   22,   23,   16,   38,   36,
+ /*    20 */    35,   33,   16,   38,   36,   19,   37,    9,    6,   32,
+ /*    30 */    15,   38,   36,   12,   28,    9,    6,   30,   19,   16,
+ /*    40 */    29,   36,   28,   19,   20,    9,    2,   28,    8,   10,
+ /*    50 */    27,   24,   28,   14,    1,   13,   15,   36,   36,    6,
+ /*    60 */    34,    3,   14,    4,   31,   29,   26,    5,   39,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    10,   11,   12,   13,   14,   15,   16,   12,   13,   14,
- /*    10 */    15,   16,    1,    2,    3,    2,    4,    5,   12,    8,
- /*    20 */    14,   15,   16,   13,   14,   15,   16,    1,    2,   14,
- /*    30 */     1,   16,   16,   14,    8,   16,   16,    8,    3,    0,
- /*    40 */    16,    2,   15,    8,    3,    2,    8,    7,
+ /*     0 */    12,   13,   14,   15,   16,   17,   18,   19,   14,   15,
+ /*    10 */    16,   17,   18,   19,   14,   15,   16,   17,   18,   19,
+ /*    20 */    15,   16,   17,   18,   19,    1,   19,    3,    4,   16,
+ /*    30 */    17,   18,   19,    1,   10,    3,    4,   15,    1,   17,
+ /*    40 */    18,   19,   10,    1,    4,    3,    2,   10,    5,    6,
+ /*    50 */    10,    7,   10,    9,    2,   17,   17,   19,   19,    4,
+ /*    60 */    19,    3,    9,    3,   19,   18,   10,    3,    0,
 };
 #define YY_SHIFT_USE_DFLT (-1)
-#define YY_SHIFT_MAX 18
+#define YY_SHIFT_MAX 25
 static const signed char yy_shift_ofst[] = {
- /*     0 */    11,   11,   11,   11,   26,   26,   29,   29,   29,   41,
- /*    10 */    39,   12,   35,   12,   12,   43,   13,   40,   38,
+ /*     0 */    32,   24,   24,   24,   24,   24,   42,   42,   37,   37,
+ /*    10 */    37,   55,   44,   43,   40,   43,   43,   58,   58,   53,
+ /*    20 */    56,   58,   60,   64,   52,   68,
 };
-#define YY_REDUCE_USE_DFLT (-11)
-#define YY_REDUCE_MAX 9
+#define YY_REDUCE_USE_DFLT (-13)
+#define YY_REDUCE_MAX 11
 static const signed char yy_reduce_ofst[] = {
- /*     0 */   -10,   -5,   10,    6,   19,   15,   16,   20,   24,   27,
+ /*     0 */   -12,   -6,    0,    5,   13,   22,   38,   39,    7,   41,
+ /*    10 */    45,   47,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
- /*    10 */    50,   41,   50,   38,   37,   50,   50,   47,   50,   43,
- /*    20 */    36,   44,   49,   34,   39,   40,   33,   48,   35,   45,
- /*    30 */    42,   46,
+ /*     0 */    60,   60,   60,   60,   60,   60,   60,   60,   60,   60,
+ /*    10 */    60,   60,   57,   51,   60,   48,   47,   42,   40,   57,
+ /*    20 */    60,   41,   60,   60,   60,   60,   59,   58,   56,   50,
+ /*    30 */    44,   54,   43,   45,   53,   46,   52,   55,   49,
 };
 #define YY_SZ_ACTTAB (int)(sizeof(yy_action)/sizeof(yy_action[0]))
 
@@ -286,11 +294,11 @@ void DSGMASystemParserTrace(FILE *TraceFILE, char *zTracePrompt){
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
 static const char *const yyTokenName[] = { 
-  "$",             "ID",            "PLUS",          "MINUS",       
-  "DIVIDE",        "TIMES",         "NOT",           "POWER",       
-  "CONSTANT",      "error",         "start",         "expression",  
-  "pterms",        "mterms",        "term",          "mterm",       
-  "powerlaw",    
+  "$",             "ID",            "EQUALS",        "PLUS",        
+  "MINUS",         "DIVIDE",        "TIMES",         "PRIME",       
+  "NOT",           "POWER",         "CONSTANT",      "error",       
+  "start",         "equation",      "expression",    "pterms",      
+  "mterms",        "term",          "mterm",         "powerlaw",    
 };
 #endif /* NDEBUG */
 
@@ -298,24 +306,27 @@ static const char *const yyTokenName[] = {
 /* For tracing reduce actions, the names of all rules are required.
 */
 static const char *const yyRuleName[] = {
- /*   0 */ "start ::= expression",
- /*   1 */ "expression ::= pterms PLUS mterms",
- /*   2 */ "expression ::= mterms PLUS pterms",
- /*   3 */ "expression ::= expression PLUS mterms",
- /*   4 */ "expression ::= expression PLUS pterms",
- /*   5 */ "pterms ::= term",
- /*   6 */ "pterms ::= pterms PLUS term",
- /*   7 */ "mterms ::= mterm",
- /*   8 */ "mterms ::= mterms PLUS mterm",
- /*   9 */ "mterm ::= MINUS term",
- /*  10 */ "term ::= powerlaw",
- /*  11 */ "term ::= PLUS powerlaw",
- /*  12 */ "term ::= term TIMES powerlaw",
- /*  13 */ "term ::= term DIVIDE powerlaw",
- /*  14 */ "powerlaw ::= CONSTANT",
- /*  15 */ "powerlaw ::= ID",
- /*  16 */ "powerlaw ::= ID POWER CONSTANT",
- /*  17 */ "powerlaw ::= ID POWER MINUS CONSTANT",
+ /*   0 */ "start ::= equation",
+ /*   1 */ "equation ::= expression",
+ /*   2 */ "equation ::= ID EQUALS expression",
+ /*   3 */ "equation ::= ID PRIME EQUALS expression",
+ /*   4 */ "expression ::= pterms PLUS mterms",
+ /*   5 */ "expression ::= mterms PLUS pterms",
+ /*   6 */ "expression ::= expression PLUS mterms",
+ /*   7 */ "expression ::= expression PLUS pterms",
+ /*   8 */ "pterms ::= term",
+ /*   9 */ "pterms ::= pterms PLUS term",
+ /*  10 */ "mterms ::= mterm",
+ /*  11 */ "mterms ::= mterms PLUS mterm",
+ /*  12 */ "mterm ::= MINUS term",
+ /*  13 */ "term ::= powerlaw",
+ /*  14 */ "term ::= PLUS powerlaw",
+ /*  15 */ "term ::= term TIMES powerlaw",
+ /*  16 */ "term ::= term DIVIDE powerlaw",
+ /*  17 */ "powerlaw ::= CONSTANT",
+ /*  18 */ "powerlaw ::= ID",
+ /*  19 */ "powerlaw ::= ID POWER CONSTANT",
+ /*  20 */ "powerlaw ::= ID POWER MINUS CONSTANT",
 };
 #endif /* NDEBUG */
 
@@ -620,24 +631,27 @@ static const struct {
   YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } yyRuleInfo[] = {
-  { 10, 1 },
-  { 11, 3 },
-  { 11, 3 },
-  { 11, 3 },
-  { 11, 3 },
   { 12, 1 },
-  { 12, 3 },
   { 13, 1 },
   { 13, 3 },
-  { 15, 2 },
-  { 14, 1 },
-  { 14, 2 },
+  { 13, 4 },
   { 14, 3 },
   { 14, 3 },
-  { 16, 1 },
+  { 14, 3 },
+  { 14, 3 },
+  { 15, 1 },
+  { 15, 3 },
   { 16, 1 },
   { 16, 3 },
-  { 16, 4 },
+  { 18, 2 },
+  { 17, 1 },
+  { 17, 2 },
+  { 17, 3 },
+  { 17, 3 },
+  { 19, 1 },
+  { 19, 1 },
+  { 19, 3 },
+  { 19, 4 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -692,47 +706,56 @@ static void yy_reduce(
   **  #line <lineno> <thisfile>
   **     break;
   */
-      case 5: /* pterms ::= term */
-      case 6: /* pterms ::= pterms PLUS term */ yytestcase(yyruleno==6);
+      case 1: /* equation ::= expression */
+{
+        printf("Not equations\n");
+}
+        break;
+      case 2: /* equation ::= ID EQUALS expression */
+{
+        printf("Equation!\n");
+}
+        break;
+      case 3: /* equation ::= ID PRIME EQUALS expression */
+{
+        printf("Equation! (Prime)\n");
+}
+        break;
+      case 8: /* pterms ::= term */
+      case 9: /* pterms ::= pterms PLUS term */ yytestcase(yyruleno==9);
 {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
-//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
-//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
-//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
         break;
-      case 7: /* mterms ::= mterm */
-      case 8: /* mterms ::= mterms PLUS mterm */ yytestcase(yyruleno==8);
+      case 10: /* mterms ::= mterm */
+      case 11: /* mterms ::= mterms PLUS mterm */ yytestcase(yyruleno==11);
 {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
-//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
-//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
-//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
         break;
-      case 14: /* powerlaw ::= CONSTANT */
+      case 17: /* powerlaw ::= CONSTANT */
 {
         DSGMAParserAuxAddConstantBase(*parser_aux, DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 15: /* powerlaw ::= ID */
+      case 18: /* powerlaw ::= ID */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
                                               DSExpressionTokenString((struct expression_token *)yymsp[0].minor.yy0), 1.0);
 }
         break;
-      case 16: /* powerlaw ::= ID POWER CONSTANT */
+      case 19: /* powerlaw ::= ID POWER CONSTANT */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[-2].minor.yy0),
         DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 17: /* powerlaw ::= ID POWER MINUS CONSTANT */
+      case 20: /* powerlaw ::= ID POWER MINUS CONSTANT */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[-3].minor.yy0),
@@ -740,16 +763,16 @@ static void yy_reduce(
 }
         break;
       default:
-      /* (0) start ::= expression */ yytestcase(yyruleno==0);
-      /* (1) expression ::= pterms PLUS mterms */ yytestcase(yyruleno==1);
-      /* (2) expression ::= mterms PLUS pterms */ yytestcase(yyruleno==2);
-      /* (3) expression ::= expression PLUS mterms */ yytestcase(yyruleno==3);
-      /* (4) expression ::= expression PLUS pterms */ yytestcase(yyruleno==4);
-      /* (9) mterm ::= MINUS term */ yytestcase(yyruleno==9);
-      /* (10) term ::= powerlaw */ yytestcase(yyruleno==10);
-      /* (11) term ::= PLUS powerlaw */ yytestcase(yyruleno==11);
-      /* (12) term ::= term TIMES powerlaw */ yytestcase(yyruleno==12);
-      /* (13) term ::= term DIVIDE powerlaw */ yytestcase(yyruleno==13);
+      /* (0) start ::= equation */ yytestcase(yyruleno==0);
+      /* (4) expression ::= pterms PLUS mterms */ yytestcase(yyruleno==4);
+      /* (5) expression ::= mterms PLUS pterms */ yytestcase(yyruleno==5);
+      /* (6) expression ::= expression PLUS mterms */ yytestcase(yyruleno==6);
+      /* (7) expression ::= expression PLUS pterms */ yytestcase(yyruleno==7);
+      /* (12) mterm ::= MINUS term */ yytestcase(yyruleno==12);
+      /* (13) term ::= powerlaw */ yytestcase(yyruleno==13);
+      /* (14) term ::= PLUS powerlaw */ yytestcase(yyruleno==14);
+      /* (15) term ::= term TIMES powerlaw */ yytestcase(yyruleno==15);
+      /* (16) term ::= term DIVIDE powerlaw */ yytestcase(yyruleno==16);
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;

@@ -1,4 +1,4 @@
-%module designspacetoolbox_test
+%module dspace_interface
 
 %{
 #define SWIG_FILE_WITH_INIT

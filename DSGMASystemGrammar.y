@@ -38,9 +38,10 @@
 %token_prefix  TOKEN_GMA_
 %type ID {char *}
 
+%nonassoc EQUALS.
 %left PLUS MINUS.
 %left DIVIDE TIMES.
-%left NOT.
+%left PRIME NOT.
 %right POWER.
 
 %extra_argument {void **parser_aux}
@@ -72,7 +73,19 @@
 #include "DSGMASystemParsingAux.h"
 }
 
-start ::= expression.
+start ::= equation.
+
+equation ::= expression. {
+        printf("Not equations\n");
+}
+
+equation ::= ID EQUALS expression.{
+        printf("Equation!\n");
+}
+
+equation ::= ID PRIME EQUALS expression.{
+        printf("Equation! (Prime)\n");
+}
 
 expression ::= pterms PLUS mterms.
 
@@ -85,36 +98,24 @@ expression ::= expression PLUS pterms.
 pterms ::= term.{
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
-//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
-//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
-//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
 pterms ::= pterms PLUS term.{
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
-//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
-//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
-//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
 mterms ::= mterm. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
-//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
-//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
-//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
 mterms ::= mterms PLUS mterm. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
-//        if (DSGMAParserAuxNumberOfBases(((gma_parseraux_t *)*parser_aux)) == 1)
-//                if (DSGMAParserAuxBaseAtIndexIsVariable(((gma_parseraux_t *)*parser_aux), 0) == false)
-//                        DSError("Parsing of a constant term: Terms may have been re-arranged", A_DS_WARN);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
