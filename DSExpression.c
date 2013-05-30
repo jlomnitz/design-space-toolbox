@@ -602,6 +602,9 @@ extern double DSExpressionEvaluateWithVariablePool(const DSExpression *expressio
                                                     DSExpressionEvaluateWithVariablePool(DSExpressionBranchAtIndex(expression, 1), pool));
                                         break;
                                 default:
+                                        DSError(M_DS_WRONG "Operators cannot be evaluated as a function", A_DS_WARN);
+                                        value = NAN;
+                                        goto bail;
                                         break;
                         }
                         break;
@@ -749,25 +752,6 @@ static bool operatorIsLowerPrecedence(char op1, char op2)
         }
         if (index2 > index1)
                 isLower = true;
-//        switch (op1) {
-//                case '\'':
-//                        if (op2 == '^' || op2 == '=' || op2 == '+' || op2 == '*')
-//                                isLower = true;
-//                        break;
-//                case '^':
-//                        if (op2 == '=' || op2 == '+' || op2 == '*')
-//                                isLower = true;   
-//                        break;
-//                case '*':
-//                        if (op2 == '=' || op2 == '+')
-//                                isLower = true;
-//                        break;
-//                case '+':
-//                        if (op2 == '=')
-//                                isLower = true;
-//                default:
-//                        break;
-//        }
         return isLower;
 }
 
