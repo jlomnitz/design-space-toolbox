@@ -49,8 +49,8 @@ extern void DSSSystemFree(DSSSystem * ssys);
 
 __deprecated extern DSSSystem * DSSSystemFromGMAWithDominantTerms(const DSGMASystem * gma, const DSUInteger * termList);
 extern DSSSystem * DSSSystemWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger * termArray);
-extern DSSSystem * DSSSystemByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...);
-extern DSSSystem * DSSSystemByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations);
+extern DSSSystem * DSSSystemByParsingStringList(char * const * const string, const DSVariablePool * const Xd_a, ...);
+extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 
 extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem, const DSVariablePool * algebraicVariables);
 

@@ -560,19 +560,19 @@ bail:
 #endif
 
 
-extern DSSSystem * DSSSystemByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...)
+extern DSSSystem * DSSSystemByParsingStringList(char * const * const string, const DSVariablePool * const Xd_a, ...)
 {
         DSSSystem *gma = NULL;
         DSUInteger numberOfStrings = 0;
         char const ** strings = NULL;
         const char * aString = NULL;
-        if (string == NULL) {
+        if (strings == NULL) {
                 DSError(M_DS_NULL ": String to parse is NULL", A_DS_ERROR);
         }
         va_list ap;
-	va_start(ap, string);
+	va_start(ap, Xd_a);
         strings = DSSecureCalloc(sizeof(char *), 1);
-        strings[0] = string;
+        strings[0] = (const char *)string;
         numberOfStrings++;
         aString = va_arg(ap, char *);
         while (aString != NULL) {
@@ -580,17 +580,20 @@ extern DSSSystem * DSSSystemByParsingStringList(const DSVariablePool * const Xd,
                 strings[numberOfStrings++] = aString;
                 aString = va_arg(ap, char *);
         }
-        gma = DSSSystemByParsingStrings(Xd, (char * const * )strings, numberOfStrings);
+        gma = DSSSystemByParsingStrings((char * const * )strings, Xd_a, numberOfStrings);
         DSSecureFree(strings);
 bail:
         return gma;
 }
 
-extern DSSSystem * DSSSystemByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations)
+extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations)
 {
         DSSSystem * sys = NULL;
         gma_parseraux_t **aux = NULL;
-        DSUInteger i;
+        DSUInteger i, j;
+        DSVariablePool *tempPool, * Xd = NULL;
+        char * variableName;
+        DSExpression * expr, * lhs;
         if (strings == NULL) {
                 DSError(M_DS_NULL ": Array of strings is NULL", A_DS_ERROR);
                 goto bail;
@@ -599,13 +602,37 @@ extern DSSSystem * DSSSystemByParsingStrings(const DSVariablePool * const Xd, ch
                 DSError(M_DS_WRONG ": No equations to parse", A_DS_WARN);
                 goto bail;
         }
+        aux = dsSSysTermListForAllStrings(strings, numberOfEquations);
+        if (aux == NULL)
+                goto bail;
+        Xd = DSVariablePoolAlloc();
+        for (i=0; i < numberOfEquations; i++) {
+                expr = DSExpressionByParsingString(strings[i]);
+                lhs = DSExpressionEquationLHSExpression(expr);
+                tempPool = DSExpressionVariablesInExpression(lhs);
+                for (j = 0; j < DSVariablePoolNumberOfVariables(tempPool); j++) {
+                        variableName = DSVariableName(DSVariablePoolVariableAtIndex(tempPool, j));
+                        if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
+                                DSVariablePoolAddVariableWithName(Xd, variableName);
+                        }
+                }
+                DSExpressionFree(lhs);
+                DSExpressionFree(expr);
+                DSVariablePoolFree(tempPool);
+        }
+        if (Xd_a != NULL) {
+                for (j = 0; j < DSVariablePoolNumberOfVariables(Xd_a); j++) {
+                        variableName = DSVariableName(DSVariablePoolVariableAtIndex(Xd_a, j));
+                        if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
+                                DSVariablePoolAddVariableWithName(Xd, variableName);
+                        }
+                }
+        }
         if (DSVariablePoolNumberOfVariables(Xd) != numberOfEquations) {
                 DSError(M_DS_WRONG ": Number of dependent variables does not match number of equations", A_DS_ERROR);
                 goto bail;
         }
-        aux = dsSSysTermListForAllStrings(strings, numberOfEquations);
-        if (aux == NULL)
-                goto bail;
+
         sys = DSSSystemAlloc();
         DSSSysXd(sys) = DSVariablePoolCopy(Xd);
         DSVariablePoolSetReadWrite(DSSSysXd(sys));
@@ -834,7 +861,7 @@ extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
 {
         DSUInteger i, numberOfEquations, length;
         DSExpression ** equations = NULL;
-        char *tempString;
+        char *tempString, *equationString, *varName;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
@@ -849,10 +876,18 @@ extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
         tempString = DSSecureCalloc(sizeof(char), length);
         for (i = 0; i < numberOfEquations; i++) {
                 tempString[0] = '\0';
+                varName = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
                 dsSSystemEquationAddPositiveTermToString(ssys, i, &tempString, &length);
                 strncat(tempString, "-", length-strlen(tempString));
                 dsSSystemEquationAddNegativeTermToString(ssys, i, &tempString, &length);
-                equations[i] = DSExpressionByParsingString(tempString);
+                equationString = DSSecureCalloc(sizeof(char),
+                                                strlen(tempString)+strlen(varName)+6);
+                // Check if varName is algebraic
+                equationString = strcpy(equationString, varName);
+                equationString = strcat(equationString, ". = ");
+                equationString = strcat(equationString, tempString);
+                equations[i] = DSExpressionByParsingString(equationString);
+                DSSecureFree(equationString);
         }
         DSSecureFree(tempString);
 bail:
@@ -866,7 +901,7 @@ static void dsSSystemSolutionToString(const DSSSystem *ssys,
 {
         DSUInteger i, numberOfXd, numberOfXi;
         DSMatrix *MAi, *MB, *B, *Ai;
-        char tempString[100];
+        char tempString[100] = "\0";
         const char *name;
         double value;
         if (ssys == NULL) {
@@ -939,7 +974,7 @@ extern DSExpression ** DSSSystemSolution(const DSSSystem *ssys)
 {
         DSUInteger i, numberOfEquations, length;
         DSExpression ** solution = NULL;
-        char *tempString;
+        char *tempString, * equationString, *varName;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
@@ -958,7 +993,17 @@ extern DSExpression ** DSSSystemSolution(const DSSSystem *ssys)
         for (i = 0; i < numberOfEquations; i++) {
                 tempString[0] = '\0';
                 dsSSystemSolutionToString(ssys, i, &tempString, &length, false);
-                solution[i] = DSExpressionByParsingString(tempString);
+                if (strlen(tempString) == 0)
+                        break;
+                varName = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
+                equationString = DSSecureCalloc(
+                                                sizeof(char),
+                                                strlen(tempString)+strlen(varName)+4);
+                equationString = strcpy(equationString, varName);
+                equationString = strcat(equationString, " = ");
+                equationString = strcat(equationString, tempString);
+                solution[i] = DSExpressionByParsingString(equationString);
+                DSSecureFree(equationString);
         }
         DSSecureFree(tempString);
 bail:
@@ -988,6 +1033,8 @@ extern DSExpression ** DSSSystemLogarithmicSolution(const DSSSystem *ssys)
         for (i = 0; i < numberOfEquations; i++) {
                 tempString[0] = '\0';
                 dsSSystemSolutionToString(ssys, i, &tempString, &length, true);
+                if (strlen(tempString) == 0)
+                        break;
                 solution[i] = DSExpressionByParsingString(tempString);
         }
         DSSecureFree(tempString);

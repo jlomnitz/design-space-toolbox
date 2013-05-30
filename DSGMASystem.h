@@ -50,8 +50,8 @@ extern void DSGMASystemFree(DSGMASystem * gma);
 #pragma mark - Factory functions
 #endif
 
-extern DSGMASystem * DSGMASystemByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...);
-extern DSGMASystem * DSGMASystemByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations);
+extern DSGMASystem * DSGMASystemByParsingStringList(const char * const string, const DSVariablePool * const Xd_a, ...);
+extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 extern DSGMASystem * DSGMASystemByParsingStringsWithXi(const DSVariablePool * const Xd, const DSVariablePool * const Xi, char * const * const strings, const DSUInteger numberOfEquations);
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Setter functions

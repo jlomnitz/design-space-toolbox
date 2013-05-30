@@ -102,7 +102,7 @@ bail:
 #endif
 
 
-extern DSDesignSpace * DSDesignSpaceByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...)
+extern DSDesignSpace * DSDesignSpaceByParsingStringList(const char * const string, const DSVariablePool * const Xd_a, ...)
 {
         DSDesignSpace *ds = NULL;
         DSUInteger numberOfStrings = 0;
@@ -112,7 +112,7 @@ extern DSDesignSpace * DSDesignSpaceByParsingStringList(const DSVariablePool * c
                 DSError(M_DS_NULL ": String to parse is NULL", A_DS_ERROR);
         }
         va_list ap;
-	va_start(ap, string);
+	va_start(ap, Xd_a);
         strings = DSSecureCalloc(sizeof(char *), 1);
         strings[0] = string;
         numberOfStrings++;
@@ -122,20 +122,16 @@ extern DSDesignSpace * DSDesignSpaceByParsingStringList(const DSVariablePool * c
                 strings[numberOfStrings++] = aString;
                 aString = va_arg(ap, char *);
         }
-        ds = DSDesignSpaceByParsingStrings(Xd, (char * const * )strings, numberOfStrings);
+        ds = DSDesignSpaceByParsingStrings((char * const * )strings, Xd_a, numberOfStrings);
         DSSecureFree(strings);
 bail:
         return ds;
 }
 
-extern DSDesignSpace * DSDesignSpaceByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations)
+extern DSDesignSpace * DSDesignSpaceByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations)
 {
         DSDesignSpace * ds = NULL;
         DSGMASystem *gma = NULL;
-        if (Xd == NULL) {
-                DSError(M_DS_NULL ": Dependent Variables are NULL", A_DS_ERROR);
-                goto bail;
-        }
         if (strings == NULL) {
                 DSError(M_DS_NULL ": Array of strings is NULL", A_DS_ERROR);
                 goto bail;
@@ -144,11 +140,7 @@ extern DSDesignSpace * DSDesignSpaceByParsingStrings(const DSVariablePool * cons
                 DSError(M_DS_WRONG ": No equations to parse", A_DS_WARN);
                 goto bail;
         }
-        if (DSVariablePoolNumberOfVariables(Xd) != numberOfEquations) {
-                DSError(M_DS_WRONG ": Number of dependent variables does not match number of equations", A_DS_ERROR);
-                goto bail;
-        }
-        gma = DSGMASystemByParsingStrings(Xd, strings, numberOfEquations);
+        gma = DSGMASystemByParsingStrings(strings, Xd_a, numberOfEquations);
         if (gma != NULL) {
                 ds = DSDesignSpaceAlloc();
                 DSDesignSpaceSetGMA(ds, gma);

@@ -49,8 +49,8 @@ void DSDesignSpaceFree(DSDesignSpace * ds);
 #pragma mark - Factory functions
 #endif
 
-extern DSDesignSpace * DSDesignSpaceByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...);
-extern DSDesignSpace * DSDesignSpaceByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations);
+extern DSDesignSpace * DSDesignSpaceByParsingStringList(const char * const string, const DSVariablePool * const Xd_a, ...);
+extern DSDesignSpace * DSDesignSpaceByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 extern DSDesignSpace * DSDesignSpaceByParsingStringsWithXi(const DSVariablePool * const Xd, const DSVariablePool * const Xi, char * const * const strings, const DSUInteger numberOfEquations);
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Setter functions
