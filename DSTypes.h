@@ -184,7 +184,6 @@ typedef enum {
  */
 typedef struct
 {
-//        struct _varDictionary *root;  //!< The root of the internal dictionary.
         DSDictionary * dictionary;      //!< The dictionary with the variables arranged.
         DSUInteger numberOfVariables;   //!< Number of variables in the pool.
         DSVariable **variables;         //!< A C array with the variables stored.
@@ -310,6 +309,7 @@ typedef struct {
         DSMatrixArray *Hd;
         DSMatrixArray *Hi;
         DSVariablePool *Xd;
+        DSVariablePool *algebraic;
         DSVariablePool *Xi;
         DSUInteger *signature;
 } DSGMASystem;
@@ -332,6 +332,7 @@ typedef struct {
         DSMatrix *Hi;
         DSMatrix *M;
         DSVariablePool *Xd;
+        DSVariablePool *algebraic;
         DSVariablePool *Xi;
         bool isSingular;
         bool shouldFreeXd;
