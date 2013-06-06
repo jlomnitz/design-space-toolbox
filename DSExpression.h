@@ -73,6 +73,7 @@ extern DSExpression * DSExpressionCopy(const DSExpression * expression);
 
 extern DSExpression * DSExpressionByParsingString(const char *string);
 extern DSExpression * DSExpressionAddExpressions(DSExpression *lvalue, DSExpression *rvalue);
+extern DSExpression * DSExpressionSubstractExpressions(DSExpression *lvalue, DSExpression *rvalue);
 extern DSExpression * DSExpressionByCompressingConstantVariables(const DSExpression *expression, const DSVariablePool * assumedConstant);
 
 #if defined(__APPLE__) && defined (__MACH__)

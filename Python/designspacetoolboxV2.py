@@ -684,7 +684,15 @@ class DesignSpace:
                     return
                 if hasattr(self, '_data')==0:
                     self._data=designspacetoolbox_test.DSSWIGDesignSpaceParseWrapper(
-                     equations, len(equations), algebraic_variables, len(algebraic_variables))
+                     equations,
+                     len(equations),
+                     algebraic_variables,
+                     len(algebraic_variables))
+                self.dependentVariables = VariablePool()
+                self.dependentVariables._data = designspacetoolbox_test.DSVariablePoolCopy(
+                                            designspacetoolbox_test.DSGMASystemXd(
+                                             designspacetoolbox_test.DSDesignSpaceGMASystem(
+                                              self._data)))
         def caseWithCaseNumber(self, caseNumber):
                 caseNumber = long(caseNumber)
                 if hasattr(self, '_data')==0:

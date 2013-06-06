@@ -77,6 +77,7 @@ extern const DSMatrixArray *DSGMASystemHd(const DSGMASystem *gma);
 extern const DSMatrixArray *DSGMASystemHi(const DSGMASystem *gma);
 
 extern const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma);
+extern const DSVariablePool *DSGMASystemXd_a(const DSGMASystem *gma);
 extern const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma);
 
 extern const DSUInteger DSGMASystemNumberOfCases(const DSGMASystem *gma);

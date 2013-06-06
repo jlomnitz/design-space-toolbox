@@ -101,6 +101,7 @@ extern DSMatrix * DSSSystemG(const DSSSystem *ssys);
 extern DSMatrix * DSSSystemH(const DSSSystem *ssys);
 
 extern const DSVariablePool * DSSSystemXd(const DSSSystem * const ssys);
+extern const DSVariablePool * DSSSystemXd_a(const DSSSystem * const ssys);
 extern const DSVariablePool * DSSSystemXi(const DSSSystem * const ssys);
 
 extern const bool DSSSystemHasSolution(const DSSSystem * ssys);

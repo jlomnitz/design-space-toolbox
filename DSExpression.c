@@ -91,6 +91,7 @@ extern DSExpression * dsExpressionAllocWithOperator(const char op_code)
                         newNode = DSSecureCalloc(1, sizeof(DSExpression));
                         DSExpressionSetOperator(newNode, op_code);
                         break;
+                case '.':
                 case '\'':
                         newNode = DSSecureCalloc(1, sizeof(DSExpression));
                         DSExpressionSetOperator(newNode, op_code);
@@ -254,6 +255,33 @@ extern DSExpression * DSExpressionAddExpressions(DSExpression *lvalue, DSExpress
         newRoot = dsExpressionAllocWithOperator('+');
         DSExpressionAddBranch(newRoot, lvalue);
         DSExpressionAddBranch(newRoot, rvalue);
+bail:
+        return newRoot;
+}
+
+extern DSExpression * DSExpressionSubstractExpressions(DSExpression *lvalue, DSExpression *rvalue)
+{
+        DSExpression * newRoot = NULL, *temp;
+        if (lvalue == NULL && rvalue == NULL) {
+                DSError(M_DS_NULL ": Expression is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (lvalue == NULL) {
+                newRoot = dsExpressionAllocWithOperator('*');
+                DSExpressionAddBranch(newRoot, dsExpressionAllocWithConstant(-1.0));
+                DSExpressionAddBranch(newRoot, rvalue);
+                goto bail;
+        }
+        if (rvalue == NULL) {
+                newRoot = lvalue;
+                goto bail;
+        }
+        temp = dsExpressionAllocWithOperator('*');
+        DSExpressionAddBranch(temp, dsExpressionAllocWithConstant(-1.0));
+        DSExpressionAddBranch(temp, rvalue);
+        newRoot = dsExpressionAllocWithOperator('+');
+        DSExpressionAddBranch(newRoot, lvalue);
+        DSExpressionAddBranch(newRoot, temp);
 bail:
         return newRoot;
 }

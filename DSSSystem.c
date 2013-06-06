@@ -56,6 +56,7 @@
 /*\{*/
 #define DSSSysXi(x)                       ((x)->Xi)
 #define DSSSysXd(x)                       ((x)->Xd)
+#define DSSSysXd_a(x)                     ((x)->Xd_a)
 #define DSSSysAlpha(x)                    ((x)->alpha)
 #define DSSSysBeta(x)                     ((x)->beta)
 #define DSSSysGd(x)                       ((x)->Gd)
@@ -100,6 +101,10 @@ extern void DSSSystemFree(DSSSystem * sys)
         if (DSSSysShouldFreeXd(sys) == true) {
                 DSVariablePoolSetReadWriteAdd(DSSSysXd(sys));
                 DSVariablePoolFree(DSSSysXd(sys));
+                if (DSSSysXd_a(sys) != NULL) {
+                        DSVariablePoolSetReadWriteAdd(DSSSysXd_a(sys));
+                        DSVariablePoolFree(DSSSysXd_a(sys));
+                }
         }
         if (DSSSysShouldFreeXi(sys) == true) {
                 DSVariablePoolSetReadWriteAdd(DSSSysXi(sys));
@@ -159,9 +164,9 @@ static gma_parseraux_t * dsSSystemParseStringToTermList(const char * string)
                         continue;
                 }
                 DSSSystemParser(parser, 
-                                  DSExpressionTokenType(current), 
-                                  current,
-                                  ((void**)&parser_aux));
+                                DSExpressionTokenType(current),
+                                current,
+                                ((void**)&parser_aux));
                 current = DSExpressionTokenNext(current);
         }
         DSSSystemParser(parser, 
@@ -591,7 +596,7 @@ extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const
         DSSSystem * sys = NULL;
         gma_parseraux_t **aux = NULL;
         DSUInteger i, j;
-        DSVariablePool *tempPool, * Xd = NULL;
+        DSVariablePool *tempPool, * Xd = NULL, * Xda;
         char * variableName;
         DSExpression * expr, * lhs;
         if (strings == NULL) {
@@ -606,12 +611,19 @@ extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const
         if (aux == NULL)
                 goto bail;
         Xd = DSVariablePoolAlloc();
+        Xda = DSVariablePoolAlloc();
         for (i=0; i < numberOfEquations; i++) {
                 expr = DSExpressionByParsingString(strings[i]);
                 lhs = DSExpressionEquationLHSExpression(expr);
+                if (DSExpressionType(lhs) == DS_EXPRESSION_TYPE_CONSTANT) {
+                        // If different from 0, should substract rhs by lhs
+                }
                 tempPool = DSExpressionVariablesInExpression(lhs);
-                for (j = 0; j < DSVariablePoolNumberOfVariables(tempPool); j++) {
+                if (DSVariablePoolNumberOfVariables(tempPool) == 1) {
                         variableName = DSVariableName(DSVariablePoolVariableAtIndex(tempPool, j));
+                        if (DSExpressionType(lhs) == DS_EXPRESSION_TYPE_VARIABLE) {
+                                DSVariablePoolAddVariableWithName(Xda, variableName);
+                        }
                         if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
                                 DSVariablePoolAddVariableWithName(Xd, variableName);
                         }
@@ -625,6 +637,7 @@ extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const
                         variableName = DSVariableName(DSVariablePoolVariableAtIndex(Xd_a, j));
                         if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
                                 DSVariablePoolAddVariableWithName(Xd, variableName);
+                                DSVariablePoolAddVariableWithName(Xda, variableName);
                         }
                 }
         }
@@ -632,10 +645,12 @@ extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const
                 DSError(M_DS_WRONG ": Number of dependent variables does not match number of equations", A_DS_ERROR);
                 goto bail;
         }
-
+        
         sys = DSSSystemAlloc();
-        DSSSysXd(sys) = DSVariablePoolCopy(Xd);
+        DSSSysXd(sys) = Xd;
         DSVariablePoolSetReadWrite(DSSSysXd(sys));
+        DSSSysXd_a(sys) = Xda;
+        DSVariablePoolSetReadWrite(DSSSysXd_a(sys));
         DSSSysXi(sys) = dsSSystemIdentifyIndependentVariables(Xd, aux, numberOfEquations);
         DSSSysShouldFreeXd(sys) = true;
         DSSSysShouldFreeXi(sys) = true;
@@ -669,6 +684,7 @@ extern DSSSystem * DSSSystemWithTermsFromGMA(const DSGMASystem * gma, const DSUI
         ssys = DSSSystemAlloc();
         DSSSysXd(ssys) = (DSVariablePool *)DSGMASystemXd(gma);
         DSSSysXi(ssys) = (DSVariablePool *)DSGMASystemXi(gma);
+        DSSSysXd_a(ssys) = (DSVariablePool *)DSGMASystemXd_a(gma);
         DSSSysShouldFreeXd(ssys) = false;
         DSSSysShouldFreeXi(ssys) = false;
         dsSSystemInitializeMatrices(ssys);
@@ -883,8 +899,12 @@ extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
                 equationString = DSSecureCalloc(sizeof(char),
                                                 strlen(tempString)+strlen(varName)+6);
                 // Check if varName is algebraic
-                equationString = strcpy(equationString, varName);
-                equationString = strcat(equationString, ". = ");
+                if (DSVariablePoolHasVariableWithName(DSSSysXd_a(ssys), varName) == false) {
+                        equationString = strcpy(equationString, varName);
+                        equationString = strcat(equationString, ". = ");
+                } else {
+                        equationString = strcpy(equationString, "0 = ");
+                }
                 equationString = strcat(equationString, tempString);
                 equations[i] = DSExpressionByParsingString(equationString);
                 DSSecureFree(equationString);
@@ -1122,6 +1142,18 @@ extern const DSVariablePool * DSSSystemXd(const DSSSystem * ssys)
                 goto bail;
         }
         pool = DSSSysXd(ssys);
+bail:
+        return pool;
+}
+
+extern const DSVariablePool * DSSSystemXd_a(const DSSSystem * ssys)
+{
+        DSVariablePool *pool = NULL;
+        if (ssys == NULL) {
+                DSError(M_DS_NULL ": S-System is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        pool = DSSSysXd_a(ssys);
 bail:
         return pool;
 }

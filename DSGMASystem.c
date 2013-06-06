@@ -55,6 +55,7 @@
 /*\{*/
 #define DSGMAXi(x)                       ((x)->Xi)
 #define DSGMAXd(x)                       ((x)->Xd)
+#define DSGMAXd_a(x)                     ((x)->Xd_a)
 #define DSGMAAlpha(x)                    ((x)->alpha)
 #define DSGMABeta(x)                     ((x)->beta)
 #define DSGMAGd(x)                       ((x)->Gd)
@@ -126,6 +127,8 @@ extern void DSGMASystemFree(DSGMASystem * gma)
         DSVariablePoolFree(DSGMAXd(gma));
         DSVariablePoolSetReadWriteAdd(DSGMAXi(gma));
         DSVariablePoolFree(DSGMAXi(gma));
+        DSVariablePoolSetReadWriteAdd(DSGMAXd_a(gma));
+        DSVariablePoolFree(DSGMAXd_a(gma));
         DSMatrixFree(DSGMAAlpha(gma));
         DSMatrixFree(DSGMABeta(gma));
         DSMatrixArrayFree(DSGMAGd(gma));
@@ -523,7 +526,7 @@ extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, c
         DSUInteger i, j;
         DSExpression * expr = NULL;
         DSExpression * lhs = NULL;
-        DSVariablePool * tempPool, * Xd;
+        DSVariablePool * tempPool, * Xd, * Xda;
         char * variableName;
         if (strings == NULL) {
                 DSError(M_DS_NULL ": Array of strings is NULL", A_DS_ERROR);
@@ -538,12 +541,19 @@ extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, c
                 goto bail;
         gma = DSGMASystemAlloc();
         Xd = DSVariablePoolAlloc();
+        Xda = DSVariablePoolAlloc();
         for (i=0; i < numberOfEquations; i++) {
                 expr = DSExpressionByParsingString(strings[i]);
                 lhs = DSExpressionEquationLHSExpression(expr);
+                if (DSExpressionType(lhs) == DS_EXPRESSION_TYPE_CONSTANT) {
+                        // If different from 0, should substract rhs by lhs
+                }
                 tempPool = DSExpressionVariablesInExpression(lhs);
-                for (j = 0; j < DSVariablePoolNumberOfVariables(tempPool); j++) {
+                if (DSVariablePoolNumberOfVariables(tempPool) == 1) {
                         variableName = DSVariableName(DSVariablePoolVariableAtIndex(tempPool, j));
+                        if (DSExpressionType(lhs) == DS_EXPRESSION_TYPE_VARIABLE) {
+                                DSVariablePoolAddVariableWithName(Xda, variableName);
+                        }
                         if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
                                 DSVariablePoolAddVariableWithName(Xd, variableName);
                         }
@@ -557,6 +567,7 @@ extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, c
                         variableName = DSVariableName(DSVariablePoolVariableAtIndex(Xd_a, j));
                         if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
                                 DSVariablePoolAddVariableWithName(Xd, variableName);
+                                DSVariablePoolAddVariableWithName(Xda, variableName);
                         }
                 }
         }
@@ -564,8 +575,10 @@ extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, c
                 DSError(M_DS_WRONG ": Number of dependent variables does not match number of equations", A_DS_ERROR);
                 goto bail;
         }
-        DSGMAXd(gma) = DSVariablePoolCopy(Xd);
+        DSGMAXd(gma) = Xd;
         DSVariablePoolSetReadWrite(DSGMAXd(gma));
+        DSGMAXd_a(gma) = Xda;
+        DSVariablePoolSetReadWrite(DSGMAXd_a(gma));
         DSGMAXi(gma) = dsGmaSystemIdentifyIndependentVariables(Xd, aux, numberOfEquations);
         DSVariablePoolSetReadWrite(DSGMAXi(gma));
         dsGMASystemCreateSystemMatrices(gma, aux);
@@ -802,7 +815,8 @@ bail:
 extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma)
 {
         DSUInteger i, numberOfEquations;
-        DSExpression ** equations = NULL;
+        DSExpression *root, *lhs, *rhs, ** equations = NULL;
+        char * varName = NULL;
 //        char *tempString;
         if (gma == NULL) {
                 DSError(M_DS_NULL ": GMA being accessed is NULL", A_DS_ERROR);
@@ -815,8 +829,19 @@ extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma)
         }
         equations = DSSecureCalloc(sizeof(DSExpression *), numberOfEquations);
         for (i = 0; i < numberOfEquations; i++) {
-                equations[i] = DSExpressionAddExpressions(DSGMASystemPositiveTermsForEquations(gma, i), 
-                                                          DSGMASystemNegativeTermsForEquations(gma, i));
+                varName = DSVariableName(DSVariablePoolVariableAtIndex(DSGMAXd(gma), i));
+                root = dsExpressionAllocWithOperator('=');
+                if (DSVariablePoolHasVariableWithName(DSGMAXd_a(gma), varName) == true) {
+                        lhs = dsExpressionAllocWithConstant(0.0);
+                } else {
+                        lhs = dsExpressionAllocWithOperator('\'');
+                        DSExpressionAddBranch(lhs, dsExpressionAllocWithVariableName(varName));
+                }
+                rhs = DSExpressionAddExpressions(DSGMASystemPositiveTermsForEquations(gma, i),
+                                                DSGMASystemNegativeTermsForEquations(gma, i));
+                DSExpressionAddBranch(root, lhs);
+                DSExpressionAddBranch(root, rhs);
+                equations[i] = root;
         }
 bail:
         return equations;
@@ -939,6 +964,20 @@ extern const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma)
 bail:
         return Xd;
 }
+
+extern const DSVariablePool *DSGMASystemXd_a(const DSGMASystem *gma)
+{
+        DSVariablePool * Xd_a = NULL;
+        if (gma == NULL) {
+                DSError(M_DS_NULL ": GMA being accessed is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        Xd_a = DSGMAXd_a(gma);
+bail:
+        return Xd_a;
+}
+
+
 extern const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma)
 {
         DSVariablePool * Xi = NULL;

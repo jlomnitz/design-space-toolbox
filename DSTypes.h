@@ -309,7 +309,7 @@ typedef struct {
         DSMatrixArray *Hd;
         DSMatrixArray *Hi;
         DSVariablePool *Xd;
-        DSVariablePool *algebraic;
+        DSVariablePool *Xd_a;     //!< A pointer to the DSVariablePool with the algebraic dependent variables.
         DSVariablePool *Xi;
         DSUInteger *signature;
 } DSGMASystem;
@@ -332,7 +332,7 @@ typedef struct {
         DSMatrix *Hi;
         DSMatrix *M;
         DSVariablePool *Xd;
-        DSVariablePool *algebraic;
+        DSVariablePool *Xd_a;      //!< A pointer to the DSVariablePool with the algebraic dependent variables.
         DSVariablePool *Xi;
         bool isSingular;
         bool shouldFreeXd;
@@ -358,16 +358,17 @@ typedef struct {
  * S-System is responsible for freeing this data.
  */
 typedef struct {
-        const DSVariablePool *Xd; //!< A pointer to the DSVariablePool with the dependent variables.
-        const DSVariablePool *Xi; //!< A pointer to the DSVariablePool with the independent variables.
-        DSSSystem *ssys;          //!< The DSSSystem of the case.
-        DSMatrix *Cd;             //!< The condition matrix corresponding to the dependent variables.
-        DSMatrix *Ci;             //!< The condition matrix corresponding to the independent variables.
-        DSMatrix *U;              //!< The boundary matrix corresponding to the independent variables.
-        DSMatrix *delta;          //!< The condition matrix corresponding to the constants.
-        DSMatrix *zeta;           //!< The boundary matrix corresponding to the constants.
-        DSUInteger caseNumber;    //!< The case number used to identify the case.
-        DSUInteger *signature;    //!< The case signature indicating the dominant terms used to generate the case.
+        const DSVariablePool *Xd;         //!< A pointer to the DSVariablePool with the dependent variables.
+        const DSVariablePool *Xd_a;       //!< A pointer to the DSVariablePool with the algebraic dependent variables.
+        const DSVariablePool *Xi;         //!< A pointer to the DSVariablePool with the independent variables.
+        DSSSystem *ssys;                  //!< The DSSSystem of the case.
+        DSMatrix *Cd;                     //!< The condition matrix corresponding to the dependent variables.
+        DSMatrix *Ci;                     //!< The condition matrix corresponding to the independent variables.
+        DSMatrix *U;                      //!< The boundary matrix corresponding to the independent variables.
+        DSMatrix *delta;                  //!< The condition matrix corresponding to the constants.
+        DSMatrix *zeta;                   //!< The boundary matrix corresponding to the constants.
+        DSUInteger caseNumber;            //!< The case number used to identify the case.
+        DSUInteger *signature;            //!< The case signature indicating the dominant terms used to generate the case.
 } DSCase;
 
 /**
@@ -382,14 +383,15 @@ typedef struct {
  * \see DSDesignSpace.c
  */
 typedef struct {
-        DSGMASystem *gma;              //!< The gma system of the design space.
-        const DSVariablePool *Xd;      //!< A pointer to the DSVariablePool with the dependent variables.
-        const DSVariablePool *Xi;      //!< A pointer to the DSVariablePool with the dependent variables.
-        DSDictionary * validCases;     //!< DSVariablePool with case number that are valid.
-        DSUInteger numberOfCases;      //!< DSUInteger indicating the maximum number of cases in the design space.
-        DSMatrix * Cd, *Ci, *delta;    //!< Condition matrices.
-        DSDictionary *subcases;        //!< DSDesignSpaceStack containing design space objects with subcases.
-        DSMatrix * Rn;                 //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
+        DSGMASystem *gma;                //!< The gma system of the design space.
+        const DSVariablePool *Xd;        //!< A pointer to the DSVariablePool with the dependent variables.
+        const DSVariablePool *Xd_a; //!< A pointer to the DSVariablePool with the algebraic dependent variables.
+        const DSVariablePool *Xi;        //!< A pointer to the DSVariablePool with the dependent variables.
+        DSDictionary * validCases;       //!< DSVariablePool with case number that are valid.
+        DSUInteger numberOfCases;        //!< DSUInteger indicating the maximum number of cases in the design space.
+        DSMatrix * Cd, *Ci, *delta;      //!< Condition matrices.
+        DSDictionary *subcases;          //!< DSDesignSpaceStack containing design space objects with subcases.
+        DSMatrix * Rn;                   //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
 } DSDesignSpace;
 
 /**

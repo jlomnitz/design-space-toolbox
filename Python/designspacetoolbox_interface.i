@@ -157,6 +157,7 @@ extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *
 extern void DSDesignSpacePrint(const DSDesignSpace * ds);
 extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds);
 
+//extern const DSVariablePool * DSDesignSpaceXd(const DSDesignSpace *ds);
 extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds);
 
 extern const DSUInteger DSDesignSpaceNumberOfEquations(const DSDesignSpace *ds);
@@ -247,6 +248,22 @@ extern double DSCaseLogarithmicGain(const DSCase *aCase, const char *XdName, con
 
 extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase);
 extern DSVariablePool * DSCaseValidParameterSetAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
+
+extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds);
+
+/**
+ * DSGMASystem functions available to internal python module
+ */
+
+extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
+extern void DSGMASystemFree(DSGMASystem * gma);
+
+extern const DSUInteger DSGMASystemNumberOfEquations(const DSGMASystem *gma);
+extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma);
+
+extern const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma);
+extern const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma);
+
 /**
 * Subcases
 */
@@ -327,9 +344,6 @@ extern DSDesignSpace * DSSWIGDesignSpaceParseWrapper(char ** const strings, cons
                 DSVariablePoolAddVariableWithName(Xd, Xd_list[i]);
         }
         DSDesignSpace * ds = DSDesignSpaceByParsingStrings(strings, Xd, numberOfEquations);
-        for (i = 0; i < numberOfEquations; i++) {
-                printf("%s\n", strings[i]);
-        }
         DSVariablePoolFree(Xd);
         return ds;
 }
