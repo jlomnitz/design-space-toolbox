@@ -1,5 +1,5 @@
 /**
- * \file DSSubcase.h
+ * \file DSCyclicalCase.h
  * \brief Header file with functions for dealing with subcases.
  *
  * \details 
@@ -53,34 +53,34 @@
 #pragma mark - Allocation, deallocation and initialization
 #endif
 
-extern DSSubcase * DSSubcaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase);
-extern void DSSubcaseFree(DSSubcase * aSubcase);
+extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase);
+extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Getter functions
 #endif
 
-extern const DSDesignSpace * DSSubcaseInternalDesignSpace(const DSSubcase * subcase);
+extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalCase * subcase);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Linear programming functions
 #endif
 
-extern const bool DSSubcaseIsValid(const DSSubcase *aSubcase);
-extern const bool DSSubcaseIsValidAtPoint(const DSSubcase *aSubcase, const DSVariablePool * variablesToFix);
-extern const bool DSSubcaseIsValidAtSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
+extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase);
+extern const bool DSCyclicalCaseIsValidAtPoint(const DSCyclicalCase *aSubcase, const DSVariablePool * variablesToFix);
+extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
 
-extern DSDictionary * DSSubcaseVerticesForSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);
-extern DSDictionary * DSSubcaseVerticesFor2DSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable);
+extern DSDictionary * DSCyclicalCaseVerticesForSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);
+extern DSDictionary * DSCyclicalCaseVerticesFor2DSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Subcase calculation functions
 #endif
 
-extern DSMatrix * DSSubcaseProblematicEquations(const DSCase * aCase);
-extern DSMatrixArray * DSSubcaseProblematicTerms(const DSCase *aCase, const DSMatrix * dependentEquations);
-extern DSMatrixArray * DSSubcaseCoefficientsOfInterest(const DSCase * aCase, const DSMatrixArray * problematicTerms);
+extern DSMatrix * DSCyclicalCaseProblematicEquations(const DSCase * aCase);
+extern DSMatrixArray * DSCyclicalCaseProblematicTerms(const DSCase *aCase, const DSMatrix * dependentEquations);
+extern DSMatrixArray * DSCyclicalCaseCoefficientsOfInterest(const DSCase * aCase, const DSMatrixArray * problematicTerms);
 
-extern void DSSubcaseDesignSpaceForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original);
+extern void DSCyclicalCaseDesignSpaceForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original);
 
 #endif

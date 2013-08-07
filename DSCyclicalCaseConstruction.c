@@ -1,5 +1,5 @@
 //
-//  DSSubcaseBuilding.c
+//  DSCyclicalCaseBuilding.c
 //  DesignSpaceToolboxV2
 //
 //  Created by Jason Lomnitz on 8/7/13.
@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "DSSubcase.h"
+#include "DSCyclicalCase.h"
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Subcase calculation functions
@@ -250,7 +250,7 @@ bail:
         return ds;
 }
 
-extern DSDesignSpace * DSSubcaseInternalForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)
+extern DSDesignSpace * DSCyclicalCaseInternalForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)
 {
         DSDesignSpace *subcases = NULL;
         DSGMASystem * temp = NULL;

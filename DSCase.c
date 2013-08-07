@@ -38,7 +38,7 @@
 #include "DSExpression.h"
 #include "DSMatrix.h"
 #include "DSMatrixArray.h"
-#include "DSSubcase.h"
+#include "DSCyclicalCase.h"
 
 #define DSCaseXi(x)                  ((x)->Xi)
 #define DSCaseXd(x)                  ((x)->Xd)
@@ -389,7 +389,7 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
                 dsCaseCreateBoundaryMatrices(aCase);
                 dsCaseCalculateCaseNumber(aCase, DSDesignSpaceGMASystem(ds), endian);
 //                if (DSSSystemIsSingular(DSCaseSSys(aCase)) == true)
-//                        DSSubcaseDesignSpaceForUnderdeterminedCase(aCase, ds);
+//                        DSCyclicalCaseDesignSpaceForUnderdeterminedCase(aCase, ds);
         } else {
                 DSCaseFree(aCase);
                 aCase = NULL;

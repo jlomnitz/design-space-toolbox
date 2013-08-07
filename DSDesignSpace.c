@@ -40,7 +40,7 @@
 #include "DSCase.h"
 #include "DSStack.h"
 #include "DSDesignSpaceParallel.h"
-#include "DSSubcase.h"
+#include "DSCyclicalCase.h"
 
 #define __DS_MAC_OS_X__
 #define DS_PARALLEL_DEFAULT_THREADS             4
@@ -89,9 +89,9 @@ void DSDesignSpaceFree(DSDesignSpace * ds)
                 DSDictionaryFree(DSDSValidPool(ds));
 //        for (i = 0; i < DSDSSubcases(ds)->count; i++) {
 //                aStack = DSDictionaryValueForName(DSDSSubcases(ds), DSDSSubcases(ds)->names[i]);
-//                DSStackFreeWithFunction(aStack, DSSubcaseFree);
+//                DSStackFreeWithFunction(aStack, DSCyclicalCaseFree);
 //        }
-        DSDictionaryFreeWithFunction(DSDSSubcases(ds), DSSubcaseFree);
+        DSDictionaryFreeWithFunction(DSDSSubcases(ds), DSCyclicalCaseFree);
         DSSecureFree(ds);
 bail:
         return;
@@ -789,7 +789,7 @@ extern void DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(DSDesignSpac
         DSUInteger numberOfCases;
         char * string = NULL;
         DSCase *aCase = NULL;
-        DSSubcase * aSubcase = NULL;
+        DSCyclicalCase * aSubcase = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -805,7 +805,7 @@ extern void DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(DSDesignSpac
         aCase = DSDesignSpaceCaseWithCaseNumber(ds, caseNumber);
         sprintf(string, "%i", caseNumber);
         if (DSDictionaryValueForName(DSDSSubcases(ds), string) == NULL) {
-                aSubcase = DSSubcaseForCaseInDesignSpace(ds, aCase);
+                aSubcase = DSCyclicalCaseForCaseInDesignSpace(ds, aCase);
                 if (aSubcase != NULL)
                         DSDictionaryAddValueWithName(ds->subcases, string, aSubcase);
         }
@@ -833,7 +833,7 @@ extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds)
 //                if (DSDesignSpaceCaseWithCaseNumberIsValid(ds, i+1) == true)
 //                        continue;
 //                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
-//                DSSubcaseDesignSpaceForUnderdeterminedCase(aCase, ds);
+//                DSCyclicalCaseDesignSpaceForUnderdeterminedCase(aCase, ds);
 //                DSCaseFree(aCase);
         }
 bail:

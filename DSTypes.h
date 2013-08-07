@@ -407,14 +407,14 @@ typedef struct {
  * associate the newly generated equations with the appropriate dependent
  * variable, which leads to the flux through a pool to be calculated incorrectly.
  *
- * \see DSSubcase.h
- * \see DSSubcase.c
+ * \see DSCyclicalCase.h
+ * \see DSCyclicalCase.c
  */
 typedef struct{
         DSDesignSpace * internal;
         DSCase * originalCase;
         DSUInteger caseNumber;
-} DSSubcase;
+} DSCyclicalCase;
 
 #ifdef __cplusplus
 __END_DECLS

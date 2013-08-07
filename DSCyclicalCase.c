@@ -1,5 +1,5 @@
 /**
- * \file DSSubcase.c
+ * \file DSCyclicalCase.c
  * \brief Implementation file with functions for dealing with subcases.
  *
  * \details 
@@ -31,18 +31,18 @@
  */
 #include <string.h>
 #include <stdio.h>
-#include "DSSubcase.h"
+#include "DSCyclicalCase.h"
 
-extern DSDesignSpace * DSSubcaseInternalForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original);
+extern DSDesignSpace * DSCyclicalCaseInternalForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, deallocation and initialization
 #endif
 
 
-extern DSSubcase * DSSubcaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase)
+extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase)
 {
-        DSSubcase * aSubcase = NULL;
+        DSCyclicalCase * aSubcase = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -54,15 +54,15 @@ extern DSSubcase * DSSubcaseForCaseInDesignSpace(const DSDesignSpace * ds, const
         if (DSCaseIsValid(aCase) == true) {
                 goto bail;
         }
-        aSubcase = DSSecureCalloc(sizeof(DSSubcase), 1);
-        aSubcase->internal = DSSubcaseInternalForUnderdeterminedCase(aCase, ds);
+        aSubcase = DSSecureCalloc(sizeof(DSCyclicalCase), 1);
+        aSubcase->internal = DSCyclicalCaseInternalForUnderdeterminedCase(aCase, ds);
         aSubcase->caseNumber = aCase->caseNumber;
         aSubcase->originalCase = DSCaseCopy(aCase);
 bail:
         return aSubcase;
 }
 
-extern void DSSubcaseFree(DSSubcase * aSubcase)
+extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase)
 {
         if (aSubcase == NULL) {
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
@@ -81,7 +81,7 @@ bail:
 #pragma mark - Getter functions
 #endif
 
-extern const DSDesignSpace * DSSubcaseInternalDesignSpace(const DSSubcase * subcase)
+extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalCase * subcase)
 {
         DSDesignSpace * ds = NULL;
         if (subcase == NULL) {
@@ -95,7 +95,7 @@ bail:
         return ds;
 }
 
-extern const DSCase * DSSubcaseOriginalCase(const DSSubcase * subcase)
+extern const DSCase * DSCyclicalCaseOriginalCase(const DSCyclicalCase * subcase)
 {
         DSCase * aCase = NULL;
         if (subcase == NULL) {
@@ -113,7 +113,7 @@ bail:
 #pragma mark Linear programming functions
 #endif
 
-extern const bool DSSubcaseIsValid(const DSSubcase *aSubcase)
+extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase)
 {
         bool isValid = false;
         DSUInteger numberOfValidCases = 0;
@@ -128,9 +128,9 @@ bail:
         return isValid;
 }
 
-extern const bool DSSubcaseIsValidAtPoint(const DSSubcase *aSubcase, const DSVariablePool * variablesToFix);
+extern const bool DSCyclicalCaseIsValidAtPoint(const DSCyclicalCase *aSubcase, const DSVariablePool * variablesToFix);
 
-extern const bool DSSubcaseIsValidAtSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
+extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
 {
         bool isValid = false;
         DSDictionary * validCases = NULL;
@@ -148,9 +148,9 @@ bail:
         return isValid;
 }
 
-extern DSDictionary * DSSubcaseVerticesForSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);
+extern DSDictionary * DSCyclicalCaseVerticesForSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);
 
-extern DSDictionary * DSSubcaseVerticesFor2DSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable)
+extern DSDictionary * DSCyclicalCaseVerticesFor2DSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable)
 {
         DSDictionary *vertices = NULL;
         DSDictionary *validCases = NULL;
@@ -307,13 +307,13 @@ for (i = 0, l = 0; i < 2*numberOfEquations; i++) {
 //                DSError(M_DS_WRONG ": Number of equation in design space must match number of equations in case", A_DS_ERROR);
 //                goto bail;
 //        }
-//        problematicEquations = DSSubcaseProblematicEquations(aCase);
+//        problematicEquations = DSCyclicalCaseProblematicEquations(aCase);
 //        if (problematicEquations == NULL)
 //                goto bail;
-//        problematicTerms = DSSubcaseProblematicTerms(aCase, problematicEquations);
+//        problematicTerms = DSCyclicalCaseProblematicTerms(aCase, problematicEquations);
 //        if (problematicTerms == NULL)
 //                goto bail;
-//        coefficientArray = DSSubcaseCoefficientsOfInterest(aCase, problematicTerms);
+//        coefficientArray = DSCyclicalCaseCoefficientsOfInterest(aCase, problematicTerms);
 //        if (coefficientArray == NULL)
 //                goto bail;
 //        if (DSMatrixArrayNumberOfMatrices(problematicTerms) != DSMatrixArrayNumberOfMatrices(coefficientArray))
@@ -365,7 +365,7 @@ for (i = 0, l = 0; i < 2*numberOfEquations; i++) {
 //
 //
 //
-//extern void DSSubcaseDesignSpaceForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)
+//extern void DSCyclicalCaseDesignSpaceForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)
 //{
 //        DSDesignSpace *subcases = NULL;
 //        DSGMASystem * temp = NULL;
@@ -389,13 +389,13 @@ for (i = 0, l = 0; i < 2*numberOfEquations; i++) {
 //                DSError(M_DS_WRONG ": Number of equation in design space must match number of equations in case", A_DS_ERROR);
 //                goto bail;
 //        }
-//        problematicEquations = DSSubcaseProblematicEquations(aCase);
+//        problematicEquations = DSCyclicalCaseProblematicEquations(aCase);
 //        if (problematicEquations == NULL)
 //                goto bail;
-//        problematicTerms = DSSubcaseProblematicTerms(aCase, problematicEquations);
+//        problematicTerms = DSCyclicalCaseProblematicTerms(aCase, problematicEquations);
 //        if (problematicTerms == NULL)
 //                goto bail;
-//        coefficientArray = DSSubcaseCoefficientsOfInterest(aCase, problematicTerms);
+//        coefficientArray = DSCyclicalCaseCoefficientsOfInterest(aCase, problematicTerms);
 //        if (coefficientArray == NULL)
 //                goto bail;
 //        if (DSMatrixArrayNumberOfMatrices(problematicTerms) != DSMatrixArrayNumberOfMatrices(coefficientArray))
