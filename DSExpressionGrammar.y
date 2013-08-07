@@ -202,7 +202,7 @@ expr(A) ::= PLUS expr(B). [NOT] {
 }
 
 expr(A) ::= expr(B) PRIME. {
-        A = dsExpressionAllocWithOperator('\'');
+        A = dsExpressionAllocWithOperator('.');
         DSExpressionAddBranch(A, B);
 }
 

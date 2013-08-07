@@ -702,8 +702,11 @@ extern DSMatrix * DSMatrixSubMatrixExcludingRows(const DSMatrix *matrix, const D
                 goto bail;
         }
         if (numberOfRows == 0) {
-                DSError("No rows being excluded", A_DS_WARN);
                 submatrix = DSMatrixCopy(matrix);
+                goto bail;
+        }
+        if (numberOfRows == DSMatrixRows(matrix)) {
+                submatrix = NULL;
                 goto bail;
         }
         if (rows == NULL) {
@@ -763,8 +766,11 @@ extern DSMatrix * DSMatrixSubMatrixExcludingColumns(const DSMatrix *matrix, cons
                 goto bail;
         }
         if (numberOfColumns == 0) {
-                DSError("No rows being excluded", A_DS_WARN);
                 submatrix = DSMatrixCopy(matrix);
+                goto bail;
+        }
+        if (numberOfColumns == DSMatrixColumns(matrix)) {
+                submatrix = NULL;
                 goto bail;
         }
         transpose = DSMatrixTranspose(matrix);
@@ -812,7 +818,6 @@ extern DSMatrix * DSMatrixSubMatrixIncludingRows(const DSMatrix *matrix, const D
                 goto bail;
         }
         if (numberOfRows == 0) {
-                DSError("No rows being included", A_DS_WARN);
                 goto bail;
         }
         if (rows == NULL) {
@@ -841,7 +846,6 @@ extern DSMatrix * DSMatrixSubMatrixIncludingColumnList(const DSMatrix *matrix, c
                 goto bail;
         }
         if (numberOfColumns == 0) {
-                DSError("No columns being included", A_DS_WARN);
                 goto bail;
         }
         va_start(ap, firstColumn);
@@ -919,6 +923,9 @@ extern DSMatrix * DSMatrixSubMatrixExcludingRowsAndColumns(const DSMatrix *matri
                                                            const DSUInteger *columns)
 {
         DSMatrix *submatrix = NULL, *tempSubmatrix;
+        if (numberOfRows == DSMatrixRows(matrix) || numberOfColumns == DSMatrixColumns(matrix)) {
+                goto bail;
+        }
         tempSubmatrix = DSMatrixSubMatrixExcludingColumns(matrix, numberOfColumns, columns);
         submatrix = DSMatrixSubMatrixExcludingRows(tempSubmatrix, numberOfRows, rows);
         DSMatrixFree(tempSubmatrix);
@@ -1291,7 +1298,7 @@ bail:
 extern gsl_vector_complex * DSMatrixEigenvalues(const DSMatrix *matrix)
 {
         DSMatrix * copy = NULL;
-        gsl_vector_complex *eval;
+        gsl_vector_complex *eval = NULL;
         gsl_matrix_complex *evec;
         gsl_eigen_nonsymmv_workspace * w;
         
@@ -1708,6 +1715,9 @@ extern DSMatrix * DSMatrixUndeterminedCoefficientsRnMatrixForSize(const DSUInteg
         DSMatrix * Sn = NULL;
         DSMatrix * Rn = NULL;
         DSUInteger i, j;
+        if (matrixSize == 1) {
+                goto bail;
+        }
         Sn = DSMatrixAlloc(matrixSize-1, matrixSize-1);
         for (i = 0; i < matrixSize-1; i++) {
                 for (j = 0; j < matrixSize-1; j++) {
@@ -1718,6 +1728,7 @@ extern DSMatrix * DSMatrixUndeterminedCoefficientsRnMatrixForSize(const DSUInteg
         }
         Rn = DSMatrixInverse(Sn);
         DSMatrixFree(Sn);
+bail:
         return Rn;
 }
 
@@ -1736,7 +1747,6 @@ extern DSMatrix * DSMatrixUndeterminedCoefficientsDArrayForMatrix(const DSMatrix
         }
         matrixSize = DSMatrixRows(matrix);
         identity = DSMatrixIdentity(matrixSize);
-        jI_A = DSMatrixAlloc(matrixSize, matrixSize);
         D = DSMatrixAlloc(matrixSize-1, 1);
         d = DSMatrixAlloc(matrixSize, 1);
         for (i = 0; i < matrixSize; i++) {
@@ -1750,10 +1760,19 @@ extern DSMatrix * DSMatrixUndeterminedCoefficientsDArrayForMatrix(const DSMatrix
                 DSMatrixSetDoubleValue(D, i, 0, value);
         }
         DSMatrixFree(d);
+        DSMatrixFree(identity);
 bail:
         return D;
 }
 
+static DSMatrix * dsMatrixCharacteristicPolynomialUndeterminedCoefficientOneRow(const DSMatrix *matrix)
+{
+        DSMatrix * coefficients = NULL;
+        coefficients = DSMatrixAlloc(1, DSMatrixRows(matrix)+1);
+        DSMatrixSetDoubleValue(coefficients, 0, 0, 1.);
+        DSMatrixSetDoubleValue(coefficients, 0, 1, -DSMatrixDoubleValue(matrix, 0, 0));
+        return coefficients;
+}
 /**
  * Uses method of undetermined coefficients to find the coefficients of a 
  * characteristic polynomial.
@@ -1767,13 +1786,16 @@ extern DSMatrix * DSMatrixCharacteristicPolynomialUndeterminedCoefficients(const
         DSUInteger i;
         bool mustDealloc = false;
         DSMatrix * mA = NULL;
-        mA = DSMatrixByMultiplyingScalar(matrix, -1.);
         if (matrix == NULL) {
                 DSError(M_DS_MAT_NULL, A_DS_ERROR);
                 goto bail;
         }
         if (DSMatrixIsSquare(matrix) == false) {
                 DSError(M_DS_WRONG ": Matrix must be square", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSMatrixRows(matrix) == 1) {
+                coefficients = dsMatrixCharacteristicPolynomialUndeterminedCoefficientOneRow(matrix);
                 goto bail;
         }
         if (Rn != NULL) {
@@ -1790,6 +1812,7 @@ extern DSMatrix * DSMatrixCharacteristicPolynomialUndeterminedCoefficients(const
                 DSError(M_DS_MAT_OUTOFBOUNDS ": matrix and Rn matrix of different sizes" , A_DS_ERROR);
                 goto bail;
         }
+        mA = DSMatrixByMultiplyingScalar(matrix, -1.);
         D = DSMatrixUndeterminedCoefficientsDArrayForMatrix(matrix);
         temp = DSMatrixByMultiplyingMatrix(Rn_internal, D);
         coefficients = DSMatrixAlloc(1, DSMatrixRows(matrix)+1);
@@ -1831,7 +1854,7 @@ bail:
 
 extern int * DSMatrixRowsForGLPK(const DSMatrix *matrix)
 {
-        int *rows;
+        int *rows = NULL;
         DSUInteger i;
         if (matrix == NULL) {
                 DSError(M_DS_MAT_NULL, A_DS_ERROR);

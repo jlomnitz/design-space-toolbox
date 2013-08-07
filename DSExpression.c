@@ -92,9 +92,8 @@ extern DSExpression * dsExpressionAllocWithOperator(const char op_code)
                         DSExpressionSetOperator(newNode, op_code);
                         break;
                 case '.':
-                case '\'':
                         newNode = DSSecureCalloc(1, sizeof(DSExpression));
-                        DSExpressionSetOperator(newNode, op_code);
+                        DSExpressionSetOperator(newNode, '.');
                         break;
                 case '+':
                         newNode = DSSecureCalloc(1, sizeof(DSExpression));
@@ -252,6 +251,14 @@ extern DSExpression * DSExpressionAddExpressions(DSExpression *lvalue, DSExpress
                 newRoot = lvalue;
                 goto bail;
         }
+        if (DSExpressionType(lvalue) == DS_EXPRESSION_TYPE_OPERATOR) {
+                if (DSExpressionOperator(lvalue) == '=') {
+                        newRoot = dsExpressionAllocWithOperator('=');
+                        DSExpressionAddBranch(newRoot, DSExpressionAddExpressions(DSExpressionBranchAtIndex(lvalue, 0), rvalue));
+                        DSExpressionAddBranch(newRoot, DSExpressionAddExpressions(DSExpressionBranchAtIndex(lvalue, 1), rvalue));
+                        goto bail;
+                }
+        }
         newRoot = dsExpressionAllocWithOperator('+');
         DSExpressionAddBranch(newRoot, lvalue);
         DSExpressionAddBranch(newRoot, rvalue);
@@ -286,10 +293,45 @@ bail:
         return newRoot;
 }
 
+static DSExpression * dsExpressionCompressConstantVariableNode(const DSExpression * current, const DSVariablePool * assumedConstant)
+{
+        DSUInteger i;
+        DSExpression * compressed = NULL;
+        if (current == NULL) {
+                goto bail;
+        }
+        if (DSExpressionType(current) == DS_EXPRESSION_TYPE_VARIABLE) {
+                if (DSVariablePoolHasVariableWithName(assumedConstant, DSExpressionVariable(current)) == true) {
+                        compressed = dsExpressionAllocWithConstant(DSVariablePoolValueForVariableWithName(assumedConstant, DSExpressionVariable(current)));
+                        goto bail;
+                } else {
+                        compressed = DSExpressionCopy(current);
+                        goto bail;
+                }
+        }
+        if (DSExpressionType(current) == DS_EXPRESSION_TYPE_FUNCTION ||
+            DSExpressionType(current) == DS_EXPRESSION_TYPE_CONSTANT) {
+                compressed = DSExpressionCopy(current);
+                goto bail;
+        }
+        if (DSExpressionType(current) != DS_EXPRESSION_TYPE_OPERATOR) {
+                DSError(M_DS_WRONG "Expression Node is Undefined", A_DS_ERROR);
+                goto bail;
+        }
+        compressed = dsExpressionAllocWithOperator(DSExpressionOperator(current));
+        for (i = 0; i < DSExpressionNumberOfBranches(current); i++) {
+                DSExpressionAddBranch(compressed,
+                                      dsExpressionCompressConstantVariableNode(DSExpressionBranchAtIndex(current, i),
+                                                                               assumedConstant));
+        }
+bail:
+        return compressed;
+}
+
 extern DSExpression * DSExpressionByCompressingConstantVariables(const DSExpression *expression, const DSVariablePool * assumedConstant)
 {
         DSExpression * newExpression = NULL;
-//        DSExpression * temporary = NULL;
+        newExpression = dsExpressionCompressConstantVariableNode(expression, assumedConstant);
 bail:
         return newExpression;
 }
@@ -396,7 +438,7 @@ static void DSExpressionAddConstantBranch(DSExpression *expression, DSExpression
                 case '=':
                         DSExpressionAddNonConstantBranch(expression, branch);
                         break;
-                case '\'':
+                case '.':
                         DSExpressionAddNonConstantBranch(expression, branch);
                         break;
                 case '^':
@@ -459,7 +501,7 @@ extern void DSExpressionAddBranch(DSExpression *expression, DSExpression *branch
                 DSExpressionAddConstantBranch(expression, branch);
                 goto bail;
         }
-        if (DSExpressionNumberOfBranches(branch) < 2 && DSExpressionOperator(branch) != '\'') {
+        if (DSExpressionNumberOfBranches(branch) < 2 && DSExpressionOperator(branch) != '.') {
                 if (DSExpressionNumberOfBranches(branch) == 1) {
                         DSExpressionAddBranch(expression, DSExpressionBranchAtIndex(branch, 0));
                         branch->numberOfBranches = 0;
@@ -494,7 +536,7 @@ extern void DSExpressionAddBranch(DSExpression *expression, DSExpression *branch
                 case '=':
                         DSExpressionAddNonConstantBranch(expression, branch);
                         break;
-                case '\'':
+                case '.':
                         DSExpressionAddNonConstantBranch(expression, branch);
                         break;
                 case '^':
@@ -770,7 +812,7 @@ bail:
 static bool operatorIsLowerPrecedence(char op1, char op2)
 {
         bool isLower = false;
-        char * precedence = "'^*+=";
+        char * precedence = ".^*+=";
         DSUInteger i, index1, index2;
         for (i = 0; i < strlen(precedence); i++) {
                 if (precedence[i] == op1)
@@ -823,7 +865,7 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
                                 if (DSExpressionType(branch) == DS_EXPRESSION_TYPE_OPERATOR &&
                                     operatorIsLowerPrecedence(DSExpressionOperator(current), DSExpressionOperator(branch)))
                                         strncat(*string, ")", *length-strlen(*string));
-                                if (i < DSExpressionNumberOfBranches(current)-1 || DSExpressionOperator(current) == '\'') {
+                                if (i < DSExpressionNumberOfBranches(current)-1 || DSExpressionOperator(current) == '.') {
                                         sprintf(temp, "%c", DSExpressionOperator(current));
                                         strncat(*string,  temp, *length-strlen(*string));
                                         temp[0] = '\0';

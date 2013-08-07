@@ -183,7 +183,7 @@ inf             {
         yyset_extra(token, yyscanner);
 }
 
-[\'\.]              {
+\.              {
         struct expression_token *token = yyget_extra(yyscanner);
         if (token == NULL) {
                 DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);

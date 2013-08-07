@@ -67,7 +67,7 @@
  */
 extern DSVariable *DSVariableAlloc(const char *name)
 {
-        DSVariable *var;
+        DSVariable *var = NULL;
         if (name == NULL) {
                 DSError(M_DS_NULL ": Name is a NULL pointer", A_DS_ERROR);
                 goto bail;

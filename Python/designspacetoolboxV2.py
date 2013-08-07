@@ -486,8 +486,7 @@ class DesignSpacePlot:
                 Var = self.Xi.copy()
                 for k in cases:
                     ssystems.append(designspacetoolbox_test.DSSSystemByRemovingAlgebraicConstraints(
-                                     designspacetoolbox_test.DSCaseSSystem(k._data), 
-                                     algebraic._data))
+                                     designspacetoolbox_test.DSCaseSSystem(k._data)))
                 for i in xrange(len(x)):
                     Var[self.Variables['X']] = 10**x[i]
                     for j in xrange(len(y)):
@@ -539,8 +538,7 @@ class DesignSpacePlot:
                 Var = self.Xi.copy()
                 for k in cases:
                     ssystems.append(designspacetoolbox_test.DSSSystemByRemovingAlgebraicConstraints(
-                                     designspacetoolbox_test.DSCaseSSystem(k._data), 
-                                     algebraic._data))
+                                     designspacetoolbox_test.DSCaseSSystem(k._data)))
                 for i in xrange(len(x)):
                     Var[self.Variables['X']] = 10**x[i]
                     for j in xrange(len(y)):
@@ -888,8 +886,7 @@ class DesignSpace:
                 point_types = dict()
                 for case in cases:
                     ssystem = designspacetoolbox_test.DSSSystemByRemovingAlgebraicConstraints(
-                               designspacetoolbox_test.DSCaseSSystem(case._data), 
-                               algebraic._data)
+                               designspacetoolbox_test.DSCaseSSystem(case._data))
                     V = designspacetoolbox_test.DSCaseVerticesFor1DSlice(case._data, lower._data, upper._data, xaxis)
                     x = np.linspace(V[0][0], V[1][0], resolution)
                     for i in xrange(0, len(x)):

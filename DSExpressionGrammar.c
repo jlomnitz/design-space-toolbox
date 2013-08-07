@@ -830,7 +830,7 @@ static void yy_reduce(
         break;
       case 10: /* expr ::= expr PRIME */
 {
-        yygotominor.yy0 = dsExpressionAllocWithOperator('\'');
+        yygotominor.yy0 = dsExpressionAllocWithOperator('.');
         DSExpressionAddBranch(yygotominor.yy0, yymsp[-1].minor.yy0);
 }
         break;

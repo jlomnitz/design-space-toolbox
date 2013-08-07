@@ -57,14 +57,16 @@
 %typemap(out) const DSVariable * {
         DSVariable * variable = NULL;
         variable = $1;
-        PyObject * list = NULL;
+        PyObject * list = NULL, *pString, *pFloat;
         if (variable == NULL) {
                 $result = NULL;
                 return;
         }
         list = PyList_New(2);
-        PyList_SetItem(list, 0, PyString_FromFormat("%s", DSVariableName(variable)));
-        PyList_SetItem(list, 1, PyFloat_FromDouble(DSVariableValue(variable)));
+        pString = PyString_FromFormat("%s", DSVariableName(variable));
+        pFloat = PyFloat_FromDouble(DSVariableValue(variable));
+        PyList_SetItem(list, 0, pString);
+        PyList_SetItem(list, 1, pFloat);
         $result = list;
 }
 
@@ -184,7 +186,7 @@ extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds);
  * DSSSystem functions available to internal python module
  */
 
-extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem, const DSVariablePool * algebraicVariables);
+extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem);
 
 
 extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariablePool *Xi0, const char * function);

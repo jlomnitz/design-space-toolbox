@@ -259,7 +259,6 @@ extern DSCase * DSCaseWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger
         DSCaseXi(aCase) = DSSSystemXi(DSCaseSSys(aCase));
         DSCaseXd(aCase) = DSSSystemXd(DSCaseSSys(aCase));
         numberOfEquations = DSGMASystemNumberOfEquations(gma);
-        numberOfXi = DSVariablePoolNumberOfVariables(DSCaseXi(aCase));
         DSCaseSig(aCase) = DSSecureMalloc(sizeof(DSUInteger)*(2*numberOfEquations));
         for (i = 0; i < 2*numberOfEquations; i+=2) {
                 term1 = termArray[i];
@@ -336,7 +335,6 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
         DSCaseXi(aCase) = DSSSystemXi(DSCaseSSys(aCase));
         DSCaseXd(aCase) = DSSSystemXd(DSCaseSSys(aCase));
         numberOfEquations = DSGMASystemNumberOfEquations(DSDesignSpaceGMASystem(ds));
-        numberOfXi = DSVariablePoolNumberOfVariables(DSCaseXi(aCase));
         DSCaseSig(aCase) = DSSecureMalloc(sizeof(DSUInteger)*(2*numberOfEquations));
         for (i = 0; i < 2*numberOfEquations; i+=2) {
                 term1 = termArray[i];
@@ -610,7 +608,6 @@ static void dsCaseBoundaryToString(const DSCase *aCase,
         if (DSCaseU(aCase) == NULL) {
                 goto bail;
         }
-        numberOfXd = DSVariablePoolNumberOfVariables(DSCaseXd(aCase));
         if (boundary >= DSMatrixRows(DSCaseU(aCase))) {
                 DSError("Equation does not exist: Check number of equations", A_DS_ERROR);
                 goto bail;
