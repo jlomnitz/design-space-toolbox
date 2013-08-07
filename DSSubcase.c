@@ -231,7 +231,7 @@ extern DSMatrixArray * DSSubcaseProblematicTerms(const DSCase *aCase, const DSMa
         DSMatrixArray *dependentTerms = NULL;
         DSMatrix *G, *H, *g, *h, *termMatrix, *nullspace, *coefficients;
         DSUInteger i, j,k, *dependent, numDependent;
-        double value;
+        double value, alpha, beta;
         double sign;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
@@ -274,7 +274,9 @@ extern DSMatrixArray * DSSubcaseProblematicTerms(const DSCase *aCase, const DSMa
                                 if (j / numDependent == 0)
                                         DSMatrixSetDoubleValue(coefficients, j % numDependent, k, DSMatrixDoubleValue(DSSSystemAlpha(aCase->ssys), dependent[j % numDependent], 0));
                                 else
-                                        DSMatrixSetDoubleValue(coefficients, j % numDependent, k, -DSMatrixDoubleValue(DSSSystemBeta(aCase->ssys), dependent[j % numDependent], 0));
+                                        DSMatrixSetDoubleValue(coefficients, j % numDependent,
+                                                               k,
+                                                               DSMatrixDoubleValue(coefficients, j%numDependent, k)-DSMatrixDoubleValue(DSSSystemBeta(aCase->ssys), dependent[j % numDependent], 0));
                                 sign *= -1.0;
                         }
                 }
@@ -292,8 +294,8 @@ bail:
 extern DSMatrixArray * DSSubcaseCoefficientsOfInterest(const DSCase * aCase, const DSMatrixArray * problematicTerms)
 {
         DSMatrixArray * coefficientArray = NULL;
-        DSMatrix *problematic = NULL;
-        DSUInteger i, j;
+        DSMatrix *problematic = NULL, *coefficients;
+        DSUInteger i, j, k;
         double min, value;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
@@ -312,20 +314,31 @@ extern DSMatrixArray * DSSubcaseCoefficientsOfInterest(const DSCase * aCase, con
                 if (problematic == NULL)
                         continue;
                 DSMatrixRoundToSignificantFigures(problematic, 14);
-                min = INFINITY;
-                for (j = 0; j < DSMatrixRows(problematic); j++) {
-                        value = DSMatrixDoubleValue(problematic, j, 0);
-                        if (fabs(value) == 0)
-                                continue;
-                        min = ((fabs(value) <= fabs(min)) ? value : min);
+                for (k = 0; k < DSMatrixColumns(problematic); k++) {
+                        min = INFINITY;
+                        for (j = 0; j < DSMatrixRows(problematic); j++) {
+                                value = DSMatrixDoubleValue(problematic, j, k);
+                                if (fabs(value) == 0)
+                                        continue;
+                                min = ((fabs(value) <= fabs(min)) ? value : min);
+                        }
+                        for (j = 0; j < DSMatrixRows(problematic); j++) {
+                                value = DSMatrixDoubleValue(problematic, j, k);
+                                if (value == 0)
+                                        continue;
+                                DSMatrixSetDoubleValue(problematic, j, k, value/min);
+                        }
                 }
+                coefficients = DSMatrixCalloc(DSMatrixRows(problematic), 1);
                 for (j = 0; j < DSMatrixRows(problematic); j++) {
-                        value = DSMatrixDoubleValue(problematic, j, 0);
-                        if (value == 0)
-                                continue;
-                        DSMatrixSetDoubleValue(problematic, j, 0, value/min);
+                        for (k = 0; k < DSMatrixColumns(problematic); k++) {
+                                value = DSMatrixDoubleValue(coefficients, j, 0);
+                                value += DSMatrixDoubleValue(problematic, j, k);
+                                DSMatrixSetDoubleValue(coefficients, j, 0, value);
+                        }
                 }
-                DSMatrixArrayAddMatrix(coefficientArray, problematic);
+                DSMatrixFree(problematic);
+                DSMatrixArrayAddMatrix(coefficientArray, coefficients);
         }
 bail:
         return coefficientArray;
@@ -498,7 +511,7 @@ static DSDesignSpace * dsSubcaseInternalDesignSpaceForUnderdeterminedCase(const 
 {
         DSDesignSpace *subcases = NULL;
         DSGMASystem * temp = NULL;
-        DSMatrix * problematicEquations = NULL;
+        DSMatrix * problematicEquations = NULL, *coefficients;
         DSMatrixArray * problematicTerms = NULL;
         DSMatrixArray * coefficientArray = NULL;
         DSUInteger i, j, k, l;
@@ -536,16 +549,12 @@ static DSDesignSpace * dsSubcaseInternalDesignSpaceForUnderdeterminedCase(const 
                         if (DSMatrixDoubleValue(problematicEquations, j, i) == 0)
                                 continue;
                         value = DSMatrixArrayDoubleWithIndices(coefficientArray, i, l, 0);
-                        printf(":%i (%lf)\n", j, value);
                         for (k = 0; k < DSMatrixColumns(DSGMASystemAlpha(temp)); k++) {
                                 if (k+1 == aCase->signature[2*j])
                                         DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemAlpha(temp), j, k, 0.0f);
                                 else
                                         DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemAlpha(temp), j, k,
                                                                DSMatrixDoubleValue(DSGMASystemAlpha(temp), j, k)*value);
-//                        }
-//                        value = DSMatrixArrayDoubleWithIndices(coefficientArray, i, l, 0);
-//                        for (k = 0; k < DSMatrixColumns(DSGMASystemBeta(temp)); k++) {
                                 if (k+1 == aCase->signature[2*j+1])
                                         DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemBeta(temp), j, k, 0.0f);
                                 else
@@ -555,9 +564,6 @@ static DSDesignSpace * dsSubcaseInternalDesignSpaceForUnderdeterminedCase(const 
                         l++;
                         augmentedEquations[i] = DSExpressionAddExpressions(augmentedEquations[i], DSGMASystemPositiveTermsForEquations(temp, j));
                         augmentedEquations[i] = DSExpressionAddExpressions(augmentedEquations[i], DSGMASystemNegativeTermsForEquations(temp, j));
-                        DSExpressionPrint(DSGMASystemPositiveTermsForEquations(temp, j));
-                        DSExpressionPrint(DSGMASystemNegativeTermsForEquations(temp, j));
-                        DSExpressionPrint(augmentedEquations[i]);
                 }
         }
         
@@ -579,6 +585,7 @@ bail:
                 DSMatrixArrayFree(coefficientArray);
         return subcases;
 }
+
 
 
 extern void DSSubcaseDesignSpaceForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)
