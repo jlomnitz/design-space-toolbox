@@ -13,6 +13,7 @@
 		9A1033E1144229CD00C214AF /* DSSymbolicMatrix.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */; };
 		9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A1B18F913F5CD7500C36E71 /* DSGMASystemParsingAux.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */; };
+		9A1B866017B2CFC90022AE2F /* DSSubcaseConstruction.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B865F17B2CFC90022AE2F /* DSSubcaseConstruction.c */; };
 		9A36BC951400D5E900599A25 /* DSDesignSpaceParallel.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */; };
 		9A36BC981400D5FF00599A25 /* DSDesignSpaceParallel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A36BC971400D5FF00599A25 /* DSDesignSpaceParallel.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A3D588313FAFABD00C32875 /* DSSSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D588213FAFABD00C32875 /* DSSSystem.c */; };
@@ -76,6 +77,7 @@
 		9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSymbolicMatrix.c; sourceTree = "<group>"; };
 		9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemParsingAux.h; sourceTree = "<group>"; };
 		9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemParsingAux.c; sourceTree = "<group>"; };
+		9A1B865F17B2CFC90022AE2F /* DSSubcaseConstruction.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSubcaseConstruction.c; sourceTree = "<group>"; };
 		9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDesignSpaceParallel.c; sourceTree = "<group>"; };
 		9A36BC971400D5FF00599A25 /* DSDesignSpaceParallel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpaceParallel.h; sourceTree = "<group>"; };
 		9A3D588213FAFABD00C32875 /* DSSSystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSSystem.c; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 			children = (
 				9ABB560614295DFF003D74E2 /* DSSubcase.h */,
 				9ABB560914295E09003D74E2 /* DSSubcase.c */,
+				9A1B865F17B2CFC90022AE2F /* DSSubcaseConstruction.c */,
 			);
 			name = Subcases;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				9AE7759F140DAB8800F77747 /* DSVertices.c in Sources */,
 				9ABB560A14295E09003D74E2 /* DSSubcase.c in Sources */,
 				9A1033E1144229CD00C214AF /* DSSymbolicMatrix.c in Sources */,
+				9A1B866017B2CFC90022AE2F /* DSSubcaseConstruction.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

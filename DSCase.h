@@ -58,6 +58,7 @@ extern char DSCaseEndianness(void);
 #pragma mark - Allocation, deallocation and initialization
 #endif
 
+extern DSCase * DSCaseCopy(const DSCase *aCase);
 extern void DSCaseFree(DSCase * aCase);
 
 #if defined (__APPLE__) && defined (__MACH__)

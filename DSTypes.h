@@ -412,6 +412,7 @@ typedef struct {
  */
 typedef struct{
         DSDesignSpace * internal;
+        DSCase * originalCase;
         DSUInteger caseNumber;
 } DSSubcase;
 

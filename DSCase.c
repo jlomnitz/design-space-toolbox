@@ -42,6 +42,7 @@
 
 #define DSCaseXi(x)                  ((x)->Xi)
 #define DSCaseXd(x)                  ((x)->Xd)
+#define DSCaseXd_a(x)                ((x)->Xd_a)
 #define DSCaseSSys(x)                ((x)->ssys)
 #define DSCaseCd(x)                  ((x)->Cd)
 #define DSCaseCi(x)                  ((x)->Ci)
@@ -83,6 +84,41 @@ static DSCase * DSCaseAlloc(void)
         DSCase * aCase = NULL;
         aCase = DSSecureCalloc(sizeof(DSCase), 1);
         return aCase;
+}
+
+extern DSCase * DSCaseCopy(const DSCase * aCase)
+{
+        DSCase * newCase = NULL;
+        DSUInteger i, numberOfEquations;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        newCase = DSCaseAlloc();
+        newCase->caseNumber = aCase->caseNumber;
+        numberOfEquations = DSCaseNumberOfEquations(aCase);
+        if (DSCaseSig(aCase) != NULL) {
+                DSCaseSig(newCase) = DSSecureCalloc(sizeof(DSUInteger), numberOfEquations*2);
+                for (i = 0; i < numberOfEquations; i++) {
+                        DSCaseSig(newCase)[i] = DSCaseSig(aCase)[i];
+                }
+        }
+        DSCaseSSys(newCase) = DSSSystemCopy(DSCaseSSystem(aCase));
+        if (DSCaseCd(aCase) != NULL)
+                DSCaseCd(newCase) = DSMatrixCopy(DSCaseCd(aCase));
+        if (DSCaseCi(aCase) != NULL)
+                DSCaseCi(newCase) = DSMatrixCopy(DSCaseCi(aCase));
+        if (DSCaseZeta(aCase) != NULL)
+                DSCaseZeta(newCase) = DSMatrixCopy(DSCaseZeta(aCase));
+        if (DSCaseDelta(aCase) != NULL)
+                DSCaseDelta(newCase) = DSMatrixCopy(DSCaseDelta(aCase));
+        if (DSCaseU(aCase) != NULL)
+                DSCaseU(newCase) = DSMatrixCopy(DSCaseU(aCase));
+        DSCaseXd(newCase) = DSSSystemXd(DSCaseSSys(newCase));
+        DSCaseXi(newCase) = DSSSystemXi(DSCaseSSys(newCase));
+        DSCaseXd_a(newCase) =DSSSystemXd_a(DSCaseSSys(newCase));
+bail:
+        return newCase;
 }
 
 extern void DSCaseFree(DSCase * aCase)

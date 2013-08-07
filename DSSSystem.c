@@ -98,7 +98,7 @@ static DSSSystem * DSSSystemAlloc(void)
         return sys ;
 }
 
-static DSSSystem * dsSSystemCopy(const DSSSystem * original)
+extern DSSSystem * DSSSystemCopy(const DSSSystem * original)
 {
         DSSSystem * newSSys = NULL;
         if (original == NULL) {
@@ -117,7 +117,10 @@ static DSSSystem * dsSSystemCopy(const DSSSystem * original)
         DSSSysHi(newSSys) = DSMatrixCopy(DSSSysHi(original));
         DSSSysAlpha(newSSys) = DSMatrixCopy(DSSSysAlpha(original));
         DSSSysBeta(newSSys) = DSMatrixCopy(DSSSysBeta(original));
-        dsSSystemSolveEquations(newSSys);
+        DSSSysIsSingular(newSSys) = DSSSysIsSingular(original);
+        if (DSSSysIsSingular(newSSys) == false) {
+                DSSSysM(newSSys) = DSMatrixCopy(DSSSysM(original));
+        }
 bail:
         return newSSys;
 }
@@ -557,7 +560,7 @@ extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * ori
                 goto bail;
         }
         if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem)) == 0) {
-                collapsedSystem = dsSSystemCopy(originalSSystem);
+                collapsedSystem = DSSSystemCopy(originalSSystem);
                 goto bail;
         }
         oldXd = DSSSystemXd(originalSSystem);

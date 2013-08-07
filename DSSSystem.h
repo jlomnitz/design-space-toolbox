@@ -41,6 +41,7 @@ __BEGIN_DECLS
 #pragma mark - Allocation, deallocation and initialization
 #endif
 
+extern DSSSystem * DSSSystemCopy(const DSSSystem * ssys);
 extern void DSSSystemFree(DSSSystem * ssys);
 
 #if defined (__APPLE__) && defined (__MACH__)
