@@ -90,6 +90,7 @@
 		9A537BB013A9CFE50031378A /* DSMemoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMemoryManager.h; sourceTree = "<group>"; };
 		9A537BB213A9D04F0031378A /* DSTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DSTypes.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9A5833BB139D79170068B6B6 /* DSStd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DSStd.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9A61FD5417B42B33008D8417 /* designspacetest.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = designspacetest.c; path = tests/designspacetest.c; sourceTree = "<group>"; };
 		9A681E5E14F303C90025735D /* DSStack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSStack.c; sourceTree = "<group>"; };
 		9A681E6014F303DE0025735D /* DSStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSStack.h; sourceTree = "<group>"; };
 		9A68EF5413EC767700FBDDF5 /* DSMatrixTokenizerLex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixTokenizerLex.c; sourceTree = "<group>"; };
@@ -251,6 +252,14 @@
 				9A81B38213A89C31007DADEC /* libdesignspace.dylib */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9A61FD5517B43119008D8417 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				9A61FD5417B42B33008D8417 /* designspacetest.c */,
+			);
+			name = Tests;
 			sourceTree = "<group>";
 		};
 		9A681E5D14F303B20025735D /* Stack */ = {
@@ -456,6 +465,7 @@
 		9AFD4D5F13B70985001FCEC9 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				9A61FD5517B43119008D8417 /* Tests */,
 				9AFD4D5E13B70942001FCEC9 /* Basic Data and functions */,
 				9AFD4D5D13B70915001FCEC9 /* Support Data Functions */,
 				9ABF783813F0C1D800602B4B /* GMA, SSystem and Cases */,
@@ -527,7 +537,7 @@
 		9A5833AB139D78A80068B6B6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 9A5833AE139D78A80068B6B6 /* Build configuration list for PBXProject "DesignSpaceToolboxV2" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -608,7 +618,7 @@
 					"-D__GSL__",
 					"-lgsl",
 				);
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -631,7 +641,7 @@
 					"-D__GSL__",
 					"-lgsl",
 				);
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -640,6 +650,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = lib;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -663,6 +674,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_PREFIX = lib;

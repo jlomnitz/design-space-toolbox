@@ -127,6 +127,7 @@ extern void DSVariablePoolSetReadWriteAdd(DSVariablePool * pool);
 
 extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char * name);
 extern void DSVariablePoolAddVariable(DSVariablePool *pool, DSVariable *newVar);
+extern void DSVariablePoolCopyVariablesFromVariablePool(DSVariablePool *to_add, const DSVariablePool *source);
 extern void DSVariablePoolSetValueForVariableWithName(const DSVariablePool *pool, const char *name, const double value);
 
 #if defined(__APPLE__) && defined(__MACH__)

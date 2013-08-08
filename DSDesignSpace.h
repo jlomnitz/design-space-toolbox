@@ -80,7 +80,7 @@ extern const bool DSDesignSpaceCaseWithCaseNumberIsValid(const DSDesignSpace *ds
 extern const bool DSDesignSpaceCaseWithCaseSignatureIsValid(const DSDesignSpace *ds, const DSUInteger * signature);
 extern const bool DSDesignSpaceCaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
 
-extern const DSStack * DSDesignSpaceSubcasesForCaseNumber(DSDesignSpace *ds, const DSUInteger caseNumber);
+//extern const DSStack * DSDesignSpaceSubcasesForCaseNumber(DSDesignSpace *ds, const DSUInteger caseNumber);
 extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds);
 
 extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds);

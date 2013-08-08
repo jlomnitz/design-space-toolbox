@@ -60,7 +60,13 @@ extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase);
 #pragma mark - Getter functions
 #endif
 
-extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalCase * subcase);
+extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalCase * cyclicalCase);
+
+extern const DSUInteger DSCyclicalCaseNumberOfValidSubcases(const DSCyclicalCase *cyclicalCase);
+extern const DSUInteger DSCyclicalCaseNumberOfSubcases(const DSCyclicalCase * cyclicalCase);
+
+extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cyclicalCase, const DSUInteger subcaseNumber);
+extern DSCase * DSCyclicalCaseSubcaseWithCaseSignature(const DSCyclicalCase * cyclicalCase, const DSUInteger * signature);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Linear programming functions
@@ -70,17 +76,30 @@ extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase);
 extern const bool DSCyclicalCaseIsValidAtPoint(const DSCyclicalCase *aSubcase, const DSVariablePool * variablesToFix);
 extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
 
-extern DSDictionary * DSCyclicalCaseVerticesForSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);
-extern DSDictionary * DSCyclicalCaseVerticesFor2DSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable);
+extern const bool DSCyclicalCaseSubaseWithCaseNumberIsValid(const DSDesignSpace *ds, const DSUInteger caseNumber);
+extern const bool DSCyclicalCaseSubcaseWithCaseSignatureIsValid(const DSDesignSpace *ds, const DSUInteger * signature);
+extern const bool DSCyclicalCaseSubcaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
+
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark Subcase calculation functions
+#pragma mark - Utility functions
 #endif
 
-extern DSMatrix * DSCyclicalCaseProblematicEquations(const DSCase * aCase);
-extern DSMatrixArray * DSCyclicalCaseProblematicTerms(const DSCase *aCase, const DSMatrix * dependentEquations);
-extern DSMatrixArray * DSCyclicalCaseCoefficientsOfInterest(const DSCase * aCase, const DSMatrixArray * problematicTerms);
+extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSlice(const DSCyclicalCase * cyclicalCase,
+                                                                      const DSVariablePool *lower,
+                                                                      const DSVariablePool *upper);
 
-extern void DSCyclicalCaseDesignSpaceForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original);
+extern DSDictionary * DSCyclicalCaseVerticesForSlice(const DSCyclicalCase *cyclicalCase,
+                                                     const DSVariablePool * lowerBounds,
+                                                     const DSVariablePool *upperBounds,
+                                                     const DSUInteger numberOfVariables,
+                                                     const char ** variables);
+
+extern DSDictionary * DSCyclicalCaseVerticesFor2DSlice(const DSCyclicalCase *cyclicalCase,
+                                                       const DSVariablePool * lowerBounds,
+                                                       const DSVariablePool *upperBounds,
+                                                       const char * xVariable,
+                                                       const char *yVariable);
+
 
 #endif

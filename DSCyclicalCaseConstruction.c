@@ -1,5 +1,5 @@
 //
-//  DSCyclicalCaseBuilding.c
+//  DSCyclicalCaseConstruction.c
 //  DesignSpaceToolboxV2
 //
 //  Created by Jason Lomnitz on 8/7/13.
@@ -68,7 +68,7 @@ extern DSMatrixArray * dsSubcaseProblematicTerms(const DSCase *aCase, const DSMa
         DSMatrixArray *dependentTerms = NULL;
         DSMatrix *G, *H, *g, *h, *termMatrix, *nullspace, *coefficients;
         DSUInteger i, j,k, *dependent, numDependent;
-        double value, alpha, beta;
+        double value;
         double sign;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
@@ -186,9 +186,10 @@ static DSDesignSpace * dsSubcaseCreateUniqueSystemSubcase(const DSCase *aCase, c
         DSDesignSpace * ds = NULL;
         DSUInteger i, j;
         DSUInteger * equationIndex = NULL;
-        char **equations, *temp_rhs, *temp_lhs;
+        char **equations, *temp_rhs;
         DSExpression **caseEquations;
-        DSExpression *newEquations;
+        DSExpression  *eqLHS, *eqRHS;
+        DSVariablePool *temp, * Xda = NULL;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -205,7 +206,32 @@ static DSDesignSpace * dsSubcaseCreateUniqueSystemSubcase(const DSCase *aCase, c
                 DSError(M_DS_NULL ": Augmented equations not found", A_DS_ERROR);
                 goto bail;
         }
+        caseEquations = DSCaseEquations(aCase);
+        equations = DSSecureCalloc(sizeof(char *), DSCaseNumberOfEquations(aCase));
+        Xda = DSVariablePoolAlloc();
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSGMASystemXd_a(modifiedGMA)); i++)
+                DSVariablePoolAddVariableWithName(Xda, DSVariableName(DSVariablePoolVariableAtIndex(DSGMASystemXd_a(modifiedGMA), i)));
         equationIndex = DSSecureMalloc(sizeof(DSUInteger)*DSMatrixColumns(problematicEquations));
+        for (i = 0; i < DSCaseNumberOfEquations(aCase); i++)
+                equations[i] = DSExpressionAsString(caseEquations[i]);
+        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
+                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
+                        if (DSMatrixDoubleValue(problematicEquations, j, i) == 0.0)
+                                continue;
+                        DSSecureFree(equations[j]);
+                        eqLHS = DSExpressionEquationLHSExpression(caseEquations[j]);
+                        eqRHS = DSExpressionEquationRHSExpression(caseEquations[j]);
+                        temp = DSExpressionVariablesInExpression(eqLHS);
+                        DSVariablePoolCopyVariablesFromVariablePool(Xda, temp);
+                        temp_rhs = DSExpressionAsString(eqRHS);
+                        equations[j] = DSSecureCalloc(sizeof(char),strlen(temp_rhs) + 7);
+                        equations[j] = strcpy(equations[j], "0 = ");
+                        equations[j] = strcat(equations[j], temp_rhs);
+                        DSSecureFree(temp_rhs);
+                        DSExpressionFree(eqLHS);
+                        DSExpressionFree(eqRHS);
+                }
+        }
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
                 equationIndex[i] = DSMatrixRows(problematicEquations);
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
@@ -215,29 +241,19 @@ static DSDesignSpace * dsSubcaseCreateUniqueSystemSubcase(const DSCase *aCase, c
                         break;
                 }
         }
-        caseEquations = DSCaseEquations(aCase);
-        equations = DSSecureCalloc(sizeof(char *), DSCaseNumberOfEquations(aCase));
         for (i = 0; i < DSCaseNumberOfEquations(aCase); i++) {
-                equations[i] = DSExpressionAsString(caseEquations[i]);
                 for (j = 0; j < DSMatrixColumns(problematicEquations); j++) {
                         if (i != equationIndex[j])
                                 continue;
                         DSSecureFree(equations[i]);
-                        newEquations = DSExpressionEquationLHSExpression(caseEquations[i]);
-                        temp_lhs = DSExpressionAsString(newEquations);
-                        DSExpressionFree(newEquations);
-                        newEquations = DSExpressionCopy(augmentedEquations[j]);
-                        temp_rhs = DSExpressionAsString(newEquations);
-                        DSExpressionFree(newEquations);
-                        equations[i] = DSSecureCalloc(sizeof(char), strlen(temp_lhs) + strlen(temp_rhs) + 4);
-                        equations[i] = strcpy(equations[i], temp_lhs);
-                        equations[i] = strcat(equations[i], "=");
+                        temp_rhs = DSExpressionAsString(augmentedEquations[j]);
+                        equations[i] = DSSecureCalloc(sizeof(char),strlen(temp_rhs) + 7);
+                        equations[i] = strcpy(equations[i], "0 = ");
                         equations[i] = strcat(equations[i], temp_rhs);
-                        DSSecureFree(temp_lhs);
                         DSSecureFree(temp_rhs);
                 }
         }
-        ds = DSDesignSpaceByParsingStringsWithXi(equations, DSGMASystemXd_a(modifiedGMA), DSGMASystemXi(modifiedGMA), DSCaseNumberOfEquations(aCase));
+        ds = DSDesignSpaceByParsingStringsWithXi(equations, Xda, DSGMASystemXi(modifiedGMA), DSCaseNumberOfEquations(aCase));
         for (i = 0; i < DSCaseNumberOfEquations(aCase); i++) {
                 DSSecureFree(equations[i]);
                 DSExpressionFree(caseEquations[i]);
