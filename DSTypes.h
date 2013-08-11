@@ -390,7 +390,7 @@ typedef struct {
         DSDictionary * validCases;       //!< DSVariablePool with case number that are valid.
         DSUInteger numberOfCases;        //!< DSUInteger indicating the maximum number of cases in the design space.
         DSMatrix * Cd, *Ci, *delta;      //!< Condition matrices.
-        DSDictionary *subcases;          //!< DSDesignSpaceStack containing design space objects with subcases.
+        DSDictionary *cyclicalCases;     //!< DSDictionary containing design space objects with subcases.
         DSMatrix * Rn;                   //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
 } DSDesignSpace;
 

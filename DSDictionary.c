@@ -578,6 +578,7 @@ extern DSDictionary * DSDictionaryFromArray(void ** array, DSUInteger size)
         DSUInteger i;
         if (array == NULL) {
                 DSError(M_DS_NULL ": Array pointer is NULL", A_DS_ERROR);
+                goto bail;
         }
         aDictionary = DSDictionaryAlloc();
         for (i = 0; i < size; i++) {

@@ -51,7 +51,7 @@
 //#define DSDSValid(x)                            ((x)->validCases)
 #define DSDSXd(x)                               ((x)->Xd)
 #define DSDSXi(x)                               ((x)->Xi)
-#define DSDSSubcases(x)                         ((x)->subcases)
+#define DSDSCyclical(x)                         ((x)->cyclicalCases)
 #define DSDSCi(x)                               ((x)->Ci)
 #define DSDSCd(x)                               ((x)->Cd)
 #define DSDSDelta(x)                            ((x)->delta)
@@ -65,7 +65,7 @@ extern DSDesignSpace * DSDesignSpaceAlloc(void)
 {
         DSDesignSpace * ds = NULL;
         ds = DSSecureCalloc(sizeof(DSDesignSpace), 1);
-        DSDSSubcases(ds) = DSDictionaryAlloc();
+        DSDSCyclical(ds) = DSDictionaryAlloc();
         return ds;
 }
 
@@ -87,11 +87,7 @@ void DSDesignSpaceFree(DSDesignSpace * ds)
                 DSMatrixFree(DSDSDelta(ds));
         if (DSDSValidPool(ds) != NULL) 
                 DSDictionaryFree(DSDSValidPool(ds));
-//        for (i = 0; i < DSDSSubcases(ds)->count; i++) {
-//                aStack = DSDictionaryValueForName(DSDSSubcases(ds), DSDSSubcases(ds)->names[i]);
-//                DSStackFreeWithFunction(aStack, DSCyclicalCaseFree);
-//        }
-        DSDictionaryFreeWithFunction(DSDSSubcases(ds), DSCyclicalCaseFree);
+        DSDictionaryFreeWithFunction(DSDSCyclical(ds), DSCyclicalCaseFree);
         DSSecureFree(ds);
 bail:
         return;
@@ -461,7 +457,7 @@ extern const DSStack * DSDesignSpaceSubcasesForCaseNumber(DSDesignSpace *ds, con
         DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(ds, caseNumber);
         string = DSSecureCalloc(sizeof(char), 100);
         sprintf(string, "%i", caseNumber);
-        subcases = DSDictionaryValueForName(ds->subcases, string);
+        subcases = DSDictionaryValueForName(DSDSCyclical(ds), string);
         DSSecureFree(string);
 bail:
         return subcases;
@@ -486,7 +482,7 @@ extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        dictionary = DSDSSubcases(ds);
+        dictionary = DSDSCyclical(ds);
 bail:
         return dictionary;
 }
@@ -758,7 +754,7 @@ bail:
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
 {
         DSDictionary * caseDictionary = NULL;
-        DSUInteger i, numberValid = 0, numberValidSlice = 0;
+        DSUInteger i, numberValid = 0;
         DSUInteger validCaseNumbers = 0;
         char nameString[100];
         DSCase * aCase = NULL;
@@ -767,7 +763,6 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace 
                 goto bail;
         }
         caseDictionary = DSDictionaryAlloc();
-        numberValidSlice = 0;
         numberValid = DSDesignSpaceNumberOfValidCases(ds);
         if (numberValid == 0)
                 goto bail;
@@ -804,10 +799,10 @@ extern void DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(DSDesignSpac
         string = DSSecureCalloc(sizeof(char), 100);
         aCase = DSDesignSpaceCaseWithCaseNumber(ds, caseNumber);
         sprintf(string, "%i", caseNumber);
-        if (DSDictionaryValueForName(DSDSSubcases(ds), string) == NULL) {
+        if (DSDictionaryValueForName(DSDSCyclical(ds), string) == NULL) {
                 aSubcase = DSCyclicalCaseForCaseInDesignSpace(ds, aCase);
                 if (aSubcase != NULL)
-                        DSDictionaryAddValueWithName(ds->subcases, string, aSubcase);
+                        DSDictionaryAddValueWithName(DSDSCyclical(ds), string, aSubcase);
         }
         if (string != NULL)
                 DSSecureFree(string);
@@ -830,11 +825,6 @@ extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds)
         }
         for (i = 0; i < numberOfCases; i++) {
                 DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(ds, i+1);
-//                if (DSDesignSpaceCaseWithCaseNumberIsValid(ds, i+1) == true)
-//                        continue;
-//                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
-//                DSCyclicalCaseDesignSpaceForUnderdeterminedCase(aCase, ds);
-//                DSCaseFree(aCase);
         }
 bail:
         return;
@@ -849,7 +839,6 @@ extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds)
 extern void DSDesignSpacePrint(const DSDesignSpace * ds)
 {
         int (*print)(const char *, ...);
-//        printf("%p\n", ds);
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;

@@ -61,6 +61,7 @@ extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase);
 #endif
 
 extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalCase * cyclicalCase);
+extern const DSCase * DSCyclicalCaseOriginalCase(const DSCyclicalCase * subcase);
 
 extern const DSUInteger DSCyclicalCaseNumberOfValidSubcases(const DSCyclicalCase *cyclicalCase);
 extern const DSUInteger DSCyclicalCaseNumberOfSubcases(const DSCyclicalCase * cyclicalCase);
@@ -100,6 +101,7 @@ extern DSDictionary * DSCyclicalCaseVerticesFor2DSlice(const DSCyclicalCase *cyc
                                                        const DSVariablePool *upperBounds,
                                                        const char * xVariable,
                                                        const char *yVariable);
+
 
 
 #endif

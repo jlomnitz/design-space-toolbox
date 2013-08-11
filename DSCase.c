@@ -95,7 +95,8 @@ extern DSCase * DSCaseCopy(const DSCase * aCase)
                 goto bail;
         }
         newCase = DSCaseAlloc();
-        newCase->caseNumber = aCase->caseNumber;
+        DSCaseSSys(newCase) = DSSSystemCopy(DSCaseSSystem(aCase));
+        DSCaseNum(newCase) = DSCaseNum(aCase);
         numberOfEquations = DSCaseNumberOfEquations(aCase);
         if (DSCaseSig(aCase) != NULL) {
                 DSCaseSig(newCase) = DSSecureCalloc(sizeof(DSUInteger), numberOfEquations*2);
@@ -103,7 +104,6 @@ extern DSCase * DSCaseCopy(const DSCase * aCase)
                         DSCaseSig(newCase)[i] = DSCaseSig(aCase)[i];
                 }
         }
-        DSCaseSSys(newCase) = DSSSystemCopy(DSCaseSSystem(aCase));
         if (DSCaseCd(aCase) != NULL)
                 DSCaseCd(newCase) = DSMatrixCopy(DSCaseCd(aCase));
         if (DSCaseCi(aCase) != NULL)

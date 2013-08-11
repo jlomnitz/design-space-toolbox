@@ -95,16 +95,14 @@ bail:
         return ds;
 }
 
-extern const DSCase * DSCyclicalCaseOriginalCase(const DSCyclicalCase * subcase)
+extern const DSCase * DSCyclicalCaseOriginalCase(const DSCyclicalCase * cyclicalCase)
 {
         DSCase * aCase = NULL;
-        if (subcase == NULL) {
+        if (cyclicalCase == NULL) {
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (subcase->originalCase == NULL)
-                goto bail;
-        aCase = subcase->originalCase;
+        aCase = cyclicalCase->originalCase;
 bail:
         return aCase;
 }
