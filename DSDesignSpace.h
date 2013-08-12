@@ -46,21 +46,21 @@ DSDesignSpace * DSDesignSpaceAlloc(void);
 void DSDesignSpaceFree(DSDesignSpace * ds);
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Factory functions
+#pragma mark - Factory -
 #endif
 
 extern DSDesignSpace * DSDesignSpaceByParsingStringList(const char * const string, const DSVariablePool * const Xd_a, ...);
 extern DSDesignSpace * DSDesignSpaceByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 extern DSDesignSpace * DSDesignSpaceByParsingStringsWithXi(char * const * const strings, const DSVariablePool * const Xd_a, const DSVariablePool * const Xi, const DSUInteger numberOfEquations);
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Setter functions
+#pragma mark - Setters -
 #endif
 
 extern void DSDesignSpaceSetGMA(DSDesignSpace * ds, DSGMASystem *gma);
 extern void DSDesignSpaceAddConditions(DSDesignSpace *ds, const DSMatrix * Cd, const DSMatrix * Ci, const DSMatrix * delta);
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Getter functions
+#pragma mark - Getters -
 #endif
 
 extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds);
@@ -74,29 +74,37 @@ extern const DSUInteger DSDesignSpaceNumberOfCases(const DSDesignSpace *ds);
 
 extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const DSUInteger caseNumber);
 extern DSCase * DSDesignSpaceCaseWithCaseSignature(const DSDesignSpace * ds, const DSUInteger * signature);
-extern DSCase * DSDesignSpaceCaseWithCaseSignatureList(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
+//extern DSCase * DSDesignSpaceCaseWithCaseSignatureList(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
 
 extern const bool DSDesignSpaceCaseWithCaseNumberIsValid(const DSDesignSpace *ds, const DSUInteger caseNumber);
 extern const bool DSDesignSpaceCaseWithCaseSignatureIsValid(const DSDesignSpace *ds, const DSUInteger * signature);
-extern const bool DSDesignSpaceCaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
+//extern const bool DSDesignSpaceCaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
 
-//extern const DSStack * DSDesignSpaceSubcasesForCaseNumber(DSDesignSpace *ds, const DSUInteger caseNumber);
 extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds);
 
-extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds);
+//extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds);
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Utility functions
+#pragma mark - Utility -
 #endif
 
+extern void DSDesignSpacePrint(const DSDesignSpace * ds);
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Case and Case validity
+#endif
 extern DSCase ** DSDesignSpaceCalculateCases(DSDesignSpace *ds, const DSUInteger numberOfCase, DSUInteger *cases);
 extern DSCase ** DSDesignSpaceCalculateAllValidCases(DSDesignSpace *ds);
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper);
-extern void DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(DSDesignSpace *ds, DSUInteger caseNumber);
-extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds);
-extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds);
 
-extern void DSDesignSpacePrint(const DSDesignSpace * ds);
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Cyclical Cases and Cyclical Case validity
+#endif
+
+extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(DSDesignSpace *ds, DSUInteger caseNumber);
+extern void DSDesignSpaceCalculateCyclicalCase(DSDesignSpace *ds, DSCase * aCase);
+extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds);
+extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds);
 
 #ifdef __cplusplus
 __END_DECLS

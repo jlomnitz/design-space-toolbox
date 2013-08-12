@@ -269,15 +269,15 @@ extern const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma);
 /**
 * Subcases
 */
-extern DSSubcase * DSSubcaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase);
-extern void DSSubcaseFree(DSSubcase * aSubcase);
-
-extern const bool DSSubcaseIsValid(const DSSubcase *aSubcase);
-extern const bool DSSubcaseIsValidAtSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
-
-extern DSDictionary * DSSubcaseVerticesFor2DSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable);
-
-extern const DSDesignSpace * DSSubcaseInternalDesignSpace(const DSSubcase * subcase);
+//extern DSSubcase * DSSubcaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase);
+//extern void DSSubcaseFree(DSSubcase * aSubcase);
+//
+//extern const bool DSSubcaseIsValid(const DSSubcase *aSubcase);
+//extern const bool DSSubcaseIsValidAtSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
+//
+//extern DSDictionary * DSSubcaseVerticesFor2DSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable);
+//
+//extern const DSDesignSpace * DSSubcaseInternalDesignSpace(const DSSubcase * subcase);
 /**
  * Dictionary Functions
  */
@@ -323,10 +323,10 @@ extern void DSExpressionFree(DSExpression *expression);
 //extern void * DSSWIGDesignSpaceParseWrapper(const DSVariablePool * const Xd, char ** const strings, const DSUInteger numberOfEquations);
 %inline %{
 
-extern DSSubcase * DSSWIGVoidAsSubcase(void *ptr)
-{
-        return ptr;
-}
+//extern DSSubcase * DSSWIGVoidAsSubcase(void *ptr)
+//{
+//        return ptr;
+//}
 
 extern DSCase * DSSWIGVoidAsCase(void * ptr)
 {

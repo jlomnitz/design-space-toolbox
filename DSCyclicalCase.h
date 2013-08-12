@@ -67,19 +67,19 @@ extern const DSUInteger DSCyclicalCaseNumberOfValidSubcases(const DSCyclicalCase
 extern const DSUInteger DSCyclicalCaseNumberOfSubcases(const DSCyclicalCase * cyclicalCase);
 
 extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cyclicalCase, const DSUInteger subcaseNumber);
-extern DSCase * DSCyclicalCaseSubcaseWithCaseSignature(const DSCyclicalCase * cyclicalCase, const DSUInteger * signature);
+//extern DSCase * DSCyclicalCaseSubcaseWithCaseSignature(const DSCyclicalCase * cyclicalCase, const DSUInteger * signature);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Linear programming functions
 #endif
 
 extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase);
-extern const bool DSCyclicalCaseIsValidAtPoint(const DSCyclicalCase *aSubcase, const DSVariablePool * variablesToFix);
+//extern const bool DSCyclicalCaseIsValidAtPoint(const DSCyclicalCase *aSubcase, const DSVariablePool * variablesToFix);
 extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
 
-extern const bool DSCyclicalCaseSubaseWithCaseNumberIsValid(const DSDesignSpace *ds, const DSUInteger caseNumber);
-extern const bool DSCyclicalCaseSubcaseWithCaseSignatureIsValid(const DSDesignSpace *ds, const DSUInteger * signature);
-extern const bool DSCyclicalCaseSubcaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
+//extern const bool DSCyclicalCaseSubaseWithCaseNumberIsValid(const DSDesignSpace *ds, const DSUInteger caseNumber);
+//extern const bool DSCyclicalCaseSubcaseWithCaseSignatureIsValid(const DSDesignSpace *ds, const DSUInteger * signature);
+//extern const bool DSCyclicalCaseSubcaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
 
 
 #if defined (__APPLE__) && defined (__MACH__)
@@ -90,11 +90,11 @@ extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSlice(const DSCy
                                                                       const DSVariablePool *lower,
                                                                       const DSVariablePool *upper);
 
-extern DSDictionary * DSCyclicalCaseVerticesForSlice(const DSCyclicalCase *cyclicalCase,
-                                                     const DSVariablePool * lowerBounds,
-                                                     const DSVariablePool *upperBounds,
-                                                     const DSUInteger numberOfVariables,
-                                                     const char ** variables);
+//extern DSDictionary * DSCyclicalCaseVerticesForSlice(const DSCyclicalCase *cyclicalCase,
+//                                                     const DSVariablePool * lowerBounds,
+//                                                     const DSVariablePool *upperBounds,
+//                                                     const DSUInteger numberOfVariables,
+//                                                     const char ** variables);
 
 extern DSDictionary * DSCyclicalCaseVerticesFor2DSlice(const DSCyclicalCase *cyclicalCase,
                                                        const DSVariablePool * lowerBounds,

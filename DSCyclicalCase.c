@@ -107,6 +107,16 @@ bail:
         return aCase;
 }
 
+extern const DSUInteger DSCyclicalCaseNumberOfValidSubcases(const DSCyclicalCase *cyclicalCase)
+{
+        return DSDesignSpaceNumberOfValidCases(DSCyclicalCaseInternalDesignSpace(cyclicalCase));
+}
+
+extern const DSUInteger DSCyclicalCaseNumberOfSubcases(const DSCyclicalCase * cyclicalCase)
+{
+        return DSDesignSpaceNumberOfCases(DSCyclicalCaseInternalDesignSpace(cyclicalCase));
+}
+
 extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cyclicalCase, const DSUInteger subcaseNumber)
 {
         

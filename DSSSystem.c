@@ -1721,6 +1721,34 @@ bail:
         return positiveRoots;
 }
 
+extern DSUInteger DSSSystemPositiveRootsForSteadyState(const DSSSystem *ssys,
+                                                       const DSVariablePool *Xd0,
+                                                       const DSVariablePool *Xi0)
+{
+        DSMatrix * routhArray = NULL;
+        DSUInteger positiveRoots = 0;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xd0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXd(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xd0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        routhArray = DSSSystemRouthArrayForSteadyState(ssys, Xd0, Xi0);
+        if (routhArray == NULL) {
+                goto bail;
+        }
+        positiveRoots = DSSSystemNumberOfPositiveRootsForRouthArray(routhArray);
+        DSMatrixFree(routhArray);
+bail:
+        return positiveRoots;
+}
+
 extern DSUInteger DSSSystemPositiveRoots(const DSSSystem *ssys, const DSVariablePool *Xi0)
 {
         DSMatrix * routhArray = NULL;
