@@ -101,9 +101,11 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace 
 #pragma mark Cyclical Cases and Cyclical Case validity
 #endif
 
-extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(DSDesignSpace *ds, DSUInteger caseNumber);
+extern DSUInteger DSDesignSpaceNumberOfCyclicalCases(const DSDesignSpace * ds);
+extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(const DSDesignSpace *ds, DSUInteger caseNumber);
 extern void DSDesignSpaceCalculateCyclicalCase(DSDesignSpace *ds, DSCase * aCase);
 extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds);
+
 extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds);
 
 #ifdef __cplusplus

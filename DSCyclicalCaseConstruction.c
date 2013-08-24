@@ -186,10 +186,10 @@ static DSDesignSpace * dsSubcaseCreateUniqueSystemSubcase(const DSCase *aCase, c
         DSDesignSpace * ds = NULL;
         DSUInteger i, j;
         DSUInteger * equationIndex = NULL;
-        char **equations, *temp_rhs;
+        char **equations, *temp_rhs, *temp_lhs;
         DSExpression **caseEquations;
-        DSExpression  *eqLHS, *eqRHS;
-        DSVariablePool *temp, * Xda = NULL;
+        DSExpression  *eqLHS;
+        DSVariablePool * Xda = NULL;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -218,39 +218,46 @@ static DSDesignSpace * dsSubcaseCreateUniqueSystemSubcase(const DSCase *aCase, c
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
                         if (DSMatrixDoubleValue(problematicEquations, j, i) == 0.0)
                                 continue;
-                        DSSecureFree(equations[j]);
-                        eqLHS = DSExpressionEquationLHSExpression(caseEquations[j]);
-                        eqRHS = DSExpressionEquationRHSExpression(caseEquations[j]);
-                        temp = DSExpressionVariablesInExpression(eqLHS);
-                        DSVariablePoolCopyVariablesFromVariablePool(Xda, temp);
-                        temp_rhs = DSExpressionAsString(eqRHS);
-                        equations[j] = DSSecureCalloc(sizeof(char),strlen(temp_rhs) + 7);
-                        equations[j] = strcpy(equations[j], "0 = ");
-                        equations[j] = strcat(equations[j], temp_rhs);
-                        DSSecureFree(temp_rhs);
-                        DSExpressionFree(eqLHS);
-                        DSExpressionFree(eqRHS);
-                }
-        }
-        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
-                equationIndex[i] = DSMatrixRows(problematicEquations);
-                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
-                        if (DSMatrixDoubleValue(problematicEquations, j, i) == 0.0)
-                                continue;
+//                        DSSecureFree(equations[j]);
+//                        eqLHS = DSExpressionEquationLHSExpression(caseEquations[j]);
+//                        eqRHS = DSExpressionEquationRHSExpression(caseEquations[j]);
+//                        temp = DSExpressionVariablesInExpression(eqLHS);
+//                        DSVariablePoolCopyVariablesFromVariablePool(Xda, temp);
+//                        temp_rhs = DSExpressionAsString(eqRHS);
+//                        equations[j] = DSSecureCalloc(sizeof(char),strlen(temp_rhs) + 7);
+//                        equations[j] = strcpy(equations[j], "0 = ");
+//                        equations[j] = strcat(equations[j], temp_rhs);
+//                        DSSecureFree(temp_rhs);
+//                        DSExpressionFree(eqLHS);
+//                        DSExpressionFree(eqRHS);
                         equationIndex[i] = j;
                         break;
                 }
         }
+//        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
+//                equationIndex[i] = DSMatrixRows(problematicEquations);
+//                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
+//                        if (DSMatrixDoubleValue(problematicEquations, j, i) == 0.0)
+//                                continue;
+//                        equationIndex[i] = j;
+//                        break;
+//                }
+//        }
         for (i = 0; i < DSCaseNumberOfEquations(aCase); i++) {
                 for (j = 0; j < DSMatrixColumns(problematicEquations); j++) {
                         if (i != equationIndex[j])
                                 continue;
                         DSSecureFree(equations[i]);
+                        eqLHS = DSExpressionEquationLHSExpression(caseEquations[i]);
+                        temp_lhs = DSExpressionAsString(eqLHS);
                         temp_rhs = DSExpressionAsString(augmentedEquations[j]);
-                        equations[i] = DSSecureCalloc(sizeof(char),strlen(temp_rhs) + 7);
-                        equations[i] = strcpy(equations[i], "0 = ");
+                        DSExpressionFree(eqLHS);
+                        equations[i] = DSSecureCalloc(sizeof(char),strlen(temp_rhs) + strlen(temp_lhs)+4);
+                        equations[i] = strcpy(equations[i], temp_lhs);
+                        equations[i] = strcat(equations[i], " = ");
                         equations[i] = strcat(equations[i], temp_rhs);
                         DSSecureFree(temp_rhs);
+                        DSSecureFree(temp_lhs);
                 }
         }
         ds = DSDesignSpaceByParsingStringsWithXi(equations, Xda, DSGMASystemXi(modifiedGMA), DSCaseNumberOfEquations(aCase));
@@ -300,7 +307,7 @@ extern DSDesignSpace * DSCyclicalCaseInternalForUnderdeterminedCase(const DSCase
         if (DSMatrixArrayNumberOfMatrices(problematicTerms) != DSMatrixArrayNumberOfMatrices(coefficientArray))
                 goto bail;
         temp = DSGMASystemCopy(original->gma);
-        augmentedEquations = DSSecureCalloc(sizeof(DSExpression *), DSMatrixColumns(problematicEquations));
+        augmentedEquations = DSSecureCalloc(sizeof(DSExpression *), DSMatrixColumns(problematicEquations));        
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
                 l = 0;
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
@@ -308,16 +315,18 @@ extern DSDesignSpace * DSCyclicalCaseInternalForUnderdeterminedCase(const DSCase
                                 continue;
                         value = DSMatrixArrayDoubleWithIndices(coefficientArray, i, l, 0);
                         for (k = 0; k < DSMatrixColumns(DSGMASystemAlpha(temp)); k++) {
-                                if (k+1 == aCase->signature[2*j])
+                                if (k+1 == aCase->signature[2*j]) {
                                         DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemAlpha(temp), j, k, 0.0f);
-                                else
+                                } else {
                                         DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemAlpha(temp), j, k,
                                                                DSMatrixDoubleValue(DSGMASystemAlpha(temp), j, k)*value);
-                                if (k+1 == aCase->signature[2*j+1])
+                                }
+                                if (k+1 == aCase->signature[2*j+1]) {
                                         DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemBeta(temp), j, k, 0.0f);
-                                else
+                                } else if (k < DSMatrixColumns(DSGMASystemBeta(temp))) {
                                         DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemBeta(temp), j, k,
                                                                DSMatrixDoubleValue(DSGMASystemBeta(temp), j, k)*value);
+                                }
                         }
                         l++;
                         augmentedEquations[i] = DSExpressionAddExpressions(augmentedEquations[i], DSGMASystemPositiveTermsForEquations(temp, j));

@@ -77,6 +77,10 @@ extern DSMatrix * DSSSystemRouthArrayForSteadyState(const DSSSystem *ssys,
 extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSUInteger DSSSystemNumberOfPositiveRootsForRouthArray(const DSMatrix *routhArray);
 extern DSUInteger DSSSystemPositiveRoots(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSUInteger DSSSystemPositiveRootsForSteadyStateAndFlux(const DSSSystem *ssys,
+                                                              const DSVariablePool *Xd0,
+                                                              const DSVariablePool *Xi0,
+                                                              const DSVariablePool *flux0);
 extern DSUInteger DSSSystemPositiveRootsForSteadyState(const DSSSystem *ssys,
                                                        const DSVariablePool *Xd0,
                                                        const DSVariablePool *Xi0);

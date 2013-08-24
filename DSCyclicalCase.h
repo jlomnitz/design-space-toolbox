@@ -50,14 +50,14 @@
 /*\}*/
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Allocation, deallocation and initialization
+#pragma mark - Allocation, deallocation and initialization -
 #endif
 
 extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase);
 extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase);
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Getter functions
+#pragma mark - Getter -
 #endif
 
 extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalCase * cyclicalCase);
@@ -70,7 +70,30 @@ extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cycli
 //extern DSCase * DSCyclicalCaseSubcaseWithCaseSignature(const DSCyclicalCase * cyclicalCase, const DSUInteger * signature);
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark Linear programming functions
+#pragma mark - Getter -
+#endif
+
+extern const DSUInteger DSCyclicalCaseNumberOfEquations(const DSCyclicalCase *cyclicalCase);
+
+extern DSExpression ** DSCyclicalCaseEquations(const DSCyclicalCase *cyclicalCase);
+
+extern const DSUInteger DSCyclicalCaseNumberOfConditions(const DSCyclicalCase *cyclicalCase);
+extern DSExpression ** DSCyclicalCaseConditions(const DSCyclicalCase *cyclicalCase);
+extern DSExpression ** DSCyclicalCaseLogarithmicConditions(const DSCyclicalCase *cyclicalCase);
+
+extern const DSUInteger DSCyclicalCaseNumberOfBoundaries(const DSCyclicalCase *cyclicalCase);
+extern DSExpression ** DSCyclicalCaseBoundaries(const DSCyclicalCase *cyclicalCase);
+extern DSExpression ** DSCyclicalCaseLogarithmicBoundaries(const DSCyclicalCase *cyclicalCase);
+
+extern DSUInteger DSCyclicalCaseNumber(const DSCyclicalCase *cyclicalCase);
+extern const DSUInteger * DSCyclicalCaseSignature(const DSCyclicalCase *cyclicalCase);
+extern const DSSSystem *DSCyclicalCaseSSystem(const DSCyclicalCase *cyclicalCase);
+
+//extern double DSCyclicalCaseLogarithmicGain(const DSCase *aCase, const char *XdName, const char *XiName);
+
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark - Linear programming -
 #endif
 
 extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase);
@@ -83,7 +106,7 @@ extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *aSubcase, c
 
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Utility functions
+#pragma mark - Utility -
 #endif
 
 extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSlice(const DSCyclicalCase * cyclicalCase,

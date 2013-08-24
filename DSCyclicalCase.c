@@ -56,6 +56,11 @@ extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace *
         }
         aSubcase = DSSecureCalloc(sizeof(DSCyclicalCase), 1);
         aSubcase->internal = DSCyclicalCaseInternalForUnderdeterminedCase(aCase, ds);
+        if (aSubcase->internal == NULL) {
+                DSSecureFree(aSubcase);
+                aSubcase = NULL;
+                goto bail;
+        }
         aSubcase->caseNumber = aCase->caseNumber;
         aSubcase->originalCase = DSCaseCopy(aCase);
 bail:
@@ -78,7 +83,7 @@ bail:
 }
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Getter functions
+#pragma mark - Getter =
 #endif
 
 extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalCase * subcase)
@@ -132,7 +137,60 @@ bail:
         return aSubcase;
 }
 
-//extern const DSDictionary * 
+extern const DSUInteger DSCyclicalCaseNumberOfEquations(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseNumberOfEquations(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern DSExpression ** DSCyclicalCaseEquations(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseEquations(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern const DSUInteger DSCyclicalCaseNumberOfConditions(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseNumberOfConditions(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern DSExpression ** DSCyclicalCaseConditions(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseConditions(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern DSExpression ** DSCyclicalCaseLogarithmicConditions(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseLogarithmicConditions(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern const DSUInteger DSCyclicalCaseNumberOfBoundaries(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseNumberOfBoundaries(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern DSExpression ** DSCyclicalCaseBoundaries(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseBoundaries(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern DSExpression ** DSCyclicalCaseLogarithmicBoundaries(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseLogarithmicBoundaries(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern DSUInteger DSCyclicalCaseNumber(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseNumber(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern const DSUInteger * DSCyclicalCaseSignature(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseSignature(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
+extern const DSSSystem *DSCyclicalCaseSSystem(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseSSystem(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Linear programming functions

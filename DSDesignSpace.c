@@ -760,6 +760,7 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace 
         DSUInteger validCaseNumbers = 0;
         char nameString[100];
         DSCase * aCase = NULL;
+        const DSCyclicalCase * cyclicalCase = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -772,10 +773,16 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace 
                 validCaseNumbers = atoi(ds->validCases->names[i]);
                 aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
                 sprintf(nameString, "%d", validCaseNumbers);
-                if (DSCaseIsValidAtSlice(aCase, lower, upper) == true)
+                cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(ds, validCaseNumbers);
+                if (cyclicalCase != NULL) {
+                        if (DSCyclicalCaseIsValidAtSlice(cyclicalCase, lower, upper) == true) {
+                                DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
+                        }
+                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
                         DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
-                else
+                } else {
                         DSCaseFree(aCase);
+                }
         }
 bail:
         return caseDictionary;
@@ -809,6 +816,22 @@ bail:
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Cyclical Cases and Cyclical Case validity
 #endif
+
+extern DSUInteger DSDesignSpaceNumberOfCyclicalCases(const DSDesignSpace * ds)
+{
+        DSUInteger numberOfCyclicalCases = 0;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSCyclical(ds) == NULL) {
+                DSError(M_DS_DICTIONARY_NULL ": Cyclical cases not calculated", A_DS_ERROR);
+                goto bail;
+        }
+        numberOfCyclicalCases = DSDictionaryCount(DSDSCyclical(ds));
+bail:
+        return numberOfCyclicalCases;
+}
 
 static DSCase ** dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds, const DSUInteger numberOfCases, DSUInteger *cases)
 {
@@ -875,7 +898,7 @@ bail:
         return processedCases;
 }
 
-extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(DSDesignSpace *ds, DSUInteger caseNumber)
+extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(const DSDesignSpace *ds, DSUInteger caseNumber)
 {
         char * string = NULL;
         DSCyclicalCase * cyclicalCase = NULL;

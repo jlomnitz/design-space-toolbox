@@ -557,6 +557,7 @@ extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, c
                         }
                         if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
                                 DSVariablePoolAddVariableWithName(Xd, variableName);
+                                DSVariablePoolSetValueForVariableWithName(Xd, variableName, i);
                         }
                 }
                 DSExpressionFree(lhs);

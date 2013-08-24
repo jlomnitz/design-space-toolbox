@@ -1721,6 +1721,58 @@ bail:
         return positiveRoots;
 }
 
+extern DSUInteger DSSSystemPositiveRootsForSteadyStateAndFlux(const DSSSystem *ssys,
+                                                              const DSVariablePool *Xd0,
+                                                              const DSVariablePool *Xi0,
+                                                              const DSVariablePool *flux0)
+{
+        DSMatrix *steadyState, *flux, *F, * routhArray = NULL;
+        char flux_name[100];
+        DSUInteger i, positiveRoots = 0;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xd0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXd(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xd0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (flux0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXd(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Flux variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        steadyState = DSVariablePoolValuesAsVector(Xd0, false);
+        flux = DSMatrixAlloc(DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)), 1);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)); i++) {
+                sprintf(flux_name, "V_%s", DSVariableName(DSVariablePoolVariableAtIndex(DSSSysXd(ssys), i)));
+                DSMatrixSetDoubleValue(flux, i, 0, DSVariablePoolValueForVariableWithName(flux0, flux_name));
+        }
+        F = DSMatrixIdentity(DSMatrixRows(flux));
+        for (i = 0; i < DSMatrixColumns(F); i++) {
+                DSMatrixSetDoubleValue(F,
+                                       i,
+                                       i,
+                                       pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
+        }
+        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F);
+        DSMatrixFree(F);
+        DSMatrixFree(flux);
+        DSMatrixFree(steadyState);
+//        routhArray = DSSSystemRouthArrayForSteadyState(ssys, Xd0, Xi0);
+        if (routhArray == NULL) {
+                goto bail;
+        }
+        
+        positiveRoots = DSSSystemNumberOfPositiveRootsForRouthArray(routhArray);
+        DSMatrixFree(routhArray);
+bail:
+        return positiveRoots;
+}
+
 extern DSUInteger DSSSystemPositiveRootsForSteadyState(const DSSSystem *ssys,
                                                        const DSVariablePool *Xd0,
                                                        const DSVariablePool *Xi0)
