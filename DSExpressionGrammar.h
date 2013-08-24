@@ -13,15 +13,17 @@ void DSExpressionParserTrace(FILE *TraceFILE,char *zTracePrompt);
 #define DSExpressionParserARG_STORE yypParser->parsed = parsed
 #define DSExpressionParserARG_FETCH void *parsed = yypParser->parsed
 #define DSExpressionParserARG_SDECL void *parsed;
-#define TOKEN_EXPRESSION_RPAREN                         10
-#define TOKEN_EXPRESSION_LPAREN                          9
-#define TOKEN_EXPRESSION_VALUE                           8
-#define TOKEN_EXPRESSION_POWER                           7
-#define TOKEN_EXPRESSION_NOT                             6
-#define TOKEN_EXPRESSION_TIMES                           5
-#define TOKEN_EXPRESSION_DIVIDE                          4
-#define TOKEN_EXPRESSION_MINUS                           3
-#define TOKEN_EXPRESSION_PLUS                            2
+#define TOKEN_EXPRESSION_RPAREN                         12
+#define TOKEN_EXPRESSION_LPAREN                         11
+#define TOKEN_EXPRESSION_VALUE                          10
+#define TOKEN_EXPRESSION_POWER                           9
+#define TOKEN_EXPRESSION_NOT                             8
+#define TOKEN_EXPRESSION_PRIME                           7
+#define TOKEN_EXPRESSION_TIMES                           6
+#define TOKEN_EXPRESSION_DIVIDE                          5
+#define TOKEN_EXPRESSION_MINUS                           4
+#define TOKEN_EXPRESSION_PLUS                            3
+#define TOKEN_EXPRESSION_EQUALS                          2
 #define TOKEN_EXPRESSION_ID                              1
 #define INTERFACE 0
 DSExpression *dsExpressionAllocWithVariableName(const char *name);

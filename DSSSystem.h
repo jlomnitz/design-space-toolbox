@@ -41,18 +41,20 @@ __BEGIN_DECLS
 #pragma mark - Allocation, deallocation and initialization
 #endif
 
+extern DSSSystem * DSSSystemCopy(const DSSSystem * ssys);
 extern void DSSSystemFree(DSSSystem * ssys);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Factory functions
 #endif
 
-__deprecated extern DSSSystem * DSSSystemFromGMAWithDominantTerms(const DSGMASystem * gma, const DSUInteger * termList);
+//__deprecated extern DSSSystem * DSSSystemFromGMAWithDominantTerms(const DSGMASystem * gma, const DSUInteger * termList);
 extern DSSSystem * DSSSystemWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger * termArray);
-extern DSSSystem * DSSSystemByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...);
-extern DSSSystem * DSSSystemByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations);
+extern DSSSystem * DSSSystemByParsingStringList(char * const * const string, const DSVariablePool * const Xd_a, ...);
+extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 
-extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem, const DSVariablePool * algebraicVariables);
+//extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem, const DSVariablePool * algebraicVariables);
+extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Getter functions
@@ -64,8 +66,24 @@ extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * ori
 
 extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariablePool *Xi0, const char * function);
 extern DSMatrix * DSSSystemSteadyStateValues(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSMatrix * DSSSystemSteadyStateFluxForDependentVariables(const DSSSystem * ssys,
+                                                                const DSVariablePool * Xd0,
+                                                                const DSVariablePool * Xi0);
 extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, const DSMatrix * F);
+extern DSMatrix * DSSSystemRouthArrayForSteadyState(const DSSSystem *ssys,
+                                                    const DSVariablePool *Xd0,
+                                                    const DSVariablePool *Xi0);
 extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSUInteger DSSSystemNumberOfPositiveRootsForRouthArray(const DSMatrix *routhArray);
+extern DSUInteger DSSSystemPositiveRoots(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSUInteger DSSSystemPositiveRootsForSteadyStateAndFlux(const DSSSystem *ssys,
+                                                              const DSVariablePool *Xd0,
+                                                              const DSVariablePool *Xi0,
+                                                              const DSVariablePool *flux0);
+extern DSUInteger DSSSystemPositiveRootsForSteadyState(const DSSSystem *ssys,
+                                                       const DSVariablePool *Xd0,
+                                                       const DSVariablePool *Xi0);
 extern DSUInteger DSSSystemRouthIndex(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSUInteger DSSSystemCharacteristicEquationCoefficientIndex(const DSSSystem *ssys, const DSVariablePool *Xi0);
 
@@ -101,6 +119,7 @@ extern DSMatrix * DSSSystemG(const DSSSystem *ssys);
 extern DSMatrix * DSSSystemH(const DSSSystem *ssys);
 
 extern const DSVariablePool * DSSSystemXd(const DSSSystem * const ssys);
+extern const DSVariablePool * DSSSystemXd_a(const DSSSystem * const ssys);
 extern const DSVariablePool * DSSSystemXi(const DSSSystem * const ssys);
 
 extern const bool DSSSystemHasSolution(const DSSSystem * ssys);

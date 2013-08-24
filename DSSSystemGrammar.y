@@ -38,9 +38,10 @@
 %token_prefix  TOKEN_SSYS_
 %type ID {char *}
 
+%nonassoc EQUALS.
 %left PLUS MINUS.
 %left DIVIDE TIMES.
-%left NOT.
+%left PRIME NOT.
 %right POWER.
 
 %extra_argument {void **parser_aux}
@@ -72,7 +73,13 @@
         #include "DSGMASystemParsingAux.h"
 }
 
-start ::= expression.
+start ::= equation.
+
+//equation ::= ID EQUALS expression.
+
+equation ::= ID PRIME EQUALS expression.
+
+equation ::= CONSTANT EQUALS expression.
 
 expression ::= pterm PLUS mterm.
 

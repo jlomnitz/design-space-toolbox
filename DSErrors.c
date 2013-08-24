@@ -101,7 +101,6 @@ extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const c
                 LINE,
                 FUNC,
                 FILEN);
-        i = 0;
         for (i = 1; i < size; i++) {
                 if (strlen(errorString) + strlen(strings[i]) >= MSIZE)
                     break;

@@ -486,8 +486,7 @@ class DesignSpacePlot:
                 Var = self.Xi.copy()
                 for k in cases:
                     ssystems.append(designspacetoolbox_test.DSSSystemByRemovingAlgebraicConstraints(
-                                     designspacetoolbox_test.DSCaseSSystem(k._data), 
-                                     algebraic._data))
+                                     designspacetoolbox_test.DSCaseSSystem(k._data)))
                 for i in xrange(len(x)):
                     Var[self.Variables['X']] = 10**x[i]
                     for j in xrange(len(y)):
@@ -539,8 +538,7 @@ class DesignSpacePlot:
                 Var = self.Xi.copy()
                 for k in cases:
                     ssystems.append(designspacetoolbox_test.DSSSystemByRemovingAlgebraicConstraints(
-                                     designspacetoolbox_test.DSCaseSSystem(k._data), 
-                                     algebraic._data))
+                                     designspacetoolbox_test.DSCaseSSystem(k._data)))
                 for i in xrange(len(x)):
                     Var[self.Variables['X']] = 10**x[i]
                     for j in xrange(len(y)):
@@ -663,9 +661,8 @@ class DesignSpacePlot:
 class DesignSpace:
         """ A python class of the DSVariablePool object"""
         dependentVariables = None
-        def __init__(self, dependentVariables, stringList):
-                self.dependentVariables = dependentVariables
-                self.__parseStrings__(dependentVariables, stringList)
+        def __init__(self, stringList, dependentVariables=[]):
+                self.__parseStrings__(stringList, algebraic_variables=dependentVariables)
         def __del__(self):
                 if hasattr(self, '_data')==0:
                         return
@@ -678,13 +675,22 @@ class DesignSpace:
                 if self._data != None:
                         designspacetoolbox_test.DSDesignSpacePrint(self._data)
                 return ''
-        def __parseStrings__(self, dependentVariables, stringList):
-                if isinstance(dependentVariables,VariablePool)==0:
-                        return
-                if type(stringList)!=list:
-                        return
+        def __parseStrings__(self, equations, algebraic_variables=[]):
+                if isinstance(algebraic_variables,list) is False:
+                    return
+                if isinstance(equations,list) is False:
+                    return
                 if hasattr(self, '_data')==0:
-                        self._data=designspacetoolbox_test.DSDesignSpaceByParsingStrings(dependentVariables._data, stringList, len(dependentVariables))
+                    self._data=designspacetoolbox_test.DSSWIGDesignSpaceParseWrapper(
+                     equations,
+                     len(equations),
+                     algebraic_variables,
+                     len(algebraic_variables))
+                self.dependentVariables = VariablePool()
+                self.dependentVariables._data = designspacetoolbox_test.DSVariablePoolCopy(
+                                            designspacetoolbox_test.DSGMASystemXd(
+                                             designspacetoolbox_test.DSDesignSpaceGMASystem(
+                                              self._data)))
         def caseWithCaseNumber(self, caseNumber):
                 caseNumber = long(caseNumber)
                 if hasattr(self, '_data')==0:
@@ -880,8 +886,7 @@ class DesignSpace:
                 point_types = dict()
                 for case in cases:
                     ssystem = designspacetoolbox_test.DSSSystemByRemovingAlgebraicConstraints(
-                               designspacetoolbox_test.DSCaseSSystem(case._data), 
-                               algebraic._data)
+                               designspacetoolbox_test.DSCaseSSystem(case._data))
                     V = designspacetoolbox_test.DSCaseVerticesFor1DSlice(case._data, lower._data, upper._data, xaxis)
                     x = np.linspace(V[0][0], V[1][0], resolution)
                     for i in xrange(0, len(x)):

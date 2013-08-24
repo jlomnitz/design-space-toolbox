@@ -30,15 +30,17 @@ extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
 */
 #if INTERFACE
 #define TOKEN_EXPRESSION_ID                              1
-#define TOKEN_EXPRESSION_PLUS                            2
-#define TOKEN_EXPRESSION_MINUS                           3
-#define TOKEN_EXPRESSION_DIVIDE                          4
-#define TOKEN_EXPRESSION_TIMES                           5
-#define TOKEN_EXPRESSION_NOT                             6
-#define TOKEN_EXPRESSION_POWER                           7
-#define TOKEN_EXPRESSION_VALUE                           8
-#define TOKEN_EXPRESSION_LPAREN                          9
-#define TOKEN_EXPRESSION_RPAREN                         10
+#define TOKEN_EXPRESSION_EQUALS                          2
+#define TOKEN_EXPRESSION_PLUS                            3
+#define TOKEN_EXPRESSION_MINUS                           4
+#define TOKEN_EXPRESSION_DIVIDE                          5
+#define TOKEN_EXPRESSION_TIMES                           6
+#define TOKEN_EXPRESSION_PRIME                           7
+#define TOKEN_EXPRESSION_NOT                             8
+#define TOKEN_EXPRESSION_POWER                           9
+#define TOKEN_EXPRESSION_VALUE                          10
+#define TOKEN_EXPRESSION_LPAREN                         11
+#define TOKEN_EXPRESSION_RPAREN                         12
 #endif
 /* Make sure the INTERFACE macro is defined.
 */
@@ -80,7 +82,7 @@ extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 15
+#define YYNOCODE 18
 #define YYACTIONTYPE unsigned char
 #if INTERFACE
 #define DSExpressionParserTOKENTYPE DSExpression *
@@ -98,8 +100,8 @@ typedef union {
 #define DSExpressionParserARG_FETCH void *parsed = yypParser->parsed
 #define DSExpressionParserARG_STORE yypParser->parsed = parsed
 #endif
-#define YYNSTATE 24
-#define YYNRULE 12
+#define YYNSTATE 28
+#define YYNRULE 15
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
 #define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
@@ -169,35 +171,38 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **  yy_default[]       Default action for each state.
 */
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */     2,    4,    8,    6,   19,    9,   10,   37,   21,   24,
- /*    10 */     5,    2,    4,    8,    6,   14,    9,    2,    4,    8,
- /*    20 */     6,    9,    9,    8,    6,   22,    9,   16,    7,    1,
- /*    30 */    18,   38,   15,   20,   23,    3,   17,   12,   38,   13,
- /*    40 */    11,
+ /*     0 */    28,   22,    8,    1,    4,    6,    5,   27,   15,    7,
+ /*    10 */     1,    4,    6,    5,   27,   27,    7,    7,   13,   26,
+ /*    20 */     1,    4,    6,    5,   27,   12,    7,   16,   17,   25,
+ /*    30 */     1,    4,    6,    5,   27,   23,    7,   10,    9,   11,
+ /*    40 */    44,   19,   18,   20,   24,    3,   14,   21,   29,    7,
+ /*    50 */     6,    5,   27,    2,    7,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */     2,    3,    4,    5,   12,    7,   12,   13,   10,    0,
- /*    10 */     9,    2,    3,    4,    5,   12,    7,    2,    3,    4,
- /*    20 */     5,    7,    7,    4,    5,   10,    7,    1,    2,    3,
- /*    30 */    12,   14,   12,   12,    8,    9,   12,   12,   14,   12,
- /*    40 */    12,
+ /*     0 */     0,   14,    2,    3,    4,    5,    6,    7,   14,    9,
+ /*    10 */     3,    4,    5,    6,    7,    7,    9,    9,   14,   12,
+ /*    20 */     3,    4,    5,    6,    7,   14,    9,   14,   14,   12,
+ /*    30 */     3,    4,    5,    6,    7,    1,    9,    3,    4,   14,
+ /*    40 */    15,   16,   14,   14,   10,   11,   14,   14,    0,    9,
+ /*    50 */     5,    6,    7,   11,    9,
 };
-#define YY_SHIFT_USE_DFLT (-3)
-#define YY_SHIFT_MAX 20
+#define YY_SHIFT_USE_DFLT (-1)
+#define YY_SHIFT_MAX 23
 static const signed char yy_shift_ofst[] = {
- /*     0 */    26,   26,   26,   26,   26,   26,   26,   26,   26,   26,
- /*    10 */     9,   15,   -2,   19,   19,   14,    1,   14,   14,   14,
- /*    20 */    14,
+ /*     0 */    34,   34,   34,   34,   34,   34,   34,   34,   34,   34,
+ /*    10 */    34,    0,    7,   17,   27,   45,   45,    8,    8,   48,
+ /*    20 */    40,   40,   40,   42,
 };
-#define YY_REDUCE_USE_DFLT (-9)
-#define YY_REDUCE_MAX 9
+#define YY_REDUCE_USE_DFLT (-14)
+#define YY_REDUCE_MAX 10
 static const signed char yy_reduce_ofst[] = {
- /*     0 */    -6,   24,    3,   25,   27,   28,   18,   20,   21,   -8,
+ /*     0 */    25,   -6,    4,   11,   13,   14,   28,   29,   32,   33,
+ /*    10 */   -13,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    36,   36,   36,   36,   36,   36,   36,   36,   36,   36,
- /*    10 */    36,   36,   36,   26,   25,   31,   32,   30,   27,   29,
- /*    20 */    28,   35,   34,   33,
+ /*     0 */    43,   43,   43,   43,   43,   43,   43,   43,   43,   43,
+ /*    10 */    43,   43,   43,   43,   30,   31,   32,   33,   34,   43,
+ /*    20 */    35,   36,   37,   39,   40,   41,   42,   38,
 };
 #define YY_SZ_ACTTAB (int)(sizeof(yy_action)/sizeof(yy_action[0]))
 
@@ -291,10 +296,11 @@ void DSExpressionParserTrace(FILE *TraceFILE, char *zTracePrompt){
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
 static const char *const yyTokenName[] = { 
-  "$",             "ID",            "PLUS",          "MINUS",       
-  "DIVIDE",        "TIMES",         "NOT",           "POWER",       
-  "VALUE",         "LPAREN",        "RPAREN",        "error",       
-  "expr",          "program",     
+  "$",             "ID",            "EQUALS",        "PLUS",        
+  "MINUS",         "DIVIDE",        "TIMES",         "PRIME",       
+  "NOT",           "POWER",         "VALUE",         "LPAREN",      
+  "RPAREN",        "error",         "expr",          "program",     
+  "equation",    
 };
 #endif /* NDEBUG */
 
@@ -303,17 +309,20 @@ static const char *const yyTokenName[] = {
 */
 static const char *const yyRuleName[] = {
  /*   0 */ "program ::= expr",
- /*   1 */ "expr ::= expr PLUS expr",
- /*   2 */ "expr ::= expr MINUS expr",
- /*   3 */ "expr ::= expr TIMES expr",
- /*   4 */ "expr ::= expr DIVIDE expr",
- /*   5 */ "expr ::= expr POWER expr",
- /*   6 */ "expr ::= MINUS expr",
- /*   7 */ "expr ::= PLUS expr",
- /*   8 */ "expr ::= ID",
- /*   9 */ "expr ::= VALUE",
- /*  10 */ "expr ::= ID LPAREN expr RPAREN",
- /*  11 */ "expr ::= LPAREN expr RPAREN",
+ /*   1 */ "program ::= equation",
+ /*   2 */ "equation ::= expr EQUALS expr",
+ /*   3 */ "expr ::= expr PLUS expr",
+ /*   4 */ "expr ::= expr MINUS expr",
+ /*   5 */ "expr ::= expr TIMES expr",
+ /*   6 */ "expr ::= expr DIVIDE expr",
+ /*   7 */ "expr ::= expr POWER expr",
+ /*   8 */ "expr ::= MINUS expr",
+ /*   9 */ "expr ::= PLUS expr",
+ /*  10 */ "expr ::= expr PRIME",
+ /*  11 */ "expr ::= ID",
+ /*  12 */ "expr ::= VALUE",
+ /*  13 */ "expr ::= ID LPAREN expr RPAREN",
+ /*  14 */ "expr ::= LPAREN expr RPAREN",
 };
 #endif /* NDEBUG */
 
@@ -392,7 +401,7 @@ static void yy_destructor(
     ** which appear on the RHS of the rule, but which are not used
     ** inside the C code.
     */
-    case 12: /* expr */
+    case 14: /* expr */
 {
 DSExpressionFree((yypminor->yy0));
 }
@@ -623,18 +632,21 @@ static const struct {
   YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } yyRuleInfo[] = {
-  { 13, 1 },
-  { 12, 3 },
-  { 12, 3 },
-  { 12, 3 },
-  { 12, 3 },
-  { 12, 3 },
-  { 12, 2 },
-  { 12, 2 },
-  { 12, 1 },
-  { 12, 1 },
-  { 12, 4 },
-  { 12, 3 },
+  { 15, 1 },
+  { 15, 1 },
+  { 16, 3 },
+  { 14, 3 },
+  { 14, 3 },
+  { 14, 3 },
+  { 14, 3 },
+  { 14, 3 },
+  { 14, 2 },
+  { 14, 2 },
+  { 14, 2 },
+  { 14, 1 },
+  { 14, 1 },
+  { 14, 4 },
+  { 14, 3 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -690,6 +702,7 @@ static void yy_reduce(
   **     break;
   */
       case 0: /* program ::= expr */
+      case 1: /* program ::= equation */ yytestcase(yyruleno==1);
 {
         if (parsed == NULL) {
                 DSError(M_DS_WRONG ": parser structure is NULL", A_DS_ERROR);
@@ -699,7 +712,14 @@ static void yy_reduce(
         }
 }
         break;
-      case 1: /* expr ::= expr PLUS expr */
+      case 2: /* equation ::= expr EQUALS expr */
+{
+        yygotominor.yy0 = dsExpressionAllocWithOperator('=');
+        DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
+        DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
+}
+        break;
+      case 3: /* expr ::= expr PLUS expr */
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
@@ -713,7 +733,7 @@ static void yy_reduce(
         }
 }
         break;
-      case 2: /* expr ::= expr MINUS expr */
+      case 4: /* expr ::= expr MINUS expr */
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
@@ -738,7 +758,7 @@ static void yy_reduce(
         }
 }
         break;
-      case 3: /* expr ::= expr TIMES expr */
+      case 5: /* expr ::= expr TIMES expr */
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
@@ -752,7 +772,7 @@ static void yy_reduce(
         }
 }
         break;
-      case 4: /* expr ::= expr DIVIDE expr */
+      case 6: /* expr ::= expr DIVIDE expr */
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
             DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
@@ -777,10 +797,10 @@ static void yy_reduce(
         }
 }
         break;
-      case 5: /* expr ::= expr POWER expr */
+      case 7: /* expr ::= expr POWER expr */
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
-            DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
+            DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
                 yygotominor.yy0 = dsExpressionAllocWithConstant(pow(DSExpressionConstant(yymsp[-2].minor.yy0), DSExpressionConstant(yymsp[0].minor.yy0)));
                 DSExpressionFree(yymsp[-2].minor.yy0);
                 DSExpressionFree(yymsp[0].minor.yy0);
@@ -791,7 +811,7 @@ static void yy_reduce(
         }
 }
         break;
-      case 6: /* expr ::= MINUS expr */
+      case 8: /* expr ::= MINUS expr */
 {
         if (DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
                 yygotominor.yy0 = dsExpressionAllocWithConstant(-DSExpressionConstant(yymsp[0].minor.yy0));
@@ -803,28 +823,34 @@ static void yy_reduce(
         }
 }
         break;
-      case 7: /* expr ::= PLUS expr */
+      case 9: /* expr ::= PLUS expr */
 {
         yygotominor.yy0 = yymsp[0].minor.yy0;
 }
         break;
-      case 8: /* expr ::= ID */
+      case 10: /* expr ::= expr PRIME */
+{
+        yygotominor.yy0 = dsExpressionAllocWithOperator('.');
+        DSExpressionAddBranch(yygotominor.yy0, yymsp[-1].minor.yy0);
+}
+        break;
+      case 11: /* expr ::= ID */
 {
         yygotominor.yy0 = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 9: /* expr ::= VALUE */
+      case 12: /* expr ::= VALUE */
 {
         yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 10: /* expr ::= ID LPAREN expr RPAREN */
+      case 13: /* expr ::= ID LPAREN expr RPAREN */
 {
         yygotominor.yy0 = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)yymsp[-3].minor.yy0));
         DSExpressionAddBranch(yygotominor.yy0, yymsp[-1].minor.yy0);
 }
         break;
-      case 11: /* expr ::= LPAREN expr RPAREN */
+      case 14: /* expr ::= LPAREN expr RPAREN */
 {
         yygotominor.yy0 = yymsp[-1].minor.yy0;
 }

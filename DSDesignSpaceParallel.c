@@ -37,6 +37,7 @@
 #include "DSGMASystem.h"
 #include "DSSSystem.h"
 #include "DSCase.h"
+#include "DSCyclicalCase.h"
 #include "DSMatrix.h"
 
 #define PARALLEL_STACK_SIZE_INCREMENT     5000
@@ -204,6 +205,7 @@ extern void * DSParallelWorkerValidity(void * pthread_struct)
         struct pthread_struct * pdata = NULL;
         DSUInteger caseNumber;
         DSCase *aCase;
+        DSCyclicalCase * cyclicalCase;
         char string[100];
         if (pthread_struct == NULL) {
                 DSError(M_DS_NULL ": Parallel worker data is NULL", A_DS_ERROR);
@@ -238,9 +240,13 @@ extern void * DSParallelWorkerValidity(void * pthread_struct)
                         continue;
                 }
                 aCase = DSDesignSpaceCaseWithCaseNumber(pdata->ds, caseNumber);
+                sprintf(string, "%d", aCase->caseNumber);//aCase->caseNumber);
                 if (DSCaseIsValid(aCase) == true) {
-                        sprintf(string, "%d", aCase->caseNumber);//aCase->caseNumber);
                         DSDictionaryAddValueWithName(pdata->ds->validCases, string, (void*)1);
+                } else if (DSDictionaryValueForName(pdata->ds->cyclicalCases, string) != NULL) {
+                        cyclicalCase = DSCyclicalCaseForCaseInDesignSpace(pdata->ds, aCase);
+                        if (DSCyclicalCaseIsValid(cyclicalCase) == true)
+                                DSDictionaryAddValueWithName(pdata->ds->validCases, string, (void*)1);
                 }
                 DSCaseFree(aCase);
         }

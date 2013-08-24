@@ -57,14 +57,16 @@
 %typemap(out) const DSVariable * {
         DSVariable * variable = NULL;
         variable = $1;
-        PyObject * list = NULL;
+        PyObject * list = NULL, *pString, *pFloat;
         if (variable == NULL) {
                 $result = NULL;
                 return;
         }
         list = PyList_New(2);
-        PyList_SetItem(list, 0, PyString_FromFormat("%s", DSVariableName(variable)));
-        PyList_SetItem(list, 1, PyFloat_FromDouble(DSVariableValue(variable)));
+        pString = PyString_FromFormat("%s", DSVariableName(variable));
+        pFloat = PyFloat_FromDouble(DSVariableValue(variable));
+        PyList_SetItem(list, 0, pString);
+        PyList_SetItem(list, 1, pFloat);
         $result = list;
 }
 
@@ -149,7 +151,7 @@ extern void DSVariablePoolSetReadWriteAdd(DSVariablePool *pool);
 /**
  * DSDesignSpace functions available to internal python module.
  */
-extern DSDesignSpace * DSDesignSpaceByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations);
+extern DSDesignSpace * DSDesignSpaceByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 void DSDesignSpaceFree(DSDesignSpace * ds);
 
 extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds);
@@ -157,6 +159,7 @@ extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *
 extern void DSDesignSpacePrint(const DSDesignSpace * ds);
 extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds);
 
+//extern const DSVariablePool * DSDesignSpaceXd(const DSDesignSpace *ds);
 extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds);
 
 extern const DSUInteger DSDesignSpaceNumberOfEquations(const DSDesignSpace *ds);
@@ -183,7 +186,7 @@ extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds);
  * DSSSystem functions available to internal python module
  */
 
-extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem, const DSVariablePool * algebraicVariables);
+extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem);
 
 
 extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariablePool *Xi0, const char * function);
@@ -247,18 +250,34 @@ extern double DSCaseLogarithmicGain(const DSCase *aCase, const char *XdName, con
 
 extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase);
 extern DSVariablePool * DSCaseValidParameterSetAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
+
+extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds);
+
+/**
+ * DSGMASystem functions available to internal python module
+ */
+
+extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
+extern void DSGMASystemFree(DSGMASystem * gma);
+
+extern const DSUInteger DSGMASystemNumberOfEquations(const DSGMASystem *gma);
+extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma);
+
+extern const DSVariablePool *DSGMASystemXd(const DSGMASystem *gma);
+extern const DSVariablePool *DSGMASystemXi(const DSGMASystem *gma);
+
 /**
 * Subcases
 */
-extern DSSubcase * DSSubcaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase);
-extern void DSSubcaseFree(DSSubcase * aSubcase);
-
-extern const bool DSSubcaseIsValid(const DSSubcase *aSubcase);
-extern const bool DSSubcaseIsValidAtSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
-
-extern DSDictionary * DSSubcaseVerticesFor2DSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable);
-
-extern const DSDesignSpace * DSSubcaseInternalDesignSpace(const DSSubcase * subcase);
+//extern DSSubcase * DSSubcaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase);
+//extern void DSSubcaseFree(DSSubcase * aSubcase);
+//
+//extern const bool DSSubcaseIsValid(const DSSubcase *aSubcase);
+//extern const bool DSSubcaseIsValidAtSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
+//
+//extern DSDictionary * DSSubcaseVerticesFor2DSlice(const DSSubcase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable);
+//
+//extern const DSDesignSpace * DSSubcaseInternalDesignSpace(const DSSubcase * subcase);
 /**
  * Dictionary Functions
  */
@@ -304,10 +323,10 @@ extern void DSExpressionFree(DSExpression *expression);
 //extern void * DSSWIGDesignSpaceParseWrapper(const DSVariablePool * const Xd, char ** const strings, const DSUInteger numberOfEquations);
 %inline %{
 
-extern DSSubcase * DSSWIGVoidAsSubcase(void *ptr)
-{
-        return ptr;
-}
+//extern DSSubcase * DSSWIGVoidAsSubcase(void *ptr)
+//{
+//        return ptr;
+//}
 
 extern DSCase * DSSWIGVoidAsCase(void * ptr)
 {
@@ -319,17 +338,15 @@ extern DSExpression * DSSWIGVoidAsExpression(void * ptr)
         return ptr;
 }
         
-extern DSDesignSpace * DSSWIGDesignSpaceParseWrapper(const DSVariablePool * const Xd, char ** const strings, const DSUInteger numberOfEquations)
+extern DSDesignSpace * DSSWIGDesignSpaceParseWrapper(char ** const strings, const DSUInteger numberOfEquations, char ** Xd_list, const DSUInteger numberOfXd)
 {
         DSUInteger i;
-        DSDesignSpace * ds = DSDesignSpaceByParsingStrings(Xd, strings, numberOfEquations);
-        for (i = 0; i < numberOfEquations; i++) {
-                printf("%s\n", strings[i]);
-                if (strings[i] != NULL)
-                        DSSecureFree(strings[i]);
+        DSVariablePool * Xd = DSVariablePoolAlloc();
+        for (i = 0; i < numberOfXd; i++) {
+                DSVariablePoolAddVariableWithName(Xd, Xd_list[i]);
         }
-        if (strings != NULL)
-                DSSecureFree(strings);
+        DSDesignSpace * ds = DSDesignSpaceByParsingStrings(strings, Xd, numberOfEquations);
+        DSVariablePoolFree(Xd);
         return ds;
 }
 %}

@@ -13,6 +13,7 @@
 		9A1033E1144229CD00C214AF /* DSSymbolicMatrix.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */; };
 		9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A1B18F913F5CD7500C36E71 /* DSGMASystemParsingAux.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */; };
+		9A1B866017B2CFC90022AE2F /* DSCyclicalCaseConstruction.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B865F17B2CFC90022AE2F /* DSCyclicalCaseConstruction.c */; };
 		9A36BC951400D5E900599A25 /* DSDesignSpaceParallel.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */; };
 		9A36BC981400D5FF00599A25 /* DSDesignSpaceParallel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A36BC971400D5FF00599A25 /* DSDesignSpaceParallel.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A3D588313FAFABD00C32875 /* DSSSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D588213FAFABD00C32875 /* DSSSystem.c */; };
@@ -40,8 +41,8 @@
 		9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A754213D878990045FDFB /* DSMatrixArray.c */; };
 		9A9A754513D878990045FDFB /* DSMatrixArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9A754313D878990045FDFB /* DSMatrixArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AB9BE6D14F305C4002D9F43 /* DSStack.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A681E5E14F303C90025735D /* DSStack.c */; };
-		9ABB560714295DFF003D74E2 /* DSSubcase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABB560614295DFF003D74E2 /* DSSubcase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9ABB560A14295E09003D74E2 /* DSSubcase.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB560914295E09003D74E2 /* DSSubcase.c */; };
+		9ABB560714295DFF003D74E2 /* DSCyclicalCase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABB560614295DFF003D74E2 /* DSCyclicalCase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9ABB560A14295E09003D74E2 /* DSCyclicalCase.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABB560914295E09003D74E2 /* DSCyclicalCase.c */; };
 		9ABDC42913F1BE8600BC11D7 /* DSExpressionTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ABDC42813F1BE8600BC11D7 /* DSExpressionTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9ABDC42B13F1BE9900BC11D7 /* DSExpressionTokenizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABDC42A13F1BE9900BC11D7 /* DSExpressionTokenizer.c */; };
 		9ABDC42F13F1C3C600BC11D7 /* DSExpressionTokenizerLex.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ABDC42E13F1C3C600BC11D7 /* DSExpressionTokenizerLex.c */; };
@@ -76,6 +77,7 @@
 		9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSymbolicMatrix.c; sourceTree = "<group>"; };
 		9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemParsingAux.h; sourceTree = "<group>"; };
 		9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemParsingAux.c; sourceTree = "<group>"; };
+		9A1B865F17B2CFC90022AE2F /* DSCyclicalCaseConstruction.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = DSCyclicalCaseConstruction.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDesignSpaceParallel.c; sourceTree = "<group>"; };
 		9A36BC971400D5FF00599A25 /* DSDesignSpaceParallel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpaceParallel.h; sourceTree = "<group>"; };
 		9A3D588213FAFABD00C32875 /* DSSSystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSSystem.c; sourceTree = "<group>"; };
@@ -86,8 +88,9 @@
 		9A47C2C4150211FF00AA0585 /* libglpk.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglpk.0.dylib; path = ../../../../../usr/local/lib/libglpk.0.dylib; sourceTree = "<group>"; };
 		9A47FEA913DCBBCC00E2100C /* DSErrorCriteria.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = DSErrorCriteria.txt; sourceTree = "<group>"; };
 		9A537BB013A9CFE50031378A /* DSMemoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMemoryManager.h; sourceTree = "<group>"; };
-		9A537BB213A9D04F0031378A /* DSTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSTypes.h; sourceTree = "<group>"; };
-		9A5833BB139D79170068B6B6 /* DSStd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSStd.h; sourceTree = "<group>"; };
+		9A537BB213A9D04F0031378A /* DSTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DSTypes.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9A5833BB139D79170068B6B6 /* DSStd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DSStd.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9A61FD5417B42B33008D8417 /* designspacetest.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = designspacetest.c; path = tests/designspacetest.c; sourceTree = "<group>"; };
 		9A681E5E14F303C90025735D /* DSStack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSStack.c; sourceTree = "<group>"; };
 		9A681E6014F303DE0025735D /* DSStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSStack.h; sourceTree = "<group>"; };
 		9A68EF5413EC767700FBDDF5 /* DSMatrixTokenizerLex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixTokenizerLex.c; sourceTree = "<group>"; };
@@ -102,13 +105,13 @@
 		9A81B38213A89C31007DADEC /* libdesignspace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libdesignspace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A81B38413A89D38007DADEC /* DSErrors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSErrors.c; sourceTree = "<group>"; };
 		9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpace.h; sourceTree = "<group>"; };
-		9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDesignSpace.c; sourceTree = "<group>"; };
+		9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = DSDesignSpace.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		9A8BAB6713C63DA10031F387 /* DSIO.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSIO.c; sourceTree = "<group>"; };
 		9A8C2F3215F6D672009B6323 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		9A9A754213D878990045FDFB /* DSMatrixArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMatrixArray.c; sourceTree = "<group>"; };
 		9A9A754313D878990045FDFB /* DSMatrixArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMatrixArray.h; sourceTree = "<group>"; };
-		9ABB560614295DFF003D74E2 /* DSSubcase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSubcase.h; sourceTree = "<group>"; };
-		9ABB560914295E09003D74E2 /* DSSubcase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSubcase.c; sourceTree = "<group>"; };
+		9ABB560614295DFF003D74E2 /* DSCyclicalCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DSCyclicalCase.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9ABB560914295E09003D74E2 /* DSCyclicalCase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = DSCyclicalCase.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		9ABDC42813F1BE8600BC11D7 /* DSExpressionTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSExpressionTokenizer.h; sourceTree = "<group>"; };
 		9ABDC42A13F1BE9900BC11D7 /* DSExpressionTokenizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSExpressionTokenizer.c; sourceTree = "<group>"; };
 		9ABDC42C13F1BF4400BC11D7 /* DSExpressionGrammar.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = DSExpressionGrammar.l; sourceTree = "<group>"; };
@@ -125,7 +128,7 @@
 		9AC49AB113B53A4500E0E6B8 /* DSIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSIO.h; sourceTree = "<group>"; };
 		9AC58E68140D6BBD00BFA9A8 /* DSCaseLinearProgramming.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSCaseLinearProgramming.c; sourceTree = "<group>"; };
 		9AC62D1713FDC2CB00523AD7 /* DSCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSCase.h; sourceTree = "<group>"; };
-		9AC62D1A13FDC2D500523AD7 /* DSCase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSCase.c; sourceTree = "<group>"; };
+		9AC62D1A13FDC2D500523AD7 /* DSCase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = DSCase.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		9ACB2CFE13A1345F006A5F71 /* DSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSErrors.h; sourceTree = "<group>"; };
 		9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMemoryManager.c; sourceTree = "<group>"; };
 		9ADADD5B13EB467B00A2062D /* DSMatrixGrammar.l */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lex; path = DSMatrixGrammar.l; sourceTree = "<group>"; };
@@ -251,6 +254,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9A61FD5517B43119008D8417 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				9A61FD5417B42B33008D8417 /* designspacetest.c */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
 		9A681E5D14F303B20025735D /* Stack */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,8 +274,9 @@
 		9A6885C21545BBB1002847E4 /* Subcases */ = {
 			isa = PBXGroup;
 			children = (
-				9ABB560614295DFF003D74E2 /* DSSubcase.h */,
-				9ABB560914295E09003D74E2 /* DSSubcase.c */,
+				9ABB560614295DFF003D74E2 /* DSCyclicalCase.h */,
+				9ABB560914295E09003D74E2 /* DSCyclicalCase.c */,
+				9A1B865F17B2CFC90022AE2F /* DSCyclicalCaseConstruction.c */,
 			);
 			name = Subcases;
 			sourceTree = "<group>";
@@ -453,6 +465,7 @@
 		9AFD4D5F13B70985001FCEC9 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
+				9A61FD5517B43119008D8417 /* Tests */,
 				9AFD4D5E13B70942001FCEC9 /* Basic Data and functions */,
 				9AFD4D5D13B70915001FCEC9 /* Support Data Functions */,
 				9ABF783813F0C1D800602B4B /* GMA, SSystem and Cases */,
@@ -482,7 +495,7 @@
 				9AC62D1813FDC2CB00523AD7 /* DSCase.h in Headers */,
 				9A85B47013FF9DFC00EA3795 /* DSDesignSpace.h in Headers */,
 				9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */,
-				9ABB560714295DFF003D74E2 /* DSSubcase.h in Headers */,
+				9ABB560714295DFF003D74E2 /* DSCyclicalCase.h in Headers */,
 				9A0BC2EE14F177470093E52B /* DSDictionary.h in Headers */,
 				9A681E6114F303DE0025735D /* DSStack.h in Headers */,
 				9AC0E3E513EC72EB0043D9E6 /* DSMatrixTokenizer.h in Headers */,
@@ -524,7 +537,7 @@
 		9A5833AB139D78A80068B6B6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 9A5833AE139D78A80068B6B6 /* Build configuration list for PBXProject "DesignSpaceToolboxV2" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -575,8 +588,9 @@
 				9A36BC951400D5E900599A25 /* DSDesignSpaceParallel.c in Sources */,
 				9AC58E69140D6BBD00BFA9A8 /* DSCaseLinearProgramming.c in Sources */,
 				9AE7759F140DAB8800F77747 /* DSVertices.c in Sources */,
-				9ABB560A14295E09003D74E2 /* DSSubcase.c in Sources */,
+				9ABB560A14295E09003D74E2 /* DSCyclicalCase.c in Sources */,
 				9A1033E1144229CD00C214AF /* DSSymbolicMatrix.c in Sources */,
+				9A1B866017B2CFC90022AE2F /* DSCyclicalCaseConstruction.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,7 +618,7 @@
 					"-D__GSL__",
 					"-lgsl",
 				);
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -627,7 +641,7 @@
 					"-D__GSL__",
 					"-lgsl",
 				);
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -636,10 +650,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = lib;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -659,10 +676,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_PREFIX = lib;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",

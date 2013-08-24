@@ -40,10 +40,11 @@
 #include "DSCase.h"
 #include "DSStack.h"
 #include "DSDesignSpaceParallel.h"
-#include "DSSubcase.h"
+#include "DSCyclicalCase.h"
 
-#define __DS_MAC_OS_X__
-#define DS_PARALLEL_DEFAULT_THREADS             4
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Internal Variable Access Macros -
+#endif
 
 #define DSDSGMA(x)                              ((x)->gma)
 //#define DSDSCases(x)                            ((x)->cases)
@@ -51,21 +52,21 @@
 //#define DSDSValid(x)                            ((x)->validCases)
 #define DSDSXd(x)                               ((x)->Xd)
 #define DSDSXi(x)                               ((x)->Xi)
-#define DSDSSubcases(x)                         ((x)->subcases)
+#define DSDSCyclical(x)                         ((x)->cyclicalCases)
 #define DSDSCi(x)                               ((x)->Ci)
 #define DSDSCd(x)                               ((x)->Cd)
 #define DSDSDelta(x)                            ((x)->delta)
 #define DSDSValidPool(x)                        ((x)->validCases)
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Allocation, deallocation and initialization
+#pragma mark - Allocation, deallocation and initialization -
 #endif
 
 extern DSDesignSpace * DSDesignSpaceAlloc(void)
 {
         DSDesignSpace * ds = NULL;
         ds = DSSecureCalloc(sizeof(DSDesignSpace), 1);
-        DSDSSubcases(ds) = DSDictionaryAlloc();
+        DSDSCyclical(ds) = DSDictionaryAlloc();
         return ds;
 }
 
@@ -87,22 +88,18 @@ void DSDesignSpaceFree(DSDesignSpace * ds)
                 DSMatrixFree(DSDSDelta(ds));
         if (DSDSValidPool(ds) != NULL) 
                 DSDictionaryFree(DSDSValidPool(ds));
-//        for (i = 0; i < DSDSSubcases(ds)->count; i++) {
-//                aStack = DSDictionaryValueForName(DSDSSubcases(ds), DSDSSubcases(ds)->names[i]);
-//                DSStackFreeWithFunction(aStack, DSSubcaseFree);
-//        }
-        DSDictionaryFreeWithFunction(DSDSSubcases(ds), DSSubcaseFree);
+        DSDictionaryFreeWithFunction(DSDSCyclical(ds), DSCyclicalCaseFree);
         DSSecureFree(ds);
 bail:
         return;
 }
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Factory functions
+#pragma mark - Factory -
 #endif
 
 
-extern DSDesignSpace * DSDesignSpaceByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...)
+extern DSDesignSpace * DSDesignSpaceByParsingStringList(const char * const string, const DSVariablePool * const Xd_a, ...)
 {
         DSDesignSpace *ds = NULL;
         DSUInteger numberOfStrings = 0;
@@ -112,7 +109,7 @@ extern DSDesignSpace * DSDesignSpaceByParsingStringList(const DSVariablePool * c
                 DSError(M_DS_NULL ": String to parse is NULL", A_DS_ERROR);
         }
         va_list ap;
-	va_start(ap, string);
+	va_start(ap, Xd_a);
         strings = DSSecureCalloc(sizeof(char *), 1);
         strings[0] = string;
         numberOfStrings++;
@@ -122,20 +119,16 @@ extern DSDesignSpace * DSDesignSpaceByParsingStringList(const DSVariablePool * c
                 strings[numberOfStrings++] = aString;
                 aString = va_arg(ap, char *);
         }
-        ds = DSDesignSpaceByParsingStrings(Xd, (char * const * )strings, numberOfStrings);
+        ds = DSDesignSpaceByParsingStrings((char * const * )strings, Xd_a, numberOfStrings);
         DSSecureFree(strings);
 bail:
         return ds;
 }
 
-extern DSDesignSpace * DSDesignSpaceByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations)
+extern DSDesignSpace * DSDesignSpaceByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations)
 {
         DSDesignSpace * ds = NULL;
         DSGMASystem *gma = NULL;
-        if (Xd == NULL) {
-                DSError(M_DS_NULL ": Dependent Variables are NULL", A_DS_ERROR);
-                goto bail;
-        }
         if (strings == NULL) {
                 DSError(M_DS_NULL ": Array of strings is NULL", A_DS_ERROR);
                 goto bail;
@@ -144,11 +137,7 @@ extern DSDesignSpace * DSDesignSpaceByParsingStrings(const DSVariablePool * cons
                 DSError(M_DS_WRONG ": No equations to parse", A_DS_WARN);
                 goto bail;
         }
-        if (DSVariablePoolNumberOfVariables(Xd) != numberOfEquations) {
-                DSError(M_DS_WRONG ": Number of dependent variables does not match number of equations", A_DS_ERROR);
-                goto bail;
-        }
-        gma = DSGMASystemByParsingStrings(Xd, strings, numberOfEquations);
+        gma = DSGMASystemByParsingStrings(strings, Xd_a, numberOfEquations);
         if (gma != NULL) {
                 ds = DSDesignSpaceAlloc();
                 DSDesignSpaceSetGMA(ds, gma);
@@ -157,14 +146,10 @@ bail:
         return ds;
 }
 
-extern DSDesignSpace * DSDesignSpaceByParsingStringsWithXi(const DSVariablePool * const Xd, const DSVariablePool * const Xi, char * const * const strings, const DSUInteger numberOfEquations)
+extern DSDesignSpace * DSDesignSpaceByParsingStringsWithXi(char * const * const strings, const DSVariablePool * const Xd_a, const DSVariablePool * const Xi, const DSUInteger numberOfEquations)
 {
         DSDesignSpace * ds = NULL;
         DSGMASystem *gma = NULL;
-        if (Xd == NULL) {
-                DSError(M_DS_NULL ": Dependent Variables are NULL", A_DS_ERROR);
-                goto bail;
-        }
         if (strings == NULL) {
                 DSError(M_DS_NULL ": Array of strings is NULL", A_DS_ERROR);
                 goto bail;
@@ -173,11 +158,7 @@ extern DSDesignSpace * DSDesignSpaceByParsingStringsWithXi(const DSVariablePool 
                 DSError(M_DS_WRONG ": No equations to parse", A_DS_WARN);
                 goto bail;
         }
-        if (DSVariablePoolNumberOfVariables(Xd) != numberOfEquations) {
-                DSError(M_DS_WRONG ": Number of dependent variables does not match number of equations", A_DS_ERROR);
-                goto bail;
-        }
-        gma = DSGMASystemByParsingStringsWithXi(Xd, Xi, strings, numberOfEquations);
+        gma = DSGMASystemByParsingStringsWithXi(strings, Xd_a, Xi, numberOfEquations);
         if (gma != NULL) {
                 ds = DSDesignSpaceAlloc();
                 DSDesignSpaceSetGMA(ds, gma);
@@ -187,7 +168,7 @@ bail:
 }
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Setter functions
+#pragma mark - Setters -
 #endif
 
 extern void DSDesignSpaceSetGMA(DSDesignSpace * ds, DSGMASystem *gma)
@@ -268,7 +249,7 @@ bail:
 }
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Getter functions
+#pragma mark - Getters -
 #endif
 
 extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds)
@@ -461,27 +442,27 @@ bail:
 }
 
 extern const bool DSDesignSpaceCaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
-
-extern const DSStack * DSDesignSpaceSubcasesForCaseNumber(DSDesignSpace *ds, const DSUInteger caseNumber)
-{
-        DSStack * subcases = NULL;
-        char * string = NULL;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (caseNumber == 0 || caseNumber > DSDesignSpaceNumberOfCases(ds)) {
-                DSError(M_DS_WRONG ": Case number is out of bounds", A_DS_ERROR);
-                goto bail;
-        }
-        DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(ds, caseNumber);
-        string = DSSecureCalloc(sizeof(char), 100);
-        sprintf(string, "%i", caseNumber);
-        subcases = DSDictionaryValueForName(ds->subcases, string);
-        DSSecureFree(string);
-bail:
-        return subcases;
-}
+//
+//extern const DSStack * DSDesignSpaceSubcasesForCaseNumber(DSDesignSpace *ds, const DSUInteger caseNumber)
+//{
+//        DSStack * subcases = NULL;
+//        char * string = NULL;
+//        if (ds == NULL) {
+//                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+//                goto bail;
+//        }
+//        if (caseNumber == 0 || caseNumber > DSDesignSpaceNumberOfCases(ds)) {
+//                DSError(M_DS_WRONG ": Case number is out of bounds", A_DS_ERROR);
+//                goto bail;
+//        }
+//        DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(ds, caseNumber);
+//        string = DSSecureCalloc(sizeof(char), 100);
+//        sprintf(string, "%i", caseNumber);
+//        subcases = DSDictionaryValueForName(DSDSCyclical(ds), string);
+//        DSSecureFree(string);
+//bail:
+//        return subcases;
+//}
 
 extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds)
 {
@@ -495,20 +476,20 @@ bail:
         return gma;
 }
 
-extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds)
-{
-        DSDictionary * dictionary = NULL;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        dictionary = DSDSSubcases(ds);
-bail:
-        return dictionary;
-}
+//extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds)
+//{
+//        DSDictionary * dictionary = NULL;
+//        if (ds == NULL) {
+//                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+//                goto bail;
+//        }
+//        dictionary = DSDSCyclical(ds);
+//bail:
+//        return dictionary;
+//}
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Utility functions
+#pragma mark - Utility -
 #endif
 
 static DSUInteger ** dsDesignSpaceAllTermSignatures(const DSDesignSpace * ds)
@@ -567,46 +548,9 @@ bail:
 //        return;  
 //}
 
-static void dsDesignSpaceCalculateValiditySeries(DSDesignSpace *ds)
-{
-        DSUInteger i;
-        char * string = NULL;
-        DSCase * aCase = NULL;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (DSDSGMA(ds) == NULL) {
-                DSError(M_DS_GMA_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (DSDSValidPool(ds) != NULL) {
-                DSError(M_DS_WRONG ": Valid cases has already been calculated.", A_DS_WARN);
-                goto bail;
-        }
-        
-        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
-                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        DSDSValidPool(ds) = DSDictionaryAlloc();//DSVariablePoolAlloc();
-        string = DSSecureCalloc(sizeof(char), 100);
-        for (i = 0; i < DSDSNumCases(ds); i++) {
-                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
-                if (aCase == NULL)
-                        continue;
-                if (DSCaseIsValid(aCase) == true) {
-                        sprintf(string, "%d", aCase->caseNumber);
-                        DSDictionaryAddValueWithName(DSDSValidPool(ds), string, (void*)1);
-                }
-                DSCaseFree(aCase);
-                
-        }
-        DSSecureFree(string);
-        
-bail:
-        return;
-}
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Case and Case validity
+#endif
 
 static DSCase ** dsDesignSpaceCalculateCasesParallelBSD(DSDesignSpace *ds, const DSUInteger numberOfCases, DSUInteger *cases)
 {
@@ -674,10 +618,71 @@ bail:
 }
 
 
+extern DSCase ** DSDesignSpaceCalculateCases(DSDesignSpace *ds, const DSUInteger numberOfCase, DSUInteger *cases)
+{
+        DSCase ** allCases = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (numberOfCase == 0) {
+                DSError(M_DS_WRONG ": Number of cases to calculate is 0", A_DS_WARN);
+                goto bail;
+        }
+        if (cases == NULL) {
+                DSError(M_DS_NULL ": Array of cases to calculate is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        allCases = dsDesignSpaceCalculateCasesParallelBSD(ds, numberOfCase, cases);
+bail:
+        return allCases;
+}
+
+static void dsDesignSpaceCalculateValiditySeries(DSDesignSpace *ds)
+{
+        DSUInteger i;
+        char * string = NULL;
+        DSCase * aCase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSValidPool(ds) != NULL) {
+                DSError(M_DS_WRONG ": Valid cases has already been calculated.", A_DS_WARN);
+                goto bail;
+        }
+        
+        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
+                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        DSDSValidPool(ds) = DSDictionaryAlloc();
+        string = DSSecureCalloc(sizeof(char), 100);
+        for (i = 0; i < DSDSNumCases(ds); i++) {
+                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
+                if (aCase == NULL)
+                        continue;
+                if (DSCaseIsValid(aCase) == true) {
+                        sprintf(string, "%d", aCase->caseNumber);
+                        DSDictionaryAddValueWithName(DSDSValidPool(ds), string, (void*)1);
+                }
+                DSCaseFree(aCase);
+                
+        }
+        DSSecureFree(string);
+        
+bail:
+        return;
+}
+
 static void  dsDesignSpaceCalculateValidityParallelBSD(DSDesignSpace *ds)
 {
         DSUInteger i;
-        DSUInteger numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
+        long int numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
         pthread_t * threads = NULL;
         pthread_attr_t attr;
         ds_parallelstack_t *stack;
@@ -700,7 +705,7 @@ static void  dsDesignSpaceCalculateValidityParallelBSD(DSDesignSpace *ds)
         /* Should optimize number of threads to system */
         
         /* Initializing parallel data stacks and pthreads data structure */
-//        stack = DSSecureMalloc(sizeof(ds_parallelstack_t *)*numberOfThreads);
+        
         stack = DSParallelStackAlloc();
         pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
         for (i = 0; i < numberOfThreads; i++) {
@@ -718,35 +723,12 @@ static void  dsDesignSpaceCalculateValidityParallelBSD(DSDesignSpace *ds)
         for (i = 0; i < numberOfThreads; i++)
                 pthread_join(threads[i], NULL);
         DSParallelStackFree(stack);
-
+        
         DSSecureFree(threads);
         DSSecureFree(pdatas);
-        pthread_attr_destroy(&attr); 
+        pthread_attr_destroy(&attr);
 bail:
         return;
-}
-
-
-extern DSCase ** DSDesignSpaceCalculateCases(DSDesignSpace *ds, const DSUInteger numberOfCase, DSUInteger *cases)
-{
-        DSCase ** allCases = NULL;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (numberOfCase == 0) {
-                DSError(M_DS_WRONG ": Number of cases to calculate is 0", A_DS_WARN);
-                goto bail;
-        }
-        if (cases == NULL) {
-                DSError(M_DS_NULL ": Array of cases to calculate is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        allCases = dsDesignSpaceCalculateCasesParallelBSD(ds, numberOfCase, cases);
-        //        dsDesignSpaceCalculateCasesSeries(ds);
-        //        dsDesignSpaceCalculateCasesParallelBSD(ds);
-bail:
-        return allCases;
 }
 
 extern DSCase ** DSDesignSpaceCalculateAllValidCases(DSDesignSpace *ds)
@@ -774,16 +756,16 @@ bail:
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
 {
         DSDictionary * caseDictionary = NULL;
-        DSUInteger i, numberValid = 0, numberValidSlice = 0;
+        DSUInteger i, numberValid = 0;
         DSUInteger validCaseNumbers = 0;
         char nameString[100];
         DSCase * aCase = NULL;
+        const DSCyclicalCase * cyclicalCase = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
         caseDictionary = DSDictionaryAlloc();
-        numberValidSlice = 0;
         numberValid = DSDesignSpaceNumberOfValidCases(ds);
         if (numberValid == 0)
                 goto bail;
@@ -791,81 +773,31 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace 
                 validCaseNumbers = atoi(ds->validCases->names[i]);
                 aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
                 sprintf(nameString, "%d", validCaseNumbers);
-                if (DSCaseIsValidAtSlice(aCase, lower, upper) == true)
+                cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(ds, validCaseNumbers);
+                if (cyclicalCase != NULL) {
+                        if (DSCyclicalCaseIsValidAtSlice(cyclicalCase, lower, upper) == true) {
+                                DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
+                        }
+                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
                         DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
-                else
+                } else {
                         DSCaseFree(aCase);
+                }
         }
 bail:
         return caseDictionary;
 }
 
-extern void DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(DSDesignSpace *ds, DSUInteger caseNumber)
-{
-        DSUInteger numberOfCases;
-        char * string = NULL;
-        DSCase *aCase = NULL;
-        DSSubcase * aSubcase = NULL;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        numberOfCases = DSDesignSpaceNumberOfCases(ds);
-        if (numberOfCases == 0 || caseNumber > numberOfCases) {
-                goto bail;
-        }
-        if (DSDesignSpaceCaseWithCaseNumberIsValid(ds, caseNumber) == true) {
-                goto bail;
-        }
-        string = DSSecureCalloc(sizeof(char), 100);
-        aCase = DSDesignSpaceCaseWithCaseNumber(ds, caseNumber);
-        sprintf(string, "%i", caseNumber);
-        if (DSDictionaryValueForName(DSDSSubcases(ds), string) == NULL) {
-                aSubcase = DSSubcaseForCaseInDesignSpace(ds, aCase);
-                if (aSubcase != NULL)
-                        DSDictionaryAddValueWithName(ds->subcases, string, aSubcase);
-        }
-        if (string != NULL)
-                DSSecureFree(string);
-        if (aCase != NULL)
-                DSCaseFree(aCase);
-bail:
-        return;
-}
-
-extern void DSDesignSpaceCalculateUnderdeterminedCases(DSDesignSpace *ds)
-{
-        DSUInteger i, numberOfCases;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        numberOfCases = DSDesignSpaceNumberOfCases(ds);
-        if (numberOfCases == 0) {
-                goto bail;
-        }
-        for (i = 0; i < numberOfCases; i++) {
-                DSDesignSpaceCalculateUnderdeterminedCaseWithCaseNumber(ds, i+1);
-//                if (DSDesignSpaceCaseWithCaseNumberIsValid(ds, i+1) == true)
-//                        continue;
-//                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
-//                DSSubcaseDesignSpaceForUnderdeterminedCase(aCase, ds);
-//                DSCaseFree(aCase);
-        }
-bail:
-        return;
-}
 
 extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds)
 {
         dsDesignSpaceCalculateValidityParallelBSD(ds);
-//        dsDesignSpaceCalculateValiditySeries(ds);
+        //        dsDesignSpaceCalculateValiditySeries(ds);
 }
 
 extern void DSDesignSpacePrint(const DSDesignSpace * ds)
 {
         int (*print)(const char *, ...);
-//        printf("%p\n", ds);
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -878,5 +810,154 @@ extern void DSDesignSpacePrint(const DSDesignSpace * ds)
               DSDSNumCases(ds));
         DSGMASystemPrint(DSDSGMA(ds));
 bail:
-        return;       
+        return;
+}
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Cyclical Cases and Cyclical Case validity
+#endif
+
+extern DSUInteger DSDesignSpaceNumberOfCyclicalCases(const DSDesignSpace * ds)
+{
+        DSUInteger numberOfCyclicalCases = 0;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSCyclical(ds) == NULL) {
+                DSError(M_DS_DICTIONARY_NULL ": Cyclical cases not calculated", A_DS_ERROR);
+                goto bail;
+        }
+        numberOfCyclicalCases = DSDictionaryCount(DSDSCyclical(ds));
+bail:
+        return numberOfCyclicalCases;
+}
+
+static DSCase ** dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds, const DSUInteger numberOfCases, DSUInteger *cases)
+{
+        DSUInteger i;
+        DSUInteger numberOfThreads = (DSUInteger)sysconf(_SC_NPROCESSORS_ONLN);
+        pthread_t * threads = NULL;
+        pthread_attr_t attr;
+        ds_parallelstack_t *stack;
+        DSCase ** processedCases = NULL;
+        struct pthread_struct *pdatas;
+        
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (numberOfCases == 0) {
+                DSError(M_DS_WRONG ": Number of cases to process must be more than 0", A_DS_ERROR);
+                goto bail;
+        }
+        if (cases == NULL) {
+                DSError(M_DS_NULL ": Array of cases cannot be NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
+                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        
+        DSParallelInitMutexes();
+        pthread_attr_init(&attr);
+        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+        processedCases = DSSecureCalloc(sizeof(DSCase *), numberOfCases);
+        /* Should optimize number of threads to system Optimal ~ 2*number of processors */
+        
+        /* Initializing parallel data stacks and pthreads data structure */
+        pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
+        stack = DSParallelStackAlloc();
+        stack->cases = processedCases;
+        for (i = 0; i < numberOfThreads; i++) {
+                pdatas[i].ds = ds;
+                pdatas[i].stack = stack;
+        }
+        for (i = 0; i < numberOfCases; i++)
+                DSParallelStackPush(stack, cases[i]);
+        
+        threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
+        
+        for (i = 0; i < numberOfThreads; i++)
+                pthread_create(&threads[i], &attr, DSParallelWorkerCases, (void *)(&pdatas[i]));
+        /* Joining all the N-threads, indicating all cases have been processed */
+        for (i = 0; i < numberOfThreads; i++)
+                pthread_join(threads[i], NULL);
+        
+        DSParallelStackFree(stack);
+        
+        DSSecureFree(threads);
+        DSSecureFree(pdatas);
+        pthread_attr_destroy(&attr);
+bail:
+        return processedCases;
+}
+
+extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(const DSDesignSpace *ds, DSUInteger caseNumber)
+{
+        char * string = NULL;
+        DSCyclicalCase * cyclicalCase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        string = DSSecureCalloc(sizeof(char), 100);
+        sprintf(string, "%i", caseNumber);
+        if (DSDictionaryValueForName(DSDSCyclical(ds), string) != NULL) {
+                cyclicalCase = DSDictionaryValueForName(DSDSCyclical(ds), string);
+        }
+        if (string != NULL)
+                DSSecureFree(string);
+bail:
+        return cyclicalCase;
+}
+
+
+extern void DSDesignSpaceCalculateCyclicalCase(DSDesignSpace *ds, DSCase * aCase)
+{
+        DSUInteger caseNumber;
+        char * string = NULL;
+        DSCyclicalCase * aSubcase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        string = DSSecureCalloc(sizeof(char), 100);
+        caseNumber = DSCaseNumber(aCase);
+        sprintf(string, "%i", caseNumber);
+        if (DSDictionaryValueForName(DSDSCyclical(ds), string) == NULL) {
+                aSubcase = DSCyclicalCaseForCaseInDesignSpace(ds, aCase);
+                if (aSubcase != NULL)
+                        DSDictionaryAddValueWithName(DSDSCyclical(ds), string, aSubcase);
+        }
+        if (string != NULL)
+                DSSecureFree(string);
+bail:
+        return;
+}
+
+extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
+{
+        DSUInteger i, numberOfCases;
+        DSCase * aCase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberOfCases = DSDesignSpaceNumberOfCases(ds);
+        if (numberOfCases == 0) {
+                goto bail;
+        }
+        for (i = 0; i < numberOfCases; i++) {
+                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
+                DSDesignSpaceCalculateCyclicalCase(ds, aCase);
+                DSCaseFree(aCase);
+        }
+bail:
+        return;
 }

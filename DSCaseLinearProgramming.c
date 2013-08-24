@@ -1218,7 +1218,11 @@ extern DSVertices * DSCaseIntersectionVerticesForSlice(const DSUInteger numberOf
         caseIntersection = dsPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
         if (cases == NULL)
                 goto bail;
-        vertices = DSCaseVerticesForSlice(caseIntersection, lowerBounds, upperBounds, numberOfVariables, variables);
+        if (numberOfVariables == 1) {
+                vertices = DSCaseVerticesFor1DSlice(caseIntersection, lowerBounds, upperBounds, variables[0]);
+        } else {
+                vertices = DSCaseVerticesForSlice(caseIntersection, lowerBounds, upperBounds, numberOfVariables, variables);
+        }
         DSSecureFree(caseIntersection);
 bail:
         return vertices;

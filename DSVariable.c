@@ -67,7 +67,7 @@
  */
 extern DSVariable *DSVariableAlloc(const char *name)
 {
-        DSVariable *var;
+        DSVariable *var = NULL;
         if (name == NULL) {
                 DSError(M_DS_NULL ": Name is a NULL pointer", A_DS_ERROR);
                 goto bail;
@@ -665,6 +665,31 @@ extern void DSVariablePoolSetValueForVariableWithName(const DSVariablePool *pool
         }
         variable = DSVariablePoolVariableWithName(pool, name);
         DSVariableSetValue(variable, value);
+bail:
+        return;
+}
+
+extern void DSVariablePoolCopyVariablesFromVariablePool(DSVariablePool *to_add, const DSVariablePool *source)
+{
+        DSUInteger i;
+        char * name;
+        if (to_add == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable Pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (source == NULL) {
+                goto bail;
+        }
+        if (DSVariablePoolIsReadOnly(to_add) == true) {
+                DSError(M_DS_VAR_LOCKED, A_DS_ERROR);
+                goto bail;
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(source); i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(source, i));
+                if (DSVariablePoolHasVariableWithName(to_add, name) == true)
+                        continue;
+                DSVariablePoolAddVariableWithName(to_add, name);
+        }
 bail:
         return;
 }

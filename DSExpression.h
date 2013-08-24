@@ -47,7 +47,6 @@
 #define DS_EXPRESSION_TYPE_FUNCTION         4
 
 
-
 #define DSExpressionSetOperator(x, y)       ((x->node.op_code) = y, (x->type = DS_EXPRESSION_TYPE_OPERATOR))
 #define DSExpressionSetVariable(x, y)       ((x->node.variable) = y, (x->type = DS_EXPRESSION_TYPE_VARIABLE))
 #define DSExpressionSetConstant(x, y)       ((x->node.constant) = y, (x->type = DS_EXPRESSION_TYPE_CONSTANT))
@@ -74,6 +73,7 @@ extern DSExpression * DSExpressionCopy(const DSExpression * expression);
 
 extern DSExpression * DSExpressionByParsingString(const char *string);
 extern DSExpression * DSExpressionAddExpressions(DSExpression *lvalue, DSExpression *rvalue);
+extern DSExpression * DSExpressionSubstractExpressions(DSExpression *lvalue, DSExpression *rvalue);
 extern DSExpression * DSExpressionByCompressingConstantVariables(const DSExpression *expression, const DSVariablePool * assumedConstant);
 
 #if defined(__APPLE__) && defined (__MACH__)
@@ -86,6 +86,9 @@ extern DSExpression * DSExpressionByCompressingConstantVariables(const DSExpress
 #endif
 
 extern double DSExpressionEvaluateWithVariablePool(const DSExpression *expression, const DSVariablePool *pool);
+extern DSExpression * DSExpressionEquationLHSExpression(const DSExpression *expression);
+extern DSExpression * DSExpressionEquationRHSExpression(const DSExpression *expression);
+extern DSVariablePool * DSExpressionVariablesInExpression(const DSExpression * expression);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions

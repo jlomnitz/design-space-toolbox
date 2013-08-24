@@ -56,6 +56,7 @@
 /*\{*/
 #define DSSSysXi(x)                       ((x)->Xi)
 #define DSSSysXd(x)                       ((x)->Xd)
+#define DSSSysXd_a(x)                     ((x)->Xd_a)
 #define DSSSysAlpha(x)                    ((x)->alpha)
 #define DSSSysBeta(x)                     ((x)->beta)
 #define DSSSysGd(x)                       ((x)->Gd)
@@ -68,6 +69,12 @@
 #define DSSSysShouldFreeXd(x)             ((x)->shouldFreeXd)
 #define DSSSysShouldFreeXi(x)             ((x)->shouldFreeXi)
 /*\}*/
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma  mark - Function Prototypes
+#endif
+
+static void dsSSystemSolveEquations(DSSSystem *ssys);
 
 
 #if defined (__APPLE__) && defined (__MACH__)
@@ -91,6 +98,33 @@ static DSSSystem * DSSSystemAlloc(void)
         return sys ;
 }
 
+extern DSSSystem * DSSSystemCopy(const DSSSystem * original)
+{
+        DSSSystem * newSSys = NULL;
+        if (original == NULL) {
+                DSError(M_DS_NULL, A_DS_WARN);
+                goto bail;
+        }
+        newSSys = DSSSystemAlloc();
+        DSSSysXd(newSSys) = DSVariablePoolCopy(DSSSystemXd(original));
+        DSSSysXd_a(newSSys) = DSVariablePoolCopy(DSSSystemXd_a(original));
+        DSSSysXi(newSSys) = DSVariablePoolCopy(DSSSystemXi(original));
+        DSSSysShouldFreeXd(newSSys) = true;
+        DSSSysShouldFreeXi(newSSys) = true;
+        DSSSysGd(newSSys) = DSMatrixCopy(DSSSysGd(original));
+        DSSSysHd(newSSys) = DSMatrixCopy(DSSSysHd(original));
+        DSSSysGi(newSSys) = DSMatrixCopy(DSSSysGi(original));
+        DSSSysHi(newSSys) = DSMatrixCopy(DSSSysHi(original));
+        DSSSysAlpha(newSSys) = DSMatrixCopy(DSSSysAlpha(original));
+        DSSSysBeta(newSSys) = DSMatrixCopy(DSSSysBeta(original));
+        DSSSysIsSingular(newSSys) = DSSSysIsSingular(original);
+        if (DSSSysIsSingular(newSSys) == false) {
+                DSSSysM(newSSys) = DSMatrixCopy(DSSSysM(original));
+        }
+bail:
+        return newSSys;
+}
+
 extern void DSSSystemFree(DSSSystem * sys)
 {
         if (sys  == NULL) {
@@ -100,6 +134,10 @@ extern void DSSSystemFree(DSSSystem * sys)
         if (DSSSysShouldFreeXd(sys) == true) {
                 DSVariablePoolSetReadWriteAdd(DSSSysXd(sys));
                 DSVariablePoolFree(DSSSysXd(sys));
+                if (DSSSysXd_a(sys) != NULL) {
+                        DSVariablePoolSetReadWriteAdd(DSSSysXd_a(sys));
+                        DSVariablePoolFree(DSSSysXd_a(sys));
+                }
         }
         if (DSSSysShouldFreeXi(sys) == true) {
                 DSVariablePoolSetReadWriteAdd(DSSSysXi(sys));
@@ -159,9 +197,9 @@ static gma_parseraux_t * dsSSystemParseStringToTermList(const char * string)
                         continue;
                 }
                 DSSSystemParser(parser, 
-                                  DSExpressionTokenType(current), 
-                                  current,
-                                  ((void**)&parser_aux));
+                                DSExpressionTokenType(current),
+                                current,
+                                ((void**)&parser_aux));
                 current = DSExpressionTokenNext(current);
         }
         DSSSystemParser(parser, 
@@ -351,12 +389,10 @@ static void dsSSysProcessNegativeExponentBasePairs(DSSSystem *sys, gma_parseraux
 static void dsSSystemSolveEquations(DSSSystem *ssys)
 {
         DSMatrix *M, *Ad;
-        DSUInteger numberOfEquations;
         if (ssys == NULL) {
                 DSError(M_DS_NULL ": S-System being modified is NULL", A_DS_ERROR);
                 goto bail;
         }
-        numberOfEquations = DSVariablePoolNumberOfVariables(DSSSysXd(ssys));
         DSSSysIsSingular(ssys) = true;
         Ad = DSMatrixBySubstractingMatrix(DSSSysGd(ssys), DSSSysHd(ssys));
         M = DSMatrixInverse(Ad);
@@ -444,6 +480,7 @@ DSSSystem * dsSSystemWithAlgebraicConstraints(const DSSSystem * originalSystem, 
         subB = temp;
         collapsedSSystem = DSSSystemAlloc();
         DSSSysXd(collapsedSSystem) = newXd;
+        DSSSysXd_a(collapsedSSystem) = DSVariablePoolAlloc();
         DSSSysXi(collapsedSSystem) = (DSVariablePool *)DSSSystemXi(originalSystem);
         DSSSysShouldFreeXd(collapsedSSystem) = true;
         DSSSysShouldFreeXi(collapsedSSystem) = false;
@@ -501,7 +538,7 @@ bail:
         return collapsedSSystem;
 }
 
-extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem, const DSVariablePool * algebraicVariables)
+extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem)
 {
         DSUInteger numberOfAlgebraicVaiables = 0, numberOfDifferentialVariables = 0;
         DSUInteger i, j, k;
@@ -514,31 +551,35 @@ extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * ori
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (algebraicVariables == NULL) {
-                DSError(M_DS_VAR_NULL, A_DS_ERROR);
+        if (DSSSystemXd_a(originalSSystem) == NULL) {
+                DSError(M_DS_VAR_NULL ": Xd_a variable pool is NULL", A_DS_ERROR);
                 goto bail;
         }
-        if (DSVariablePoolNumberOfVariables(algebraicVariables) >= DSVariablePoolNumberOfVariables(DSSSystemXd(originalSSystem))) {
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem)) > DSVariablePoolNumberOfVariables(DSSSystemXd(originalSSystem))) {
                 DSError(M_DS_WRONG ": Number of algebraic variables exceeds number of total variables", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem)) == 0) {
+                collapsedSystem = DSSSystemCopy(originalSSystem);
                 goto bail;
         }
         oldXd = DSSSystemXd(originalSSystem);
         newXd = DSVariablePoolAlloc();
         for (i = 0; i < DSVariablePoolNumberOfVariables(oldXd); i++) {
                 name = DSVariableName(DSVariablePoolVariableAtIndex(oldXd, i));
-                if (DSVariablePoolHasVariableWithName(algebraicVariables, name) == true) {
+                if (DSVariablePoolHasVariableWithName(DSSSystemXd_a(originalSSystem), name) == true) {
                         continue;
                 }
                 DSVariablePoolAddVariableWithName(newXd, name);
         }
-        if (DSVariablePoolNumberOfVariables(oldXd) - DSVariablePoolNumberOfVariables(newXd) != DSVariablePoolNumberOfVariables(algebraicVariables)) {
-                printf("%i,%i, %i\n", DSVariablePoolNumberOfVariables(oldXd), DSVariablePoolNumberOfVariables(newXd), DSVariablePoolNumberOfVariables(algebraicVariables));
+        if (DSVariablePoolNumberOfVariables(oldXd) - DSVariablePoolNumberOfVariables(newXd) != DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem))) {
+                printf("%i,%i, %i\n", DSVariablePoolNumberOfVariables(oldXd), DSVariablePoolNumberOfVariables(newXd), DSVariablePoolNumberOfVariables(DSSSysXd_a(originalSSystem)));
                 DSError(M_DS_WRONG, A_DS_ERROR);
                 DSVariablePoolFree(newXd);
                 goto bail;
         }
         numberOfDifferentialVariables = DSVariablePoolNumberOfVariables(newXd);
-        numberOfAlgebraicVaiables = DSVariablePoolNumberOfVariables(algebraicVariables);
+        numberOfAlgebraicVaiables = DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem));
         differentialIndices = DSSecureCalloc(sizeof(DSUInteger), numberOfDifferentialVariables);
         algebraicIndices = DSSecureCalloc(sizeof(DSUInteger), numberOfAlgebraicVaiables);
         for (i = 0, j = 0, k = 0; i < DSVariablePoolNumberOfVariables(oldXd); i++) {
@@ -549,7 +590,6 @@ extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * ori
                 }
         }
         collapsedSystem = dsSSystemWithAlgebraicConstraints(originalSSystem, newXd, numberOfDifferentialVariables, differentialIndices, numberOfAlgebraicVaiables, algebraicIndices);
-//        DSSSystemPrint(collapsedSystem);
         DSSecureFree(differentialIndices);
         DSSecureFree(algebraicIndices);
 bail:
@@ -560,19 +600,19 @@ bail:
 #endif
 
 
-extern DSSSystem * DSSSystemByParsingStringList(const DSVariablePool * const Xd, const char * const string, ...)
+extern DSSSystem * DSSSystemByParsingStringList(char * const * const string, const DSVariablePool * const Xd_a, ...)
 {
         DSSSystem *gma = NULL;
         DSUInteger numberOfStrings = 0;
         char const ** strings = NULL;
         const char * aString = NULL;
-        if (string == NULL) {
+        if (strings == NULL) {
                 DSError(M_DS_NULL ": String to parse is NULL", A_DS_ERROR);
         }
         va_list ap;
-	va_start(ap, string);
+	va_start(ap, Xd_a);
         strings = DSSecureCalloc(sizeof(char *), 1);
-        strings[0] = string;
+        strings[0] = (const char *)string;
         numberOfStrings++;
         aString = va_arg(ap, char *);
         while (aString != NULL) {
@@ -580,17 +620,20 @@ extern DSSSystem * DSSSystemByParsingStringList(const DSVariablePool * const Xd,
                 strings[numberOfStrings++] = aString;
                 aString = va_arg(ap, char *);
         }
-        gma = DSSSystemByParsingStrings(Xd, (char * const * )strings, numberOfStrings);
+        gma = DSSSystemByParsingStrings((char * const * )strings, Xd_a, numberOfStrings);
         DSSecureFree(strings);
 bail:
         return gma;
 }
 
-extern DSSSystem * DSSSystemByParsingStrings(const DSVariablePool * const Xd, char * const * const strings, const DSUInteger numberOfEquations)
+extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations)
 {
         DSSSystem * sys = NULL;
         gma_parseraux_t **aux = NULL;
-        DSUInteger i;
+        DSUInteger i, j;
+        DSVariablePool *tempPool, * Xd = NULL, * Xda;
+        char * variableName;
+        DSExpression * expr, * lhs;
         if (strings == NULL) {
                 DSError(M_DS_NULL ": Array of strings is NULL", A_DS_ERROR);
                 goto bail;
@@ -599,16 +642,50 @@ extern DSSSystem * DSSSystemByParsingStrings(const DSVariablePool * const Xd, ch
                 DSError(M_DS_WRONG ": No equations to parse", A_DS_WARN);
                 goto bail;
         }
+        aux = dsSSysTermListForAllStrings(strings, numberOfEquations);
+        if (aux == NULL)
+                goto bail;
+        Xd = DSVariablePoolAlloc();
+        Xda = DSVariablePoolAlloc();
+        for (i=0; i < numberOfEquations; i++) {
+                expr = DSExpressionByParsingString(strings[i]);
+                lhs = DSExpressionEquationLHSExpression(expr);
+                if (DSExpressionType(lhs) == DS_EXPRESSION_TYPE_CONSTANT) {
+                        // If different from 0, should substract rhs by lhs
+                }
+                tempPool = DSExpressionVariablesInExpression(lhs);
+                if (DSVariablePoolNumberOfVariables(tempPool) == 1) {
+                        variableName = DSVariableName(DSVariablePoolVariableAtIndex(tempPool, j));
+                        if (DSExpressionType(lhs) == DS_EXPRESSION_TYPE_VARIABLE) {
+                                DSVariablePoolAddVariableWithName(Xda, variableName);
+                        }
+                        if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
+                                DSVariablePoolAddVariableWithName(Xd, variableName);
+                        }
+                }
+                DSExpressionFree(lhs);
+                DSExpressionFree(expr);
+                DSVariablePoolFree(tempPool);
+        }
+        if (Xd_a != NULL) {
+                for (j = 0; j < DSVariablePoolNumberOfVariables(Xd_a); j++) {
+                        variableName = DSVariableName(DSVariablePoolVariableAtIndex(Xd_a, j));
+                        if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
+                                DSVariablePoolAddVariableWithName(Xd, variableName);
+                                DSVariablePoolAddVariableWithName(Xda, variableName);
+                        }
+                }
+        }
         if (DSVariablePoolNumberOfVariables(Xd) != numberOfEquations) {
                 DSError(M_DS_WRONG ": Number of dependent variables does not match number of equations", A_DS_ERROR);
                 goto bail;
         }
-        aux = dsSSysTermListForAllStrings(strings, numberOfEquations);
-        if (aux == NULL)
-                goto bail;
+        
         sys = DSSSystemAlloc();
-        DSSSysXd(sys) = DSVariablePoolCopy(Xd);
+        DSSSysXd(sys) = Xd;
         DSVariablePoolSetReadWrite(DSSSysXd(sys));
+        DSSSysXd_a(sys) = Xda;
+        DSVariablePoolSetReadWrite(DSSSysXd_a(sys));
         DSSSysXi(sys) = dsSSystemIdentifyIndependentVariables(Xd, aux, numberOfEquations);
         DSSSysShouldFreeXd(sys) = true;
         DSSSysShouldFreeXi(sys) = true;
@@ -642,6 +719,7 @@ extern DSSSystem * DSSSystemWithTermsFromGMA(const DSGMASystem * gma, const DSUI
         ssys = DSSSystemAlloc();
         DSSSysXd(ssys) = (DSVariablePool *)DSGMASystemXd(gma);
         DSSSysXi(ssys) = (DSVariablePool *)DSGMASystemXi(gma);
+        DSSSysXd_a(ssys) = (DSVariablePool *)DSGMASystemXd_a(gma);
         DSSSysShouldFreeXd(ssys) = false;
         DSSSysShouldFreeXi(ssys) = false;
         dsSSystemInitializeMatrices(ssys);
@@ -834,7 +912,7 @@ extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
 {
         DSUInteger i, numberOfEquations, length;
         DSExpression ** equations = NULL;
-        char *tempString;
+        char *tempString, *equationString, *varName;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
@@ -849,10 +927,22 @@ extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
         tempString = DSSecureCalloc(sizeof(char), length);
         for (i = 0; i < numberOfEquations; i++) {
                 tempString[0] = '\0';
+                varName = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
                 dsSSystemEquationAddPositiveTermToString(ssys, i, &tempString, &length);
                 strncat(tempString, "-", length-strlen(tempString));
                 dsSSystemEquationAddNegativeTermToString(ssys, i, &tempString, &length);
-                equations[i] = DSExpressionByParsingString(tempString);
+                equationString = DSSecureCalloc(sizeof(char),
+                                                strlen(tempString)+strlen(varName)+6);
+                // Check if varName is algebraic
+                if (DSVariablePoolHasVariableWithName(DSSSysXd_a(ssys), varName) == false) {
+                        equationString = strcpy(equationString, varName);
+                        equationString = strcat(equationString, ". = ");
+                } else {
+                        equationString = strcpy(equationString, "0 = ");
+                }
+                equationString = strcat(equationString, tempString);
+                equations[i] = DSExpressionByParsingString(equationString);
+                DSSecureFree(equationString);
         }
         DSSecureFree(tempString);
 bail:
@@ -866,7 +956,7 @@ static void dsSSystemSolutionToString(const DSSSystem *ssys,
 {
         DSUInteger i, numberOfXd, numberOfXi;
         DSMatrix *MAi, *MB, *B, *Ai;
-        char tempString[100];
+        char tempString[100] = "\0";
         const char *name;
         double value;
         if (ssys == NULL) {
@@ -939,7 +1029,7 @@ extern DSExpression ** DSSSystemSolution(const DSSSystem *ssys)
 {
         DSUInteger i, numberOfEquations, length;
         DSExpression ** solution = NULL;
-        char *tempString;
+        char *tempString, * equationString, *varName;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
@@ -958,7 +1048,17 @@ extern DSExpression ** DSSSystemSolution(const DSSSystem *ssys)
         for (i = 0; i < numberOfEquations; i++) {
                 tempString[0] = '\0';
                 dsSSystemSolutionToString(ssys, i, &tempString, &length, false);
-                solution[i] = DSExpressionByParsingString(tempString);
+                if (strlen(tempString) == 0)
+                        break;
+                varName = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
+                equationString = DSSecureCalloc(
+                                                sizeof(char),
+                                                strlen(tempString)+strlen(varName)+4);
+                equationString = strcpy(equationString, varName);
+                equationString = strcat(equationString, " = ");
+                equationString = strcat(equationString, tempString);
+                solution[i] = DSExpressionByParsingString(equationString);
+                DSSecureFree(equationString);
         }
         DSSecureFree(tempString);
 bail:
@@ -988,6 +1088,8 @@ extern DSExpression ** DSSSystemLogarithmicSolution(const DSSSystem *ssys)
         for (i = 0; i < numberOfEquations; i++) {
                 tempString[0] = '\0';
                 dsSSystemSolutionToString(ssys, i, &tempString, &length, true);
+                if (strlen(tempString) == 0)
+                        break;
                 solution[i] = DSExpressionByParsingString(tempString);
         }
         DSSecureFree(tempString);
@@ -1075,6 +1177,18 @@ extern const DSVariablePool * DSSSystemXd(const DSSSystem * ssys)
                 goto bail;
         }
         pool = DSSSysXd(ssys);
+bail:
+        return pool;
+}
+
+extern const DSVariablePool * DSSSystemXd_a(const DSSSystem * ssys)
+{
+        DSVariablePool *pool = NULL;
+        if (ssys == NULL) {
+                DSError(M_DS_NULL ": S-System is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        pool = DSSSysXd_a(ssys);
 bail:
         return pool;
 }
@@ -1337,6 +1451,64 @@ bail:
         return value;   
 }
 
+extern DSMatrix * DSSSystemSteadyStateFluxForDependentVariables(const DSSSystem * ssys,
+                                                                const DSVariablePool * Xd0,
+                                                                const DSVariablePool * Xi0)
+{
+        DSMatrix * flux = NULL, *Xi = NULL, *ss=NULL;
+        DSMatrix * gi0= NULL, *alpha = NULL;
+        DSUInteger i;
+        DSVariablePool *pool = NULL;
+        const char *name;
+        double value;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xd0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXd(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xd0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        alpha = DSMatrixCopy(DSSSystemAlpha(ssys));
+        DSMatrixApplyFunction(alpha, log10);
+        ss = DSVariablePoolValuesAsVector(Xd0, false);
+        DSMatrixApplyFunction(ss, log10);
+        flux = DSMatrixByMultiplyingMatrix(DSSSystemGd(ssys), ss);
+        if (DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                pool = DSVariablePoolAlloc();
+                for (i=0; i < DSVariablePoolNumberOfVariables(DSSSysXi(ssys)); i++) {
+                        name =  DSVariableName(DSVariablePoolAllVariables(DSSSysXi(ssys))[i]);
+                        DSVariablePoolAddVariableWithName(pool, name);;
+                        if (DSVariablePoolHasVariableWithName(Xi0, name) == false) {
+                                DSError(M_DS_WRONG ": Variable Pool does not have independent variable", A_DS_ERROR);
+                                DSMatrixFree(flux);
+                                flux = NULL;
+                                goto bail;
+                        }
+                        value = DSVariableValue(DSVariablePoolVariableWithName(Xi0, name));
+                        DSVariablePoolSetValueForVariableWithName(pool, name, value);
+                }
+                Xi = DSVariablePoolValuesAsVector(pool, false);
+                DSMatrixApplyFunction(Xi, log10);
+                gi0 = DSMatrixByMultiplyingMatrix(DSSSystemGi(ssys), Xi);
+                DSMatrixAddByMatrix(flux, gi0);
+                DSMatrixFree(Xi);
+                DSMatrixFree(gi0);
+        }
+        DSMatrixAddByMatrix(flux, alpha);
+bail:
+        if (alpha != NULL)
+                DSMatrixFree(alpha);
+        if (ss != NULL)
+                DSMatrixFree(ss);
+        if (pool != NULL)
+                DSVariablePoolFree(pool);
+        return flux;
+}
 extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0)
 {
         DSMatrix * flux = NULL, *Xi = NULL, *ss=NULL;
@@ -1391,42 +1563,33 @@ bail:
         return flux;   
 }
 
-extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0)
+extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, const DSMatrix * F)
 {
+        DSSSystem * reduced = NULL;
         DSMatrix * FA = NULL;
         DSMatrix * routhArray = NULL;
         DSMatrix * phi = NULL;
-        DSMatrix * steadyState = NULL;
         DSMatrix * routhMatrix = NULL;
-        DSMatrix * flux = NULL;
-        DSMatrix * F = NULL;
         DSUInteger i, j;
         double value;
-        
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
-                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+        if (F == NULL) {
+                DSError(M_DS_MAT_NULL ": F matrix is NULL", A_DS_ERROR);
                 goto bail;
         }
-        if (DSSSystemHasSolution(ssys) == false)
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)) > 0) {
+                reduced = DSSSystemByRemovingAlgebraicConstraints(ssys);
+                ssys = reduced;
+        }
+        if (DSMatrixRows(F) != DSSSystemNumberOfEquations(ssys)) {
+                DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_ERROR);
                 goto bail;
-        steadyState = DSSSystemSteadyStateValues(ssys, Xi0);
-        flux = DSSSystemSteadyStateFlux(ssys, Xi0);
-        F = DSMatrixIdentity(DSMatrixRows(flux));
-        for (i = 0; i < DSMatrixColumns(F); i++) {
-                DSMatrixSetDoubleValue(F,
-                                       i,
-                                       i,
-                                       pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
         }
         FA = DSMatrixByMultiplyingMatrix(F, DSSSystemAd(ssys));
         phi = DSMatrixCharacteristicPolynomialCoefficients(FA);
-        DSMatrixFree(steadyState);
-        DSMatrixFree(flux);
-        DSMatrixFree(F);
         DSMatrixFree(FA);
         routhMatrix = DSMatrixAlloc(DSMatrixColumns(phi), DSMatrixColumns(phi));
         /* Make first row of routh matrix */
@@ -1455,8 +1618,212 @@ extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePoo
         }
         routhArray = DSMatrixSubMatrixIncludingColumnList(routhMatrix, 1, 0);
         DSMatrixFree(routhMatrix);
+        DSMatrixFree(phi);
+bail:
+        if (reduced != NULL) {
+                DSSSystemFree(reduced);
+        }
+        return routhArray;
+}
+
+extern DSMatrix * DSSSystemRouthArrayForSteadyState(const DSSSystem *ssys,
+                                                    const DSVariablePool *Xd0,
+                                                    const DSVariablePool *Xi0)
+{
+        DSMatrix * routhArray = NULL;
+        DSMatrix * steadyState = NULL;
+        DSMatrix * flux = NULL;
+        DSMatrix * F = NULL;
+        DSUInteger i;
+        
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xd0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXd(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xd0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemHasSolution(ssys) == false)
+                goto bail;
+        steadyState = DSVariablePoolValuesAsVector(Xd0, false);
+        flux = DSSSystemSteadyStateFluxForDependentVariables(ssys, Xd0, Xi0);
+        F = DSMatrixIdentity(DSMatrixRows(flux));
+        for (i = 0; i < DSMatrixColumns(F); i++) {
+                DSMatrixSetDoubleValue(F,
+                                       i,
+                                       i,
+                                       pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
+        }
+        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F);
+        DSMatrixFree(F);
 bail:
         return routhArray;
+}
+
+extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0)
+{
+        DSMatrix * routhArray = NULL;
+        DSMatrix * steadyState = NULL;
+        DSMatrix * flux = NULL;
+        DSMatrix * F = NULL;
+        DSUInteger i;
+        
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemHasSolution(ssys) == false)
+                goto bail;
+        steadyState = DSSSystemSteadyStateValues(ssys, Xi0);
+        flux = DSSSystemSteadyStateFlux(ssys, Xi0);
+        F = DSMatrixIdentity(DSMatrixRows(flux));
+        for (i = 0; i < DSMatrixColumns(F); i++) {
+                DSMatrixSetDoubleValue(F,
+                                       i,
+                                       i,
+                                       pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
+        }
+        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F);
+        DSMatrixFree(F);
+bail:
+        return routhArray;
+}
+
+extern DSUInteger DSSSystemNumberOfPositiveRootsForRouthArray(const DSMatrix *routhArray)
+{
+        DSUInteger positiveRoots = 0;
+        DSUInteger i, length;
+        double sign, baseSign = 1;
+
+        if (routhArray == NULL) {
+                DSError(M_DS_MAT_NULL ": Routh Array Matrix is Null", A_DS_ERROR);
+                goto bail;
+        }
+        
+        length = DSMatrixRows(routhArray);
+        baseSign = (DSMatrixDoubleValue(routhArray, 0, 0) > 0) ? 1. : -1.;
+        for (i = 1; i < length; i++) {
+                sign = (DSMatrixDoubleValue(routhArray, i, 0) > 0) ? 1. : -1.;
+                if (sign*baseSign < 0)
+                        positiveRoots++;
+                baseSign = sign;
+        }
+bail:
+        return positiveRoots;
+}
+
+extern DSUInteger DSSSystemPositiveRootsForSteadyStateAndFlux(const DSSSystem *ssys,
+                                                              const DSVariablePool *Xd0,
+                                                              const DSVariablePool *Xi0,
+                                                              const DSVariablePool *flux0)
+{
+        DSMatrix *steadyState, *flux, *F, * routhArray = NULL;
+        char flux_name[100];
+        DSUInteger i, positiveRoots = 0;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xd0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXd(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xd0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (flux0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXd(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Flux variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        steadyState = DSVariablePoolValuesAsVector(Xd0, false);
+        flux = DSMatrixAlloc(DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)), 1);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)); i++) {
+                sprintf(flux_name, "V_%s", DSVariableName(DSVariablePoolVariableAtIndex(DSSSysXd(ssys), i)));
+                DSMatrixSetDoubleValue(flux, i, 0, DSVariablePoolValueForVariableWithName(flux0, flux_name));
+        }
+        F = DSMatrixIdentity(DSMatrixRows(flux));
+        for (i = 0; i < DSMatrixColumns(F); i++) {
+                DSMatrixSetDoubleValue(F,
+                                       i,
+                                       i,
+                                       pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
+        }
+        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F);
+        DSMatrixFree(F);
+        DSMatrixFree(flux);
+        DSMatrixFree(steadyState);
+//        routhArray = DSSSystemRouthArrayForSteadyState(ssys, Xd0, Xi0);
+        if (routhArray == NULL) {
+                goto bail;
+        }
+        
+        positiveRoots = DSSSystemNumberOfPositiveRootsForRouthArray(routhArray);
+        DSMatrixFree(routhArray);
+bail:
+        return positiveRoots;
+}
+
+extern DSUInteger DSSSystemPositiveRootsForSteadyState(const DSSSystem *ssys,
+                                                       const DSVariablePool *Xd0,
+                                                       const DSVariablePool *Xi0)
+{
+        DSMatrix * routhArray = NULL;
+        DSUInteger positiveRoots = 0;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xd0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXd(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xd0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        routhArray = DSSSystemRouthArrayForSteadyState(ssys, Xd0, Xi0);
+        if (routhArray == NULL) {
+                goto bail;
+        }
+        positiveRoots = DSSSystemNumberOfPositiveRootsForRouthArray(routhArray);
+        DSMatrixFree(routhArray);
+bail:
+        return positiveRoots;
+}
+
+extern DSUInteger DSSSystemPositiveRoots(const DSSSystem *ssys, const DSVariablePool *Xi0)
+{
+        DSMatrix * routhArray = NULL;
+        DSUInteger positiveRoots = 0;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemHasSolution(ssys) == false)
+                goto bail;
+        routhArray = DSSSystemRouthArray(ssys, Xi0);
+        if (routhArray == NULL) {
+                goto bail;
+        }
+        
+        positiveRoots = DSSSystemNumberOfPositiveRootsForRouthArray(routhArray);
+        DSMatrixFree(routhArray);
+bail:
+        return positiveRoots;
 }
 
 extern DSUInteger DSSSystemRouthIndex(const DSSSystem *ssys, const DSVariablePool *Xi0)

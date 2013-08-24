@@ -13,12 +13,14 @@ void DSSSystemParserTrace(FILE *TraceFILE,char *zTracePrompt);
 #define DSSSystemParserARG_STORE yypParser->parser_aux = parser_aux
 #define DSSSystemParserARG_FETCH void **parser_aux = yypParser->parser_aux
 #define DSSSystemParserARG_SDECL void **parser_aux;
-#define TOKEN_SSYS_CONSTANT                        8
-#define TOKEN_SSYS_POWER                           7
-#define TOKEN_SSYS_NOT                             6
-#define TOKEN_SSYS_TIMES                           5
-#define TOKEN_SSYS_DIVIDE                          4
-#define TOKEN_SSYS_MINUS                           3
-#define TOKEN_SSYS_PLUS                            2
+#define TOKEN_SSYS_CONSTANT                       10
+#define TOKEN_SSYS_POWER                           9
+#define TOKEN_SSYS_NOT                             8
+#define TOKEN_SSYS_PRIME                           7
+#define TOKEN_SSYS_TIMES                           6
+#define TOKEN_SSYS_DIVIDE                          5
+#define TOKEN_SSYS_MINUS                           4
+#define TOKEN_SSYS_PLUS                            3
+#define TOKEN_SSYS_EQUALS                          2
 #define TOKEN_SSYS_ID                              1
 #define INTERFACE 0

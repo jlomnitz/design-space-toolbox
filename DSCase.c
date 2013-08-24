@@ -38,10 +38,11 @@
 #include "DSExpression.h"
 #include "DSMatrix.h"
 #include "DSMatrixArray.h"
-#include "DSSubcase.h"
+#include "DSCyclicalCase.h"
 
 #define DSCaseXi(x)                  ((x)->Xi)
 #define DSCaseXd(x)                  ((x)->Xd)
+#define DSCaseXd_a(x)                ((x)->Xd_a)
 #define DSCaseSSys(x)                ((x)->ssys)
 #define DSCaseCd(x)                  ((x)->Cd)
 #define DSCaseCi(x)                  ((x)->Ci)
@@ -83,6 +84,41 @@ static DSCase * DSCaseAlloc(void)
         DSCase * aCase = NULL;
         aCase = DSSecureCalloc(sizeof(DSCase), 1);
         return aCase;
+}
+
+extern DSCase * DSCaseCopy(const DSCase * aCase)
+{
+        DSCase * newCase = NULL;
+        DSUInteger i, numberOfEquations;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        newCase = DSCaseAlloc();
+        DSCaseSSys(newCase) = DSSSystemCopy(DSCaseSSystem(aCase));
+        DSCaseNum(newCase) = DSCaseNum(aCase);
+        numberOfEquations = DSCaseNumberOfEquations(aCase);
+        if (DSCaseSig(aCase) != NULL) {
+                DSCaseSig(newCase) = DSSecureCalloc(sizeof(DSUInteger), numberOfEquations*2);
+                for (i = 0; i < numberOfEquations; i++) {
+                        DSCaseSig(newCase)[i] = DSCaseSig(aCase)[i];
+                }
+        }
+        if (DSCaseCd(aCase) != NULL)
+                DSCaseCd(newCase) = DSMatrixCopy(DSCaseCd(aCase));
+        if (DSCaseCi(aCase) != NULL)
+                DSCaseCi(newCase) = DSMatrixCopy(DSCaseCi(aCase));
+        if (DSCaseZeta(aCase) != NULL)
+                DSCaseZeta(newCase) = DSMatrixCopy(DSCaseZeta(aCase));
+        if (DSCaseDelta(aCase) != NULL)
+                DSCaseDelta(newCase) = DSMatrixCopy(DSCaseDelta(aCase));
+        if (DSCaseU(aCase) != NULL)
+                DSCaseU(newCase) = DSMatrixCopy(DSCaseU(aCase));
+        DSCaseXd(newCase) = DSSSystemXd(DSCaseSSys(newCase));
+        DSCaseXi(newCase) = DSSSystemXi(DSCaseSSys(newCase));
+        DSCaseXd_a(newCase) =DSSSystemXd_a(DSCaseSSys(newCase));
+bail:
+        return newCase;
 }
 
 extern void DSCaseFree(DSCase * aCase)
@@ -259,7 +295,6 @@ extern DSCase * DSCaseWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger
         DSCaseXi(aCase) = DSSSystemXi(DSCaseSSys(aCase));
         DSCaseXd(aCase) = DSSSystemXd(DSCaseSSys(aCase));
         numberOfEquations = DSGMASystemNumberOfEquations(gma);
-        numberOfXi = DSVariablePoolNumberOfVariables(DSCaseXi(aCase));
         DSCaseSig(aCase) = DSSecureMalloc(sizeof(DSUInteger)*(2*numberOfEquations));
         for (i = 0; i < 2*numberOfEquations; i+=2) {
                 term1 = termArray[i];
@@ -336,7 +371,6 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
         DSCaseXi(aCase) = DSSSystemXi(DSCaseSSys(aCase));
         DSCaseXd(aCase) = DSSSystemXd(DSCaseSSys(aCase));
         numberOfEquations = DSGMASystemNumberOfEquations(DSDesignSpaceGMASystem(ds));
-        numberOfXi = DSVariablePoolNumberOfVariables(DSCaseXi(aCase));
         DSCaseSig(aCase) = DSSecureMalloc(sizeof(DSUInteger)*(2*numberOfEquations));
         for (i = 0; i < 2*numberOfEquations; i+=2) {
                 term1 = termArray[i];
@@ -355,7 +389,7 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
                 dsCaseCreateBoundaryMatrices(aCase);
                 dsCaseCalculateCaseNumber(aCase, DSDesignSpaceGMASystem(ds), endian);
 //                if (DSSSystemIsSingular(DSCaseSSys(aCase)) == true)
-//                        DSSubcaseDesignSpaceForUnderdeterminedCase(aCase, ds);
+//                        DSCyclicalCaseDesignSpaceForUnderdeterminedCase(aCase, ds);
         } else {
                 DSCaseFree(aCase);
                 aCase = NULL;
@@ -610,7 +644,6 @@ static void dsCaseBoundaryToString(const DSCase *aCase,
         if (DSCaseU(aCase) == NULL) {
                 goto bail;
         }
-        numberOfXd = DSVariablePoolNumberOfVariables(DSCaseXd(aCase));
         if (boundary >= DSMatrixRows(DSCaseU(aCase))) {
                 DSError("Equation does not exist: Check number of equations", A_DS_ERROR);
                 goto bail;
