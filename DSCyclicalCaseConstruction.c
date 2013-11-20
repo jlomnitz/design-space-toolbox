@@ -11,7 +11,7 @@
 #include "DSCyclicalCase.h"
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark Subcase calculation functions
+#pragma mark Cyclical calculation functions -
 #endif
 
 
@@ -218,31 +218,10 @@ static DSDesignSpace * dsSubcaseCreateUniqueSystemSubcase(const DSCase *aCase, c
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
                         if (DSMatrixDoubleValue(problematicEquations, j, i) == 0.0)
                                 continue;
-//                        DSSecureFree(equations[j]);
-//                        eqLHS = DSExpressionEquationLHSExpression(caseEquations[j]);
-//                        eqRHS = DSExpressionEquationRHSExpression(caseEquations[j]);
-//                        temp = DSExpressionVariablesInExpression(eqLHS);
-//                        DSVariablePoolCopyVariablesFromVariablePool(Xda, temp);
-//                        temp_rhs = DSExpressionAsString(eqRHS);
-//                        equations[j] = DSSecureCalloc(sizeof(char),strlen(temp_rhs) + 7);
-//                        equations[j] = strcpy(equations[j], "0 = ");
-//                        equations[j] = strcat(equations[j], temp_rhs);
-//                        DSSecureFree(temp_rhs);
-//                        DSExpressionFree(eqLHS);
-//                        DSExpressionFree(eqRHS);
                         equationIndex[i] = j;
                         break;
                 }
         }
-//        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
-//                equationIndex[i] = DSMatrixRows(problematicEquations);
-//                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
-//                        if (DSMatrixDoubleValue(problematicEquations, j, i) == 0.0)
-//                                continue;
-//                        equationIndex[i] = j;
-//                        break;
-//                }
-//        }
         for (i = 0; i < DSCaseNumberOfEquations(aCase); i++) {
                 for (j = 0; j < DSMatrixColumns(problematicEquations); j++) {
                         if (i != equationIndex[j])
@@ -272,6 +251,229 @@ bail:
                 DSSecureFree(equationIndex);
         return ds;
 }
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark - Multiple augmented systems to obtain appropriate dynamics -
+#endif
+
+static DSDesignSpace * dsCyclicalCaseCreateUniqueAugmentedSystem(const DSCase *aCase, const DSGMASystem * modifiedGMA, const DSMatrix  * problematicEquations, const DSExpression ** augmentedEquations, const DSUInteger * subdominantDecays)
+{
+        DSDesignSpace * ds = NULL;
+        DSUInteger i, j;
+        char **equations, *temp_rhs, *temp_lhs;
+        DSExpression **caseEquations;
+        DSExpression  *eqLHS;
+        DSVariablePool * Xda = NULL;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (modifiedGMA == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (problematicEquations == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (augmentedEquations == NULL) {
+                DSError(M_DS_NULL ": Augmented equations not found", A_DS_ERROR);
+                goto bail;
+        }
+        caseEquations = DSCaseEquations(aCase);
+        equations = DSSecureCalloc(sizeof(char *), DSCaseNumberOfEquations(aCase));
+        Xda = DSVariablePoolAlloc();
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSGMASystemXd_a(modifiedGMA)); i++)
+                DSVariablePoolAddVariableWithName(Xda, DSVariableName(DSVariablePoolVariableAtIndex(DSGMASystemXd_a(modifiedGMA), i)));
+        for (i = 0; i < DSCaseNumberOfEquations(aCase); i++)
+                equations[i] = DSExpressionAsString(caseEquations[i]);
+        for (i = 0; i < DSCaseNumberOfEquations(aCase); i++) {
+                for (j = 0; j < DSMatrixColumns(problematicEquations); j++) {
+                        if (i != subdominantDecays[j])
+                                continue;
+                        DSSecureFree(equations[i]);
+                        eqLHS = DSExpressionEquationLHSExpression(caseEquations[i]);
+                        temp_lhs = DSExpressionAsString(eqLHS);
+                        temp_rhs = DSExpressionAsString(augmentedEquations[j]);
+                        DSExpressionFree(eqLHS);
+                        equations[i] = DSSecureCalloc(sizeof(char),strlen(temp_rhs) + strlen(temp_lhs)+4);
+                        equations[i] = strcpy(equations[i], temp_lhs);
+                        equations[i] = strcat(equations[i], " = ");
+                        equations[i] = strcat(equations[i], temp_rhs);
+                        DSSecureFree(temp_rhs);
+                        DSSecureFree(temp_lhs);
+                }
+        }
+        ds = DSDesignSpaceByParsingStringsWithXi(equations, Xda, DSGMASystemXi(modifiedGMA), DSCaseNumberOfEquations(aCase));
+        for (i = 0; i < DSCaseNumberOfEquations(aCase); i++) {
+                DSSecureFree(equations[i]);
+                DSExpressionFree(caseEquations[i]);
+        }
+        DSSecureFree(equations);
+        DSSecureFree(caseEquations);
+bail:
+        return ds;
+}
+
+static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const DSCase * aCase,
+                                                                         const DSDesignSpace * original,
+                                                                         DSMatrix * problematicEquations,
+                                                                         const DSMatrixArray * problematicTerms,
+                                                                         const DSMatrixArray * coefficientArray,
+                                                                         const DSUInteger *subdominantDecaySpecies)
+{
+        DSDesignSpace * augmentedSystem = NULL;
+        DSGMASystem * gma = NULL;
+        DSExpression ** augmentedEquations = NULL;
+        DSUInteger i, j, k, l;
+        double value;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (original == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (problematicEquations == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (problematicTerms == NULL) {
+                DSError(M_DS_MAT_NULL ": Problematic term matrix array is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (coefficientArray == NULL) {
+                DSError(M_DS_MAT_NULL ": Coefficient matrix array is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (augmentedEquations == NULL) {
+                DSError(M_DS_NULL ": Augmented equations not found", A_DS_ERROR);
+                goto bail;
+        }
+        if (subdominantDecaySpecies == NULL) {
+                DSError(M_DS_NULL ": Array indicating the subdominant decay equation is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        gma = DSGMASystemCopy(DSDesignSpaceGMASystem(original));
+        augmentedEquations = DSSecureCalloc(sizeof(DSExpression *), DSMatrixColumns(problematicEquations));
+        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
+                l = 0;
+                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
+                        if (DSMatrixDoubleValue(problematicEquations, j, i) == 0)
+                                continue;
+                        value = DSMatrixArrayDoubleWithIndices(coefficientArray, i, l, 0);
+                        for (k = 0; k < DSMatrixColumns(DSGMASystemAlpha(gma)); k++) {
+                                if (k+1 == aCase->signature[2*j]) {
+                                        DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemAlpha(gma), j, k, 0.0f);
+                                } else {
+                                        DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemAlpha(gma), j, k,
+                                                               DSMatrixDoubleValue(DSGMASystemAlpha(gma), j, k)*value);
+                                }
+
+                        }
+                        l++;
+                        augmentedEquations[i] = DSExpressionAddExpressions(augmentedEquations[i], DSGMASystemPositiveTermsForEquations(gma, j));
+                }
+                j = subdominantDecaySpecies[i];
+                for (k = 0; k < DSMatrixColumns(DSGMASystemBeta(gma)); k++) {
+                        if (k+1 == aCase->signature[2*j+1]) {
+                                DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemBeta(gma), j, k, 0.0f);
+                        } else {
+                                DSMatrixSetDoubleValue((DSMatrix *)DSGMASystemBeta(gma), j, k,
+                                                       DSMatrixDoubleValue(DSGMASystemBeta(gma), j, k)*value);
+                        }
+                }
+                augmentedEquations[i] = DSExpressionAddExpressions(augmentedEquations[i], DSGMASystemNegativeTermsForEquations(gma, j));
+        }
+        augmentedSystem = dsCyclicalCaseCreateUniqueAugmentedSystem(aCase,
+                                                                    gma,
+                                                                    problematicEquations,
+                                                                    (const DSExpression **)augmentedEquations,
+                                                                    subdominantDecaySpecies);
+        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
+                DSExpressionFree(augmentedEquations[i]);
+        }
+        DSSecureFree(augmentedEquations);
+        DSGMASystemFree(gma);
+bail:
+        return augmentedSystem;
+}
+
+static DSUInteger dsCyclicalCaseNumberOfAugmentedSystems(const DSDesignSpace * original,
+                                                         const DSMatrix * problematicEquations)
+{
+        DSUInteger i, j, max = 0, count;
+        if (original == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (problematicEquations == NULL) {
+                DSError(M_DS_MAT_NULL ": Matrix of problematic equations is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        max = 1;
+        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
+                count = 0;
+                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
+                        if (DSMatrixDoubleValue(problematicEquations, j, i) == 0.0f)
+                                continue;
+                        count += (DSDesignSpaceSignature(original)[j*2+1] > 1);
+                }
+                max*=count;
+        }
+bail:
+        return max;
+}
+
+static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
+                                                      const DSDesignSpace * original,
+                                                      DSMatrix * problematicEquations,
+                                                      const DSMatrixArray * problematicTerms,
+                                                      const DSMatrixArray * coefficientArray)
+{
+        DSStack * augmentedSystemsStack = NULL;
+        DSUInteger i, j, max, *decayEquations = NULL, *numberOfequations;
+        
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (original == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseNumberOfEquations(aCase) != DSDesignSpaceNumberOfEquations(original)) {
+                DSError(M_DS_WRONG ": Number of equation in design space must match number of equations in case", A_DS_ERROR);
+                goto bail;
+        }
+        if (problematicEquations == NULL)
+                goto bail;
+        if (problematicTerms == NULL)
+                goto bail;
+        if (coefficientArray == NULL)
+                goto bail;
+        if (DSMatrixArrayNumberOfMatrices(problematicTerms) != DSMatrixArrayNumberOfMatrices(coefficientArray))
+                goto bail;
+        decayEquations = DSSecureCalloc(sizeof(DSUInteger), DSMatrixColumns(problematicEquations));
+        numberOfequations = DSSecureCalloc(sizeof(DSUInteger), DSMatrixColumns(problematicEquations));
+        max = dsCyclicalCaseNumberOfAugmentedSystems(original, problematicEquations);
+        
+        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
+                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
+                        numberOfequations[0] += ((DSUInteger)DSMatrixDoubleValue(problematicEquations, i, j) != 0);
+                }
+        }
+        DSSecureFree(decayEquations);
+        DSSecureFree(numberOfequations);
+bail:
+        return augmentedSystemsStack;
+}
+
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark - Exposed function to generate the internal systems for cyclical cases -
+#endif
 
 extern DSDesignSpace * DSCyclicalCaseInternalForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)
 {

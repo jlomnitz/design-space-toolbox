@@ -124,21 +124,35 @@ extern void DSGMASystemFree(DSGMASystem * gma)
                 DSError(M_DS_NULL ": GMA to free is NULL", A_DS_ERROR);
                 goto bail;
         }
-        DSVariablePoolSetReadWriteAdd(DSGMAXd(gma));
-        DSVariablePoolFree(DSGMAXd(gma));
-        DSVariablePoolSetReadWriteAdd(DSGMAXi(gma));
-        DSVariablePoolFree(DSGMAXi(gma));
-        DSVariablePoolSetReadWriteAdd(DSGMAXd_a(gma));
-        DSVariablePoolFree(DSGMAXd_a(gma));
-        DSMatrixFree(DSGMAAlpha(gma));
-        DSMatrixFree(DSGMABeta(gma));
-        DSMatrixArrayFree(DSGMAGd(gma));
+        if (DSGMAXd(gma) != NULL) {
+                DSVariablePoolSetReadWriteAdd(DSGMAXd(gma));
+                DSVariablePoolFree(DSGMAXd(gma));
+        }
+        if (DSGMAXi(gma) != NULL) {
+                DSVariablePoolSetReadWriteAdd(DSGMAXi(gma));
+                DSVariablePoolFree(DSGMAXi(gma));
+        }
+        if (DSGMAXd_a(gma) != NULL) {
+                DSVariablePoolSetReadWriteAdd(DSGMAXd_a(gma));
+                DSVariablePoolFree(DSGMAXd_a(gma));
+        }
+        if (DSGMAAlpha(gma) != NULL) {
+                DSMatrixFree(DSGMAAlpha(gma));
+        }
+        if (DSGMABeta(gma) != NULL) {
+                DSMatrixFree(DSGMABeta(gma));
+        }
+        if (DSGMAGd(gma) != NULL) {
+                DSMatrixArrayFree(DSGMAGd(gma));
+        }
         if (DSGMAGi(gma) != NULL)
                 DSMatrixArrayFree(DSGMAGi(gma));
         DSMatrixArrayFree(DSGMAHd(gma));
         if (DSGMAHi(gma) != NULL)
                 DSMatrixArrayFree(DSGMAHi(gma));
-        DSSecureFree(DSGMASignature(gma));
+        if (DSGMASignature(gma) != NULL) {
+                DSSecureFree(DSGMASignature(gma));
+        }
         DSSecureFree(gma);
 bail:
         return;
@@ -537,16 +551,13 @@ extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, c
                 DSError(M_DS_WRONG ": No equations to parse", A_DS_WARN);
                 goto bail;
         }
-        aux = dsGmaTermListForAllStrings(strings, numberOfEquations);
-        if (aux == NULL)
-                goto bail;
         gma = DSGMASystemAlloc();
         Xd = DSVariablePoolAlloc();
         Xda = DSVariablePoolAlloc();
         for (i=0; i < numberOfEquations; i++) {
                 expr = DSExpressionByParsingString(strings[i]);
                 lhs = DSExpressionEquationLHSExpression(expr);
-                if (DSExpressionType(lhs) == DS_EXPRESSION_TYPE_CONSTANT) {
+                if (DSExpressionType(lhs) != DS_EXPRESSION_TYPE_CONSTANT) {
                         // If different from 0, should substract rhs by lhs
                 }
                 tempPool = DSExpressionVariablesInExpression(lhs);
@@ -575,6 +586,14 @@ extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, c
         }
         if (DSVariablePoolNumberOfVariables(Xd) != numberOfEquations) {
                 DSError(M_DS_WRONG ": Number of dependent variables does not match number of equations", A_DS_ERROR);
+                DSGMASystemFree(gma);
+                gma = NULL;
+                goto bail;
+        }
+        aux = dsGmaTermListForAllStrings(strings, numberOfEquations);
+        if (aux == NULL) {
+                DSGMASystemFree(gma);
+                gma = NULL;
                 goto bail;
         }
         DSGMAXd(gma) = Xd;

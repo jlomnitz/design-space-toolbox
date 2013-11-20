@@ -99,6 +99,7 @@ equation(A) ::= expr(B) EQUALS expr(C). {
         DSExpressionAddBranch(A, C);
 }
 
+
 expr(A) ::= expr(B) PLUS expr(C). {
         if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(B) == DSExpressionType(C)) {
@@ -110,6 +111,11 @@ expr(A) ::= expr(B) PLUS expr(C). {
                 DSExpressionAddBranch(A, B);
                 DSExpressionAddBranch(A, C);
         }
+}
+
+
+expr(A) ::= PLUS expr(B). [PLUS]{
+        A = B;
 }
 
 expr(A) ::= expr(B) MINUS expr(C). {
@@ -195,10 +201,6 @@ expr(A) ::= MINUS expr(B). [NOT] {
                 DSExpressionAddBranch(A, dsExpressionAllocWithConstant(-1.0));
                 DSExpressionAddBranch(A, B);
         }
-}
-
-expr(A) ::= PLUS expr(B). [NOT] {
-        A = B;
 }
 
 expr(A) ::= expr(B) PRIME. {

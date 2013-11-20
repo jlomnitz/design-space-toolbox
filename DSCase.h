@@ -105,7 +105,9 @@ extern double DSCaseLogarithmicGain(const DSCase *aCase, const char *XdName, con
 
 
 extern const bool DSCaseIsValid(const DSCase *aCase);
+extern const bool DSCaseIsValidInStateSpace(const DSCase *aCase);
 extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool * variablesToFix);
+extern const bool DSCaseIsValidInStateSpaceAtPoint(const DSCase *aCase, const DSVariablePool * Xd_p, const DSVariablePool * Xi_p);
 extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
 
 extern DSVertices * DSCaseVerticesForSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);

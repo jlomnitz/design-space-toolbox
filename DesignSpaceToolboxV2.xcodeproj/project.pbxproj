@@ -20,7 +20,6 @@
 		9A3D588513FAFAD000C32875 /* DSSSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3D588413FAFAD000C32875 /* DSSSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A3D588A13FB01D100C32875 /* DSSSystemGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D588813FB01D100C32875 /* DSSSystemGrammar.c */; };
 		9A3D588B13FB01D100C32875 /* DSSSystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A3D588913FB01D100C32875 /* DSSSystemGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9A47C2C5150211FF00AA0585 /* libglpk.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A47C2C4150211FF00AA0585 /* libglpk.0.dylib */; };
 		9A537BB113A9CFE50031378A /* DSMemoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB013A9CFE50031378A /* DSMemoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A537BB313A9D04F0031378A /* DSTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB213A9D04F0031378A /* DSTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A5833BC139D79170068B6B6 /* DSStd.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5833BB139D79170068B6B6 /* DSStd.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -31,6 +30,8 @@
 		9A68EF6E13ECA32900FBDDF5 /* DSVariableTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A68EF6D13ECA32900FBDDF5 /* DSVariableTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A68EF7213ECAF4200FBDDF5 /* DSVariableGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A68EF7113ECAF4100FBDDF5 /* DSVariableGrammar.c */; };
 		9A68EF7413ECB03000FBDDF5 /* DSVariableGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A68EF7313ECB02F00FBDDF5 /* DSVariableGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		9A6DB4C21818F9A200C109FF /* libgsl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6DB4C11818F9A200C109FF /* libgsl.dylib */; };
+		9A6DB4C41818F9A700C109FF /* libglpk.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A6DB4C31818F9A700C109FF /* libglpk.dylib */; };
 		9A707C5813F0D0EF00626845 /* DSExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A707C5713F0D0EF00626845 /* DSExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A707C5B13F0D0FC00626845 /* DSExpression.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A707C5A13F0D0FC00626845 /* DSExpression.c */; };
 		9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0D813D480890051B472 /* libcblas.dylib */; };
@@ -58,7 +59,6 @@
 		9AC62D1B13FDC2D500523AD7 /* DSCase.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AC62D1A13FDC2D500523AD7 /* DSCase.c */; };
 		9ACB2CFF13A1345F006A5F71 /* DSErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ACB2CFE13A1345F006A5F71 /* DSErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */; };
-		9ADD5B1515F92FBB001DF565 /* libgsl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD5B1415F92FBB001DF565 /* libgsl.a */; };
 		9AE49FD913F5A4EC00C7A478 /* DSGMASystemGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */; };
 		9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE7759C140DAA8900F77747 /* DSVertices.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -85,7 +85,6 @@
 		9A3D588713FB008800C32875 /* DSSSystemGrammar.y */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.yacc; path = DSSSystemGrammar.y; sourceTree = "<group>"; };
 		9A3D588813FB01D100C32875 /* DSSSystemGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSSystemGrammar.c; sourceTree = "<group>"; };
 		9A3D588913FB01D100C32875 /* DSSSystemGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSSystemGrammar.h; sourceTree = "<group>"; };
-		9A47C2C4150211FF00AA0585 /* libglpk.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglpk.0.dylib; path = ../../../../../usr/local/lib/libglpk.0.dylib; sourceTree = "<group>"; };
 		9A47FEA913DCBBCC00E2100C /* DSErrorCriteria.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = DSErrorCriteria.txt; sourceTree = "<group>"; };
 		9A537BB013A9CFE50031378A /* DSMemoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMemoryManager.h; sourceTree = "<group>"; };
 		9A537BB213A9D04F0031378A /* DSTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DSTypes.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -99,6 +98,8 @@
 		9A68EF6D13ECA32900FBDDF5 /* DSVariableTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVariableTokenizer.h; sourceTree = "<group>"; };
 		9A68EF7113ECAF4100FBDDF5 /* DSVariableGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariableGrammar.c; sourceTree = "<group>"; };
 		9A68EF7313ECB02F00FBDDF5 /* DSVariableGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVariableGrammar.h; sourceTree = "<group>"; };
+		9A6DB4C11818F9A200C109FF /* libgsl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.dylib; path = ../../../../../../usr/local/lib/libgsl.dylib; sourceTree = "<group>"; };
+		9A6DB4C31818F9A700C109FF /* libglpk.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglpk.dylib; path = ../../../../../../usr/local/lib/libglpk.dylib; sourceTree = "<group>"; };
 		9A707C5713F0D0EF00626845 /* DSExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSExpression.h; sourceTree = "<group>"; };
 		9A707C5A13F0D0FC00626845 /* DSExpression.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSExpression.c; sourceTree = "<group>"; };
 		9A71F0D813D480890051B472 /* libcblas.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcblas.dylib; path = usr/lib/libcblas.dylib; sourceTree = SDKROOT; };
@@ -132,7 +133,6 @@
 		9ACB2CFE13A1345F006A5F71 /* DSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSErrors.h; sourceTree = "<group>"; };
 		9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMemoryManager.c; sourceTree = "<group>"; };
 		9ADADD5B13EB467B00A2062D /* DSMatrixGrammar.l */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lex; path = DSMatrixGrammar.l; sourceTree = "<group>"; };
-		9ADD5B1415F92FBB001DF565 /* libgsl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgsl.a; path = ../../../../../usr/local/lib/libgsl.a; sourceTree = "<group>"; };
 		9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemGrammar.c; sourceTree = "<group>"; };
 		9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemGrammar.h; sourceTree = "<group>"; };
 		9AE7759C140DAA8900F77747 /* DSVertices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVertices.h; sourceTree = "<group>"; };
@@ -148,8 +148,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9ADD5B1515F92FBB001DF565 /* libgsl.a in Frameworks */,
-				9A47C2C5150211FF00AA0585 /* libglpk.0.dylib in Frameworks */,
+				9A6DB4C41818F9A700C109FF /* libglpk.dylib in Frameworks */,
+				9A6DB4C21818F9A200C109FF /* libgsl.dylib in Frameworks */,
 				9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -235,8 +235,8 @@
 		9A5833A9139D78A80068B6B6 = {
 			isa = PBXGroup;
 			children = (
-				9ADD5B1415F92FBB001DF565 /* libgsl.a */,
-				9A47C2C4150211FF00AA0585 /* libglpk.0.dylib */,
+				9A6DB4C31818F9A700C109FF /* libglpk.dylib */,
+				9A6DB4C11818F9A200C109FF /* libgsl.dylib */,
 				9A71F0D813D480890051B472 /* libcblas.dylib */,
 				9A5833BB139D79170068B6B6 /* DSStd.h */,
 				9A8C2F3215F6D672009B6323 /* Makefile */,
@@ -660,8 +660,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					/usr/local/lib/,
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
 					"-L/usr/local/lib/",
@@ -686,8 +687,9 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					/usr/local/lib/,
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/local/include/",
 					"-L/usr/local/lib/",

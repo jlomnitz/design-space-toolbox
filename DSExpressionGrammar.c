@@ -171,12 +171,12 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **  yy_default[]       Default action for each state.
 */
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    28,   22,    8,    1,    4,    6,    5,   27,   15,    7,
- /*    10 */     1,    4,    6,    5,   27,   27,    7,    7,   13,   26,
- /*    20 */     1,    4,    6,    5,   27,   12,    7,   16,   17,   25,
- /*    30 */     1,    4,    6,    5,   27,   23,    7,   10,    9,   11,
- /*    40 */    44,   19,   18,   20,   24,    3,   14,   21,   29,    7,
- /*    50 */     6,    5,   27,    2,    7,
+ /*     0 */    28,   13,    7,    1,    3,    5,    4,   27,   15,    6,
+ /*    10 */     1,    3,    5,    4,   27,   27,    6,    6,   12,   25,
+ /*    20 */     1,    3,    5,    4,   27,   16,    6,   18,   19,   26,
+ /*    30 */     1,    3,    5,    4,   27,   23,    6,    8,    9,   11,
+ /*    40 */    44,   20,   21,   14,   24,    2,   17,   22,   29,    6,
+ /*    50 */     5,    4,   27,   10,    6,
 };
 static const YYCODETYPE yy_lookahead[] = {
  /*     0 */     0,   14,    2,    3,    4,    5,    6,    7,   14,    9,
@@ -190,8 +190,8 @@ static const YYCODETYPE yy_lookahead[] = {
 #define YY_SHIFT_MAX 23
 static const signed char yy_shift_ofst[] = {
  /*     0 */    34,   34,   34,   34,   34,   34,   34,   34,   34,   34,
- /*    10 */    34,    0,    7,   17,   27,   45,   45,    8,    8,   48,
- /*    20 */    40,   40,   40,   42,
+ /*    10 */    34,    0,   17,    7,   27,   45,   45,   45,    8,    8,
+ /*    20 */    48,   40,   40,   42,
 };
 #define YY_REDUCE_USE_DFLT (-14)
 #define YY_REDUCE_MAX 10
@@ -201,8 +201,8 @@ static const signed char yy_reduce_ofst[] = {
 };
 static const YYACTIONTYPE yy_default[] = {
  /*     0 */    43,   43,   43,   43,   43,   43,   43,   43,   43,   43,
- /*    10 */    43,   43,   43,   43,   30,   31,   32,   33,   34,   43,
- /*    20 */    35,   36,   37,   39,   40,   41,   42,   38,
+ /*    10 */    43,   43,   43,   43,   30,   31,   33,   32,   34,   35,
+ /*    20 */    43,   36,   37,   39,   40,   41,   42,   38,
 };
 #define YY_SZ_ACTTAB (int)(sizeof(yy_action)/sizeof(yy_action[0]))
 
@@ -312,12 +312,12 @@ static const char *const yyRuleName[] = {
  /*   1 */ "program ::= equation",
  /*   2 */ "equation ::= expr EQUALS expr",
  /*   3 */ "expr ::= expr PLUS expr",
- /*   4 */ "expr ::= expr MINUS expr",
- /*   5 */ "expr ::= expr TIMES expr",
- /*   6 */ "expr ::= expr DIVIDE expr",
- /*   7 */ "expr ::= expr POWER expr",
- /*   8 */ "expr ::= MINUS expr",
- /*   9 */ "expr ::= PLUS expr",
+ /*   4 */ "expr ::= PLUS expr",
+ /*   5 */ "expr ::= expr MINUS expr",
+ /*   6 */ "expr ::= expr TIMES expr",
+ /*   7 */ "expr ::= expr DIVIDE expr",
+ /*   8 */ "expr ::= expr POWER expr",
+ /*   9 */ "expr ::= MINUS expr",
  /*  10 */ "expr ::= expr PRIME",
  /*  11 */ "expr ::= ID",
  /*  12 */ "expr ::= VALUE",
@@ -636,11 +636,11 @@ static const struct {
   { 15, 1 },
   { 16, 3 },
   { 14, 3 },
-  { 14, 3 },
-  { 14, 3 },
-  { 14, 3 },
-  { 14, 3 },
   { 14, 2 },
+  { 14, 3 },
+  { 14, 3 },
+  { 14, 3 },
+  { 14, 3 },
   { 14, 2 },
   { 14, 2 },
   { 14, 1 },
@@ -733,7 +733,12 @@ static void yy_reduce(
         }
 }
         break;
-      case 4: /* expr ::= expr MINUS expr */
+      case 4: /* expr ::= PLUS expr */
+{
+        yygotominor.yy0 = yymsp[0].minor.yy0;
+}
+        break;
+      case 5: /* expr ::= expr MINUS expr */
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
@@ -758,7 +763,7 @@ static void yy_reduce(
         }
 }
         break;
-      case 5: /* expr ::= expr TIMES expr */
+      case 6: /* expr ::= expr TIMES expr */
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
                 DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
@@ -772,7 +777,7 @@ static void yy_reduce(
         }
 }
         break;
-      case 6: /* expr ::= expr DIVIDE expr */
+      case 7: /* expr ::= expr DIVIDE expr */
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
             DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
@@ -797,7 +802,7 @@ static void yy_reduce(
         }
 }
         break;
-      case 7: /* expr ::= expr POWER expr */
+      case 8: /* expr ::= expr POWER expr */
 {
         if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
             DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
@@ -811,7 +816,7 @@ static void yy_reduce(
         }
 }
         break;
-      case 8: /* expr ::= MINUS expr */
+      case 9: /* expr ::= MINUS expr */
 {
         if (DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
                 yygotominor.yy0 = dsExpressionAllocWithConstant(-DSExpressionConstant(yymsp[0].minor.yy0));
@@ -821,11 +826,6 @@ static void yy_reduce(
                 DSExpressionAddBranch(yygotominor.yy0, dsExpressionAllocWithConstant(-1.0));
                 DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
         }
-}
-        break;
-      case 9: /* expr ::= PLUS expr */
-{
-        yygotominor.yy0 = yymsp[0].minor.yy0;
 }
         break;
       case 10: /* expr ::= expr PRIME */

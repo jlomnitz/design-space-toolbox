@@ -170,6 +170,29 @@ bail:
         return isValid;
 }
 
+extern const bool DSCaseIsValidInStateSpace(const DSCase *aCase)
+{
+        bool isValid = false;
+        glp_prob *linearProblem = NULL;
+        DSMatrix * C;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        C  = DSMatrixAppendMatrices(DSCaseCd(aCase), DSCaseCi(aCase), true);
+        linearProblem = dsCaseLinearProblemForCaseValidity(C, DSCaseDelta(aCase));
+        if (linearProblem != NULL) {
+                glp_simplex(linearProblem, NULL);
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                        isValid = true;
+                }
+                glp_delete_prob(linearProblem);
+        }
+bail:
+        return isValid;
+}
+
+
 extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool * variablesToFix)
 {
         bool isValid = false;
@@ -217,6 +240,81 @@ extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool
                 isValid = true;
         DSMatrixFree(result);
         DSMatrixFree(Xi);
+bail:
+        return isValid;
+}
+
+extern const bool DSCaseIsValidInStateSpaceAtPoint(const DSCase *aCase, const DSVariablePool * Xd_p, const DSVariablePool * Xi_p)
+{
+        bool isValid = false;
+        DSUInteger i, numberOfXi, numberOfXd, indexOfVariable;
+        DSMatrix *result, *CdYd, *CiYi, *Yi, *Yd;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseHasSolution(aCase) == false) {
+                goto bail;
+        }
+        if (Xd_p == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable pool with values for dependent variable is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi_p == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable pool with values for independent variable is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(Xd_p) != DSVariablePoolNumberOfVariables(DSCaseXd(aCase))) {
+                DSError(M_DS_WRONG ": Inconsistent number of dependent variables", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(Xi_p) != DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                DSError(M_DS_WRONG ": Inconsistent number of independent variables", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(Xi_p) == 0) {
+                DSError(M_DS_WRONG ": Case has no independent variables", A_DS_WARN);
+                isValid = DSCaseIsValid(aCase);
+                goto bail;
+        }
+        numberOfXi = DSVariablePoolNumberOfVariables(Xi_p);
+        numberOfXd = DSVariablePoolNumberOfVariables(Xd_p);
+        Yd = DSMatrixAlloc(numberOfXd, 1);
+        Yi = DSMatrixAlloc(numberOfXi, 1);
+        for (i = 0; i < numberOfXd; i++) {
+                indexOfVariable = DSVariablePoolIndexOfVariableWithName(DSCaseXd(aCase),
+                                                                        DSVariableName(DSVariablePoolAllVariables(Xd_p)[i]));
+                if (indexOfVariable >= DSMatrixRows(Yd)) {
+                        DSMatrixFree(Yi);
+                        DSMatrixFree(Yd);
+                        goto bail;
+                }
+                DSMatrixSetDoubleValue(Yd, indexOfVariable, 0, log10(DSVariableValue(DSVariablePoolAllVariables(Xd_p)[i])));
+        }
+        for (i = 0; i < numberOfXi; i++) {
+                indexOfVariable = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase),
+                                                                        DSVariableName(DSVariablePoolAllVariables(Xi_p)[i]));
+                if (indexOfVariable >= DSMatrixRows(Yi)) {
+                        DSMatrixFree(Yi);
+                        DSMatrixFree(Yd);
+                        goto bail;
+                }
+                DSMatrixSetDoubleValue(Yi, indexOfVariable, 0, log10(DSVariableValue(DSVariablePoolAllVariables(Xi_p)[i])));
+        }
+        CdYd = DSMatrixByMultiplyingMatrix(DSCaseCd(aCase), Yd);
+        CiYi = DSMatrixByMultiplyingMatrix(DSCaseCi(aCase), Yi);
+        result = DSMatrixByAddingMatrix(CdYd, CiYi);
+        DSMatrixAddByMatrix(result, DSCaseDelta(aCase));
+        for (i = 0; i < DSMatrixRows(result); i++)
+                if (DSMatrixDoubleValue(result, i, 0) < 0)
+                        break;
+        if (i == DSMatrixRows(result))
+                isValid = true;
+        DSMatrixFree(result);
+        DSMatrixFree(Yi);
+        DSMatrixFree(Yd);
+        DSMatrixFree(CiYi);
+        DSMatrixFree(CdYd);
 bail:
         return isValid;
 }
