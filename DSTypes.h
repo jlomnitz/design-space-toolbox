@@ -310,6 +310,7 @@ typedef struct {
         DSMatrixArray *Hi;
         DSVariablePool *Xd;
         DSVariablePool *Xd_a;     //!< A pointer to the DSVariablePool with the algebraic dependent variables.
+        DSVariablePool *Xd_t;
         DSVariablePool *Xi;
         DSUInteger *signature;
 } DSGMASystem;
@@ -332,6 +333,7 @@ typedef struct {
         DSMatrix *Hi;
         DSMatrix *M;
         DSVariablePool *Xd;
+        DSVariablePool *Xd_t;
         DSVariablePool *Xd_a;      //!< A pointer to the DSVariablePool with the algebraic dependent variables.
         DSVariablePool *Xi;
         bool isSingular;

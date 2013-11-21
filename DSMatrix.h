@@ -144,6 +144,11 @@ extern DSMatrix * DSMatrixSubMatrixIncludingRowAndColumnList(const DSMatrix *mat
                                                              const DSUInteger numberOfRows,
                                                              const DSUInteger numberOfColumns,
                                                              const DSUInteger firstRow, ...);
+extern DSMatrix * DSMatrixSubMatrixIncludingRowsAndColumns(const DSMatrix *matrix,
+                                                           const DSUInteger numberOfRows,
+                                                           const DSUInteger numberOfColumns,
+                                                           const DSUInteger *rows,
+                                                           const DSUInteger *columns);
 extern DSMatrix * DSMatrixAppendMatrices(const DSMatrix *firstMatrix, 
                                          const DSMatrix *secondMatrix,
                                          const bool byColumn);

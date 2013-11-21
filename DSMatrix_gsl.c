@@ -974,7 +974,7 @@ extern DSMatrix * DSMatrixSubMatrixIncludingRowsAndColumns(const DSMatrix *matri
 {
         DSMatrix *submatrix = NULL, *tempSubmatrix;
         tempSubmatrix = DSMatrixSubMatrixIncludingColumns(matrix, numberOfColumns, columns);
-        submatrix = DSMatrixSubMatrixIncludingRows(matrix, numberOfRows, rows);
+        submatrix = DSMatrixSubMatrixIncludingRows(tempSubmatrix, numberOfRows, rows);
         DSMatrixFree(tempSubmatrix);
 bail:
         return submatrix;
@@ -1870,7 +1870,7 @@ bail:
 
 extern int * DSMatrixColumnsForGLPK(const DSMatrix *matrix)
 {
-        int *columns;
+        int *columns = NULL;
         DSUInteger i;
         if (matrix == NULL) {
                 DSError(M_DS_MAT_NULL, A_DS_ERROR);

@@ -66,6 +66,9 @@ extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * ori
 
 extern double DSSSystemSteadyStateFunction(const DSSSystem *ssys, const DSVariablePool *Xi0, const char * function);
 extern DSMatrix * DSSSystemSteadyStateValues(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSMatrix * DSSSystemAuxiliaryVariablesForSteadyState(const DSSSystem *ssys,
+                                                            const DSVariablePool *Xdt0,
+                                                            const DSVariablePool *Xi0);
 extern DSMatrix * DSSSystemSteadyStateFluxForDependentVariables(const DSSSystem * ssys,
                                                                 const DSVariablePool * Xd0,
                                                                 const DSVariablePool * Xi0);
@@ -111,7 +114,15 @@ extern const DSMatrix * DSSSystemHd(const DSSSystem * ssys);
 extern const DSMatrix * DSSSystemHi(const DSSSystem * ssys);
 extern const DSMatrix * DSSSystemM(const DSSSystem * ssys);
 
+extern DSMatrix * DSSSystemM_a(const DSSSystem * ssys);
+
 extern DSMatrix * DSSSystemAd(const DSSSystem * ssys);
+extern DSMatrix * DSSSystemQd_a(const DSSSystem * ssys);
+extern DSMatrix * DSSSystemQi_a(const DSSSystem * ssys);
+extern DSMatrix * DSSSystemQB_a(const DSSSystem * ssys);
+extern DSMatrix * DSSSystemAd_a(const DSSSystem * ssys);
+extern DSMatrix * DSSSystemAd_t(const DSSSystem * ssys);
+
 extern DSMatrix * DSSSystemAi(const DSSSystem * ssys);
 extern DSMatrix * DSSSystemB(const DSSSystem * ssys);
 extern DSMatrix * DSSSystemA(const DSSSystem * ssys);
@@ -120,6 +131,7 @@ extern DSMatrix * DSSSystemH(const DSSSystem *ssys);
 
 extern const DSVariablePool * DSSSystemXd(const DSSSystem * const ssys);
 extern const DSVariablePool * DSSSystemXd_a(const DSSSystem * const ssys);
+extern const DSVariablePool * DSSSystemXd_t(const DSSSystem * const ssys);
 extern const DSVariablePool * DSSSystemXi(const DSSSystem * const ssys);
 
 extern const bool DSSSystemHasSolution(const DSSSystem * ssys);
