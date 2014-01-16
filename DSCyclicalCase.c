@@ -252,7 +252,6 @@ extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSlice(const DSCy
                 goto bail;
         }
         caseDictionary = DSDictionaryAlloc();
-        numberValidSlice = 0;
         numberValid = DSDesignSpaceNumberOfValidCases(ds);
         if (numberValid == 0)
                 goto bail;
@@ -287,7 +286,6 @@ extern DSDictionary * DSCyclicalCaseVerticesForSlice(const DSCyclicalCase *cycli
                 goto bail;
         }
         caseDictionary = DSDictionaryAlloc();
-        numberValidSlice = 0;
         numberValid = DSDesignSpaceNumberOfValidCases(ds);
         if (numberValid == 0)
                 goto bail;
@@ -323,7 +321,6 @@ extern DSDictionary * DSCyclicalCaseVerticesFor2DSlice(const DSCyclicalCase *cyc
                 goto bail;
         }
         caseDictionary = DSDictionaryAlloc();
-        numberValidSlice = 0;
         numberValid = DSDesignSpaceNumberOfValidCases(ds);
         if (numberValid == 0)
                 goto bail;

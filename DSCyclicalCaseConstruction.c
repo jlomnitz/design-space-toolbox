@@ -457,8 +457,8 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
                 goto bail;
         decayEquations = DSSecureCalloc(sizeof(DSUInteger), DSMatrixColumns(problematicEquations));
         numberOfequations = DSSecureCalloc(sizeof(DSUInteger), DSMatrixColumns(problematicEquations));
-        max = dsCyclicalCaseNumberOfAugmentedSystems(original, problematicEquations);
-        
+//        max = dsCyclicalCaseNumberOfAugmentedSystems(original, problematicEquations);
+//        
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
                         numberOfequations[0] += ((DSUInteger)DSMatrixDoubleValue(problematicEquations, i, j) != 0);

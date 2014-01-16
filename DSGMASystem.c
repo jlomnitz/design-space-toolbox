@@ -459,7 +459,7 @@ static void dsGMAProcessNegativeExponentBasePairs(DSGMASystem *gma, gma_parserau
 static void dsGMASystemCreateSystemMatrices(DSGMASystem *gma, gma_parseraux_t **aux)
 {
         gma_parseraux_t *current;
-        DSUInteger numberOfEquations, positiveTerms, negativeTerms;
+        DSUInteger numberOfEquations, positiveTerms = 0, negativeTerms = 0;
         DSUInteger i, n, p;
         if (gma == NULL) {
                 DSError(M_DS_NULL ": GMA being modified is NULL", A_DS_ERROR);
@@ -626,7 +626,7 @@ extern DSGMASystem * DSGMASystemByParsingStringsWithXi(char * const * const stri
 {
         DSGMASystem * gma = NULL;
         gma_parseraux_t **aux = NULL;
-        DSUInteger i, j;
+        DSUInteger i, j = 0;
         DSExpression * expr = NULL;
         DSExpression * lhs = NULL;
         DSVariablePool * tempPool, * Xd, * Xda;
@@ -1004,8 +1004,8 @@ extern const DSMatrix *DSGMASystemBeta(const DSGMASystem *gma)
                 DSError(M_DS_NULL ": GMA being accessed is NULL", A_DS_ERROR);
                 goto bail;
         }
-bail:
         beta = DSGMABeta(gma);
+bail:
         return beta;
 }
 

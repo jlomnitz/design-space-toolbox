@@ -496,7 +496,6 @@ extern char * DSSSystemStringInJSONFormat(const DSSSystem *ssys)
                 edge = string+actualLength-1;
                 strncat(edge, temp, length-actualLength);
                 actualLength += strlen(temp);
-                edge = string+actualLength-1;
                 DSSecureFree(temp);
         }
         edge = string+actualLength-1;
@@ -607,7 +606,6 @@ extern char * DSCaseStringInJSONFormat(const DSCase * aCase)
                 edge = string+actualLength-1;
                 strncat(edge, temp, length-actualLength);
                 actualLength += strlen(temp);
-                edge = string+actualLength-1;
                 DSSecureFree(temp);
         }
         edge = string+actualLength-1;

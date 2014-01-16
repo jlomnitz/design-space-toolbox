@@ -204,6 +204,7 @@ extern double DSMatrixArrayDoubleWithIndices(const DSMatrixArray *array, const D
         current = DSMatrixArrayMatrix(array, i);
         if (current == NULL) {
                 DSError(M_DS_MAT_NULL ": Matrix at specified index is NULL", A_DS_ERROR);
+                goto bail;
         }
         if (j >= DSMatrixRows(current) || k >= DSMatrixColumns(current)) {
                 DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_ERROR);

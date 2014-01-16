@@ -169,7 +169,7 @@ bail:
 static DSInternalDictionary * dsInternalDictionaryAddValueWithName(DSInternalDictionary *root, const char * name, void *value)
 {
         int pos;
-        struct _varDictionary *current, *previous, *temp, *top;
+        struct _varDictionary *current, *previous, *temp;
         
         char errorMessage[100];
         
@@ -186,14 +186,12 @@ static DSInternalDictionary * dsInternalDictionaryAddValueWithName(DSInternalDic
                 DSError(errorMessage, A_DS_WARN);
                 goto bail;
         }
-        top = NULL;
         current = root;
         previous = NULL;
         temp = NULL;
         pos = 0;
         while (current) {
                 if (name[pos] < current->current) {
-                        top = previous;
                         previous = current;
                         current = current->lower;
                         if (current == NULL) {
@@ -201,7 +199,6 @@ static DSInternalDictionary * dsInternalDictionaryAddValueWithName(DSInternalDic
                                 break;
                         }
                 } else if (name[pos] > current->current) {
-                        top = previous;
                         previous = current;
                         current = current->higher;
                         if (current == NULL) {
@@ -209,8 +206,6 @@ static DSInternalDictionary * dsInternalDictionaryAddValueWithName(DSInternalDic
                                 break;
                         }
                 } else if (name[pos] == current->current) {
-                        top = previous;
-                        previous = current;
                         current = current->next;
                         pos++;
                 }

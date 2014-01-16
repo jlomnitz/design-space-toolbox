@@ -556,7 +556,7 @@ bail:
 }
 
 
-extern double DSVariablePoolValueForVariableWithName(const DSVariablePool *pool, const char const *name)
+extern double DSVariablePoolValueForVariableWithName(const DSVariablePool *pool, const char *name)
 {
         DSVariable * var = NULL;
         double value = -INFINITY;

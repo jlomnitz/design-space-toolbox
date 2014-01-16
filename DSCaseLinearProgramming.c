@@ -764,7 +764,7 @@ bail:
 static DSVertices * dsCaseCalculate1DVertices(const DSCase * aCase, glp_prob * linearProblem, const DSMatrix * A, const DSMatrix *Zeta, const DSUInteger xIndex, const DSVariablePool * lower, const DSVariablePool * upper)
 {
         DSVertices *vertices = NULL;
-        double minVal, maxVal, val[1] = {INFINITY};
+        double minVal = 0, maxVal = 0, val[1] = {INFINITY};
         vertices = DSVerticesAlloc(1);
         glp_set_obj_coef(linearProblem, xIndex+1, 1.0);
         glp_simplex(linearProblem, NULL);

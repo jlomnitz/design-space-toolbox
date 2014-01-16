@@ -1458,7 +1458,7 @@ extern DSMatrix * DSSSystemAd_t(const DSSSystem * ssys)
 {
         DSMatrix *Ad_t = NULL;
         DSMatrix *Gd_t = NULL, *Hd_t = NULL;
-        DSUInteger i, index, numberOfAuxiliary, * auxiliary_indices;
+        DSUInteger i, index, numberOfAuxiliary, * auxiliary_indices = NULL;
         if (ssys == NULL) {
                 DSError(M_DS_NULL ": S-System is NULL", A_DS_ERROR);
                 goto bail;
