@@ -40,18 +40,6 @@
 #include "DSMatrixArray.h"
 #include "DSCyclicalCase.h"
 
-#define DSCaseXi(x)                  ((x)->Xi)
-#define DSCaseXd(x)                  ((x)->Xd)
-#define DSCaseXd_a(x)                ((x)->Xd_a)
-#define DSCaseSSys(x)                ((x)->ssys)
-#define DSCaseCd(x)                  ((x)->Cd)
-#define DSCaseCi(x)                  ((x)->Ci)
-#define DSCaseU(x)                   ((x)->U)
-#define DSCaseDelta(x)               ((x)->delta)
-#define DSCaseZeta(x)                ((x)->zeta)
-#define DSCaseSig(x)                 ((x)->signature)
-#define DSCaseNum(x)                 ((x)->caseNumber)
-
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - DSCase Global behavior
 #endif
@@ -800,6 +788,18 @@ bail:
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
 #endif
+
+extern DSMatrix * DSCaseDoubleValueBoundariesAtPoint(const DSCase * aCase, const DSVariablePool * point)
+{
+        DSMatrix * values = NULL;
+        DSMatrix * U, *Zeta, *Xi;
+        U = DSCaseU(aCase);
+        Zeta = DSCaseZeta(aCase);
+        Xi = DSVariablePoolValuesAsVector(point, false);
+        values = DSMatrixByMultiplyingMatrix(U, Xi);
+        DSMatrixAddByMatrix(values, Zeta);
+        return values;
+}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Case signature and case number

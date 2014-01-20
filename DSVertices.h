@@ -46,5 +46,6 @@ extern void DSVerticesOrder2DVertices(DSVertices *vertices);
 
 extern void DSVerticesPrint(const DSVertices *vertices);
 
+extern DSMatrix * DSVerticesConnectivityMatrix(const DSVertices *vertices, const DSCase * aCase, const DSVariablePool * lower, const DSVariablePool * upper);
 
 #endif

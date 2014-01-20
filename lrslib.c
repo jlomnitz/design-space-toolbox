@@ -322,7 +322,7 @@ redund_main (int argc, char *argv[])
   else
     fprintf (lrs_ofp, "\nV-representation");
 
-/* linearities will be printed first in output */
+ linearities will be printed first in output */
 
   if (nlinearity > 0)
     {
@@ -541,27 +541,27 @@ void
 lrs_close (char *name)
 {
 
-  fprintf (lrs_ofp, "\n*%s", name);
-  fprintf (lrs_ofp, TITLE);
-  fprintf (lrs_ofp, VERSION);
-  fprintf (lrs_ofp, "(");
-  fprintf (lrs_ofp, BIT);
-  fprintf (lrs_ofp, ",");
-  fprintf (lrs_ofp, ARITH);
-  fprintf (lrs_ofp, ")");
+//  fprintf (lrs_ofp, "\n*%s", name);
+//  fprintf (lrs_ofp, TITLE);
+//  fprintf (lrs_ofp, VERSION);
+//  fprintf (lrs_ofp, "(");
+//  fprintf (lrs_ofp, BIT);
+//  fprintf (lrs_ofp, ",");
+//  fprintf (lrs_ofp, ARITH);
+//  fprintf (lrs_ofp, ")");
 
 #ifdef MP   
-  fprintf (lrs_ofp, " max digits=%ld/%ld", DIG2DEC (lrs_record_digits), DIG2DEC (lrs_digits));
+//  fprintf (lrs_ofp, " max digits=%ld/%ld", DIG2DEC (lrs_record_digits), DIG2DEC (lrs_digits));
 #endif
 
 #ifdef TIMES
   ptimes ();
 #endif
 
-  fprintf (lrs_ofp, "\n");
-  fclose (lrs_ifp);
-  if (lrs_ofp != stdout)
-    fclose (lrs_ofp);
+//  fprintf (lrs_ofp, "\n");
+//  fclose (lrs_ifp);
+//  if (lrs_ofp != stdout)
+//    fclose (lrs_ofp);
 }
 
 /***********************************/

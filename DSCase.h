@@ -47,6 +47,18 @@ __BEGIN_DECLS
 #define DS_CASE_NUMBER_BIG_ENDIAN    0
 #define DS_CASE_NUMBER_SMALL_ENDIAN  1
 
+#define DSCaseXi(x)                  ((x)->Xi)
+#define DSCaseXd(x)                  ((x)->Xd)
+#define DSCaseXd_a(x)                ((x)->Xd_a)
+#define DSCaseSSys(x)                ((x)->ssys)
+#define DSCaseCd(x)                  ((x)->Cd)
+#define DSCaseCi(x)                  ((x)->Ci)
+#define DSCaseU(x)                   ((x)->U)
+#define DSCaseDelta(x)               ((x)->delta)
+#define DSCaseZeta(x)                ((x)->zeta)
+#define DSCaseSig(x)                 ((x)->signature)
+#define DSCaseNum(x)                 ((x)->caseNumber)
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - DSCase Global behavior
 #endif
@@ -99,6 +111,8 @@ extern double DSCaseLogarithmicGain(const DSCase *aCase, const char *XdName, con
 #pragma mark - Utility functions
 #endif
 
+extern DSMatrix * DSCaseDoubleValueBoundariesAtPoint(const DSCase * aCase, const DSVariablePool * point);
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Linear programming functions - See DSCaseLinearProgramming.c
 #endif
@@ -116,6 +130,7 @@ extern DSVertices * DSCaseBoundingRangeForVariableWithConstraints(const DSCase *
 extern DSVertices * DSCaseBoundingRangeForVariable(const DSCase *aCase, const char * variable);
 extern DSVertices * DSCaseVerticesFor1DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable);
 extern DSVertices * DSCaseVerticesFor2DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable);
+extern DSMatrixArray * DSCaseVerticesForNDSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
 
 extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase);
 extern DSVariablePool * DSCaseValidParameterSetAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);

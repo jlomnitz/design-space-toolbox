@@ -63,6 +63,8 @@
 		9AD82997188867030015E6BD /* lrslib.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AD82993188867030015E6BD /* lrslib.h */; };
 		9AD82998188867030015E6BD /* lrsmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AD82994188867030015E6BD /* lrsmp.c */; };
 		9AD82999188867030015E6BD /* lrsmp.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AD82995188867030015E6BD /* lrsmp.h */; };
+		9AD8299B188867780015E6BD /* DSNVertexEnumeration.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8299A188867780015E6BD /* DSNVertexEnumeration.c */; };
+		9AD8299D18889C720015E6BD /* DSNVertexEnumeration.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AD8299C1888678C0015E6BD /* DSNVertexEnumeration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AE49FD913F5A4EC00C7A478 /* DSGMASystemGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */; };
 		9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AE7759C140DAA8900F77747 /* DSVertices.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -140,6 +142,8 @@
 		9AD82993188867030015E6BD /* lrslib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lrslib.h; sourceTree = "<group>"; };
 		9AD82994188867030015E6BD /* lrsmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lrsmp.c; sourceTree = "<group>"; };
 		9AD82995188867030015E6BD /* lrsmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lrsmp.h; sourceTree = "<group>"; };
+		9AD8299A188867780015E6BD /* DSNVertexEnumeration.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSNVertexEnumeration.c; sourceTree = "<group>"; };
+		9AD8299C1888678C0015E6BD /* DSNVertexEnumeration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSNVertexEnumeration.h; sourceTree = "<group>"; };
 		9ADADD5B13EB467B00A2062D /* DSMatrixGrammar.l */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lex; path = DSMatrixGrammar.l; sourceTree = "<group>"; };
 		9AE49FD713F5A4EC00C7A478 /* DSGMASystemGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemGrammar.c; sourceTree = "<group>"; };
 		9AE49FD813F5A4EC00C7A478 /* DSGMASystemGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemGrammar.h; sourceTree = "<group>"; };
@@ -442,6 +446,8 @@
 				9AD82993188867030015E6BD /* lrslib.h */,
 				9AD82994188867030015E6BD /* lrsmp.c */,
 				9AD82995188867030015E6BD /* lrsmp.h */,
+				9AD8299C1888678C0015E6BD /* DSNVertexEnumeration.h */,
+				9AD8299A188867780015E6BD /* DSNVertexEnumeration.c */,
 			);
 			name = "Vertex Enumeration (LRS)";
 			sourceTree = "<group>";
@@ -516,6 +522,7 @@
 				9A85B47013FF9DFC00EA3795 /* DSDesignSpace.h in Headers */,
 				9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */,
 				9AD82997188867030015E6BD /* lrslib.h in Headers */,
+				9AD8299D18889C720015E6BD /* DSNVertexEnumeration.h in Headers */,
 				9ABB560714295DFF003D74E2 /* DSCyclicalCase.h in Headers */,
 				9A0BC2EE14F177470093E52B /* DSDictionary.h in Headers */,
 				9A681E6114F303DE0025735D /* DSStack.h in Headers */,
@@ -584,6 +591,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB9BE6D14F305C4002D9F43 /* DSStack.c in Sources */,
+				9AD8299B188867780015E6BD /* DSNVertexEnumeration.c in Sources */,
 				9A0BC2F114F17A7E0093E52B /* DSDictionary.c in Sources */,
 				9ACB2D0313A134CA006A5F71 /* DSMemoryManager.c in Sources */,
 				9A81B38613A89D38007DADEC /* DSErrors.c in Sources */,

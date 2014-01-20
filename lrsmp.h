@@ -217,8 +217,8 @@ void lrs_getdigits (long *a, long *b);	/* send digit information to user        
 
 void stringcpy (char *s, char *t);	/* copy t to s pointer version                            */
 
-void *calloc ();
-void *malloc ();
+void *calloc (size_t, size_t);
+void *malloc (size_t);
 void *xcalloc (long n, long s, long l, char *f);
 
 void lrs_default_digits_overflow ();

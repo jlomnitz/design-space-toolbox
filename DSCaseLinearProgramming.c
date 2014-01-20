@@ -45,18 +45,7 @@
 #include "DSMatrix.h"
 #include "DSMatrixArray.h"
 #include "DSVertices.h"
-
-
-#define DSCaseXi(x)                  ((x)->Xi)
-#define DSCaseXd(x)                  ((x)->Xd)
-#define DSCaseSSys(x)                ((x)->ssys)
-#define DSCaseCd(x)                  ((x)->Cd)
-#define DSCaseCi(x)                  ((x)->Ci)
-#define DSCaseU(x)                   ((x)->U)
-#define DSCaseDelta(x)               ((x)->delta)
-#define DSCaseZeta(x)                ((x)->zeta)
-#define DSCaseSig(x)                 ((x)->signature)
-#define DSCaseNum(x)                 ((x)->caseNumber)
+#include "DSNVertexEnumeration.h"
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Linear programming functions
@@ -1001,6 +990,47 @@ extern DSVertices * DSCaseVerticesFor2DSlice(const DSCase *aCase, const DSVariab
         glp_delete_prob(linearProblem);
 bail:
         return vertices;
+}
+
+extern DSMatrixArray * DSCaseVerticesForNDSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
+{
+        DSUInteger i, j;
+        DSVertices * vertices = NULL;
+        DSMatrix * vertexMatrix;
+        DSMatrix * cobasisMatrix;
+        DSMatrixArray * matrixArray, *vertexAndConnectivity = NULL;
+        double * coordinates;
+        matrixArray = DSCaseNDVertexEnumeration(aCase, lowerBounds, upperBounds);
+        if (matrixArray == NULL) {
+                goto exit;
+        }
+        if (DSMatrixArrayNumberOfMatrices(matrixArray) < 2) {
+                goto exit;
+        }
+        vertexMatrix = DSMatrixArrayMatrix(matrixArray, 0);
+        cobasisMatrix = DSMatrixArrayMatrix(matrixArray, 1);
+        if (vertexMatrix == NULL) {
+                goto exit;
+        }
+        if (cobasisMatrix == NULL) {
+                goto exit;
+        }
+        vertices = DSVerticesAlloc(DSVariablePoolNumberOfVariables(lowerBounds));
+        coordinates = DSSecureCalloc(sizeof(double), DSVariablePoolNumberOfVariables(lowerBounds));
+        for (i = 0; i < DSMatrixRows(vertexMatrix); i++) {
+                for (j = 0; j < DSVariablePoolNumberOfVariables(lowerBounds); j++) {
+                        coordinates[j] = DSMatrixDoubleValue(vertexMatrix, i, j);
+                }
+                DSVerticesAddVertex(vertices, coordinates);
+        }
+        vertexAndConnectivity = DSMatrixArrayAlloc();
+        DSMatrixArrayAddMatrix(vertexAndConnectivity, DSMatrixCopy(vertexMatrix));
+        DSMatrixArrayAddMatrix(vertexAndConnectivity, DSVerticesConnectivityMatrix(vertices, aCase, lowerBounds, upperBounds));
+        DSSecureFree(coordinates);
+        DSMatrixArrayFree(matrixArray);
+        DSVerticesFree(vertices);
+exit:
+        return vertexAndConnectivity;
 }
 
 extern DSVertices * DSCaseVerticesForSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char **variables)
