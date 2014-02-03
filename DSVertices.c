@@ -297,6 +297,279 @@ bail:
         return;
 }
 
+extern DSMatrix * DSVerticesToMatrix(const DSVertices * vertices)
+{
+        DSUInteger i, j;
+        DSMatrix * matrix = NULL;
+        if (vertices == NULL) {
+                DSError(M_DS_VERTICES_NULL, A_DS_ERROR);
+                goto exit;
+        }
+        if (vertices->numberOfVertices == 0) {
+                DSError(M_DS_WRONG ": Vertices are empty", A_DS_ERROR);
+                goto exit;
+        }
+        if (vertices->dimensions == 0) {
+                DSError(M_DS_WRONG ": Vertices dimensions are 0", A_DS_ERROR);
+                goto exit;
+        }
+        matrix = DSMatrixAlloc(vertices->numberOfVertices, vertices->dimensions);
+        for (i = 0; i < vertices->numberOfVertices; i++) {
+                for (j = 0; j < vertices->dimensions; j++) {
+                        DSMatrixSetDoubleValue(matrix, i, j, vertices->vertices[i][j]);
+                }
+        }
+exit:
+        return matrix;
+}
+
+extern DSMatrix * DSVertices3DConnectivityMatrix(const DSVertices *vertices, const DSCase * aCase, const DSVariablePool * lower, const DSVariablePool * upper, DSUInteger xIndex, DSUInteger yIndex, DSUInteger zIndex)
+{
+        DSMatrix * connectivity = NULL, *boundary1, *boundary2;
+        DSMatrixArray * boundaries;
+        DSVariablePool * Xi;
+        DSUInteger i, j, k, numberOfBoundaries, numberOfFreeVariables;
+        const char * name;
+        if (vertices == NULL) {
+                DSError(M_DS_VERTICES_NULL, A_DS_ERROR);
+                goto exit;
+        }
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto exit;
+        }
+        if (vertices->dimensions != 3) {
+                DSError(M_DS_WRONG ": Number of dimensions must match number of variables for connectivity matrix", A_DS_ERROR);
+                goto exit;
+        }
+        connectivity = DSMatrixCalloc(vertices->numberOfVertices, vertices->numberOfVertices);
+        boundaries = DSMatrixArrayAlloc();
+        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+        DSVariablePoolSetReadWriteAdd(Xi);
+        numberOfFreeVariables = 3;
+        for (i = 0; i < vertices->numberOfVertices; i++) {
+                for (j = 0; j < DSVariablePoolNumberOfVariables(lower); j++) {
+                        name = DSVariableName(DSVariablePoolVariableAtIndex(lower, j));
+                        DSVariablePoolSetValueForVariableWithName(Xi, name, log10(DSVariablePoolValueForVariableWithName(lower, name)));
+                }
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, xIndex));
+                DSVariablePoolSetValueForVariableWithName(Xi, name, vertices->vertices[i][0]);
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, yIndex));
+                DSVariablePoolSetValueForVariableWithName(Xi, name, vertices->vertices[i][1]);
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, zIndex));
+                DSVariablePoolSetValueForVariableWithName(Xi, name, vertices->vertices[i][2]);
+                boundary1 = DSCaseDoubleValueBoundariesAtPoint(aCase, Xi);
+                boundary2 = DSMatrixAlloc(DSMatrixRows(boundary1)+2*numberOfFreeVariables,
+                                          1);
+                for (j = 0; j < DSMatrixRows(boundary1); j++) {
+                        DSMatrixSetDoubleValue(boundary2, j, 0, DSMatrixDoubleValue(boundary1, j, 0));
+                }
+                k = 0;
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, xIndex));
+                DSMatrixSetDoubleValue(boundary2,
+                                        DSMatrixRows(boundary1),
+                                        0,
+                                        DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(lower, name)));
+                DSMatrixSetDoubleValue(boundary2,
+                                        DSMatrixRows(boundary1)+1,
+                                        0,
+                                        DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(upper, name)));
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, yIndex));
+                DSMatrixSetDoubleValue(boundary2,
+                                        DSMatrixRows(boundary1)+2,
+                                        0,
+                                        DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(lower, name)));
+                DSMatrixSetDoubleValue(boundary2,
+                                        DSMatrixRows(boundary1)+3,
+                                        0,
+                                        DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(upper, name)));
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, zIndex));
+                DSMatrixSetDoubleValue(boundary2,
+                                        DSMatrixRows(boundary1)+4,
+                                        0,
+                                        DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(lower, name)));
+                DSMatrixSetDoubleValue(boundary2,
+                                        DSMatrixRows(boundary1)+5,
+                                        0,
+                                        DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(upper, name)));
+                DSMatrixFree(boundary1);
+                DSMatrixArrayAddMatrix(boundaries, boundary2);
+        }
+        numberOfBoundaries = DSMatrixRows(DSMatrixArrayMatrix(boundaries, 0));
+        for (i = 0; i < vertices->numberOfVertices; i++) {
+                boundary1 = DSMatrixArrayMatrix(boundaries, i);
+                for (k = 0; k < numberOfBoundaries; k++) {
+                        if (fabs(DSMatrixDoubleValue(boundary1, k, 0)) > 1e-14) {
+                                continue;
+                        }
+                        for (j = i+1; j < vertices->numberOfVertices; j++) {
+                                boundary2 = DSMatrixArrayMatrix(boundaries, j);
+                                if (fabs(DSMatrixDoubleValue(boundary2, k, 0)) < 1e-14) {
+                                        DSMatrixSetDoubleValue(connectivity, i, j, DSMatrixDoubleValue(connectivity, i, j)+1.);
+                                        DSMatrixSetDoubleValue(connectivity, j, i, DSMatrixDoubleValue(connectivity, i, j));
+                                }
+                        }
+                }
+        }
+        for (i = 0; i < DSMatrixRows(connectivity); i++){
+                for (j = 0; j < DSMatrixColumns(connectivity); j++){
+                        DSMatrixSetDoubleValue(connectivity, i, j, DSMatrixDoubleValue(connectivity, i, j)>=numberOfFreeVariables-1);
+                }
+        }
+        DSMatrixArrayFree(boundaries);
+        DSVariablePoolFree(Xi);
+exit:
+        return connectivity;
+        
+}
+
+DSMatrixArray * DSVertices3DFaces(const DSVertices *vertices, const DSCase * aCase, const DSVariablePool * lower, const DSVariablePool * upper, DSUInteger xIndex, DSUInteger yIndex, DSUInteger zIndex)
+{
+        DSMatrixArray * faces = NULL;
+        DSMatrix * connectivity = NULL, *boundary1, *boundary2;
+        DSMatrixArray * boundaries;
+        DSVariablePool * Xi;
+        DSUInteger i, j, k, l, numberOfBoundaries, numberOfFreeVariables;
+        DSUInteger *indices, numberOfVertices, previous;
+        DSMatrix * face;
+        const char * name;
+        if (vertices == NULL) {
+                DSError(M_DS_VERTICES_NULL, A_DS_ERROR);
+                goto exit;
+        }
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto exit;
+        }
+        if (vertices->dimensions != 3) {
+                DSError(M_DS_WRONG ": Number of dimensions must match number of variables for connectivity matrix", A_DS_ERROR);
+                goto exit;
+        }
+        connectivity = DSMatrixCalloc(vertices->numberOfVertices, vertices->numberOfVertices);
+        boundaries = DSMatrixArrayAlloc();
+        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+        DSVariablePoolSetReadWriteAdd(Xi);
+        numberOfFreeVariables = 3;
+        for (i = 0; i < vertices->numberOfVertices; i++) {
+                for (j = 0; j < DSVariablePoolNumberOfVariables(lower); j++) {
+                        name = DSVariableName(DSVariablePoolVariableAtIndex(lower, j));
+                        DSVariablePoolSetValueForVariableWithName(Xi, name, log10(DSVariablePoolValueForVariableWithName(lower, name)));
+                }
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, xIndex));
+                DSVariablePoolSetValueForVariableWithName(Xi, name, vertices->vertices[i][0]);
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, yIndex));
+                DSVariablePoolSetValueForVariableWithName(Xi, name, vertices->vertices[i][1]);
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, zIndex));
+                DSVariablePoolSetValueForVariableWithName(Xi, name, vertices->vertices[i][2]);
+                boundary1 = DSCaseDoubleValueBoundariesAtPoint(aCase, Xi);
+                boundary2 = DSMatrixAlloc(DSMatrixRows(boundary1)+2*numberOfFreeVariables,
+                                          1);
+                for (j = 0; j < DSMatrixRows(boundary1); j++) {
+                        DSMatrixSetDoubleValue(boundary2, j, 0, DSMatrixDoubleValue(boundary1, j, 0));
+                }
+                k = 0;
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, xIndex));
+                DSMatrixSetDoubleValue(boundary2,
+                                       DSMatrixRows(boundary1),
+                                       0,
+                                       DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(lower, name)));
+                DSMatrixSetDoubleValue(boundary2,
+                                       DSMatrixRows(boundary1)+1,
+                                       0,
+                                       DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(upper, name)));
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, yIndex));
+                DSMatrixSetDoubleValue(boundary2,
+                                       DSMatrixRows(boundary1)+2,
+                                       0,
+                                       DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(lower, name)));
+                DSMatrixSetDoubleValue(boundary2,
+                                       DSMatrixRows(boundary1)+3,
+                                       0,
+                                       DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(upper, name)));
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, zIndex));
+                DSMatrixSetDoubleValue(boundary2,
+                                       DSMatrixRows(boundary1)+4,
+                                       0,
+                                       DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(lower, name)));
+                DSMatrixSetDoubleValue(boundary2,
+                                       DSMatrixRows(boundary1)+5,
+                                       0,
+                                       DSVariablePoolValueForVariableWithName(Xi, name)-log10(DSVariablePoolValueForVariableWithName(upper, name)));
+                DSMatrixFree(boundary1);
+                DSMatrixArrayAddMatrix(boundaries, boundary2);
+        }
+        numberOfBoundaries = DSMatrixRows(DSMatrixArrayMatrix(boundaries, 0));
+        for (i = 0; i < vertices->numberOfVertices; i++) {
+                boundary1 = DSMatrixArrayMatrix(boundaries, i);
+                for (k = 0; k < numberOfBoundaries; k++) {
+                        if (fabs(DSMatrixDoubleValue(boundary1, k, 0)) > 1e-14) {
+                                continue;
+                        }
+                        for (j = i+1; j < vertices->numberOfVertices; j++) {
+                                boundary2 = DSMatrixArrayMatrix(boundaries, j);
+                                if (fabs(DSMatrixDoubleValue(boundary2, k, 0)) < 1e-14) {
+                                        DSMatrixSetDoubleValue(connectivity, i, j, DSMatrixDoubleValue(connectivity, i, j)+1.);
+                                        DSMatrixSetDoubleValue(connectivity, j, i, DSMatrixDoubleValue(connectivity, i, j));
+                                }
+                        }
+                }
+        }
+        for (i = 0; i < DSMatrixRows(connectivity); i++){
+                for (j = 0; j < DSMatrixColumns(connectivity); j++){
+                        DSMatrixSetDoubleValue(connectivity, i, j, DSMatrixDoubleValue(connectivity, i, j)>=numberOfFreeVariables-1);
+                }
+        }
+        faces = DSMatrixArrayAlloc();
+        for (i = 0; i < numberOfBoundaries; i++) {
+                numberOfVertices = 0;
+                indices = NULL;
+                for (j = 0; j < vertices->numberOfVertices; j++) {
+                        boundary1 = DSMatrixArrayMatrix(boundaries, j);
+                        if (fabs(DSMatrixDoubleValue(boundary1, i, 0)) > 1e-14)
+                                continue;
+                        numberOfVertices++;
+                        if (numberOfVertices == 1) {
+                                indices = DSSecureMalloc(sizeof(double)*numberOfVertices);
+                        } else {
+                                indices = DSSecureRealloc(indices, sizeof(double)*numberOfVertices);
+                        }
+                        indices[numberOfVertices-1] = j;
+                }
+                if (numberOfVertices == 0)
+                        continue;
+                previous = numberOfVertices;
+                j = 0;
+                face = DSMatrixAlloc(numberOfVertices+1, vertices->dimensions);
+                l = 0;
+                do {
+                        DSMatrixSetDoubleValue(face, l, 0, vertices->vertices[indices[j]][0]);
+                        DSMatrixSetDoubleValue(face, l, 1, vertices->vertices[indices[j]][1]);
+                        DSMatrixSetDoubleValue(face, l, 2, vertices->vertices[indices[j]][2]);
+                        l++;
+                        for (k = 0; k < numberOfVertices; k++) {
+                                if (k == j)
+                                        continue;
+                                if (k == previous)
+                                        continue;
+                                if (DSMatrixDoubleValue(connectivity, indices[j], indices[k]) != 1.0f)
+                                        continue;
+                                previous = j;
+                                j = k;
+                                break;
+                        }
+                } while (j != 0 && numberOfVertices != 2);
+                DSMatrixSetDoubleValue(face, l, 0, vertices->vertices[indices[j]][0]);
+                DSMatrixSetDoubleValue(face, l, 1, vertices->vertices[indices[j]][1]);
+                DSMatrixSetDoubleValue(face, l, 2, vertices->vertices[indices[j]][2]);
+                l++;
+                DSMatrixArrayAddMatrix(faces, face);
+                DSSecureFree(indices);
+        }
+        DSMatrixArrayFree(boundaries);
+exit:
+        return faces;
+}
+
 extern DSMatrix * DSVerticesConnectivityMatrix(const DSVertices *vertices, const DSCase * aCase, const DSVariablePool * lower, const DSVariablePool * upper)
 {
         DSMatrix * connectivity = NULL, *boundary1, *boundary2;

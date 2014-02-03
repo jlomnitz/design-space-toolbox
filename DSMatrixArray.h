@@ -52,11 +52,7 @@ extern void DSMatrixArrayFree(DSMatrixArray *array);
 #pragma mark - Accesor functions
 #endif
 
-/**
- * \brief Accessor function to retrieve number of matrices in the Matrix array.
- *
- */
-#define DSMatrixArrayNumberOfMatrices(x)    ((x)->numberOfMatrices)
+extern DSUInteger DSMatrixArrayNumberOfMatrices(const DSMatrixArray * matrixArray);
 
 /**
  * \brief Accessor function to retrieve the pointer to the C matrix array.

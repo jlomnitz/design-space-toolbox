@@ -843,6 +843,62 @@ bail:
         return vertices;
 }
 
+
+static DSVertices * dsCaseCalculate3DVertices(const DSCase * aCase, glp_prob * linearProblem, const DSMatrix * A, const DSMatrix *Zeta, const DSUInteger xIndex, const DSUInteger yIndex, const DSUInteger zIndex)
+{
+        DSVertices *vertices = NULL;
+        DSUInteger numberOfCombinations, i, firstIndex, secondIndex, thirdIndex;
+        DSUInteger numberOfBoundaries;
+        double bnd, xVal, yVal, zVal, vals[3];
+        
+        numberOfBoundaries = DSMatrixRows(A);
+        numberOfCombinations = 0;
+        
+        vertices = DSVerticesAlloc(3);
+        for (firstIndex = 0; firstIndex < numberOfBoundaries; firstIndex++) {
+                for (secondIndex = firstIndex+1; secondIndex < numberOfBoundaries; secondIndex++) {
+                        for (thirdIndex = secondIndex+1; thirdIndex < numberOfBoundaries; thirdIndex++) {
+
+                                for (i = 0; i < numberOfBoundaries; i++) {
+                                        bnd = glp_get_row_ub(linearProblem, i+1);
+                                        glp_set_row_bnds(linearProblem, i+1, GLP_UP, 0.0, bnd);
+                                }
+                                bnd = glp_get_row_ub(linearProblem, firstIndex+1);
+                                glp_set_row_bnds(linearProblem, firstIndex+1, GLP_FX, bnd, bnd);
+                                bnd = glp_get_row_ub(linearProblem, secondIndex+1);
+                                glp_set_row_bnds(linearProblem, secondIndex+1, GLP_FX, bnd, bnd);
+                                bnd = glp_get_row_ub(linearProblem, thirdIndex+1);
+                                glp_set_row_bnds(linearProblem, thirdIndex+1, GLP_FX, bnd, bnd);
+                                for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXi(aCase)); i++)
+                                        glp_set_obj_coef(linearProblem, i+1, 0.0);
+                                glp_set_obj_coef(linearProblem, xIndex+1, 1.0);
+                                glp_simplex(linearProblem, NULL);
+                                if (glp_get_prim_stat(linearProblem) != GLP_FEAS)
+                                        continue;
+                                xVal = glp_get_obj_val(linearProblem);
+                                glp_set_obj_coef(linearProblem, xIndex+1, 0.0);
+                                glp_set_obj_coef(linearProblem, yIndex+1, 1.0);
+                                glp_simplex(linearProblem, NULL);
+                                if (glp_get_prim_stat(linearProblem) != GLP_FEAS)
+                                        continue;
+                                yVal = glp_get_obj_val(linearProblem);
+                                glp_set_obj_coef(linearProblem, yIndex+1, 0.0);
+                                glp_set_obj_coef(linearProblem, zIndex+1, 1.0);
+                                glp_simplex(linearProblem, NULL);
+                                if (glp_get_prim_stat(linearProblem) != GLP_FEAS)
+                                        continue;
+                                zVal = glp_get_obj_val(linearProblem);
+                                vals[0] = xVal;
+                                vals[1] = yVal;
+                                vals[2] = zVal;
+                                DSVerticesAddVertex(vertices, vals);
+                                numberOfCombinations++;
+                        }
+                }
+        }
+        return vertices;
+}
+
 static DSVertices * dsCaseCalculate2DVertices(const DSCase * aCase, glp_prob * linearProblem, const DSMatrix * A, const DSMatrix *Zeta, const DSUInteger xIndex, const DSUInteger yIndex)
 {
         DSVertices *vertices = NULL;
@@ -905,6 +961,145 @@ static DSVertices * dsCaseCalculate2DVertices(const DSCase * aCase, glp_prob * l
                 DSVerticesAddVertex(vertices, vals);
         }
         DSVerticesOrder2DVertices(vertices);
+        return vertices;
+}
+
+extern DSMatrixArray * DSCaseFacesFor3DSliceAndConnectivity(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable, const char *zVariable)
+{
+        DSMatrixArray * faces = NULL;
+        DSVertices * vertices;
+        DSUInteger xIndex, yIndex, zIndex;
+        vertices = DSCaseVerticesFor3DSlice(aCase, lowerBounds, upperBounds, xVariable, yVariable, zVariable);
+        if (vertices == NULL) {
+                goto exit;
+        }
+        yIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), yVariable);
+        xIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), xVariable);
+        zIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), zVariable);
+        faces = DSVertices3DFaces(vertices, aCase, lowerBounds, upperBounds, xIndex, yIndex, zIndex);
+        DSVerticesFree(vertices);
+exit:
+        return faces;
+}
+
+
+extern DSMatrixArray * DSCaseVerticesFor3DSliceAndConnectivity(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable, const char *zVariable)
+{
+        DSMatrixArray * verticesAndConnectivity = NULL;
+        DSVertices * vertices;
+        DSMatrix * connectivity;
+        DSUInteger xIndex, yIndex, zIndex;
+        vertices = DSCaseVerticesFor3DSlice(aCase, lowerBounds, upperBounds, xVariable, yVariable, zVariable);
+        if (vertices == NULL) {
+                goto exit;
+        }
+        yIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), yVariable);
+        xIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), xVariable);
+        zIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), zVariable);
+        connectivity = DSVertices3DConnectivityMatrix(vertices, aCase, lowerBounds, upperBounds, xIndex, yIndex, zIndex);
+        verticesAndConnectivity = DSMatrixArrayAlloc();
+        DSMatrixArrayAddMatrix(verticesAndConnectivity, DSVerticesToMatrix(vertices));
+        DSMatrixArrayAddMatrix(verticesAndConnectivity, connectivity);
+        DSVerticesFree(vertices);
+exit:
+        return verticesAndConnectivity;
+}
+extern DSVertices * DSCaseVerticesFor3DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable, const char *zVariable)
+{
+        DSVertices *vertices = NULL;
+        DSUInteger yIndex, xIndex, zIndex;
+        DSMatrix *A, *Zeta, *temp;
+        glp_prob * linearProblem = NULL;
+        
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        
+        if (dsCaseNumberOfFreeVariablesForBounds(aCase, lowerBounds, upperBounds) != 3) {
+                DSError(M_DS_WRONG ": Must have only three free variables", A_DS_ERROR);
+                goto bail;
+        }
+        
+        yIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), yVariable);
+        xIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), xVariable);
+        zIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), zVariable);
+        
+        if (xIndex >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                DSError(M_DS_WRONG ": Case does not have X variable", A_DS_ERROR);
+                goto bail;
+        }
+        if (yIndex >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                DSError(M_DS_WRONG ": Case does not have Y variable", A_DS_ERROR);
+                goto bail;
+        }
+        if (zIndex >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                DSError(M_DS_WRONG ": Case does not have Z variable", A_DS_ERROR);
+                goto bail;
+        }
+        temp = DSMatrixCalloc(6, DSVariablePoolNumberOfVariables(DSCaseXi(aCase)));
+        DSMatrixSetDoubleValue(temp, 0, xIndex, 1.0);
+        DSMatrixSetDoubleValue(temp, 1, xIndex, -1.0);
+        DSMatrixSetDoubleValue(temp, 2, yIndex, 1.0);
+        DSMatrixSetDoubleValue(temp, 3, yIndex, -1.0);
+        DSMatrixSetDoubleValue(temp, 4, zIndex, 1.0);
+        DSMatrixSetDoubleValue(temp, 5, zIndex, -1.0);
+        
+        A = DSMatrixAppendMatrices(DSCaseU(aCase), temp, false);
+        DSMatrixFree(temp);
+        temp = DSMatrixCalloc(6, 1);
+        DSMatrixSetDoubleValue(temp, 0, 0, -log10(DSVariableValue(DSVariablePoolVariableWithName(lowerBounds, xVariable))));
+        DSMatrixSetDoubleValue(temp, 1, 0, log10(DSVariableValue(DSVariablePoolVariableWithName(upperBounds, xVariable))));
+        DSMatrixSetDoubleValue(temp, 2, 0, -log10(DSVariableValue(DSVariablePoolVariableWithName(lowerBounds, yVariable))));
+        DSMatrixSetDoubleValue(temp, 3, 0, log10(DSVariableValue(DSVariablePoolVariableWithName(upperBounds, yVariable))));
+        DSMatrixSetDoubleValue(temp, 4, 0, -log10(DSVariableValue(DSVariablePoolVariableWithName(lowerBounds, zVariable))));
+        DSMatrixSetDoubleValue(temp, 5, 0, log10(DSVariableValue(DSVariablePoolVariableWithName(upperBounds, zVariable))));
+        Zeta = DSMatrixAppendMatrices(DSCaseZeta(aCase), temp, false);
+        DSMatrixFree(temp);
+        DSMatrixMultiplyByScalar(A, -1.0);
+        linearProblem = dsCaseLinearProblemForMatrices(A, Zeta);
+        
+        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem is NULL", A_DS_ERROR);
+                DSMatrixFree(A);
+                DSMatrixFree(Zeta);
+                goto bail;
+        }
+        
+        if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) != 3) {
+                DSError(M_DS_WRONG ": Need three free variables", A_DS_ERROR);
+                DSMatrixFree(A);
+                DSMatrixFree(Zeta);
+                glp_delete_prob(linearProblem);
+                goto bail;
+        }
+        
+        if (glp_get_col_type(linearProblem, DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), xVariable)+1) == GLP_FX) {
+                DSError(M_DS_WRONG ": X Variable is fixed", A_DS_ERROR);
+                DSMatrixFree(A);
+                DSMatrixFree(Zeta);
+                glp_delete_prob(linearProblem);
+                goto bail;
+        }
+        if (glp_get_col_type(linearProblem, DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), yVariable)+1) == GLP_FX) {
+                DSError(M_DS_WRONG ": Y Variable is fixed", A_DS_ERROR);
+                DSMatrixFree(A);
+                DSMatrixFree(Zeta);
+                glp_delete_prob(linearProblem);
+                goto bail;
+        }
+        if (glp_get_col_type(linearProblem, DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), zVariable)+1) == GLP_FX) {
+                DSError(M_DS_WRONG ": Z Variable is fixed", A_DS_ERROR);
+                DSMatrixFree(A);
+                DSMatrixFree(Zeta);
+                glp_delete_prob(linearProblem);
+                goto bail;
+        }
+        vertices = dsCaseCalculate3DVertices(aCase, linearProblem, A, Zeta, xIndex, yIndex, zIndex);
+        DSMatrixFree(A);
+        DSMatrixFree(Zeta);
+        glp_delete_prob(linearProblem);
+bail:
         return vertices;
 }
 

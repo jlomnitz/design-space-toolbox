@@ -46,6 +46,12 @@ extern void DSVerticesOrder2DVertices(DSVertices *vertices);
 
 extern void DSVerticesPrint(const DSVertices *vertices);
 
+extern DSMatrix * DSVerticesToMatrix(const DSVertices * vertices);
+
+extern DSMatrix * DSVertices3DConnectivityMatrix(const DSVertices *vertices, const DSCase * aCase, const DSVariablePool * lower, const DSVariablePool * upper, DSUInteger xIndex, DSUInteger yIndex, DSUInteger zIndex);
+
+DSMatrixArray * DSVertices3DFaces(const DSVertices *vertices, const DSCase * aCase, const DSVariablePool * lower, const DSVariablePool * upper, DSUInteger xIndex, DSUInteger yIndex, DSUInteger zIndex);
+
 extern DSMatrix * DSVerticesConnectivityMatrix(const DSVertices *vertices, const DSCase * aCase, const DSVariablePool * lower, const DSVariablePool * upper);
 
 #endif

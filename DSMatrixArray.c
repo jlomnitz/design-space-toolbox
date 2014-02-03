@@ -30,6 +30,13 @@
 #include "DSMatrixArray.h"
 #include "DSMemoryManager.h"
 
+
+/**
+ * \brief Accessor function to retrieve number of matrices in the Matrix array.
+ *
+ */
+#define dsMatrixArrayNumberOfMatrices(x)    ((x)->numberOfMatrices)
+
 /**
  * \brief Memory allocation for a DSMatrixArray.
  *
@@ -47,6 +54,10 @@ extern DSMatrixArray * DSMatrixArrayAlloc(void)
         return array;
 }
 
+extern DSUInteger DSMatrixArrayNumberOfMatrices(const DSMatrixArray * matrixArray)
+{
+        return dsMatrixArrayNumberOfMatrices(matrixArray);
+}
 /**
  * \brief Copies a DSMatrixArray.
  *
@@ -177,7 +188,7 @@ extern void DSMatrixArrayAddMatrix(DSMatrixArray *array, const DSMatrix *matrixT
                 DSError(M_DS_WRONG ": Number of matrices in array", A_DS_ERROR);
                 goto bail;
         }
-        DSMatrixArrayNumberOfMatrices(array)++;
+        dsMatrixArrayNumberOfMatrices(array)++;
         if (DSMatrixArrayNumberOfMatrices(array) == 1) {
                 DSMatrixArrayInternalPointer(array) = DSSecureMalloc(sizeof(DSMatrix *)*DSMatrixArrayNumberOfMatrices(array));
         } else {

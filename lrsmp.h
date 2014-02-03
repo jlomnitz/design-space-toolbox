@@ -3,46 +3,46 @@
 /* Version 4.0, February 17, 2000                                   */
 
 /* This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 /******************************************************************************/
 /*  See http://cgm.cs.mcgill.ca/~avis/C/lrs.html for lrs usage instructions   */
 /******************************************************************************/
 /* This package contains the extended precision routines used by lrs
-   and some other miscellaneous routines. The maximum precision depends on
-   the parameter MAX_DIGITS defined below, with usual default of 255L. This
-   gives a maximum of 1020 decimal digits on 32 bit machines. The procedure
-   lrs_mp_init(dec_digits) may set a smaller number of dec_digits, and this
-   is useful if arrays or matrices will be used.
+ and some other miscellaneous routines. The maximum precision depends on
+ the parameter MAX_DIGITS defined below, with usual default of 255L. This
+ gives a maximum of 1020 decimal digits on 32 bit machines. The procedure
+ lrs_mp_init(dec_digits) may set a smaller number of dec_digits, and this
+ is useful if arrays or matrices will be used.
  */
 
 /***********/
 /* defines */
 /***********/
 /*
-   this is number of longwords. Increasing this won't cost you that much
-   since only variables other than the A matrix are allocated this size.
-   Changing affects running time in small but not very predictable ways.
+ this is number of longwords. Increasing this won't cost you that much
+ since only variables other than the A matrix are allocated this size.
+ Changing affects running time in small but not very predictable ways.
  */
 
 #define MAX_DIGITS 255L
 
 /*
-   this is in decimal digits, you pay in memory if you increase this,
-   unless you override by a line with
-   digits n
-   before the begin line of your file.
+ this is in decimal digits, you pay in memory if you increase this,
+ unless you override by a line with
+ digits n
+ before the begin line of your file.
  */
 #define DEFAULT_DIGITS 100L
 
@@ -57,7 +57,7 @@
 /***********************************************/
 #ifndef B64
 /*32 bit machines */
-#define FORMAT "[%4.4lu]"
+#define FORMAT "%4.4lu"
 #define MAXD 2147483647L
 #define BASE 10000L
 #define BASE_DIG 4
@@ -150,8 +150,8 @@ FILE *lrs_ofp;			/* output file pointer      */
 /******************************************************* */
 
 /* next two functions are not used by lrsmp, but are for lrsgmp compatability */
-#define lrs_alloc_mp(a)    
-#define lrs_clear_mp(a)  
+#define lrs_alloc_mp(a)
+#define lrs_clear_mp(a)
 lrs_mp_t lrs_alloc_mp_t();                      /* dynamic allocation of lrs_mp                  */
 lrs_mp_vector lrs_alloc_mp_vector (long n);	/* allocate lrs_mp_vector for n+1 lrs_mp numbers */
 lrs_mp_matrix lrs_alloc_mp_matrix (long m, long n);	/* allocate lrs_mp_matrix for m+1 x n+1 lrs_mp   */
@@ -193,12 +193,12 @@ long atos (char s[]);		/* convert s to integer                           */
 long comprod (lrs_mp Na, lrs_mp Nb, lrs_mp Nc, lrs_mp Nd);	/* +1 if Na*Nb > Nc*Nd,-1 if Na*Nb > Nc*Nd else 0 */
 void decint (lrs_mp a, lrs_mp b);	/* compute a=a-b                                  */
 void divrat (lrs_mp Na, lrs_mp Da, lrs_mp Nb, lrs_mp Db, lrs_mp Nc, lrs_mp Dc);
-						       /* computes Nc/Dc = (Na/Da) /( Nb/Db ) and reduce */
+/* computes Nc/Dc = (Na/Da) /( Nb/Db ) and reduce */
 void getfactorial (lrs_mp factorial, long k);	/* compute k factorial in lrs_mp                  */
 void linrat (lrs_mp Na, lrs_mp Da, long ka, lrs_mp Nb, lrs_mp Db, long kb, lrs_mp Nc, lrs_mp Dc);
 void lcm (lrs_mp a, lrs_mp b);	/* a = least common multiple of a, b; b is saved  */
 void mulrat (lrs_mp Na, lrs_mp Da, lrs_mp Nb, lrs_mp Db, lrs_mp Nc, lrs_mp Dc);
-						       /* computes Nc/Dc=(Na/Da)*(Nb/Db) and reduce      */
+/* computes Nc/Dc=(Na/Da)*(Nb/Db) and reduce      */
 long myrandom (long num, long nrange);	/* return a random number in range 0..nrange-1    */
 void notimpl (char s[]);	/* bail out - help!                               */
 void rattodouble (lrs_mp a, lrs_mp b, double *x);	/* convert lrs_mp rational to double              */
