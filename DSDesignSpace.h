@@ -52,6 +52,7 @@ void DSDesignSpaceFree(DSDesignSpace * ds);
 extern DSDesignSpace * DSDesignSpaceByParsingStringList(const char * const string, const DSVariablePool * const Xd_a, ...);
 extern DSDesignSpace * DSDesignSpaceByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 extern DSDesignSpace * DSDesignSpaceByParsingStringsWithXi(char * const * const strings, const DSVariablePool * const Xd_a, const DSVariablePool * const Xi, const DSUInteger numberOfEquations);
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Setters -
 #endif
@@ -68,6 +69,7 @@ extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds);
 extern const DSUInteger DSDesignSpaceNumberOfEquations(const DSDesignSpace *ds);
 extern DSExpression ** DSDesignSpaceEquations(const DSDesignSpace *ds);
 extern const DSUInteger * DSDesignSpaceSignature(const DSDesignSpace *ds);
+extern char * DSDesignSpaceSignatureToString(const DSDesignSpace *ds);
 
 extern const DSUInteger DSDesignSpaceNumberOfValidCases(const DSDesignSpace *ds);
 extern const DSUInteger DSDesignSpaceNumberOfCases(const DSDesignSpace *ds);
@@ -93,7 +95,12 @@ extern void DSDesignSpacePrint(const DSDesignSpace * ds);
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Case and Case validity
 #endif
+
+extern DSUInteger * DSDesignSpaceCaseNumbersWithPrefix(const DSDesignSpace * ds, const DSUInteger sizeOfPrefix, const DSUInteger *prefix, DSUInteger * numberOfCases)
+;
+
 extern DSCase ** DSDesignSpaceCalculateCases(DSDesignSpace *ds, const DSUInteger numberOfCase, DSUInteger *cases);
+extern DSCase ** DSDesignSpaceCalculateValidCasesByPrunning(DSDesignSpace *ds);
 extern DSCase ** DSDesignSpaceCalculateAllValidCases(DSDesignSpace *ds);
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper);
 

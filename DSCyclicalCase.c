@@ -187,6 +187,11 @@ extern const DSUInteger * DSCyclicalCaseSignature(const DSCyclicalCase *cyclical
         return DSCaseSignature(DSCyclicalCaseOriginalCase(cyclicalCase));
 }
 
+extern char * DSCyclicalCaseSignatureToString(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseSignatureToString(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
 extern const DSSSystem *DSCyclicalCaseSSystem(const DSCyclicalCase *cyclicalCase)
 {
         return DSCaseSSystem(DSCyclicalCaseOriginalCase(cyclicalCase));

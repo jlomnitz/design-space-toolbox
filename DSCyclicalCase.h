@@ -87,6 +87,7 @@ extern DSExpression ** DSCyclicalCaseLogarithmicBoundaries(const DSCyclicalCase 
 
 extern DSUInteger DSCyclicalCaseNumber(const DSCyclicalCase *cyclicalCase);
 extern const DSUInteger * DSCyclicalCaseSignature(const DSCyclicalCase *cyclicalCase);
+extern char * DSCyclicalCaseSignatureToString(const DSCyclicalCase *cyclicalCase);
 extern const DSSSystem *DSCyclicalCaseSSystem(const DSCyclicalCase *cyclicalCase);
 
 //extern double DSCyclicalCaseLogarithmicGain(const DSCase *aCase, const char *XdName, const char *XiName);

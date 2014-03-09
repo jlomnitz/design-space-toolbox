@@ -88,7 +88,7 @@ extern DSCase * DSCaseCopy(const DSCase * aCase)
         numberOfEquations = DSCaseNumberOfEquations(aCase);
         if (DSCaseSig(aCase) != NULL) {
                 DSCaseSig(newCase) = DSSecureCalloc(sizeof(DSUInteger), numberOfEquations*2);
-                for (i = 0; i < numberOfEquations; i++) {
+                for (i = 0; i < numberOfEquations*2; i++) {
                         DSCaseSig(newCase)[i] = DSCaseSig(aCase)[i];
                 }
         }
@@ -688,6 +688,9 @@ extern DSExpression ** DSCaseBoundaries(const DSCase *aCase)
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
+        if (DSCaseU(aCase) == NULL) {
+                goto bail;
+        }
         numberOfConditions = DSMatrixRows(DSCaseCd(aCase));
         if (numberOfConditions == 0) {
                 DSError("Case being accessed has no conditions", A_DS_ERROR);
@@ -718,9 +721,11 @@ extern DSExpression ** DSCaseLogarithmicBoundaries(const DSCase *aCase)
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
+        if (DSCaseU(aCase) == NULL) {
+                goto bail;
+        }
         numberOfConditions = DSMatrixRows(DSCaseU(aCase));
         if (numberOfConditions == 0) {
-                DSError("Case being accessed has no conditions", A_DS_ERROR);
                 goto bail;
         }
         boundaries = DSSecureCalloc(sizeof(DSExpression *), numberOfConditions);

@@ -774,7 +774,8 @@ static void dsExpressionVariablesInExpressionInternal(const DSExpression * curre
         }
         switch (DSExpressionType(current)) {
                 case DS_EXPRESSION_TYPE_VARIABLE:
-                        DSVariablePoolAddVariableWithName(pool, DSExpressionVariable(current));
+                        if (DSVariablePoolHasVariableWithName(pool, DSExpressionVariable(current)) == false)
+                                DSVariablePoolAddVariableWithName(pool, DSExpressionVariable(current));
                         break;
                 case DS_EXPRESSION_TYPE_CONSTANT:
                         break;

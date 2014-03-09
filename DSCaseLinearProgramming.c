@@ -322,10 +322,12 @@ extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase)
         linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
         if (linearProblem != NULL) {
                 glp_simplex(linearProblem, NULL);
+//                glp_interior(linearProblem, NULL);
                 Xi = DSVariablePoolCopy(DSCaseXi(aCase));
                 DSVariablePoolSetReadWriteAdd(Xi);
                 for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
                         DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
+//                        DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_ipt_col_prim(linearProblem, i+1)));
                 }
                 glp_delete_prob(linearProblem);
         }
@@ -1550,3 +1552,33 @@ extern DSVertices * DSCaseIntersectionVerticesForSlice(const DSUInteger numberOf
 bail:
         return vertices;
 }
+
+extern DSMatrixArray * DSCaseIntersectionFacesFor3DSliceAndConnectivity(const DSUInteger numberOfCases, const DSCase **cases, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable, const char *zVariable)
+{
+        DSMatrixArray * faces = NULL;
+        DSPseudoCase *caseIntersection = NULL;
+        if (numberOfCases == 0) {
+                DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
+                goto bail;
+        }
+        if (cases == NULL) {
+                DSError(M_DS_NULL ": Array of cases is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (lowerBounds == NULL && upperBounds == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable pool with variables to fix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(lowerBounds) != DSVariablePoolNumberOfVariables(upperBounds)) {
+                DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
+                goto bail;
+        }
+        caseIntersection = dsPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
+        if (cases == NULL)
+                goto bail;
+        faces = DSCaseFacesFor3DSliceAndConnectivity(caseIntersection, lowerBounds, upperBounds, xVariable, yVariable, zVariable);
+        DSSecureFree(caseIntersection);
+bail:
+        return faces;
+}
+

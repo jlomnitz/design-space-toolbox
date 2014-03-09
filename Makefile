@@ -15,21 +15,29 @@ LIBS = -lglpk -lgsl -lcblas
 EXECUTABLE = libdesignspace.so 
 
 SOURCE = $(wildcard *.c)
+HEADERS = $(wildcard *.h)
 
 all: compile
 
+install: compile
+	cp lib/${EXECUTABLE} /usr/local/lib
+	cp -r designspace /usr/local/include/
+
 compile: $(SOURCE)
 	${CC} -o ${EXECUTABLE} ${CFLAGS} ${LIBS} $^ 
+	mkdir -p designspace
+	mkdir -p lib
+	cp ${HEADERS} designspace/
+	mv ${EXECUTABLE} lib/
 
 debug: $(SOURCE)
 	${CC} -o ${EXECUTABLE} ${DEBUG_CFLAGS} ${LIBS} $^ 
 
 clean:
 	rm -f *o
-	rm -f ${EXECUTABLE}
+	rm -f lib/${EXECUTABLE}
 	rm -f tests/dstest
-	rm -rf ./designspace
-	rm -rf ./libdesignspace.so
+	rm designspace/*.h
 
 test: debug
 	mkdir -p designspace
