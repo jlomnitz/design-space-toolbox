@@ -7,7 +7,7 @@
  * Contained here are the necessary macros and functions to succesfully report
  * the errors throughout the design space library.
  *
- * Copyright (C) 2011 Jason Lomnitz.\n\n
+ * Copyright (C) 2011-2014 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *

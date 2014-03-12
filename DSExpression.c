@@ -8,7 +8,7 @@
  *          The DSExpression object supports scalar adition, multiplication, 
  *          powers and real valued functions of real variables.
  *
- * Copyright (C) 2011 Jason Lomnitz.\n\n
+ * Copyright (C) 2011-2014 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *
@@ -43,6 +43,9 @@
 
 #define DS_EXPRESSION_CONSTANT_BRANCH_INDEX     0
 #define DS_EXPRESSION_STRING_INIT_LENGTH        1000
+
+static void dsExpressionToStringAdditionOperator(const DSExpression *current, char ** string, DSUInteger *length);
+
 
 /**
  * \brief Allocates a node in the DSExpression tree that holds a constant
@@ -269,6 +272,7 @@ bail:
 extern DSExpression * DSExpressionSubstractExpressions(DSExpression *lvalue, DSExpression *rvalue)
 {
         DSExpression * newRoot = NULL, *temp;
+        DSUInteger i;
         if (lvalue == NULL && rvalue == NULL) {
                 DSError(M_DS_NULL ": Expression is NULL", A_DS_ERROR);
                 goto bail;
@@ -283,11 +287,25 @@ extern DSExpression * DSExpressionSubstractExpressions(DSExpression *lvalue, DSE
                 newRoot = lvalue;
                 goto bail;
         }
+        newRoot = dsExpressionAllocWithOperator('+');
+        DSExpressionAddBranch(newRoot, lvalue);
+        if (DSExpressionType(rvalue) == DS_EXPRESSION_TYPE_OPERATOR) {
+                if (DSExpressionOperator(rvalue) == '+') {
+                        for (i = 0; i < DSExpressionNumberOfBranches(rvalue); i++) {
+                                temp = dsExpressionAllocWithOperator('*');
+                                DSExpressionAddBranch(temp, dsExpressionAllocWithConstant(-1.0));
+                                DSExpressionAddBranch(temp, DSExpressionBranchAtIndex(rvalue, i));
+                                DSExpressionAddBranch(newRoot, temp);
+                                rvalue->branches[i] = NULL;
+                        }
+                        rvalue->numberOfBranches = 0;
+                        DSExpressionFree(rvalue);
+                        goto bail;
+                }
+        }
         temp = dsExpressionAllocWithOperator('*');
         DSExpressionAddBranch(temp, dsExpressionAllocWithConstant(-1.0));
         DSExpressionAddBranch(temp, rvalue);
-        newRoot = dsExpressionAllocWithOperator('+');
-        DSExpressionAddBranch(newRoot, lvalue);
         DSExpressionAddBranch(newRoot, temp);
 bail:
         return newRoot;
@@ -826,6 +844,7 @@ static bool operatorIsLowerPrecedence(char op1, char op2)
         return isLower;
 }
 
+
 static void dsExpressionToStringInternal(const DSExpression *current, char ** string, DSUInteger *length)
 {
         DSUInteger i;
@@ -844,7 +863,7 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
                         sprintf(temp, "%s", DSExpressionVariable(current));
                         break;
                 case DS_EXPRESSION_TYPE_OPERATOR:
-                        constant = DSExpressionConstant(DSExpressionBranchAtIndex(current, 0)); 
+                        constant = DSExpressionConstant(DSExpressionBranchAtIndex(current, 0));
                         for (i=0; i < DSExpressionNumberOfBranches(current); i++) {
                                 if (i == 0 && DSExpressionOperator(current) == '+' && constant == 0.0)
                                         continue;
@@ -867,6 +886,12 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
                                     operatorIsLowerPrecedence(DSExpressionOperator(current), DSExpressionOperator(branch)))
                                         strncat(*string, ")", *length-strlen(*string));
                                 if (i < DSExpressionNumberOfBranches(current)-1 || DSExpressionOperator(current) == '.') {
+                                        if (DSExpressionOperator(current) == '+' &&
+                                            DSExpressionType(DSExpressionBranchAtIndex(current, i+1)) == DS_EXPRESSION_TYPE_OPERATOR) {
+                                                if (DSExpressionConstant(DSExpressionBranchAtIndex(DSExpressionBranchAtIndex(current, i+1), 0)) < 0) {
+                                                        continue;
+                                                }
+                                        }
                                         sprintf(temp, "%c", DSExpressionOperator(current));
                                         strncat(*string,  temp, *length-strlen(*string));
                                         temp[0] = '\0';

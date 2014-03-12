@@ -8,7 +8,7 @@
  * therefore its contents will be invisible to the public API.  As such, it
  * is not necessary to place the C++ compatability decleration.
  *
- * Copyright (C) 2011 Jason Lomnitz.\n\n
+ * Copyright (C) 2011-2014 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *

@@ -9,7 +9,7 @@
  * grammar implementation file, the following command must be executed:
  * "lemon -m -q -l DSVariableGrammar.y ; makeheaders DSVariableGrammar.c".
  *
- * Copyright (C) 2011 Jason Lomnitz.\n\n
+ * Copyright (C) 2011-2014 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *

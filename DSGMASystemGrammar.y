@@ -12,7 +12,7 @@
 * also a constant.  To resolve this, any string to be parsed for a GMA System
 * should be preprocessed by making it a DSExpression.
 *
-* Copyright (C) 2011 Jason Lomnitz.\n\n
+* Copyright (C) 2011-2014 Jason Lomnitz.\n\n
 *
 * This file is part of the Design Space Toolbox V2 (C Library).
 *
@@ -75,19 +75,27 @@
 
 start ::= equation.
 
-//equation ::= ID EQUALS expression.
+//equation ::= ID EQUALS pterms.
 
 equation ::= ID PRIME EQUALS expression.
 
 equation ::= CONSTANT EQUALS expression.
 
-expression ::= pterms PLUS mterms.
+expression ::= pterms mterms.
 
 expression ::= mterms PLUS pterms.
 
-expression ::= expression PLUS mterms.
+expression ::= expression PLUS term. {
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
 
-expression ::= expression PLUS pterms.
+expression ::= expression MINUS term. {
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
 
 pterms ::= term.{
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
@@ -102,12 +110,6 @@ pterms ::= pterms PLUS term.{
 }
 
 mterms ::= mterm. {
-        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
-        DSGMAParserAuxNewTerm(*parser_aux);
-        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
-}
-
-mterms ::= mterms PLUS mterm. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);

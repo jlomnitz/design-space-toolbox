@@ -3,21 +3,20 @@ State 0:
           equation ::= * ID PRIME EQUALS expression
           equation ::= * CONSTANT EQUALS expression
 
-                            ID shift  17
-                      CONSTANT shift  24
+                            ID shift  25
+                      CONSTANT shift  20
                          start accept
-                      equation shift  25
+                      equation shift  26
 
 State 1:
           equation ::= CONSTANT EQUALS * expression
-          expression ::= * pterms PLUS mterms
+          expression ::= * pterms mterms
           expression ::= * mterms PLUS pterms
-          expression ::= * expression PLUS mterms
-          expression ::= * expression PLUS pterms
+          expression ::= * expression PLUS term
+          expression ::= * expression MINUS term
           pterms ::= * term
           pterms ::= * pterms PLUS term
           mterms ::= * mterm
-          mterms ::= * mterms PLUS mterm
           mterm ::= * MINUS term
           term ::= * powerlaw
           term ::= * PLUS powerlaw
@@ -28,27 +27,26 @@ State 1:
           powerlaw ::= * ID POWER CONSTANT
           powerlaw ::= * ID POWER MINUS CONSTANT
 
-                            ID shift  20
-                          PLUS shift  8
-                         MINUS shift  7
-                      CONSTANT shift  28
-                    expression shift  16
-                        pterms shift  22
-                        mterms shift  23
-                          term shift  14
-                         mterm shift  29
-                      powerlaw shift  35
+                            ID shift  23
+                          PLUS shift  9
+                         MINUS shift  4
+                      CONSTANT shift  35
+                    expression shift  12
+                        pterms shift  8
+                        mterms shift  21
+                          term shift  13
+                         mterm shift  28
+                      powerlaw shift  31
 
 State 2:
           equation ::= ID PRIME EQUALS * expression
-          expression ::= * pterms PLUS mterms
+          expression ::= * pterms mterms
           expression ::= * mterms PLUS pterms
-          expression ::= * expression PLUS mterms
-          expression ::= * expression PLUS pterms
+          expression ::= * expression PLUS term
+          expression ::= * expression MINUS term
           pterms ::= * term
           pterms ::= * pterms PLUS term
           mterms ::= * mterm
-          mterms ::= * mterms PLUS mterm
           mterm ::= * MINUS term
           term ::= * powerlaw
           term ::= * PLUS powerlaw
@@ -59,50 +57,21 @@ State 2:
           powerlaw ::= * ID POWER CONSTANT
           powerlaw ::= * ID POWER MINUS CONSTANT
 
-                            ID shift  20
-                          PLUS shift  8
-                         MINUS shift  7
-                      CONSTANT shift  28
+                            ID shift  23
+                          PLUS shift  9
+                         MINUS shift  4
+                      CONSTANT shift  35
                     expression shift  19
-                        pterms shift  22
-                        mterms shift  23
-                          term shift  14
-                         mterm shift  29
-                      powerlaw shift  35
+                        pterms shift  8
+                        mterms shift  21
+                          term shift  13
+                         mterm shift  28
+                      powerlaw shift  31
 
 State 3:
-          expression ::= expression PLUS * mterms
-          expression ::= expression PLUS * pterms
-          pterms ::= * term
-          pterms ::= * pterms PLUS term
-          mterms ::= * mterm
-          mterms ::= * mterms PLUS mterm
-          mterm ::= * MINUS term
-          term ::= * powerlaw
-          term ::= * PLUS powerlaw
-          term ::= * term TIMES powerlaw
-          term ::= * term DIVIDE powerlaw
-          powerlaw ::= * CONSTANT
-          powerlaw ::= * ID
-          powerlaw ::= * ID POWER CONSTANT
-          powerlaw ::= * ID POWER MINUS CONSTANT
-
-                            ID shift  20
-                          PLUS shift  8
-                         MINUS shift  7
-                      CONSTANT shift  28
-                        pterms shift  26
-                        mterms shift  33
-                          term shift  14
-                         mterm shift  29
-                      powerlaw shift  35
-
-State 4:
           expression ::= mterms PLUS * pterms
           pterms ::= * term
           pterms ::= * pterms PLUS term
-          mterms ::= mterms PLUS * mterm
-          mterm ::= * MINUS term
           term ::= * powerlaw
           term ::= * PLUS powerlaw
           term ::= * term TIMES powerlaw
@@ -112,57 +81,14 @@ State 4:
           powerlaw ::= * ID POWER CONSTANT
           powerlaw ::= * ID POWER MINUS CONSTANT
 
-                            ID shift  20
-                          PLUS shift  8
-                         MINUS shift  7
-                      CONSTANT shift  28
-                        pterms shift  30
-                          term shift  14
-                         mterm shift  34
-                      powerlaw shift  35
+                            ID shift  23
+                          PLUS shift  9
+                      CONSTANT shift  35
+                        pterms shift  27
+                          term shift  13
+                      powerlaw shift  31
 
-State 5:
-          expression ::= pterms PLUS * mterms
-          pterms ::= pterms PLUS * term
-          mterms ::= * mterm
-          mterms ::= * mterms PLUS mterm
-          mterm ::= * MINUS term
-          term ::= * powerlaw
-          term ::= * PLUS powerlaw
-          term ::= * term TIMES powerlaw
-          term ::= * term DIVIDE powerlaw
-          powerlaw ::= * CONSTANT
-          powerlaw ::= * ID
-          powerlaw ::= * ID POWER CONSTANT
-          powerlaw ::= * ID POWER MINUS CONSTANT
-
-                            ID shift  20
-                          PLUS shift  8
-                         MINUS shift  7
-                      CONSTANT shift  28
-                        mterms shift  32
-                          term shift  15
-                         mterm shift  29
-                      powerlaw shift  35
-
-State 6:
-          pterms ::= pterms PLUS * term
-          term ::= * powerlaw
-          term ::= * PLUS powerlaw
-          term ::= * term TIMES powerlaw
-          term ::= * term DIVIDE powerlaw
-          powerlaw ::= * CONSTANT
-          powerlaw ::= * ID
-          powerlaw ::= * ID POWER CONSTANT
-          powerlaw ::= * ID POWER MINUS CONSTANT
-
-                            ID shift  20
-                          PLUS shift  8
-                      CONSTANT shift  28
-                          term shift  15
-                      powerlaw shift  35
-
-State 7:
+State 4:
           mterm ::= MINUS * term
           term ::= * powerlaw
           term ::= * PLUS powerlaw
@@ -173,215 +99,265 @@ State 7:
           powerlaw ::= * ID POWER CONSTANT
           powerlaw ::= * ID POWER MINUS CONSTANT
 
-                            ID shift  20
-                          PLUS shift  8
-                      CONSTANT shift  28
-                          term shift  12
-                      powerlaw shift  35
+                            ID shift  23
+                          PLUS shift  9
+                      CONSTANT shift  35
+                          term shift  14
+                      powerlaw shift  31
+
+State 5:
+          pterms ::= pterms PLUS * term
+          term ::= * powerlaw
+          term ::= * PLUS powerlaw
+          term ::= * term TIMES powerlaw
+          term ::= * term DIVIDE powerlaw
+          powerlaw ::= * CONSTANT
+          powerlaw ::= * ID
+          powerlaw ::= * ID POWER CONSTANT
+          powerlaw ::= * ID POWER MINUS CONSTANT
+
+                            ID shift  23
+                          PLUS shift  9
+                      CONSTANT shift  35
+                          term shift  15
+                      powerlaw shift  31
+
+State 6:
+          expression ::= expression MINUS * term
+          term ::= * powerlaw
+          term ::= * PLUS powerlaw
+          term ::= * term TIMES powerlaw
+          term ::= * term DIVIDE powerlaw
+          powerlaw ::= * CONSTANT
+          powerlaw ::= * ID
+          powerlaw ::= * ID POWER CONSTANT
+          powerlaw ::= * ID POWER MINUS CONSTANT
+
+                            ID shift  23
+                          PLUS shift  9
+                      CONSTANT shift  35
+                          term shift  16
+                      powerlaw shift  31
+
+State 7:
+          expression ::= expression PLUS * term
+          term ::= * powerlaw
+          term ::= * PLUS powerlaw
+          term ::= * term TIMES powerlaw
+          term ::= * term DIVIDE powerlaw
+          powerlaw ::= * CONSTANT
+          powerlaw ::= * ID
+          powerlaw ::= * ID POWER CONSTANT
+          powerlaw ::= * ID POWER MINUS CONSTANT
+
+                            ID shift  23
+                          PLUS shift  9
+                      CONSTANT shift  35
+                          term shift  18
+                      powerlaw shift  31
 
 State 8:
+          expression ::= pterms * mterms
+          pterms ::= pterms * PLUS term
+          mterms ::= * mterm
+          mterm ::= * MINUS term
+
+                          PLUS shift  5
+                         MINUS shift  4
+                        mterms shift  29
+                         mterm shift  28
+
+State 9:
           term ::= PLUS * powerlaw
           powerlaw ::= * CONSTANT
           powerlaw ::= * ID
           powerlaw ::= * ID POWER CONSTANT
           powerlaw ::= * ID POWER MINUS CONSTANT
 
-                            ID shift  20
-                      CONSTANT shift  28
-                      powerlaw shift  37
+                            ID shift  23
+                      CONSTANT shift  35
+                      powerlaw shift  30
 
-State 9:
+State 10:
           term ::= term DIVIDE * powerlaw
           powerlaw ::= * CONSTANT
           powerlaw ::= * ID
           powerlaw ::= * ID POWER CONSTANT
           powerlaw ::= * ID POWER MINUS CONSTANT
 
-                            ID shift  20
-                      CONSTANT shift  28
-                      powerlaw shift  36
+                            ID shift  23
+                      CONSTANT shift  35
+                      powerlaw shift  32
 
-State 10:
+State 11:
           term ::= term TIMES * powerlaw
           powerlaw ::= * CONSTANT
           powerlaw ::= * ID
           powerlaw ::= * ID POWER CONSTANT
           powerlaw ::= * ID POWER MINUS CONSTANT
 
-                            ID shift  20
-                      CONSTANT shift  28
-                      powerlaw shift  31
-
-State 11:
-          mterms ::= mterms PLUS * mterm
-          mterm ::= * MINUS term
-
-                         MINUS shift  7
-                         mterm shift  34
+                            ID shift  23
+                      CONSTANT shift  35
+                      powerlaw shift  36
 
 State 12:
-     (11) mterm ::= MINUS term *
-          term ::= term * TIMES powerlaw
-          term ::= term * DIVIDE powerlaw
+      (2) equation ::= CONSTANT EQUALS expression *
+          expression ::= expression * PLUS term
+          expression ::= expression * MINUS term
 
-                        DIVIDE shift  9
-                         TIMES shift  10
-                     {default} reduce 11
+                          PLUS shift  7
+                         MINUS shift  6
+                     {default} reduce 2
 
 State 13:
-          powerlaw ::= ID POWER * CONSTANT
-          powerlaw ::= ID POWER * MINUS CONSTANT
-
-                         MINUS shift  21
-                      CONSTANT shift  27
-
-State 14:
       (7) pterms ::= term *
           term ::= term * TIMES powerlaw
           term ::= term * DIVIDE powerlaw
 
-                        DIVIDE shift  9
-                         TIMES shift  10
+                        DIVIDE shift  10
+                         TIMES shift  11
                      {default} reduce 7
+
+State 14:
+     (10) mterm ::= MINUS term *
+          term ::= term * TIMES powerlaw
+          term ::= term * DIVIDE powerlaw
+
+                        DIVIDE shift  10
+                         TIMES shift  11
+                     {default} reduce 10
 
 State 15:
       (8) pterms ::= pterms PLUS term *
           term ::= term * TIMES powerlaw
           term ::= term * DIVIDE powerlaw
 
-                        DIVIDE shift  9
-                         TIMES shift  10
+                        DIVIDE shift  10
+                         TIMES shift  11
                      {default} reduce 8
 
 State 16:
-      (2) equation ::= CONSTANT EQUALS expression *
-          expression ::= expression * PLUS mterms
-          expression ::= expression * PLUS pterms
+      (6) expression ::= expression MINUS term *
+          term ::= term * TIMES powerlaw
+          term ::= term * DIVIDE powerlaw
 
-                          PLUS shift  3
-                     {default} reduce 2
+                        DIVIDE shift  10
+                         TIMES shift  11
+                     {default} reduce 6
 
 State 17:
-          equation ::= ID * PRIME EQUALS expression
+          powerlaw ::= ID POWER * CONSTANT
+          powerlaw ::= ID POWER * MINUS CONSTANT
 
-                         PRIME shift  18
+                         MINUS shift  22
+                      CONSTANT shift  34
 
 State 18:
-          equation ::= ID PRIME * EQUALS expression
+      (5) expression ::= expression PLUS term *
+          term ::= term * TIMES powerlaw
+          term ::= term * DIVIDE powerlaw
 
-                        EQUALS shift  2
+                        DIVIDE shift  10
+                         TIMES shift  11
+                     {default} reduce 5
 
 State 19:
       (1) equation ::= ID PRIME EQUALS expression *
-          expression ::= expression * PLUS mterms
-          expression ::= expression * PLUS pterms
+          expression ::= expression * PLUS term
+          expression ::= expression * MINUS term
 
-                          PLUS shift  3
+                          PLUS shift  7
+                         MINUS shift  6
                      {default} reduce 1
 
 State 20:
-     (17) powerlaw ::= ID *
-          powerlaw ::= ID * POWER CONSTANT
-          powerlaw ::= ID * POWER MINUS CONSTANT
-
-                         POWER shift  13
-                     {default} reduce 17
-
-State 21:
-          powerlaw ::= ID POWER MINUS * CONSTANT
-
-                      CONSTANT shift  38
-
-State 22:
-          expression ::= pterms * PLUS mterms
-          pterms ::= pterms * PLUS term
-
-                          PLUS shift  5
-
-State 23:
-          expression ::= mterms * PLUS pterms
-          mterms ::= mterms * PLUS mterm
-
-                          PLUS shift  4
-
-State 24:
           equation ::= CONSTANT * EQUALS expression
 
                         EQUALS shift  1
 
+State 21:
+          expression ::= mterms * PLUS pterms
+
+                          PLUS shift  3
+
+State 22:
+          powerlaw ::= ID POWER MINUS * CONSTANT
+
+                      CONSTANT shift  33
+
+State 23:
+     (16) powerlaw ::= ID *
+          powerlaw ::= ID * POWER CONSTANT
+          powerlaw ::= ID * POWER MINUS CONSTANT
+
+                         POWER shift  17
+                     {default} reduce 16
+
+State 24:
+          equation ::= ID PRIME * EQUALS expression
+
+                        EQUALS shift  2
+
 State 25:
+          equation ::= ID * PRIME EQUALS expression
+
+                         PRIME shift  24
+
+State 26:
       (0) start ::= equation *
 
                              $ reduce 0
 
-State 26:
-      (6) expression ::= expression PLUS pterms *
-          pterms ::= pterms * PLUS term
-
-                     {default} reduce 6
-
 State 27:
-     (18) powerlaw ::= ID POWER CONSTANT *
-
-                     {default} reduce 18
-
-State 28:
-     (16) powerlaw ::= CONSTANT *
-
-                     {default} reduce 16
-
-State 29:
-      (9) mterms ::= mterm *
-
-                     {default} reduce 9
-
-State 30:
       (4) expression ::= mterms PLUS pterms *
           pterms ::= pterms * PLUS term
 
                      {default} reduce 4
 
-State 31:
-     (14) term ::= term TIMES powerlaw *
+State 28:
+      (9) mterms ::= mterm *
 
-                     {default} reduce 14
+                     {default} reduce 9
 
-State 32:
-      (3) expression ::= pterms PLUS mterms *
-          mterms ::= mterms * PLUS mterm
+State 29:
+      (3) expression ::= pterms mterms *
 
                      {default} reduce 3
 
-State 33:
-      (5) expression ::= expression PLUS mterms *
-          mterms ::= mterms * PLUS mterm
-
-                     {default} reduce 5
-
-State 34:
-     (10) mterms ::= mterms PLUS mterm *
-
-                     {default} reduce 10
-
-State 35:
-     (12) term ::= powerlaw *
+State 30:
+     (12) term ::= PLUS powerlaw *
 
                      {default} reduce 12
 
-State 36:
-     (15) term ::= term DIVIDE powerlaw *
+State 31:
+     (11) term ::= powerlaw *
+
+                     {default} reduce 11
+
+State 32:
+     (14) term ::= term DIVIDE powerlaw *
+
+                     {default} reduce 14
+
+State 33:
+     (18) powerlaw ::= ID POWER MINUS CONSTANT *
+
+                     {default} reduce 18
+
+State 34:
+     (17) powerlaw ::= ID POWER CONSTANT *
+
+                     {default} reduce 17
+
+State 35:
+     (15) powerlaw ::= CONSTANT *
 
                      {default} reduce 15
 
-State 37:
-     (13) term ::= PLUS powerlaw *
+State 36:
+     (13) term ::= term TIMES powerlaw *
 
                      {default} reduce 13
-
-State 38:
-     (19) powerlaw ::= ID POWER MINUS CONSTANT *
-
-                     {default} reduce 19
 
 ----------------------------------------------------
 Symbols:

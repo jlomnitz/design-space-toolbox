@@ -12,7 +12,7 @@
  * also a constant.  To resolve this, any string to be parsed for a S-Systems
  * should be preprocessed by making it a DSExpression, and back into a string.
  *
- * Copyright (C) 2011 Jason Lomnitz.\n\n
+ * Copyright (C) 2011-2014 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *

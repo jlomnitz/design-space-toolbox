@@ -13,7 +13,7 @@
  * processing of mathematical expressions when converting them to matrices for
  * the GMA and SSystem.  The '^' must have only two branches.
  *
- * Copyright (C) 2011 Jason Lomnitz.\n\n
+ * Copyright (C) 2011-2014 Jason Lomnitz.\n\n
  *
  * This file is part of the Design Space Toolbox V2 (C Library).
  *
