@@ -168,8 +168,12 @@ static void dsCaseCreateBoundaryMatrices(DSCase *aCase)
         if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
                 goto bail;
         }
+        if (DSCaseCd(aCase) == NULL) {
+                goto bail;
+        }
         B = DSSSystemB(DSCaseSSys(aCase));
         numberOfXi =DSVariablePoolNumberOfVariables(DSCaseXi(aCase));
+        
         W = DSMatrixByMultiplyingMatrix(DSCaseCd(aCase), DSSSystemM(DSCaseSSys(aCase)));
         DSCaseZeta(aCase) = DSMatrixByMultiplyingMatrix(W, B);
         DSMatrixAddByMatrix(DSCaseZeta(aCase), DSCaseDelta(aCase));
