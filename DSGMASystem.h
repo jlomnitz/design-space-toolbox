@@ -66,6 +66,7 @@ extern const DSUInteger DSGMASystemNumberOfEquations(const DSGMASystem *gma);
 extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma);
 
 extern DSExpression * DSGMASystemPositiveTermsForEquations(const DSGMASystem *gma, const DSUInteger equation);
+extern DSExpression * DSGMASystemNegativeTermForEquations(const DSGMASystem *gma, const DSUInteger equation, DSUInteger term);
 extern DSExpression * DSGMASystemNegativeTermsForEquations(const DSGMASystem *gma, const DSUInteger equation);
 
 extern const DSMatrix *DSGMASystemAlpha(const DSGMASystem *gma);

@@ -34,6 +34,7 @@
 #include "DSCyclicalCase.h"
 
 extern DSDesignSpace * DSCyclicalCaseInternalForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original);
+extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, deallocation and initialization
@@ -42,7 +43,9 @@ extern DSDesignSpace * DSCyclicalCaseInternalForUnderdeterminedCase(const DSCase
 
 extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace * ds, const DSCase * aCase)
 {
-        DSCyclicalCase * aSubcase = NULL;
+        DSCyclicalCase * cyclicalCase = NULL;
+        DSStack * subcases;
+        DSUInteger i;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -54,17 +57,24 @@ extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace *
         if (DSCaseIsValid(aCase) == true) {
                 goto bail;
         }
-        aSubcase = DSSecureCalloc(sizeof(DSCyclicalCase), 1);
-        aSubcase->internal = DSCyclicalCaseInternalForUnderdeterminedCase(aCase, ds);
-        if (aSubcase->internal == NULL) {
-                DSSecureFree(aSubcase);
-                aSubcase = NULL;
+        cyclicalCase = DSSecureCalloc(sizeof(DSCyclicalCase), 1);
+        cyclicalCase->internal = DSCyclicalCaseInternalForUnderdeterminedCase(aCase, ds);
+        subcases = DSCyclicalCaseDesignSpacesForUnderdeterminedCase(aCase, ds);
+        
+        if (cyclicalCase->internal == NULL) {
+                DSSecureFree(cyclicalCase);
+                cyclicalCase = NULL;
                 goto bail;
         }
-        aSubcase->caseNumber = aCase->caseNumber;
-        aSubcase->originalCase = DSCaseCopy(aCase);
+        cyclicalCase->numberOfInternal = DSStackCount(subcases);
+        cyclicalCase->internalDesignspaces = DSSecureCalloc(sizeof(DSDesignSpace *), cyclicalCase->numberOfInternal);
+        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
+                cyclicalCase->internalDesignspaces[i] = (DSDesignSpace *)DSStackObjectAtIndex(subcases, i);
+        }
+        cyclicalCase->caseNumber = aCase->caseNumber;
+        cyclicalCase->originalCase = DSCaseCopy(aCase);
 bail:
-        return aSubcase;
+        return cyclicalCase;
 }
 
 extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase)
@@ -124,15 +134,38 @@ extern const DSUInteger DSCyclicalCaseNumberOfSubcases(const DSCyclicalCase * cy
 
 extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cyclicalCase, const DSUInteger subcaseNumber)
 {
-        
-        const DSDesignSpace *ds = NULL;
-        DSCase * aSubcase = NULL;
+//        const DSDesignSpace *ds = NULL;
+        DSCase * aSubcase = NULL, *temp;
+        DSUInteger i, numberInDesignSpace;
+        DSUInteger caseNumber = subcaseNumber;
         if (cyclicalCase == NULL) {
                 DSError(M_DS_CASE_NULL ": Cyclical case is null", A_DS_ERROR);
                 goto bail;
         }
-        ds = DSCyclicalCaseInternalDesignSpace(cyclicalCase);
-        aSubcase = DSDesignSpaceCaseWithCaseNumber(ds, subcaseNumber);
+        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
+                numberInDesignSpace = DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspaces[i]);
+                if (caseNumber > numberInDesignSpace) {
+                        caseNumber -= numberInDesignSpace;
+                        continue;
+                }
+                aSubcase = DSDesignSpaceCaseWithCaseNumber(cyclicalCase->internalDesignspaces[i], caseNumber);
+                break;
+        }
+//        temp = DSDesignSpaceCaseWithCaseNumber(cyclicalCase->internal, subcaseNumber);
+//        printf("old\n");
+//        DSCasePrintConditions(temp);
+//        printf("new\n");
+//        DSCasePrintConditions(aSubcase);
+//        DSMatrixFree(aSubcase->Cd);
+//        aSubcase->Cd = DSMatrixCopy(temp->Cd);
+//        DSMatrixFree(aSubcase->Ci);
+//        aSubcase->Ci = DSMatrixCopy(temp->Ci);
+//        DSMatrixFree(aSubcase->delta);
+//        aSubcase->delta = DSMatrixCopy(temp->delta);
+//        DSMatrixFree(aSubcase->zeta);
+//        aSubcase->zeta = DSMatrixCopy(temp->zeta);
+//        DSMatrixFree(aSubcase->U);
+//        aSubcase->U = DSMatrixCopy(temp->U);
 bail:
         return aSubcase;
 }

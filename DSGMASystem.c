@@ -985,6 +985,22 @@ extern DSExpression * DSGMASystemPositiveTermsForEquations(const DSGMASystem *gm
 bail:
         return pterms;
 }
+
+extern DSExpression * DSGMASystemNegativeTermForEquations(const DSGMASystem *gma, const DSUInteger equation, DSUInteger term)
+{
+        DSExpression * nterms = NULL;
+        DSUInteger length;
+        char * tempString;
+        length = DS_GMA_EQUATION_STR_BUF;
+        tempString = DSSecureCalloc(sizeof(char), length);
+        tempString[0] = '-';
+        dsGMASystemEquationAddNegativeTermToString(gma, equation, term, &tempString, &length);
+        nterms = DSExpressionByParsingString(tempString);
+        DSSecureFree(tempString);
+bail:
+        return nterms;
+}
+
 extern DSExpression * DSGMASystemNegativeTermsForEquations(const DSGMASystem *gma, const DSUInteger equation)
 {
         DSExpression * nterms = NULL;

@@ -414,6 +414,8 @@ typedef struct {
  */
 typedef struct{
         DSDesignSpace * internal;
+        DSDesignSpace ** internalDesignspaces;
+        DSUInteger numberOfInternal;
         DSCase * originalCase;
         DSUInteger caseNumber;
 } DSCyclicalCase;

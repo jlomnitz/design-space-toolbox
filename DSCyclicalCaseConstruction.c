@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "DSCyclicalCase.h"
+#include "DSMatrixArray.h"
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Cyclical calculation functions -
@@ -256,6 +257,85 @@ bail:
 #pragma mark - Multiple augmented systems to obtain appropriate dynamics -
 #endif
 
+static void dsAddConstraintsForSubdominantDecays(DSDesignSpace * subcase, const DSCase * aCase, const DSDesignSpace * original, DSMatrix * problematicEquations, DSUInteger * subdominantDecays, DSUInteger * subdominantDecayTerms)
+{
+        DSGMASystem * gma = NULL;
+        DSUInteger i, j, k, m, index = 0;
+        DSUInteger numberOfConditions = 0, numberOfXd, numberOfXi;
+        DSMatrix * Cd, *Ci, *delta;
+        double value;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (original == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (problematicEquations == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (subdominantDecays == NULL) {
+                DSError(M_DS_NULL ": Array indicating the subdominant decay equation is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (subdominantDecayTerms == NULL) {
+                DSError(M_DS_NULL ": Array indicating the subdominant decay terms is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        gma = DSGMASystemCopy(DSDesignSpaceGMASystem(original));
+        numberOfXd = DSVariablePoolNumberOfVariables(DSGMASystemXd(gma));
+        numberOfXi = DSVariablePoolNumberOfVariables(DSGMASystemXi(gma));
+        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
+                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
+                        if ((DSUInteger)DSMatrixDoubleValue(problematicEquations, j, i) == 0)
+                                continue;
+                        if (subdominantDecays[i] == j)
+                                continue;
+                        numberOfConditions += (DSDesignSpaceSignature(original)[j*2+1]-1);
+                }
+        }
+        Cd = DSMatrixAlloc(numberOfConditions, DSVariablePoolNumberOfVariables(DSGMASystemXd(gma)));
+        Ci = DSMatrixAlloc(numberOfConditions, DSVariablePoolNumberOfVariables(DSGMASystemXi(gma)));
+        delta =DSMatrixAlloc(numberOfConditions, 1);
+        index = 0;
+
+        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
+                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
+                        if ((DSUInteger)DSMatrixDoubleValue(problematicEquations, j, i) == 0)
+                                continue;
+                        if (subdominantDecays[i] == j)
+                                continue;
+                        for (k = 0; k < DSDesignSpaceSignature(original)[j*2+1];  k++) {
+                                if (k+1 == DSCaseSignature(aCase)[j*2+1])
+                                        continue;
+                                value = log10(DSMatrixDoubleValue(DSGMASystemBeta(gma), subdominantDecays[i], subdominantDecayTerms[i])
+                                              /DSMatrixDoubleValue(DSGMASystemBeta(gma), j, k));
+                                DSMatrixSetDoubleValue(delta, index, 0, value);
+                                for (m = 0; m < numberOfXd; m++) {
+                                        value = DSMatrixArrayDoubleWithIndices(DSGMASystemHd(gma), subdominantDecays[i], subdominantDecayTerms[i], m);
+                                        value -= DSMatrixArrayDoubleWithIndices(DSGMASystemHd(gma), j, k, m);
+                                        DSMatrixSetDoubleValue(Cd, index, m, value);
+                                }
+                                for (m = 0; m < numberOfXi; m++) {
+                                        value = DSMatrixArrayDoubleWithIndices(DSGMASystemHi(gma), subdominantDecays[i], subdominantDecayTerms[i], m);
+                                        value -= DSMatrixArrayDoubleWithIndices(DSGMASystemHi(gma), j, k, m);
+                                        DSMatrixSetDoubleValue(Ci, index, m, value);
+                                }
+                                index++;
+                        }
+
+                }
+        }
+        DSDesignSpaceAddConditions(subcase, Cd, Ci, delta);
+        DSMatrixFree(Cd);
+        DSMatrixFree(Ci);
+        DSMatrixFree(delta);
+bail:
+        return;
+}
+
 static DSDesignSpace * dsCyclicalCaseCreateUniqueAugmentedSystem(const DSCase *aCase, const DSGMASystem * modifiedGMA, const DSMatrix  * problematicEquations, const DSExpression ** augmentedEquations, const DSUInteger * subdominantDecays)
 {
         DSDesignSpace * ds = NULL;
@@ -316,7 +396,8 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
                                                                          DSMatrix * problematicEquations,
                                                                          const DSMatrixArray * problematicTerms,
                                                                          const DSMatrixArray * coefficientArray,
-                                                                         const DSUInteger *subdominantDecaySpecies)
+                                                                         const DSUInteger *subdominantDecaySpecies,
+                                                                         const DSUInteger *subdominantDecayTerm)
 {
         DSDesignSpace * augmentedSystem = NULL;
         DSGMASystem * gma = NULL;
@@ -376,13 +457,15 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
                                                        DSMatrixDoubleValue(DSGMASystemBeta(gma), j, k)*value);
                         }
                 }
-                augmentedEquations[i] = DSExpressionAddExpressions(augmentedEquations[i], DSGMASystemNegativeTermsForEquations(gma, j));
+                augmentedEquations[i] = DSExpressionAddExpressions(augmentedEquations[i], DSGMASystemNegativeTermForEquations(gma, j, subdominantDecayTerm[i]));
         }
         augmentedSystem = dsCyclicalCaseCreateUniqueAugmentedSystem(aCase,
                                                                     gma,
                                                                     problematicEquations,
                                                                     (const DSExpression **)augmentedEquations,
                                                                     subdominantDecaySpecies);
+        DSDesignSpaceAddConditions(augmentedSystem, DSCaseCd(aCase), DSCaseCi(aCase), DSCaseDelta(aCase));
+        dsAddConstraintsForSubdominantDecays(augmentedSystem, aCase, original, problematicEquations, subdominantDecaySpecies, subdominantDecayTerm);
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
                 DSExpressionFree(augmentedEquations[i]);
         }
@@ -410,7 +493,7 @@ static DSUInteger dsCyclicalCaseNumberOfAugmentedSystems(const DSDesignSpace * o
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
                         if (DSMatrixDoubleValue(problematicEquations, j, i) == 0.0f)
                                 continue;
-                        count += (DSDesignSpaceSignature(original)[j*2+1] > 0);
+                        count += (DSDesignSpaceSignature(original)[j*2+1] > 1);
                 }
                 max *= count;
         }
@@ -425,8 +508,9 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
                                                       const DSMatrixArray * coefficientArray)
 {
         DSStack * augmentedSystemsStack = NULL;
-        DSUInteger i, j, k, current, index, max, *numberOfequations;
+        DSUInteger i, j, k, current, index, max, *numberOfequations, numberOfTerms;
         DSUInteger * decayEquations = NULL;
+        DSUInteger * decayTerms;
         DSDesignSpace * subcase;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
@@ -449,20 +533,27 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
         if (DSMatrixArrayNumberOfMatrices(problematicTerms) != DSMatrixArrayNumberOfMatrices(coefficientArray))
                 goto bail;
         decayEquations = DSSecureCalloc(sizeof(DSUInteger), DSMatrixColumns(problematicEquations));
+        decayTerms = DSSecureCalloc(sizeof(DSUInteger), DSMatrixColumns(problematicEquations));
         numberOfequations = DSSecureCalloc(sizeof(DSUInteger), DSMatrixColumns(problematicEquations));
         max = dsCyclicalCaseNumberOfAugmentedSystems(original, problematicEquations);
+        augmentedSystemsStack = DSStackAlloc();
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
-                        numberOfequations[i] += ((DSUInteger)DSMatrixDoubleValue(problematicEquations, j, i) != 0);
+                        if ((DSUInteger)DSMatrixDoubleValue(problematicEquations, j, i) == 0)
+                                continue;
+                        numberOfequations[i] += (DSDesignSpaceSignature(original)[j*2+1] > 1);
                 }
         }
         for (i = 0; i < max; i++) {
                 current = i;
+                numberOfTerms = 0;
                 for (j = 0; j < DSMatrixColumns(problematicEquations); j++) {
                         decayEquations[j] = current % numberOfequations[j];
                         index = 0;
                         for (k = 0; k < DSMatrixRows(problematicEquations); k++) {
-                                if ((DSUInteger)DSMatrixDoubleValue(problematicEquations, k, j) != 0) {
+                                if ((DSUInteger)DSMatrixDoubleValue(problematicEquations, k, j) == 0)
+                                        continue;
+                                if (DSDesignSpaceSignature(original)[k*2+1] > 1) {
                                         if (index == decayEquations[j])
                                                 break;
                                         else
@@ -470,20 +561,31 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
                                 }
                         }
                         decayEquations[j] = k;
+                        numberOfTerms += DSDesignSpaceSignature(original)[k*2+1];
                         current = current / numberOfequations[j];
                 }
-                subcase = dsCyclicalCaseAugmentedSystemForSubdominantDecays(aCase,
-                                                                            original,
-                                                                            problematicEquations,
-                                                                            problematicTerms,
-                                                                            coefficientArray,
-                                                                            decayEquations);
-                DSDesignSpacePrint(subcase);
-                DSGMASystemPrintEquations(DSDesignSpaceGMASystem(subcase));
-                DSDesignSpaceCalculateAllValidCases(subcase);
-                DSDesignSpaceFree(subcase);
+                for (j = 0; j < numberOfTerms; j++) {
+                        index = j;
+                        for (k = 0; k < DSMatrixColumns(problematicEquations); k++) {
+                                decayTerms[k] = index % DSDesignSpaceSignature(original)[decayEquations[k]*2+1];
+                                if (DSCaseSignature(aCase)[decayEquations[k]*2+1] == decayTerms[k]+1)
+                                        break;
+                                index = index / DSDesignSpaceSignature(original)[decayEquations[k]*2+1];
+                        }
+                        if (k != DSMatrixColumns(problematicEquations))
+                                continue;
+                        subcase = dsCyclicalCaseAugmentedSystemForSubdominantDecays(aCase,
+                                                                                    original,
+                                                                                    problematicEquations,
+                                                                                    problematicTerms,
+                                                                                    coefficientArray,
+                                                                                    decayEquations,
+                                                                                    decayTerms);
+                        DSStackPush(augmentedSystemsStack, subcase);
+                }
         }
         DSSecureFree(decayEquations);
+        DSSecureFree(decayTerms);
         DSSecureFree(numberOfequations);
 bail:
         return augmentedSystemsStack;
