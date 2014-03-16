@@ -644,11 +644,12 @@ extern DSGMASystem * DSGMASystemByParsingStringsWithXi(char * const * const stri
 {
         DSGMASystem * gma = NULL;
         gma_parseraux_t **aux = NULL;
-        DSUInteger i, j = 0;
+        DSUInteger i, j;
         DSExpression * expr = NULL;
-        DSExpression * lhs = NULL;
-        DSVariablePool * tempPool, * Xd, * Xda;
-        char * variableName;
+        DSExpression * lhs = NULL, *rhs = NULL;
+        DSVariablePool * tempPool, * Xd, * Xda, *Xdt;
+        char * variableName, *rhsString;
+        char ** parseStrings = NULL;
         if (strings == NULL) {
                 DSError(M_DS_NULL ": Array of strings is NULL", A_DS_ERROR);
                 goto bail;
@@ -657,29 +658,49 @@ extern DSGMASystem * DSGMASystemByParsingStringsWithXi(char * const * const stri
                 DSError(M_DS_WRONG ": No equations to parse", A_DS_WARN);
                 goto bail;
         }
-        aux = dsGmaTermListForAllStrings(strings, numberOfEquations);
-        if (aux == NULL)
-                goto bail;
+        parseStrings = DSSecureCalloc(sizeof(char *), numberOfEquations);
         gma = DSGMASystemAlloc();
         Xd = DSVariablePoolAlloc();
         Xda = DSVariablePoolAlloc();
+        Xdt = DSVariablePoolAlloc();
         for (i=0; i < numberOfEquations; i++) {
                 expr = DSExpressionByParsingString(strings[i]);
+                rhs = DSExpressionEquationRHSExpression(expr);
                 lhs = DSExpressionEquationLHSExpression(expr);
-                if (DSExpressionType(lhs) == DS_EXPRESSION_TYPE_CONSTANT) {
-                        // If different from 0, should substract rhs by lhs
-                }
                 tempPool = DSExpressionVariablesInExpression(lhs);
                 if (DSVariablePoolNumberOfVariables(tempPool) == 1) {
-                        variableName = DSVariableName(DSVariablePoolVariableAtIndex(tempPool, j));
-                        if (DSExpressionType(lhs) == DS_EXPRESSION_TYPE_VARIABLE) {
-                                DSVariablePoolAddVariableWithName(Xda, variableName);
-                        }
+                        variableName = DSVariableName(DSVariablePoolVariableAtIndex(tempPool, 0));
                         if (DSVariablePoolHasVariableWithName(Xd, variableName) == false) {
                                 DSVariablePoolAddVariableWithName(Xd, variableName);
+                                DSVariablePoolSetValueForVariableWithName(Xd, variableName, i);
                         }
+                } else {
+                        variableName = NULL;
                 }
-                DSExpressionFree(lhs);
+                switch (DSExpressionType(lhs)) {
+                        case DS_EXPRESSION_TYPE_OPERATOR:
+                                if (DSExpressionOperator(lhs) == '.' && DSVariablePoolNumberOfVariables(tempPool) == 1) {
+                                        DSVariablePoolAddVariableWithName(Xdt, variableName);
+                                        parseStrings[i] = DSExpressionAsString(expr);
+                                        break;
+                                }
+                        default:
+                                if (DSVariablePoolNumberOfVariables(tempPool) == 1) {
+                                        if (DSVariablePoolHasVariableWithName(Xi, variableName) == true)
+                                                break;
+                                        DSVariablePoolAddVariableWithName(Xda, variableName);
+                                }
+                                rhs = DSExpressionSubstractExpressions(rhs, lhs);
+                                lhs = NULL;
+                                rhsString = DSExpressionAsString(rhs);
+                                asprintf(&parseStrings[i], "0 = %s", rhsString);
+                                DSSecureFree(rhsString);
+                                break;
+                }
+                if (lhs != NULL) {
+                        DSExpressionFree(lhs);
+                }
+                DSExpressionFree(rhs);
                 DSExpressionFree(expr);
                 DSVariablePoolFree(tempPool);
         }
@@ -694,12 +715,22 @@ extern DSGMASystem * DSGMASystemByParsingStringsWithXi(char * const * const stri
         }
         if (DSVariablePoolNumberOfVariables(Xd) != numberOfEquations) {
                 DSError(M_DS_WRONG ": Number of dependent variables does not match number of equations", A_DS_ERROR);
+                DSGMASystemFree(gma);
+                gma = NULL;
+                goto bail;
+        }
+        aux = dsGmaTermListForAllStrings(parseStrings, numberOfEquations);
+        if (aux == NULL) {
+                DSGMASystemFree(gma);
+                gma = NULL;
                 goto bail;
         }
         DSGMAXd(gma) = Xd;
         DSVariablePoolSetReadWrite(DSGMAXd(gma));
         DSGMAXd_a(gma) = Xda;
         DSVariablePoolSetReadWrite(DSGMAXd_a(gma));
+        DSGMAXd_t(gma) = Xdt;
+        DSVariablePoolSetReadWrite(DSGMAXd_t(gma));
         DSGMAXi(gma) = DSVariablePoolCopy(Xi);
         DSVariablePoolSetReadWrite(DSGMAXi(gma));
         DSVariablePoolSetReadWrite(DSGMAXi(gma));

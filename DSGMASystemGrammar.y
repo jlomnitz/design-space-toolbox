@@ -81,9 +81,21 @@ equation ::= ID PRIME EQUALS expression.
 
 equation ::= CONSTANT EQUALS expression.
 
-expression ::= pterms mterms.
+//expression ::= pterms mterms.
+//
+//expression ::= mterms PLUS pterms.
 
-expression ::= mterms PLUS pterms.
+expression ::= term. {
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
+
+expression ::= MINUS term. {
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
 
 expression ::= expression PLUS term. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
@@ -97,25 +109,23 @@ expression ::= expression MINUS term. {
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
-pterms ::= term.{
-        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
-        DSGMAParserAuxNewTerm(*parser_aux);
-        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
-}
-
-pterms ::= pterms PLUS term.{
-        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
-        DSGMAParserAuxNewTerm(*parser_aux);
-        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
-}
-
-mterms ::= mterm. {
-        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
-        DSGMAParserAuxNewTerm(*parser_aux);
-        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
-}
-
-mterm ::= MINUS term. [NOT]
+//pterms ::= term.{
+//        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
+//        DSGMAParserAuxNewTerm(*parser_aux);
+//        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+//}
+//
+//pterms ::= pterms PLUS term.{
+//        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
+//        DSGMAParserAuxNewTerm(*parser_aux);
+//        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+//}
+//
+//mterms ::= MINUS term. {
+//        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
+//        DSGMAParserAuxNewTerm(*parser_aux);
+//        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+//}
 
 term ::= powerlaw.
 

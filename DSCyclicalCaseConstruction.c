@@ -296,6 +296,9 @@ static void dsAddConstraintsForSubdominantDecays(DSDesignSpace * subcase, const 
                         numberOfConditions += (DSDesignSpaceSignature(original)[j*2+1]-1);
                 }
         }
+        if (numberOfConditions == 0) {
+                goto bail;
+        }
         Cd = DSMatrixAlloc(numberOfConditions, DSVariablePoolNumberOfVariables(DSGMASystemXd(gma)));
         Ci = DSMatrixAlloc(numberOfConditions, DSVariablePoolNumberOfVariables(DSGMASystemXi(gma)));
         delta =DSMatrixAlloc(numberOfConditions, 1);
@@ -333,6 +336,8 @@ static void dsAddConstraintsForSubdominantDecays(DSDesignSpace * subcase, const 
         DSMatrixFree(Ci);
         DSMatrixFree(delta);
 bail:
+        if (gma != NULL)
+                DSGMASystemFree(gma);
         return;
 }
 
@@ -457,7 +462,7 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
                                                        DSMatrixDoubleValue(DSGMASystemBeta(gma), j, k)*value);
                         }
                 }
-                augmentedEquations[i] = DSExpressionAddExpressions(augmentedEquations[i], DSGMASystemNegativeTermForEquations(gma, j, subdominantDecayTerm[i]));
+                augmentedEquations[i] = DSExpressionAddExpressions(augmentedEquations[i], DSGMASystemNegativeTermsForEquations(gma, j));
         }
         augmentedSystem = dsCyclicalCaseCreateUniqueAugmentedSystem(aCase,
                                                                     gma,
@@ -466,6 +471,7 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
                                                                     subdominantDecaySpecies);
         DSDesignSpaceAddConditions(augmentedSystem, DSCaseCd(aCase), DSCaseCi(aCase), DSCaseDelta(aCase));
         dsAddConstraintsForSubdominantDecays(augmentedSystem, aCase, original, problematicEquations, subdominantDecaySpecies, subdominantDecayTerm);
+        DSDesignSpaceCalculateCyclicalCases(augmentedSystem);
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
                 DSExpressionFree(augmentedEquations[i]);
         }
@@ -590,6 +596,7 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
 bail:
         return augmentedSystemsStack;
 }
+
 
 
 #if defined (__APPLE__) && defined (__MACH__)
