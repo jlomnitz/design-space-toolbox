@@ -1017,6 +1017,20 @@ bail:
         return pterms;
 }
 
+extern DSExpression * DSGMASystemPositiveTermForEquations(const DSGMASystem *gma, const DSUInteger equation, DSUInteger term)
+{
+        DSExpression * nterms = NULL;
+        DSUInteger length;
+        char * tempString;
+        length = DS_GMA_EQUATION_STR_BUF;
+        tempString = DSSecureCalloc(sizeof(char), length);
+        dsGMASystemEquationAddPositiveTermToString(gma, equation, term, &tempString, &length);
+        nterms = DSExpressionByParsingString(tempString);
+        DSSecureFree(tempString);
+bail:
+        return nterms;
+}
+
 extern DSExpression * DSGMASystemNegativeTermForEquations(const DSGMASystem *gma, const DSUInteger equation, DSUInteger term)
 {
         DSExpression * nterms = NULL;
@@ -1243,6 +1257,204 @@ bail:
         return;
 }
 
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark - Network Detection
+#endif
 
+extern DSMatrix * DSGMASystemNetworkConnectivity(const DSGMASystem * gma)
+{
+        DSMatrix * connectivity = NULL;
+        DSUInteger i, j, numberOfXd, numberOfXi, numberTerms;
+        const DSUInteger * signature;
+        DSExpression * term;
+        DSVariablePool * Xs;
+        const DSVariablePool *Xd, *Xi;
+        DSDictionary * fluxDictionary = NULL;
+        const char * name;
+        if (gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        Xd = DSGMASystemXd(gma);
+        Xi = DSGMASystemXi(gma);
+        if (Xd == NULL || Xi == NULL) {
+                DSError(M_DS_VAR_NULL ": Dependent variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        fluxDictionary = DSGMASystemFluxDictionary(gma);
+        numberOfXd = DSVariablePoolNumberOfVariables(Xd);
+        numberOfXi = DSVariablePoolNumberOfVariables(Xi);
+        numberTerms = 0;
+        signature = DSGMASystemSignature(gma);
+        for (i = 0; i < DSGMASystemNumberOfEquations(gma); i++) {
+                numberTerms += signature[2*i];
+                numberTerms +=signature[2*i+1];
+        }
+        connectivity = DSMatrixCalloc(numberTerms, numberOfXd+numberOfXi);
+        for (i = 0; i < numberTerms; i++) {
+                term = DSGMASystemTermWithTermNumber(gma, i);
+                Xs = DSExpressionVariablesInExpression(term);
+                for (j = 0; j < numberOfXd; j++) {
+                        name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, j));
+                        if (DSVariablePoolHasVariableWithName(Xs, name) == true) {
+                                DSMatrixSetDoubleValue(connectivity, i, j, 1.f);
+                        }
+                }
+                for (j = 0; j < numberOfXi; j++) {
+                        name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, j));
+                        if (DSVariablePoolHasVariableWithName(Xs, name) == true) {
+                                DSMatrixSetDoubleValue(connectivity, i, numberOfXd+j, 1.f);
+                        }
+                }
+                DSExpressionFree(term);
+                DSVariablePoolFree(Xs);
+        }
+bail:
+        return connectivity;
+}
+
+extern DSExpression * DSGMASystemTermWithTermNumber(const DSGMASystem * gma, const DSUInteger termNumber) {
+        DSExpression * term = NULL;
+        DSUInteger i, j, k;
+        if (gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        k = 0;
+        for (i = 0; i < DSGMASystemNumberOfEquations(gma); i++) {
+                for (j = 0; j < DSGMASystemSignature(gma)[i*2]; j++) {
+                        if (k == termNumber) {
+                                term = DSGMASystemPositiveTermForEquations(gma, i, j);
+                                goto exit;
+                        }
+                        k++;
+                }
+                for (j = 0; j < DSGMASystemSignature(gma)[i*2+1]; j++) {
+                        if (k == termNumber) {
+                                term = DSGMASystemNegativeTermForEquations(gma, i, j);
+                                goto exit;
+                        }
+                        k++;
+                }
+        }
+exit:
+bail:
+        return term;
+}
+extern DSDictionary * DSGMASystemFluxDictionary(const DSGMASystem * gma) {
+        DSDictionary * fluxes = NULL;
+        DSUInteger i, j, k, numberOfXd_t;
+        char key[100];
+        const DSVariablePool *Xd_t;
+        if (gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        Xd_t = DSGMASystemXd_t(gma);
+        if (Xd_t == NULL) {
+                DSError(M_DS_VAR_NULL ": Dependent variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        numberOfXd_t = DSVariablePoolNumberOfVariables(DSGMASystemXd_t(gma));
+        fluxes = DSDictionaryAlloc();
+        k = 0;
+        for (i = 0; i < numberOfXd_t; i++) {
+                for (j = 0; j < DSGMASystemSignature(gma)[i*2]; j++) {
+                        sprintf(key, "%i",
+                                k++);
+                        DSDictionaryAddValueWithName(fluxes, key, DSGMASystemPositiveTermForEquations(gma, i, j));
+                }
+                for (j = 0; j < DSGMASystemSignature(gma)[i*2+1]; j++) {
+                        sprintf(key, "%i",
+                                k++);
+                        DSDictionaryAddValueWithName(fluxes, key, DSGMASystemNegativeTermForEquations(gma, i, j));
+                }
+        }
+bail:
+        return fluxes;
+}
+
+extern DSMatrix * DSGMASystemPrecursorProductRelationships(const DSGMASystem * gma, DSUInteger precursorEquation, DSUInteger productEquation)
+{
+        DSMatrix * termIds = NULL;
+        bool hasRelationship = false;
+        DSMatrix * termMatrix, *nullspace;
+        const DSMatrixArray *Gd, *Gi, *Hd, *Hi;
+        DSUInteger i, j, numberNegativeTerms, numberPositiveTerms;
+        DSUInteger precursorFluxStart = 0, productFluxStart = 0, numberXd, numberXi, index;
+        double current, firstValue;
+        if (gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberNegativeTerms = DSGMASystemSignature(gma)[2*precursorEquation+1];
+        numberPositiveTerms = DSGMASystemSignature(gma)[2*productEquation];
+        numberXd = DSVariablePoolNumberOfVariables(DSGMASystemXd(gma));
+        numberXi = DSVariablePoolNumberOfVariables(DSGMASystemXi(gma));
+        Gd = DSGMASystemGd(gma);
+        Gi = DSGMASystemGi(gma);
+        Hd = DSGMASystemHd(gma);
+        Hi = DSGMASystemHi(gma);
+        termMatrix = DSMatrixCalloc(numberNegativeTerms+numberPositiveTerms,
+                                     numberXd+numberXi);
+        for (i = 0; i < numberNegativeTerms; i++) {
+                for (j = 0; j < numberXd; j++) {
+                        DSMatrixSetDoubleValue(termMatrix, i, j, DSMatrixArrayDoubleWithIndices(Hd, precursorEquation, i, j));
+                }
+                for (j = 0; j < numberXi; j++) {
+                        DSMatrixSetDoubleValue(termMatrix, i, numberXd+j, DSMatrixArrayDoubleWithIndices(Hi, precursorEquation, i, j));
+                }
+        }
+        for (i = 0; i < numberPositiveTerms; i++) {
+                for (j = 0; j < numberXd; j++) {
+                        DSMatrixSetDoubleValue(termMatrix, numberNegativeTerms+i, j, -DSMatrixArrayDoubleWithIndices(Gd, productEquation, i, j));
+                }
+                for (j = 0; j < numberXi; j++) {
+                        DSMatrixSetDoubleValue(termMatrix, numberNegativeTerms+i, numberXd+j, -DSMatrixArrayDoubleWithIndices(Gi, productEquation, i, j));
+                }
+        }
+        nullspace = DSMatrixLeftNullspace(termMatrix);
+        if (nullspace == NULL) {
+                DSMatrixFree(termMatrix);
+                goto bail;
+        }
+        for (i = 0; i < numberXd; i++) {
+                if (i <= precursorEquation) {
+                        precursorFluxStart += DSGMASystemSignature(gma)[2*i];
+                }
+                if (i < precursorEquation) {
+                        precursorFluxStart += DSGMASystemSignature(gma)[2*i+1];
+                }
+                if (i < productEquation) {
+                        productFluxStart += DSGMASystemSignature(gma)[2*i];
+                        productFluxStart += DSGMASystemSignature(gma)[2*i+1];
+                }
+        }
+        hasRelationship = true;
+        termIds = DSMatrixCalloc(2, DSMatrixColumns(nullspace));
+        for (i = 0; i < DSMatrixColumns(nullspace); i++) {
+                firstValue = NAN;
+                for (j = 0; j < DSMatrixRows(nullspace); j++) {
+                        current = DSMatrixDoubleValue(nullspace, j, i);
+                        if (fabs(current) < 1E-14)
+                                continue;
+                        if (isnan(firstValue) == true) {
+                                DSMatrixSetDoubleValue(termIds, 0, i, precursorFluxStart+j);
+                                index = j;
+                                firstValue = current;
+                        } else if (fabs(current - firstValue) >= 1E-14) {
+                                DSMatrixSetDoubleValue(termIds, 0, i, -1.f);
+                                DSMatrixSetDoubleValue(termIds, 1, i, -1.f);
+                                break;
+                        } else {
+                                DSMatrixSetDoubleValue(termIds, 1, i, productFluxStart+j-numberNegativeTerms);
+                        }
+                }
+        }
+        DSMatrixFree(termMatrix);
+        DSMatrixFree(nullspace);
+bail:
+        return termIds;
+}
 
 

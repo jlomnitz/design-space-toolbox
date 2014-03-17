@@ -65,6 +65,7 @@ extern DSGMASystem * DSGMASystemByParsingStringsWithXi(char * const * const stri
 extern const DSUInteger DSGMASystemNumberOfEquations(const DSGMASystem *gma);
 extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma);
 
+extern DSExpression * DSGMASystemPositiveTermForEquations(const DSGMASystem *gma, const DSUInteger equation, DSUInteger term);
 extern DSExpression * DSGMASystemPositiveTermsForEquations(const DSGMASystem *gma, const DSUInteger equation);
 extern DSExpression * DSGMASystemNegativeTermForEquations(const DSGMASystem *gma, const DSUInteger equation, DSUInteger term);
 extern DSExpression * DSGMASystemNegativeTermsForEquations(const DSGMASystem *gma, const DSUInteger equation);
@@ -93,6 +94,14 @@ extern const DSUInteger * DSGMASystemSignature(const DSGMASystem *gma);
 
 extern void DSGMASystemPrint(const DSGMASystem * gma);
 extern void DSGMASystemPrintEquations(const DSGMASystem *gma);
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark - Network Detection
+#endif
+extern DSExpression * DSGMASystemTermWithTermNumber(const DSGMASystem * gma, const DSUInteger termNumber);
+extern DSMatrix * DSGMASystemNetworkConnectivity(const DSGMASystem * gma);
+extern DSDictionary * DSGMASystemFluxDictionary(const DSGMASystem * gma);
+extern DSMatrix * DSGMASystemPrecursorProductRelationships(const DSGMASystem * gma, DSUInteger precursorEquation, DSUInteger productEquation);
 
 #ifdef __cplusplus
 __END_DECLS
