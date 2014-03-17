@@ -129,13 +129,21 @@ extern const DSUInteger DSCyclicalCaseNumberOfValidSubcases(const DSCyclicalCase
 
 extern const DSUInteger DSCyclicalCaseNumberOfSubcases(const DSCyclicalCase * cyclicalCase)
 {
-        return DSDesignSpaceNumberOfCases(DSCyclicalCaseInternalDesignSpace(cyclicalCase));
+        DSUInteger i, numberOfCases = 0;
+        if (cyclicalCase == NULL) {
+                DSError(M_DS_CASE_NULL ": Cyclical case is null", A_DS_ERROR);
+                goto bail;
+        }
+        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
+                numberOfCases += DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspaces[i]);
+        }
+bail:
+        return numberOfCases;
 }
 
 extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cyclicalCase, const DSUInteger subcaseNumber)
 {
-//        const DSDesignSpace *ds = NULL;
-        DSCase * aSubcase = NULL, *temp;
+        DSCase * aSubcase = NULL;
         DSUInteger i, numberInDesignSpace;
         DSUInteger caseNumber = subcaseNumber;
         if (cyclicalCase == NULL) {
@@ -149,6 +157,28 @@ extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cycli
                         continue;
                 }
                 aSubcase = DSDesignSpaceCaseWithCaseNumber(cyclicalCase->internalDesignspaces[i], caseNumber);
+                break;
+        }
+bail:
+        return aSubcase;
+}
+
+extern const DSCyclicalCase * DSCyclicalCaseCyclicalSubcaseWithCaseNumber(const DSCyclicalCase * cyclicalCase, const DSUInteger subcaseNumber)
+{
+        const DSCyclicalCase * aSubcase = NULL;
+        DSUInteger i, numberInDesignSpace;
+        DSUInteger caseNumber = subcaseNumber;
+        if (cyclicalCase == NULL) {
+                DSError(M_DS_CASE_NULL ": Cyclical case is null", A_DS_ERROR);
+                goto bail;
+        }
+        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
+                numberInDesignSpace = DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspaces[i]);
+                if (caseNumber > numberInDesignSpace) {
+                        caseNumber -= numberInDesignSpace;
+                        continue;
+                }
+                aSubcase = DSDesignSpaceCyclicalCaseWithCaseNumber(cyclicalCase->internalDesignspaces[i], caseNumber);
                 break;
         }
 bail:

@@ -67,6 +67,7 @@ extern const DSUInteger DSCyclicalCaseNumberOfValidSubcases(const DSCyclicalCase
 extern const DSUInteger DSCyclicalCaseNumberOfSubcases(const DSCyclicalCase * cyclicalCase);
 
 extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cyclicalCase, const DSUInteger subcaseNumber);
+extern const DSCyclicalCase * DSCyclicalCaseCyclicalSubcaseWithCaseNumber(const DSCyclicalCase * cyclicalCase, const DSUInteger subcaseNumber);
 //extern DSCase * DSCyclicalCaseSubcaseWithCaseSignature(const DSCyclicalCase * cyclicalCase, const DSUInteger * signature);
 
 #if defined (__APPLE__) && defined (__MACH__)

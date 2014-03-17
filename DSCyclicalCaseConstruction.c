@@ -291,8 +291,10 @@ static void dsAddConstraintsForSubdominantDecays(DSDesignSpace * subcase, const 
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
                         if ((DSUInteger)DSMatrixDoubleValue(problematicEquations, j, i) == 0)
                                 continue;
-                        if (subdominantDecays[i] == j)
+                        if (subdominantDecays[i] == j) {
+                                numberOfConditions += (DSDesignSpaceSignature(original)[j*2+1]-2);
                                 continue;
+                        }
                         numberOfConditions += (DSDesignSpaceSignature(original)[j*2+1]-1);
                 }
         }
@@ -308,10 +310,10 @@ static void dsAddConstraintsForSubdominantDecays(DSDesignSpace * subcase, const 
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
                         if ((DSUInteger)DSMatrixDoubleValue(problematicEquations, j, i) == 0)
                                 continue;
-                        if (subdominantDecays[i] == j)
-                                continue;
                         for (k = 0; k < DSDesignSpaceSignature(original)[j*2+1];  k++) {
                                 if (k+1 == DSCaseSignature(aCase)[j*2+1])
+                                        continue;
+                                if (k == subdominantDecayTerms[i] && j == subdominantDecays[i])
                                         continue;
                                 value = log10(DSMatrixDoubleValue(DSGMASystemBeta(gma), subdominantDecays[i], subdominantDecayTerms[i])
                                               /DSMatrixDoubleValue(DSGMASystemBeta(gma), j, k));
