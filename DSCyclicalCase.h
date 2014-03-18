@@ -60,6 +60,8 @@ extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase);
 #pragma mark - Getter -
 #endif
 
+extern const DSVariablePool * DSCyclicalCaseXd(const DSCyclicalCase * cyclicalCase);
+extern const DSVariablePool * DSCyclicalCaseXi(const DSCyclicalCase * cyclicalCase);
 extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalCase * cyclicalCase);
 extern const DSCase * DSCyclicalCaseOriginalCase(const DSCyclicalCase * subcase);
 

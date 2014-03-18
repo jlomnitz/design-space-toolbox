@@ -58,10 +58,14 @@ extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace *
                 goto bail;
         }
         cyclicalCase = DSSecureCalloc(sizeof(DSCyclicalCase), 1);
-        cyclicalCase->internal = DSCyclicalCaseInternalForUnderdeterminedCase(aCase, ds);
         subcases = DSCyclicalCaseDesignSpacesForUnderdeterminedCase(aCase, ds);
         
-        if (cyclicalCase->internal == NULL) {
+        if (subcases == NULL) {
+                DSSecureFree(cyclicalCase);
+                cyclicalCase = NULL;
+                goto bail;
+        }
+        if (DSStackCount(subcases) == 0) {
                 DSSecureFree(cyclicalCase);
                 cyclicalCase = NULL;
                 goto bail;
@@ -83,8 +87,8 @@ extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase)
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (aSubcase->internal != NULL)
-                DSDesignSpaceFree(aSubcase->internal);
+//        if (aSubcase->internal != NULL)
+//                DSDesignSpaceFree(aSubcase->internal);
         if (aSubcase->originalCase != NULL)
                 DSCaseFree(aSubcase->originalCase);
         DSSecureFree(aSubcase);
@@ -96,6 +100,31 @@ bail:
 #pragma mark - Getter =
 #endif
 
+
+extern const DSVariablePool * DSCyclicalCaseXd(const DSCyclicalCase * cyclicalCase)
+{
+        DSVariablePool * Xd = NULL;
+        if (cyclicalCase == NULL) {
+                DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        Xd = DSSSystemXd(DSCaseSSystem(DSCyclicalCaseOriginalCase(cyclicalCase)));
+bail:
+        return Xd;
+}
+
+extern const DSVariablePool *  DSCyclicalCaseXi(const DSCyclicalCase * cyclicalCase)
+{
+        DSVariablePool * Xi = NULL;
+        if (cyclicalCase == NULL) {
+                DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        Xi = DSSSystemXi(DSCaseSSystem(DSCyclicalCaseOriginalCase(cyclicalCase)));
+bail:
+        return Xi;
+}
+
 extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalCase * subcase)
 {
         DSDesignSpace * ds = NULL;
@@ -103,9 +132,9 @@ extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalC
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (subcase->internal == NULL)
-                goto bail;
-        ds = subcase->internal;
+//        if (subcase->internal == NULL)
+//                goto bail;
+//        ds = subcase->internal;
 bail:
         return ds;
 }
@@ -124,7 +153,22 @@ bail:
 
 extern const DSUInteger DSCyclicalCaseNumberOfValidSubcases(const DSCyclicalCase *cyclicalCase)
 {
-        return DSDesignSpaceNumberOfValidCases(DSCyclicalCaseInternalDesignSpace(cyclicalCase));
+        DSDesignSpace * ds;
+        DSUInteger i, numberOfValidSubcases = 0;
+        if (cyclicalCase == NULL) {
+                DSError(M_DS_CASE_NULL ": Cyclical case is null", A_DS_ERROR);
+                goto bail;
+        }
+        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
+                ds = cyclicalCase->internalDesignspaces[i];
+                if (ds == NULL) {
+                        DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                        goto bail;
+                }
+                numberOfValidSubcases += DSDesignSpaceNumberOfValidCases(ds);
+        }
+bail:
+        return numberOfValidSubcases;
 }
 
 extern const DSUInteger DSCyclicalCaseNumberOfSubcases(const DSCyclicalCase * cyclicalCase)
@@ -257,7 +301,7 @@ extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase)
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        numberOfValidCases = DSDesignSpaceNumberOfValidCases(aSubcase->internal);
+        numberOfValidCases = DSCyclicalCaseNumberOfValidSubcases(aSubcase);
         if (numberOfValidCases > 0)
                 isValid = true;
 bail:

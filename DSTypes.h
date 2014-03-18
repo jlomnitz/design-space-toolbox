@@ -413,7 +413,7 @@ typedef struct {
  * \see DSCyclicalCase.c
  */
 typedef struct{
-        DSDesignSpace * internal;
+//        DSDesignSpace * internal;
         DSDesignSpace ** internalDesignspaces;
         DSUInteger numberOfInternal;
         DSCase * originalCase;
