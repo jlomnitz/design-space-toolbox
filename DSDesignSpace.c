@@ -514,17 +514,17 @@ bail:
         return gma;
 }
 
-//extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds)
-//{
-//        DSDictionary * dictionary = NULL;
-//        if (ds == NULL) {
-//                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-//        dictionary = DSDSCyclical(ds);
-//bail:
-//        return dictionary;
-//}
+extern const DSDictionary * DSDesignSpaceCyclicalCaseDictionary(const DSDesignSpace *ds)
+{
+        DSDictionary * dictionary = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        dictionary = DSDSCyclical(ds);
+bail:
+        return dictionary;
+}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility -

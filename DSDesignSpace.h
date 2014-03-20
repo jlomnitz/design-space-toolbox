@@ -83,8 +83,7 @@ extern const bool DSDesignSpaceCaseWithCaseSignatureIsValid(const DSDesignSpace 
 //extern const bool DSDesignSpaceCaseWithCaseSignatureListIsValid(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
 
 extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds);
-
-//extern const DSDictionary * DSDesignSpaceSubcaseDictionary(const DSDesignSpace *ds);
+extern const DSDictionary * DSDesignSpaceCyclicalCaseDictionary(const DSDesignSpace *ds);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility -

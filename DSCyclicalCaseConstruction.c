@@ -11,6 +11,7 @@
 #include "DSCyclicalCase.h"
 #include "DSMatrixArray.h"
 
+extern void DSCyclicalCaseDesignSpaceCalculateSubCyclicalCases(DSDesignSpace *ds, DSDesignSpace * modifierDesignSpace, const DSUInteger * modifierSignature);
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Cyclical calculation functions -
 #endif
@@ -417,11 +418,12 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
                                                                          const DSUInteger *subdominantDecaySpecies,
                                                                          const DSUInteger *subdominantDecayTerm)
 {
-        DSDesignSpace * augmentedSystem = NULL;
-        DSGMASystem * gma = NULL;
+        DSDesignSpace * augmentedSystem = NULL, *modifierDesignSpace;
+        DSGMASystem * gma = NULL, *subcaseGMA;
         DSExpression ** augmentedEquations = NULL;
-        DSUInteger i, j, k, l;
+        DSUInteger i, j, k, l, *signature;
         double subCoefficient, value;
+        char ** subcaseEquations;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -448,7 +450,8 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
         }
         gma = DSGMASystemCopy(DSDesignSpaceGMASystem(original));
         augmentedEquations = DSSecureCalloc(sizeof(DSExpression *), DSMatrixColumns(problematicEquations));
-        
+        subcaseEquations =  DSSecureCalloc(sizeof(char *), DSGMASystemNumberOfEquations(gma));
+        signature = DSSecureMalloc(sizeof(DSUInteger)*DSGMASystemNumberOfEquations(gma)*2);
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
                 l = 0;
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
@@ -494,7 +497,38 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
                                                                     subdominantDecaySpecies);
         DSDesignSpaceAddConditions(augmentedSystem, DSCaseCd(aCase), DSCaseCi(aCase), DSCaseDelta(aCase));
         dsAddConstraintsForSubdominantDecays(augmentedSystem, aCase, original, problematicEquations, coefficientArray, subdominantDecaySpecies, subdominantDecayTerm);
-        DSDesignSpaceCalculateCyclicalCases(augmentedSystem);
+        for (i = 0; i < DSGMASystemNumberOfEquations(gma); i++) {
+                subcaseEquations[i] = DSExpressionAsString(DSDesignSpaceEquations(original)[i]);
+                signature[2*i] = DSCaseSignature(aCase)[2*i];
+                signature[2*i+1] = DSCaseSignature(aCase)[2*i+1];
+        }
+        for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
+                for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
+                        if (DSMatrixDoubleValue(problematicEquations, j, i) == 0)
+                                continue;
+                        signature[2*j] = 0;
+                        signature[2*j+1] = 0;
+                        DSSecureFree(subcaseEquations[j]);
+                        subcaseEquations[j] = DSExpressionAsString(DSCaseEquations(aCase)[j]);
+                }
+                j =subdominantDecaySpecies[i];
+                DSSecureFree(subcaseEquations[j]);
+                subcaseEquations[j] = DSExpressionAsString(DSDesignSpaceEquations(augmentedSystem)[j]);
+        }
+        modifierDesignSpace = DSDesignSpaceByParsingStringsWithXi(subcaseEquations, DSGMASystemXd_a(gma), DSGMASystemXi(gma), DSDesignSpaceNumberOfEquations(original));
+        modifierDesignSpace->Cd = DSMatrixCopy(augmentedSystem->Cd);
+        modifierDesignSpace->Ci = DSMatrixCopy(augmentedSystem->Ci);
+        modifierDesignSpace->delta = DSMatrixCopy(augmentedSystem->delta);
+        DSCyclicalCaseDesignSpaceCalculateSubCyclicalCases(augmentedSystem, modifierDesignSpace, signature);
+//        DSDesignSpaceCalculateCyclicalCases(augmentedSystem);
+//        printf("Original Case\n");
+//        DSCasePrintEquations(aCase);
+//        printf("New GMA\n");
+//        DSGMASystemPrintEquations(DSDesignSpaceGMASystem(augmentedSystem));
+//        printf("Subcase Equations\n");
+//        for (i = 0; i < DSGMASystemNumberOfEquations(gma); i++) {
+//                printf("%i %i %s\n", signature[2*i], signature[2*i+1], subcaseEquations[i]);
+//        }
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
                 DSExpressionFree(augmentedEquations[i]);
         }
@@ -620,7 +654,71 @@ bail:
         return augmentedSystemsStack;
 }
 
+extern void DSCyclicalCaseDesignSpaceCalculateSubCyclicalCase(DSDesignSpace *ds, DSCase * aCase, const DSDesignSpace * modifierDS)
+{
+        DSUInteger caseNumber;
+        char * string = NULL;
+        DSCyclicalCase * aSubcase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        string = DSSecureCalloc(sizeof(char), 100);
+        caseNumber = DSCaseNumber(aCase);
+        sprintf(string, "%i", caseNumber);
+        if (DSDictionaryValueForName(DSDesignSpaceCyclicalCaseDictionary(ds), string) == NULL) {
+                aSubcase = DSCyclicalCaseForCaseInDesignSpace(modifierDS, aCase);
+                if (aSubcase != NULL) {
+                        DSDictionaryAddValueWithName((DSDictionary *)DSDesignSpaceCyclicalCaseDictionary(ds), string, aSubcase);
+                }
+        }
+        if (string != NULL)
+                DSSecureFree(string);
+bail:
+        return;
+}
 
+extern void DSCyclicalCaseDesignSpaceCalculateSubCyclicalCases(DSDesignSpace *ds, DSDesignSpace * modifierDesignSpace, const DSUInteger * modifierSignature)
+{
+        DSUInteger i, j, numberOfCases;
+        DSCase * aCase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (modifierDesignSpace == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (modifierSignature == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberOfCases = DSDesignSpaceNumberOfCases(ds);
+        if (numberOfCases == 0) {
+                goto bail;
+        }
+        for (i = 0; i < numberOfCases; i++) {
+                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
+                for (j = 0; j < DSCaseNumberOfEquations(aCase); j++) {
+                        if (modifierSignature[2*j] != 0)
+                                aCase->signature[2*j] = modifierSignature[2*j];
+                        if (modifierSignature[2*j+1] != 0)
+                                aCase->signature[2*j+1] = modifierSignature[2*j+1];
+//                        printf("%s\t[%i,%i]%s\n",
+//                               DSExpressionAsString(DSDesignSpaceEquations(modifierDesignSpace)[j]),
+//                               aCase->signature[2*j],
+//                               aCase->signature[2*j+1],
+//                               DSExpressionAsString(DSCaseEquations(aCase)[j])
+//                               );
+                }
+                DSCyclicalCaseDesignSpaceCalculateSubCyclicalCase(ds, aCase, modifierDesignSpace);
+                DSCaseFree(aCase);
+//                printf("\n");
+        }
+bail:
+        return;
+}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Exposed function to generate the internal systems for cyclical cases -

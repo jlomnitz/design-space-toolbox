@@ -317,11 +317,12 @@ extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *cyclicalCas
         DSCase * aCase;
         DSUInteger i, j, validCaseNumbers, numberValid;
         DSDesignSpace * ds;
+        DSDictionary * validCases;
         if (cyclicalCase == NULL) {
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        for (j = 0; j < cyclicalCase->numberOfInternal; j++) {
+        for (j = 0; j < cyclicalCase->numberOfInternal && isValid == false; j++) {
                 ds = cyclicalCase->internalDesignspaces[j];
                 if (ds == NULL) {
                         DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
@@ -330,14 +331,12 @@ extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *cyclicalCas
                 numberValid = DSDesignSpaceNumberOfValidCases(ds);
                 if (numberValid == 0)
                         continue;
-                for (i = 0; i < numberValid; i++) {
-                        validCaseNumbers = atoi(ds->validCases->names[i]);
-                        aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
-                        if (DSCaseIsValidAtSlice(aCase, lowerBounds, upperBounds) == true) {
-                                isValid = true;
-                        }
-                        DSCaseFree(aCase);
-                }
+                validCases = DSDesignSpaceCalculateAllValidCasesForSlice(ds, lowerBounds, upperBounds);
+                if (validCases == NULL)
+                        continue;
+                if (DSDictionaryCount(validCases) != 0)
+                        isValid = true;
+                DSDictionaryFreeWithFunction(validCases, DSCaseFree);
         }
 bail:
         return isValid;
