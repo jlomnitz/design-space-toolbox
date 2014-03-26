@@ -1374,7 +1374,7 @@ bail:
         return fluxes;
 }
 
-extern DSMatrix * DSGMASystemPrecursorProductRelationships(const DSGMASystem * gma, DSUInteger precursorEquation, DSUInteger productEquation)
+extern DSMatrix * DSGMASystemPrecursorProductRelationshipsCP(const DSGMASystem * gma, DSUInteger precursorEquation, DSUInteger productEquation)
 {
         DSMatrix * termIds = NULL;
         bool hasRelationship = false;
@@ -1413,11 +1413,13 @@ extern DSMatrix * DSGMASystemPrecursorProductRelationships(const DSGMASystem * g
                         DSMatrixSetDoubleValue(termMatrix, numberNegativeTerms+i, numberXd+j, -DSMatrixArrayDoubleWithIndices(Gi, productEquation, i, j));
                 }
         }
+//        DSMatrixPrint(termMatrix);
         nullspace = DSMatrixLeftNullspace(termMatrix);
         if (nullspace == NULL) {
                 DSMatrixFree(termMatrix);
                 goto bail;
         }
+//        DSMatrixPrint(nullspace);
         for (i = 0; i < numberXd; i++) {
                 if (i <= precursorEquation) {
                         precursorFluxStart += DSGMASystemSignature(gma)[2*i];
@@ -1453,6 +1455,82 @@ extern DSMatrix * DSGMASystemPrecursorProductRelationships(const DSGMASystem * g
         }
         DSMatrixFree(termMatrix);
         DSMatrixFree(nullspace);
+bail:
+        return termIds;
+}
+
+extern DSMatrix * DSGMASystemPrecursorProductRelationships(const DSGMASystem * gma, DSUInteger precursorEquation, DSUInteger productEquation)
+{
+        DSMatrix * termIds = NULL;
+        bool hasRelationship = false;
+        DSMatrix * termMatrix, *nullspace;
+        const DSMatrixArray *Gd, *Gi, *Hd, *Hi;
+        DSUInteger i, j, k, numberNegativeTerms, numberPositiveTerms;
+        DSUInteger precursorFluxStart = 0, productFluxStart = 0, numberXd, numberXi;
+        double lvalue, rvalue;
+        if (gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberNegativeTerms = DSGMASystemSignature(gma)[2*precursorEquation+1];
+        numberPositiveTerms = DSGMASystemSignature(gma)[2*productEquation];
+        numberXd = DSVariablePoolNumberOfVariables(DSGMASystemXd(gma));
+        numberXi = DSVariablePoolNumberOfVariables(DSGMASystemXi(gma));
+        Gd = DSGMASystemGd(gma);
+        Gi = DSGMASystemGi(gma);
+        Hd = DSGMASystemHd(gma);
+        Hi = DSGMASystemHi(gma);
+        termMatrix = DSMatrixCalloc(2,
+                                 1);
+        for (i = 0; i < numberXd; i++) {
+                if (i <= precursorEquation) {
+                        precursorFluxStart += DSGMASystemSignature(gma)[2*i];
+                }
+                if (i < precursorEquation) {
+                        precursorFluxStart += DSGMASystemSignature(gma)[2*i+1];
+                }
+                if (i < productEquation) {
+                        productFluxStart += DSGMASystemSignature(gma)[2*i];
+                        productFluxStart += DSGMASystemSignature(gma)[2*i+1];
+                }
+        }
+        for (i = 0; i < numberNegativeTerms; i++) {
+                for (j = 0; j < numberPositiveTerms; j++) {
+                        hasRelationship = true;
+                        for (k = 0; k < numberXi; k++) {
+                                lvalue = DSMatrixArrayDoubleWithIndices(Hi, precursorEquation, i, k);
+                                rvalue = DSMatrixArrayDoubleWithIndices(Gi, productEquation, j, k);
+                                if (fabs(lvalue - rvalue) > 1e-14) {
+                                        hasRelationship = false;
+                                        break;
+                                }
+                        }
+                        if (hasRelationship == false) {
+                                continue;
+                        }
+                        for (k = 0; k < numberXd; k++) {
+                                lvalue = DSMatrixArrayDoubleWithIndices(Hd, precursorEquation, i, k);
+                                rvalue = DSMatrixArrayDoubleWithIndices(Gd, productEquation, j, k);
+                                if (fabs(lvalue - rvalue) > 1e-14) {
+                                        hasRelationship = false;
+                                        break;
+                                }
+                        }
+                        if (hasRelationship == false) {
+                                continue;
+                        }
+                        DSMatrixSetDoubleValue(termMatrix, 0, 0, precursorFluxStart+i);
+                        DSMatrixSetDoubleValue(termMatrix, 1, 0, productFluxStart+j);
+                        if (termIds == NULL) {
+                                termIds = DSMatrixCopy(termMatrix);
+                        } else {
+                                nullspace = termIds;
+                                termIds = DSMatrixAppendMatrices(termIds, termMatrix, true);
+                                DSMatrixFree(nullspace);
+                        }
+                }
+        }
+        DSMatrixFree(termMatrix);
 bail:
         return termIds;
 }
