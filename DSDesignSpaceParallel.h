@@ -87,6 +87,7 @@ extern const DSUInteger DSParallelStackPop(ds_parallelstack_t *stack);
 extern void DSParallelStackAddCase(ds_parallelstack_t *stack, DSCase * aCase);
 
 extern void * DSParallelWorkerCases(void * pthread_struct);
+extern void * DSParallelWorkerCyclicalCases(void * pthread_struct);
 extern void * DSParallelWorkerCasesSaveToDisk(void * pthread_struct);
 
 extern void * DSParallelWorkerValidity(void * pthread_struct);
