@@ -1258,16 +1258,15 @@ bail:
         return numberOfCyclicalCases;
 }
 
-static DSCase ** dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds, const DSUInteger numberOfCases, DSUInteger *cases)
+static void dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds)
 {
         DSUInteger i;
         DSUInteger numberOfThreads = (DSUInteger)sysconf(_SC_NPROCESSORS_ONLN);
+        DSUInteger numberOfCases, * cases;
         pthread_t * threads = NULL;
         pthread_attr_t attr;
         ds_parallelstack_t *stack;
-        DSCase ** processedCases = NULL;
         struct pthread_struct *pdatas;
-        
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -1288,28 +1287,25 @@ static DSCase ** dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *d
                 DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
                 goto bail;
         }
-        
+        numberOfCases = DSDesignSpaceNumberOfCases(ds);
         DSParallelInitMutexes();
         pthread_attr_init(&attr);
         pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-        processedCases = DSSecureCalloc(sizeof(DSCase *), numberOfCases);
         /* Should optimize number of threads to system Optimal ~ 2*number of processors */
         
         /* Initializing parallel data stacks and pthreads data structure */
         pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
         stack = DSParallelStackAlloc();
-        stack->cases = processedCases;
         for (i = 0; i < numberOfThreads; i++) {
                 pdatas[i].ds = ds;
                 pdatas[i].stack = stack;
         }
         for (i = 0; i < numberOfCases; i++)
-                DSParallelStackPush(stack, cases[i]);
+                DSParallelStackPush(stack, i+1);
         
         threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
-        
         for (i = 0; i < numberOfThreads; i++)
-                pthread_create(&threads[i], &attr, DSParallelWorkerCases, (void *)(&pdatas[i]));
+                pthread_create(&threads[i], &attr, DSParallelWorkerCyclicalCases, (void *)(&pdatas[i]));
         /* Joining all the N-threads, indicating all cases have been processed */
         for (i = 0; i < numberOfThreads; i++)
                 pthread_join(threads[i], NULL);
@@ -1320,7 +1316,7 @@ static DSCase ** dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *d
         DSSecureFree(pdatas);
         pthread_attr_destroy(&attr);
 bail:
-        return processedCases;
+        return;
 }
 
 extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(const DSDesignSpace *ds, DSUInteger caseNumber)
@@ -1366,7 +1362,7 @@ bail:
         return;
 }
 
-extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
+static void dsDesignSpaceCalculateCyclicalCasesSeries(DSDesignSpace *ds)
 {
         DSUInteger i, numberOfCases;
         DSCase * aCase = NULL;
@@ -1385,4 +1381,10 @@ extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
         }
 bail:
         return;
+}
+
+extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
+{
+        return dsDesignSpaceCalculateCyclicalCasesSeries(ds);
+//        return dsDesignSpaceCalculateCyclicalCasesParallelBSD(ds);
 }

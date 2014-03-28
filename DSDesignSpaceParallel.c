@@ -154,6 +154,49 @@ extern void * DSParallelWorker(void * pthread_struct)
         return DSParallelWorkerCases(pthread_struct);
 }
 
+extern void * DSParallelWorkerCyclicalCases(void * pthread_struct)
+{
+        DSUInteger * termSignature = NULL;
+        struct pthread_struct * pdata = NULL;
+        DSUInteger caseNumber;
+        DSCase *aCase;
+        if (pthread_struct == NULL) {
+                DSError(M_DS_NULL ": Parallel worker data is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        pdata = (struct pthread_struct *)pthread_struct;
+        if (pdata->stack == NULL) {
+                DSError(M_DS_NULL ": Stack in parallel worker is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds->gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        while (pdata->stack->count > 0)  {
+                caseNumber = DSParallelStackPop(pdata->stack);
+                if (caseNumber == 0)
+                        continue;
+                if (caseNumber > DSDesignSpaceNumberOfCases(pdata->ds)) {
+                        DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
+                        continue;
+                }
+                termSignature = DSCaseSignatureForCaseNumber(caseNumber, pdata->ds->gma);
+                if (termSignature != NULL) {
+                        aCase = DSCaseWithTermsFromDesignSpace(pdata->ds, termSignature);
+                        DSDesignSpaceCalculateCyclicalCase(pdata->ds, aCase);
+                        DSSecureFree(termSignature);
+                        DSCaseFree(aCase);
+                }
+        }
+bail:
+        pthread_exit(NULL);
+}
+
 extern void * DSParallelWorkerCases(void * pthread_struct)
 {
         DSUInteger * termSignature = NULL;
