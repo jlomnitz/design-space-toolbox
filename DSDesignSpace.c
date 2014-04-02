@@ -845,7 +845,7 @@ static DSDesignSpace * dsDesignSpaceSubDesignSpaceByRemovingLastEquation(DSDesig
 {
         DSDesignSpace * subds = NULL;
         DSVariablePool *vars, * Xd_a;
-        DSUInteger i, j, numberOfEquations, numberOfXd;
+        DSUInteger i, j, numberOfEquations;
         DSExpression ** equations, *lhs;
         const char * name;
         char ** strings;
@@ -861,7 +861,7 @@ static DSDesignSpace * dsDesignSpaceSubDesignSpaceByRemovingLastEquation(DSDesig
         equations = DSDesignSpaceEquations(ds);
         Xd_a = DSVariablePoolAlloc();
         strings = DSSecureMalloc(sizeof(char *)*numberOfEquations);
-        numberOfXd = 0;
+//        numberOfXd = 0;
         for (i = 0; i < numberOfEquations; i++) {
                 strings[i] = DSExpressionAsString(equations[i]);
                 lhs = DSExpressionEquationLHSExpression(equations[i]);
@@ -1271,10 +1271,6 @@ static void dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds)
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (numberOfCases == 0) {
-                DSError(M_DS_WRONG ": Number of cases to process must be more than 0", A_DS_ERROR);
-                goto bail;
-        }
         if (cases == NULL) {
                 DSError(M_DS_NULL ": Array of cases cannot be NULL", A_DS_ERROR);
                 goto bail;
@@ -1288,13 +1284,17 @@ static void dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds)
                 goto bail;
         }
         numberOfCases = DSDesignSpaceNumberOfCases(ds);
+        if (numberOfCases == 0) {
+                DSError(M_DS_WRONG ": Number of cases to process must be more than 0", A_DS_ERROR);
+                goto bail;
+        }
         DSParallelInitMutexes();
         pthread_attr_init(&attr);
         pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
         /* Should optimize number of threads to system Optimal ~ 2*number of processors */
         
         /* Initializing parallel data stacks and pthreads data structure */
-        pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
+        pdatas = DSSecureCalloc(sizeof(struct pthread_struct),numberOfThreads);
         stack = DSParallelStackAlloc();
         for (i = 0; i < numberOfThreads; i++) {
                 pdatas[i].ds = ds;
@@ -1309,7 +1309,7 @@ static void dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds)
         /* Joining all the N-threads, indicating all cases have been processed */
         for (i = 0; i < numberOfThreads; i++)
                 pthread_join(threads[i], NULL);
-        
+        for (i = 0; i < numberOfThreads; i++)
         DSParallelStackFree(stack);
         
         DSSecureFree(threads);
@@ -1385,6 +1385,6 @@ bail:
 
 extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
 {
-        return dsDesignSpaceCalculateCyclicalCasesSeries(ds);
-//        return dsDesignSpaceCalculateCyclicalCasesParallelBSD(ds);
+//        return dsDesignSpaceCalculateCyclicalCasesSeries(ds);
+        return dsDesignSpaceCalculateCyclicalCasesParallelBSD(ds);
 }

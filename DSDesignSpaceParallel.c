@@ -70,13 +70,17 @@ extern void DSParallelStackFree(ds_parallelstack_t *stack)
                 DSError(M_DS_NULL ": Stack to free is NULL", A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&stack->pushpop);
         if (stack->count != 0 && stack->base == NULL) {
                 DSError(M_DS_NULL ": Stack base is null", A_DS_ERROR);
                 goto bail;
         }
         if (stack->base != NULL)
                 DSSecureFree(stack->base);
+        stack->base = NULL;
+        stack->count = 0;
         DSSecureFree(stack);
+        pthread_mutex_unlock(&stack->pushpop);
         pthread_mutex_destroy(&stack->pushpop);
 bail:
         return;
@@ -84,11 +88,11 @@ bail:
 
 extern void DSParallelStackPush(ds_parallelstack_t *stack, const DSUInteger integer)
 {
-        pthread_mutex_lock(&stack->pushpop);
         if (stack == NULL) {
                 DSError(M_DS_NULL ": Stack to push is NULL", A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&stack->pushpop);
         stack->count++;
         if (stack->count >= stack->size) {
                 stack->size += PARALLEL_STACK_SIZE_INCREMENT;
@@ -99,19 +103,19 @@ extern void DSParallelStackPush(ds_parallelstack_t *stack, const DSUInteger inte
         }
         stack->current = stack->base+(stack->count-1);
         *(stack->current) = integer;
-bail:
         pthread_mutex_unlock(&stack->pushpop);
+bail:
         return;
 }
 
 extern const DSUInteger DSParallelStackPop(ds_parallelstack_t *stack)
 {
-        pthread_mutex_lock(&stack->pushpop);
         DSUInteger integer = 0;
         if (stack == NULL) {
                 DSError(M_DS_NULL ": Stack to pop is NULL", A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&stack->pushpop);
         if (stack->base == NULL || stack->count == 0)
                 goto bail;
         integer = *(stack->current);
@@ -129,21 +133,21 @@ extern const DSUInteger DSParallelStackPop(ds_parallelstack_t *stack)
                 stack->current = NULL;
         else
                 stack->current = stack->base+(stack->count-1);
-bail:
         pthread_mutex_unlock(&stack->pushpop);
+bail:
         return integer;
 }
 
 extern void DSParallelStackAddCase(ds_parallelstack_t *stack, DSCase * aCase)
 {
-        pthread_mutex_lock(&stack->pushpop);
         if (stack == NULL) {
                 DSError(M_DS_NULL ": Stack to pop is NULL", A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&stack->pushpop);
         stack->cases[stack->nextIndex++] = aCase;
-bail:
         pthread_mutex_unlock(&stack->pushpop);
+bail:
         return;
 }
 
@@ -188,9 +192,11 @@ extern void * DSParallelWorkerCyclicalCases(void * pthread_struct)
                 termSignature = DSCaseSignatureForCaseNumber(caseNumber, pdata->ds->gma);
                 if (termSignature != NULL) {
                         aCase = DSCaseWithTermsFromDesignSpace(pdata->ds, termSignature);
-                        DSDesignSpaceCalculateCyclicalCase(pdata->ds, aCase);
+                        if (aCase != NULL) {
+                                DSDesignSpaceCalculateCyclicalCase(pdata->ds, aCase);
+                                DSCaseFree(aCase);
+                        }
                         DSSecureFree(termSignature);
-                        DSCaseFree(aCase);
                 }
         }
 bail:

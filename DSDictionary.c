@@ -499,9 +499,9 @@ extern void *DSDictionaryValueForName(const DSDictionary *dictionary, const char
                 DSError(M_DS_WRONG ": NULL key is invalid", A_DS_ERROR);
                 goto bail;
         }
-        pthread_mutex_lock(&dictionary->lock);
+        pthread_mutex_lock(&((DSDictionary *)dictionary)->lock);
         value = dsInternalDictionaryValueForName(dictionary->internal, name);
-        pthread_mutex_unlock(&dictionary->lock);
+        pthread_mutex_unlock(&((DSDictionary *)dictionary)->lock);
 bail:
         return value;
 }

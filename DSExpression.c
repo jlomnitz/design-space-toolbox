@@ -424,6 +424,7 @@ bail:
 
 static void DSExpressionAddConstantBranch(DSExpression *expression, DSExpression *branch)
 {
+        DSExpression * newBranch;
         double constant;
         if (expression == NULL) {
                 DSError(M_DS_NULL ": Expression root is NULL", A_DS_ERROR);
@@ -444,13 +445,23 @@ static void DSExpressionAddConstantBranch(DSExpression *expression, DSExpression
         constant = DSExpressionConstant(branch);
         switch (DSExpressionOperator(expression)) {
                 case '+':
-                        DSExpressionSetConstant(DSExpressionBranchAtIndex(expression, 0),
-                                                DSExpressionConstant(DSExpressionBranchAtIndex(expression, 0))+constant);
+                        newBranch = DSExpressionBranchAtIndex(expression, 0);
+                        if (newBranch == NULL) {
+                                DSError(M_DS_NULL ": Constant branch is null" , A_DS_ERROR);
+                                break;
+                        }
+                        DSExpressionSetConstant(newBranch,
+                                                DSExpressionConstant(newBranch)+constant);
                         DSExpressionFree(branch);
                         break;
                 case '*':
-                        DSExpressionSetConstant(DSExpressionBranchAtIndex(expression, 0),
-                                                DSExpressionConstant(DSExpressionBranchAtIndex(expression, 0))*constant);
+                        newBranch = DSExpressionBranchAtIndex(expression, 0);
+                        if (newBranch == NULL) {
+                                DSError(M_DS_NULL ": Constant branch is null" , A_DS_ERROR);
+                                break;
+                        }
+                        DSExpressionSetConstant(newBranch,
+                                                DSExpressionConstant(newBranch)*constant);
                         DSExpressionFree(branch);
                         break;
                 case '=':
@@ -848,7 +859,7 @@ static bool operatorIsLowerPrecedence(char op1, char op2)
 static void dsExpressionToStringInternal(const DSExpression *current, char ** string, DSUInteger *length)
 {
         DSUInteger i;
-        DSExpression * branch;
+        DSExpression * branch, * constantBranch;
         double constant;
         char temp[100] = {'\0'};
         if (current == NULL) {
@@ -863,7 +874,12 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
                         sprintf(temp, "%s", DSExpressionVariable(current));
                         break;
                 case DS_EXPRESSION_TYPE_OPERATOR:
-                        constant = DSExpressionConstant(DSExpressionBranchAtIndex(current, 0));
+                        constantBranch = DSExpressionBranchAtIndex(current, 0);
+                        if (constantBranch == NULL) {
+                                DSError(M_DS_NULL ": Constant branch is NULL", A_DS_ERROR);
+                                break;
+                        }
+                        constant = DSExpressionConstant(constantBranch);
                         for (i=0; i < DSExpressionNumberOfBranches(current); i++) {
                                 if (i == 0 && DSExpressionOperator(current) == '+' && constant == 0.0)
                                         continue;
@@ -938,7 +954,7 @@ bail:
 static void expressionToTroffStringInternal(const DSExpression *current, char ** string, DSUInteger *length)
 {
         DSUInteger i;
-        DSExpression * branch;
+        DSExpression * branch, *constantBranch;
         double constant;
         char temp[100] = {'\0'};
         if (current == NULL) {
@@ -953,7 +969,12 @@ static void expressionToTroffStringInternal(const DSExpression *current, char **
                         sprintf(temp, "%s", DSExpressionVariable(current));
                         break;
                 case DS_EXPRESSION_TYPE_OPERATOR:
-                        constant = DSExpressionConstant(DSExpressionBranchAtIndex(current, 0)); 
+                        constantBranch = DSExpressionBranchAtIndex(current, 0);
+                        if (constantBranch == NULL) {
+                                DSError(M_DS_NULL ": Constant branch is NULL", A_DS_ERROR);
+                                break;
+                        }
+                        constant = DSExpressionConstant(constantBranch);
                         for (i=0; i < DSExpressionNumberOfBranches(current); i++) {
                                 if (i == 0 && DSExpressionOperator(current) == '+' && constant == 0.0)
                                         continue;

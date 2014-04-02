@@ -83,9 +83,16 @@ bail:
 
 extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase)
 {
+        DSUInteger i;
         if (aSubcase == NULL) {
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
+        }
+        if (aSubcase->numberOfInternal > 0) {
+                for (i = 0; i < aSubcase->numberOfInternal; i++) {
+                        DSDesignSpaceFree(aSubcase->internalDesignspaces[i]);
+                }
+                DSSecureFree(aSubcase->internalDesignspaces);
         }
 //        if (aSubcase->internal != NULL)
 //                DSDesignSpaceFree(aSubcase->internal);
