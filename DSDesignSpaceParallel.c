@@ -79,9 +79,9 @@ extern void DSParallelStackFree(ds_parallelstack_t *stack)
                 DSSecureFree(stack->base);
         stack->base = NULL;
         stack->count = 0;
-        DSSecureFree(stack);
         pthread_mutex_unlock(&stack->pushpop);
         pthread_mutex_destroy(&stack->pushpop);
+        DSSecureFree(stack);
 bail:
         return;
 }
