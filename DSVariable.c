@@ -146,14 +146,14 @@ bail:
  */
 extern DSVariable * DSVariableRetain(DSVariable *aVariable)
 {
-        pthread_mutex_lock(&dsVariableThreadLock(aVariable));
         if (aVariable == NULL) {
                 DSError(M_DS_NULL ": Retaining a NULL varaible", A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&dsVariableThreadLock(aVariable));
         aVariable->retainCount++;
-bail:
         pthread_mutex_unlock(&dsVariableThreadLock(aVariable));
+bail:
         return aVariable;
 }
 
@@ -173,16 +173,16 @@ bail:
  */
 extern void DSVariableRelease(DSVariable *aVariable)
 {
-        pthread_mutex_lock(&dsVariableThreadLock(aVariable));
         if (aVariable == NULL) {
                 DSError(M_DS_NULL ": releasing a NULL variable.", A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&dsVariableThreadLock(aVariable));
         aVariable->retainCount--;
         if (aVariable->retainCount == 0)
                 DSVariableFree(aVariable);
-bail:
         pthread_mutex_unlock(&dsVariableThreadLock(aVariable));
+bail:
         return;
 }
 
@@ -246,7 +246,6 @@ extern DSVariablePool * DSVariablePoolCopy(const DSVariablePool * const referenc
                 DSVariablePoolAddVariableWithName(copy, DSVariableName((DSVariable *)(allVariables[i])));
                 DSVariablePoolSetValueForVariableWithName(copy, DSVariableName((DSVariable *)(allVariables[i])), DSVariableValue((DSVariable *)(allVariables[i])));
         }
-        copy->lock = reference->lock;
 bail:
         return copy;
 }
@@ -500,7 +499,6 @@ extern void DSVariablePoolAddVariableWithName(DSVariablePool *pool, const char *
         var = DSVariableAlloc(name);
         DSDictionaryAddValueWithName(DSVariablePoolInternalDictionary(pool),
                                                                               name, var);
-        //NOT NEEDED ANYMORE!!
         if (DSVariablePoolNumberOfVariables(pool) == 0)
                 DSVariablePoolVariableArray(pool) = DSSecureCalloc(DSVariablePoolNumberOfVariables(pool)+1, sizeof(DSVariable *));
         else

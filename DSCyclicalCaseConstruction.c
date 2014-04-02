@@ -12,6 +12,8 @@
 #include "DSMatrixArray.h"
 
 extern void DSCyclicalCaseDesignSpaceCalculateSubCyclicalCases(DSDesignSpace *ds, DSDesignSpace * modifierDesignSpace, const DSUInteger * modifierSignature);
+static DSUInteger dsCyclicalCaseNumberOfAugmentedSystems(const DSDesignSpace * original,
+                                                         const DSMatrix * problematicEquations);
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Cyclical calculation functions -
 #endif
@@ -549,6 +551,65 @@ bail:
         return augmentedSystem;
 }
 
+extern void DSCyclicalCaseDesignSpaceCalculateSubCyclicalCase(DSDesignSpace *ds, DSCase * aCase, const DSDesignSpace * modifierDS)
+{
+        DSUInteger caseNumber;
+        char * string = NULL;
+        DSCyclicalCase * aSubcase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        string = DSSecureCalloc(sizeof(char), 100);
+        caseNumber = DSCaseNumber(aCase);
+        sprintf(string, "%i", caseNumber);
+        if (DSDictionaryValueForName(DSDesignSpaceCyclicalCaseDictionary(ds), string) == NULL) {
+                aSubcase = DSCyclicalCaseForCaseInDesignSpace(modifierDS, aCase);
+                if (aSubcase != NULL) {
+                        DSDictionaryAddValueWithName((DSDictionary *)DSDesignSpaceCyclicalCaseDictionary(ds), string, aSubcase);
+                }
+        }
+        if (string != NULL)
+                DSSecureFree(string);
+bail:
+        return;
+}
+
+extern void DSCyclicalCaseDesignSpaceCalculateSubCyclicalCases(DSDesignSpace *ds, DSDesignSpace * modifierDesignSpace, const DSUInteger * modifierSignature)
+{
+        DSUInteger i, j, numberOfCases;
+        DSCase * aCase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (modifierDesignSpace == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (modifierSignature == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberOfCases = DSDesignSpaceNumberOfCases(ds);
+        if (numberOfCases == 0) {
+                goto bail;
+        }
+        for (i = 0; i < numberOfCases; i++) {
+                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
+                for (j = 0; j < DSCaseNumberOfEquations(aCase); j++) {
+                        if (modifierSignature[2*j] != 0)
+                                aCase->signature[2*j] = modifierSignature[2*j];
+                        if (modifierSignature[2*j+1] != 0)
+                                aCase->signature[2*j+1] = modifierSignature[2*j+1];
+                }
+                DSCyclicalCaseDesignSpaceCalculateSubCyclicalCase(ds, aCase, modifierDesignSpace);
+                DSCaseFree(aCase);
+        }
+bail:
+        return;
+}
+
 static DSUInteger dsCyclicalCaseNumberOfAugmentedSystems(const DSDesignSpace * original,
                                                          const DSMatrix * problematicEquations)
 {
@@ -665,64 +726,7 @@ bail:
         return augmentedSystemsStack;
 }
 
-extern void DSCyclicalCaseDesignSpaceCalculateSubCyclicalCase(DSDesignSpace *ds, DSCase * aCase, const DSDesignSpace * modifierDS)
-{
-        DSUInteger caseNumber;
-        char * string = NULL;
-        DSCyclicalCase * aSubcase = NULL;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        string = DSSecureCalloc(sizeof(char), 100);
-        caseNumber = DSCaseNumber(aCase);
-        sprintf(string, "%i", caseNumber);
-        if (DSDictionaryValueForName(DSDesignSpaceCyclicalCaseDictionary(ds), string) == NULL) {
-                aSubcase = DSCyclicalCaseForCaseInDesignSpace(modifierDS, aCase);
-                if (aSubcase != NULL) {
-                        DSDictionaryAddValueWithName((DSDictionary *)DSDesignSpaceCyclicalCaseDictionary(ds), string, aSubcase);
-                }
-        }
-        if (string != NULL)
-                DSSecureFree(string);
-bail:
-        return;
-}
 
-extern void DSCyclicalCaseDesignSpaceCalculateSubCyclicalCases(DSDesignSpace *ds, DSDesignSpace * modifierDesignSpace, const DSUInteger * modifierSignature)
-{
-        DSUInteger i, j, numberOfCases;
-        DSCase * aCase = NULL;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (modifierDesignSpace == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (modifierSignature == NULL) {
-                DSError(M_DS_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        numberOfCases = DSDesignSpaceNumberOfCases(ds);
-        if (numberOfCases == 0) {
-                goto bail;
-        }
-        for (i = 0; i < numberOfCases; i++) {
-                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
-                for (j = 0; j < DSCaseNumberOfEquations(aCase); j++) {
-                        if (modifierSignature[2*j] != 0)
-                                aCase->signature[2*j] = modifierSignature[2*j];
-                        if (modifierSignature[2*j+1] != 0)
-                                aCase->signature[2*j+1] = modifierSignature[2*j+1];
-                }
-                DSCyclicalCaseDesignSpaceCalculateSubCyclicalCase(ds, aCase, modifierDesignSpace);
-                DSCaseFree(aCase);
-        }
-bail:
-        return;
-}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Exposed function to generate the internal systems for cyclical cases -
