@@ -1309,10 +1309,9 @@ static void dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds)
         /* Joining all the N-threads, indicating all cases have been processed */
         for (i = 0; i < numberOfThreads; i++)
                 pthread_join(threads[i], NULL);
-        for (i = 0; i < numberOfThreads; i++)
+        DSParallelStackFree(stack);
         DSSecureFree(threads);
         DSSecureFree(pdatas);
-        DSParallelStackFree(stack);
         pthread_attr_destroy(&attr);
 bail:
         return;
