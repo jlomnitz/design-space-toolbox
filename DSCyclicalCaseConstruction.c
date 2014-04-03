@@ -140,6 +140,7 @@ extern DSMatrixArray * dsSubcaseCoefficientsOfInterest(const DSCase * aCase, con
         DSMatrix *problematic = NULL, *coefficients;
         DSUInteger i, j, k;
         double min, value;
+        bool shouldPrint = false;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -174,14 +175,20 @@ extern DSMatrixArray * dsSubcaseCoefficientsOfInterest(const DSCase * aCase, con
                 }
                 coefficients = DSMatrixCalloc(DSMatrixRows(problematic), 1);
                 for (j = 0; j < DSMatrixRows(problematic); j++) {
+                        value = fabs(DSMatrixDoubleValue(coefficients, j, 0));
                         for (k = 0; k < DSMatrixColumns(problematic); k++) {
-                                value = DSMatrixDoubleValue(coefficients, j, 0);
-                                value += DSMatrixDoubleValue(problematic, j, k);
-                                DSMatrixSetDoubleValue(coefficients, j, 0, value);
+                                value += fabs(DSMatrixDoubleValue(problematic, j, k));
                         }
+                        if (value == 0) {
+                                DSMatrixFree(coefficients);
+                                coefficients = NULL;
+                                break;
+                        }
+                        DSMatrixSetDoubleValue(coefficients, j, 0, value);
                 }
                 DSMatrixFree(problematic);
-                DSMatrixArrayAddMatrix(coefficientArray, coefficients);
+                if (coefficients != NULL)
+                        DSMatrixArrayAddMatrix(coefficientArray, coefficients);
         }
 bail:
         return coefficientArray;
@@ -467,14 +474,17 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
                         if (j == subdominantDecaySpecies[i]) {
                                 subCoefficient = DSMatrixArrayDoubleWithIndices(coefficientArray, i, l, 0);
                         }
-                        if (subCoefficient < 0) {
-                                DSCasePrintEquations(aCase);
-                                DSMatrixPrint(problematicEquations);
-                                DSMatrixArrayPrint(problematicTerms);
-                                DSMatrixArrayPrint(coefficientArray);
-                        }
                         l++;
                 }
+//                if (subCoefficient <= 0) {
+////                        // This is an error....
+//                        goto bail;
+//                        DSCasePrintEquations(aCase);
+//                        DSMatrixPrint(problematicEquations);
+//                        DSMatrixArrayPrint(problematicTerms);
+//                        DSMatrixArrayPrint(coefficientArray);
+//                }
+
                 l = 0;
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
                         if (DSMatrixDoubleValue(problematicEquations, j, i) == 0)
@@ -751,6 +761,7 @@ bail:
 
 extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)
 {
+        DSUInteger i, j, k;
         DSStack *subcases = NULL;
         DSMatrix * problematicEquations = NULL;
         DSMatrixArray * problematicTerms = NULL;
@@ -779,6 +790,7 @@ extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase *
                 goto bail;
         if (DSMatrixArrayNumberOfMatrices(problematicTerms) != DSMatrixArrayNumberOfMatrices(coefficientArray))
                 goto bail;
+        
 //        copy = DSCaseCopy(aCase);
         subcases = dsCyclicalCaseCreateAugmentedSystems(aCase,
                                                         original,
