@@ -1347,7 +1347,7 @@ extern void DSDesignSpaceCalculateCyclicalCase(DSDesignSpace *ds, DSCase * aCase
         }
         string = DSSecureCalloc(sizeof(char), 100);
         caseNumber = DSCaseNumber(aCase);
-        sprintf(string, "%i", caseNumber);
+        sprintf(string, "%d", caseNumber);
         if (DSDictionaryValueForName(DSDSCyclical(ds), string) == NULL) {
                 aSubcase = DSCyclicalCaseForCaseInDesignSpace(ds, aCase);
                 if (aSubcase != NULL)

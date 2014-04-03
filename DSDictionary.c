@@ -451,7 +451,7 @@ extern void DSDictionaryFree(DSDictionary * aDictionary)
                         DSSecureFree(aDictionary->names[i]);
                 DSSecureFree(aDictionary->names);
         }
-        pthread_mutex_lock(&aDictionary->lock);
+        pthread_mutex_unlock(&aDictionary->lock);
         pthread_mutex_destroy(&aDictionary->lock);
         DSSecureFree(aDictionary);
 bail:

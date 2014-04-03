@@ -59,7 +59,6 @@ extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace *
         }
         cyclicalCase = DSSecureCalloc(sizeof(DSCyclicalCase), 1);
         subcases = DSCyclicalCaseDesignSpacesForUnderdeterminedCase(aCase, ds);
-        
         if (subcases == NULL) {
                 DSSecureFree(cyclicalCase);
                 cyclicalCase = NULL;
