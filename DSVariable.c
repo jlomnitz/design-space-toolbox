@@ -179,9 +179,9 @@ extern void DSVariableRelease(DSVariable *aVariable)
         }
         pthread_mutex_lock(&dsVariableThreadLock(aVariable));
         aVariable->retainCount--;
+        pthread_mutex_unlock(&dsVariableThreadLock(aVariable));
         if (aVariable->retainCount == 0)
                 DSVariableFree(aVariable);
-        pthread_mutex_unlock(&dsVariableThreadLock(aVariable));
 bail:
         return;
 }
@@ -270,7 +270,6 @@ bail:
  */
 extern void DSVariablePoolFree(DSVariablePool *pool)
 {
-        pthread_mutex_lock(&dsVariablePoolThreadLock(pool));
         if (pool == NULL) {
                 DSError(M_DS_VAR_NULL ": Variable Pool is NULL", A_DS_ERROR);
                 goto bail;
@@ -279,14 +278,15 @@ extern void DSVariablePoolFree(DSVariablePool *pool)
                 DSError(M_DS_VAR_LOCKED, A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&dsVariablePoolThreadLock(pool));
         DSDictionaryFreeWithFunction(DSVariablePoolInternalDictionary(pool), DSVariableRelease);
         if (DSVariablePoolVariableArray(pool) != NULL) {
                 DSSecureFree(DSVariablePoolVariableArray(pool));
         }
-bail:
         pthread_mutex_unlock(&dsVariablePoolThreadLock(pool));
         pthread_mutex_destroy(&dsVariablePoolThreadLock(pool));
         DSSecureFree(pool);
+bail:
         return;
 }
 

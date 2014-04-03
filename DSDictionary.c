@@ -444,12 +444,14 @@ extern void DSDictionaryFree(DSDictionary * aDictionary)
                 DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&aDictionary->lock);
         dsInternalDictionaryFree(aDictionary->internal);
         if (aDictionary->count != 0) {
                 for (i = 0; i < aDictionary->count; i++)
                         DSSecureFree(aDictionary->names[i]);
                 DSSecureFree(aDictionary->names);
         }
+        pthread_mutex_lock(&aDictionary->lock);
         pthread_mutex_destroy(&aDictionary->lock);
         DSSecureFree(aDictionary);
 bail:
@@ -463,12 +465,14 @@ extern void DSDictionaryFreeWithFunction(DSDictionary * aDictionary, void * free
                 DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
                 goto bail;
         }
+        pthread_mutex_lock(&aDictionary->lock);
         dsInternalDictionaryFreeWithFunction(aDictionary->internal, freeFunction);
         if (aDictionary->count != 0) {
                 for (i = 0; i < aDictionary->count; i++)
                         DSSecureFree(aDictionary->names[i]);
                 DSSecureFree(aDictionary->names);
         }
+        pthread_mutex_unlock(&aDictionary->lock);
         pthread_mutex_destroy(&aDictionary->lock);
         DSSecureFree(aDictionary);
 bail:

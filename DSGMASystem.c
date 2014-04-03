@@ -100,6 +100,7 @@ extern DSGMASystem * DSGMASystemCopy(const DSGMASystem * gma)
         if (numberOfEquations == 0)
                 goto bail;
         copy = DSGMASystemAlloc();
+        DSGMAXd_t(copy) = DSVariablePoolCopy(DSGMAXd_t(gma));
         DSGMAXd(copy) = DSVariablePoolCopy(DSGMAXd(gma));
         DSGMAXd_a(copy) = DSVariablePoolCopy(DSGMAXd_a(gma));
         DSGMAXi(copy) = DSVariablePoolCopy(DSGMAXi(gma));

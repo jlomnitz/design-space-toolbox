@@ -70,11 +70,12 @@ extern void DSParallelStackFree(ds_parallelstack_t *stack)
                 DSError(M_DS_NULL ": Stack to free is NULL", A_DS_ERROR);
                 goto bail;
         }
-        pthread_mutex_lock(&stack->pushpop);
         if (stack->count != 0 && stack->base == NULL) {
                 DSError(M_DS_NULL ": Stack base is null", A_DS_ERROR);
+                DSSecureFree(stack);
                 goto bail;
         }
+        pthread_mutex_lock(&stack->pushpop);
         if (stack->base != NULL)
                 DSSecureFree(stack->base);
         stack->base = NULL;
@@ -115,9 +116,13 @@ extern const DSUInteger DSParallelStackPop(ds_parallelstack_t *stack)
                 DSError(M_DS_NULL ": Stack to pop is NULL", A_DS_ERROR);
                 goto bail;
         }
-        pthread_mutex_lock(&stack->pushpop);
-        if (stack->base == NULL || stack->count == 0)
+        if (stack->base == NULL)
                 goto bail;
+        pthread_mutex_lock(&stack->pushpop);
+        if (stack->count == 0) {
+                pthread_mutex_unlock(&stack->pushpop);
+                goto bail;
+        }
         integer = *(stack->current);
         if (stack->count == stack->size-PARALLEL_STACK_SIZE_INCREMENT) {
                 stack->size -= PARALLEL_STACK_SIZE_INCREMENT;

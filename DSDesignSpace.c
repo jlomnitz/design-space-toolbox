@@ -947,7 +947,6 @@ static void dsDesignSpaceCalculatePrunedValidityParallelBSD(DSDesignSpace *ds, c
         for (i = 0; i < numberOfThreads; i++)
                 pthread_join(threads[i], NULL);
         DSParallelStackFree(stack);
-        
         DSSecureFree(threads);
         DSSecureFree(pdatas);
         pthread_attr_destroy(&attr);
