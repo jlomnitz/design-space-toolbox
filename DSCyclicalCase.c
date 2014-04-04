@@ -66,6 +66,7 @@ extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace *
         }
         if (DSStackCount(subcases) == 0) {
                 DSSecureFree(cyclicalCase);
+                DSStackFree(subcases);
                 cyclicalCase = NULL;
                 goto bail;
         }
@@ -76,6 +77,7 @@ extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace *
         }
         cyclicalCase->caseNumber = aCase->caseNumber;
         cyclicalCase->originalCase = DSCaseCopy(aCase);
+        DSStackFree(subcases);
 bail:
         return cyclicalCase;
 }
@@ -93,8 +95,6 @@ extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase)
                 }
                 DSSecureFree(aSubcase->internalDesignspaces);
         }
-//        if (aSubcase->internal != NULL)
-//                DSDesignSpaceFree(aSubcase->internal);
         if (aSubcase->originalCase != NULL)
                 DSCaseFree(aSubcase->originalCase);
         DSSecureFree(aSubcase);
