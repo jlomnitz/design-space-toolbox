@@ -24,7 +24,6 @@ int main(int argc, const char ** argv) {
         
         ds = DSDesignSpaceByParsingStrings(strings, NULL, 7);
         DSDesignSpaceCalculateCyclicalCases(ds);
-        DSDesignSpace
         printf("Number of valid cases is: %i\n", DSDesignSpaceNumberOfValidCases(ds));
         printf("DSDesignSpaceNumberOfValidCases passed!\n");
         

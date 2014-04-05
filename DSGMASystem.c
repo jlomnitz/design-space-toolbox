@@ -623,6 +623,10 @@ extern DSGMASystem * DSGMASystemByParsingStrings(char * const * const strings, c
                 gma = NULL;
                 goto bail;
         }
+        for (i = 0; i < numberOfEquations; i++) {
+                DSSecureFree(parseStrings[i]);
+        }
+        DSSecureFree(parseStrings);
         DSGMAXd(gma) = Xd;
         DSVariablePoolSetReadWrite(DSGMAXd(gma));
         DSGMAXd_a(gma) = Xda;
@@ -726,6 +730,10 @@ extern DSGMASystem * DSGMASystemByParsingStringsWithXi(char * const * const stri
                 gma = NULL;
                 goto bail;
         }
+        for (i = 0; i < numberOfEquations; i++) {
+                DSSecureFree(parseStrings[i]);
+        }
+        DSSecureFree(parseStrings);
         DSGMAXd(gma) = Xd;
         DSVariablePoolSetReadWrite(DSGMAXd(gma));
         DSGMAXd_a(gma) = Xda;
