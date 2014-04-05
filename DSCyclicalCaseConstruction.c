@@ -38,7 +38,6 @@ extern DSMatrix * dsSubcaseProblematicEquations(const DSCase * aCase)
         DSMatrixFree(A);
         if (nullspace == NULL)
                 goto bail;
-        
         isUnderdetermined = true;
         problematic = DSMatrixCalloc(DSMatrixRows(nullspace), DSMatrixColumns(nullspace));
         for (i = 0; i < DSMatrixColumns(nullspace); i++) {
@@ -296,7 +295,7 @@ static void dsAddConstraintsForSubdominantDecays(DSDesignSpace * subcase, const 
                 DSError(M_DS_NULL ": Array indicating the subdominant decay terms is NULL", A_DS_ERROR);
                 goto bail;
         }
-        gma = DSDesignSpaceGMASystem(original);//DSGMASystemCopy(DSDesignSpaceGMASystem(original));
+        gma = DSDesignSpaceGMASystem(original);
         numberOfXd = DSVariablePoolNumberOfVariables(DSGMASystemXd(gma));
         numberOfXi = DSVariablePoolNumberOfVariables(DSGMASystemXi(gma));
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
@@ -673,7 +672,6 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
         DSUInteger * decayEquations = NULL;
         DSUInteger * decayTerms;
         DSDesignSpace * subcase;
-        DSUInteger positiveTerms;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -700,11 +698,9 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
         max = dsCyclicalCaseNumberOfAugmentedSystems(original, problematicEquations);
         augmentedSystemsStack = DSStackAlloc();
         for (i = 0; i < DSMatrixColumns(problematicEquations); i++) {
-                positiveTerms = 0;
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
                         if ((DSUInteger)DSMatrixDoubleValue(problematicEquations, j, i) == 0)
                                 continue;
-                        positiveTerms = DSDesignSpaceSignature(original)[j*2]-1;
                         numberOfequations[i] += (DSDesignSpaceSignature(original)[j*2+1] > 1);
                 }
         }
