@@ -549,7 +549,7 @@ static DSUInteger ** dsDesignSpaceAllTermSignatures(const DSDesignSpace * ds)
         }
         gma = DSDSGMA(ds);
         termArray = DSSecureCalloc(sizeof(DSUInteger *), DSGMASystemNumberOfCases(gma));
-                
+        
         for (i = 0; i < DSGMASystemNumberOfCases(gma); i++) {
                 termArray[i] = DSSecureMalloc(sizeof(DSUInteger)*2*DSGMASystemNumberOfEquations(gma));
                 temp = i;
@@ -560,6 +560,190 @@ static DSUInteger ** dsDesignSpaceAllTermSignatures(const DSDesignSpace * ds)
         }
 bail:
         return termArray;
+}
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Parallel functions.
+#endif
+
+static void dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds)
+{
+        DSUInteger i;
+        DSUInteger numberOfThreads = (DSUInteger)sysconf(_SC_NPROCESSORS_ONLN);
+        DSUInteger numberOfCases, * cases;
+        pthread_t * threads = NULL;
+        pthread_attr_t attr;
+        ds_parallelstack_t *stack;
+        struct pthread_struct *pdatas;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (cases == NULL) {
+                DSError(M_DS_NULL ": Array of cases cannot be NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
+                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        numberOfCases = DSDesignSpaceNumberOfCases(ds);
+        if (numberOfCases == 0) {
+                DSError(M_DS_WRONG ": Number of cases to process must be more than 0", A_DS_ERROR);
+                goto bail;
+        }
+        DSParallelInitMutexes();
+        pthread_attr_init(&attr);
+        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+        /* Should optimize number of threads to system Optimal ~ 2*number of processors */
+        
+        /* Initializing parallel data stacks and pthreads data structure */
+        pdatas = DSSecureCalloc(sizeof(struct pthread_struct),numberOfThreads);
+        stack = DSParallelStackAlloc();
+        for (i = 0; i < numberOfThreads; i++) {
+                pdatas[i].ds = ds;
+                pdatas[i].stack = stack;
+        }
+        for (i = 0; i < numberOfCases; i++)
+                DSParallelStackPush(stack, i+1);
+        
+        threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
+        for (i = 0; i < numberOfThreads; i++)
+                pthread_create(&threads[i], &attr, DSParallelWorkerCyclicalCases, (void *)(&pdatas[i]));
+        /* Joining all the N-threads, indicating all cases have been processed */
+        for (i = 0; i < numberOfThreads; i++)
+                pthread_join(threads[i], NULL);
+        DSParallelStackFree(stack);
+        DSSecureFree(threads);
+        DSSecureFree(pdatas);
+        pthread_attr_destroy(&attr);
+bail:
+        return;
+}
+
+static void  dsDesignSpaceCalculateValidityParallelBSD(DSDesignSpace *ds)
+{
+        DSUInteger i;
+        long int numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
+        pthread_t * threads = NULL;
+        pthread_attr_t attr;
+        ds_parallelstack_t *stack;
+        struct pthread_struct *pdatas;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
+                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        DSDSValidPool(ds) = DSDictionaryAlloc();//DSVariablePoolAlloc();
+        pthread_attr_init(&attr);
+        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+        /* Should optimize number of threads to system */
+        
+        /* Initializing parallel data stacks and pthreads data structure */
+        
+        stack = DSParallelStackAlloc();
+        pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
+        for (i = 0; i < numberOfThreads; i++) {
+                pdatas[i].ds = ds;
+                pdatas[i].stack = stack;
+        }
+        for (i = 0; i < DSDSNumCases(ds); i++)
+                DSParallelStackPush(stack, i+1);
+        
+        threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
+        /* Creating the N-threads with their data */
+        for (i = 0; i < numberOfThreads; i++)
+                pthread_create(&threads[i], &attr, DSParallelWorkerValidity, (void *)(&pdatas[i]));
+        /* Joining all the N-threads, indicating all cases have been processed */
+        for (i = 0; i < numberOfThreads; i++)
+                pthread_join(threads[i], NULL);
+        DSParallelStackFree(stack);
+        
+        DSSecureFree(threads);
+        DSSecureFree(pdatas);
+        pthread_attr_destroy(&attr);
+bail:
+        return;
+}
+
+static DSDictionary * dsDesignSpaceCalculateValidityAtSliceParallelBSD(DSDesignSpace *ds, const DSVariablePool * lower, const DSVariablePool * upper)
+{
+        DSDictionary * caseDictionary = NULL;
+        DSUInteger i, j, numberValid = 0;
+        DSUInteger validCaseNumbers = 0;
+        char * name;
+        long int numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
+        pthread_t * threads = NULL;
+        pthread_attr_t attr;
+        ds_parallelstack_t *stack;
+        struct pthread_struct *pdatas;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
+                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        caseDictionary = DSDictionaryAlloc();
+        numberValid = DSDesignSpaceNumberOfValidCases(ds);
+        if (numberValid == 0)
+                goto bail;
+        pthread_attr_init(&attr);
+        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+        /* Should optimize number of threads to system */
+        
+        /* Initializing parallel data stacks and pthreads data structure */
+        
+        stack = DSParallelStackAlloc();
+        pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
+        for (i = 0; i < numberOfThreads; i++) {
+                pdatas[i].ds = ds;
+                pdatas[i].stack = stack;
+                pdatas[i].numberOfArguments = 2;
+                pdatas[i].functionArguments = DSSecureMalloc(sizeof(DSVariablePool *)*2);
+                pdatas[i].functionArguments[0] = (void*)lower;
+                pdatas[i].functionArguments[1] = (void*)upper;
+        }
+        for (i = 0; i < numberValid; i++) {
+                validCaseNumbers = atoi(ds->validCases->names[i]);
+                DSParallelStackPush(stack, validCaseNumbers);
+        }
+        threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
+        /* Creating the N-threads with their data */
+        for (i = 0; i < numberOfThreads; i++)
+                pthread_create(&threads[i], &attr, DSParallelWorkerValiditySlice, (void *)(&pdatas[i]));
+        /* Joining all the N-threads, indicating all cases have been processed */
+        for (i = 0; i < numberOfThreads; i++) {
+                pthread_join(threads[i], NULL);
+                for (j = 0; j < DSDictionaryCount(pdatas[i].returnPointer); j++) {
+                        name = DSDictionaryNames((DSDictionary *)pdatas[i].returnPointer)[j];
+                        DSDictionaryAddValueWithName(caseDictionary, name, DSDictionaryValueForName(pdatas[i].returnPointer, name));
+                }
+                DSDictionaryFree((DSDictionary*)pdatas[i].returnPointer);
+                DSSecureFree(pdatas[i].functionArguments);
+        }
+        DSParallelStackFree(stack);
+        DSSecureFree(threads);
+        DSSecureFree(pdatas);
+        pthread_attr_destroy(&attr);
+bail:
+        return caseDictionary;
 }
 
 //static void dsDesignSpaceCalculateCasesSeries(DSDesignSpace *ds)
@@ -1103,58 +1287,6 @@ bail:
         return;
 }
 
-static void  dsDesignSpaceCalculateValidityParallelBSD(DSDesignSpace *ds)
-{
-        DSUInteger i;
-        long int numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
-        pthread_t * threads = NULL;
-        pthread_attr_t attr;
-        ds_parallelstack_t *stack;
-        struct pthread_struct *pdatas;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (DSDSGMA(ds) == NULL) {
-                DSError(M_DS_GMA_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
-                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        DSDSValidPool(ds) = DSDictionaryAlloc();//DSVariablePoolAlloc();
-        pthread_attr_init(&attr);
-        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-        /* Should optimize number of threads to system */
-        
-        /* Initializing parallel data stacks and pthreads data structure */
-        
-        stack = DSParallelStackAlloc();
-        pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
-        for (i = 0; i < numberOfThreads; i++) {
-                pdatas[i].ds = ds;
-                pdatas[i].stack = stack;
-        }
-        for (i = 0; i < DSDSNumCases(ds); i++)
-                DSParallelStackPush(stack, i+1);
-        
-        threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
-        /* Creating the N-threads with their data */
-        for (i = 0; i < numberOfThreads; i++)
-                pthread_create(&threads[i], &attr, DSParallelWorkerValidity, (void *)(&pdatas[i]));
-        /* Joining all the N-threads, indicating all cases have been processed */
-        for (i = 0; i < numberOfThreads; i++)
-                pthread_join(threads[i], NULL);
-        DSParallelStackFree(stack);
-        
-        DSSecureFree(threads);
-        DSSecureFree(pdatas);
-        pthread_attr_destroy(&attr);
-bail:
-        return;
-}
-
 extern DSCase ** DSDesignSpaceCalculateAllValidCases(DSDesignSpace *ds)
 {
         DSCase ** validCases = NULL;
@@ -1177,7 +1309,7 @@ bail:
         return validCases;
 }
 
-extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
+static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceSeries(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
 {
         DSDictionary * caseDictionary = NULL;
         DSUInteger i, numberValid = 0;
@@ -1210,6 +1342,12 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace 
         }
 bail:
         return caseDictionary;
+}
+
+extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
+{
+        return dsDesignSpaceCalculateValidityAtSliceParallelBSD(ds, lower, upper);
+//        return dsDesignSpaceCalculateAllValidCasesForSliceSeries(ds, lower, upper);
 }
 
 
@@ -1255,65 +1393,6 @@ extern DSUInteger DSDesignSpaceNumberOfCyclicalCases(const DSDesignSpace * ds)
         numberOfCyclicalCases = DSDictionaryCount(DSDSCyclical(ds));
 bail:
         return numberOfCyclicalCases;
-}
-
-static void dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds)
-{
-        DSUInteger i;
-        DSUInteger numberOfThreads = (DSUInteger)sysconf(_SC_NPROCESSORS_ONLN);
-        DSUInteger numberOfCases, * cases;
-        pthread_t * threads = NULL;
-        pthread_attr_t attr;
-        ds_parallelstack_t *stack;
-        struct pthread_struct *pdatas;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (cases == NULL) {
-                DSError(M_DS_NULL ": Array of cases cannot be NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSDSGMA(ds) == NULL) {
-                DSError(M_DS_GMA_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
-                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        numberOfCases = DSDesignSpaceNumberOfCases(ds);
-        if (numberOfCases == 0) {
-                DSError(M_DS_WRONG ": Number of cases to process must be more than 0", A_DS_ERROR);
-                goto bail;
-        }
-        DSParallelInitMutexes();
-        pthread_attr_init(&attr);
-        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-        /* Should optimize number of threads to system Optimal ~ 2*number of processors */
-        
-        /* Initializing parallel data stacks and pthreads data structure */
-        pdatas = DSSecureCalloc(sizeof(struct pthread_struct),numberOfThreads);
-        stack = DSParallelStackAlloc();
-        for (i = 0; i < numberOfThreads; i++) {
-                pdatas[i].ds = ds;
-                pdatas[i].stack = stack;
-        }
-        for (i = 0; i < numberOfCases; i++)
-                DSParallelStackPush(stack, i+1);
-        
-        threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
-        for (i = 0; i < numberOfThreads; i++)
-                pthread_create(&threads[i], &attr, DSParallelWorkerCyclicalCases, (void *)(&pdatas[i]));
-        /* Joining all the N-threads, indicating all cases have been processed */
-        for (i = 0; i < numberOfThreads; i++)
-                pthread_join(threads[i], NULL);
-        DSParallelStackFree(stack);
-        DSSecureFree(threads);
-        DSSecureFree(pdatas);
-        pthread_attr_destroy(&attr);
-bail:
-        return;
 }
 
 extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(const DSDesignSpace *ds, DSUInteger caseNumber)

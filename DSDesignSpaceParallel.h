@@ -74,7 +74,9 @@ typedef struct {
 struct pthread_struct {
         ds_parallelstack_t * stack;
         DSDesignSpace * ds;
-        FILE * file;
+        DSUInteger numberOfArguments;
+        void ** functionArguments;
+        void * returnPointer;
 };
 
 extern void DSParallelInitMutexes(void);
@@ -91,6 +93,7 @@ extern void * DSParallelWorkerCyclicalCases(void * pthread_struct);
 extern void * DSParallelWorkerCasesSaveToDisk(void * pthread_struct);
 
 extern void * DSParallelWorkerValidity(void * pthread_struct);
+extern void * DSParallelWorkerValiditySlice(void * pthread_struct);
 
 
 #endif

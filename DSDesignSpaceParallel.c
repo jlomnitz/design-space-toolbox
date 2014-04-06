@@ -309,3 +309,67 @@ bail:
         pthread_exit(NULL);
 }
 
+extern void * DSParallelWorkerValiditySlice(void * pthread_struct)
+{
+        struct pthread_struct * pdata = NULL;
+        DSUInteger caseNumber;
+        DSCase *aCase;
+        DSVariablePool * lower, *upper;
+        const DSCyclicalCase * cyclicalCase;
+        char string[100];
+        if (pthread_struct == NULL) {
+                DSError(M_DS_NULL ": Parallel worker data is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        pdata = (struct pthread_struct *)pthread_struct;
+        if (pdata->stack == NULL) {
+                DSError(M_DS_NULL ": Stack in parallel worker is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds->validCases == NULL) {
+                DSError(M_DS_NULL ": Dictionary of valid cases is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds->gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->numberOfArguments == 0) {
+                DSError(M_DS_WRONG ": p_data structure needs two arguments", A_DS_ERROR);
+                goto bail;
+        }
+        lower = pdata->functionArguments[0];
+        upper = pdata->functionArguments[1];
+        pdata->returnPointer = DSDictionaryAlloc();
+        glp_init_env();
+        /** Data in stack MUST be a case number, if not an error will occur **/
+        while (pdata->stack->count > 0)  {
+                caseNumber = DSParallelStackPop(pdata->stack);
+                if (caseNumber == 0) {
+                        continue;
+                }
+                if (caseNumber > DSDesignSpaceNumberOfCases(pdata->ds)) {
+                        DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
+                        continue;
+                }
+                aCase = DSDesignSpaceCaseWithCaseNumber(pdata->ds, caseNumber);
+                sprintf(string, "%d", caseNumber);//aCase->caseNumber);
+                cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(pdata->ds, caseNumber);
+                if (cyclicalCase != NULL) {
+                        if (DSCyclicalCaseIsValidAtSlice(cyclicalCase, lower, upper) == true) {
+                                DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, string, aCase);
+                        }
+                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
+                        DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, string, aCase);
+                } else {
+                        DSCaseFree(aCase);
+                }
+        }
+        glp_free_env();
+bail:
+        pthread_exit(NULL);
+}

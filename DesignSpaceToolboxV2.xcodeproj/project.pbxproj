@@ -121,7 +121,7 @@
 		9A3D588813FB01D100C32875 /* DSSSystemGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSSystemGrammar.c; sourceTree = "<group>"; };
 		9A3D588913FB01D100C32875 /* DSSSystemGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSSystemGrammar.h; sourceTree = "<group>"; };
 		9A47FEA913DCBBCC00E2100C /* DSErrorCriteria.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = DSErrorCriteria.txt; sourceTree = "<group>"; };
-		9A4CA37A18EFDC9000D4F35A /* designspacecyclestest.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = designspacecyclestest.c; path = tests/designspacecyclestest.c; sourceTree = "<group>"; };
+		9A4CA37A18EFDC9000D4F35A /* designspacecyclestest.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = designspacecyclestest.c; path = ../tests/designspacecyclestest.c; sourceTree = "<group>"; };
 		9A4CA37F18EFDD6F00D4F35A /* designspacecycle */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = designspacecycle; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A4CA38318EFDD7000D4F35A /* designspacecycle.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = designspacecycle.1; sourceTree = "<group>"; };
 		9A537BB013A9CFE50031378A /* DSMemoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSMemoryManager.h; sourceTree = "<group>"; };
@@ -291,6 +291,7 @@
 		9A4CA38018EFDD6F00D4F35A /* designspacecycle */ = {
 			isa = PBXGroup;
 			children = (
+				9A4CA37A18EFDC9000D4F35A /* designspacecyclestest.c */,
 				9A4CA38318EFDD7000D4F35A /* designspacecycle.1 */,
 			);
 			path = designspacecycle;
@@ -306,7 +307,7 @@
 				9A8C2F3215F6D672009B6323 /* Makefile */,
 				9A47FEAA13DCBBDE00E2100C /* Resources */,
 				9AFD4D5F13B70985001FCEC9 /* Source Files */,
-				9A4CA38018EFDD6F00D4F35A /* designspacecycle */,
+				9A61FD5517B43119008D8417 /* Tests */,
 				9A5833B5139D78A80068B6B6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -323,8 +324,8 @@
 		9A61FD5517B43119008D8417 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				9A4CA38018EFDD6F00D4F35A /* designspacecycle */,
 				9A61FD5417B42B33008D8417 /* designspacetest.c */,
-				9A4CA37A18EFDC9000D4F35A /* designspacecyclestest.c */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -545,7 +546,6 @@
 		9AFD4D5F13B70985001FCEC9 /* Source Files */ = {
 			isa = PBXGroup;
 			children = (
-				9A61FD5517B43119008D8417 /* Tests */,
 				9AFD4D5E13B70942001FCEC9 /* Basic Data and functions */,
 				9AFD4D5D13B70915001FCEC9 /* Support Data Functions */,
 				9ABF783813F0C1D800602B4B /* GMA, SSystem and Cases */,
@@ -894,6 +894,7 @@
 				9A4CA38718EFDD7000D4F35A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9A5833AE139D78A80068B6B6 /* Build configuration list for PBXProject "DesignSpaceToolboxV2" */ = {
 			isa = XCConfigurationList;
