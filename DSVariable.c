@@ -579,7 +579,7 @@ bail:
 /**
  * \brief Checks if a DSVariablePool has a variable with a specified name.
  */
-extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * const name)
+extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * name)
 {
         bool hasVariable = false;
         if (pool == NULL) {

@@ -49,7 +49,7 @@ void DSDesignSpaceFree(DSDesignSpace * ds);
 #pragma mark - Factory -
 #endif
 
-extern DSDesignSpace * DSDesignSpaceByParsingStringList(const char * const string, const DSVariablePool * const Xd_a, ...);
+extern DSDesignSpace * DSDesignSpaceByParsingStringList(const char * string, const DSVariablePool * const Xd_a, ...);
 extern DSDesignSpace * DSDesignSpaceByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 extern DSDesignSpace * DSDesignSpaceByParsingStringsWithXi(char * const * const strings, const DSVariablePool * const Xd_a, const DSVariablePool * const Xi, const DSUInteger numberOfEquations);
 

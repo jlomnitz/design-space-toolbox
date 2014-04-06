@@ -221,7 +221,7 @@ bail:
         return exponent;
 }
 
-extern const char * const DSGMAParserAuxVariableAtIndex(const gma_parseraux_t * const aux, const DSUInteger index)
+extern const char * DSGMAParserAuxVariableAtIndex(const gma_parseraux_t * const aux, const DSUInteger index)
 {
         char * name = NULL;
         if (aux == NULL) {

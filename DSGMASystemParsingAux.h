@@ -92,7 +92,7 @@ extern void DSGMAParserAuxAddConstantBase(gma_parseraux_t *aux, const double bas
 
 extern const char DSGMAParserAuxSign(const gma_parseraux_t * const aux);
 extern const double DSGMAParserAuxExponentAtIndex(const gma_parseraux_t *const aux, const DSUInteger index);
-extern const char * const DSGMAParserAuxVariableAtIndex(const gma_parseraux_t * const aux, const DSUInteger index);
+extern const char * DSGMAParserAuxVariableAtIndex(const gma_parseraux_t * const aux, const DSUInteger index);
 extern const double DSGMAParseAuxsConstantBaseAtIndex(const gma_parseraux_t * const aux, const DSUInteger index);
 extern const bool DSGMAParserAuxParsingFailed(const gma_parseraux_t *const aux);
 

@@ -514,7 +514,7 @@ bail:
 #endif
 
 
-extern DSGMASystem * DSGMASystemByParsingStringList(const char * const string, const DSVariablePool * const Xd_a, ...)
+extern DSGMASystem * DSGMASystemByParsingStringList(const char * string, const DSVariablePool * const Xd_a, ...)
 {
         DSGMASystem *gma = NULL;
         DSUInteger numberOfStrings = 0;

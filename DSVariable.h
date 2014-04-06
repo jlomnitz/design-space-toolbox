@@ -140,7 +140,7 @@ extern bool DSVariablePoolIsReadOnly(const DSVariablePool *pool);
 extern bool DSVariablePoolIsReadWrite(const DSVariablePool *pool);
 extern bool DSVariablePoolIsReadWriteAdd(const DSVariablePool *pool);
 
-extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * const name);
+extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const char * name);
 
 extern DSVariable *DSVariablePoolVariableWithName(const DSVariablePool *pool, const char *name);
 extern const DSVariable * DSVariablePoolVariableAtIndex(const DSVariablePool *pool, const DSUInteger index);
