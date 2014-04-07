@@ -1367,15 +1367,34 @@ bail:
 
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
 {
-        return dsDesignSpaceCalculateValidityAtSliceParallelBSD(ds, lower, upper);
-//        return dsDesignSpaceCalculateAllValidCasesForSliceSeries(ds, lower, upper);
+        DSDictionary * caseDictionary = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (ds->seriesCalculations == false) {
+                caseDictionary = dsDesignSpaceCalculateValidityAtSliceParallelBSD(ds, lower, upper);
+        } else {
+                caseDictionary = dsDesignSpaceCalculateAllValidCasesForSliceSeries(ds, lower, upper);
+        }
+bail:
+        return caseDictionary;
 }
 
 
 extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds)
 {
-        dsDesignSpaceCalculateValidityParallelBSD(ds);
-        //        dsDesignSpaceCalculateValiditySeries(ds);
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (ds->seriesCalculations == false) {
+                dsDesignSpaceCalculateValidityParallelBSD(ds);
+        } else {
+                dsDesignSpaceCalculateValiditySeries(ds);
+        }
+bail:
+        return;
 }
 
 extern void DSDesignSpacePrint(const DSDesignSpace * ds)

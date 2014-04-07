@@ -517,6 +517,7 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
                                              coefficientArray,
                                              subdominantDecaySpecies,
                                              subdominantDecayTerm);
+        augmentedSystem->seriesCalculations = true;
         dsEquations = DSDesignSpaceEquations(original);
         for (i = 0; i < DSGMASystemNumberOfEquations(gma); i++) {
                 subcaseEquations[i] = DSExpressionAsString(dsEquations[i]);
