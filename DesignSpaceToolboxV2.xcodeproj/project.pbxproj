@@ -41,6 +41,8 @@
 		9A707C5813F0D0EF00626845 /* DSExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A707C5713F0D0EF00626845 /* DSExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A707C5B13F0D0FC00626845 /* DSExpression.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A707C5A13F0D0FC00626845 /* DSExpression.c */; };
 		9A71F0D913D480890051B472 /* libcblas.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A71F0D813D480890051B472 /* libcblas.dylib */; };
+		9A80B30118F1F6D000667EFC /* DSDesignSpaceConditionGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A80B2FF18F1F6D000667EFC /* DSDesignSpaceConditionGrammar.c */; };
+		9A80B30218F1F6D000667EFC /* DSDesignSpaceConditionGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A80B30018F1F6D000667EFC /* DSDesignSpaceConditionGrammar.h */; };
 		9A81B38613A89D38007DADEC /* DSErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A81B38413A89D38007DADEC /* DSErrors.c */; };
 		9A85B47013FF9DFC00EA3795 /* DSDesignSpace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A85B47413FF9E1600EA3795 /* DSDesignSpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */; };
@@ -141,6 +143,9 @@
 		9A707C5713F0D0EF00626845 /* DSExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSExpression.h; sourceTree = "<group>"; };
 		9A707C5A13F0D0FC00626845 /* DSExpression.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSExpression.c; sourceTree = "<group>"; };
 		9A71F0D813D480890051B472 /* libcblas.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcblas.dylib; path = usr/lib/libcblas.dylib; sourceTree = SDKROOT; };
+		9A80B2FE18F1F3E700667EFC /* DSDesignSpaceConditionGrammar.y */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.yacc; path = DSDesignSpaceConditionGrammar.y; sourceTree = "<group>"; };
+		9A80B2FF18F1F6D000667EFC /* DSDesignSpaceConditionGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDesignSpaceConditionGrammar.c; sourceTree = "<group>"; };
+		9A80B30018F1F6D000667EFC /* DSDesignSpaceConditionGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpaceConditionGrammar.h; sourceTree = "<group>"; };
 		9A81B38213A89C31007DADEC /* libdesignspace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libdesignspace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A81B38413A89D38007DADEC /* DSErrors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSErrors.c; sourceTree = "<group>"; };
 		9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpace.h; sourceTree = "<group>"; };
@@ -374,6 +379,16 @@
 			name = "Variable Pool Parsing";
 			sourceTree = "<group>";
 		};
+		9A80B2FD18F1F32500667EFC /* Design Space Additional Constraints */ = {
+			isa = PBXGroup;
+			children = (
+				9A80B30018F1F6D000667EFC /* DSDesignSpaceConditionGrammar.h */,
+				9A80B2FF18F1F6D000667EFC /* DSDesignSpaceConditionGrammar.c */,
+				9A80B2FE18F1F3E700667EFC /* DSDesignSpaceConditionGrammar.y */,
+			);
+			name = "Design Space Additional Constraints";
+			sourceTree = "<group>";
+		};
 		9A85B46D13FF9DC800EA3795 /* Design Space */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,6 +420,7 @@
 			children = (
 				9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */,
 				9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */,
+				9A80B2FD18F1F32500667EFC /* Design Space Additional Constraints */,
 				9A0701F31404226B00096159 /* Design Space thread pool */,
 			);
 			name = "Numerical Design Space";
@@ -590,6 +606,7 @@
 				9AD82999188867030015E6BD /* lrsmp.h in Headers */,
 				9A3D588B13FB01D100C32875 /* DSSSystemGrammar.h in Headers */,
 				9A36BC981400D5FF00599A25 /* DSDesignSpaceParallel.h in Headers */,
+				9A80B30218F1F6D000667EFC /* DSDesignSpaceConditionGrammar.h in Headers */,
 				9A1033DF144229BF00C214AF /* DSSymbolicMatrix.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -678,6 +695,7 @@
 				9A81B38613A89D38007DADEC /* DSErrors.c in Sources */,
 				9AFD4D5113B6FFD8001FCEC9 /* DSVariable.c in Sources */,
 				9AFD4D5B13B706F6001FCEC9 /* DSMatrix_gsl.c in Sources */,
+				9A80B30118F1F6D000667EFC /* DSDesignSpaceConditionGrammar.c in Sources */,
 				9AD82998188867030015E6BD /* lrsmp.c in Sources */,
 				9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */,
 				9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */,

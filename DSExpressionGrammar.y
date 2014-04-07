@@ -35,13 +35,15 @@
 %token_prefix  TOKEN_EXPRESSION_
 %token_type {DSExpression *}
 %type ID {void *}
+%type VALUE {void *}
 %destructor expr {DSExpressionFree($$);}
 
-%nonassoc EQUALS.
+%nonassoc EQUALS LT MT.
 %left PLUS MINUS.
 %left DIVIDE TIMES.
 %left PRIME NOT.
 %right POWER.
+
 
 %extra_argument {void *parsed}
 
@@ -99,6 +101,17 @@ equation(A) ::= expr(B) EQUALS expr(C). {
         DSExpressionAddBranch(A, C);
 }
 
+equation(A) ::= expr(B) LT expr(C). {
+        A = dsExpressionAllocWithOperator('<');
+        DSExpressionAddBranch(A, B);
+        DSExpressionAddBranch(A, C);
+}
+
+equation(A) ::= expr(B) MT expr(C). {
+        A = dsExpressionAllocWithOperator('>');
+        DSExpressionAddBranch(A, B);
+        DSExpressionAddBranch(A, C);
+}
 
 expr(A) ::= expr(B) PLUS expr(C). {
         if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT &&
@@ -111,11 +124,6 @@ expr(A) ::= expr(B) PLUS expr(C). {
                 DSExpressionAddBranch(A, B);
                 DSExpressionAddBranch(A, C);
         }
-}
-
-
-expr(A) ::= PLUS expr(B). [PLUS]{
-        A = B;
 }
 
 expr(A) ::= expr(B) MINUS expr(C). {
@@ -192,28 +200,9 @@ expr(A) ::= expr(B) POWER expr(C). {
         }
 }
 
-expr(A) ::= MINUS expr(B). [NOT] {
-        if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT) {
-                A = dsExpressionAllocWithConstant(-DSExpressionConstant(B));
-                DSExpressionFree(B);
-        } else {
-                A = dsExpressionAllocWithOperator('*');
-                DSExpressionAddBranch(A, dsExpressionAllocWithConstant(-1.0));
-                DSExpressionAddBranch(A, B);
-        }
-}
-
 expr(A) ::= expr(B) PRIME. {
         A = dsExpressionAllocWithOperator('.');
         DSExpressionAddBranch(A, B);
-}
-
-expr(A) ::= ID(B). {
-        A = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)B));
-}
-
-expr(A) ::= VALUE(B). {
-        A = dsExpressionAllocWithConstant(DSExpressionTokenDouble((struct expression_token *)B));
 }
 
 expr(A) ::= ID(B) LPAREN expr(C) RPAREN. {
@@ -225,5 +214,27 @@ expr(A) ::= LPAREN expr(B) RPAREN. {
         A = B;
 }
 
+expr(A) ::= MINUS expr(B). [NOT] {
+        if (DSExpressionType(B) == DS_EXPRESSION_TYPE_CONSTANT) {
+                A = dsExpressionAllocWithConstant(-DSExpressionConstant(B));
+                DSExpressionFree(B);
+        } else {
+                A = dsExpressionAllocWithOperator('*');
+                DSExpressionAddBranch(A, dsExpressionAllocWithConstant(-1.0));
+                DSExpressionAddBranch(A, B);
+        }
+}
+
+expr(A) ::= PLUS expr(B). [PLUS]{
+        A = B;
+}
+
+expr(A) ::= ID(B). {
+        A = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)B));
+}
+
+expr(A) ::= VALUE(B). {
+        A = dsExpressionAllocWithConstant(DSExpressionTokenDouble((struct expression_token *)B));
+}
 
 

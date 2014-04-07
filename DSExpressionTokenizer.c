@@ -77,7 +77,7 @@ extern double DSExpressionTokenDouble(struct expression_token *root)
 {
         double value = NAN;
         if (root == NULL) {
-                DSError(M_DS_NULL ": Variable token is NULL", A_DS_ERROR);
+                DSError(M_DS_NULL ": Value token is NULL", A_DS_ERROR);
                 goto bail;
         }
         value = DSExpressionTokenData(root).value;

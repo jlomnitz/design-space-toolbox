@@ -17,8 +17,10 @@
 
 #define DS_EXPRESSION_TOKEN_START      0                 //!< Token indicating the start of a tokenization.
 #define DS_EXPRESSION_TOKEN_ID         TOKEN_EXPRESSION_ID  //!< Token indicating a variable identifier.
-#define DS_EXPRESSION_TOKEN_DOUBLE     TOKEN_EXPRESSION_VALUE       //!< Token indicating a numerical value.
+#define DS_EXPRESSION_TOKEN_VALUE      TOKEN_EXPRESSION_VALUE       //!< Token indicating a numerical value.
 #define DS_EXPRESSION_TOKEN_EQUALS     TOKEN_EXPRESSION_EQUALS
+#define DS_EXPRESSION_TOKEN_LT         TOKEN_EXPRESSION_LT
+#define DS_EXPRESSION_TOKEN_MT         TOKEN_EXPRESSION_MT
 #define DS_EXPRESSION_TOKEN_PLUS       TOKEN_EXPRESSION_PLUS
 #define DS_EXPRESSION_TOKEN_MINUS      TOKEN_EXPRESSION_MINUS
 #define DS_EXPRESSION_TOKEN_TIMES      TOKEN_EXPRESSION_TIMES

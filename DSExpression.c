@@ -94,6 +94,14 @@ extern DSExpression * dsExpressionAllocWithOperator(const char op_code)
                         newNode = DSSecureCalloc(1, sizeof(DSExpression));
                         DSExpressionSetOperator(newNode, op_code);
                         break;
+                case '<':
+                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
+                        DSExpressionSetOperator(newNode, op_code);
+                        break;
+                case '>':
+                        newNode = DSSecureCalloc(1, sizeof(DSExpression));
+                        DSExpressionSetOperator(newNode, op_code);
+                        break;
                 case '.':
                         newNode = DSSecureCalloc(1, sizeof(DSExpression));
                         DSExpressionSetOperator(newNode, '.');
@@ -257,6 +265,18 @@ extern DSExpression * DSExpressionAddExpressions(DSExpression *lvalue, DSExpress
         if (DSExpressionType(lvalue) == DS_EXPRESSION_TYPE_OPERATOR) {
                 if (DSExpressionOperator(lvalue) == '=') {
                         newRoot = dsExpressionAllocWithOperator('=');
+                        DSExpressionAddBranch(newRoot, DSExpressionAddExpressions(DSExpressionBranchAtIndex(lvalue, 0), rvalue));
+                        DSExpressionAddBranch(newRoot, DSExpressionAddExpressions(DSExpressionBranchAtIndex(lvalue, 1), rvalue));
+                        goto bail;
+                }
+                if (DSExpressionOperator(lvalue) == '<') {
+                        newRoot = dsExpressionAllocWithOperator('<');
+                        DSExpressionAddBranch(newRoot, DSExpressionAddExpressions(DSExpressionBranchAtIndex(lvalue, 0), rvalue));
+                        DSExpressionAddBranch(newRoot, DSExpressionAddExpressions(DSExpressionBranchAtIndex(lvalue, 1), rvalue));
+                        goto bail;
+                }
+                if (DSExpressionOperator(lvalue) == '>') {
+                        newRoot = dsExpressionAllocWithOperator('>');
                         DSExpressionAddBranch(newRoot, DSExpressionAddExpressions(DSExpressionBranchAtIndex(lvalue, 0), rvalue));
                         DSExpressionAddBranch(newRoot, DSExpressionAddExpressions(DSExpressionBranchAtIndex(lvalue, 1), rvalue));
                         goto bail;
@@ -565,6 +585,12 @@ extern void DSExpressionAddBranch(DSExpression *expression, DSExpression *branch
                 case '=':
                         DSExpressionAddNonConstantBranch(expression, branch);
                         break;
+                case '<':
+                        DSExpressionAddNonConstantBranch(expression, branch);
+                        break;
+                case '>':
+                        DSExpressionAddNonConstantBranch(expression, branch);
+                        break;
                 case '.':
                         DSExpressionAddNonConstantBranch(expression, branch);
                         break;
@@ -725,7 +751,7 @@ extern DSExpression * DSExpressionEquationLHSExpression(const DSExpression *expr
                 DSError(M_DS_WRONG ": Expression is not an equation", A_DS_ERROR);
                 goto bail;
         }
-        if (DSExpressionOperator(expression) != '=') {
+        if (DSExpressionOperator(expression) != '=' && DSExpressionOperator(expression) != '<' && DSExpressionOperator(expression) != '>' ) {
                 DSError(M_DS_WRONG ": Expression is not an equation", A_DS_ERROR);
                 goto bail;
         }
@@ -742,6 +768,8 @@ extern DSExpression * DSExpressionEquationLHSExpression(const DSExpression *expr
                         break;
                 case DS_EXPRESSION_TYPE_OPERATOR:
                         switch (DSExpressionOperator(expression)) {
+                                case '>':
+                                case '<':
                                 case '=':
                                         lhs = DSExpressionCopy(DSExpressionBranchAtIndex(expression, 0));
                                         break;
@@ -767,7 +795,7 @@ extern DSExpression * DSExpressionEquationRHSExpression(const DSExpression *expr
                 DSError(M_DS_WRONG ": Expression is not an equation", A_DS_ERROR);
                 goto bail;
         }
-        if (DSExpressionOperator(expression) != '=') {
+        if (DSExpressionOperator(expression) != '=' && DSExpressionOperator(expression) != '<' && DSExpressionOperator(expression) != '>') {
                 DSError(M_DS_WRONG ": Expression is not an equation", A_DS_ERROR);
                 goto bail;
         }
@@ -780,6 +808,8 @@ extern DSExpression * DSExpressionEquationRHSExpression(const DSExpression *expr
                         break;
                 case DS_EXPRESSION_TYPE_OPERATOR:
                         switch (DSExpressionOperator(expression)) {
+                                case '>':
+                                case '<':
                                 case '=':
                                         rhs = DSExpressionCopy(DSExpressionBranchAtIndex(expression, 1));
                                         break;

@@ -5,19 +5,16 @@
 ** in the input grammar file. */
 #include <stdio.h>
 
-#include <string.h>
-#include <assert.h>
-#include <math.h>
-#include <stdbool.h>
-#include "DSTypes.h"
-#include "DSExpression.h"
-#include "DSExpressionTokenizer.h"
-
-extern DSExpression * dsExpressionAllocWithOperator(const char op_code);
-extern DSExpression * dsExpressionAllocWithConstant(const double value);
-extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
-
-#include "DSExpressionGrammar.h"
+        #include <string.h>
+        #include <assert.h>
+        #include <math.h>
+        #include <stdbool.h>
+        #include "DSTypes.h"
+        #include "DSErrors.h"
+        #include "DSMemoryManager.h"
+        #include "DSExpressionTokenizer.h"
+        #include "DSGMASystemParsingAux.h"
+#include "DSDesignSpaceConditionGrammar.h"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
@@ -29,20 +26,18 @@ extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
 ** Each symbol here is a terminal symbol in the grammar.
 */
 #if INTERFACE
-#define TOKEN_EXPRESSION_ID                              1
-#define TOKEN_EXPRESSION_VALUE                           2
-#define TOKEN_EXPRESSION_EQUALS                          3
-#define TOKEN_EXPRESSION_LT                              4
-#define TOKEN_EXPRESSION_MT                              5
-#define TOKEN_EXPRESSION_PLUS                            6
-#define TOKEN_EXPRESSION_MINUS                           7
-#define TOKEN_EXPRESSION_DIVIDE                          8
-#define TOKEN_EXPRESSION_TIMES                           9
-#define TOKEN_EXPRESSION_PRIME                          10
-#define TOKEN_EXPRESSION_NOT                            11
-#define TOKEN_EXPRESSION_POWER                          12
-#define TOKEN_EXPRESSION_LPAREN                         13
-#define TOKEN_EXPRESSION_RPAREN                         14
+#define TOKEN_DSC_ID                              1
+#define TOKEN_DSC_EQUALS                          2
+#define TOKEN_DSC_PLUS                            3
+#define TOKEN_DSC_MINUS                           4
+#define TOKEN_DSC_DIVIDE                          5
+#define TOKEN_DSC_TIMES                           6
+#define TOKEN_DSC_PRIME                           7
+#define TOKEN_DSC_NOT                             8
+#define TOKEN_DSC_POWER                           9
+#define TOKEN_DSC_LT                             10
+#define TOKEN_DSC_MT                             11
+#define TOKEN_DSC_CONSTANT                       12
 #endif
 /* Make sure the INTERFACE macro is defined.
 */
@@ -66,44 +61,44 @@ extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    DSExpressionParserTOKENTYPE     is the data type used for minor tokens given 
+**    DSDesignSpaceConstraintParserTOKENTYPE     is the data type used for minor tokens given 
 **                       directly to the parser from the tokenizer.
 **    YYMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
-**                       which is DSExpressionParserTOKENTYPE.  The entry in the union
+**                       which is DSDesignSpaceConstraintParserTOKENTYPE.  The entry in the union
 **                       for base tokens is called "yy0".
 **    YYSTACKDEPTH       is the maximum depth of the parser's stack.  If
 **                       zero the stack is dynamically sized using realloc()
-**    DSExpressionParserARG_SDECL     A static variable declaration for the %extra_argument
-**    DSExpressionParserARG_PDECL     A parameter declaration for the %extra_argument
-**    DSExpressionParserARG_STORE     Code to store %extra_argument into yypParser
-**    DSExpressionParserARG_FETCH     Code to extract %extra_argument from yypParser
+**    DSDesignSpaceConstraintParserARG_SDECL     A static variable declaration for the %extra_argument
+**    DSDesignSpaceConstraintParserARG_PDECL     A parameter declaration for the %extra_argument
+**    DSDesignSpaceConstraintParserARG_STORE     Code to store %extra_argument into yypParser
+**    DSDesignSpaceConstraintParserARG_FETCH     Code to extract %extra_argument from yypParser
 **    YYNSTATE           the combined number of states.
 **    YYNRULE            the number of rules in the grammar
 **    YYERRORSYMBOL      is the code number of the error symbol.  If not
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 20
+#define YYNOCODE 18
 #define YYACTIONTYPE unsigned char
 #if INTERFACE
-#define DSExpressionParserTOKENTYPE DSExpression *
+#define DSDesignSpaceConstraintParserTOKENTYPE void*
 #endif
 typedef union {
   int yyinit;
-  DSExpressionParserTOKENTYPE yy0;
+  DSDesignSpaceConstraintParserTOKENTYPE yy0;
 } YYMINORTYPE;
 #ifndef YYSTACKDEPTH
 #define YYSTACKDEPTH 100
 #endif
 #if INTERFACE
-#define DSExpressionParserARG_SDECL void *parsed;
-#define DSExpressionParserARG_PDECL ,void *parsed
-#define DSExpressionParserARG_FETCH void *parsed = yypParser->parsed
-#define DSExpressionParserARG_STORE yypParser->parsed = parsed
+#define DSDesignSpaceConstraintParserARG_SDECL void **parser_aux;
+#define DSDesignSpaceConstraintParserARG_PDECL ,void **parser_aux
+#define DSDesignSpaceConstraintParserARG_FETCH void **parser_aux = yypParser->parser_aux
+#define DSDesignSpaceConstraintParserARG_STORE yypParser->parser_aux = parser_aux
 #endif
-#define YYNSTATE 32
-#define YYNRULE 17
+#define YYNSTATE 13
+#define YYNRULE 7
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
 #define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
@@ -172,48 +167,34 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **                     shifting non-terminals after a reduce.
 **  yy_default[]       Default action for each state.
 */
-#define YY_ACTTAB_COUNT (62)
+#define YY_ACTTAB_COUNT (18)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    32,    7,   33,   12,    2,    1,   11,   10,    8,    9,
- /*    10 */    31,    6,    7,   11,   10,    8,    9,   31,   31,    7,
- /*    20 */     7,   30,   11,   10,    8,    9,   31,   18,    7,   21,
- /*    30 */    29,   11,   10,    8,    9,   31,   20,    7,   23,   26,
- /*    40 */    28,   51,   22,   27,    3,    4,   15,   14,    8,    9,
- /*    50 */    31,    5,    7,   25,   51,   19,   51,   13,   50,   24,
- /*    60 */    17,   16,
+ /*     0 */    21,    7,    4,    2,    1,    5,    6,   13,    3,    9,
+ /*    10 */    12,    8,   22,   10,   22,   22,   22,   11,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */     0,   12,    0,    3,    4,    5,    6,    7,    8,    9,
- /*    10 */    10,   13,   12,    6,    7,    8,    9,   10,   10,   12,
- /*    20 */    12,   14,    6,    7,    8,    9,   10,   16,   12,   16,
- /*    30 */    14,    6,    7,    8,    9,   10,   16,   12,   16,    1,
- /*    40 */     2,   19,   16,   16,    6,    7,   16,   16,    8,    9,
- /*    50 */    10,   13,   12,   16,   19,   16,   19,   16,   17,   18,
- /*    60 */    16,   16,
+ /*     0 */    14,   15,   16,   10,   11,    4,    1,    0,    9,   12,
+ /*    10 */    16,   16,   17,   12,   17,   17,   17,   12,
 };
-#define YY_SHIFT_USE_DFLT (-12)
-#define YY_SHIFT_COUNT (27)
-#define YY_SHIFT_MIN   (-11)
-#define YY_SHIFT_MAX   (40)
+#define YY_SHIFT_USE_DFLT (-8)
+#define YY_SHIFT_COUNT (7)
+#define YY_SHIFT_MIN   (-7)
+#define YY_SHIFT_MAX   (7)
 static const signed char yy_shift_ofst[] = {
- /*     0 */    38,   38,   38,   38,   38,   38,   38,   38,   38,   38,
- /*    10 */    38,   38,   38,    0,   16,    7,   25,   25,   25,   40,
- /*    20 */    40,   40,    8,    8,    2,  -11,   -2,  -11,
+ /*     0 */     5,    5,    5,    1,   -7,   -3,   -1,    7,
 };
-#define YY_REDUCE_USE_DFLT (-1)
-#define YY_REDUCE_COUNT (12)
-#define YY_REDUCE_MIN   (0)
-#define YY_REDUCE_MAX   (45)
+#define YY_REDUCE_USE_DFLT (-15)
+#define YY_REDUCE_COUNT (2)
+#define YY_REDUCE_MIN   (-14)
+#define YY_REDUCE_MAX   (0)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */    41,   45,   44,   39,   37,   31,   30,   27,   26,   22,
- /*    10 */    20,   13,   11,
+ /*     0 */   -14,   -5,   -6,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    49,   49,   49,   49,   49,   49,   49,   49,   49,   49,
- /*    10 */    49,   49,   49,   49,   49,   49,   36,   35,   34,   46,
- /*    20 */    38,   37,   40,   39,   49,   45,   47,   41,   48,   44,
- /*    30 */    43,   42,
+ /*     0 */    20,   20,   20,   20,   20,   20,   17,   20,   15,   19,
+ /*    10 */    18,   16,   14,
 };
+#define YY_SZ_ACTTAB (int)(sizeof(yy_action)/sizeof(yy_action[0]))
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
@@ -259,7 +240,7 @@ struct yyParser {
   int yyidxMax;                 /* Maximum value of yyidx */
 #endif
   int yyerrcnt;                 /* Shifts left before out of the error */
-  DSExpressionParserARG_SDECL                /* A place to hold %extra_argument */
+  DSDesignSpaceConstraintParserARG_SDECL                /* A place to hold %extra_argument */
 #if YYSTACKDEPTH<=0
   int yystksz;                  /* Current side of the stack */
   yyStackEntry *yystack;        /* The parser's stack */
@@ -293,7 +274,7 @@ static char *yyTracePrompt = 0;
 ** Outputs:
 ** None.
 */
-void DSExpressionParserTrace(FILE *TraceFILE, char *zTracePrompt){
+void DSDesignSpaceConstraintParserTrace(FILE *TraceFILE, char *zTracePrompt){
   yyTraceFILE = TraceFILE;
   yyTracePrompt = zTracePrompt;
   if( yyTraceFILE==0 ) yyTracePrompt = 0;
@@ -305,11 +286,11 @@ void DSExpressionParserTrace(FILE *TraceFILE, char *zTracePrompt){
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
 static const char *const yyTokenName[] = { 
-  "$",             "ID",            "VALUE",         "EQUALS",      
-  "LT",            "MT",            "PLUS",          "MINUS",       
-  "DIVIDE",        "TIMES",         "PRIME",         "NOT",         
-  "POWER",         "LPAREN",        "RPAREN",        "error",       
-  "expr",          "program",       "equation",    
+  "$",             "ID",            "EQUALS",        "PLUS",        
+  "MINUS",         "DIVIDE",        "TIMES",         "PRIME",       
+  "NOT",           "POWER",         "LT",            "MT",          
+  "CONSTANT",      "error",         "start",         "constraint",  
+  "powerlaw",    
 };
 #endif /* NDEBUG */
 
@@ -317,23 +298,13 @@ static const char *const yyTokenName[] = {
 /* For tracing reduce actions, the names of all rules are required.
 */
 static const char *const yyRuleName[] = {
- /*   0 */ "program ::= expr",
- /*   1 */ "program ::= equation",
- /*   2 */ "equation ::= expr EQUALS expr",
- /*   3 */ "equation ::= expr LT expr",
- /*   4 */ "equation ::= expr MT expr",
- /*   5 */ "expr ::= expr PLUS expr",
- /*   6 */ "expr ::= expr MINUS expr",
- /*   7 */ "expr ::= expr TIMES expr",
- /*   8 */ "expr ::= expr DIVIDE expr",
- /*   9 */ "expr ::= expr POWER expr",
- /*  10 */ "expr ::= expr PRIME",
- /*  11 */ "expr ::= ID LPAREN expr RPAREN",
- /*  12 */ "expr ::= LPAREN expr RPAREN",
- /*  13 */ "expr ::= MINUS expr",
- /*  14 */ "expr ::= PLUS expr",
- /*  15 */ "expr ::= ID",
- /*  16 */ "expr ::= VALUE",
+ /*   0 */ "start ::= constraint",
+ /*   1 */ "constraint ::= powerlaw LT powerlaw",
+ /*   2 */ "constraint ::= powerlaw MT powerlaw",
+ /*   3 */ "powerlaw ::= CONSTANT",
+ /*   4 */ "powerlaw ::= ID",
+ /*   5 */ "powerlaw ::= ID POWER CONSTANT",
+ /*   6 */ "powerlaw ::= ID POWER MINUS CONSTANT",
 };
 #endif /* NDEBUG */
 
@@ -371,9 +342,9 @@ static void yyGrowStack(yyParser *p){
 **
 ** Outputs:
 ** A pointer to a parser.  This pointer is used in subsequent calls
-** to DSExpressionParser and DSExpressionParserFree.
+** to DSDesignSpaceConstraintParser and DSDesignSpaceConstraintParserFree.
 */
-void *DSExpressionParserAlloc(void *(*mallocProc)(size_t)){
+void *DSDesignSpaceConstraintParserAlloc(void *(*mallocProc)(size_t)){
   yyParser *pParser;
   pParser = (yyParser*)(*mallocProc)( (size_t)sizeof(yyParser) );
   if( pParser ){
@@ -400,7 +371,7 @@ static void yy_destructor(
   YYCODETYPE yymajor,     /* Type code for object to destroy */
   YYMINORTYPE *yypminor   /* The object to be destroyed */
 ){
-  DSExpressionParserARG_FETCH;
+  DSDesignSpaceConstraintParserARG_FETCH;
   switch( yymajor ){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
@@ -412,11 +383,6 @@ static void yy_destructor(
     ** which appear on the RHS of the rule, but which are not used
     ** inside the C code.
     */
-    case 16: /* expr */
-{
-DSExpressionFree((yypminor->yy0));
-}
-      break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
 }
@@ -454,12 +420,12 @@ static int yy_pop_parser_stack(yyParser *pParser){
 ** Inputs:
 ** <ul>
 ** <li>  A pointer to the parser.  This should be a pointer
-**       obtained from DSExpressionParserAlloc.
+**       obtained from DSDesignSpaceConstraintParserAlloc.
 ** <li>  A pointer to a function used to reclaim memory obtained
 **       from malloc.
 ** </ul>
 */
-void DSExpressionParserFree(
+void DSDesignSpaceConstraintParserFree(
   void *p,                    /* The parser to be deleted */
   void (*freeProc)(void*)     /* Function used to reclaim memory */
 ){
@@ -476,7 +442,7 @@ void DSExpressionParserFree(
 ** Return the peak depth of the stack for a parser.
 */
 #ifdef YYTRACKMAXSTACKDEPTH
-int DSExpressionParserStackPeak(void *p){
+int DSDesignSpaceConstraintParserStackPeak(void *p){
   yyParser *pParser = (yyParser*)p;
   return pParser->yyidxMax;
 }
@@ -497,13 +463,12 @@ static int yy_find_shift_action(
   int i;
   int stateno = pParser->yystack[pParser->yyidx].stateno;
  
-  if( stateno>YY_SHIFT_COUNT
-   || (i = yy_shift_ofst[stateno])==YY_SHIFT_USE_DFLT ){
+  if( stateno>YY_SHIFT_MAX || (i = yy_shift_ofst[stateno])==YY_SHIFT_USE_DFLT ){
     return yy_default[stateno];
   }
   assert( iLookAhead!=YYNOCODE );
   i += iLookAhead;
-  if( i<0 || i>=YY_ACTTAB_COUNT || yy_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
     if( iLookAhead>0 ){
 #ifdef YYFALLBACK
       YYCODETYPE iFallback;            /* Fallback token */
@@ -521,15 +486,7 @@ static int yy_find_shift_action(
 #ifdef YYWILDCARD
       {
         int j = i - iLookAhead + YYWILDCARD;
-        if( 
-#if YY_SHIFT_MIN+YYWILDCARD<0
-          j>=0 &&
-#endif
-#if YY_SHIFT_MAX+YYWILDCARD>=YY_ACTTAB_COUNT
-          j<YY_ACTTAB_COUNT &&
-#endif
-          yy_lookahead[j]==YYWILDCARD
-        ){
+        if( j>=0 && j<YY_SZ_ACTTAB && yy_lookahead[j]==YYWILDCARD ){
 #ifndef NDEBUG
           if( yyTraceFILE ){
             fprintf(yyTraceFILE, "%sWILDCARD %s => %s\n",
@@ -561,22 +518,22 @@ static int yy_find_reduce_action(
 ){
   int i;
 #ifdef YYERRORSYMBOL
-  if( stateno>YY_REDUCE_COUNT ){
+  if( stateno>YY_REDUCE_MAX ){
     return yy_default[stateno];
   }
 #else
-  assert( stateno<=YY_REDUCE_COUNT );
+  assert( stateno<=YY_REDUCE_MAX );
 #endif
   i = yy_reduce_ofst[stateno];
   assert( i!=YY_REDUCE_USE_DFLT );
   assert( iLookAhead!=YYNOCODE );
   i += iLookAhead;
 #ifdef YYERRORSYMBOL
-  if( i<0 || i>=YY_ACTTAB_COUNT || yy_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
     return yy_default[stateno];
   }
 #else
-  assert( i>=0 && i<YY_ACTTAB_COUNT );
+  assert( i>=0 && i<YY_SZ_ACTTAB );
   assert( yy_lookahead[i]==iLookAhead );
 #endif
   return yy_action[i];
@@ -586,7 +543,7 @@ static int yy_find_reduce_action(
 ** The following routine is called if the stack overflows.
 */
 static void yyStackOverflow(yyParser *yypParser, YYMINORTYPE *yypMinor){
-   DSExpressionParserARG_FETCH;
+   DSDesignSpaceConstraintParserARG_FETCH;
    yypParser->yyidx--;
 #ifndef NDEBUG
    if( yyTraceFILE ){
@@ -596,7 +553,7 @@ static void yyStackOverflow(yyParser *yypParser, YYMINORTYPE *yypMinor){
    while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
    /* Here code is inserted which will execute if the parser
    ** stack every overflows */
-   DSExpressionParserARG_STORE; /* Suppress warning about unused %extra_argument var */
+   DSDesignSpaceConstraintParserARG_STORE; /* Suppress warning about unused %extra_argument var */
 }
 
 /*
@@ -652,23 +609,13 @@ static const struct {
   YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } yyRuleInfo[] = {
-  { 17, 1 },
-  { 17, 1 },
-  { 18, 3 },
-  { 18, 3 },
-  { 18, 3 },
+  { 14, 1 },
+  { 15, 3 },
+  { 15, 3 },
+  { 16, 1 },
+  { 16, 1 },
   { 16, 3 },
-  { 16, 3 },
-  { 16, 3 },
-  { 16, 3 },
-  { 16, 3 },
-  { 16, 2 },
   { 16, 4 },
-  { 16, 3 },
-  { 16, 2 },
-  { 16, 2 },
-  { 16, 1 },
-  { 16, 1 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -686,7 +633,7 @@ static void yy_reduce(
   YYMINORTYPE yygotominor;        /* The LHS of the rule reduced */
   yyStackEntry *yymsp;            /* The top of the parser's stack */
   int yysize;                     /* Amount to pop the stack */
-  DSExpressionParserARG_FETCH;
+  DSDesignSpaceConstraintParserARG_FETCH;
   yymsp = &yypParser->yystack[yypParser->yyidx];
 #ifndef NDEBUG
   if( yyTraceFILE && yyruleno>=0 
@@ -723,175 +670,35 @@ static void yy_reduce(
   **  #line <lineno> <thisfile>
   **     break;
   */
-      case 0: /* program ::= expr */
-      case 1: /* program ::= equation */ yytestcase(yyruleno==1);
+      case 3: /* powerlaw ::= CONSTANT */
 {
-        if (parsed == NULL) {
-                DSError(M_DS_WRONG ": parser structure is NULL", A_DS_ERROR);
-                DSExpressionFree(yymsp[0].minor.yy0);
-        } else {
-                ((parse_expression_s *)parsed)->root = yymsp[0].minor.yy0;
-        }
+        DSGMAParserAuxAddConstantBase(*parser_aux, DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 2: /* equation ::= expr EQUALS expr */
+      case 4: /* powerlaw ::= ID */
 {
-        yygotominor.yy0 = dsExpressionAllocWithOperator('=');
-        DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-        DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
+        DSGMAParserAuxAddVariableExponentPair(*parser_aux,
+        DSExpressionTokenString((struct expression_token *)yymsp[0].minor.yy0), 1.0);
 }
         break;
-      case 3: /* equation ::= expr LT expr */
+      case 5: /* powerlaw ::= ID POWER CONSTANT */
 {
-        yygotominor.yy0 = dsExpressionAllocWithOperator('<');
-        DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-        DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
+        DSGMAParserAuxAddVariableExponentPair(*parser_aux,
+        DSExpressionTokenString((struct expression_token *)yymsp[-2].minor.yy0),
+        DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 4: /* equation ::= expr MT expr */
+      case 6: /* powerlaw ::= ID POWER MINUS CONSTANT */
 {
-        yygotominor.yy0 = dsExpressionAllocWithOperator('>');
-        DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-        DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-}
-        break;
-      case 5: /* expr ::= expr PLUS expr */
-{
-        if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
-                DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
-                yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)+DSExpressionConstant(yymsp[0].minor.yy0));
-                DSExpressionFree(yymsp[-2].minor.yy0);
-                DSExpressionFree(yymsp[0].minor.yy0);
-        } else {
-                yygotominor.yy0 = dsExpressionAllocWithOperator('+');
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-        }
-}
-        break;
-      case 6: /* expr ::= expr MINUS expr */
-{
-        if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
-                DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
-                yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)-DSExpressionConstant(yymsp[0].minor.yy0));
-                DSExpressionFree(yymsp[-2].minor.yy0);
-                DSExpressionFree(yymsp[0].minor.yy0);
-        } else if (DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
-                yygotominor.yy0 = dsExpressionAllocWithConstant(-DSExpressionConstant(yymsp[0].minor.yy0));
-                DSExpressionFree(yymsp[0].minor.yy0);
-                yymsp[0].minor.yy0 = yygotominor.yy0;
-                yygotominor.yy0 = dsExpressionAllocWithOperator('+');
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-        } else {
-                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, dsExpressionAllocWithConstant(-1.0));
-                yymsp[0].minor.yy0 = yygotominor.yy0;
-                yygotominor.yy0 = dsExpressionAllocWithOperator('+');
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-        }
-}
-        break;
-      case 7: /* expr ::= expr TIMES expr */
-{
-        if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
-                DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
-                yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)*DSExpressionConstant(yymsp[0].minor.yy0));
-                DSExpressionFree(yymsp[-2].minor.yy0);
-                DSExpressionFree(yymsp[0].minor.yy0);
-        } else {
-                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-        }
-}
-        break;
-      case 8: /* expr ::= expr DIVIDE expr */
-{
-        if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
-            DSExpressionType(yymsp[-2].minor.yy0) == DSExpressionType(yymsp[0].minor.yy0)) {
-                yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionConstant(yymsp[-2].minor.yy0)/DSExpressionConstant(yymsp[0].minor.yy0));
-                DSExpressionFree(yymsp[-2].minor.yy0);
-                DSExpressionFree(yymsp[0].minor.yy0);
-        } else if (DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
-                yygotominor.yy0 = dsExpressionAllocWithConstant(pow(DSExpressionConstant(yymsp[0].minor.yy0), -1.0));
-                DSExpressionFree(yymsp[0].minor.yy0);
-                yymsp[0].minor.yy0 = yygotominor.yy0;
-                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-        } else {
-                yygotominor.yy0 = dsExpressionAllocWithOperator('^');
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, dsExpressionAllocWithConstant(-1.0));
-                yymsp[0].minor.yy0 = yygotominor.yy0;
-                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-        }
-}
-        break;
-      case 9: /* expr ::= expr POWER expr */
-{
-        if (DSExpressionType(yymsp[-2].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT &&
-            DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
-                yygotominor.yy0 = dsExpressionAllocWithConstant(pow(DSExpressionConstant(yymsp[-2].minor.yy0), DSExpressionConstant(yymsp[0].minor.yy0)));
-                DSExpressionFree(yymsp[-2].minor.yy0);
-                DSExpressionFree(yymsp[0].minor.yy0);
-        } else {
-                yygotominor.yy0 = dsExpressionAllocWithOperator('^');
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[-2].minor.yy0);
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-        }
-}
-        break;
-      case 10: /* expr ::= expr PRIME */
-{
-        yygotominor.yy0 = dsExpressionAllocWithOperator('.');
-        DSExpressionAddBranch(yygotominor.yy0, yymsp[-1].minor.yy0);
-}
-        break;
-      case 11: /* expr ::= ID LPAREN expr RPAREN */
-{
-        yygotominor.yy0 = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)yymsp[-3].minor.yy0));
-        DSExpressionAddBranch(yygotominor.yy0, yymsp[-1].minor.yy0);
-}
-        break;
-      case 12: /* expr ::= LPAREN expr RPAREN */
-{
-        yygotominor.yy0 = yymsp[-1].minor.yy0;
-}
-        break;
-      case 13: /* expr ::= MINUS expr */
-{
-        if (DSExpressionType(yymsp[0].minor.yy0) == DS_EXPRESSION_TYPE_CONSTANT) {
-                yygotominor.yy0 = dsExpressionAllocWithConstant(-DSExpressionConstant(yymsp[0].minor.yy0));
-                DSExpressionFree(yymsp[0].minor.yy0);
-        } else {
-                yygotominor.yy0 = dsExpressionAllocWithOperator('*');
-                DSExpressionAddBranch(yygotominor.yy0, dsExpressionAllocWithConstant(-1.0));
-                DSExpressionAddBranch(yygotominor.yy0, yymsp[0].minor.yy0);
-        }
-}
-        break;
-      case 14: /* expr ::= PLUS expr */
-{
-        yygotominor.yy0 = yymsp[0].minor.yy0;
-}
-        break;
-      case 15: /* expr ::= ID */
-{
-        yygotominor.yy0 = dsExpressionAllocWithVariableName(DSExpressionTokenString((struct expression_token *)yymsp[0].minor.yy0));
-}
-        break;
-      case 16: /* expr ::= VALUE */
-{
-        yygotominor.yy0 = dsExpressionAllocWithConstant(DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
+        DSGMAParserAuxAddVariableExponentPair(*parser_aux,
+        DSExpressionTokenString((struct expression_token *)yymsp[-3].minor.yy0),
+        -DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
       default:
+      /* (0) start ::= constraint */ yytestcase(yyruleno==0);
+      /* (1) constraint ::= powerlaw LT powerlaw */ yytestcase(yyruleno==1);
+      /* (2) constraint ::= powerlaw MT powerlaw */ yytestcase(yyruleno==2);
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -928,7 +735,7 @@ static void yy_reduce(
 static void yy_parse_failed(
   yyParser *yypParser           /* The parser */
 ){
-  DSExpressionParserARG_FETCH;
+  DSDesignSpaceConstraintParserARG_FETCH;
 #ifndef NDEBUG
   if( yyTraceFILE ){
     fprintf(yyTraceFILE,"%sFail!\n",yyTracePrompt);
@@ -938,9 +745,9 @@ static void yy_parse_failed(
   /* Here code is inserted which will be executed whenever the
   ** parser fails */
 
+        DSGMAParserAuxSetParserFailed((gma_parseraux_t *)*parser_aux);
         DSError(M_DS_PARSE ": Parsing failed", A_DS_ERROR);
-        ((parse_expression_s *)parsed)->wasSuccesful = false;
-  DSExpressionParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
+  DSDesignSpaceConstraintParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 #endif /* YYNOERRORRECOVERY */
 
@@ -952,12 +759,12 @@ static void yy_syntax_error(
   int yymajor,                   /* The major type of the error token */
   YYMINORTYPE yyminor            /* The minor type of the error token */
 ){
-  DSExpressionParserARG_FETCH;
+  DSDesignSpaceConstraintParserARG_FETCH;
 #define TOKEN (yyminor.yy0)
 
+        DSGMAParserAuxSetParserFailed((gma_parseraux_t *)*parser_aux);
         DSError(M_DS_PARSE ": Syntax error", A_DS_ERROR);
-        ((parse_expression_s *)parsed)->wasSuccesful = false;
-  DSExpressionParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
+  DSDesignSpaceConstraintParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
 /*
@@ -966,7 +773,7 @@ static void yy_syntax_error(
 static void yy_accept(
   yyParser *yypParser           /* The parser */
 ){
-  DSExpressionParserARG_FETCH;
+  DSDesignSpaceConstraintParserARG_FETCH;
 #ifndef NDEBUG
   if( yyTraceFILE ){
     fprintf(yyTraceFILE,"%sAccept!\n",yyTracePrompt);
@@ -976,12 +783,12 @@ static void yy_accept(
   /* Here code is inserted which will be executed whenever the
   ** parser accepts */
 
-  DSExpressionParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
+  DSDesignSpaceConstraintParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
 /* The main parser program.
 ** The first argument is a pointer to a structure obtained from
-** "DSExpressionParserAlloc" which describes the current state of the parser.
+** "DSDesignSpaceConstraintParserAlloc" which describes the current state of the parser.
 ** The second argument is the major token number.  The third is
 ** the minor token.  The fourth optional argument is whatever the
 ** user wants (and specified in the grammar) and is available for
@@ -998,11 +805,11 @@ static void yy_accept(
 ** Outputs:
 ** None.
 */
-void DSExpressionParser(
+void DSDesignSpaceConstraintParser(
   void *yyp,                   /* The parser */
   int yymajor,                 /* The major token code number */
-  DSExpressionParserTOKENTYPE yyminor       /* The value for the token */
-  DSExpressionParserARG_PDECL               /* Optional %extra_argument parameter */
+  DSDesignSpaceConstraintParserTOKENTYPE yyminor       /* The value for the token */
+  DSDesignSpaceConstraintParserARG_PDECL               /* Optional %extra_argument parameter */
 ){
   YYMINORTYPE yyminorunion;
   int yyact;            /* The parser action. */
@@ -1030,7 +837,7 @@ void DSExpressionParser(
   }
   yyminorunion.yy0 = yyminor;
   yyendofinput = (yymajor==0);
-  DSExpressionParserARG_STORE;
+  DSDesignSpaceConstraintParserARG_STORE;
 
 #ifndef NDEBUG
   if( yyTraceFILE ){

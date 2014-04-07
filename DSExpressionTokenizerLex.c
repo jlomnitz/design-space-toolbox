@@ -381,8 +381,8 @@ static void yy_fatal_error (yyconst char msg[] ,yyscan_t yyscanner );
 	*yy_cp = '\0'; \
 	yyg->yy_c_buf_p = yy_cp;
 
-#define YY_NUM_RULES 15
-#define YY_END_OF_BUFFER 16
+#define YY_NUM_RULES 17
+#define YY_END_OF_BUFFER 18
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -390,11 +390,11 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[29] =
+static yyconst flex_int16_t yy_accept[31] =
     {   0,
-        0,    0,   16,   14,   15,   10,   11,    7,    5,    6,
-       12,    8,    4,   13,    2,    9,    2,    4,    4,    0,
-        4,    2,    2,    2,    0,    3,    1,    0
+        0,    0,   18,   16,   17,   10,   11,    7,    5,    6,
+       12,    8,    4,   14,   13,   15,    2,    9,    2,    4,
+        4,    0,    4,    2,    2,    2,    0,    3,    1,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -404,15 +404,15 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    3,
         4,    5,    6,    1,    7,    8,    9,   10,   10,   10,
-       10,   10,   10,   10,   10,   10,   10,    1,    1,    1,
-       11,    1,    1,    1,   12,   12,   12,   12,   13,   12,
-       12,   12,   12,   12,   12,   12,   12,   12,   12,   12,
-       12,   12,   12,   12,   12,   12,   12,   12,   12,   12,
-       14,   12,   15,   16,   12,    1,   12,   12,   12,   12,
+       10,   10,   10,   10,   10,   10,   10,    1,    1,   11,
+       12,   13,    1,    1,   14,   14,   14,   14,   15,   14,
+       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
+       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
+       16,   14,   17,   18,   14,    1,   14,   14,   14,   14,
 
-       12,   17,   12,   12,   18,   12,   12,   12,   12,   19,
-       12,   12,   12,   12,   12,   12,   12,   12,   12,   12,
-       12,   12,    1,    1,    1,    1,    1,    1,    1,    1,
+       14,   19,   14,   14,   20,   14,   14,   14,   14,   21,
+       14,   14,   14,   14,   14,   14,   14,   14,   14,   14,
+       14,   14,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -429,44 +429,49 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[20] =
+static yyconst flex_int32_t yy_meta[22] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
-        1,    2,    2,    1,    1,    1,    2,    2,    2
+        1,    1,    1,    2,    2,    1,    1,    1,    2,    2,
+        2
     } ;
 
-static yyconst flex_int16_t yy_base[31] =
+static yyconst flex_int16_t yy_base[33] =
     {   0,
-        0,    0,   40,   41,   41,   41,   41,   41,   41,   41,
-       41,   41,   12,   41,   29,   41,   11,   28,    0,   21,
-       24,    0,   25,   19,   24,   23,   22,   41,   22,   21
+        0,    0,   42,   43,   43,   43,   43,   43,   43,   43,
+       43,   43,   14,   43,   43,   43,   31,   43,   13,   30,
+        0,   18,   24,    0,   28,   16,   27,   26,   23,   43,
+       30,   25
     } ;
 
-static yyconst flex_int16_t yy_def[31] =
+static yyconst flex_int16_t yy_def[33] =
     {   0,
-       28,    1,   28,   28,   28,   28,   28,   28,   28,   28,
-       28,   28,   28,   28,   29,   28,   29,   13,   13,   28,
-       28,   30,   29,   29,   28,   28,   29,    0,   28,   28
+       30,    1,   30,   30,   30,   30,   30,   30,   30,   30,
+       30,   30,   30,   30,   30,   30,   31,   30,   31,   13,
+       13,   30,   30,   32,   31,   31,   30,   30,   31,    0,
+       30,   30
     } ;
 
-static yyconst flex_int16_t yy_nxt[61] =
+static yyconst flex_int16_t yy_nxt[65] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
-       14,   15,   15,    4,    4,   16,   15,   17,   15,   18,
-       22,   19,   22,   23,   20,   18,   21,   25,   22,   24,
-       26,   22,   26,   26,   22,   27,   20,   18,   22,   28,
-        3,   28,   28,   28,   28,   28,   28,   28,   28,   28,
-       28,   28,   28,   28,   28,   28,   28,   28,   28,   28
+       14,   15,   16,   17,   17,    4,    4,   18,   17,   19,
+       17,   20,   24,   21,   27,   24,   24,   28,   22,   20,
+       23,   25,   24,   26,   29,   28,   28,   24,   22,   20,
+       24,   30,    3,   30,   30,   30,   30,   30,   30,   30,
+       30,   30,   30,   30,   30,   30,   30,   30,   30,   30,
+       30,   30,   30,   30
     } ;
 
-static yyconst flex_int16_t yy_chk[61] =
+static yyconst flex_int16_t yy_chk[65] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,   13,
-       17,   13,   30,   29,   13,   13,   13,   20,   24,   17,
-       20,   27,   26,   25,   23,   24,   21,   18,   15,    3,
-       28,   28,   28,   28,   28,   28,   28,   28,   28,   28,
-       28,   28,   28,   28,   28,   28,   28,   28,   28,   28
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,   13,   19,   13,   22,   26,   32,   22,   13,   13,
+       13,   31,   29,   19,   26,   28,   27,   25,   23,   20,
+       17,    3,   30,   30,   30,   30,   30,   30,   30,   30,
+       30,   30,   30,   30,   30,   30,   30,   30,   30,   30,
+       30,   30,   30,   30
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -492,7 +497,7 @@ extern DSExpression * dsExpressionAllocWithOperator(const char op_code);
 extern DSExpression * dsExpressionAllocWithConstant(const double value);
 extern DSExpression * dsExpressionAllocWithVariableName(const char * name);
 
-#line 496 "<stdout>"
+#line 501 "<stdout>"
 
 #define INITIAL 0
 
@@ -713,7 +718,7 @@ YY_DECL
 
 #line 56 "DSExpressionGrammar.l"
 
-#line 717 "<stdout>"
+#line 722 "<stdout>"
 
 	if ( !yyg->yy_init )
 		{
@@ -766,13 +771,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 29 )
+				if ( yy_current_state >= 31 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 41 );
+		while ( yy_base[yy_current_state] != 43 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -806,7 +811,7 @@ YY_RULE_SETUP
         }
         token->next = DSExpressionTokenAlloc();
         token = token->next;
-        DSExpressionTokenSetType(token, DS_EXPRESSION_TOKEN_DOUBLE);
+        DSExpressionTokenSetType(token, DS_EXPRESSION_TOKEN_VALUE);
         DSExpressionTokenSetDouble(token, INFINITY);
         DSExpressionFlexset_extra(token,yyscanner);
 }
@@ -838,7 +843,7 @@ YY_RULE_SETUP
         sscanf(yytext, "%lf", &temp);
         token->next = DSExpressionTokenAlloc();
         token = token->next;
-        DSExpressionTokenSetType(token, DS_EXPRESSION_TOKEN_DOUBLE);
+        DSExpressionTokenSetType(token, DS_EXPRESSION_TOKEN_VALUE);
         DSExpressionTokenSetDouble(token, temp);
         DSExpressionFlexset_extra(token,yyscanner);
 }
@@ -855,7 +860,7 @@ YY_RULE_SETUP
         sscanf(yytext, "%lf", &temp);
         token->next = DSExpressionTokenAlloc();
         token = token->next;
-        DSExpressionTokenSetType(token, DS_EXPRESSION_TOKEN_DOUBLE);
+        DSExpressionTokenSetType(token, DS_EXPRESSION_TOKEN_VALUE);
         DSExpressionTokenSetDouble(token, temp);
         DSExpressionFlexset_extra(token,yyscanner);
 }
@@ -988,15 +993,43 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 208 "DSExpressionGrammar.l"
-{/* Do nothing. */}
+#line 209 "DSExpressionGrammar.l"
+{
+        struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
+        if (token == NULL) {
+                DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
+        }
+        token->next = DSExpressionTokenAlloc();
+        token = token->next;
+        DSExpressionTokenSetType(token, DS_EXPRESSION_TOKEN_LT);
+        DSExpressionFlexset_extra(token,yyscanner);
+}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 209 "DSExpressionGrammar.l"
+#line 220 "DSExpressionGrammar.l"
+{
+        struct expression_token *token = DSExpressionFlexget_extra(yyscanner);
+        if (token == NULL) {
+                DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
+        }
+        token->next = DSExpressionTokenAlloc();
+        token = token->next;
+        DSExpressionTokenSetType(token, DS_EXPRESSION_TOKEN_MT);
+        DSExpressionFlexset_extra(token,yyscanner);
+}
+	YY_BREAK
+case 16:
+YY_RULE_SETUP
+#line 231 "DSExpressionGrammar.l"
+{/* Do nothing. */}
+	YY_BREAK
+case 17:
+YY_RULE_SETUP
+#line 232 "DSExpressionGrammar.l"
 ECHO;
 	YY_BREAK
-#line 1000 "<stdout>"
+#line 1033 "<stdout>"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1290,7 +1323,7 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 29 )
+			if ( yy_current_state >= 31 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1319,11 +1352,11 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 29 )
+		if ( yy_current_state >= 31 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 28);
+	yy_is_jam = (yy_current_state == 30);
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2150,7 +2183,7 @@ void DSExpressionFlexfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 209 "DSExpressionGrammar.l"
+#line 232 "DSExpressionGrammar.l"
 
 
 
