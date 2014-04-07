@@ -36,9 +36,10 @@
 
 %name DSGMASystemParser
 %token_prefix  TOKEN_GMA_
-%type ID {char *}
+%type ID {void *}
+%type CONSTANT {void *}
 
-%nonassoc EQUALS.
+%nonassoc EQUALS LT MT.
 %left PLUS MINUS.
 %left DIVIDE TIMES.
 %left PRIME NOT.
@@ -75,15 +76,9 @@
 
 start ::= equation.
 
-//equation ::= ID EQUALS pterms.
-
 equation ::= ID PRIME EQUALS expression.
 
 equation ::= CONSTANT EQUALS expression.
-
-//expression ::= pterms mterms.
-//
-//expression ::= mterms PLUS pterms.
 
 expression ::= term. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
@@ -108,24 +103,6 @@ expression ::= expression MINUS term. {
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
-
-//pterms ::= term.{
-//        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
-//        DSGMAParserAuxNewTerm(*parser_aux);
-//        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
-//}
-//
-//pterms ::= pterms PLUS term.{
-//        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
-//        DSGMAParserAuxNewTerm(*parser_aux);
-//        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
-//}
-//
-//mterms ::= MINUS term. {
-//        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
-//        DSGMAParserAuxNewTerm(*parser_aux);
-//        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
-//}
 
 term ::= powerlaw.
 

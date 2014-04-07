@@ -36,9 +36,10 @@
 
 %name DSSSystemParser
 %token_prefix  TOKEN_SSYS_
-%type ID {char *}
+%type ID {void *}
+%type CONSTANT {void *}
 
-%nonassoc EQUALS.
+%nonassoc EQUALS LT MT.
 %left PLUS MINUS.
 %left DIVIDE TIMES.
 %left PRIME NOT.

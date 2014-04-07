@@ -27,15 +27,17 @@
 */
 #if INTERFACE
 #define TOKEN_SSYS_ID                              1
-#define TOKEN_SSYS_EQUALS                          2
-#define TOKEN_SSYS_PLUS                            3
-#define TOKEN_SSYS_MINUS                           4
-#define TOKEN_SSYS_DIVIDE                          5
-#define TOKEN_SSYS_TIMES                           6
-#define TOKEN_SSYS_PRIME                           7
-#define TOKEN_SSYS_NOT                             8
-#define TOKEN_SSYS_POWER                           9
-#define TOKEN_SSYS_CONSTANT                       10
+#define TOKEN_SSYS_CONSTANT                        2
+#define TOKEN_SSYS_EQUALS                          3
+#define TOKEN_SSYS_LT                              4
+#define TOKEN_SSYS_MT                              5
+#define TOKEN_SSYS_PLUS                            6
+#define TOKEN_SSYS_MINUS                           7
+#define TOKEN_SSYS_DIVIDE                          8
+#define TOKEN_SSYS_TIMES                           9
+#define TOKEN_SSYS_PRIME                          10
+#define TOKEN_SSYS_NOT                            11
+#define TOKEN_SSYS_POWER                          12
 #endif
 /* Make sure the INTERFACE macro is defined.
 */
@@ -77,7 +79,7 @@
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 20
+#define YYNOCODE 22
 #define YYACTIONTYPE unsigned char
 #if INTERFACE
 #define DSSSystemParserTOKENTYPE void*
@@ -165,38 +167,42 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **                     shifting non-terminals after a reduce.
 **  yy_default[]       Default action for each state.
 */
+#define YY_ACTTAB_COUNT (50)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    20,   14,   18,   11,   28,   21,   14,   18,   11,   28,
- /*    10 */    13,   16,    6,    4,   30,   13,   11,   28,   13,   24,
- /*    20 */     6,   27,   47,   19,   24,    5,    7,   24,   15,   12,
- /*    30 */     9,   28,   22,   29,   25,    4,   23,    8,   17,   10,
- /*    40 */     2,    1,   26,    3,   31,
+ /*     0 */    30,   16,   13,    9,   23,   20,   16,   13,    9,   23,
+ /*    10 */    15,   27,   15,   27,   26,    5,    4,    5,   21,   14,
+ /*    20 */     9,   23,    6,    7,   15,   27,   11,   23,   31,   47,
+ /*    30 */    19,   18,   12,    8,   17,    2,   25,   10,    1,    3,
+ /*    40 */    29,   28,   48,    4,   48,   48,   24,   48,   48,   22,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    14,   15,   16,   17,   18,   14,   15,   16,   17,   18,
- /*    10 */     1,    7,    3,    4,   15,    1,   17,   18,    1,   10,
- /*    20 */     3,   18,   12,   13,   10,    5,    6,   10,    4,    1,
- /*    30 */    17,   18,   16,   18,   10,    4,   18,    3,   10,    9,
- /*    40 */     2,    2,   10,    3,    0,
+ /*     0 */    16,   17,   18,   19,   20,   16,   17,   18,   19,   20,
+ /*    10 */     1,    2,    1,    2,    2,    6,    7,    6,   17,    7,
+ /*    20 */    19,   20,    8,    9,    1,    2,   19,   20,    0,   14,
+ /*    30 */    15,    1,    2,    6,   10,    3,    2,   12,    3,    6,
+ /*    40 */    18,   20,   21,    7,   21,   21,   20,   21,   21,   20,
 };
 #define YY_SHIFT_USE_DFLT (-1)
-#define YY_SHIFT_MAX 19
+#define YY_SHIFT_COUNT (19)
+#define YY_SHIFT_MIN   (0)
+#define YY_SHIFT_MAX   (36)
 static const signed char yy_shift_ofst[] = {
- /*     0 */    28,    9,    9,   17,   17,   14,   14,   14,   31,   20,
- /*    10 */    24,   20,    4,   30,   34,   32,   38,   39,   40,   44,
+ /*     0 */    30,    9,    9,   11,   11,   23,   23,   23,   36,   14,
+ /*    10 */    12,   14,   35,   33,   34,   25,   27,   32,   24,   28,
 };
-#define YY_REDUCE_USE_DFLT (-15)
-#define YY_REDUCE_MAX 8
+#define YY_REDUCE_USE_DFLT (-17)
+#define YY_REDUCE_COUNT (8)
+#define YY_REDUCE_MIN   (-16)
+#define YY_REDUCE_MAX   (29)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */    10,  -14,   -9,   -1,   13,    3,   15,   18,   16,
+ /*     0 */    15,  -11,  -16,    1,    7,   29,   26,   21,   22,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    46,   46,   46,   46,   46,   46,   46,   46,   46,   37,
- /*    10 */    46,   36,   46,   43,   46,   46,   46,   46,   46,   46,
- /*    20 */    33,   32,   34,   40,   42,   44,   45,   41,   38,   39,
- /*    30 */    35,
+ /*     0 */    46,   46,   46,   46,   46,   46,   46,   46,   46,   36,
+ /*    10 */    46,   37,   46,   46,   46,   43,   46,   46,   46,   46,
+ /*    20 */    33,   35,   39,   38,   41,   45,   44,   42,   40,   34,
+ /*    30 */    32,
 };
-#define YY_SZ_ACTTAB (int)(sizeof(yy_action)/sizeof(yy_action[0]))
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
@@ -288,11 +294,12 @@ void DSSSystemParserTrace(FILE *TraceFILE, char *zTracePrompt){
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
 static const char *const yyTokenName[] = { 
-  "$",             "ID",            "EQUALS",        "PLUS",        
-  "MINUS",         "DIVIDE",        "TIMES",         "PRIME",       
-  "NOT",           "POWER",         "CONSTANT",      "error",       
-  "start",         "equation",      "expression",    "pterm",       
-  "mterm",         "term",          "powerlaw",    
+  "$",             "ID",            "CONSTANT",      "EQUALS",      
+  "LT",            "MT",            "PLUS",          "MINUS",       
+  "DIVIDE",        "TIMES",         "PRIME",         "NOT",         
+  "POWER",         "error",         "start",         "equation",    
+  "expression",    "pterm",         "mterm",         "term",        
+  "powerlaw",    
 };
 #endif /* NDEBUG */
 
@@ -473,12 +480,13 @@ static int yy_find_shift_action(
   int i;
   int stateno = pParser->yystack[pParser->yyidx].stateno;
  
-  if( stateno>YY_SHIFT_MAX || (i = yy_shift_ofst[stateno])==YY_SHIFT_USE_DFLT ){
+  if( stateno>YY_SHIFT_COUNT
+   || (i = yy_shift_ofst[stateno])==YY_SHIFT_USE_DFLT ){
     return yy_default[stateno];
   }
   assert( iLookAhead!=YYNOCODE );
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=YY_ACTTAB_COUNT || yy_lookahead[i]!=iLookAhead ){
     if( iLookAhead>0 ){
 #ifdef YYFALLBACK
       YYCODETYPE iFallback;            /* Fallback token */
@@ -496,7 +504,15 @@ static int yy_find_shift_action(
 #ifdef YYWILDCARD
       {
         int j = i - iLookAhead + YYWILDCARD;
-        if( j>=0 && j<YY_SZ_ACTTAB && yy_lookahead[j]==YYWILDCARD ){
+        if( 
+#if YY_SHIFT_MIN+YYWILDCARD<0
+          j>=0 &&
+#endif
+#if YY_SHIFT_MAX+YYWILDCARD>=YY_ACTTAB_COUNT
+          j<YY_ACTTAB_COUNT &&
+#endif
+          yy_lookahead[j]==YYWILDCARD
+        ){
 #ifndef NDEBUG
           if( yyTraceFILE ){
             fprintf(yyTraceFILE, "%sWILDCARD %s => %s\n",
@@ -528,22 +544,22 @@ static int yy_find_reduce_action(
 ){
   int i;
 #ifdef YYERRORSYMBOL
-  if( stateno>YY_REDUCE_MAX ){
+  if( stateno>YY_REDUCE_COUNT ){
     return yy_default[stateno];
   }
 #else
-  assert( stateno<=YY_REDUCE_MAX );
+  assert( stateno<=YY_REDUCE_COUNT );
 #endif
   i = yy_reduce_ofst[stateno];
   assert( i!=YY_REDUCE_USE_DFLT );
   assert( iLookAhead!=YYNOCODE );
   i += iLookAhead;
 #ifdef YYERRORSYMBOL
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=YY_ACTTAB_COUNT || yy_lookahead[i]!=iLookAhead ){
     return yy_default[stateno];
   }
 #else
-  assert( i>=0 && i<YY_SZ_ACTTAB );
+  assert( i>=0 && i<YY_ACTTAB_COUNT );
   assert( yy_lookahead[i]==iLookAhead );
 #endif
   return yy_action[i];
@@ -619,21 +635,21 @@ static const struct {
   YYCODETYPE lhs;         /* Symbol on the left-hand side of the rule */
   unsigned char nrhs;     /* Number of right-hand side symbols in the rule */
 } yyRuleInfo[] = {
-  { 12, 1 },
-  { 13, 4 },
-  { 13, 3 },
-  { 14, 3 },
-  { 14, 3 },
-  { 15, 1 },
-  { 16, 2 },
+  { 14, 1 },
+  { 15, 4 },
+  { 15, 3 },
+  { 16, 3 },
+  { 16, 3 },
   { 17, 1 },
-  { 17, 2 },
-  { 17, 3 },
-  { 17, 3 },
-  { 18, 1 },
-  { 18, 1 },
-  { 18, 3 },
-  { 18, 4 },
+  { 18, 2 },
+  { 19, 1 },
+  { 19, 2 },
+  { 19, 3 },
+  { 19, 3 },
+  { 20, 1 },
+  { 20, 1 },
+  { 20, 3 },
+  { 20, 4 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */

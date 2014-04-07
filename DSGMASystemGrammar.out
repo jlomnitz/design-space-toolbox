@@ -24,9 +24,9 @@ State 1:
           powerlaw ::= * ID POWER MINUS CONSTANT
 
                             ID shift  18
+                      CONSTANT shift  27
                           PLUS shift  6
                          MINUS shift  3
-                      CONSTANT shift  27
                     expression shift  9
                           term shift  11
                       powerlaw shift  23
@@ -47,9 +47,9 @@ State 2:
           powerlaw ::= * ID POWER MINUS CONSTANT
 
                             ID shift  18
+                      CONSTANT shift  27
                           PLUS shift  6
                          MINUS shift  3
-                      CONSTANT shift  27
                     expression shift  15
                           term shift  11
                       powerlaw shift  23
@@ -66,8 +66,8 @@ State 3:
           powerlaw ::= * ID POWER MINUS CONSTANT
 
                             ID shift  18
-                          PLUS shift  6
                       CONSTANT shift  27
+                          PLUS shift  6
                           term shift  10
                       powerlaw shift  23
 
@@ -83,8 +83,8 @@ State 4:
           powerlaw ::= * ID POWER MINUS CONSTANT
 
                             ID shift  18
-                          PLUS shift  6
                       CONSTANT shift  27
+                          PLUS shift  6
                           term shift  12
                       powerlaw shift  23
 
@@ -100,8 +100,8 @@ State 5:
           powerlaw ::= * ID POWER MINUS CONSTANT
 
                             ID shift  18
-                          PLUS shift  6
                       CONSTANT shift  27
+                          PLUS shift  6
                           term shift  14
                       powerlaw shift  23
 
@@ -178,8 +178,8 @@ State 13:
           powerlaw ::= ID POWER * CONSTANT
           powerlaw ::= ID POWER * MINUS CONSTANT
 
-                         MINUS shift  17
                       CONSTANT shift  26
+                         MINUS shift  17
 
 State 14:
       (5) expression ::= expression PLUS term *
@@ -271,18 +271,20 @@ State 28:
 Symbols:
     0: $:
     1: ID
-    2: EQUALS
-    3: PLUS
-    4: MINUS
-    5: DIVIDE
-    6: TIMES
-    7: PRIME
-    8: NOT
-    9: POWER
-   10: CONSTANT
-   11: error:
-   12: start: ID CONSTANT
-   13: equation: ID CONSTANT
-   14: expression: ID PLUS MINUS CONSTANT
-   15: term: ID PLUS CONSTANT
-   16: powerlaw: ID CONSTANT
+    2: CONSTANT
+    3: EQUALS
+    4: LT
+    5: MT
+    6: PLUS
+    7: MINUS
+    8: DIVIDE
+    9: TIMES
+   10: PRIME
+   11: NOT
+   12: POWER
+   13: error:
+   14: start: ID CONSTANT
+   15: equation: ID CONSTANT
+   16: expression: ID CONSTANT PLUS MINUS
+   17: term: ID CONSTANT PLUS
+   18: powerlaw: ID CONSTANT
