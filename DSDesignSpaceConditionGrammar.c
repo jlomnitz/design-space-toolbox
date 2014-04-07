@@ -27,17 +27,17 @@
 */
 #if INTERFACE
 #define TOKEN_DSC_ID                              1
-#define TOKEN_DSC_EQUALS                          2
-#define TOKEN_DSC_PLUS                            3
-#define TOKEN_DSC_MINUS                           4
-#define TOKEN_DSC_DIVIDE                          5
-#define TOKEN_DSC_TIMES                           6
-#define TOKEN_DSC_PRIME                           7
-#define TOKEN_DSC_NOT                             8
-#define TOKEN_DSC_POWER                           9
-#define TOKEN_DSC_LT                             10
-#define TOKEN_DSC_MT                             11
-#define TOKEN_DSC_CONSTANT                       12
+#define TOKEN_DSC_CONSTANT                        2
+#define TOKEN_DSC_EQUALS                          3
+#define TOKEN_DSC_LT                              4
+#define TOKEN_DSC_MT                              5
+#define TOKEN_DSC_PLUS                            6
+#define TOKEN_DSC_MINUS                           7
+#define TOKEN_DSC_DIVIDE                          8
+#define TOKEN_DSC_TIMES                           9
+#define TOKEN_DSC_PRIME                          10
+#define TOKEN_DSC_NOT                            11
+#define TOKEN_DSC_POWER                          12
 #endif
 /* Make sure the INTERFACE macro is defined.
 */
@@ -167,34 +167,33 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **                     shifting non-terminals after a reduce.
 **  yy_default[]       Default action for each state.
 */
-#define YY_ACTTAB_COUNT (18)
+#define YY_ACTTAB_COUNT (15)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    21,    7,    4,    2,    1,    5,    6,   13,    3,    9,
- /*    10 */    12,    8,   22,   10,   22,   22,   22,   11,
+ /*     0 */    21,    7,    4,    2,    1,   10,    6,   11,   13,    3,
+ /*    10 */     5,    9,   12,   22,    8,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    14,   15,   16,   10,   11,    4,    1,    0,    9,   12,
- /*    10 */    16,   16,   17,   12,   17,   17,   17,   12,
+ /*     0 */    14,   15,   16,    4,    5,    2,    1,    2,    0,   12,
+ /*    10 */     7,    2,   16,   17,   16,
 };
-#define YY_SHIFT_USE_DFLT (-8)
+#define YY_SHIFT_USE_DFLT (-4)
 #define YY_SHIFT_COUNT (7)
-#define YY_SHIFT_MIN   (-7)
-#define YY_SHIFT_MAX   (7)
+#define YY_SHIFT_MIN   (-3)
+#define YY_SHIFT_MAX   (9)
 static const signed char yy_shift_ofst[] = {
- /*     0 */     5,    5,    5,    1,   -7,   -3,   -1,    7,
+ /*     0 */     5,    5,    5,    3,   -1,    9,   -3,    8,
 };
 #define YY_REDUCE_USE_DFLT (-15)
 #define YY_REDUCE_COUNT (2)
 #define YY_REDUCE_MIN   (-14)
 #define YY_REDUCE_MAX   (0)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */   -14,   -5,   -6,
+ /*     0 */   -14,   -2,   -4,
 };
 static const YYACTIONTYPE yy_default[] = {
  /*     0 */    20,   20,   20,   20,   20,   20,   17,   20,   15,   19,
  /*    10 */    18,   16,   14,
 };
-#define YY_SZ_ACTTAB (int)(sizeof(yy_action)/sizeof(yy_action[0]))
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
@@ -286,10 +285,10 @@ void DSDesignSpaceConstraintParserTrace(FILE *TraceFILE, char *zTracePrompt){
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
 static const char *const yyTokenName[] = { 
-  "$",             "ID",            "EQUALS",        "PLUS",        
-  "MINUS",         "DIVIDE",        "TIMES",         "PRIME",       
-  "NOT",           "POWER",         "LT",            "MT",          
-  "CONSTANT",      "error",         "start",         "constraint",  
+  "$",             "ID",            "CONSTANT",      "EQUALS",      
+  "LT",            "MT",            "PLUS",          "MINUS",       
+  "DIVIDE",        "TIMES",         "PRIME",         "NOT",         
+  "POWER",         "error",         "start",         "constraint",  
   "powerlaw",    
 };
 #endif /* NDEBUG */
@@ -463,12 +462,13 @@ static int yy_find_shift_action(
   int i;
   int stateno = pParser->yystack[pParser->yyidx].stateno;
  
-  if( stateno>YY_SHIFT_MAX || (i = yy_shift_ofst[stateno])==YY_SHIFT_USE_DFLT ){
+  if( stateno>YY_SHIFT_COUNT
+   || (i = yy_shift_ofst[stateno])==YY_SHIFT_USE_DFLT ){
     return yy_default[stateno];
   }
   assert( iLookAhead!=YYNOCODE );
   i += iLookAhead;
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=YY_ACTTAB_COUNT || yy_lookahead[i]!=iLookAhead ){
     if( iLookAhead>0 ){
 #ifdef YYFALLBACK
       YYCODETYPE iFallback;            /* Fallback token */
@@ -486,7 +486,15 @@ static int yy_find_shift_action(
 #ifdef YYWILDCARD
       {
         int j = i - iLookAhead + YYWILDCARD;
-        if( j>=0 && j<YY_SZ_ACTTAB && yy_lookahead[j]==YYWILDCARD ){
+        if( 
+#if YY_SHIFT_MIN+YYWILDCARD<0
+          j>=0 &&
+#endif
+#if YY_SHIFT_MAX+YYWILDCARD>=YY_ACTTAB_COUNT
+          j<YY_ACTTAB_COUNT &&
+#endif
+          yy_lookahead[j]==YYWILDCARD
+        ){
 #ifndef NDEBUG
           if( yyTraceFILE ){
             fprintf(yyTraceFILE, "%sWILDCARD %s => %s\n",
@@ -518,22 +526,22 @@ static int yy_find_reduce_action(
 ){
   int i;
 #ifdef YYERRORSYMBOL
-  if( stateno>YY_REDUCE_MAX ){
+  if( stateno>YY_REDUCE_COUNT ){
     return yy_default[stateno];
   }
 #else
-  assert( stateno<=YY_REDUCE_MAX );
+  assert( stateno<=YY_REDUCE_COUNT );
 #endif
   i = yy_reduce_ofst[stateno];
   assert( i!=YY_REDUCE_USE_DFLT );
   assert( iLookAhead!=YYNOCODE );
   i += iLookAhead;
 #ifdef YYERRORSYMBOL
-  if( i<0 || i>=YY_SZ_ACTTAB || yy_lookahead[i]!=iLookAhead ){
+  if( i<0 || i>=YY_ACTTAB_COUNT || yy_lookahead[i]!=iLookAhead ){
     return yy_default[stateno];
   }
 #else
-  assert( i>=0 && i<YY_SZ_ACTTAB );
+  assert( i>=0 && i<YY_ACTTAB_COUNT );
   assert( yy_lookahead[i]==iLookAhead );
 #endif
   return yy_action[i];

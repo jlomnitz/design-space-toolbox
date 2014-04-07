@@ -76,8 +76,6 @@
 
 start ::= equation.
 
-//equation ::= ID EQUALS expression.
-
 equation ::= ID PRIME EQUALS expression.
 
 equation ::= CONSTANT EQUALS expression.
