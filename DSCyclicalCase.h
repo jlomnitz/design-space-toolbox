@@ -115,6 +115,10 @@ extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *aSubcase, c
 
 extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclicalCases(DSCyclicalCase *cyclicalCase);
 
+extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSliceByResolvingCyclicalCases(DSCyclicalCase *cyclicalCase,
+                                                                                              const DSVariablePool * lower,
+                                                                                              const DSVariablePool * upper);
+
 extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcases(const DSCyclicalCase * cyclicalCase);
 
 extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSlice(const DSCyclicalCase * cyclicalCase,

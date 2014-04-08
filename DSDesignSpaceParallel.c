@@ -380,6 +380,90 @@ bail:
         pthread_exit(NULL);
 }
 
+extern void * DSParallelWorkerValidityForSliceResolveCycles(void * pthread_struct)
+{
+        struct pthread_struct * pdata = NULL;
+        DSUInteger j, numberValidSubcases, caseNumber;
+        DSCase *aCase;
+        const DSCyclicalCase * cyclicalCase;
+        char nameString[100], *subcaseString = NULL;
+        const char ** subcaseNames;
+        DSVariablePool * lower, *upper;
+        DSDictionary * subcaseDictionary;
+        if (pthread_struct == NULL) {
+                DSError(M_DS_NULL ": Parallel worker data is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        pdata = (struct pthread_struct *)pthread_struct;
+        if (pdata->stack == NULL) {
+                DSError(M_DS_NULL ": Stack in parallel worker is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds->validCases == NULL) {
+                DSError(M_DS_NULL ": Dictionary of valid cases is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->ds->gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (pdata->numberOfArguments == 0) {
+                DSError(M_DS_WRONG ": p_data structure needs two arguments", A_DS_ERROR);
+                goto bail;
+        }
+        lower = pdata->functionArguments[0];
+        upper = pdata->functionArguments[1];
+        if (lower == NULL || upper == NULL) {
+                DSError(M_DS_VAR_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        pdata->returnPointer = DSDictionaryAlloc();
+        glp_init_env();
+        /** Data in stack MUST be a case number, if not an error will occur **/
+        while (pdata->stack->count > 0)  {
+                caseNumber = DSParallelStackPop(pdata->stack);
+                if (caseNumber == 0) {
+                        continue;
+                }
+                if (caseNumber > DSDesignSpaceNumberOfCases(pdata->ds)) {
+                        DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
+                        continue;
+                }
+                aCase = DSDesignSpaceCaseWithCaseNumber(pdata->ds, caseNumber);
+                sprintf(nameString, "%d", caseNumber);
+                cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(pdata->ds, caseNumber);
+                if (cyclicalCase != NULL) {
+                        subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesForSliceByResolvingCyclicalCases((DSCyclicalCase *)cyclicalCase,
+                                                                                                                    lower,
+                                                                                                                    upper);
+                        if (subcaseDictionary == NULL) {
+                                DSCaseFree(aCase);
+                                continue;
+                        }
+                        numberValidSubcases = DSDictionaryCount(subcaseDictionary);
+                        subcaseNames = DSDictionaryNames(subcaseDictionary);
+                        for (j = 0; j < numberValidSubcases; j++) {
+                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
+                                DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
+                        }
+                        DSDictionaryFree(subcaseDictionary);
+                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
+                        DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, nameString, aCase);
+                } else {
+                        DSCaseFree(aCase);
+                }
+        }
+        glp_free_env();
+bail:
+        if (subcaseString != NULL)
+                DSSecureFree(subcaseString);
+        pthread_exit(NULL);
+}
+
 extern void * DSParallelWorkerValiditySlice(void * pthread_struct)
 {
         struct pthread_struct * pdata = NULL;

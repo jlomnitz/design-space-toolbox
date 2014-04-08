@@ -395,6 +395,53 @@ bail:
 }
 
 
+extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSliceByResolvingCyclicalCases(DSCyclicalCase *cyclicalCase,
+                                                                                              const DSVariablePool * lower,
+                                                                                              const DSVariablePool * upper)
+{
+        DSDictionary * caseDictionary = NULL, *subcaseDictionary;
+        DSUInteger i, j, numberValidSubcases = 0;
+        DSUInteger validCaseNumbers = 0;
+        char nameString[100],  * subcaseString = NULL;
+        const char ** subcaseNames;
+        DSCase * aCase = NULL;
+        DSCyclicalCase * cyclicalSubcase;
+        if (cyclicalCase == NULL) {
+                DSError(M_DS_CASE_NULL ": Cyclical Case is Null", A_DS_ERROR);
+                goto bail;
+        }
+        if (lower == NULL || upper == NULL) {
+                DSError(M_DS_VAR_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        caseDictionary = DSDictionaryAlloc();
+        for (i = 0; i < DSCyclicalCaseNumberOfSubcases(cyclicalCase); i++) {
+                validCaseNumbers = i+1;
+                sprintf(nameString, "%d", validCaseNumbers);
+                aCase = DSCyclicalCaseSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
+                cyclicalSubcase = (DSCyclicalCase *)DSCyclicalCaseCyclicalSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
+                if (cyclicalSubcase != NULL) {
+                        subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesForSliceByResolvingCyclicalCases(cyclicalSubcase, lower, upper);
+                        numberValidSubcases = DSDictionaryCount(subcaseDictionary);
+                        subcaseNames = DSDictionaryNames(subcaseDictionary);
+                        for (j = 0; j < numberValidSubcases; j++) {
+                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
+                                DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
+                        }
+                        DSDictionaryFree(subcaseDictionary);
+                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
+                        DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
+                } else {
+                        DSCaseFree(aCase);
+                }
+        }
+bail:
+        if (subcaseString != NULL)
+                DSSecureFree(subcaseString);
+        return caseDictionary;
+}
+
+
 extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcases(const DSCyclicalCase * cyclicalCase)
 {
         const DSDesignSpace * ds;
