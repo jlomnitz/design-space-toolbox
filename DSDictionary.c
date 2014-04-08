@@ -336,6 +336,10 @@ bail:
         return;
 }
 
+static int DSGenericPrint(void * pointer) {
+        printf("%p", pointer);
+        return 0;
+}
 /**
  * \brief Prints the VarDictionary.
  *
@@ -550,11 +554,7 @@ bail:
 
 extern void DSDictionaryPrint(const DSDictionary *dictionary)
 {
-        if (dictionary == NULL) {
-                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        dsInternalDictionaryPrint(dictionary->internal);
+        DSDictionaryPrintWithFunction(dictionary, DSGenericPrint);
 bail:
         return;
 }

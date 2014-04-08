@@ -101,6 +101,7 @@ extern DSUInteger * DSDesignSpaceCaseNumbersWithPrefix(const DSDesignSpace * ds,
 extern DSCase ** DSDesignSpaceCalculateCases(DSDesignSpace *ds, const DSUInteger numberOfCase, DSUInteger *cases);
 extern DSCase ** DSDesignSpaceCalculateValidCasesByPrunning(DSDesignSpace *ds);
 extern DSCase ** DSDesignSpaceCalculateAllValidCases(DSDesignSpace *ds);
+extern DSDictionary * DSDesignSpaceCalculateAllValidCasesByResolvingCyclicalCases(DSDesignSpace *ds);
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper);
 
 #if defined (__APPLE__) && defined (__MACH__)

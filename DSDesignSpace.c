@@ -739,6 +739,117 @@ bail:
         return;
 }
 
+static DSDictionary * dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCasesSeries(DSDesignSpace *ds)
+{
+        DSDictionary * caseDictionary = NULL, *subcaseDictionary;
+        DSUInteger i, j, numberValid = 0, numberValidSubcases;
+        DSUInteger validCaseNumbers = 0;
+        char nameString[100], * subcaseString = NULL;
+        const char **subcaseNames;
+        DSCase * aCase = NULL;
+        const DSCyclicalCase * cyclicalCase = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        caseDictionary = DSDictionaryAlloc();
+        numberValid = DSDesignSpaceNumberOfValidCases(ds);
+        if (numberValid == 0)
+                goto bail;
+        for (i = 0; i < numberValid; i++) {
+                validCaseNumbers = atoi(ds->validCases->names[i]);
+                aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
+                sprintf(nameString, "%d", validCaseNumbers);
+                cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(ds, validCaseNumbers);
+                if (cyclicalCase != NULL) {
+                        subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclicalCases((DSCyclicalCase *)cyclicalCase);
+                        if (subcaseDictionary == NULL) {
+                                DSCaseFree(aCase);
+                                continue;
+                        }
+                        numberValidSubcases = DSDictionaryCount(subcaseDictionary);
+                        subcaseNames = DSDictionaryNames(subcaseDictionary);
+                        for (j = 0; j < numberValidSubcases; j++) {
+                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
+                                DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
+                        }
+                        DSDictionaryFree(subcaseDictionary);
+                } else if (DSCaseIsValid(aCase) == true) {
+                        DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
+                } else {
+                        DSCaseFree(aCase);
+                }
+        }
+bail:
+        if (subcaseString != NULL)
+                DSSecureFree(subcaseString);
+        return caseDictionary;
+}
+
+static DSDictionary * dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCasesSeriesParallelBSD(DSDesignSpace *ds)
+{
+        DSDictionary * caseDictionary = NULL;
+        DSUInteger i, j, numberValid = 0;
+        DSUInteger validCaseNumbers = 0;
+        const char * name;
+        long int numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
+        pthread_t * threads = NULL;
+        pthread_attr_t attr;
+        ds_parallelstack_t *stack;
+        struct pthread_struct *pdatas;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
+                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        caseDictionary = DSDictionaryAlloc();
+        numberValid = DSDesignSpaceNumberOfValidCases(ds);
+        if (numberValid == 0)
+                goto bail;
+        pthread_attr_init(&attr);
+        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+        /* Should optimize number of threads to system */
+        
+        /* Initializing parallel data stacks and pthreads data structure */
+        
+        stack = DSParallelStackAlloc();
+        pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
+        for (i = 0; i < numberOfThreads; i++) {
+                pdatas[i].ds = ds;
+                pdatas[i].stack = stack;
+        }
+        for (i = 0; i < numberValid; i++) {
+                validCaseNumbers = atoi(ds->validCases->names[i]);
+                DSParallelStackPush(stack, validCaseNumbers);
+        }
+        threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
+        /* Creating the N-threads with their data */
+        for (i = 0; i < numberOfThreads; i++)
+                pthread_create(&threads[i], &attr, DSParallelWorkerValidityResolveCycles, (void *)(&pdatas[i]));
+        /* Joining all the N-threads, indicating all cases have been processed */
+        for (i = 0; i < numberOfThreads; i++) {
+                pthread_join(threads[i], NULL);
+                for (j = 0; j < DSDictionaryCount(pdatas[i].returnPointer); j++) {
+                        name = DSDictionaryNames((DSDictionary *)pdatas[i].returnPointer)[j];
+                        DSDictionaryAddValueWithName(caseDictionary, name, DSDictionaryValueForName(pdatas[i].returnPointer, name));
+                }
+                DSDictionaryFree((DSDictionary*)pdatas[i].returnPointer);
+        }
+        DSParallelStackFree(stack);
+        DSSecureFree(threads);
+        DSSecureFree(pdatas);
+        pthread_attr_destroy(&attr);
+bail:
+        return caseDictionary;
+}
+
 static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceSeries(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
 {
         DSDictionary * caseDictionary = NULL;
@@ -1363,6 +1474,22 @@ extern DSCase ** DSDesignSpaceCalculateAllValidCases(DSDesignSpace *ds)
         DSSecureFree(validCaseNumbers);
 bail:
         return validCases;
+}
+
+extern DSDictionary * DSDesignSpaceCalculateAllValidCasesByResolvingCyclicalCases(DSDesignSpace *ds)
+{
+        DSDictionary * caseDictionary = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (ds->seriesCalculations == false) {
+                caseDictionary = dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCasesSeriesParallelBSD(ds);
+        } else {
+                caseDictionary = dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCasesSeries(ds);
+        }
+bail:
+        return caseDictionary;
 }
 
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)

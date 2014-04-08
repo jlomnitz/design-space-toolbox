@@ -93,6 +93,7 @@ extern void * DSParallelWorkerCyclicalCases(void * pthread_struct);
 extern void * DSParallelWorkerCasesSaveToDisk(void * pthread_struct);
 
 extern void * DSParallelWorkerValidity(void * pthread_struct);
+extern void * DSParallelWorkerValidityResolveCycles(void * pthread_struct);
 extern void * DSParallelWorkerValiditySlice(void * pthread_struct);
 
 

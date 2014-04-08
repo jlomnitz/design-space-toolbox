@@ -113,6 +113,8 @@ extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *aSubcase, c
 #pragma mark - Utility -
 #endif
 
+extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclicalCases(DSCyclicalCase *cyclicalCase);
+
 extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcases(const DSCyclicalCase * cyclicalCase);
 
 extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSlice(const DSCyclicalCase * cyclicalCase,
