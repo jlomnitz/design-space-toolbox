@@ -1020,7 +1020,7 @@ static DSDictionary * dsDesignSpaceCalculateValidityAtSliceParallelBSD(DSDesignS
         DSDictionary * caseDictionary = NULL;
         DSUInteger i, j, numberValid = 0;
         DSUInteger validCaseNumbers = 0;
-        char * name;
+        const char * name;
         long int numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
         pthread_t * threads = NULL;
         pthread_attr_t attr;
@@ -1083,30 +1083,6 @@ static DSDictionary * dsDesignSpaceCalculateValidityAtSliceParallelBSD(DSDesignS
 bail:
         return caseDictionary;
 }
-
-//static void dsDesignSpaceCalculateCasesSeries(DSDesignSpace *ds)
-//{
-//        DSUInteger i;
-//        if (ds == NULL) {
-//                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-////        if (DSDSCases(ds) == NULL) {
-////                DSError(M_DS_NULL ": Array of cases is NULL", A_DS_ERROR);
-////        }
-//        if (DSDSGMA(ds) == NULL) {
-//                DSError(M_DS_GMA_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
-//                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        for (i = 0; i < DSDSNumCases(ds); i++)
-//                DSDesignSpaceCaseWithCaseNumber(ds, i+1);
-//bail:
-//        return;  
-//}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Case and Case validity
