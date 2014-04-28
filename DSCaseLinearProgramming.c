@@ -135,6 +135,29 @@ bail:
         return linearProblem;
 }
 
+extern const bool DSCaseConditionsAreValid(const DSCase *aCase)
+{
+        bool isValid = false;
+        glp_prob *linearProblem = NULL;
+        DSMatrix * U, * Zeta;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        U = DSMatrixAppendMatrices(DSCaseCd(aCase), DSCaseCi(aCase), true);
+        Zeta = DSCaseDelta(aCase);
+        linearProblem = dsCaseLinearProblemForCaseValidity(U, Zeta);
+        DSMatrixFree(U);
+        if (linearProblem != NULL) {
+                glp_simplex(linearProblem, NULL);
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                        isValid = true;
+                }
+                glp_delete_prob(linearProblem);
+        }
+bail:
+        return isValid;
+}
 
 extern const bool DSCaseIsValid(const DSCase *aCase)
 {

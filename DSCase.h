@@ -117,6 +117,7 @@ extern DSMatrix * DSCaseDoubleValueBoundariesAtPoint(const DSCase * aCase, const
 #pragma mark Linear programming functions - See DSCaseLinearProgramming.c
 #endif
 
+extern const bool DSCaseConditionsAreValid(const DSCase *aCase);
 
 extern const bool DSCaseIsValid(const DSCase *aCase);
 extern const bool DSCaseIsValidInStateSpace(const DSCase *aCase);
