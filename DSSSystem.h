@@ -73,13 +73,13 @@ extern DSMatrix * DSSSystemSteadyStateFluxForDependentVariables(const DSSSystem 
                                                                 const DSVariablePool * Xd0,
                                                                 const DSVariablePool * Xi0);
 extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0);
-extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, const DSMatrix * F);
+extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, const DSMatrix * F, bool * hasImaginaryRoots);
 extern DSMatrix * DSSSystemRouthArrayForSteadyState(const DSSSystem *ssys,
                                                     const DSVariablePool *Xd0,
                                                     const DSVariablePool *Xi0);
-extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0, bool * hasImaginaryRoots);
 extern DSUInteger DSSSystemNumberOfPositiveRootsForRouthArray(const DSMatrix *routhArray);
-extern DSUInteger DSSSystemPositiveRoots(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSUInteger DSSSystemPositiveRoots(const DSSSystem *ssys, const DSVariablePool *Xi0, bool * hasImaginaryRoots);
 extern DSUInteger DSSSystemPositiveRootsForSteadyStateAndFlux(const DSSSystem *ssys,
                                                               const DSVariablePool *Xd0,
                                                               const DSVariablePool *Xi0,
@@ -89,6 +89,7 @@ extern DSUInteger DSSSystemPositiveRootsForSteadyState(const DSSSystem *ssys,
                                                        const DSVariablePool *Xi0);
 extern DSUInteger DSSSystemRouthIndex(const DSSSystem *ssys, const DSVariablePool *Xi0);
 extern DSUInteger DSSSystemCharacteristicEquationCoefficientIndex(const DSSSystem *ssys, const DSVariablePool *Xi0);
+extern DSUInteger DSSSystemCharacteristicEquationCoefficientsNumberSignChanges(const DSSSystem *ssys, const DSVariablePool *Xi0);
 
 
 extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName, const char *XiName);

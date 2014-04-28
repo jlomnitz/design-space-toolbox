@@ -1893,7 +1893,41 @@ bail:
         return flux;   
 }
 
-extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, const DSMatrix * F)
+static void dsSSystemRouthArrayProcessZeroRoots(DSMatrix * routhMatrix, const DSUInteger row, const double threshold)
+{
+        DSUInteger i, order, newRowSize;
+        bool rowEmpty;
+        double value;
+        if (routhMatrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (row >= DSMatrixRows(routhMatrix)) {
+                DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_ERROR);
+                goto bail;
+        }
+        rowEmpty = true;
+        for (i = 0; i < DSMatrixColumns(routhMatrix); i++) {
+                if (fabs(DSMatrixDoubleValue(routhMatrix, row, i)) >= threshold) {
+                        rowEmpty = false;
+                }
+        }
+        if (rowEmpty == false) {
+                DSMatrixSetDoubleValue(routhMatrix, row, 0, threshold);
+                goto bail;
+        }
+        order = DSMatrixRows(routhMatrix)-row;
+        newRowSize = order/2 + order % 2;
+        for (i = 0; i < newRowSize; i++) {
+                value = order*DSMatrixDoubleValue(routhMatrix, row-1, i);
+                DSMatrixSetDoubleValue(routhMatrix, row, i, value);
+                order -= 2;
+        }
+bail:
+        return;
+}
+
+extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, const DSMatrix * F, bool * hasImaginaryRoots)
 {
         DSSSystem * reduced = NULL;
         DSMatrix * FA = NULL;
@@ -1902,6 +1936,7 @@ extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, cons
         DSMatrix * routhMatrix = NULL;
         DSUInteger i, j;
         double value;
+        double threshold = 1e-8;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
@@ -1921,7 +1956,8 @@ extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, cons
         FA = DSMatrixByMultiplyingMatrix(F, DSSSystemAd(ssys));
         phi = DSMatrixCharacteristicPolynomialCoefficients(FA);
         DSMatrixFree(FA);
-        routhMatrix = DSMatrixAlloc(DSMatrixColumns(phi), DSMatrixColumns(phi));
+        routhMatrix = DSMatrixCalloc(DSMatrixColumns(phi), DSMatrixColumns(phi));
+//        routhArray = DSMatrixCalloc(DSMatrixRows(routhMatrix), 1);
         /* Make first row of routh matrix */
         for (i = 0; i < DSMatrixColumns(routhMatrix); i++) {
                 value = 0.0f;
@@ -1929,11 +1965,14 @@ extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, cons
                         value = DSMatrixDoubleValue(phi, 0, 2*i);
                 DSMatrixSetDoubleValue(routhMatrix, 0, i, value);
         }
-        for (i = 0; i < DSMatrixRows(routhMatrix); i++) {
+        for (i = 0; i < DSMatrixColumns(routhMatrix); i++) {
                 value = 0.0f;
                 if ((2*i)+1 < DSMatrixColumns(phi))
                         value = DSMatrixDoubleValue(phi, 0, (2*i)+1);
                 DSMatrixSetDoubleValue(routhMatrix, 1, i, value);
+        }
+        if (hasImaginaryRoots != NULL) {
+                *hasImaginaryRoots = false;
         }
         for (i = 2; i < DSMatrixRows(routhMatrix); i++) {
                 for (j = 0; j < DSMatrixColumns(routhMatrix); j++) {
@@ -1943,7 +1982,18 @@ extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, cons
                         }
                         value = DSMatrixDoubleValue(routhMatrix, i-1, 0);
                         value = (value*DSMatrixDoubleValue(routhMatrix, i-2, j+1)-DSMatrixDoubleValue(routhMatrix, i-2, 0)*DSMatrixDoubleValue(routhMatrix, i-1, j+1))/value;
+                        if (fabs(value) < threshold)
+                                value = 0.f;
                         DSMatrixSetDoubleValue(routhMatrix, i, j, value);
+                        if (value == 0.f && j == 0) {
+                                dsSSystemRouthArrayProcessZeroRoots(routhMatrix, i, threshold);
+                                if (hasImaginaryRoots != NULL) {
+                                        *hasImaginaryRoots = true;
+                                }
+                        }
+//                        if (j == 0) {
+//                                DSMatrixSetDoubleValue(routhArray, i, 0, DSMatrixDoubleValue(routhMatrix, i, j));
+//                        }
                 }
         }
         routhArray = DSMatrixSubMatrixIncludingColumnList(routhMatrix, 1, 0);
@@ -1989,13 +2039,13 @@ extern DSMatrix * DSSSystemRouthArrayForSteadyState(const DSSSystem *ssys,
                                        i,
                                        pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
         }
-        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F);
+        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F, NULL);
         DSMatrixFree(F);
 bail:
         return routhArray;
 }
 
-extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0)
+extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePool *Xi0, bool * hasImaginaryRoots)
 {
         DSMatrix * routhArray = NULL;
         DSMatrix * steadyState = NULL;
@@ -2022,7 +2072,7 @@ extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePoo
                                        i,
                                        pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
         }
-        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F);
+        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F, hasImaginaryRoots);
         DSMatrixFree(F);
 bail:
         return routhArray;
@@ -2088,7 +2138,7 @@ extern DSUInteger DSSSystemPositiveRootsForSteadyStateAndFlux(const DSSSystem *s
                                        i,
                                        pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
         }
-        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F);
+        routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F, NULL);
         DSMatrixFree(F);
         DSMatrixFree(flux);
         DSMatrixFree(steadyState);
@@ -2131,7 +2181,7 @@ bail:
         return positiveRoots;
 }
 
-extern DSUInteger DSSSystemPositiveRoots(const DSSSystem *ssys, const DSVariablePool *Xi0)
+extern DSUInteger DSSSystemPositiveRoots(const DSSSystem *ssys, const DSVariablePool *Xi0, bool * hasImaginaryRoots)
 {
         DSMatrix * routhArray = NULL;
         DSUInteger positiveRoots = 0;
@@ -2145,12 +2195,15 @@ extern DSUInteger DSSSystemPositiveRoots(const DSSSystem *ssys, const DSVariable
         }
         if (DSSSystemHasSolution(ssys) == false)
                 goto bail;
-        routhArray = DSSSystemRouthArray(ssys, Xi0);
+        routhArray = DSSSystemRouthArray(ssys, Xi0, hasImaginaryRoots);
         if (routhArray == NULL) {
                 goto bail;
         }
         
         positiveRoots = DSSSystemNumberOfPositiveRootsForRouthArray(routhArray);
+        if (positiveRoots == 3) {
+                printf("%i\n", DSSSystemCharacteristicEquationCoefficientsNumberSignChanges(ssys, Xi0));
+        }
         DSMatrixFree(routhArray);
 bail:
         return positiveRoots;
@@ -2172,7 +2225,7 @@ extern DSUInteger DSSSystemRouthIndex(const DSSSystem *ssys, const DSVariablePoo
         }
         if (DSSSystemHasSolution(ssys) == false)
                 goto bail;
-        routhArray = DSSSystemRouthArray(ssys, Xi0);
+        routhArray = DSSSystemRouthArray(ssys, Xi0, NULL);
         if (routhArray == NULL) {
                 goto bail;
         }
@@ -2235,6 +2288,57 @@ extern DSUInteger DSSSystemCharacteristicEquationCoefficientIndex(const DSSSyste
                 value *= baseSign;
                 if (value < 0)
                         Index += pow(2, i);
+        }
+        DSMatrixFree(coefficientArray);
+bail:
+        return Index;
+}
+
+extern DSUInteger DSSSystemCharacteristicEquationCoefficientsNumberSignChanges(const DSSSystem *ssys, const DSVariablePool *Xi0)
+{
+        DSMatrix * coefficientArray = NULL;
+        DSMatrix * F;
+        DSMatrix * FA;
+        DSMatrix * steadyState, * flux;
+        DSUInteger Index = 0;
+        DSUInteger i, length;
+        double value, baseSign = 1;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Xi0 == NULL && DSVariablePoolNumberOfVariables(DSSSysXi(ssys)) != 0) {
+                DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemHasSolution(ssys) == false)
+                goto bail;
+        steadyState = DSSSystemSteadyStateValues(ssys, Xi0);
+        flux = DSSSystemSteadyStateFlux(ssys, Xi0);
+        F = DSMatrixIdentity(DSMatrixRows(flux));
+        for (i = 0; i < DSMatrixColumns(F); i++) {
+                DSMatrixSetDoubleValue(F,
+                                       i,
+                                       i,
+                                       pow(10, DSMatrixDoubleValue(flux, i, 0))/pow(10,DSMatrixDoubleValue(steadyState, i, 0)));
+        }
+        FA = DSMatrixByMultiplyingMatrix(F, DSSSystemAd(ssys));
+        coefficientArray = DSMatrixCharacteristicPolynomialCoefficients(FA);
+        DSMatrixFree(steadyState);
+        DSMatrixFree(flux);
+        DSMatrixFree(F);
+        DSMatrixFree(FA);
+        if (coefficientArray == NULL) {
+                goto bail;
+        }
+        length = DSMatrixColumns(coefficientArray);
+        baseSign = 1.;
+        for (i = 1; i < length; i++) {
+                value = DSMatrixDoubleValue(coefficientArray, 0, i);
+                value *= baseSign;
+                if (value < 0)
+                        Index++;
+                baseSign = (DSMatrixDoubleValue(coefficientArray, 0, i) > 0) ? 1. : -1.;
         }
         DSMatrixFree(coefficientArray);
 bail:
