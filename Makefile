@@ -22,16 +22,24 @@ SOURCE := $(filter-out lempar.c, $(SOURCE))
 all: compile
 
 install: compile
+	cd build/
 	cp ${EXECUTABLE} /usr/local/lib/
 	cp -r designspace /usr/local/include/
-	
+	cd ../
+
 compile: $(SOURCE)
+	mkdir -p build
+        cp $(SOURCE) build/
+        cp $(HEADERS) build/
+        cd build/
 	${CC} -o ${EXECUTABLE} ${CFLAGS} ${SOURCE} ${LIBS}
-        mkdir -p designspace
+	mkdir -p designspace
 	cp *.h designspace/
+        cd ../
 
 debug: $(SOURCE)
 	${CC} -o ${EXECUTABLE} ${DEBUG_CFLAGS} ${SOURCE} ${LIBS}
+
 clean:
 	rm -f *o
 	rm -f ${EXECUTABLE}
