@@ -10,34 +10,31 @@ CC = gcc-4.6
 # Without this  -L"/usr/lib/atlas-base/" the libcblas.so library is not detected in debian. 
 CFLAGS = -std=gnu99 -Wall -O3 -shared -fPIC
 DEBUG_CFLAGS = -g -std=gnu99 -Wall -shared -fPIC
-#LIBS = -L/usr/lib/atlas-base -lglpk -L/usr/lib/gsl -lgsl -lcblas 
-LIBS = -lglpk -lgsl -lcblas 
+LIBS = -L/usr/lib/atlas-base -lglpk -L/usr/lib/gsl  -lgsl -lcblas
+#LIBS = -lglpk -lgsl -lcblas 
 EXECUTABLE = libdesignspace.so 
 
 SOURCE = $(wildcard *.c)
-HEADERS = $(wildcard *.h)
 
 all: compile
 
 install: compile
-	cp lib/${EXECUTABLE} /usr/local/lib
+	cp ${EXECUTABLE} /usr/local/lib/
 	cp -r designspace /usr/local/include/
-
+	
 compile: $(SOURCE)
-	${CC} -o ${EXECUTABLE} ${CFLAGS} ${LIBS} $^ 
-	mkdir -p designspace
-	mkdir -p lib
-	cp ${HEADERS} designspace/
-	mv ${EXECUTABLE} lib/
+	${CC} -o ${EXECUTABLE} ${CFLAGS} $^ ${LIBS}  
+	cp *.h designspace/
 
 debug: $(SOURCE)
 	${CC} -o ${EXECUTABLE} ${DEBUG_CFLAGS} ${LIBS} $^ 
 
 clean:
 	rm -f *o
-	rm -f lib/${EXECUTABLE}
+	rm -f ${EXECUTABLE}
 	rm -f tests/dstest
-	rm designspace/*.h
+	rm -rf ./designspace
+	rm -rf ./libdesignspace.so
 
 test: debug
 	mkdir -p designspace
