@@ -12,9 +12,12 @@ CFLAGS = -std=gnu99 -Wall -O3 -shared -fPIC
 DEBUG_CFLAGS = -g -std=gnu99 -Wall -shared -fPIC
 LIBS = -L/usr/lib/atlas-base -lglpk -L/usr/lib/gsl  -lgsl -lcblas
 #LIBS = -lglpk -lgsl -lcblas 
-EXECUTABLE = libdesignspace.so 
 
+EXECUTABLE = libdesignspace.so
+
+HEADERS =$(wildcard *.h)
 SOURCE = $(wildcard *.c)
+SOURCE := $(filter-out lempar.c, $(SOURCE))
 
 all: compile
 
@@ -23,12 +26,12 @@ install: compile
 	cp -r designspace /usr/local/include/
 	
 compile: $(SOURCE)
-	${CC} -o ${EXECUTABLE} ${CFLAGS} $^ ${LIBS}  
+	${CC} -o ${EXECUTABLE} ${CFLAGS} ${SOURCE} ${LIBS}
+        mkdir -p designspace
 	cp *.h designspace/
 
 debug: $(SOURCE)
-	${CC} -o ${EXECUTABLE} ${DEBUG_CFLAGS} ${LIBS} $^ 
-
+	${CC} -o ${EXECUTABLE} ${DEBUG_CFLAGS} ${SOURCE} ${LIBS}
 clean:
 	rm -f *o
 	rm -f ${EXECUTABLE}
@@ -37,8 +40,6 @@ clean:
 	rm -rf ./libdesignspace.so
 
 test: debug
-	mkdir -p designspace
-	cp *.h designspace/
-	${CC} -o tests/dstest tests/designspacetest.c -Wall -g -I. -L. -ldesignspace ${LIBS} -Wl,-rpath,. 
+	${CC} -o tests/dstest tests/designspacetest.c -Wall -g -I. -L. -ldesignspace ${LIBS} -Wl,-rpath,.
 	./tests/dstest
 

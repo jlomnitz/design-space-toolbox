@@ -591,17 +591,13 @@ static void dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds)
 {
         DSUInteger i;
         DSUInteger numberOfThreads = (DSUInteger)sysconf(_SC_NPROCESSORS_ONLN);
-        DSUInteger numberOfCases, * cases;
+        DSUInteger numberOfCases;
         pthread_t * threads = NULL;
         pthread_attr_t attr;
         ds_parallelstack_t *stack;
         struct pthread_struct *pdatas;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (cases == NULL) {
-                DSError(M_DS_NULL ": Array of cases cannot be NULL", A_DS_ERROR);
                 goto bail;
         }
         if (DSDSGMA(ds) == NULL) {
