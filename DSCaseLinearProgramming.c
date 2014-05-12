@@ -345,12 +345,12 @@ extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase)
         linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
         if (linearProblem != NULL) {
                 glp_simplex(linearProblem, NULL);
-//                glp_interior(linearProblem, NULL);
-                Xi = DSVariablePoolCopy(DSCaseXi(aCase));
-                DSVariablePoolSetReadWriteAdd(Xi);
-                for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
-                        DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
-//                        DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_ipt_col_prim(linearProblem, i+1)));
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+                        DSVariablePoolSetReadWriteAdd(Xi);
+                        for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                                DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
+                        }
                 }
                 glp_delete_prob(linearProblem);
         }
@@ -1341,6 +1341,53 @@ bail:
 #pragma mark Pseudocase with intersection of cases
 #endif
 
+///**
+// *
+// */
+//static DSPseudoCase * dsPseudoCaseFromConcurrentCasisInSlice(const DSUInteger numberOfCases, const DSCase ** cases, )
+//{
+//        DSUInteger i;
+//        DSPseudoCase * caseIntersection = NULL;
+//        DSMatrix *U = NULL, *Zeta = NULL, *temp;
+//        if (numberOfCases == 0) {
+//                DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
+//                goto bail;
+//        }
+//        if (cases == NULL) {
+//                DSError(M_DS_NULL ": Array of cases is NULL", A_DS_ERROR);
+//                goto bail;
+//        }
+//        for (i = 0; i < numberOfCases; i++) {
+//                if (DSCaseHasSolution(cases[i]) == false)
+//                        goto bail;
+//        }
+//        U = DSMatrixCopy(DSCaseU(cases[0]));
+//        Zeta = DSMatrixCopy(DSCaseZeta(cases[0]));
+//        for (i = 1; i < numberOfCases; i++) {
+//                temp = DSMatrixAppendMatrices(U, DSCaseU(cases[i]), false);
+//                DSMatrixFree(U);
+//                U = temp;
+//                temp = DSMatrixAppendMatrices(Zeta, DSCaseZeta(cases[i]), false);
+//                DSMatrixFree(Zeta);
+//                Zeta = temp;
+//                if (U == NULL || Zeta == NULL)
+//                        goto bail;
+//        }
+//        caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
+//        DSCaseXd(caseIntersection) = DSCaseXd(cases[0]);
+//        DSCaseXi(caseIntersection) = DSCaseXi(cases[0]);
+//        DSCaseU(caseIntersection) = U;
+//        DSCaseZeta(caseIntersection) = Zeta;
+//        U = NULL;
+//        Zeta = NULL;
+//bail:
+//        if (U != NULL)
+//                DSMatrixFree(U);
+//        if (Zeta != NULL)
+//                DSMatrixFree(Zeta);
+//        return caseIntersection;
+//}
+
 /**
  * 
  */
@@ -1425,8 +1472,8 @@ static DSPseudoCase * dsPseudoCaseFromIntersectionOfCasesExceptingSlice(const DS
         for (i = 0; i < numberOfCases; i++) {
                 rows += DSMatrixRows(DSCaseZeta(cases[i]));
         }
-        U = DSMatrixAlloc(rows, columns);
-        Zeta = DSMatrixAlloc(rows, 1);
+        U = DSMatrixCalloc(rows, columns);
+        Zeta = DSMatrixCalloc(rows, 1);
         currentRow = 0;
         for (i = 0; i < numberOfCases; i++) {
                 tempU = DSCaseU(cases[i]);
