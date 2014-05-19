@@ -34,6 +34,10 @@ extern DSMatrix * dsSubcaseProblematicEquations(const DSCase * aCase)
                 goto bail;
         }
         A = DSSSystemA(aCase->ssys);
+        if (DSMatrixRows(A) > DSMatrixColumns(A)) {
+                printf("%i,%i\n", DSMatrixRows(A), DSMatrixColumns(A));
+                DSMatrixPrint(A);
+        }
         nullspace = DSMatrixLeftNullspace(A);
         DSMatrixFree(A);
         if (nullspace == NULL)

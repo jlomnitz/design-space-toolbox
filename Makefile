@@ -29,13 +29,13 @@ install: compile
 
 compile: $(SOURCE)
 	mkdir -p build
-        cp $(SOURCE) build/
-        cp $(HEADERS) build/
-        cd build/
+	cp $(SOURCE) build/
+	cp $(HEADERS) build/
+	cd build/
 	${CC} -o ${EXECUTABLE} ${CFLAGS} ${SOURCE} ${LIBS}
 	mkdir -p designspace
 	cp *.h designspace/
-        cd ../
+	cd ../
 
 debug: $(SOURCE)
 	${CC} -o ${EXECUTABLE} ${DEBUG_CFLAGS} ${SOURCE} ${LIBS}
