@@ -547,10 +547,15 @@ static void dsDesignSpaceConstraintsProcessExponentBasePairs(const DSGMASystem *
         if (current == NULL) {
                 goto bail;
         }
+        if (current->sign == AUX_SIGN_NEGATIVE) {
+                sign = -1;
+        } else {
+                sign = 1;
+        }
         for (j = 0; j < DSGMAParserAuxNumberOfBases(current); j++) {
                 if (DSGMAParserAuxBaseAtIndexIsVariable(current, j) == false) {
                         currentValue = DSMatrixDoubleValue(delta, index, 0);
-                        currentValue += (sign > 0 ? 1 : -1) * log10(DSGMAParseAuxsConstantBaseAtIndex(current, j));
+                        currentValue += sign * log10(DSGMAParseAuxsConstantBaseAtIndex(current, j));
                         DSMatrixSetDoubleValue(delta,
                                                index, 0,
                                                currentValue);
@@ -560,12 +565,12 @@ static void dsDesignSpaceConstraintsProcessExponentBasePairs(const DSGMASystem *
                 if (DSVariablePoolHasVariableWithName(DSGMASystemXd(gma), varName) == true) {
                         varIndex = DSVariablePoolIndexOfVariableWithName(DSGMASystemXd(gma), varName);
                         currentValue = DSMatrixDoubleValue(Cd, index, varIndex);
-                        currentValue += (sign > 0 ? 1 : -1) * DSGMAParserAuxExponentAtIndex(current, j);
+                        currentValue += sign * DSGMAParserAuxExponentAtIndex(current, j);
                         DSMatrixSetDoubleValue(Cd, index, varIndex, currentValue);
                 } else if (DSVariablePoolHasVariableWithName(DSGMASystemXi(gma), varName) == true) {
                         varIndex = DSVariablePoolIndexOfVariableWithName(DSGMASystemXi(gma), varName);
                         currentValue = DSMatrixDoubleValue(Ci, index, varIndex);
-                        currentValue += (sign > 0 ? 1 : -1) * DSGMAParserAuxExponentAtIndex(current, j);
+                        currentValue += sign * DSGMAParserAuxExponentAtIndex(current, j);
                         DSMatrixSetDoubleValue(Ci, index, varIndex, currentValue);
                 }
         }
@@ -597,9 +602,9 @@ static void dsDesignSpaceConstraintsCreateSystemMatrices(DSDesignSpace *ds, DSUI
         delta = DSMatrixCalloc(numberOfConstraints, 1);
         for (i = 0; i < numberOfConstraints; i++) {
                 current = aux[i];
-                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, 1, i, Cd, Ci, delta);
+                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, current->sign, i, Cd, Ci, delta);
                 current = DSGMAParserAuxNextNode(current);
-                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, -1, i, Cd, Ci, delta);
+                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, current->sign, i, Cd, Ci, delta);
         }
         DSDesignSpaceAddConditions(ds, Cd, Ci, delta);
         DSMatrixFree(Cd);
@@ -1923,6 +1928,5 @@ bail:
 
 extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
 {
-//        return dsDesignSpaceCalculateCyclicalCasesSeries(ds);
         return dsDesignSpaceCalculateCyclicalCasesParallelBSD(ds);
 }

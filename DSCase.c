@@ -926,6 +926,11 @@ static void dsCaseConstraintsProcessExponentBasePairs(const DSCase *aCase, gma_p
         if (current == NULL) {
                 goto bail;
         }
+        if (current->sign == AUX_SIGN_NEGATIVE) {
+                sign = -1;
+        } else {
+                sign = 1;
+        }
         for (j = 0; j < DSGMAParserAuxNumberOfBases(current); j++) {
                 if (DSGMAParserAuxBaseAtIndexIsVariable(current, j) == false) {
                         currentValue = DSMatrixDoubleValue(delta, index, 0);
@@ -974,9 +979,9 @@ static void dsCaseConstraintsCreateSystemMatrices(DSCase *aCase, DSUInteger numb
         delta = DSMatrixCalloc(numberOfConstraints, 1);
         for (i = 0; i < numberOfConstraints; i++) {
                 current = aux[i];
-                dsCaseConstraintsProcessExponentBasePairs(aCase, current, 1, i, Cd, Ci, delta);
+                dsCaseConstraintsProcessExponentBasePairs(aCase, current, current->sign, i, Cd, Ci, delta);
                 current = DSGMAParserAuxNextNode(current);
-                dsCaseConstraintsProcessExponentBasePairs(aCase, current, -1, i, Cd, Ci, delta);
+                dsCaseConstraintsProcessExponentBasePairs(aCase, current, current->sign, i, Cd, Ci, delta);
         }
         dsCaseAddConditions(aCase, Cd, Ci, delta);
         dsCaseAddBoundariesFromConditions(aCase, Cd, Ci, delta);

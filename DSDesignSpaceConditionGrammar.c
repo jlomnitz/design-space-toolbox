@@ -167,32 +167,32 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **                     shifting non-terminals after a reduce.
 **  yy_default[]       Default action for each state.
 */
-#define YY_ACTTAB_COUNT (18)
+#define YY_ACTTAB_COUNT (17)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    25,    8,    7,    6,    9,   14,    6,    9,   11,    5,
- /*    10 */    12,   15,    1,    4,    2,    3,   10,   13,
+ /*     0 */    25,    9,    8,    4,   10,   12,    6,   13,    7,   10,
+ /*    10 */     5,   15,    1,    2,    3,   11,   14,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    14,   15,   16,   17,   18,   16,   17,   18,    2,    1,
- /*    10 */     2,    0,    5,    7,    9,   12,    2,   18,
+ /*     0 */    14,   15,   16,   17,   18,    2,    1,    2,   17,   18,
+ /*    10 */     7,    0,    5,    9,   12,    2,   18,
 };
 #define YY_SHIFT_USE_DFLT (-1)
-#define YY_SHIFT_COUNT (8)
+#define YY_SHIFT_COUNT (9)
 #define YY_SHIFT_MIN   (0)
-#define YY_SHIFT_MAX   (14)
+#define YY_SHIFT_MAX   (13)
 static const signed char yy_shift_ofst[] = {
- /*     0 */     8,    8,    8,    6,   14,    3,    5,    7,   11,
+ /*     0 */     5,    5,    5,    3,    4,   13,    2,    4,    7,   11,
 };
 #define YY_REDUCE_USE_DFLT (-15)
 #define YY_REDUCE_COUNT (2)
 #define YY_REDUCE_MIN   (-14)
 #define YY_REDUCE_MAX   (0)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */   -14,  -11,   -1,
+ /*     0 */   -14,   -9,   -2,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    24,   24,   24,   24,   24,   21,   17,   24,   24,   19,
- /*    10 */    23,   22,   20,   18,   16,
+ /*     0 */    24,   24,   24,   24,   17,   24,   21,   16,   24,   24,
+ /*    10 */    19,   23,   22,   20,   18,
 };
 
 /* The next table maps tokens into fallback tokens.  If a construct
@@ -298,7 +298,7 @@ static const char *const yyTokenName[] = {
 */
 static const char *const yyRuleName[] = {
  /*   0 */ "start ::= constraint",
- /*   1 */ "constraint ::= expression MT expression",
+ /*   1 */ "constraint ::= expression MT term",
  /*   2 */ "expression ::= term",
  /*   3 */ "term ::= term TIMES powerlaw",
  /*   4 */ "term ::= powerlaw",
@@ -682,6 +682,13 @@ static void yy_reduce(
   **  #line <lineno> <thisfile>
   **     break;
   */
+      case 1: /* constraint ::= expression MT term */
+{
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
+        break;
       case 2: /* expression ::= term */
 {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
@@ -716,7 +723,6 @@ static void yy_reduce(
         break;
       default:
       /* (0) start ::= constraint */ yytestcase(yyruleno==0);
-      /* (1) constraint ::= expression MT expression */ yytestcase(yyruleno==1);
       /* (3) term ::= term TIMES powerlaw */ yytestcase(yyruleno==3);
       /* (4) term ::= powerlaw */ yytestcase(yyruleno==4);
         break;
