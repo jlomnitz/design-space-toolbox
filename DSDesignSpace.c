@@ -194,64 +194,6 @@ bail:
         return;
 }
 
-extern void DSDesignSpaceAddConditions(DSDesignSpace *ds, const DSMatrix * Cd, const DSMatrix * Ci, const DSMatrix * delta)
-{
-        DSMatrix *temp = NULL;
-        if (ds == NULL) {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (Cd == NULL) {
-                DSError(M_DS_MAT_NULL ": Cd is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (delta == NULL) {
-                DSError(M_DS_MAT_NULL ": Delta is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (Ci == NULL && DSVariablePoolNumberOfVariables(DSDSXi(ds)) != 0) {
-                DSError(M_DS_MAT_NULL ": Ci is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSMatrixColumns(Cd) != DSVariablePoolNumberOfVariables(DSDSXd(ds))) {
-                DSError(M_DS_WRONG ": Number of dep. variables must match number of columns of Cd", A_DS_ERROR);
-                goto bail;
-        }
-        if (Ci != NULL) {
-                if (DSMatrixColumns(Ci) != DSVariablePoolNumberOfVariables(DSDSXi(ds))) {
-                        DSError(M_DS_WRONG ": Number of indep. variables must match number of columns of Ci", A_DS_ERROR);
-                        goto bail;
-                }
-                if (DSMatrixRows(Cd) != DSMatrixRows(Ci)) {
-                        DSError(M_DS_WRONG ": Rows of Ci must match rows of Cd", A_DS_ERROR);
-                        goto bail;
-                }
-        }
-        if (DSMatrixRows(Cd) != DSMatrixRows(delta)) {
-                DSError(M_DS_WRONG ": Rows of Cd must match rows of delta", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSDSCd(ds) == NULL) {
-                DSDSCd(ds) = DSMatrixCopy(Cd);
-                DSDSDelta(ds) = DSMatrixCopy(delta);
-                if (Ci != NULL)
-                        DSDSCi(ds) = DSMatrixCopy(Ci);
-        } else {
-                temp = DSMatrixAppendMatrices(DSDSCd(ds), Cd, false);
-                DSMatrixFree(DSDSCd(ds));
-                DSDSCd(ds) = temp;
-                temp = DSMatrixAppendMatrices(DSDSDelta(ds), delta, false);
-                DSMatrixFree(DSDSDelta(ds));
-                DSDSDelta(ds) = temp;
-                if (Ci != NULL) {
-                        temp = DSMatrixAppendMatrices(DSDSCi(ds), Ci, false);
-                        DSMatrixFree(DSDSCi(ds));
-                        DSDSCi(ds) = temp;
-                }
-        }
-bail:
-        return;
-}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Getters -
@@ -533,6 +475,69 @@ bail:
 #pragma mark - Utility -
 #endif
 
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Additional Constraints
+#endif
+
+extern void DSDesignSpaceAddConditions(DSDesignSpace *ds, const DSMatrix * Cd, const DSMatrix * Ci, const DSMatrix * delta)
+{
+        DSMatrix *temp = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Cd == NULL) {
+                DSError(M_DS_MAT_NULL ": Cd is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (delta == NULL) {
+                DSError(M_DS_MAT_NULL ": Delta is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (Ci == NULL && DSVariablePoolNumberOfVariables(DSDSXi(ds)) != 0) {
+                DSError(M_DS_MAT_NULL ": Ci is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSMatrixColumns(Cd) != DSVariablePoolNumberOfVariables(DSDSXd(ds))) {
+                DSError(M_DS_WRONG ": Number of dep. variables must match number of columns of Cd", A_DS_ERROR);
+                goto bail;
+        }
+        if (Ci != NULL) {
+                if (DSMatrixColumns(Ci) != DSVariablePoolNumberOfVariables(DSDSXi(ds))) {
+                        DSError(M_DS_WRONG ": Number of indep. variables must match number of columns of Ci", A_DS_ERROR);
+                        goto bail;
+                }
+                if (DSMatrixRows(Cd) != DSMatrixRows(Ci)) {
+                        DSError(M_DS_WRONG ": Rows of Ci must match rows of Cd", A_DS_ERROR);
+                        goto bail;
+                }
+        }
+        if (DSMatrixRows(Cd) != DSMatrixRows(delta)) {
+                DSError(M_DS_WRONG ": Rows of Cd must match rows of delta", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSCd(ds) == NULL) {
+                DSDSCd(ds) = DSMatrixCopy(Cd);
+                DSDSDelta(ds) = DSMatrixCopy(delta);
+                if (Ci != NULL)
+                        DSDSCi(ds) = DSMatrixCopy(Ci);
+        } else {
+                temp = DSMatrixAppendMatrices(DSDSCd(ds), Cd, false);
+                DSMatrixFree(DSDSCd(ds));
+                DSDSCd(ds) = temp;
+                temp = DSMatrixAppendMatrices(DSDSDelta(ds), delta, false);
+                DSMatrixFree(DSDSDelta(ds));
+                DSDSDelta(ds) = temp;
+                if (Ci != NULL) {
+                        temp = DSMatrixAppendMatrices(DSDSCi(ds), Ci, false);
+                        DSMatrixFree(DSDSCi(ds));
+                        DSDSCi(ds) = temp;
+                }
+        }
+bail:
+        return;
+}
+
 static void dsDesignSpaceConstraintsProcessExponentBasePairs(const DSGMASystem *gma, gma_parseraux_t *current, DSInteger sign,
                                                             DSUInteger index, DSMatrix * Cd, DSMatrix * Ci, DSMatrix *delta)
 {
@@ -652,7 +657,7 @@ bail:
         return root;
 }
 
-static gma_parseraux_t ** dsDesignSpaceTermListForAllStrings(char * const * const strings, const DSUInteger numberOfEquations)
+extern void * DSDesignSpaceTermListForAllStrings(char * const * const strings, const DSUInteger numberOfEquations)
 {
         DSUInteger i;
         gma_parseraux_t **aux = NULL;
@@ -703,7 +708,7 @@ extern void DSDesignSpaceAddConstraints(DSDesignSpace * ds, const char ** string
                 goto bail;
         }
         gma_parseraux_t **aux = NULL;
-        aux = dsDesignSpaceTermListForAllStrings(strings, numberOfConstraints);
+        aux = (gma_parseraux_t **)DSDesignSpaceTermListForAllStrings(strings, numberOfConstraints);
         if (aux == NULL) {
                 goto bail;
         }

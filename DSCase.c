@@ -39,6 +39,7 @@
 #include "DSMatrix.h"
 #include "DSMatrixArray.h"
 #include "DSCyclicalCase.h"
+#include "DSGMASystemParsingAux.h"
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - DSCase Global behavior
@@ -809,6 +810,205 @@ extern DSMatrix * DSCaseDoubleValueBoundariesAtPoint(const DSCase * aCase, const
         DSMatrixAddByMatrix(values, Zeta);
         return values;
 }
+
+
+#if defined (__APPLE__) && defined (__MACH__)
+#pragma mark Additional Constraints
+#endif
+
+static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd, const DSMatrix * Ci, const DSMatrix * delta)
+{
+        DSUInteger numberOfXi = 0;
+        DSMatrix * W = NULL, *Zeta, *U, *B, *Ai, *temp;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
+                goto bail;
+        }
+        if (Cd == NULL) {
+                goto bail;
+        }
+        B = DSSSystemB(DSCaseSSys(aCase));
+        numberOfXi = DSVariablePoolNumberOfVariables(DSCaseXi(aCase));
+        
+        W = DSMatrixByMultiplyingMatrix(Cd, DSSSystemM(DSCaseSSys(aCase)));
+        Zeta = DSMatrixByMultiplyingMatrix(W, B);
+        DSMatrixAddByMatrix(Zeta, delta);
+        if (numberOfXi != 0) {
+                Ai = DSSSystemAi(DSCaseSSys(aCase));
+                U = DSMatrixByMultiplyingMatrix(W, Ai);
+                if (Ci != NULL)
+                        DSMatrixSubstractByMatrix(U, Ci);
+                DSMatrixMultiplyByScalar(U, -1.0);
+                DSMatrixFree(Ai);
+        }
+        temp = DSCaseZeta(aCase);
+        DSCaseZeta(aCase) = DSMatrixAppendMatrices(temp, Zeta, false);
+        DSMatrixFree(temp);
+        DSMatrixFree(Zeta);
+        temp = DSCaseU(aCase);
+        DSCaseU(aCase) = DSMatrixAppendMatrices(temp, U, false);
+        DSMatrixFree(temp);
+        DSMatrixFree(U);
+        DSMatrixFree(W);
+        DSMatrixFree(B);
+bail:
+        return;
+}
+
+static void dsCaseAddConditions(DSCase *aCase, const DSMatrix * Cd, const DSMatrix * Ci, const DSMatrix * delta)
+{
+        DSMatrix *temp = NULL;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (Cd == NULL) {
+                DSError(M_DS_MAT_NULL ": Cd is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (delta == NULL) {
+                DSError(M_DS_MAT_NULL ": Delta is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (Ci == NULL && DSVariablePoolNumberOfVariables(DSCaseXi(aCase)) != 0) {
+                DSError(M_DS_MAT_NULL ": Ci is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSMatrixColumns(Cd) != DSVariablePoolNumberOfVariables(DSCaseXd(aCase))) {
+                DSError(M_DS_WRONG ": Number of dep. variables must match number of columns of Cd", A_DS_ERROR);
+                goto bail;
+        }
+        if (Ci != NULL) {
+                if (DSMatrixColumns(Ci) != DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                        DSError(M_DS_WRONG ": Number of indep. variables must match number of columns of Ci", A_DS_ERROR);
+                        goto bail;
+                }
+                if (DSMatrixRows(Cd) != DSMatrixRows(Ci)) {
+                        DSError(M_DS_WRONG ": Rows of Ci must match rows of Cd", A_DS_ERROR);
+                        goto bail;
+                }
+        }
+        if (DSMatrixRows(Cd) != DSMatrixRows(delta)) {
+                DSError(M_DS_WRONG ": Rows of Cd must match rows of delta", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseCd(aCase) == NULL) {
+                DSCaseCd(aCase) = DSMatrixCopy(Cd);
+                DSCaseDelta(aCase) = DSMatrixCopy(delta);
+                if (Ci != NULL)
+                        DSCaseCi(aCase) = DSMatrixCopy(Ci);
+        } else {
+                temp = DSMatrixAppendMatrices(DSCaseCd(aCase), Cd, false);
+                DSMatrixFree(DSCaseCd(aCase));
+                DSCaseCd(aCase) = temp;
+                temp = DSMatrixAppendMatrices(DSCaseDelta(aCase), delta, false);
+                DSMatrixFree(DSCaseDelta(aCase));
+                DSCaseDelta(aCase) = temp;
+                if (Ci != NULL) {
+                        temp = DSMatrixAppendMatrices(DSCaseCi(aCase), Ci, false);
+                        DSMatrixFree(DSCaseCi(aCase));
+                        DSCaseCi(aCase) = temp;
+                }
+        }
+bail:
+        return;
+}
+
+static void dsCaseConstraintsProcessExponentBasePairs(const DSCase *aCase, gma_parseraux_t *current, DSInteger sign,
+                                                             DSUInteger index, DSMatrix * Cd, DSMatrix * Ci, DSMatrix *delta)
+{
+        DSUInteger j, varIndex;
+        const char *varName;
+        double currentValue;
+        if (current == NULL) {
+                goto bail;
+        }
+        for (j = 0; j < DSGMAParserAuxNumberOfBases(current); j++) {
+                if (DSGMAParserAuxBaseAtIndexIsVariable(current, j) == false) {
+                        currentValue = DSMatrixDoubleValue(delta, index, 0);
+                        currentValue += (sign > 0 ? 1 : -1) * log10(DSGMAParseAuxsConstantBaseAtIndex(current, j));
+                        DSMatrixSetDoubleValue(delta,
+                                               index, 0,
+                                               currentValue);
+                        continue;
+                }
+                varName = DSGMAParserAuxVariableAtIndex(current, j);
+                if (DSVariablePoolHasVariableWithName(DSCaseXd(aCase), varName) == true) {
+                        varIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXd(aCase), varName);
+                        currentValue = DSMatrixDoubleValue(Cd, index, varIndex);
+                        currentValue += (sign > 0 ? 1 : -1) * DSGMAParserAuxExponentAtIndex(current, j);
+                        DSMatrixSetDoubleValue(Cd, index, varIndex, currentValue);
+                } else if (DSVariablePoolHasVariableWithName(DSCaseXi(aCase), varName) == true) {
+                        varIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), varName);
+                        currentValue = DSMatrixDoubleValue(Ci, index, varIndex);
+                        currentValue += (sign > 0 ? 1 : -1) * DSGMAParserAuxExponentAtIndex(current, j);
+                        DSMatrixSetDoubleValue(Ci, index, varIndex, currentValue);
+                }
+        }
+bail:
+        return;
+}
+
+static void dsCaseConstraintsCreateSystemMatrices(DSCase *aCase, DSUInteger numberOfConstraints, gma_parseraux_t **aux)
+{
+        gma_parseraux_t *current;
+        DSUInteger i;
+        DSMatrix * Cd, *Ci, *delta;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL ": Case being modified is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (aux == NULL) {
+                DSError(M_DS_NULL ": Parser auxiliary data is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseXd(aCase) == NULL || DSCaseXi(aCase) == NULL) {
+                DSError(M_DS_WRONG ": GMA data is incomplete: Need Xi and Xd", A_DS_ERROR);
+                goto bail;
+        }
+        Cd = DSMatrixCalloc(numberOfConstraints, DSVariablePoolNumberOfVariables(DSCaseXd(aCase)));
+        Ci = DSMatrixCalloc(numberOfConstraints, DSVariablePoolNumberOfVariables(DSCaseXi(aCase)));
+        delta = DSMatrixCalloc(numberOfConstraints, 1);
+        for (i = 0; i < numberOfConstraints; i++) {
+                current = aux[i];
+                dsCaseConstraintsProcessExponentBasePairs(aCase, current, 1, i, Cd, Ci, delta);
+                current = DSGMAParserAuxNextNode(current);
+                dsCaseConstraintsProcessExponentBasePairs(aCase, current, -1, i, Cd, Ci, delta);
+        }
+        dsCaseAddConditions(aCase, Cd, Ci, delta);
+        dsCaseAddBoundariesFromConditions(aCase, Cd, Ci, delta);
+        DSMatrixFree(Cd);
+        DSMatrixFree(Ci);
+        DSMatrixFree(delta);
+bail:
+        return;
+}
+
+extern void DSCaseAddConstraints(DSCase * aCase, const char ** strings, DSUInteger numberOfConstraints)
+{
+        DSUInteger i;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        gma_parseraux_t **aux = NULL;
+        aux = (gma_parseraux_t **)DSDesignSpaceTermListForAllStrings(strings, numberOfConstraints);
+        if (aux == NULL) {
+                goto bail;
+        }
+        dsCaseConstraintsCreateSystemMatrices(aCase, numberOfConstraints, aux);
+        for (i=0; i < numberOfConstraints; i++) {
+                if (aux[i] != NULL)
+                        DSGMAParserAuxFree(aux[i]);
+        }
+        DSSecureFree(aux);
+bail:
+        return;
+}
+
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Case signature and case number

@@ -112,6 +112,7 @@ extern double DSCaseLogarithmicGain(const DSCase *aCase, const char *XdName, con
 #endif
 
 extern DSMatrix * DSCaseDoubleValueBoundariesAtPoint(const DSCase * aCase, const DSVariablePool * point);
+extern void DSCaseAddConstraints(DSCase * aCase, const char ** strings, DSUInteger numberOfConstraints);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Linear programming functions - See DSCaseLinearProgramming.c

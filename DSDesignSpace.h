@@ -89,6 +89,7 @@ extern const DSDictionary * DSDesignSpaceCyclicalCaseDictionary(const DSDesignSp
 #pragma mark - Utility -
 #endif
 
+extern void * DSDesignSpaceTermListForAllStrings(char * const * const strings, const DSUInteger numberOfEquations);
 extern void DSDesignSpaceAddConstraints(DSDesignSpace * ds, const char ** strings, DSUInteger numberOfConstraints);
 extern void DSDesignSpacePrint(const DSDesignSpace * ds);
 
