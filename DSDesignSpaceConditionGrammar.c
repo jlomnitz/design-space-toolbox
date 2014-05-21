@@ -766,7 +766,7 @@ static void yy_parse_failed(
   ** parser fails */
 
         DSGMAParserAuxSetParserFailed((gma_parseraux_t *)*parser_aux);
-        DSError(M_DS_PARSE ": Parsing failed", A_DS_ERROR);
+        DSError(M_DS_PARSE ": Parsing constraint had failed", A_DS_ERROR);
     DSDesignSpaceConstraintParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 #endif /* YYNOERRORRECOVERY */
@@ -783,7 +783,7 @@ static void yy_syntax_error(
 #define TOKEN (yyminor.yy0)
 
         DSGMAParserAuxSetParserFailed((gma_parseraux_t *)*parser_aux);
-        DSError(M_DS_PARSE ": Syntax error", A_DS_ERROR);
+        DSError(M_DS_PARSE ": Syntax error with constraint inequality", A_DS_ERROR);
     DSDesignSpaceConstraintParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

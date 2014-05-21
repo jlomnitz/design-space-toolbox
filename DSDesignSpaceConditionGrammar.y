@@ -54,12 +54,12 @@
 
 %parse_failure {
         DSGMAParserAuxSetParserFailed((gma_parseraux_t *)*parser_aux);
-        DSError(M_DS_PARSE ": Parsing failed", A_DS_ERROR);
+        DSError(M_DS_PARSE ": Parsing constraint had failed", A_DS_ERROR);
 }
 
 %syntax_error {
         DSGMAParserAuxSetParserFailed((gma_parseraux_t *)*parser_aux);
-        DSError(M_DS_PARSE ": Syntax error", A_DS_ERROR);
+        DSError(M_DS_PARSE ": Syntax error with constraint inequality", A_DS_ERROR);
 }
 
 %include {
