@@ -76,24 +76,25 @@
 
 start ::= constraint.
 
-constraint ::= term MT term.
+constraint ::= expression MT expression.
 {
         printf("constraint\n");
 }
 
-//expression ::= term. {
-//        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
-//        DSGMAParserAuxNewTerm(*parser_aux);
-//        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
-//        printf("expression\n");
-//}
-
-term ::= term TIMES powerlaw.{
-        printf("term times powerlaw\n");
+expression ::= term. {
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+        printf("expression\n");
 }
 
 term ::= powerlaw. {
         printf("term\n");
+}
+
+
+term ::= term TIMES powerlaw.{
+        printf("term times powerlaw\n");
 }
 
 powerlaw ::= CONSTANT(A). {
