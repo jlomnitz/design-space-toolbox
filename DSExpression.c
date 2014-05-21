@@ -874,7 +874,7 @@ bail:
 static bool operatorIsLowerPrecedence(char op1, char op2)
 {
         bool isLower = false;
-        char * precedence = ".^*+=";
+        char * precedence = ".^*+<>=";
         DSUInteger i, index1, index2;
         for (i = 0; i < strlen(precedence); i++) {
                 if (precedence[i] == op1)
