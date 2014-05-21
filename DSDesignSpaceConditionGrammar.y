@@ -76,11 +76,7 @@
 
 start ::= constraint.
 
-constraint ::= expression MT term. {
-        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
-        DSGMAParserAuxNewTerm(*parser_aux);
-        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
-}
+constraint ::= expression MT expression.
 
 expression ::= term. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);

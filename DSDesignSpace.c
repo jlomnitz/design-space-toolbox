@@ -547,7 +547,7 @@ static void dsDesignSpaceConstraintsProcessExponentBasePairs(const DSGMASystem *
         if (current == NULL) {
                 goto bail;
         }
-        if (current->sign == AUX_SIGN_NEGATIVE) {
+        if (sign == AUX_SIGN_NEGATIVE) {
                 sign = -1;
         } else {
                 sign = 1;
@@ -602,9 +602,9 @@ static void dsDesignSpaceConstraintsCreateSystemMatrices(DSDesignSpace *ds, DSUI
         delta = DSMatrixCalloc(numberOfConstraints, 1);
         for (i = 0; i < numberOfConstraints; i++) {
                 current = aux[i];
-                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, current->sign, i, Cd, Ci, delta);
+                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, AUX_SIGN_POSITIVE, i, Cd, Ci, delta);
                 current = DSGMAParserAuxNextNode(current);
-                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, current->sign, i, Cd, Ci, delta);
+                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, AUX_SIGN_NEGATIVE, i, Cd, Ci, delta);
         }
         DSDesignSpaceAddConditions(ds, Cd, Ci, delta);
         DSMatrixFree(Cd);

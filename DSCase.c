@@ -926,7 +926,7 @@ static void dsCaseConstraintsProcessExponentBasePairs(const DSCase *aCase, gma_p
         if (current == NULL) {
                 goto bail;
         }
-        if (current->sign == AUX_SIGN_NEGATIVE) {
+        if (sign == AUX_SIGN_NEGATIVE) {
                 sign = -1;
         } else {
                 sign = 1;
@@ -934,7 +934,7 @@ static void dsCaseConstraintsProcessExponentBasePairs(const DSCase *aCase, gma_p
         for (j = 0; j < DSGMAParserAuxNumberOfBases(current); j++) {
                 if (DSGMAParserAuxBaseAtIndexIsVariable(current, j) == false) {
                         currentValue = DSMatrixDoubleValue(delta, index, 0);
-                        currentValue += (sign > 0 ? 1 : -1) * log10(DSGMAParseAuxsConstantBaseAtIndex(current, j));
+                        currentValue += sign * log10(DSGMAParseAuxsConstantBaseAtIndex(current, j));
                         DSMatrixSetDoubleValue(delta,
                                                index, 0,
                                                currentValue);
@@ -944,12 +944,12 @@ static void dsCaseConstraintsProcessExponentBasePairs(const DSCase *aCase, gma_p
                 if (DSVariablePoolHasVariableWithName(DSCaseXd(aCase), varName) == true) {
                         varIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXd(aCase), varName);
                         currentValue = DSMatrixDoubleValue(Cd, index, varIndex);
-                        currentValue += (sign > 0 ? 1 : -1) * DSGMAParserAuxExponentAtIndex(current, j);
+                        currentValue += sign * DSGMAParserAuxExponentAtIndex(current, j);
                         DSMatrixSetDoubleValue(Cd, index, varIndex, currentValue);
                 } else if (DSVariablePoolHasVariableWithName(DSCaseXi(aCase), varName) == true) {
                         varIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), varName);
                         currentValue = DSMatrixDoubleValue(Ci, index, varIndex);
-                        currentValue += (sign > 0 ? 1 : -1) * DSGMAParserAuxExponentAtIndex(current, j);
+                        currentValue += sign * DSGMAParserAuxExponentAtIndex(current, j);
                         DSMatrixSetDoubleValue(Ci, index, varIndex, currentValue);
                 }
         }
@@ -979,9 +979,9 @@ static void dsCaseConstraintsCreateSystemMatrices(DSCase *aCase, DSUInteger numb
         delta = DSMatrixCalloc(numberOfConstraints, 1);
         for (i = 0; i < numberOfConstraints; i++) {
                 current = aux[i];
-                dsCaseConstraintsProcessExponentBasePairs(aCase, current, current->sign, i, Cd, Ci, delta);
+                dsCaseConstraintsProcessExponentBasePairs(aCase, current, AUX_SIGN_POSITIVE, i, Cd, Ci, delta);
                 current = DSGMAParserAuxNextNode(current);
-                dsCaseConstraintsProcessExponentBasePairs(aCase, current, current->sign, i, Cd, Ci, delta);
+                dsCaseConstraintsProcessExponentBasePairs(aCase, current, AUX_SIGN_NEGATIVE, i, Cd, Ci, delta);
         }
         dsCaseAddConditions(aCase, Cd, Ci, delta);
         dsCaseAddBoundariesFromConditions(aCase, Cd, Ci, delta);
