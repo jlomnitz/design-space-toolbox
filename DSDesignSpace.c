@@ -41,6 +41,9 @@
 #include "DSStack.h"
 #include "DSDesignSpaceParallel.h"
 #include "DSCyclicalCase.h"
+#include "DSGMASystemParsingAux.h"
+#include "DSDesignSpaceConditionGrammar.h"
+#include "DSExpressionTokenizer.h"
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Internal Variable Access Macros -
@@ -529,6 +532,190 @@ bail:
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility -
 #endif
+
+static void dsDesignSpaceConstraintsProcessExponentBasePairs(const DSGMASystem *gma, gma_parseraux_t *current, DSInteger sign,
+                                                            DSUInteger index, DSMatrix * Cd, DSMatrix * Ci, DSMatrix *delta)
+{
+        DSUInteger j, varIndex;
+        const char *varName;
+        double currentValue;
+        if (current == NULL) {
+                goto bail;
+        }
+        for (j = 0; j < DSGMAParserAuxNumberOfBases(current); j++) {
+                if (DSGMAParserAuxBaseAtIndexIsVariable(current, j) == false) {
+                        currentValue = DSMatrixDoubleValue(delta, index, 0);
+                        currentValue += (sign > 0 ? 1 : -1) * log10(DSGMAParseAuxsConstantBaseAtIndex(current, j));
+                        DSMatrixSetDoubleValue(delta,
+                                               index, 0,
+                                               currentValue);
+                        continue;
+                }
+                varName = DSGMAParserAuxVariableAtIndex(current, j);
+                if (DSVariablePoolHasVariableWithName(DSGMASystemXd(gma), varName) == true) {
+                        varIndex = DSVariablePoolIndexOfVariableWithName(DSGMASystemXd(gma), varName);
+                        currentValue = DSMatrixDoubleValue(Cd, index, varIndex);
+                        currentValue += (sign > 0 ? 1 : -1) * DSGMAParserAuxExponentAtIndex(current, j);
+                        DSMatrixSetDoubleValue(Cd, index, varIndex, currentValue);
+                } else if (DSVariablePoolHasVariableWithName(DSGMASystemXi(gma), varName) == true) {
+                        varIndex = DSVariablePoolIndexOfVariableWithName(DSGMASystemXi(gma), varName);
+                        currentValue = DSMatrixDoubleValue(Ci, index, varIndex);
+                        currentValue += (sign > 0 ? 1 : -1) * DSGMAParserAuxExponentAtIndex(current, j);
+                        DSMatrixSetDoubleValue(Ci, index, varIndex, currentValue);
+                }
+        }
+bail:
+        return;
+}
+
+static void dsDesignSpaceConstraintsCreateSystemMatrices(DSDesignSpace *ds, DSUInteger numberOfConstraints, gma_parseraux_t **aux)
+{
+        const DSGMASystem * gma;
+        gma_parseraux_t *current;
+        DSUInteger i;
+        DSMatrix * Cd, *Ci, *delta;
+        if (ds == NULL) {
+                DSError(M_DS_NULL ": GMA being modified is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        gma = DSDesignSpaceGMASystem(ds);
+        if (aux == NULL) {
+                DSError(M_DS_NULL ": Parser auxiliary data is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSGMASystemXd(gma) == NULL || DSGMASystemXi(gma) == NULL) {
+                DSError(M_DS_WRONG ": GMA data is incomplete: Need Xi and Xd", A_DS_ERROR);
+                goto bail;
+        }
+        Cd = DSMatrixCalloc(numberOfConstraints, DSVariablePoolNumberOfVariables(DSGMASystemXd(gma)));
+        Ci = DSMatrixCalloc(numberOfConstraints, DSVariablePoolNumberOfVariables(DSGMASystemXi(gma)));
+        delta = DSMatrixCalloc(numberOfConstraints, 1);
+        for (i = 0; i < numberOfConstraints; i++) {
+                current = aux[i];
+                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, 1, i, Cd, Ci, delta);
+                current = DSGMAParserAuxNextNode(current);
+                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, -1, i, Cd, Ci, delta);
+        }
+        DSDesignSpaceAddConditions(ds, Cd, Ci, delta);
+        DSMatrixFree(Cd);
+        DSMatrixFree(Ci);
+        DSMatrixFree(delta);
+bail:
+        return;
+}
+
+
+static gma_parseraux_t * dsDesignSpaceParseStringToTermList(const char * string)
+{
+        void *parser = NULL;
+        struct expression_token *tokens, *current;
+        gma_parseraux_t *root = NULL, *parser_aux;
+        if (string == NULL) {
+                DSError(M_DS_WRONG ": String to parse is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(string) == 0) {
+                DSError(M_DS_WRONG ": String to parse is empty", A_DS_WARN);
+                goto bail;
+        }
+        tokens = DSExpressionTokenizeString(string);
+        if (tokens == NULL) {
+                DSError(M_DS_PARSE ": Token stream is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        parser = DSDesignSpaceConstraintParserAlloc(DSSecureMalloc);//DSGMASystemParserAlloc(DSSecureMalloc);
+        root = DSGMAParserAuxAlloc();
+        parser_aux = root;
+        current = tokens;
+        while (current != NULL) {
+                if (DSExpressionTokenType(current) == DS_EXPRESSION_TOKEN_START) {
+                        current = DSExpressionTokenNext(current);
+                        continue;
+                }
+                DSDesignSpaceConstraintParser(parser,
+                                              DSExpressionTokenType(current),
+                                              current,
+                                              ((void**)&parser_aux));
+                current = DSExpressionTokenNext(current);
+        }
+        DSDesignSpaceConstraintParser(parser,
+                                      0,
+                                      NULL,
+                                      ((void **)&parser_aux));
+        DSDesignSpaceConstraintParserFree(parser, DSSecureFree);
+        DSExpressionTokenFree(tokens);
+        if (DSGMAParserAuxParsingFailed(root) == true) {
+                DSGMAParserAuxFree(root);
+                root = NULL;
+        }
+bail:
+        return root;
+}
+
+static gma_parseraux_t ** dsDesignSpaceTermListForAllStrings(char * const * const strings, const DSUInteger numberOfEquations)
+{
+        DSUInteger i;
+        gma_parseraux_t **aux = NULL;
+        DSExpression *expr;
+        char *aString;
+        bool failed = false;
+        aux = DSSecureCalloc(sizeof(gma_parseraux_t *), numberOfEquations);
+        for (i = 0; i < numberOfEquations; i++) {
+                if (strings[i] == NULL) {
+                        DSError(M_DS_WRONG ": String to parse is NULL", A_DS_ERROR);
+                        failed = true;
+                        break;
+                }
+                if (strlen(strings[i]) == 0) {
+                        DSError(M_DS_WRONG ": String to parse is empty", A_DS_ERROR);
+                        failed = true;
+                        break;
+                }
+                expr = DSExpressionByParsingString(strings[i]);
+                if (expr != NULL) {
+                        aString = DSExpressionAsString(expr);
+                        aux[i] = dsDesignSpaceParseStringToTermList(aString);
+                        DSSecureFree(aString);
+                        DSExpressionFree(expr);
+                }
+                if (aux[i] == NULL) {
+                        DSError(M_DS_PARSE ": Expression not in GMA format", A_DS_ERROR);
+                        failed = true;
+                        break;
+                }
+        }
+        if (failed == true) {
+                for (i = 0; i < numberOfEquations; i++)
+                        if (aux[i] != NULL)
+                                DSGMAParserAuxFree(aux[i]);
+                DSSecureFree(aux);
+                aux = NULL;
+        }
+bail:
+        return aux;
+}
+
+extern void DSDesignSpaceAddConstraints(DSDesignSpace * ds, const char ** strings, DSUInteger numberOfConstraints)
+{
+        DSUInteger i;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        gma_parseraux_t **aux = NULL;
+        aux = dsDesignSpaceTermListForAllStrings(strings, numberOfConstraints);
+        if (aux == NULL) {
+                goto bail;
+        }
+        dsDesignSpaceConstraintsCreateSystemMatrices(ds, numberOfConstraints, aux);
+        for (i=0; i < numberOfConstraints; i++) {
+                if (aux[i] != NULL)
+                        DSGMAParserAuxFree(aux[i]);
+        }
+        DSSecureFree(aux);
+bail:
+        return;
+}
 
 static DSUInteger ** dsDesignSpaceAllTermSignatures(const DSDesignSpace * ds)
 {

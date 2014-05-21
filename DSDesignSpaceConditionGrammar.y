@@ -76,9 +76,13 @@
 
 start ::= constraint.
 
-constraint ::= powerlaw LT powerlaw.
+//constraint ::= powerlaw LT powerlaw.
 
-constraint ::= powerlaw MT powerlaw.
+constraint ::= term MT term.
+
+term ::= term TIMES powerlaw.
+
+term ::= powerlaw.
 
 powerlaw ::= CONSTANT(A). {
         DSGMAParserAuxAddConstantBase(*parser_aux, DSExpressionTokenDouble((struct expression_token *)A));

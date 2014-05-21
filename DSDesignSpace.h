@@ -89,6 +89,7 @@ extern const DSDictionary * DSDesignSpaceCyclicalCaseDictionary(const DSDesignSp
 #pragma mark - Utility -
 #endif
 
+extern void DSDesignSpaceAddConstraints(DSDesignSpace * ds, const char ** strings, DSUInteger numberOfConstraints);
 extern void DSDesignSpacePrint(const DSDesignSpace * ds);
 
 #if defined (__APPLE__) && defined (__MACH__)

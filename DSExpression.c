@@ -484,6 +484,8 @@ static void DSExpressionAddConstantBranch(DSExpression *expression, DSExpression
                                                 DSExpressionConstant(newBranch)*constant);
                         DSExpressionFree(branch);
                         break;
+                case '>':
+                case '<':
                 case '=':
                         DSExpressionAddNonConstantBranch(expression, branch);
                         break;
