@@ -682,22 +682,40 @@ static void yy_reduce(
     **  #line <lineno> <thisfile>
     **     break;
     */
+      case 1: /* constraint ::= expression MT expression */
+{
+        printf("constraint\n");
+}
+        break;
       case 2: /* expression ::= term */
 {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+        printf("expression\n");
+}
+        break;
+      case 3: /* term ::= term TIMES powerlaw */
+{
+        printf("term times powerlaw\n");
+}
+        break;
+      case 4: /* term ::= powerlaw */
+{
+        printf("term\n");
 }
         break;
       case 5: /* powerlaw ::= CONSTANT */
 {
         DSGMAParserAuxAddConstantBase(*parser_aux, DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
+        printf("constant\n");
 }
         break;
       case 6: /* powerlaw ::= ID */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[0].minor.yy0), 1.0);
+        printf("id\n");
 }
         break;
       case 7: /* powerlaw ::= ID POWER CONSTANT */
@@ -705,6 +723,7 @@ static void yy_reduce(
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[-2].minor.yy0),
         DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
+        printf("power\n");
 }
         break;
       case 8: /* powerlaw ::= ID POWER MINUS CONSTANT */
@@ -712,13 +731,11 @@ static void yy_reduce(
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[-3].minor.yy0),
         -DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
+        printf("power minus\n");
 }
         break;
       default:
       /* (0) start ::= constraint */ yytestcase(yyruleno==0);
-      /* (1) constraint ::= expression MT expression */ yytestcase(yyruleno==1);
-      /* (3) term ::= term TIMES powerlaw */ yytestcase(yyruleno==3);
-      /* (4) term ::= powerlaw */ yytestcase(yyruleno==4);
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;

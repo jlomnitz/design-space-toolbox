@@ -77,36 +77,48 @@
 start ::= constraint.
 
 constraint ::= expression MT expression.
+{
+        printf("constraint\n");
+}
 
 expression ::= term. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+        printf("expression\n");
 }
 
-term ::= term TIMES powerlaw.
+term ::= term TIMES powerlaw.{
+        printf("term times powerlaw\n");
+}
 
-term ::= powerlaw.
+term ::= powerlaw. {
+        printf("term\n");
+}
 
 powerlaw ::= CONSTANT(A). {
         DSGMAParserAuxAddConstantBase(*parser_aux, DSExpressionTokenDouble((struct expression_token *)A));
+        printf("constant\n");
 }
 
 powerlaw ::= ID(A). {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)A), 1.0);
+        printf("id\n");
 }
 
 powerlaw ::= ID(A) POWER CONSTANT(B). {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)A),
         DSExpressionTokenDouble((struct expression_token *)B));
+        printf("power\n");
 }
 
 powerlaw ::= ID(A) POWER MINUS CONSTANT(B). {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)A),
         -DSExpressionTokenDouble((struct expression_token *)B));
+        printf("power minus\n");
 }
 
 
