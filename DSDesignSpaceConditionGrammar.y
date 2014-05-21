@@ -76,9 +76,14 @@
 
 start ::= constraint.
 
-//constraint ::= powerlaw LT powerlaw.
+constraint ::= expression MT expression. {
+}
 
-constraint ::= term MT term.
+expression ::= term. {
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
 
 term ::= term TIMES powerlaw.
 
