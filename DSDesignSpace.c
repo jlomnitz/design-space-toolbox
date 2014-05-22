@@ -261,6 +261,9 @@ extern const DSUInteger DSDesignSpaceNumberOfValidCases(const DSDesignSpace *ds)
         if (DSDSValidPool(ds) == NULL)
                 DSDesignSpaceCalculateValidityOfCases((DSDesignSpace *)ds);
         numberValdCases = DSDictionaryCount(DSDSValidPool(ds));
+        if (DSDSCyclical(ds) != NULL) {
+                numberValdCases += DSDictionaryCount(DSDSCyclical(ds));
+        }
 bail:
         return numberValdCases;
 }
