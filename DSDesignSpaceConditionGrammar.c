@@ -79,7 +79,7 @@
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 20
+#define YYNOCODE 21
 #define YYACTIONTYPE unsigned char
 #if INTERFACE
 #define DSDesignSpaceConstraintParserTOKENTYPE void*
@@ -97,8 +97,8 @@ typedef union {
 #define DSDesignSpaceConstraintParserARG_FETCH void **parser_aux = yypParser->parser_aux
 #define DSDesignSpaceConstraintParserARG_STORE yypParser->parser_aux = parser_aux
 #endif
-#define YYNSTATE 15
-#define YYNRULE 9
+#define YYNSTATE 20
+#define YYNRULE 11
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
 #define YY_ERROR_ACTION   (YYNSTATE+YYNRULE)
@@ -167,32 +167,35 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **                     shifting non-terminals after a reduce.
 **  yy_default[]       Default action for each state.
 */
-#define YY_ACTTAB_COUNT (18)
+#define YY_ACTTAB_COUNT (25)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    25,    8,    7,    6,    9,   14,    6,    9,   11,    5,
- /*    10 */    12,   15,    1,    4,    2,    3,   10,   13,
+ /*     0 */    32,   12,   11,    7,    4,   14,   19,   10,   14,   13,
+ /*    10 */    16,    6,   14,   20,   24,    8,    9,   17,    3,    3,
+ /*    20 */     2,   15,    1,    5,   18,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    14,   15,   16,   17,   18,   16,   17,   18,    2,    1,
- /*    10 */     2,    0,    5,    7,    9,   12,    2,   18,
+ /*     0 */    14,   15,   16,   17,   18,   19,   17,   18,   19,   16,
+ /*    10 */     2,   18,   19,    0,    5,    7,    1,    2,    9,    9,
+ /*    20 */     4,    2,    5,   12,   19,
 };
 #define YY_SHIFT_USE_DFLT (-1)
-#define YY_SHIFT_COUNT (8)
+#define YY_SHIFT_COUNT (12)
 #define YY_SHIFT_MIN   (0)
-#define YY_SHIFT_MAX   (14)
+#define YY_SHIFT_MAX   (19)
 static const signed char yy_shift_ofst[] = {
- /*     0 */     8,    8,    8,    6,   14,    3,    5,    7,   11,
+ /*     0 */    15,   15,   15,   15,    9,    8,   10,   17,   19,   11,
+ /*    10 */    10,   16,   13,
 };
 #define YY_REDUCE_USE_DFLT (-15)
-#define YY_REDUCE_COUNT (2)
+#define YY_REDUCE_COUNT (3)
 #define YY_REDUCE_MIN   (-14)
-#define YY_REDUCE_MAX   (0)
+#define YY_REDUCE_MAX   (5)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */   -14,  -11,   -1,
+ /*     0 */   -14,   -7,  -11,    5,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    24,   24,   24,   24,   24,   21,   17,   24,   24,   19,
- /*    10 */    23,   22,   20,   18,   16,
+ /*     0 */    31,   31,   31,   31,   23,   31,   23,   31,   31,   28,
+ /*    10 */    24,   31,   31,   22,   26,   30,   29,   27,   25,   21,
 };
 
 /* The next table maps tokens into fallback tokens.  If a construct
@@ -289,7 +292,7 @@ static const char *const yyTokenName[] = {
   "LT",            "MT",            "PLUS",          "MINUS",       
   "DIVIDE",        "TIMES",         "PRIME",         "NOT",         
   "POWER",         "error",         "start",         "constraint",  
-  "expression",    "term",          "powerlaw",    
+  "rhs",           "lhs",           "term",          "powerlaw",    
 };
 #endif /* NDEBUG */
 
@@ -298,14 +301,16 @@ static const char *const yyTokenName[] = {
  */
 static const char *const yyRuleName[] = {
  /*   0 */ "start ::= constraint",
- /*   1 */ "constraint ::= expression MT expression",
- /*   2 */ "expression ::= term",
- /*   3 */ "term ::= term TIMES powerlaw",
- /*   4 */ "term ::= powerlaw",
- /*   5 */ "powerlaw ::= CONSTANT",
- /*   6 */ "powerlaw ::= ID",
- /*   7 */ "powerlaw ::= ID POWER CONSTANT",
- /*   8 */ "powerlaw ::= ID POWER MINUS CONSTANT",
+ /*   1 */ "constraint ::= rhs LT lhs",
+ /*   2 */ "constraint ::= lhs MT rhs",
+ /*   3 */ "rhs ::= term",
+ /*   4 */ "lhs ::= term",
+ /*   5 */ "term ::= term TIMES powerlaw",
+ /*   6 */ "term ::= powerlaw",
+ /*   7 */ "powerlaw ::= CONSTANT",
+ /*   8 */ "powerlaw ::= ID",
+ /*   9 */ "powerlaw ::= ID POWER CONSTANT",
+ /*  10 */ "powerlaw ::= ID POWER MINUS CONSTANT",
 };
 #endif /* NDEBUG */
 
@@ -621,13 +626,15 @@ static const struct {
 } yyRuleInfo[] = {
   { 14, 1 },
   { 15, 3 },
+  { 15, 3 },
   { 16, 1 },
-  { 17, 3 },
   { 17, 1 },
-  { 18, 1 },
-  { 18, 1 },
   { 18, 3 },
-  { 18, 4 },
+  { 18, 1 },
+  { 19, 1 },
+  { 19, 1 },
+  { 19, 3 },
+  { 19, 4 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -682,32 +689,39 @@ static void yy_reduce(
     **  #line <lineno> <thisfile>
     **     break;
     */
-      case 2: /* expression ::= term */
+      case 3: /* rhs ::= term */
+{
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
+        break;
+      case 4: /* lhs ::= term */
 {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
         break;
-      case 5: /* powerlaw ::= CONSTANT */
+      case 7: /* powerlaw ::= CONSTANT */
 {
         DSGMAParserAuxAddConstantBase(*parser_aux, DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 6: /* powerlaw ::= ID */
+      case 8: /* powerlaw ::= ID */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[0].minor.yy0), 1.0);
 }
         break;
-      case 7: /* powerlaw ::= ID POWER CONSTANT */
+      case 9: /* powerlaw ::= ID POWER CONSTANT */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[-2].minor.yy0),
         DSExpressionTokenDouble((struct expression_token *)yymsp[0].minor.yy0));
 }
         break;
-      case 8: /* powerlaw ::= ID POWER MINUS CONSTANT */
+      case 10: /* powerlaw ::= ID POWER MINUS CONSTANT */
 {
         DSGMAParserAuxAddVariableExponentPair(*parser_aux,
         DSExpressionTokenString((struct expression_token *)yymsp[-3].minor.yy0),
@@ -716,9 +730,10 @@ static void yy_reduce(
         break;
       default:
       /* (0) start ::= constraint */ yytestcase(yyruleno==0);
-      /* (1) constraint ::= expression MT expression */ yytestcase(yyruleno==1);
-      /* (3) term ::= term TIMES powerlaw */ yytestcase(yyruleno==3);
-      /* (4) term ::= powerlaw */ yytestcase(yyruleno==4);
+      /* (1) constraint ::= rhs LT lhs */ yytestcase(yyruleno==1);
+      /* (2) constraint ::= lhs MT rhs */ yytestcase(yyruleno==2);
+      /* (5) term ::= term TIMES powerlaw */ yytestcase(yyruleno==5);
+      /* (6) term ::= powerlaw */ yytestcase(yyruleno==6);
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;

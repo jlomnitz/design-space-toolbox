@@ -76,9 +76,17 @@
 
 start ::= constraint.
 
-constraint ::= expression MT expression.
+constraint ::= rhs LT lhs.
 
-expression ::= term. {
+constraint ::= lhs MT rhs.
+
+rhs ::= term. {
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
+
+lhs ::= term. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);

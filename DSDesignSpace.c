@@ -602,9 +602,9 @@ static void dsDesignSpaceConstraintsCreateSystemMatrices(DSDesignSpace *ds, DSUI
         delta = DSMatrixCalloc(numberOfConstraints, 1);
         for (i = 0; i < numberOfConstraints; i++) {
                 current = aux[i];
-                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, AUX_SIGN_POSITIVE, i, Cd, Ci, delta);
+                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, current->sign, i, Cd, Ci, delta);
                 current = DSGMAParserAuxNextNode(current);
-                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, AUX_SIGN_NEGATIVE, i, Cd, Ci, delta);
+                dsDesignSpaceConstraintsProcessExponentBasePairs(gma, current, current->sign, i, Cd, Ci, delta);
         }
         DSDesignSpaceAddConditions(ds, Cd, Ci, delta);
         DSMatrixFree(Cd);

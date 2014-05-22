@@ -979,9 +979,9 @@ static void dsCaseConstraintsCreateSystemMatrices(DSCase *aCase, DSUInteger numb
         delta = DSMatrixCalloc(numberOfConstraints, 1);
         for (i = 0; i < numberOfConstraints; i++) {
                 current = aux[i];
-                dsCaseConstraintsProcessExponentBasePairs(aCase, current, AUX_SIGN_POSITIVE, i, Cd, Ci, delta);
+                dsCaseConstraintsProcessExponentBasePairs(aCase, current, current->sign, i, Cd, Ci, delta);
                 current = DSGMAParserAuxNextNode(current);
-                dsCaseConstraintsProcessExponentBasePairs(aCase, current, AUX_SIGN_NEGATIVE, i, Cd, Ci, delta);
+                dsCaseConstraintsProcessExponentBasePairs(aCase, current, current->sign, i, Cd, Ci, delta);
         }
         dsCaseAddConditions(aCase, Cd, Ci, delta);
         dsCaseAddBoundariesFromConditions(aCase, Cd, Ci, delta);
