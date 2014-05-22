@@ -677,6 +677,7 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
         DSUInteger * decayEquations = NULL;
         DSUInteger * decayTerms;
         DSDesignSpace * subcase;
+        DSDictionary * validity;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -746,11 +747,13 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
                                                                                     coefficientArray,
                                                                                     decayEquations,
                                                                                     decayTerms);
-                        if (DSDesignSpaceNumberOfValidCases(subcase) == 0) {
+                        validity = DSDesignSpaceCalculateAllValidCasesByResolvingCyclicalCases(subcase);
+                        if (validity == NULL) {
                                 DSDesignSpaceFree(subcase);
-                                continue;
+                        } else {
+                                DSStackPush(augmentedSystemsStack, subcase);
                         }
-                        DSStackPush(augmentedSystemsStack, subcase);
+                        DSDictionaryFree(validity);
                 }
         }
         DSSecureFree(decayEquations);
