@@ -746,6 +746,10 @@ static DSStack * dsCyclicalCaseCreateAugmentedSystems(const DSCase * aCase,
                                                                                     coefficientArray,
                                                                                     decayEquations,
                                                                                     decayTerms);
+                        if (DSDesignSpaceNumberOfValidCases(subcase) == 0) {
+                                DSDesignSpaceFree(subcase);
+                                continue;
+                        }
                         DSStackPush(augmentedSystemsStack, subcase);
                 }
         }

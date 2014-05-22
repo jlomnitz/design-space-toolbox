@@ -357,6 +357,26 @@ extern DSDictionary * DSCyclicalCaseVerticesForSlice(const DSCyclicalCase *aSubc
 #pragma mark - Utility functions
 #endif
 
+extern void DSCyclicalCaseAddConstraints(DSCyclicalCase * cyclicalCase, const char ** strings, DSUInteger numberOfConstraints)
+{
+        DSDesignSpace * ds;
+        DSUInteger j;
+        if (cyclicalCase == NULL) {
+                DSError(M_DS_CASE_NULL ": Cyclical Case is Null", A_DS_ERROR);
+                goto bail;
+        }
+        for (j = 0; j < cyclicalCase->numberOfInternal; j++) {
+                ds = cyclicalCase->internalDesignspaces[j];
+                if (ds == NULL) {
+                        DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                        goto bail;
+                }
+                DSDesignSpaceAddConstraints(ds, strings, numberOfConstraints);
+        }
+bail:
+        return;
+}
+
 extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclicalCases(DSCyclicalCase *cyclicalCase)
 {
         DSDictionary * caseDictionary = NULL, *subcaseDictionary;
