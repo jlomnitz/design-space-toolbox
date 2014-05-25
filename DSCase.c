@@ -826,25 +826,32 @@ static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
-                goto bail;
-        }
+//        if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
+//                goto bail;
+//        }
         if (Cd == NULL) {
                 goto bail;
         }
-        B = DSSSystemB(DSCaseSSys(aCase));
         numberOfXi = DSVariablePoolNumberOfVariables(DSCaseXi(aCase));
-        
-        W = DSMatrixByMultiplyingMatrix(Cd, DSSSystemM(DSCaseSSys(aCase)));
-        Zeta = DSMatrixByMultiplyingMatrix(W, B);
-        DSMatrixAddByMatrix(Zeta, delta);
-        if (numberOfXi != 0) {
+        if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
+                W = DSMatrixCalloc(DSMatrixRows(Cd), DSMatrixColumns(Cd));
+                Zeta = DSMatrixCopy(delta);
+                U = DSMatrixCopy(Ci);
+        } else {
+                W = DSMatrixByMultiplyingMatrix(Cd, DSSSystemM(DSCaseSSys(aCase)));
+                B = DSSSystemB(DSCaseSSys(aCase));
+                Zeta = DSMatrixByMultiplyingMatrix(W, B);
+                DSMatrixAddByMatrix(Zeta, delta);
                 Ai = DSSSystemAi(DSCaseSSys(aCase));
-                U = DSMatrixByMultiplyingMatrix(W, Ai);
-                if (Ci != NULL)
-                        DSMatrixSubstractByMatrix(U, Ci);
-                DSMatrixMultiplyByScalar(U, -1.0);
-                DSMatrixFree(Ai);
+                if (numberOfXi != 0) {
+                        Ai = DSSSystemAi(DSCaseSSys(aCase));
+                        U = DSMatrixByMultiplyingMatrix(W, Ai);
+                        if (Ci != NULL)
+                                DSMatrixSubstractByMatrix(U, Ci);
+                        DSMatrixMultiplyByScalar(U, -1.0);
+                        DSMatrixFree(Ai);
+                }
+                DSMatrixFree(B);
         }
         temp = DSCaseZeta(aCase);
         DSCaseZeta(aCase) = DSMatrixAppendMatrices(temp, Zeta, false);
@@ -855,7 +862,6 @@ static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd
         DSMatrixFree(temp);
         DSMatrixFree(U);
         DSMatrixFree(W);
-        DSMatrixFree(B);
 bail:
         return;
 }

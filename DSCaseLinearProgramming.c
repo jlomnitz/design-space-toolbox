@@ -1478,12 +1478,13 @@ static DSPseudoCase * dsPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                 if (j == numberOfExceptions) {
                         DSVariablePoolAddVariableWithName(Xi, DSVariablePoolAllVariableNames(DSCaseXi(cases[0]))[i]);
                 } else {
-                        asprintf(&name, "$s%i", k++);
+                        asprintf(&name, "$%s_0", DSVariablePoolAllVariableNames(DSCaseXi(cases[0]))[i]);
                         DSVariablePoolAddVariableWithName(Xi, name);
                 }
         }
         for (i = 0; i < numberOfExceptions*(numberOfCases-1); i++) {
-                asprintf(&name, "$s%i", k++);
+                j = i % numberOfExceptions;
+                asprintf(&name, "$%s_%i", DSVariablePoolAllVariableNames(DSCaseXi(cases[0]))[indices[j]], i / numberOfExceptions + 1);
                 DSVariablePoolAddVariableWithName(Xi, name);
         }
         DSSecureFree(name);

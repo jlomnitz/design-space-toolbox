@@ -1985,8 +1985,8 @@ extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, cons
                         }
                         value = DSMatrixDoubleValue(routhMatrix, i-1, 0);
                         value = (value*DSMatrixDoubleValue(routhMatrix, i-2, j+1)-DSMatrixDoubleValue(routhMatrix, i-2, 0)*DSMatrixDoubleValue(routhMatrix, i-1, j+1))/value;
-                        if (fabs(value) < threshold)
-                                value = 0.f;
+//                        if (fabs(value) < threshold)
+//                                value = 0.f;
                         DSMatrixSetDoubleValue(routhMatrix, i, j, value);
                         if (value == 0.f && j == 0) {
                                 dsSSystemRouthArrayProcessZeroRoots(routhMatrix, i, threshold);
