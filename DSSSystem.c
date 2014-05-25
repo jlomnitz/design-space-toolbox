@@ -149,9 +149,12 @@ extern void DSSSystemFree(DSSSystem * sys)
                 DSVariablePoolSetReadWriteAdd(DSSSysXi(sys));
                 DSVariablePoolFree(DSSSysXi(sys));
         }
-        DSMatrixFree(DSSSysAlpha(sys));
-        DSMatrixFree(DSSSysBeta(sys));
-        DSMatrixFree(DSSSysGd(sys));
+        if (DSSSysAlpha(sys) != NULL)
+                DSMatrixFree(DSSSysAlpha(sys));
+        if (DSSSysBeta(sys) != NULL)
+                DSMatrixFree(DSSSysBeta(sys));
+        if (DSSSysGd(sys) != NULL)
+                DSMatrixFree(DSSSysGd(sys));
         if (DSSSysGi(sys) != NULL)
                 DSMatrixFree(DSSSysGi(sys));
         if (DSSSysHd(sys) != NULL)

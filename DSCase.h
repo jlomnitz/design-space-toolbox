@@ -47,10 +47,10 @@ __BEGIN_DECLS
 #define DS_CASE_NUMBER_BIG_ENDIAN    0
 #define DS_CASE_NUMBER_SMALL_ENDIAN  1
 
+#define DSCaseSSys(x)                ((x)->ssys)
 #define DSCaseXi(x)                  ((x)->Xi)
 #define DSCaseXd(x)                  ((x)->Xd)
 #define DSCaseXd_a(x)                ((x)->Xd_a)
-#define DSCaseSSys(x)                ((x)->ssys)
 #define DSCaseCd(x)                  ((x)->Cd)
 #define DSCaseCi(x)                  ((x)->Ci)
 #define DSCaseU(x)                   ((x)->U)
@@ -160,6 +160,7 @@ extern const bool DSCaseIntersectionExceptSliceIsValidAtSlice(const DSUInteger n
 
 
 extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSet(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames);
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetWithConstraints(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const char ** constraints, DSUInteger numberOfConstraints);
 
 extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetAtSlice(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const DSVariablePool * lowerBounds, const DSVariablePool * upperBounds);
 

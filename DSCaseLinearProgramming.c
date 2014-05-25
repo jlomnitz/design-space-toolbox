@@ -1438,11 +1438,13 @@ bail:
 /**
  *
  */
-static DSPseudoCase * dsPseudoCaseFromIntersectionOfCasesExceptingSlice(const DSUInteger numberOfCases, const DSCase ** cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames)
+static DSPseudoCase * dsPseudoCaseFromIntersectionOfCasesExcludingSlice(const DSUInteger numberOfCases, const DSCase ** cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames)
 {
         DSUInteger i, j, k, currentRow, numberOfExtraColumns, rows, columns, *indices;
         DSPseudoCase * caseIntersection = NULL;
         DSMatrix *U = NULL, *Zeta = NULL, *tempU, *tempZeta;
+        DSVariablePool * Xi;
+        char * name = NULL;
         if (numberOfCases == 0) {
                 DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
                 goto bail;
@@ -1455,6 +1457,7 @@ static DSPseudoCase * dsPseudoCaseFromIntersectionOfCasesExceptingSlice(const DS
                 if (DSCaseHasSolution(cases[i]) == false)
                         goto bail;
         }
+        Xi = DSVariablePoolAlloc();
         indices = DSSecureCalloc(numberOfExceptions, sizeof(DSUInteger));
         for (j = 0; j < numberOfExceptions; j++) {
                 for (i = 0; i < numberOfCases; i++) {
@@ -1466,6 +1469,24 @@ static DSPseudoCase * dsPseudoCaseFromIntersectionOfCasesExceptingSlice(const DS
                 }
                 indices[j] = DSVariablePoolIndexOfVariableWithName(DSCaseXi(cases[0]), exceptionVarNames[j]);
         }
+        k = 0;
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXi(cases[0])); i++) {
+                for (j = 0; j < numberOfExceptions; j++) {
+                        if (i == indices[j])
+                                break;
+                }
+                if (j == numberOfExceptions) {
+                        DSVariablePoolAddVariableWithName(Xi, DSVariablePoolAllVariableNames(DSCaseXi(cases[0]))[i]);
+                } else {
+                        asprintf(&name, "$s%i", k++);
+                        DSVariablePoolAddVariableWithName(Xi, name);
+                }
+        }
+        for (i = 0; i < numberOfExceptions*(numberOfCases-1); i++) {
+                asprintf(&name, "$s%i", k++);
+                DSVariablePoolAddVariableWithName(Xi, name);
+        }
+        DSSecureFree(name);
         numberOfExtraColumns = numberOfExceptions*(numberOfCases-1);
         rows = 0;
         columns = DSMatrixColumns(DSCaseU(cases[0]))+numberOfExtraColumns;
@@ -1497,9 +1518,12 @@ static DSPseudoCase * dsPseudoCaseFromIntersectionOfCasesExceptingSlice(const DS
         }
         caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
         DSCaseXd(caseIntersection) = DSCaseXd(cases[0]);
-        DSCaseXi(caseIntersection) = DSCaseXi(cases[0]);
+        DSCaseXi(caseIntersection) = Xi;
         DSCaseU(caseIntersection) = U;
         DSCaseZeta(caseIntersection) = Zeta;
+        DSCaseSSys(caseIntersection) = DSSecureCalloc(1, sizeof(DSSSystem));
+        DSCaseXi(DSCaseSSys(caseIntersection)) = Xi;
+        DSCaseSSys(caseIntersection)->shouldFreeXi = true;
         U = NULL;
         Zeta = NULL;
         DSSecureFree(indices);
@@ -1541,7 +1565,7 @@ extern const bool DSCaseIntersectionExceptSliceIsValid(const DSUInteger numberOf
 {
         bool isValid = false;
         DSPseudoCase *caseIntersection = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExceptingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
         isValid = DSCaseIsValid(caseIntersection);
@@ -1554,7 +1578,7 @@ extern const bool DSCaseIntersectionExceptSliceIsValidAtSlice(const DSUInteger n
 {
         bool isValid = false;
         DSPseudoCase *caseIntersection = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExceptingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
         isValid = DSCaseIsValidAtSlice(caseIntersection, lowerBounds, upperBounds);
@@ -1567,7 +1591,21 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSet(const DSU
 {
         DSPseudoCase *caseIntersection = NULL;
         DSVariablePool * variablePool = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExceptingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        if (caseIntersection == NULL)
+                goto bail;
+        variablePool = DSCaseValidParameterSet(caseIntersection);
+        DSSecureFree(caseIntersection);
+bail:
+        return variablePool;
+}
+
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetWithConstraints(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const char ** constraints, DSUInteger numberOfConstraints)
+{
+        DSPseudoCase *caseIntersection = NULL;
+        DSVariablePool * variablePool = NULL;
+        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        DSCaseAddConstraints(caseIntersection, constraints, numberOfConstraints);
         if (caseIntersection == NULL)
                 goto bail;
         variablePool = DSCaseValidParameterSet(caseIntersection);
@@ -1580,7 +1618,7 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetAtSlice(co
 {
         DSPseudoCase *caseIntersection = NULL;
         DSVariablePool * variablePool = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExceptingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
         variablePool = DSCaseValidParameterSetAtSlice(caseIntersection, lowerBounds, upperBounds);

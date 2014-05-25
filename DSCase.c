@@ -116,8 +116,10 @@ extern void DSCaseFree(DSCase * aCase)
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (DSCaseSSys(aCase) != NULL)
+        if (DSCaseSSys(aCase) != NULL) {
                 DSSSystemFree(DSCaseSSys(aCase));
+        } else {
+        }
         if (DSCaseSig(aCase) != NULL)
                 DSSecureFree(DSCaseSig(aCase));
         if (DSCaseCd(aCase) != NULL)

@@ -66,7 +66,7 @@ inf             {
         yyset_extra(token, yyscanner);
 }
 
-[A-Za-z_\\]+[A-Za-z_\\0-9]* {
+[A-Za-z_\\\$]+[A-Za-z_\\0-9]* {
         struct expression_token *token = yyget_extra(yyscanner);
         if (token == NULL) {
                 DSError(M_DS_NULL ": tokenizer is NULL", A_DS_FATAL);
