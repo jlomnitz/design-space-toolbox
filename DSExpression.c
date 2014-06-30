@@ -900,7 +900,7 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
         }
         switch (DSExpressionType(current)) {
                 case DS_EXPRESSION_TYPE_CONSTANT:
-                        sprintf(temp, "%lf", DSExpressionConstant(current));
+                        sprintf(temp, "%.15lf", DSExpressionConstant(current));
                         break;
                 case DS_EXPRESSION_TYPE_VARIABLE:
                         sprintf(temp, "%s", DSExpressionVariable(current));
