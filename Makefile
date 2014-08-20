@@ -6,7 +6,7 @@
 #      (2)  The GNU Scientific Library
 #      (3)  An implementation of cblas, preferable compiled using atlas.
 #
-CC = gcc-4.6
+CC = gcc
 # Without this  -L"/usr/lib/atlas-base/" the libcblas.so library is not detected in debian. 
 CFLAGS = -std=gnu99 -Wall -O3 -shared -fPIC
 DEBUG_CFLAGS = -g -std=gnu99 -Wall -shared -fPIC
