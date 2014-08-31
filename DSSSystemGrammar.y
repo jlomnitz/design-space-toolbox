@@ -79,22 +79,47 @@ start ::= equation.
 equation ::= ID PRIME EQUALS expression.
 
 equation ::= CONSTANT EQUALS expression.
+//
+//expression ::= pterm PLUS mterm.
+//
+//expression ::= mterm PLUS pterm.
+//
+//pterm ::= term.{
+//        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
+//        DSGMAParserAuxNewTerm(*parser_aux);
+//        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+//}
+//
+//mterm ::= MINUS term. {
+//        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
+//        DSGMAParserAuxNewTerm(*parser_aux);
+//        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+//}
 
-expression ::= pterm PLUS mterm.
-
-expression ::= mterm PLUS pterm.
-
-pterm ::= term.{
+expression ::= term. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
 
-mterm ::= MINUS term. [NOT] {
+expression ::= MINUS term. {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
+
+expression ::= expression PLUS term. {
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
+
+expression ::= expression MINUS term. {
+        DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
+        DSGMAParserAuxNewTerm(*parser_aux);
+        *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
+}
+
 
 term ::= powerlaw.
 

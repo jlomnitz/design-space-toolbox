@@ -373,6 +373,16 @@ typedef struct {
         DSUInteger *signature;            //!< The case signature indicating the dominant terms used to generate the case.
 } DSCase;
 
+
+typedef struct {
+        DSExpression ** alphas;
+        DSExpression ** betas;
+        DSUInteger ** betaTems;
+        DSUInteger * trackedSpecies;
+        DSUInteger numberTracking;
+} DSCycleExtensionData;
+
+
 /**
  * \brief Data type used to represent a design space
  *
@@ -395,6 +405,7 @@ typedef struct {
         DSDictionary *cyclicalCases;     //!< DSDictionary containing design space objects with subcases.
         DSMatrix * Rn;                   //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
         bool seriesCalculations;
+        DSCycleExtensionData * cycleData;
 } DSDesignSpace;
 
 /**

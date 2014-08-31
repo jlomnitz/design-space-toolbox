@@ -79,7 +79,7 @@
 **                       defined, then do no error processing.
 */
 #define YYCODETYPE unsigned char
-#define YYNOCODE 22
+#define YYNOCODE 20
 #define YYACTIONTYPE unsigned char
 #if INTERFACE
 #define DSSSystemParserTOKENTYPE void*
@@ -97,7 +97,7 @@ typedef union {
 #define DSSSystemParserARG_FETCH void **parser_aux = yypParser->parser_aux
 #define DSSSystemParserARG_STORE yypParser->parser_aux = parser_aux
 #endif
-#define YYNSTATE 31
+#define YYNSTATE 29
 #define YYNRULE 15
 #define YY_NO_ACTION      (YYNSTATE+YYNRULE+2)
 #define YY_ACCEPT_ACTION  (YYNSTATE+YYNRULE+1)
@@ -167,41 +167,41 @@ static const YYMINORTYPE yyzerominor = { 0 };
 **                     shifting non-terminals after a reduce.
 **  yy_default[]       Default action for each state.
 */
-#define YY_ACTTAB_COUNT (50)
+#define YY_ACTTAB_COUNT (42)
 static const YYACTIONTYPE yy_action[] = {
- /*     0 */    30,   16,   13,    9,   23,   20,   16,   13,    9,   23,
- /*    10 */    15,   27,   15,   27,   26,    5,    4,    5,   21,   14,
- /*    20 */     9,   23,    6,    7,   15,   27,   11,   23,   31,   47,
- /*    30 */    19,   18,   12,    8,   17,    2,   25,   10,    1,    3,
- /*    40 */    29,   28,   48,    4,   48,   48,   24,   48,   48,   22,
+ /*     0 */    18,   27,   18,   27,   29,    6,    3,    6,   15,   11,
+ /*    10 */    23,    9,   11,   23,    5,    4,   26,    7,    8,   18,
+ /*    20 */    27,   17,    2,   14,   23,   45,   21,   12,   23,   10,
+ /*    30 */    23,   20,   16,   13,   19,   25,   46,    1,   28,   46,
+ /*    40 */    24,   22,
 };
 static const YYCODETYPE yy_lookahead[] = {
- /*     0 */    16,   17,   18,   19,   20,   16,   17,   18,   19,   20,
- /*    10 */     1,    2,    1,    2,    2,    6,    7,    6,   17,    7,
- /*    20 */    19,   20,    8,    9,    1,    2,   19,   20,    0,   14,
- /*    30 */    15,    1,    2,    6,   10,    3,    2,   12,    3,    6,
- /*    40 */    18,   20,   21,    7,   21,   21,   20,   21,   21,   20,
+ /*     0 */     1,    2,    1,    2,    0,    6,    7,    6,   16,   17,
+ /*    10 */    18,   16,   17,   18,    6,    7,    2,    8,    9,    1,
+ /*    20 */     2,    7,    3,   17,   18,   14,   15,   17,   18,   17,
+ /*    30 */    18,    1,    2,   12,   10,    2,   19,    3,   18,   19,
+ /*    40 */    18,   18,
 };
-#define YY_SHIFT_USE_DFLT (-1)
-#define YY_SHIFT_COUNT (19)
-#define YY_SHIFT_MIN   (0)
-#define YY_SHIFT_MAX   (36)
+#define YY_SHIFT_USE_DFLT (-2)
+#define YY_SHIFT_COUNT (21)
+#define YY_SHIFT_MIN   (-1)
+#define YY_SHIFT_MAX   (34)
 static const signed char yy_shift_ofst[] = {
- /*     0 */    30,    9,    9,   11,   11,   23,   23,   23,   36,   14,
- /*    10 */    12,   14,   35,   33,   34,   25,   27,   32,   24,   28,
+ /*     0 */    30,   -1,   -1,    1,    1,    1,   18,   18,   18,    8,
+ /*    10 */     9,    9,    9,   14,    9,    8,   34,   33,   21,   19,
+ /*    20 */    24,    4,
 };
-#define YY_REDUCE_USE_DFLT (-17)
+#define YY_REDUCE_USE_DFLT (-9)
 #define YY_REDUCE_COUNT (8)
-#define YY_REDUCE_MIN   (-16)
-#define YY_REDUCE_MAX   (29)
+#define YY_REDUCE_MIN   (-8)
+#define YY_REDUCE_MAX   (23)
 static const signed char yy_reduce_ofst[] = {
- /*     0 */    15,  -11,  -16,    1,    7,   29,   26,   21,   22,
+ /*     0 */    11,   -5,   -8,   12,   10,    6,   23,   22,   20,
 };
 static const YYACTIONTYPE yy_default[] = {
- /*     0 */    46,   46,   46,   46,   46,   46,   46,   46,   46,   36,
- /*    10 */    46,   37,   46,   46,   46,   43,   46,   46,   46,   46,
- /*    20 */    33,   35,   39,   38,   41,   45,   44,   42,   40,   34,
- /*    30 */    32,
+ /*     0 */    44,   44,   44,   44,   44,   44,   44,   44,   44,   31,
+ /*    10 */    33,   32,   35,   44,   34,   30,   44,   44,   41,   44,
+ /*    20 */    44,   44,   37,   36,   39,   43,   42,   40,   38,
 };
 
 /* The next table maps tokens into fallback tokens.  If a construct
@@ -298,8 +298,7 @@ static const char *const yyTokenName[] = {
   "LT",            "MT",            "PLUS",          "MINUS",       
   "DIVIDE",        "TIMES",         "PRIME",         "NOT",         
   "POWER",         "error",         "start",         "equation",    
-  "expression",    "pterm",         "mterm",         "term",        
-  "powerlaw",    
+  "expression",    "term",          "powerlaw",    
 };
 #endif /* NDEBUG */
 
@@ -310,10 +309,10 @@ static const char *const yyRuleName[] = {
  /*   0 */ "start ::= equation",
  /*   1 */ "equation ::= ID PRIME EQUALS expression",
  /*   2 */ "equation ::= CONSTANT EQUALS expression",
- /*   3 */ "expression ::= pterm PLUS mterm",
- /*   4 */ "expression ::= mterm PLUS pterm",
- /*   5 */ "pterm ::= term",
- /*   6 */ "mterm ::= MINUS term",
+ /*   3 */ "expression ::= term",
+ /*   4 */ "expression ::= MINUS term",
+ /*   5 */ "expression ::= expression PLUS term",
+ /*   6 */ "expression ::= expression MINUS term",
  /*   7 */ "term ::= powerlaw",
  /*   8 */ "term ::= PLUS powerlaw",
  /*   9 */ "term ::= term TIMES powerlaw",
@@ -638,18 +637,18 @@ static const struct {
   { 14, 1 },
   { 15, 4 },
   { 15, 3 },
+  { 16, 1 },
+  { 16, 2 },
   { 16, 3 },
   { 16, 3 },
   { 17, 1 },
-  { 18, 2 },
-  { 19, 1 },
-  { 19, 2 },
-  { 19, 3 },
-  { 19, 3 },
-  { 20, 1 },
-  { 20, 1 },
-  { 20, 3 },
-  { 20, 4 },
+  { 17, 2 },
+  { 17, 3 },
+  { 17, 3 },
+  { 18, 1 },
+  { 18, 1 },
+  { 18, 3 },
+  { 18, 4 },
 };
 
 static void yy_accept(yyParser*);  /* Forward Declaration */
@@ -704,14 +703,16 @@ static void yy_reduce(
     **  #line <lineno> <thisfile>
     **     break;
     */
-      case 5: /* pterm ::= term */
+      case 3: /* expression ::= term */
+      case 5: /* expression ::= expression PLUS term */ yytestcase(yyruleno==5);
 {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_POSITIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
         *parser_aux = DSGMAParserAuxNextNode(*parser_aux);
 }
         break;
-      case 6: /* mterm ::= MINUS term */
+      case 4: /* expression ::= MINUS term */
+      case 6: /* expression ::= expression MINUS term */ yytestcase(yyruleno==6);
 {
         DSGMAParserAuxSetSign(*parser_aux, AUX_SIGN_NEGATIVE);
         DSGMAParserAuxNewTerm(*parser_aux);
@@ -747,8 +748,6 @@ static void yy_reduce(
       /* (0) start ::= equation */ yytestcase(yyruleno==0);
       /* (1) equation ::= ID PRIME EQUALS expression */ yytestcase(yyruleno==1);
       /* (2) equation ::= CONSTANT EQUALS expression */ yytestcase(yyruleno==2);
-      /* (3) expression ::= pterm PLUS mterm */ yytestcase(yyruleno==3);
-      /* (4) expression ::= mterm PLUS pterm */ yytestcase(yyruleno==4);
       /* (7) term ::= powerlaw */ yytestcase(yyruleno==7);
       /* (8) term ::= PLUS powerlaw */ yytestcase(yyruleno==8);
       /* (9) term ::= term TIMES powerlaw */ yytestcase(yyruleno==9);

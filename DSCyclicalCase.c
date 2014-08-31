@@ -394,7 +394,6 @@ extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclical
         for (i = 0; i < DSCyclicalCaseNumberOfSubcases(cyclicalCase); i++) {
                 validCaseNumbers = i+1;
                 sprintf(nameString, "%d", validCaseNumbers);
-                aCase = DSCyclicalCaseSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
                 cyclicalSubcase = (DSCyclicalCase *)DSCyclicalCaseCyclicalSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
                 if (cyclicalSubcase != NULL) {
                         subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclicalCases(cyclicalSubcase);
@@ -405,10 +404,13 @@ extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclical
                                 DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
                         }
                         DSDictionaryFree(subcaseDictionary);
-                } else if (DSCaseIsValid(aCase) == true) {
-                        DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
                 } else {
-                        DSCaseFree(aCase);
+                        aCase = DSCyclicalCaseSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
+                        if (DSCaseIsValid(aCase) == true) {
+                                DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
+                        } else {
+                                DSCaseFree(aCase);
+                        }
                 }
         }
 bail:
