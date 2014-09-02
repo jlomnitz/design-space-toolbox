@@ -405,7 +405,7 @@ typedef struct {
         DSDictionary *cyclicalCases;     //!< DSDictionary containing design space objects with subcases.
         DSMatrix * Rn;                   //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
         bool seriesCalculations;
-        DSCycleExtensionData * cycleData;
+        DSDictionary * cycleFluxes;
 } DSDesignSpace;
 
 /**

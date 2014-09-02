@@ -72,6 +72,7 @@ extern DSDesignSpace * DSDesignSpaceAlloc(void)
         DSDesignSpace * ds = NULL;
         ds = DSSecureCalloc(sizeof(DSDesignSpace), 1);
         DSDSCyclical(ds) = DSDictionaryAlloc();
+        ds->cycleFluxes = NULL;
         return ds;
 }
 
@@ -94,6 +95,9 @@ void DSDesignSpaceFree(DSDesignSpace * ds)
         if (DSDSValidPool(ds) != NULL) 
                 DSDictionaryFree(DSDSValidPool(ds));
         DSDictionaryFreeWithFunction(DSDSCyclical(ds), DSCyclicalCaseFree);
+        if (ds->cycleFluxes != NULL) {
+                DSDictionaryFreeWithFunction(ds->cycleFluxes, DSSecureFree);
+        }
         DSSecureFree(ds);
 bail:
         return;

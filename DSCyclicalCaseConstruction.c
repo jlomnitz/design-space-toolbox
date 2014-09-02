@@ -920,16 +920,24 @@ static void dsCyclicalCaseSolutionOfPartitionedMatrices(const DSCase * aCase,
                 goto bail;
         }
         Mn = DSMatrixInverse(ADn);
+        if (Mn == NULL) {
+                goto bail;
+        }
         *LI = DSMatrixByMultiplyingMatrix(Mn, AIn);
         *Lc = DSMatrixByMultiplyingMatrix(Mn, ADc);
         *MBn = DSMatrixByMultiplyingMatrix(Mn, Bn);
         DSMatrixMultiplyByScalar(*LI, 1.);
         DSMatrixMultiplyByScalar(*Lc, 1.);
-        DSMatrixFree(ADn);
-        DSMatrixFree(ADc);
-        DSMatrixFree(AIn);
-        DSMatrixFree(Bn);
+        DSMatrixFree(Mn);
 bail:
+        if (ADn != NULL)
+                DSMatrixFree(ADn);
+        if (ADc != NULL)
+                DSMatrixFree(ADc);
+        if (AIn != NULL)
+                DSMatrixFree(AIn);
+        if (Bn != NULL)
+                DSMatrixFree(Bn);
         return;
 }
 
@@ -974,6 +982,7 @@ static char * dsCyclicalCaseEquationForFlux(const DSCase * aCase,
                 termFunction = DSGMASystemNegativeTermForEquations;
         }
         fluxEquation = termFunction(gma, variableIndex, fluxIndex);
+        fluxEquationString = DSSecureCalloc(sizeof(char), 1000);
         asprintf(&fluxEquationString, "%s*%lf", DSExpressionAsString(fluxEquation), numerator/denominator);
         DSExpressionFree(fluxEquation);
 bail:
@@ -1019,7 +1028,8 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                 goto bail;
         }
         ssys = DSCaseSSystem(aCase);
-        cycleEquations = DSSecureCalloc(sizeof(DSExpression *), numberSecondaryVariables+1);
+        string = DSSecureCalloc(sizeof(char *), 1000);
+        // asprintf introduces memory error....
         asprintf(&string, "%s. = ", DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), primaryCycleVariable)));
         count = 0;
         for (i = 0; i < numberSecondaryVariables+1; i++) {
@@ -1044,6 +1054,7 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                         if (flux != NULL) {
                                 asprintf(&string, "%s + %s", string, flux);
                                 DSSecureFree(flux);
+                                count++;
                         }
                 }
                 for (j = 1; j <= DSDesignSpaceSignature(original)[2*index+1]; j++) {
@@ -1062,9 +1073,15 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                         if (flux != NULL) {
                                 asprintf(&string, "%s + %s", string, flux);
                                 DSSecureFree(flux);
+                                count++;
                         }
                 }
         }
+        if (count == 0) {
+                printf("Count is 0!\n");
+                goto bail;
+        }
+        cycleEquations = DSSecureCalloc(sizeof(DSExpression *), numberSecondaryVariables+1);
         cycleEquations[0] = DSExpressionByParsingString(string);
         for (i = 0; i < numberSecondaryVariables; i++) {
                 name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), secondaryCycleVariables[i]));
@@ -1094,21 +1111,24 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                 }
                 cycleEquations[i+1] = DSExpressionByParsingString(string);
         }
+
+bail:
         if (string != NULL)
                 DSSecureFree(string);
-bail:
         return cycleEquations;
 }
 
 static char ** dsCyclicalCaseEquations(const DSCase * aCase,
-                                               const DSDesignSpace * original,
-                                               DSMatrix * problematicEquations,
-                                               const DSMatrixArray * coefficientArray)
+                                       const DSDesignSpace * original,
+                                       DSMatrix * problematicEquations,
+                                       const DSMatrixArray * coefficientArray,
+                                       DSDictionary ** cycleFluxes)
 {
         DSMatrix * Mb, *LI, *Lc;
         DSVariablePool * yn, *yc;
         DSExpression ** cycleEquations;
         char ** systemEquations = NULL;
+        const DSVariablePool *Xd;
         DSUInteger i, j, index, numberOfCycles, numberSecondaryVariables, *primaryVariables, *secondaryVariables = NULL;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
@@ -1131,13 +1151,20 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
                 goto bail;
         }
         dsCyclicalCaseSolutionOfPartitionedMatrices(aCase, numberOfCycles, primaryVariables, &LI, &Lc, &Mb, &yn, &yc);
-        systemEquations = DSSecureCalloc(sizeof(char *), DSDesignSpaceNumberOfEquations(original));
         cycleEquations = DSDesignSpaceEquations(original);
+        if (cycleEquations == NULL) {
+                goto bail;
+        }
+        if (LI == NULL || Lc == NULL || Mb == NULL || yn == NULL || yc == NULL) {
+                goto bail;
+        }
+        systemEquations = DSSecureCalloc(sizeof(char *), DSDesignSpaceNumberOfEquations(original));
         for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
                 systemEquations[i] = DSExpressionAsString(cycleEquations[i]);
                 DSSecureFree(cycleEquations[i]);
         }
         DSSecureFree(cycleEquations);
+        Xd = DSGMASystemXd(DSDesignSpaceGMASystem(original));
         for (i = 0; i < numberOfCycles; i++) {
                 numberSecondaryVariables = dsCyclicalCaseSecondaryCycleVariableIndicesForCycle(problematicEquations, i, primaryVariables, &secondaryVariables);
                 cycleEquations = dsCyclicalCaseEquationsForCycle(aCase,
@@ -1153,6 +1180,9 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
                                 index = primaryVariables[i];
                         } else {
                                 index = secondaryVariables[j-1];
+                                DSDictionaryAddValueWithName(*cycleFluxes,
+                                                             DSVariableName(DSVariablePoolVariableAtIndex(Xd, index)),
+                                                             strdup(DSVariableName(DSVariablePoolVariableAtIndex(Xd, primaryVariables[i]))));
                         }
                         DSSecureFree(systemEquations[index]);
                         systemEquations[index] = DSExpressionAsString(cycleEquations[j]);
@@ -1164,6 +1194,18 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
                 }
         }
 bail:
+        if (primaryVariables != NULL)
+                DSSecureFree(primaryVariables);
+        if (LI != NULL)
+                DSMatrixFree(LI);
+        if (Lc != NULL)
+                DSMatrixFree(Lc);
+        if (Mb != NULL)
+                DSMatrixFree(Mb);
+        if (yn != NULL)
+                DSVariablePoolFree(yn);
+        if (yc != NULL)
+                DSVariablePoolFree(yc);
         return systemEquations;
 }
 
@@ -1175,6 +1217,8 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
 {
         DSDesignSpace * collapsed = NULL;
         char ** systemEquations = NULL;
+        DSDictionary * cycleFluxes = NULL;
+        DSUInteger i;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -1191,7 +1235,10 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
                 goto bail;
         if (coefficientArray == NULL)
                 goto bail;
-        systemEquations = dsCyclicalCaseEquations(aCase, original, problematicEquations, coefficientArray);
+        cycleFluxes = DSDictionaryAlloc();
+        systemEquations = dsCyclicalCaseEquations(aCase, original, problematicEquations, coefficientArray, &cycleFluxes);
+        if (systemEquations == NULL)
+                goto bail;
         collapsed = DSDesignSpaceByParsingStringsWithXi(systemEquations,
                                                         DSGMASystemXd_a(DSDesignSpaceGMASystem(original)),
                                                         DSGMASystemXi(DSDesignSpaceGMASystem(original)),
@@ -1199,10 +1246,11 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
         DSDesignSpaceAddConditions(collapsed, DSCaseCd(aCase), DSCaseCi(aCase), DSCaseDelta(aCase));
         collapsed->seriesCalculations = true;
         DSDesignSpaceCalculateCyclicalCases(collapsed);
-        DSDesignSpacePrint(collapsed);
-        if (DSCaseNumber(aCase) == 10) {
-                DSSSystemPrintSolution(DSCaseSSystem(DSDesignSpaceCaseWithCaseNumber(collapsed, 2)));
+        collapsed->cycleFluxes = cycleFluxes;
+        for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
+                DSSecureFree(systemEquations[i]);
         }
+        DSSecureFree(systemEquations);
 bail:
         return collapsed;
 }
@@ -1218,6 +1266,7 @@ extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase *
         DSMatrix * problematicEquations = NULL;
         DSMatrixArray * problematicTerms = NULL;
         DSMatrixArray * coefficientArray = NULL;
+        DSDesignSpace * subcase = NULL;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -1241,14 +1290,17 @@ extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase *
                 goto bail;
         if (DSMatrixArrayNumberOfMatrices(problematicTerms) != DSMatrixArrayNumberOfMatrices(coefficientArray))
                 goto bail;
-        subcases = dsCyclicalCaseCreateAugmentedSystems(aCase,
-                                                        original,
-                                                        problematicEquations,
-                                                        problematicTerms,
-                                                        coefficientArray);
-        DSStackFreeWithFunction(subcases, DSDesignSpaceFree);
-        subcases = DSStackAlloc();
-        DSStackPush(subcases, dsCyclicalCaseCollapsedSystem(aCase, original, problematicEquations, coefficientArray));
+//        subcases = dsCyclicalCaseCreateAugmentedSystems(aCase,
+//                                                        original,
+//                                                        problematicEquations,
+//                                                        problematicTerms,
+//                                                        coefficientArray);
+//        DSStackFreeWithFunction(subcases, DSDesignSpaceFree);
+        subcase = dsCyclicalCaseCollapsedSystem(aCase, original, problematicEquations, coefficientArray);
+        if (subcase != NULL) {
+                subcases = DSStackAlloc();
+                DSStackPush(subcases, subcase);
+        }
 bail:
         if (problematicEquations != NULL)
                 DSMatrixFree(problematicEquations);
