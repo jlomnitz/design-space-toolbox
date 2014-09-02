@@ -331,6 +331,21 @@ bail:
         return newRoot;
 }
 
+extern DSExpression * DSExpressionMultiplyExpressionByConstant(DSExpression *expression, double constant)
+{
+        DSExpression * newRoot = NULL, *temp;
+        if (expression == NULL) {
+                goto bail;
+        }
+        newRoot = dsExpressionAllocWithOperator('*');
+        temp = dsExpressionAllocWithConstant(constant);
+        DSExpressionAddBranch(newRoot, expression);
+        DSExpressionAddBranch(newRoot, temp);
+        DSExpressionPrint(newRoot);
+bail:
+        return newRoot;
+}
+
 static DSExpression * dsExpressionCompressConstantVariableNode(const DSExpression * current, const DSVariablePool * assumedConstant)
 {
         DSUInteger i;
