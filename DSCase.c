@@ -352,7 +352,7 @@ bail:
 extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const DSUInteger * termArray)
 {
         DSCase *aCase = NULL;
-        DSUInteger i, term1, term2, numberOfEquations, numberOfXi;
+        DSUInteger i, term1, term2, numberOfEquations;
         if (ds == NULL) {
                 DSError(M_DS_NULL ": Template GMA to make S-System is NULL", A_DS_ERROR);
                 goto bail;
@@ -367,6 +367,7 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
         DSCaseXd(aCase) = DSSSystemXd(DSCaseSSys(aCase));
         numberOfEquations = DSGMASystemNumberOfEquations(DSDesignSpaceGMASystem(ds));
         DSCaseSig(aCase) = DSSecureMalloc(sizeof(DSUInteger)*(2*numberOfEquations));
+        DSCaseSSys(aCase)->fluxDictionary = ds->cycleFluxes;
         for (i = 0; i < 2*numberOfEquations; i+=2) {
                 term1 = termArray[i];
                 term2 = termArray[i+1];

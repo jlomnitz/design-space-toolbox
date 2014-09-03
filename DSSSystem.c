@@ -1846,9 +1846,9 @@ extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariab
 {
         DSMatrix * flux = NULL, *Xi = NULL, *ss=NULL;
         DSMatrix * gi0= NULL, *alpha = NULL;
-        DSUInteger i;
+        DSUInteger i, index1, index2;
         DSVariablePool *pool = NULL;
-        const char *name;
+        const char *name, *altName;
         double value;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
@@ -1886,6 +1886,18 @@ extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariab
                 DSMatrixFree(gi0);
         }
         DSMatrixAddByMatrix(flux, alpha);
+        if (ssys->fluxDictionary != NULL) {
+                for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)); i++) {
+                        name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
+                        altName = DSDictionaryValueForName(ssys->fluxDictionary, name);
+                        if (altName == NULL)
+                                continue;
+                        index1 = DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssys), name);
+                        index2 = DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssys), altName);
+                        DSMatrixSetDoubleValue(flux, index1, 0,
+                                               DSMatrixDoubleValue(flux, index2, 0));
+                }
+        }
 bail:
         if (alpha != NULL)
                 DSMatrixFree(alpha);

@@ -339,6 +339,7 @@ typedef struct {
         bool isSingular;
         bool shouldFreeXd;
         bool shouldFreeXi;
+        DSDictionary * fluxDictionary;
 } DSSSystem;
 
 /**
@@ -406,6 +407,8 @@ typedef struct {
         DSMatrix * Rn;                   //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
         bool seriesCalculations;
         DSDictionary * cycleFluxes;
+//        DSUInteger numberOfCycles;
+//        DSUInteger ** fluxSources;
 } DSDesignSpace;
 
 /**
