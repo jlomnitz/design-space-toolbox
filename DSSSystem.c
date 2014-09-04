@@ -1842,6 +1842,7 @@ bail:
                 DSVariablePoolFree(pool);
         return flux;
 }
+
 extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariablePool *Xi0)
 {
         DSMatrix * flux = NULL, *Xi = NULL, *ss=NULL;
@@ -1886,17 +1887,36 @@ extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariab
                 DSMatrixFree(gi0);
         }
         DSMatrixAddByMatrix(flux, alpha);
+//        if (ssys->fluxDictionary != NULL) {
+//                for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)); i++) {
+//                        name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
+//                        altName = DSDictionaryValueForName(ssys->fluxDictionary, name);
+//                        if (altName == NULL)
+//                                continue;
+//                        index1 = DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssys), name);
+//                        index2 = DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssys), altName);
+//                        DSMatrixSetDoubleValue(flux, index1, 0,
+//                                               DSMatrixDoubleValue(flux, index2, 0));
+//                }
+//        }
         if (ssys->fluxDictionary != NULL) {
+//                DSMatrixFree(flux);
                 for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)); i++) {
                         name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
-                        altName = DSDictionaryValueForName(ssys->fluxDictionary, name);
-                        if (altName == NULL)
-                                continue;
-                        index1 = DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssys), name);
-                        index2 = DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssys), altName);
-                        DSMatrixSetDoubleValue(flux, index1, 0,
-                                               DSMatrixDoubleValue(flux, index2, 0));
+                        DSVariablePoolAddVariableWithName(pool, name);
+                        DSVariablePoolSetValueForVariableWithName(pool,
+                                                                  name,
+                                                                  pow(10, DSMatrixDoubleValue(ss, i, 0)));
                 }
+                for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)); i++) {
+                        name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
+                        index1 = DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssys), name);
+                        DSMatrixSetDoubleValue(flux, index1, 0,
+                                               log10(DSExpressionEvaluateWithVariablePool(DSDictionaryValueForName(ssys->fluxDictionary,name), pool)));
+                }
+
+
+//                flux = DSSSystemSteadyStateValues(ssys, Xi0);
         }
 bail:
         if (alpha != NULL)

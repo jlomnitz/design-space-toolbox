@@ -376,11 +376,12 @@ typedef struct {
 
 
 typedef struct {
-        DSExpression ** alphas;
-        DSExpression ** betas;
-        DSUInteger ** betaTems;
-        DSUInteger * trackedSpecies;
-        DSUInteger numberTracking;
+        DSExpression *** fluxEquations;
+        DSUInteger * numberOfFluxes;
+        DSUInteger ** fluxIndex;
+        DSUInteger * cycleVariables;
+        DSUInteger numberCycles;
+        DSDictionary * cycleFluxes;
 } DSCycleExtensionData;
 
 
@@ -407,6 +408,7 @@ typedef struct {
         DSMatrix * Rn;                   //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
         bool seriesCalculations;
         DSDictionary * cycleFluxes;
+        DSCycleExtensionData * extensionData;
 //        DSUInteger numberOfCycles;
 //        DSUInteger ** fluxSources;
 } DSDesignSpace;

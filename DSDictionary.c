@@ -324,7 +324,7 @@ static void dsInternalDictionaryPrintInternalWithFunction(const DSInternalDictio
         for (i = 1; i < position+1; i++)
                 print(".");
         if (dictionary->current == '\0') {
-                print("+-");
+                print("+- ");
                 printObject(dsInternalDictionaryValue(dictionary));
                 print("\n");
         } else {

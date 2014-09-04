@@ -72,7 +72,6 @@ extern DSDesignSpace * DSDesignSpaceAlloc(void)
         DSDesignSpace * ds = NULL;
         ds = DSSecureCalloc(sizeof(DSDesignSpace), 1);
         DSDSCyclical(ds) = DSDictionaryAlloc();
-        ds->cycleFluxes = NULL;
         return ds;
 }
 
@@ -95,8 +94,9 @@ void DSDesignSpaceFree(DSDesignSpace * ds)
         if (DSDSValidPool(ds) != NULL) 
                 DSDictionaryFree(DSDSValidPool(ds));
         DSDictionaryFreeWithFunction(DSDSCyclical(ds), DSCyclicalCaseFree);
-        if (ds->cycleFluxes != NULL) {
-                DSDictionaryFreeWithFunction(ds->cycleFluxes, DSSecureFree);
+        if (ds->extensionData != NULL) {
+                // free extension data
+//                DSDictionaryFreeWithFunction(ds->cycleFluxes, DSSecureFree);
         }
         DSSecureFree(ds);
 bail:
@@ -473,6 +473,50 @@ extern const DSDictionary * DSDesignSpaceCyclicalCaseDictionary(const DSDesignSp
         dictionary = DSDSCyclical(ds);
 bail:
         return dictionary;
+}
+
+extern DSDictionary * DSDesignSpaceCycleDictionaryForSignature(const DSDesignSpace * ds, const DSUInteger * signature)
+{
+        DSDictionary * cycleFluxes = NULL;
+        DSUInteger i, index, fluxNumber;
+        DSCycleExtensionData * extensionData;
+        DSExpression * flux;
+        char * name;
+        const DSVariablePool * Xd;
+        if (ds == NULL)  {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (signature == NULL) {
+                DSError(M_DS_NULL ": Case signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (ds->extensionData == NULL) {
+                goto bail;
+        }
+        Xd = DSGMASystemXd(DSDesignSpaceGMASystem(ds));
+        cycleFluxes = DSDictionaryAlloc();
+        extensionData = ds->extensionData;
+        for (i = 0; i < extensionData->numberCycles; i++) {
+                index = extensionData->cycleVariables[i];
+                fluxNumber = signature[2*index+1]-1;
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, extensionData->fluxIndex[i][fluxNumber]));
+                flux = extensionData->fluxEquations[i][fluxNumber];
+                DSDictionaryAddValueWithName(cycleFluxes,
+                                             name,
+                                             flux);
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(Xd); i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, i));
+                if (DSDictionaryValueForName(cycleFluxes, name) != NULL)
+                        continue;
+                flux = DSDictionaryValueForName(ds->extensionData->cycleFluxes, name);
+                DSDictionaryAddValueWithName(cycleFluxes,
+                                             name,
+                                             flux);
+        }
+bail:
+        return cycleFluxes;
 }
 
 #if defined (__APPLE__) && defined (__MACH__)
