@@ -457,11 +457,81 @@ static void dsGMAProcessNegativeExponentBasePairs(DSGMASystem *gma, gma_parserau
         }
 }
 
+static DSUInteger dsGMASystemCombineIdenticalTerms(DSGMASystem * gma, const DSUInteger equationIndex, const DSUInteger numberOfTerms, const bool positive)
+{
+        DSUInteger i, j, count = numberOfTerms;
+        bool found = false;
+        DSUInteger first;
+        DSMatrix * temp, *nullspace, *c, *Kd, *Ki;
+        double value;
+        if (numberOfTerms == 1)
+                goto bail;
+        if (positive) {
+                c = (DSMatrix*)DSGMASystemAlpha(gma);
+                Kd = DSMatrixArrayMatrix(DSGMASystemGd(gma), equationIndex);
+                Ki = DSMatrixArrayMatrix(DSGMASystemGi(gma), equationIndex);
+        }
+        if (positive == false) {
+                c = (DSMatrix*)DSGMASystemBeta(gma);
+                Kd = DSMatrixArrayMatrix(DSGMASystemHd(gma), equationIndex);
+                Ki = DSMatrixArrayMatrix(DSGMASystemHi(gma), equationIndex);
+        }
+        temp = DSMatrixAppendMatrices(Kd,
+                                      Ki,
+                                      true);
+        nullspace = DSMatrixIdenticalRows(temp);
+        DSMatrixFree(temp);
+        if (nullspace == NULL) {
+                goto bail;
+        }
+        for (i = 0; i < DSMatrixColumns(nullspace); i++) {
+                found = false;
+                for (j = 0; j < DSMatrixRows(nullspace); j++) {
+                        if (DSMatrixDoubleValue(nullspace, j, i) < 1e-14) {
+                                continue;
+                        }
+                        if (found == false) {
+                                first = j;
+                                value = DSMatrixDoubleValue(c, equationIndex, j);
+                                found = true;
+                                continue;
+                        }
+                        value += DSMatrixDoubleValue(c, equationIndex, j);
+                        DSMatrixSetDoubleValue(c, equationIndex, first, value);
+                        DSMatrixSetDoubleValue(c, equationIndex, j, 0.f);
+                        count--;
+                }
+        }
+        for (i = 0; i < DSMatrixColumns(c); i++) {
+                j = 0;
+                if (DSMatrixDoubleValue(c, equationIndex, i) != 0.) {
+                        continue;
+                }
+                for (j = i+1; j < DSMatrixColumns(c); j++) {
+                        if (DSMatrixDoubleValue(c, equationIndex, j) != 0.)
+                                break;
+                }
+                if (j == DSMatrixColumns(c))
+                        break;
+                DSMatrixSetDoubleValue(c, equationIndex, i,
+                                       DSMatrixDoubleValue(c, equationIndex, j));
+                DSMatrixSetDoubleValue(c, equationIndex, j, 0.f);
+                DSMatrixSwitchRows(Kd, i, j);
+                DSMatrixSwitchRows(Ki, i, j);
+                DSMatrixClearRow(Kd, j);
+                DSMatrixClearRow(Ki, j);
+        }
+        DSMatrixFree(nullspace);
+bail:
+        return count;
+}
+
 static void dsGMASystemCreateSystemMatrices(DSGMASystem *gma, gma_parseraux_t **aux)
 {
         gma_parseraux_t *current;
         DSUInteger numberOfEquations, positiveTerms = 0, negativeTerms = 0;
         DSUInteger i, n, p;
+        DSMatrix * temp, *nullspace;
         if (gma == NULL) {
                 DSError(M_DS_NULL ": GMA being modified is NULL", A_DS_ERROR);
                 goto bail;
@@ -502,6 +572,8 @@ static void dsGMASystemCreateSystemMatrices(DSGMASystem *gma, gma_parseraux_t **
                         }
                         current = DSGMAParserAuxNextNode(current);
                 }
+                p = dsGMASystemCombineIdenticalTerms(gma, i, p, true);
+                n = dsGMASystemCombineIdenticalTerms(gma, i, n, false);
                 DSGMASignature(gma)[2*i] = p;
                 DSGMASignature(gma)[2*i+1] = n;
         }

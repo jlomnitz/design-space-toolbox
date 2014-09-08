@@ -837,8 +837,8 @@ bail:
 }
 
 static void dsCyclicalCasePartitionSolutionMatrices(const DSCase * aCase,
-                                                    const DSUInteger numberOfCycles,
-                                                    const DSUInteger * cycleIndices,
+                                                    const DSUInteger numberOfSecondaryVariables,
+                                                    const DSUInteger * secondaryVariables,
                                                     DSMatrix ** ADn,
                                                     DSMatrix ** ADc,
                                                     DSMatrix ** AIn,
@@ -848,7 +848,7 @@ static void dsCyclicalCasePartitionSolutionMatrices(const DSCase * aCase,
 {
         DSMatrix * tempMatrix;
         const DSSSystem * ssystem;
-        DSUInteger i, j, ynIndex, ycIndex;
+        DSUInteger i;
         char * name;
         if (ADn == NULL || ADc == NULL || AIn == NULL || Bn == NULL) {
                 DSError(M_DS_NULL ": Matrix pointers to hold partitioned matrices cannot be null", A_DS_ERROR);
@@ -862,38 +862,35 @@ static void dsCyclicalCasePartitionSolutionMatrices(const DSCase * aCase,
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (cycleIndices == NULL) {
+        if (secondaryVariables == NULL) {
                 goto bail;
         }
         ssystem = DSCaseSSys(aCase);
-        tempMatrix = DSMatrixSubMatrixExcludingRows(DSSSystemAd(ssystem), numberOfCycles, cycleIndices);
-        *ADc = DSMatrixSubMatrixIncludingColumns(tempMatrix, numberOfCycles, cycleIndices);
+        tempMatrix = DSMatrixSubMatrixIncludingRows(DSSSystemAd(ssystem), numberOfSecondaryVariables, secondaryVariables);
+        *ADc = DSMatrixSubMatrixExcludingColumns(tempMatrix, numberOfSecondaryVariables, secondaryVariables);
+        *ADn = DSMatrixSubMatrixIncludingColumns(tempMatrix, numberOfSecondaryVariables, secondaryVariables);
         DSMatrixFree(tempMatrix);
-        *ADn = DSMatrixSubMatrixExcludingRowsAndColumns(DSSSystemAd(ssystem), numberOfCycles, numberOfCycles, cycleIndices, cycleIndices);
-        *AIn = DSMatrixSubMatrixExcludingRows(DSSSystemAi(ssystem), numberOfCycles, cycleIndices);
-        *Bn = DSMatrixSubMatrixExcludingRows(DSSSystemB(ssystem), numberOfCycles, cycleIndices);
+        *AIn = DSMatrixSubMatrixIncludingRows(DSSSystemAi(ssystem), numberOfSecondaryVariables, secondaryVariables);
+        *Bn = DSMatrixSubMatrixIncludingRows(DSSSystemB(ssystem), numberOfSecondaryVariables, secondaryVariables);
         *yn = DSVariablePoolAlloc();
         *yc = DSVariablePoolAlloc();
-        for (i = 0, ynIndex = 0, ycIndex = 0; i < DSVariablePoolNumberOfVariables(DSSSystemXd(ssystem)); i++) {
+        for (i = 0; i < numberOfSecondaryVariables; i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssystem), secondaryVariables[i]));
+                DSVariablePoolAddVariableWithName(*yn, name);
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSystemXd(ssystem)); i++) {
                 name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssystem), i));
-                for (j = 0; j < numberOfCycles; j++) {
-                        if (cycleIndices[j] == i)
-                                break;
-                }
-                if (j < numberOfCycles) {
+                if (DSVariablePoolHasVariableWithName(*yn, name) == false) {
                         DSVariablePoolAddVariableWithName(*yc, name);
-                } else {
-                        DSVariablePoolAddVariableWithName(*yn, name);
                 }
-                
         }
 bail:
         return;
 }
 
 static void dsCyclicalCaseSolutionOfPartitionedMatrices(const DSCase * aCase,
-                                                        const DSUInteger numberOfCycles,
-                                                        const DSUInteger * cycleIndices,
+                                                        const DSUInteger numberOfSecondaryVariables,
+                                                        const DSUInteger * secondaryVariables,
                                                         DSMatrix ** LI,
                                                         DSMatrix **Lc,
                                                         DSMatrix **MBn,
@@ -912,10 +909,10 @@ static void dsCyclicalCaseSolutionOfPartitionedMatrices(const DSCase * aCase,
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (cycleIndices == NULL) {
+        if (secondaryVariables == NULL) {
                 goto bail;
         }
-        dsCyclicalCasePartitionSolutionMatrices(aCase, numberOfCycles, cycleIndices, &ADn, &ADc, &AIn, &Bn, yn, yc);
+        dsCyclicalCasePartitionSolutionMatrices(aCase, numberOfSecondaryVariables, secondaryVariables, &ADn, &ADc, &AIn, &Bn, yn, yc);
         if (ADn == NULL || ADc == NULL || AIn == NULL || Bn == NULL) {
                 goto bail;
         }
@@ -995,18 +992,19 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                                                        const DSUInteger cycleNumber,
                                                        const DSUInteger primaryCycleVariable,
                                                        const DSUInteger numberSecondaryVariables,
-                                                       const DSUInteger * secondaryCycleVariables,
-                                                       const DSMatrix * LI,
-                                                       const DSMatrix * Lc,
-                                                       const DSMatrix * MBn,
-                                                       const DSVariablePool * yn,
-                                                       const DSVariablePool * yc)
+                                                       const DSUInteger * secondaryCycleVariables)
 {
         DSUInteger i, j, index, numberOfX, pcount = 0, ncount = 0;
         const DSSSystem * ssys;
         char * string = NULL, *name, *flux;
         double value;
         DSExpression ** cycleEquations = NULL;
+        
+        DSMatrix * LI;
+        DSMatrix * Lc;
+        DSMatrix * MBn;
+        DSVariablePool * yn;
+        DSVariablePool * yc;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -1019,13 +1017,15 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                 DSError(M_DS_WRONG ": Number of equation in design space must match number of equations in case", A_DS_ERROR);
                 goto bail;
         }
-        if (LI == NULL || Lc == NULL || MBn == NULL) {
-                DSError(M_DS_NULL ": Cycle solution matrices are null", A_DS_ERROR);
-                goto bail;
-        }
         if (secondaryCycleVariables == NULL && numberSecondaryVariables > 0) {
                 DSError(M_DS_NULL ": Array of secondary cycle variables is null", A_DS_ERROR);
                 goto bail;
+        }
+        if (numberSecondaryVariables > 0) {
+                dsCyclicalCaseSolutionOfPartitionedMatrices(aCase, numberSecondaryVariables, secondaryCycleVariables, &LI, &Lc, &MBn, &yn, &yc);
+                if (LI == NULL || Lc == NULL || MBn == NULL) {
+                        goto bail;
+                }
         }
         ssys = DSCaseSSystem(aCase);
         string = DSSecureCalloc(sizeof(char *), 1000);
@@ -1258,12 +1258,8 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
         if (primaryVariables == NULL) {
                 goto bail;
         }
-        dsCyclicalCaseSolutionOfPartitionedMatrices(aCase, numberOfCycles, primaryVariables, &LI, &Lc, &Mb, &yn, &yc);
-        cycleEquations = DSDesignSpaceEquations(original);
+        cycleEquations = DSCaseEquations(aCase);
         if (cycleEquations == NULL) {
-                goto bail;
-        }
-        if (LI == NULL || Lc == NULL || Mb == NULL || yn == NULL || yc == NULL) {
                 goto bail;
         }
         systemEquations = DSSecureCalloc(sizeof(char *), DSDesignSpaceNumberOfEquations(original));
@@ -1286,8 +1282,11 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
                                                                  i,
                                                                  primaryVariables[i],
                                                                  numberSecondaryVariables,
-                                                                 secondaryVariables,
-                                                                 LI, Lc, Mb, yn, yc);
+                                                                 secondaryVariables);
+                if (cycleEquations == NULL) {
+                        DSSecureFree(secondaryVariables);
+                        break;
+                }
                 dsExtensionDataForCycle(aCase, original, extensionData, i, primaryVariables[i], numberSecondaryVariables, secondaryVariables);
                 for (j = 0; j < numberSecondaryVariables+1; j++) {
                         if (j == 0) {
@@ -1303,6 +1302,13 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
                         DSSecureFree(cycleEquations);
                         DSSecureFree(secondaryVariables);
                 }
+        }
+        if (i != numberOfCycles) {
+                for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
+                        DSSecureFree(systemEquations[i]);
+                }
+                DSSecureFree(systemEquations);
+                systemEquations = NULL;
         }
 bail:
         if (primaryVariables != NULL)

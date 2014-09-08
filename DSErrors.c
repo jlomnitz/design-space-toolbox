@@ -45,6 +45,7 @@
 #include <math.h>
 #include <string.h>
 #include <execinfo.h>
+#include <signal.h>
 
 #include "DSErrors.h"
 #include "DSMemoryManager.h"
@@ -124,7 +125,7 @@ extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const c
                 case A_DS_FATAL:
                         if (DSPostFatalError == NULL) {
                                 fprintf(DSIOErrorFile, "Error: %s\n", errorString);
-                                exit(EXIT_FAILURE);
+                                raise(SIGABRT);
                         } else {
                                 DSPostFatalError(errorString);
                         }

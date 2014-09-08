@@ -341,7 +341,6 @@ extern DSExpression * DSExpressionMultiplyExpressionByConstant(DSExpression *exp
         temp = dsExpressionAllocWithConstant(constant);
         DSExpressionAddBranch(newRoot, expression);
         DSExpressionAddBranch(newRoot, temp);
-        DSExpressionPrint(newRoot);
 bail:
         return newRoot;
 }

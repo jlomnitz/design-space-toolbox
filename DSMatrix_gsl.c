@@ -1024,6 +1024,7 @@ extern DSMatrix * DSMatrixAppendMatrices(const DSMatrix *firstMatrix,
 bail:
         return matrix;
 }
+
 extern void DSMatrixSwitchRows(DSMatrix *matrix, const DSUInteger rowA, const DSUInteger rowB)
 {
         if (matrix == NULL) {
@@ -1035,6 +1036,42 @@ extern void DSMatrixSwitchRows(DSMatrix *matrix, const DSUInteger rowA, const DS
                 goto bail;
         }
        gsl_matrix_swap_rows(DSMatrixInternalPointer(matrix), rowA, rowB);
+bail:
+        return;
+}
+
+extern void DSMatrixClearRow(DSMatrix *matrix, const DSUInteger row)
+{
+        DSUInteger i;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_WARN);
+                goto bail;
+        }
+        if (row >= DSMatrixRows(matrix)) {
+                DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_WARN);
+                goto bail;
+        }
+        for (i = 0; i < DSMatrixColumns(matrix); i++) {
+                DSMatrixSetDoubleValue(matrix, row, i, 0.0f);
+        }
+bail:
+        return;
+}
+
+extern void DSMatrixClearColumns(DSMatrix *matrix, const DSUInteger column)
+{
+        DSUInteger i;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_WARN);
+                goto bail;
+        }
+        if (column >= DSMatrixColumns(matrix)) {
+                DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_WARN);
+                goto bail;
+        }
+        for (i = 0; i < DSMatrixRows(matrix); i++) {
+                DSMatrixSetDoubleValue(matrix, i, column, 0.0f);
+        }
 bail:
         return;
 }
@@ -1644,6 +1681,59 @@ extern DSMatrix * DSMatrixLeftNullspace(const DSMatrix *matrix)
         }
 bail:
         return nullspace;
+}
+
+extern DSMatrix * DSMatrixIdenticalRows(const DSMatrix * matrix)
+{
+        DSMatrix *problematic = NULL;
+        bool foundIdentity;
+        DSMatrix *nullspace = NULL;
+        DSUInteger i, j, k, identities;
+        double lvalue, rvalue;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        identities = 0;
+        nullspace = DSMatrixCalloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
+        for (i = 0; i < DSMatrixRows(matrix); i++) {
+                for (k = 0; k < identities; k++) {
+                        if (DSMatrixDoubleValue(nullspace, i, k) == 1.0f) {
+                                break;
+                        }
+                }
+                if (k != identities)
+                        continue;
+                foundIdentity = false;
+                for (k = i+1; k < DSMatrixRows(matrix); k++) {
+                        for (j = 0; j < DSMatrixColumns(matrix); j++) {
+                                lvalue = DSMatrixDoubleValue(matrix, i, j);
+                                rvalue = DSMatrixDoubleValue(matrix, k, j);
+                                if (fabs(lvalue-rvalue) > 1e-14)
+                                        break;
+                        }
+                        if (j == DSMatrixColumns(matrix)) {
+                                DSMatrixSetDoubleValue(nullspace, i, identities, 1.0f);
+                                DSMatrixSetDoubleValue(nullspace, k, identities, 1.0f);
+                                foundIdentity = true;
+                        }
+                }
+                if (foundIdentity)
+                        identities++;
+        }
+        if (identities == 0) {
+                goto bail;
+        }
+        problematic = DSMatrixCalloc(DSMatrixRows(matrix), identities);
+        for (i = 0; i < DSMatrixRows(matrix); i++) {
+                for (k = 0; k < identities; k++) {
+                        DSMatrixSetDoubleValue(problematic, i, k, DSMatrixDoubleValue(nullspace, i, k));
+                }
+        }
+bail:
+        if (nullspace != NULL)
+                DSMatrixFree(nullspace);
+        return problematic;
 }
 
 /**

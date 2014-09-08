@@ -154,6 +154,9 @@ extern DSMatrix * DSMatrixAppendMatrices(const DSMatrix *firstMatrix,
                                          const bool byColumn);
 extern void DSMatrixSwitchRows(DSMatrix *matrix, const DSUInteger rowA, const DSUInteger rowB);
 extern void DSMatrixSwitchColumns(DSMatrix *matrix, const DSUInteger columnA, const DSUInteger columnB);
+extern void DSMatrixClearRow(DSMatrix *matrix, const DSUInteger row);
+extern void DSMatrixClearColumns(DSMatrix *matrix, const DSUInteger column);
+
 extern DSMatrix * DSMatrixWithUniqueRows(const DSMatrix *matrix);
 
 extern void DSMatrixPrint(const DSMatrix *matrix);
@@ -200,6 +203,7 @@ extern DSMatrix * DSMatrixInverse(const DSMatrix *matrix);
 extern DSMatrixArray * DSMatrixSVD(const DSMatrix *matrix);
 extern DSMatrix * DSMatrixRightNullspace(const DSMatrix *matrix);
 extern DSMatrix * DSMatrixLeftNullspace(const DSMatrix *matrix);
+extern DSMatrix * DSMatrixIdenticalRows(const DSMatrix * matrix);
 
 extern DSMatrixArray * DSMatrixPLUDecomposition(const DSMatrix *matrix);
 

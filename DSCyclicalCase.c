@@ -141,6 +141,7 @@ extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalC
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
         }
+        ds = subcase->internalDesignspaces[0];
 //        if (subcase->internal == NULL)
 //                goto bail;
 //        ds = subcase->internal;

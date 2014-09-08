@@ -368,8 +368,7 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
         numberOfEquations = DSGMASystemNumberOfEquations(DSDesignSpaceGMASystem(ds));
         DSCaseSig(aCase) = DSSecureMalloc(sizeof(DSUInteger)*(2*numberOfEquations));
         DSCaseSSys(aCase)->fluxDictionary = DSDesignSpaceCycleDictionaryForSignature(ds, termArray);
-//        if (DSCaseSSys(aCase)->fluxDictionary != NULL)
-//                DSDictionaryPrintWithFunction(DSCaseSSys(aCase)->fluxDictionary, DSExpressionPrint);
+//        DSDictionaryPrintWithFunction(DSCaseSSys(aCase)->fluxDictionary, DSExpressionPrint);
         for (i = 0; i < 2*numberOfEquations; i+=2) {
                 term1 = termArray[i];
                 term2 = termArray[i+1];
@@ -386,8 +385,6 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
                 /* Load extra conditions here */
                 dsCaseCreateBoundaryMatrices(aCase);
                 dsCaseCalculateCaseNumber(aCase, DSDesignSpaceGMASystem(ds), endian);
-//                if (DSSSystemIsSingular(DSCaseSSys(aCase)) == true)
-//                        DSCyclicalCaseDesignSpaceForUnderdeterminedCase(aCase, ds);
         } else {
                 DSCaseFree(aCase);
                 aCase = NULL;
