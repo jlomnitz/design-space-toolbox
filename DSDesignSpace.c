@@ -892,6 +892,7 @@ static void dsDesignSpaceCalculateValiditySeries(DSDesignSpace *ds)
         DSUInteger i;
         char * string = NULL;
         DSCase * aCase = NULL;
+        const DSCyclicalCase * cyclicalCase;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -915,9 +916,13 @@ static void dsDesignSpaceCalculateValiditySeries(DSDesignSpace *ds)
                 aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
                 if (aCase == NULL)
                         continue;
+                sprintf(string, "%d", i+1);
                 if (DSCaseIsValid(aCase) == true) {
-                        sprintf(string, "%d", aCase->caseNumber);
-                        DSDictionaryAddValueWithName(DSDSValidPool(ds), string, (void*)1);
+                        DSDictionaryAddValueWithName(ds->validCases, string, (void*)1);
+                } else if (DSDictionaryValueForName(ds->cyclicalCases, string) != NULL) {
+                        cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(ds, i+1);
+                        if (DSCyclicalCaseIsValid(cyclicalCase) == true)
+                                DSDictionaryAddValueWithName(ds->validCases, string, (void*)1);
                 }
                 DSCaseFree(aCase);
                 

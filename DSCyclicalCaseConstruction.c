@@ -764,30 +764,65 @@ bail:
 }
 
 
-static DSUInteger dsCyclicalCasePrimaryCycleVariableIndices(DSMatrix * problematicEquations,
-                                                            DSUInteger ** cycleIndices)
+static DSUInteger dsCyclicalCasePrimaryCycleVariableIndices(const DSCase * aCase,
+                                                            DSMatrix * problematicEquations,
+                                                            DSUInteger ** primaryVariables)
 {
-        DSUInteger numberOfCycles = 0;
+        DSUInteger numberOfCycles = 0, numberCycleVariables, * cycleIndices;
         DSUInteger i, j, k;
+        DSMatrix * Ad, *temp, *nullspace;
+        double value, matrixValue;
+        DSUInteger max;
         if (cycleIndices == NULL) {
                 DSError(M_DS_NULL ": Pointer to hold primary cycle variable indices cannot be null", A_DS_ERROR);
                 goto bail;
         }
-        *cycleIndices = NULL;
+        *primaryVariables = NULL;
         if (problematicEquations == NULL) {
                 goto bail;
         }
         numberOfCycles = DSMatrixColumns(problematicEquations);
-        *cycleIndices = DSSecureCalloc(sizeof(DSUInteger), numberOfCycles);
-        k = 0;
+        *primaryVariables = DSSecureCalloc(sizeof(DSUInteger), numberOfCycles);
+        cycleIndices = DSSecureCalloc(sizeof(DSUInteger), DSMatrixRows(problematicEquations));
+        Ad = DSSSystemAd(DSCaseSSys(aCase));
         for (i = 0; i < numberOfCycles; i++) {
+                k = 0;
                 for (j = 0; j < DSMatrixRows(problematicEquations); j++) {
                         if (DSMatrixDoubleValue(problematicEquations, j, i) == 0)
                                 continue;
-                        (*cycleIndices)[k++] = j;
+                        cycleIndices[k++] = j;
+                }
+                if (k == 0) {
+                        DSSecureFree(*primaryVariables);
+                        *primaryVariables = NULL;
                         break;
                 }
+                if (k == 1) {
+                        (*primaryVariables)[i] = cycleIndices[0];
+                        continue;
+                }
+                temp = DSMatrixSubMatrixIncludingRowsAndColumns(Ad, k, k, cycleIndices, cycleIndices);
+                nullspace = DSMatrixRightNullspace(temp);
+                value = NAN;
+                max = 0;
+                for (j = 0; j < k; j++) {
+                        matrixValue = fabs(DSMatrixDoubleValue(nullspace, j, 0));
+                        if (matrixValue == 0)
+                                continue;
+                        if (isnan(value)) {
+                                max = j;
+                                value = matrixValue;
+                                continue;
+                        }
+                        value = (matrixValue > value ? matrixValue : value);
+                }
+                (*primaryVariables)[i] = cycleIndices[max];
+                DSMatrixFree(nullspace);
+                DSMatrixFree(temp);
+                
         }
+        DSSecureFree(cycleIndices);
+        DSMatrixFree(Ad);
 
 bail:
         return numberOfCycles;
@@ -947,7 +982,10 @@ static char * dsCyclicalCaseEquationForFlux(const DSCase * aCase,
                                             const DSUInteger cycleNumber,
                                             const DSUInteger primaryVariable,
                                             const DSUInteger numberSecondaryVariables,
-                                            const DSUInteger * secondaryCycleVariables)
+                                            const DSUInteger * secondaryCycleVariables,
+                                            const DSMatrix * LI,
+                                            const DSMatrix * Lc,
+                                            const DSMatrix * MBn)
 {
         char * fluxEquationString = NULL;
         DSExpression * fluxEquation = NULL;
@@ -1049,7 +1087,8 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                                                              cycleNumber,
                                                              primaryCycleVariable,
                                                              numberSecondaryVariables,
-                                                             secondaryCycleVariables);
+                                                             secondaryCycleVariables,
+                                                             LI, Lc, MBn);
                         if (flux != NULL) {
                                 asprintf(&string, "%s + %s", string, flux);
                                 DSSecureFree(flux);
@@ -1068,7 +1107,8 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                                                              cycleNumber,
                                                              primaryCycleVariable,
                                                              numberSecondaryVariables,
-                                                             secondaryCycleVariables);
+                                                             secondaryCycleVariables,
+                                                             LI, Lc, MBn);
                         if (flux != NULL) {
                                 asprintf(&string, "%s + %s", string, flux);
                                 DSSecureFree(flux);
@@ -1254,11 +1294,12 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
                 goto bail;
         if (coefficientArray == NULL)
                 goto bail;
-        numberOfCycles = dsCyclicalCasePrimaryCycleVariableIndices(problematicEquations, &primaryVariables);
+        numberOfCycles = dsCyclicalCasePrimaryCycleVariableIndices(aCase, problematicEquations, &primaryVariables);
         if (primaryVariables == NULL) {
                 goto bail;
         }
-        cycleEquations = DSCaseEquations(aCase);
+//        cycleEquations = DSCaseEquations(aCase);
+        cycleEquations = DSDesignSpaceEquations(original);
         if (cycleEquations == NULL) {
                 goto bail;
         }
@@ -1386,8 +1427,9 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
                 goto bail;
         extensionData = dsCycleExtensionDataInitForCyclicalCase(aCase, original);
         systemEquations = dsCyclicalCaseEquations(aCase, original, problematicEquations, coefficientArray, extensionData);
-        if (systemEquations == NULL)
+        if (systemEquations == NULL) {
                 goto bail;
+        }
         collapsed = DSDesignSpaceByParsingStringsWithXi(systemEquations,
                                                         DSGMASystemXd_a(DSDesignSpaceGMASystem(original)),
                                                         DSGMASystemXi(DSDesignSpaceGMASystem(original)),

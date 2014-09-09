@@ -78,6 +78,7 @@ extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace *
         for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
                 cyclicalCase->internalDesignspaces[i] = (DSDesignSpace *)DSStackObjectAtIndex(subcases, i);
         }
+        cyclicalCase->internalDesignspace = (DSDesignSpace *)DSStackObjectAtIndex(subcases, 0);
         cyclicalCase->caseNumber = aCase->caseNumber;
         cyclicalCase->originalCase = DSCaseCopy(aCase);
         DSStackFree(subcases);
@@ -87,17 +88,19 @@ bail:
 
 extern void DSCyclicalCaseFree(DSCyclicalCase * aSubcase)
 {
-        DSUInteger i;
+//        DSUInteger i;
         if (aSubcase == NULL) {
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (aSubcase->numberOfInternal > 0) {
-                for (i = 0; i < aSubcase->numberOfInternal; i++) {
-                        DSDesignSpaceFree(aSubcase->internalDesignspaces[i]);
-                }
-                DSSecureFree(aSubcase->internalDesignspaces);
-        }
+//        if (aSubcase->numberOfInternal > 0) {
+//                for (i = 0; i < aSubcase->numberOfInternal; i++) {
+//                        DSDesignSpaceFree(aSubcase->internalDesignspaces[i]);
+//                }
+//                DSSecureFree(aSubcase->internalDesignspaces);
+//        }
+        if (aSubcase->internalDesignspace)
+                DSDesignSpaceFree(aSubcase->internalDesignspace);
         if (aSubcase->originalCase != NULL)
                 DSCaseFree(aSubcase->originalCase);
         DSSecureFree(aSubcase);
@@ -169,14 +172,15 @@ extern const DSUInteger DSCyclicalCaseNumberOfValidSubcases(const DSCyclicalCase
                 DSError(M_DS_CASE_NULL ": Cyclical case is null", A_DS_ERROR);
                 goto bail;
         }
-        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
-                ds = cyclicalCase->internalDesignspaces[i];
+        ds = cyclicalCase->internalDesignspace;
+//        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
+//                ds = cyclicalCase->internalDesignspaces[i];
                 if (ds == NULL) {
                         DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                         goto bail;
                 }
-                numberOfValidSubcases += DSDesignSpaceNumberOfValidCases(ds);
-        }
+                numberOfValidSubcases = DSDesignSpaceNumberOfValidCases(ds);
+//        }
 bail:
         return numberOfValidSubcases;
 }
@@ -188,9 +192,10 @@ extern const DSUInteger DSCyclicalCaseNumberOfSubcases(const DSCyclicalCase * cy
                 DSError(M_DS_CASE_NULL ": Cyclical case is null", A_DS_ERROR);
                 goto bail;
         }
-        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
-                numberOfCases += DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspaces[i]);
-        }
+        numberOfCases = DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspace);
+//        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
+//                numberOfCases += DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspaces[i]);
+//        }
 bail:
         return numberOfCases;
 }
@@ -204,15 +209,16 @@ extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cycli
                 DSError(M_DS_CASE_NULL ": Cyclical case is null", A_DS_ERROR);
                 goto bail;
         }
-        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
-                numberInDesignSpace = DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspaces[i]);
-                if (caseNumber > numberInDesignSpace) {
-                        caseNumber -= numberInDesignSpace;
-                        continue;
-                }
-                aSubcase = DSDesignSpaceCaseWithCaseNumber(cyclicalCase->internalDesignspaces[i], caseNumber);
-                break;
-        }
+        aSubcase = DSDesignSpaceCaseWithCaseNumber(cyclicalCase->internalDesignspace, subcaseNumber);
+//        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
+//                numberInDesignSpace = DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspaces[i]);
+//                if (caseNumber > numberInDesignSpace) {
+//                        caseNumber -= numberInDesignSpace;
+//                        continue;
+//                }
+//                aSubcase = DSDesignSpaceCaseWithCaseNumber(cyclicalCase->internalDesignspaces[i], caseNumber);
+//                break;
+//        }
 bail:
         return aSubcase;
 }
@@ -226,15 +232,16 @@ extern const DSCyclicalCase * DSCyclicalCaseCyclicalSubcaseWithCaseNumber(const 
                 DSError(M_DS_CASE_NULL ": Cyclical case is null", A_DS_ERROR);
                 goto bail;
         }
-        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
-                numberInDesignSpace = DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspaces[i]);
-                if (caseNumber > numberInDesignSpace) {
-                        caseNumber -= numberInDesignSpace;
-                        continue;
-                }
-                aSubcase = DSDesignSpaceCyclicalCaseWithCaseNumber(cyclicalCase->internalDesignspaces[i], caseNumber);
-                break;
-        }
+        aSubcase = DSDesignSpaceCyclicalCaseWithCaseNumber(cyclicalCase->internalDesignspace, subcaseNumber);
+//        for (i = 0; i < cyclicalCase->numberOfInternal; i++) {
+//                numberInDesignSpace = DSDesignSpaceNumberOfCases(cyclicalCase->internalDesignspaces[i]);
+//                if (caseNumber > numberInDesignSpace) {
+//                        caseNumber -= numberInDesignSpace;
+//                        continue;
+//                }
+//                aSubcase = DSDesignSpaceCyclicalCaseWithCaseNumber(cyclicalCase->internalDesignspaces[i], caseNumber);
+//                break;
+//        }
 bail:
         return aSubcase;
 }
@@ -332,22 +339,37 @@ extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *cyclicalCas
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        for (j = 0; j < cyclicalCase->numberOfInternal && isValid == false; j++) {
-                ds = cyclicalCase->internalDesignspaces[j];
-                if (ds == NULL) {
-                        DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                        goto bail;
-                }
-                numberValid = DSDesignSpaceNumberOfValidCases(ds);
-                if (numberValid == 0)
-                        continue;
-                validCases = DSDesignSpaceCalculateAllValidCasesForSlice(ds, lowerBounds, upperBounds);
-                if (validCases == NULL)
-                        continue;
-                if (DSDictionaryCount(validCases) != 0)
-                        isValid = true;
-                DSDictionaryFreeWithFunction(validCases, DSCaseFree);
+        ds = cyclicalCase->internalDesignspace;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
         }
+        numberValid = DSDesignSpaceNumberOfValidCases(ds);
+        if (numberValid == 0)
+                goto bail;
+        validCases = DSDesignSpaceCalculateAllValidCasesForSlice(ds, lowerBounds, upperBounds);
+        if (validCases == NULL)
+                goto bail;
+        if (DSDictionaryCount(validCases) != 0)
+                isValid = true;
+        DSDictionaryFreeWithFunction(validCases, DSCaseFree);
+//
+//        for (j = 0; j < cyclicalCase->numberOfInternal && isValid == false; j++) {
+//                ds = cyclicalCase->internalDesignspaces[j];
+//                if (ds == NULL) {
+//                        DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+//                        goto bail;
+//                }
+//                numberValid = DSDesignSpaceNumberOfValidCases(ds);
+//                if (numberValid == 0)
+//                        continue;
+//                validCases = DSDesignSpaceCalculateAllValidCasesForSlice(ds, lowerBounds, upperBounds);
+//                if (validCases == NULL)
+//                        continue;
+//                if (DSDictionaryCount(validCases) != 0)
+//                        isValid = true;
+//                DSDictionaryFreeWithFunction(validCases, DSCaseFree);
+//        }
 bail:
         return isValid;
 }
@@ -366,14 +388,15 @@ extern void DSCyclicalCaseAddConstraints(DSCyclicalCase * cyclicalCase, const ch
                 DSError(M_DS_CASE_NULL ": Cyclical Case is Null", A_DS_ERROR);
                 goto bail;
         }
-        for (j = 0; j < cyclicalCase->numberOfInternal; j++) {
-                ds = cyclicalCase->internalDesignspaces[j];
+        ds = cyclicalCase->internalDesignspace;
+//        for (j = 0; j < cyclicalCase->numberOfInternal; j++) {
+//                ds = cyclicalCase->internalDesignspaces[j];
                 if (ds == NULL) {
                         DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                         goto bail;
                 }
                 DSDesignSpaceAddConstraints(ds, strings, numberOfConstraints);
-        }
+//        }
 bail:
         return;
 }
@@ -391,29 +414,30 @@ extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclical
                 DSError(M_DS_CASE_NULL ": Cyclical Case is Null", A_DS_ERROR);
                 goto bail;
         }
-        caseDictionary = DSDictionaryAlloc();
-        for (i = 0; i < DSCyclicalCaseNumberOfSubcases(cyclicalCase); i++) {
-                validCaseNumbers = i+1;
-                sprintf(nameString, "%d", validCaseNumbers);
-                cyclicalSubcase = (DSCyclicalCase *)DSCyclicalCaseCyclicalSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
-                if (cyclicalSubcase != NULL) {
-                        subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclicalCases(cyclicalSubcase);
-                        numberValidSubcases = DSDictionaryCount(subcaseDictionary);
-                        subcaseNames = DSDictionaryNames(subcaseDictionary);
-                        for (j = 0; j < numberValidSubcases; j++) {
-                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
-                                DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
-                        }
-                        DSDictionaryFree(subcaseDictionary);
-                } else {
-                        aCase = DSCyclicalCaseSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
-                        if (DSCaseIsValid(aCase) == true) {
-                                DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
-                        } else {
-                                DSCaseFree(aCase);
-                        }
-                }
-        }
+        caseDictionary = DSDesignSpaceCalculateAllValidCasesByResolvingCyclicalCases(cyclicalCase->internalDesignspace);
+//        caseDictionary = DSDictionaryAlloc();
+//        for (i = 0; i < DSCyclicalCaseNumberOfSubcases(cyclicalCase); i++) {
+//                validCaseNumbers = i+1;
+//                sprintf(nameString, "%d", validCaseNumbers);
+//                cyclicalSubcase = (DSCyclicalCase *)DSCyclicalCaseCyclicalSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
+//                if (cyclicalSubcase != NULL) {
+//                        subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclicalCases(cyclicalSubcase);
+//                        numberValidSubcases = DSDictionaryCount(subcaseDictionary);
+//                        subcaseNames = DSDictionaryNames(subcaseDictionary);
+//                        for (j = 0; j < numberValidSubcases; j++) {
+//                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
+//                                DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
+//                        }
+//                        DSDictionaryFree(subcaseDictionary);
+//                } else {
+//                        aCase = DSCyclicalCaseSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
+//                        if (DSCaseIsValid(aCase) == true) {
+//                                DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
+//                        } else {
+//                                DSCaseFree(aCase);
+//                        }
+//                }
+//        }
 bail:
         if (subcaseString != NULL)
                 DSSecureFree(subcaseString);
@@ -440,27 +464,28 @@ extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSliceByResolving
                 DSError(M_DS_VAR_NULL, A_DS_ERROR);
                 goto bail;
         }
-        caseDictionary = DSDictionaryAlloc();
-        for (i = 0; i < DSCyclicalCaseNumberOfSubcases(cyclicalCase); i++) {
-                validCaseNumbers = i+1;
-                sprintf(nameString, "%d", validCaseNumbers);
-                aCase = DSCyclicalCaseSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
-                cyclicalSubcase = (DSCyclicalCase *)DSCyclicalCaseCyclicalSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
-                if (cyclicalSubcase != NULL) {
-                        subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesForSliceByResolvingCyclicalCases(cyclicalSubcase, lower, upper);
-                        numberValidSubcases = DSDictionaryCount(subcaseDictionary);
-                        subcaseNames = DSDictionaryNames(subcaseDictionary);
-                        for (j = 0; j < numberValidSubcases; j++) {
-                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
-                                DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
-                        }
-                        DSDictionaryFree(subcaseDictionary);
-                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
-                        DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
-                } else {
-                        DSCaseFree(aCase);
-                }
-        }
+        caseDictionary = DSDesignSpaceCalculateAllValidCasesForSliceByResolvingCyclicalCases(cyclicalCase->internalDesignspace, lower, upper);
+//        caseDictionary = DSDictionaryAlloc();
+//        for (i = 0; i < DSCyclicalCaseNumberOfSubcases(cyclicalCase); i++) {
+//                validCaseNumbers = i+1;
+//                sprintf(nameString, "%d", validCaseNumbers);
+//                aCase = DSCyclicalCaseSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
+//                cyclicalSubcase = (DSCyclicalCase *)DSCyclicalCaseCyclicalSubcaseWithCaseNumber(cyclicalCase, validCaseNumbers);
+//                if (cyclicalSubcase != NULL) {
+//                        subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesForSliceByResolvingCyclicalCases(cyclicalSubcase, lower, upper);
+//                        numberValidSubcases = DSDictionaryCount(subcaseDictionary);
+//                        subcaseNames = DSDictionaryNames(subcaseDictionary);
+//                        for (j = 0; j < numberValidSubcases; j++) {
+//                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
+//                                DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
+//                        }
+//                        DSDictionaryFree(subcaseDictionary);
+//                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
+//                        DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
+//                } else {
+//                        DSCaseFree(aCase);
+//                }
+//        }
 bail:
         if (subcaseString != NULL)
                 DSSecureFree(subcaseString);
@@ -482,24 +507,21 @@ extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcases(const DSCyclicalCa
         }
         numberValidSlice = 0;
         caseDictionary = DSDictionaryAlloc();
-        for (j = 0; j < cyclicalCase->numberOfInternal; j++) {
-                ds = cyclicalCase->internalDesignspaces[j];
-                if (ds == NULL) {
-                        DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                        goto bail;
-                }
-                numberValid = DSDesignSpaceNumberOfValidCases(ds);
-                if (numberValid == 0) {
-                        numberValidSlice += DSDesignSpaceNumberOfCases(ds);
-                        continue;
-                }
-                for (i = 0; i < numberValid; i++) {
-                        validCaseNumbers = atoi(ds->validCases->names[i]);
-                        aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
-                        sprintf(nameString, "%d_%d", cyclicalCase->caseNumber, numberValidSlice+validCaseNumbers);
-                        DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
-                }
-                numberValidSlice += DSDesignSpaceNumberOfCases(ds);
+        ds = cyclicalCase->internalDesignspace;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        numberValid = DSDesignSpaceNumberOfValidCases(ds);
+        if (numberValid == 0) {
+                goto bail;
+        }
+        for (i = 0; i < numberValid; i++) {
+                validCaseNumbers = atoi(ds->validCases->names[i]);
+                printf("[%i]\n", validCaseNumbers);
+                aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
+                sprintf(nameString, "%d_%d", cyclicalCase->caseNumber, numberValidSlice+validCaseNumbers);
+                DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
         }
 bail:
         return caseDictionary;
