@@ -486,7 +486,7 @@ static DSUInteger dsGMASystemCombineIdenticalTerms(DSGMASystem * gma, const DSUI
         }
         for (i = 0; i < DSMatrixColumns(nullspace); i++) {
                 found = false;
-                for (j = 0; j < DSMatrixRows(nullspace); j++) {
+                for (j = 0; j < numberOfTerms; j++) {
                         if (DSMatrixDoubleValue(nullspace, j, i) < 1e-14) {
                                 continue;
                         }
@@ -502,16 +502,16 @@ static DSUInteger dsGMASystemCombineIdenticalTerms(DSGMASystem * gma, const DSUI
                         count--;
                 }
         }
-        for (i = 0; i < DSMatrixColumns(c); i++) {
+        for (i = 0; i < numberOfTerms; i++) {
                 j = 0;
                 if (DSMatrixDoubleValue(c, equationIndex, i) != 0.) {
                         continue;
                 }
-                for (j = i+1; j < DSMatrixColumns(c); j++) {
+                for (j = i+1; j < numberOfTerms; j++) {
                         if (DSMatrixDoubleValue(c, equationIndex, j) != 0.)
                                 break;
                 }
-                if (j == DSMatrixColumns(c))
+                if (j == numberOfTerms)
                         break;
                 DSMatrixSetDoubleValue(c, equationIndex, i,
                                        DSMatrixDoubleValue(c, equationIndex, j));
