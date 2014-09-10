@@ -40,6 +40,7 @@
 #include "DSVariable.h"
 #include "DSExpression.h"
 #include "DSExpressionTokenizer.h"
+#include "DSMatrix.h"
 
 #define DS_EXPRESSION_CONSTANT_BRANCH_INDEX     0
 #define DS_EXPRESSION_STRING_INIT_LENGTH        1000
@@ -1117,6 +1118,44 @@ extern void DSExpressionPrint(const DSExpression *expression)
         DSSecureFree(string);
 bail:
         return;
+}
+
+extern DSExpression * DSMatrixPowerlawInMatrixFormToExpression(DSUInteger row, DSMatrix * Kd, DSVariablePool * Xd, DSMatrix * Ki, DSVariablePool *Xi, DSMatrix * C)
+{
+        DSUInteger i;
+        DSExpression * expression = NULL;
+        char * name, *string = NULL, *temp;
+        string = DSSecureCalloc(sizeof(char), 100);
+        temp = string;
+        asprintf(&string, "%lf", DSMatrixDoubleValue(C, row, 0));
+        if (temp != string) {
+                DSSecureFree(temp);
+                temp = string;
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(Xd); i++) {
+                if (DSMatrixDoubleValue(Kd, row, i) == 0.0f)
+                        continue;
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, i));
+                asprintf(&string, "%s*%s^%lf", string, name, DSMatrixDoubleValue(Kd, row, i));
+                if (temp != string) {
+                        DSSecureFree(temp);
+                        temp = string;
+                }
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                if (DSMatrixDoubleValue(Ki, row, i) == 0.0f)
+                        continue;
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, i));
+                asprintf(&string, "%s*%s^%lf", string, name, DSMatrixDoubleValue(Ki, 0, i));
+                if (temp != string) {
+                        DSSecureFree(temp);
+                        temp = string;
+                }
+        }
+        expression = DSExpressionByParsingString(string);
+        DSSecureFree(string);
+bail:
+        return expression;
 }
 
 

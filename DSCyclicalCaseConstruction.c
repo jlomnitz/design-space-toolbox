@@ -985,13 +985,15 @@ static char * dsCyclicalCaseEquationForFlux(const DSCase * aCase,
                                             const DSUInteger * secondaryCycleVariables,
                                             const DSMatrix * LI,
                                             const DSMatrix * Lc,
-                                            const DSMatrix * MBn)
+                                            const DSMatrix * MBn,
+                                            const DSVariablePool * yc)
 {
         char * fluxEquationString = NULL;
         DSExpression * fluxEquation = NULL;
         const DSMatrix * A;
+        DSMatrix *Kd, *LKi, *LKd, *Kc, *Ks, *Ki, *temp;
         const DSGMASystem * gma = NULL;
-        DSUInteger i;
+        DSUInteger i, j, index;
         double denominator = 0, numerator = 0;
         DSExpression * (*termFunction)(const DSGMASystem *, const DSUInteger, DSUInteger);
         // Checks...
@@ -1011,11 +1013,44 @@ static char * dsCyclicalCaseEquationForFlux(const DSCase * aCase,
         }
         if (positiveFlux == true) {
                 A = DSGMASystemAlpha(gma);
+//                Kd = DSMatrixArrayMatrix(DSGMASystemGd(gma), variableIndex);
+//                Kd = DSMatrixSubMatrixIncludingRowList(Kd, 1, fluxIndex);
+//                Ki = DSMatrixArrayMatrix(DSGMASystemGi(gma), variableIndex);
+//                Ki = DSMatrixSubMatrixIncludingRowList(Ki, 1, fluxIndex);
                 termFunction = DSGMASystemPositiveTermForEquations;
         } else {
                 A = DSGMASystemBeta(gma);
+//                Kd = DSMatrixArrayMatrix(DSGMASystemGd(gma), variableIndex);
+//                Kd = DSMatrixSubMatrixIncludingRowList(Kd, 1, fluxIndex);
+//                Ki = DSMatrixArrayMatrix(DSGMASystemGi(gma), variableIndex);
+//                Ki = DSMatrixSubMatrixIncludingRowList(Ki, 1, fluxIndex);
                 termFunction = DSGMASystemNegativeTermForEquations;
         }
+//        if (numberSecondaryVariables > 0) {
+//                Ks = DSMatrixSubMatrixIncludingColumns(Kd, numberSecondaryVariables, secondaryCycleVariables);
+//                LKi = DSMatrixByMultiplyingMatrix(Ks, LI);
+//                temp = DSMatrixCalloc(DSMatrixRows(Lc), DSMatrixColumns(Kd));
+//                Kc = DSMatrixCalloc(DSMatrixRows(Kd), DSMatrixColumns(Kd));
+//                for (i = 0; i < DSMatrixRows(temp); i++) {
+//                        for (j = 0; j < DSMatrixColumns(Lc); j++) {
+//                                index = DSVariablePoolIndexOfVariableWithName(DSCaseXd(aCase), DSVariableName(DSVariablePoolVariableAtIndex(yc, j)));
+//                                DSMatrixSetDoubleValue(temp, i, index, DSMatrixDoubleValue(Lc, i, j));
+//                                DSMatrixSetDoubleValue(Kc, i, index, DSMatrixDoubleValue(Kd, i, index));
+//                        }
+//                }
+//                LKd = DSMatrixByMultiplyingMatrix(Ks, temp);
+//                DSMatrixFree(temp);
+//                temp = DSMatrixByMultiplyingMatrix(Ks, MBn);
+//                DSMatrixAddByMatrix(LKd, Kc);
+//                DSMatrixAddByMatrix(Ki, LKi);
+//                DSMatrixSetDoubleValue(temp, 0, 0, (DSMatrixDoubleValue(temp, 0, 0)+DSMatrixDoubleValue(A, variableIndex, fluxIndex)));
+//                fluxEquation = DSMatrixPowerlawInMatrixFormToExpression(0, LKd, DSCaseXd(aCase), Ki, DSCaseXi(aCase), temp);
+//                fluxEquationString = DSSecureCalloc(sizeof(char), 1000);
+//                asprintf(&fluxEquationString, "%i*%s*%lf", (positiveFlux ? 1 : -1), DSExpressionAsString(fluxEquation), numerator/denominator);
+//                DSExpressionFree(fluxEquation);
+//                printf("[%s]", fluxEquationString);
+//                DSSecureFree(fluxEquationString);
+//        }
         fluxEquation = termFunction(gma, variableIndex, fluxIndex);
         fluxEquationString = DSSecureCalloc(sizeof(char), 1000);
         asprintf(&fluxEquationString, "%s*%lf", DSExpressionAsString(fluxEquation), numerator/denominator);
@@ -1088,7 +1123,7 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                                                              primaryCycleVariable,
                                                              numberSecondaryVariables,
                                                              secondaryCycleVariables,
-                                                             LI, Lc, MBn);
+                                                             LI, Lc, MBn, yc);
                         if (flux != NULL) {
                                 asprintf(&string, "%s + %s", string, flux);
                                 DSSecureFree(flux);
@@ -1108,7 +1143,7 @@ static DSExpression ** dsCyclicalCaseEquationsForCycle(const DSCase * aCase,
                                                              primaryCycleVariable,
                                                              numberSecondaryVariables,
                                                              secondaryCycleVariables,
-                                                             LI, Lc, MBn);
+                                                             LI, Lc, MBn, yc);
                         if (flux != NULL) {
                                 asprintf(&string, "%s + %s", string, flux);
                                 DSSecureFree(flux);
