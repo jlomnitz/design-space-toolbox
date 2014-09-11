@@ -201,6 +201,7 @@ extern double DSMatrixMinor(const DSMatrix *matrix,
 extern DSMatrix * DSMatrixTranspose(const DSMatrix *matrix);
 extern DSMatrix * DSMatrixInverse(const DSMatrix *matrix);
 extern DSMatrixArray * DSMatrixSVD(const DSMatrix *matrix);
+extern DSMatrixArray * DSMatrixQRD(const DSMatrix *matrix);
 extern DSMatrix * DSMatrixRightNullspace(const DSMatrix *matrix);
 extern DSMatrix * DSMatrixLeftNullspace(const DSMatrix *matrix);
 extern DSMatrix * DSMatrixIdenticalRows(const DSMatrix * matrix);

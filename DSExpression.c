@@ -1120,7 +1120,7 @@ bail:
         return;
 }
 
-extern DSExpression * DSMatrixPowerlawInMatrixFormToExpression(DSUInteger row, DSMatrix * Kd, DSVariablePool * Xd, DSMatrix * Ki, DSVariablePool *Xi, DSMatrix * C)
+extern DSExpression * DSExpressionFromPowerlawInMatrixForm(const DSUInteger row, const DSMatrix * Kd, const DSVariablePool * Xd, const DSMatrix * Ki, const DSVariablePool *Xi, const DSMatrix * C)
 {
         DSUInteger i;
         DSExpression * expression = NULL;
@@ -1146,7 +1146,7 @@ extern DSExpression * DSMatrixPowerlawInMatrixFormToExpression(DSUInteger row, D
                 if (DSMatrixDoubleValue(Ki, row, i) == 0.0f)
                         continue;
                 name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, i));
-                asprintf(&string, "%s*%s^%lf", string, name, DSMatrixDoubleValue(Ki, 0, i));
+                asprintf(&string, "%s*%s^%lf", string, name, DSMatrixDoubleValue(Ki, row, i));
                 if (temp != string) {
                         DSSecureFree(temp);
                         temp = string;

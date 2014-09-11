@@ -99,7 +99,7 @@ extern char * DSExpressionAsString(const DSExpression *expression);
 extern char * DSExpressionAsTroffString(const DSExpression *expression);
 extern void DSExpressionPrint(const DSExpression *expression);
 
-extern DSExpression * DSMatrixPowerlawInMatrixFormToExpression(DSUInteger row, DSMatrix * Kd, DSVariablePool * Xd, DSMatrix * Ki, DSVariablePool *Xi, DSMatrix * C);
+extern DSExpression * DSExpressionFromPowerlawInMatrixForm(const DSUInteger row, const DSMatrix * Kd, const DSVariablePool * Xd, const DSMatrix * Ki, const DSVariablePool *Xi, const DSMatrix * C);
 
 
 #endif

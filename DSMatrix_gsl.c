@@ -1590,6 +1590,38 @@ bail:
         
 }
 
+extern DSMatrixArray * DSMatrixQRD(const DSMatrix *matrix)
+{
+        DSMatrix *QR, *Q, *R;
+        DSMatrixArray *array = NULL;
+        DSUInteger min;
+        gsl_matrix *qr, *q, *r;
+        gsl_vector *tau;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_WARN);
+                goto bail;
+        }
+        array = DSMatrixArrayAlloc();
+        QR = DSMatrixCopy(matrix);
+        Q = DSMatrixCalloc(DSMatrixRows(matrix), DSMatrixRows(matrix));
+        R = DSMatrixCalloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
+        qr = QR->mat;
+        q = Q->mat;
+        r = R->mat;
+        min = (DSMatrixRows(matrix) < DSMatrixColumns(matrix) ? DSMatrixRows(matrix) : DSMatrixColumns(matrix));
+        tau = gsl_vector_alloc(min);
+        gsl_linalg_QR_decomp(qr, tau);
+        gsl_linalg_QR_unpack(qr, tau, q, r);
+        DSMatrixArrayAddMatrix(array, Q);
+        DSMatrixArrayAddMatrix(array, R);
+        gsl_vector_free(tau);
+        DSMatrixFree(QR);
+bail:
+        return array;
+        
+}
+
+
 /*
  DSTNumericalMatrix *nullspace = nil;
  gsl_matrix *tempMatrix;
@@ -1620,6 +1652,38 @@ bail:
  bail:
  return nullspace;
  */
+
+static DSMatrix * dsMatrixRightNullspaceMLTN(const DSMatrix *matrix)
+{
+        DSMatrix *nullspace = NULL, *Q = NULL, *R = NULL, *Rt;
+        DSMatrixArray * QRD = NULL;
+        DSUInteger i, j , columns, rank = 0, * include;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        QRD = DSMatrixQRD(matrix);
+        if (QRD == NULL) {
+                DSError(M_DS_NULL ": QR decomposition failed", A_DS_ERROR);
+                goto bail;
+        }
+        Q = DSMatrixArrayMatrix(QRD, 0);
+        R = DSMatrixArrayMatrix(QRD, 1);
+        Rt = DSMatrixTranspose(R);
+        rank = DSMatrixRank(Rt);
+        columns = DSMatrixColumns(matrix) - rank;
+        include = DSSecureCalloc(sizeof(DSUInteger), columns);
+        j = 0;
+        for (i = rank; i < DSMatrixColumns(Q); i++) {
+                include[j++] = i;
+        }
+        nullspace = DSMatrixSubMatrixIncludingColumns(Q, columns, include);
+bail:
+        if (QRD != NULL)
+                DSMatrixArrayFree(QRD);
+        return nullspace;
+}
+
 extern DSMatrix * DSMatrixRightNullspace(const DSMatrix *matrix)
 {
         DSMatrix *nullspace = NULL, *V = NULL, *S = NULL;
@@ -1627,6 +1691,10 @@ extern DSMatrix * DSMatrixRightNullspace(const DSMatrix *matrix)
         DSUInteger i, j , k, columns, rank = 0;
         if (matrix == NULL) {
                 DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSMatrixRows(matrix) < DSMatrixColumns(matrix)) {
+                nullspace = dsMatrixRightNullspaceMLTN(matrix);
                 goto bail;
         }
         svd = DSMatrixSVD(matrix);
@@ -1665,6 +1733,53 @@ bail:
 
         return nullspace;
 }
+
+extern DSMatrix * DSMatrixRightNullspaceMLTN(const DSMatrix *matrix)
+{
+        DSMatrix *nullspace = NULL, *V = NULL, *S = NULL;
+        DSMatrixArray * svd = NULL;
+        DSUInteger i, j , k, columns, rank = 0;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        svd = DSMatrixSVD(matrix);
+        if (svd == NULL) {
+                DSError(M_DS_NULL ": Singular Value decomposition failed", A_DS_ERROR);
+                goto bail;
+        }
+        S = DSMatrixArrayMatrix(svd, 0);
+        V = DSMatrixArrayMatrix(svd, 2);
+        if (S == NULL) {
+                DSError(M_DS_MAT_NULL ": S matrix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (V == NULL) {
+                DSError(M_DS_MAT_NULL ": V matrix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        for (i = 0; i < DSMatrixColumns(S); i++)
+                rank += (fabs(DSMatrixDoubleValue(S, 0, i)) >= 1E-14);
+        columns = DSMatrixColumns(matrix) - rank;
+        if (columns == 0)
+                goto bail;
+        nullspace = DSMatrixCalloc(DSMatrixRows(V), columns);
+        j = 0;
+        for (i = 0; i < DSMatrixColumns(S); i++) {
+                if (fabs(DSMatrixDoubleValue(S, 0, i)) >= 1E-14)
+                        continue;
+                for (k = 0; k < DSMatrixRows(V); k++) {
+                        DSMatrixSetDoubleValue(nullspace, k, j, DSMatrixDoubleValue(V, k, i));
+                }
+                j++;
+        }
+bail:
+        if (svd != NULL)
+                DSMatrixArrayFree(svd);
+        
+        return nullspace;
+}
+
 
 extern DSMatrix * DSMatrixLeftNullspace(const DSMatrix *matrix)
 {

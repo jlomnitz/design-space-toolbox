@@ -1048,7 +1048,7 @@ bail:
 
 extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma)
 {
-        DSUInteger i, numberOfEquations;
+        DSUInteger i, j, sum, index, numberOfEquations;
         DSExpression *root, *lhs, *rhs, ** equations = NULL;
         char * varName = NULL;
 //        char *tempString;
@@ -1066,13 +1066,43 @@ extern DSExpression ** DSGMASystemEquations(const DSGMASystem *gma)
                 varName = DSVariableName(DSVariablePoolVariableAtIndex(DSGMAXd(gma), i));
                 root = dsExpressionAllocWithOperator('=');
                 if (DSVariablePoolHasVariableWithName(DSGMAXd_a(gma), varName) == true) {
-                        lhs = dsExpressionAllocWithConstant(0.0);
+                        if (DSGMASystemSignature(gma)[2*i+1] == 1) {
+                                sum = 0;
+                                for (j = 0; j < DSVariablePoolNumberOfVariables(DSGMASystemXd(gma)); j++) {
+                                        if (DSMatrixArrayDoubleWithIndices(DSGMASystemHd(gma), i, 0, j) != 0) {
+                                                sum++;
+                                                index = j;
+                                                if (DSMatrixArrayDoubleWithIndices(DSGMASystemHd(gma), i, 0, j) != 1) {
+                                                        sum++;
+                                                }
+                                        }
+                                }
+                                for (j = 0; j < DSVariablePoolNumberOfVariables(DSGMASystemXi(gma)); j++) {
+                                        if (DSMatrixArrayDoubleWithIndices(DSGMASystemHi(gma), i, 0, j) > 0) {
+                                                sum++;
+                                        }
+                                }
+                                if (sum == 1 && index == DSVariablePoolIndexOfVariableWithName(DSGMASystemXd(gma), varName)) {
+                                        lhs = dsExpressionAllocWithVariableName(varName);
+                                        rhs = DSGMASystemPositiveTermsForEquations(gma, i);
+                                } else {
+                                        lhs = dsExpressionAllocWithConstant(0.0);
+                                        rhs = DSExpressionAddExpressions(DSGMASystemPositiveTermsForEquations(gma, i),
+                                                                         DSGMASystemNegativeTermsForEquations(gma, i));
+                                }
+
+                        } else {
+                                lhs = dsExpressionAllocWithConstant(0.0);
+                                rhs = DSExpressionAddExpressions(DSGMASystemPositiveTermsForEquations(gma, i),
+                                                                 DSGMASystemNegativeTermsForEquations(gma, i));
+                        }
                 } else {
                         lhs = dsExpressionAllocWithOperator('.');
                         DSExpressionAddBranch(lhs, dsExpressionAllocWithVariableName(varName));
+                        rhs = DSExpressionAddExpressions(DSGMASystemPositiveTermsForEquations(gma, i),
+                                                         DSGMASystemNegativeTermsForEquations(gma, i));
+
                 }
-                rhs = DSExpressionAddExpressions(DSGMASystemPositiveTermsForEquations(gma, i),
-                                                DSGMASystemNegativeTermsForEquations(gma, i));
                 DSExpressionAddBranch(root, lhs);
                 DSExpressionAddBranch(root, rhs);
                 equations[i] = root;
