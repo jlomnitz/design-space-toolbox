@@ -925,8 +925,8 @@ bail:
 
 extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
 {
-        DSUInteger i, numberOfEquations, length;
-        DSExpression ** equations = NULL;
+        DSUInteger i, j, index, sum, numberOfEquations, length;
+        DSExpression ** equations = NULL, *root, *lhs, *rhs;
         char *tempString, *equationString, *varName;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
@@ -938,28 +938,65 @@ extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
                 goto bail;
         }
         equations = DSSecureCalloc(sizeof(DSExpression *), numberOfEquations);
-        length = 1000;
-        tempString = DSSecureCalloc(sizeof(char), length);
         for (i = 0; i < numberOfEquations; i++) {
-                tempString[0] = '\0';
                 varName = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
-                dsSSystemEquationAddPositiveTermToString(ssys, i, &tempString, &length);
-                strncat(tempString, "-", length-strlen(tempString));
-                dsSSystemEquationAddNegativeTermToString(ssys, i, &tempString, &length);
-                equationString = DSSecureCalloc(sizeof(char),
-                                                strlen(tempString)+strlen(varName)+6);
+                root = dsExpressionAllocWithOperator('=');
                 // Check if varName is algebraic
-                if (DSVariablePoolHasVariableWithName(DSSSysXd_a(ssys), varName) == false) {
-                        equationString = strcpy(equationString, varName);
-                        equationString = strcat(equationString, ". = ");
+                if (DSVariablePoolHasVariableWithName(DSSSysXd_a(ssys), varName) == true) {
+                        sum = 0;
+                        for (j = 0; j < DSVariablePoolNumberOfVariables(DSSSystemXd(ssys)); j++) {
+                                if (DSMatrixDoubleValue(DSSSystemHd(ssys), i, j) != 0) {
+                                        sum++;
+                                        index = j;
+                                        if (DSMatrixDoubleValue(DSSSystemHd(ssys), i, j) != 1) {
+                                                sum++;
+                                        }
+                                }
+                        }
+                        for (j = 0; j < DSVariablePoolNumberOfVariables(DSSSystemXi(ssys)); j++) {
+                                if (DSMatrixDoubleValue(DSSSystemHi(ssys), i, j) != 0) {
+                                        sum++;
+                                }
+                        }
+                        if (sum == 1 && index == DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssys), varName)) {
+                                lhs = dsExpressionAllocWithVariableName(varName);
+                                rhs = DSExpressionFromPowerlawInMatrixForm(i, DSSSystemGd(ssys), DSSSystemXd(ssys), DSSSystemGi(ssys), DSSSystemXi(ssys), DSSSystemAlpha(ssys));
+                        } else {
+                                lhs = dsExpressionAllocWithConstant(0.0);
+                                rhs = DSExpressionAddExpressions(DSExpressionFromPowerlawInMatrixForm(i,
+                                                                                                      DSSSystemGd(ssys),
+                                                                                                      DSSSystemXd(ssys),
+                                                                                                      DSSSystemGi(ssys),
+                                                                                                      DSSSystemXi(ssys),
+                                                                                                      DSSSystemAlpha(ssys)),
+                                                                 DSExpressionFromPowerlawInMatrixForm(i,
+                                                                                                      DSSSystemHd(ssys),
+                                                                                                      DSSSystemXd(ssys),
+                                                                                                      DSSSystemHi(ssys),
+                                                                                                      DSSSystemXi(ssys),
+                                                                                                      DSSSystemBeta(ssys)));
+                        }
                 } else {
-                        equationString = strcpy(equationString, "0 = ");
+                        lhs = dsExpressionAllocWithOperator('.');
+                        DSExpressionAddBranch(lhs, dsExpressionAllocWithVariableName(varName));
+                        rhs = DSExpressionAddExpressions(DSExpressionFromPowerlawInMatrixForm(i,
+                                                                                              DSSSystemGd(ssys),
+                                                                                              DSSSystemXd(ssys),
+                                                                                              DSSSystemGi(ssys),
+                                                                                              DSSSystemXi(ssys),
+                                                                                              DSSSystemAlpha(ssys)),
+                                                         DSExpressionFromPowerlawInMatrixForm(i,
+                                                                                              DSSSystemHd(ssys),
+                                                                                              DSSSystemXd(ssys),
+                                                                                              DSSSystemHi(ssys),
+                                                                                              DSSSystemXi(ssys),
+                                                                                              DSSSystemBeta(ssys)));
+                        
                 }
-                equationString = strcat(equationString, tempString);
-                equations[i] = DSExpressionByParsingString(equationString);
-                DSSecureFree(equationString);
+                DSExpressionAddBranch(root, lhs);
+                DSExpressionAddBranch(root, rhs);
+                equations[i] = root;
         }
-        DSSecureFree(tempString);
 bail:
         return equations;
 }

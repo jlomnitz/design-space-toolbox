@@ -376,12 +376,13 @@ typedef struct {
 
 
 typedef struct {
-        DSExpression *** fluxEquations;
-        DSUInteger * numberOfFluxes;
-        DSUInteger ** fluxIndex;
-        DSUInteger * cycleVariables;
-        DSUInteger numberCycles;
-        DSDictionary * cycleFluxes;
+//        DSExpression *** fluxEquations;
+//        DSUInteger * numberOfFluxes;
+//        DSUInteger ** fluxIndex;
+//        DSUInteger * cycleVariables;
+//        DSUInteger numberCycles;
+//        DSDictionary * cycleFluxes;
+        char ** extendedEquations;
 } DSCycleExtensionData;
 
 
