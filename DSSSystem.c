@@ -1084,7 +1084,7 @@ extern DSExpression ** DSSSystemLogarithmicSolution(const DSSSystem *ssys)
 {
         DSUInteger i, numberOfEquations, length;
         DSExpression ** solution = NULL;
-        char *tempString;
+        char *tempString, * equationString, *varName;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
@@ -1105,7 +1105,14 @@ extern DSExpression ** DSSSystemLogarithmicSolution(const DSSSystem *ssys)
                 dsSSystemSolutionToString(ssys, i, &tempString, &length, true);
                 if (strlen(tempString) == 0)
                         break;
-                solution[i] = DSExpressionByParsingString(tempString);
+                varName = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
+                equationString = DSSecureCalloc(sizeof(char),
+                                                strlen(tempString)+strlen(varName)+4);
+                equationString = strcpy(equationString, varName);
+                equationString = strcat(equationString, " = ");
+                equationString = strcat(equationString, tempString);
+                solution[i] = DSExpressionByParsingString(equationString);
+                DSSecureFree(equationString);
         }
         DSSecureFree(tempString);
 bail:
