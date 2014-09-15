@@ -474,50 +474,50 @@ extern const DSDictionary * DSDesignSpaceCyclicalCaseDictionary(const DSDesignSp
 bail:
         return dictionary;
 }
-
-extern DSDictionary * DSDesignSpaceCycleDictionaryForSignature(const DSDesignSpace * ds, const DSUInteger * signature)
-{
-        DSDictionary * cycleFluxes = NULL;
-        DSUInteger i, index, fluxNumber;
-        DSCycleExtensionData * extensionData;
-        DSExpression * flux;
-        char * name;
-        const DSVariablePool * Xd;
-        if (ds == NULL)  {
-                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
-                goto bail;
-        }
-        if (signature == NULL) {
-                DSError(M_DS_NULL ": Case signature is NULL", A_DS_ERROR);
-                goto bail;
-        }
-        if (ds->extensionData == NULL) {
-                goto bail;
-        }
-        Xd = DSGMASystemXd(DSDesignSpaceGMASystem(ds));
-        cycleFluxes = DSDictionaryAlloc();
-        extensionData = ds->extensionData;
-        for (i = 0; i < extensionData->numberCycles; i++) {
-                index = extensionData->cycleVariables[i];
-                fluxNumber = signature[2*index+1]-1;
-                name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, extensionData->fluxIndex[i][fluxNumber]));
-                flux = extensionData->fluxEquations[i][fluxNumber];
-                DSDictionaryAddValueWithName(cycleFluxes,
-                                             name,
-                                             flux);
-        }
-        for (i = 0; i < DSVariablePoolNumberOfVariables(Xd); i++) {
-                name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, i));
-                if (DSDictionaryValueForName(cycleFluxes, name) != NULL)
-                        continue;
-                flux = DSDictionaryValueForName(ds->extensionData->cycleFluxes, name);
-                DSDictionaryAddValueWithName(cycleFluxes,
-                                             name,
-                                             flux);
-        }
-bail:
-        return cycleFluxes;
-}
+//
+//extern DSDictionary * DSDesignSpaceCycleDictionaryForSignature(const DSDesignSpace * ds, const DSUInteger * signature)
+//{
+//        DSDictionary * cycleFluxes = NULL;
+//        DSUInteger i, index, fluxNumber;
+//        DSCycleExtensionData * extensionData;
+//        DSExpression * flux;
+//        char * name;
+//        const DSVariablePool * Xd;
+//        if (ds == NULL)  {
+//                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+//                goto bail;
+//        }
+//        if (signature == NULL) {
+//                DSError(M_DS_NULL ": Case signature is NULL", A_DS_ERROR);
+//                goto bail;
+//        }
+//        if (ds->extensionData == NULL) {
+//                goto bail;
+//        }
+//        Xd = DSGMASystemXd(DSDesignSpaceGMASystem(ds));
+//        cycleFluxes = DSDictionaryAlloc();
+//        extensionData = ds->extensionData;
+//        for (i = 0; i < extensionData->numberCycles; i++) {
+//                index = extensionData->cycleVariables[i];
+//                fluxNumber = signature[2*index+1]-1;
+//                name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, extensionData->fluxIndex[i][fluxNumber]));
+//                flux = extensionData->fluxEquations[i][fluxNumber];
+//                DSDictionaryAddValueWithName(cycleFluxes,
+//                                             name,
+//                                             flux);
+//        }
+//        for (i = 0; i < DSVariablePoolNumberOfVariables(Xd); i++) {
+//                name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, i));
+//                if (DSDictionaryValueForName(cycleFluxes, name) != NULL)
+//                        continue;
+//                flux = DSDictionaryValueForName(ds->extensionData->cycleFluxes, name);
+//                DSDictionaryAddValueWithName(cycleFluxes,
+//                                             name,
+//                                             flux);
+//        }
+//bail:
+//        return cycleFluxes;
+//}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility -
@@ -932,6 +932,77 @@ static void dsDesignSpaceCalculateValiditySeries(DSDesignSpace *ds)
 bail:
         return;
 }
+
+static DSDictionary * dsDesignSpaceCalculateValidityOfCaseSetParallelBSD(DSDesignSpace *ds, DSUInteger numberOfCases, DSCase ** cases)
+{
+        DSDictionary * caseDictionary = NULL;
+        DSUInteger i, j, numberValid = 0;
+        DSUInteger validCaseNumbers = 0;
+        const char * name;
+        long int numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
+        pthread_t * threads = NULL;
+        pthread_attr_t attr;
+        ds_parallelstack_t *stack;
+        struct pthread_struct *pdatas;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
+                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        caseDictionary = DSDictionaryAlloc();
+        if (numberOfCases == 0) {
+                goto bail;
+        }
+//        numberValid = DSDesignSpaceNumberOfValidCases(ds);
+//        if (numberValid == 0)
+//                goto bail;
+        pthread_attr_init(&attr);
+        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+        /* Should optimize number of threads to system */
+        
+        /* Initializing parallel data stacks and pthreads data structure */
+        
+        stack = DSParallelStackAlloc();
+        stack->argument_type = DS_STACK_ARG_CASE;
+        pdatas = DSSecureMalloc(sizeof(struct pthread_struct)*numberOfThreads);
+        for (i = 0; i < numberOfThreads; i++) {
+                pdatas[i].ds = ds;
+                pdatas[i].stack = stack;
+                pdatas[i].numberOfArguments = 0;
+                pdatas[i].functionArguments = NULL;//DSSecureMalloc(sizeof(DSVariablePool *)*2);
+        }
+        for (i = 0; i < numberOfCases; i++) {
+                DSParallelStackPush(stack, cases[i]);
+        }
+        threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
+        /* Creating the N-threads with their data */
+        for (i = 0; i < numberOfThreads; i++)
+                pthread_create(&threads[i], &attr, DSParallelWorkerValidity, (void *)(&pdatas[i]));
+        /* Joining all the N-threads, indicating all cases have been processed */
+        for (i = 0; i < numberOfThreads; i++) {
+                pthread_join(threads[i], NULL);
+                for (j = 0; j < DSDictionaryCount(pdatas[i].returnPointer); j++) {
+                        name = DSDictionaryNames((DSDictionary *)pdatas[i].returnPointer)[j];
+                        DSDictionaryAddValueWithName(caseDictionary, name, DSDictionaryValueForName(pdatas[i].returnPointer, name));
+                }
+                DSDictionaryFree((DSDictionary*)pdatas[i].returnPointer);
+                DSSecureFree(pdatas[i].functionArguments);
+        }
+        DSParallelStackFree(stack);
+        DSSecureFree(threads);
+        DSSecureFree(pdatas);
+        pthread_attr_destroy(&attr);
+bail:
+        return caseDictionary;
+}
+
 
 static void  dsDesignSpaceCalculateValidityParallelBSD(DSDesignSpace *ds)
 {
@@ -1896,6 +1967,11 @@ extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds)
         }
 bail:
         return;
+}
+
+extern DSDictionary * DSDesignSpaceCalculateValidityOfCaseSet(DSDesignSpace *ds, DSUInteger numberOfCases, DSCase ** cases)
+{
+        return dsDesignSpaceCalculateValidityOfCaseSetParallelBSD(ds, numberOfCases, cases);
 }
 
 extern void DSDesignSpacePrint(const DSDesignSpace * ds)

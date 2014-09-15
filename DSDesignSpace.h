@@ -84,7 +84,7 @@ extern const bool DSDesignSpaceCaseWithCaseSignatureIsValid(const DSDesignSpace 
 
 extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds);
 extern const DSDictionary * DSDesignSpaceCyclicalCaseDictionary(const DSDesignSpace *ds);
-extern DSDictionary * DSDesignSpaceCycleDictionaryForSignature(const DSDesignSpace * ds, const DSUInteger * signature);
+//extern DSDictionary * DSDesignSpaceCycleDictionaryForSignature(const DSDesignSpace * ds, const DSUInteger * signature);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility -
@@ -118,6 +118,7 @@ extern void DSDesignSpaceCalculateCyclicalCase(DSDesignSpace *ds, DSCase * aCase
 extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds);
 
 extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds);
+extern DSDictionary * DSDesignSpaceCalculateValidityOfCaseSet(DSDesignSpace *ds, DSUInteger numberOfCases, DSCase ** cases);
 
 #ifdef __cplusplus
 __END_DECLS

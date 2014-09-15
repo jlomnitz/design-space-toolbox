@@ -87,7 +87,7 @@ bail:
         return;
 }
 
-extern void DSParallelStackPush(ds_parallelstack_t *stack, const DSUInteger integer)
+extern void DSParallelStackPush(ds_parallelstack_t *stack, void * integer)
 {
         if (stack == NULL) {
                 DSError(M_DS_NULL ": Stack to push is NULL", A_DS_ERROR);
@@ -98,9 +98,9 @@ extern void DSParallelStackPush(ds_parallelstack_t *stack, const DSUInteger inte
         if (stack->count >= stack->size) {
                 stack->size += PARALLEL_STACK_SIZE_INCREMENT;
                 if (stack->base == NULL)
-                        stack->base = DSSecureMalloc(sizeof(DSUInteger)*stack->size);
+                        stack->base = DSSecureMalloc(sizeof(void *)*stack->size);
                 else
-                        stack->base = DSSecureRealloc(stack->base, sizeof(DSUInteger)*stack->size);
+                        stack->base = DSSecureRealloc(stack->base, sizeof(void *)*stack->size);
         }
         stack->current = stack->base+(stack->count-1);
         *(stack->current) = integer;
@@ -109,9 +109,9 @@ bail:
         return;
 }
 
-extern const DSUInteger DSParallelStackPop(ds_parallelstack_t *stack)
+extern const void * DSParallelStackPop(ds_parallelstack_t *stack)
 {
-        DSUInteger integer = 0;
+        void * integer = 0;
         if (stack == NULL) {
                 DSError(M_DS_NULL ": Stack to pop is NULL", A_DS_ERROR);
                 goto bail;
@@ -258,7 +258,7 @@ extern void * DSParallelWorkerValidity(void * pthread_struct)
 {
         struct pthread_struct * pdata = NULL;
         DSUInteger caseNumber;
-        DSCase *aCase;
+        DSCase *aCase, *toFree;
         const DSCyclicalCase * cyclicalCase;
         char string[100];
         if (pthread_struct == NULL) {
@@ -285,16 +285,22 @@ extern void * DSParallelWorkerValidity(void * pthread_struct)
         glp_init_env();
         /** Data in stack MUST be a case number, if not an error will occur **/
         while (pdata->stack->count > 0)  {
-                caseNumber = DSParallelStackPop(pdata->stack);
-                if (caseNumber == 0) {
-                        continue;
+                if (pdata->stack->argument_type == DS_STACK_ARG_CASENUM) {
+                        caseNumber = DSParallelStackPop(pdata->stack);
+                        if (caseNumber == 0) {
+                                continue;
+                        }
+                        if (caseNumber > DSDesignSpaceNumberOfCases(pdata->ds)) {
+                                DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
+                                continue;
+                        }
+                        aCase = DSDesignSpaceCaseWithCaseNumber(pdata->ds, caseNumber);
+                        toFree = aCase;
+                } else if (pdata->stack->argument_type == DS_STACK_ARG_CASE) {
+                        aCase = (DSCase *)DSParallelStackPop(pdata->stack);
+                        toFree = NULL;
                 }
-                if (caseNumber > DSDesignSpaceNumberOfCases(pdata->ds)) {
-                        DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
-                        continue;
-                }
-                aCase = DSDesignSpaceCaseWithCaseNumber(pdata->ds, caseNumber);
-                sprintf(string, "%d", caseNumber);//aCase->caseNumber);
+                sprintf(string, "%d", aCase->caseNumber);//caseNumber);//aCase->caseNumber);
                 if (DSCaseIsValid(aCase) == true) {
                         DSDictionaryAddValueWithName(pdata->ds->validCases, string, (void*)1);
                 } else if (DSDictionaryValueForName(pdata->ds->cyclicalCases, string) != NULL) {

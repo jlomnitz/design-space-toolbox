@@ -33,6 +33,10 @@
 #ifndef __DS_DESIGN_SPACE_PARALLEL__
 #define __DS_DESIGN_SPACE_PARALLEL__
 
+
+#define DS_STACK_ARG_CASENUM  0
+#define DS_STACK_ARG_CASE     1
+
 /**
  * \brief Stack object used by the worker threads.
  *
@@ -54,12 +58,13 @@
  * shared stack could be used.
  */
 typedef struct {
-        DSUInteger * base;       //!< The pointer to the array of DSUIntegers storing the case numbers.
-        DSUInteger * current;    //!< A pointer to the top of the stack.
+        void ** base;       //!< The pointer to the array of DSUIntegers storing the case numbers.
+        void ** current;    //!< A pointer to the top of the stack.
         DSUInteger count;        //!< The number of elements in the stack.
         DSUInteger size;         //!< The current size of the base array.
         DSUInteger nextIndex;    //!< The index of the current case.
         DSCase ** cases;         //!< The array of cases processed.
+        char argument_type;      //!< Indicates the type of argument.
         pthread_mutex_t pushpop; //!< The mutex used when pushing and popping data from the stack.
 } ds_parallelstack_t;
 
@@ -84,8 +89,8 @@ extern void DSParallelInitMutexes(void);
 extern ds_parallelstack_t * DSParallelStackAlloc(void);
 extern void DSParallelStackFree(ds_parallelstack_t *stack);
 
-extern void DSParallelStackPush(ds_parallelstack_t *stack, const DSUInteger number);
-extern const DSUInteger DSParallelStackPop(ds_parallelstack_t *stack);
+extern void DSParallelStackPush(ds_parallelstack_t *stack, void * integer);
+extern const void * DSParallelStackPop(ds_parallelstack_t *stack);
 extern void DSParallelStackAddCase(ds_parallelstack_t *stack, DSCase * aCase);
 
 extern void * DSParallelWorkerCases(void * pthread_struct);
