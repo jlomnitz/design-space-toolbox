@@ -887,6 +887,18 @@ static bool operatorIsLowerPrecedence(char op1, char op2)
         return isLower;
 }
 
+static DSUInteger dsExpressionConstantNumberOfDecimals(double constant)
+{
+        DSUInteger count = 0;
+        constant = fabs(constant);
+        constant -= floor(constant);
+        while (constant > 1e-14 && count < 16) {
+                count++;
+                constant*=10;
+                constant -= floor(constant);
+        }
+        return count;
+}
 
 static void dsExpressionToStringInternal(const DSExpression *current, char ** string, DSUInteger *length)
 {
@@ -900,7 +912,7 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
         }
         switch (DSExpressionType(current)) {
                 case DS_EXPRESSION_TYPE_CONSTANT:
-                        sprintf(temp, "%.15lf", DSExpressionConstant(current));
+                        sprintf(temp, "%.*lf", dsExpressionConstantNumberOfDecimals(DSExpressionConstant(current)), DSExpressionConstant(current));
                         break;
                 case DS_EXPRESSION_TYPE_VARIABLE:
                         sprintf(temp, "%s", DSExpressionVariable(current));
