@@ -859,6 +859,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNUSED_FUNCTION = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -886,6 +887,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNUSED_FUNCTION = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
