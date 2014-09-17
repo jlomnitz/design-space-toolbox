@@ -1107,9 +1107,10 @@ extern DSExpression ** DSSSystemLogarithmicSolution(const DSSSystem *ssys)
                         break;
                 varName = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssys), i));
                 equationString = DSSecureCalloc(sizeof(char),
-                                                strlen(tempString)+strlen(varName)+4);
-                equationString = strcpy(equationString, varName);
-                equationString = strcat(equationString, " = ");
+                                                strlen(tempString)+strlen(varName)+10);
+                equationString = strcpy(equationString, "log(");
+                equationString = strcat(equationString, varName);
+                equationString = strcat(equationString, ") = ");
                 equationString = strcat(equationString, tempString);
                 solution[i] = DSExpressionByParsingString(equationString);
                 DSSecureFree(equationString);
