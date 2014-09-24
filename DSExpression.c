@@ -1016,7 +1016,7 @@ static void expressionToLatexStringInternal(const DSExpression *current, char **
                         if (altName != NULL) {
                                 name = altName;
                         }
-                        sprintf(temp, "%s", name);
+                        sprintf(temp, "%s ", name);
                         break;
                 case DS_EXPRESSION_TYPE_OPERATOR:
                         constantBranch = DSExpressionBranchAtIndex(current, 0);
