@@ -95,7 +95,7 @@ extern DSVariablePool * DSExpressionVariablesInExpression(const DSExpression * e
 #endif
 
 extern char * DSExpressionAsString(const DSExpression *expression);
-extern char * DSExpressionAsTroffString(const DSExpression *expression);
+extern char * DSExpressionAsLatexString(const DSExpression *expression, const DSDictionary * substitutionDict);
 extern void DSExpressionPrint(const DSExpression *expression);
 
 
