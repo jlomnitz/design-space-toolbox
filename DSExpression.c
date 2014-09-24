@@ -1000,7 +1000,7 @@ static void expressionToLatexStringInternal(const DSExpression *current, char **
         DSUInteger i;
         DSExpression * branch, *constantBranch;
         double constant;
-        char * name, * altName;
+        char * name, * altName, * open, *close;
         char temp[100] = {'\0'};
         if (current == NULL) {
                 DSError(M_DS_NULL ": Node to print is nil", A_DS_ERROR);
@@ -1085,14 +1085,36 @@ static void expressionToLatexStringInternal(const DSExpression *current, char **
                         }
                         break;
                 case DS_EXPRESSION_TYPE_FUNCTION:
-                        sprintf(temp, "%s(", DSExpressionVariable(current));
+                        name = DSExpressionVariable(current);
+                        open = "(";
+                        close = ")";
+                        if (strcmp("log", name) == 0) {
+                                name = "\\log";
+                        } else if (strcmp("log10", name) == 0) {
+                                name = "\\log_{10}";
+                        } else  if (strcmp("ln", name) == 0) {
+                                name = "\\ln";
+                        } else  if (strcmp("sin", name) == 0) {
+                                name = "\\sin";
+                        } else  if (strcmp("cos", name) == 0) {
+                                name = "\\cos";
+                        } else if (strcmp("sqrt", name) == 0) {
+                                name = "\\sqrt";
+                                open = "{";
+                                close = "}";
+                        } else if (strcmp("abs", name) == 0) {
+                                name = "";
+                                open = "\\lvert";
+                                close = "\\rvert";
+                        }
+                        sprintf(temp, "%s%s", name, open);
                         if (strlen(*string)+strlen(temp) >= *length) {
                                 length += DS_EXPRESSION_STRING_INIT_LENGTH;
                                 *string = DSSecureRealloc(string, sizeof(char)**length);
                         }
                         strncat(*string, temp, *length-strlen(*string));
                         expressionToLatexStringInternal(DSExpressionBranchAtIndex(current, 0), string, length, substitutionDict);
-                        strncat(*string, ")", *length-strlen(*string));
+                        strncat(*string, close, *length-strlen(*string));
                         temp[0] = '\0';
                         break;
                 default:
