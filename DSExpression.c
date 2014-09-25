@@ -902,6 +902,18 @@ static bool operatorIsLowerPrecedence(char op1, char op2)
         return isLower;
 }
 
+static DSUInteger dsExpressionConstantNumberOfDecimals(double constant)
+{
+        DSUInteger count = 0;
+        constant = fabs(constant);
+        constant -= floor(constant);
+        while (constant > 1e-14 && count < 16) {
+                count++;
+                constant*=10;
+                constant -= floor(constant);
+        }
+        return count;
+}
 
 static void dsExpressionToStringInternal(const DSExpression *current, char ** string, DSUInteger *length)
 {
@@ -915,7 +927,7 @@ static void dsExpressionToStringInternal(const DSExpression *current, char ** st
         }
         switch (DSExpressionType(current)) {
                 case DS_EXPRESSION_TYPE_CONSTANT:
-                        sprintf(temp, "%.15lf", DSExpressionConstant(current));
+                        sprintf(temp, "%.*lf", dsExpressionConstantNumberOfDecimals(DSExpressionConstant(current)), DSExpressionConstant(current));
                         break;
                 case DS_EXPRESSION_TYPE_VARIABLE:
                         sprintf(temp, "%s", DSExpressionVariable(current));
@@ -998,11 +1010,12 @@ bail:
         return string;
 }
 
-static void expressionToTroffStringInternal(const DSExpression *current, char ** string, DSUInteger *length)
+static void expressionToLatexStringInternal(const DSExpression *current, char ** string, DSUInteger *length, const DSDictionary * substitutionDict)
 {
         DSUInteger i;
         DSExpression * branch, *constantBranch;
         double constant;
+        char * name, * altName, * open, *close;
         char temp[100] = {'\0'};
         if (current == NULL) {
                 DSError(M_DS_NULL ": Node to print is nil", A_DS_ERROR);
@@ -1010,10 +1023,15 @@ static void expressionToTroffStringInternal(const DSExpression *current, char **
         }
         switch (DSExpressionType(current)) {
                 case DS_EXPRESSION_TYPE_CONSTANT:
-                        sprintf(temp, "%lf", DSExpressionConstant(current));
+                        sprintf(temp, "%.*lf", dsExpressionConstantNumberOfDecimals(DSExpressionConstant(current)), DSExpressionConstant(current));
                         break;
                 case DS_EXPRESSION_TYPE_VARIABLE:
-                        sprintf(temp, "%s", DSExpressionVariable(current));
+                        name = DSExpressionVariable(current);
+                        altName = (char *)DSDictionaryValueForName(substitutionDict, name);
+                        if (altName != NULL) {
+                                name = altName;
+                        }
+                        sprintf(temp, "%s ", name);
                         break;
                 case DS_EXPRESSION_TYPE_OPERATOR:
                         constantBranch = DSExpressionBranchAtIndex(current, 0);
@@ -1035,35 +1053,83 @@ static void expressionToTroffStringInternal(const DSExpression *current, char **
                                         strncat(*string, "-", *length-strlen(*string));
                                         continue;
                                 }
+                                if (DSExpressionOperator(current) == '.') {
+                                        sprintf(temp, "\\dot{");
+                                        strncat(*string,  temp, *length-strlen(*string));
+                                        temp[0] = '\0';
+                                }
                                 branch = DSExpressionBranchAtIndex(current, i);
                                 if (DSExpressionType(branch) == DS_EXPRESSION_TYPE_OPERATOR &&
                                     operatorIsLowerPrecedence(DSExpressionOperator(current), DSExpressionOperator(branch)))
                                         strncat(*string, "(", *length-strlen(*string));
-                                expressionToTroffStringInternal(branch, string, length);
+                                expressionToLatexStringInternal(branch, string, length, substitutionDict);
                                 if (DSExpressionType(branch) == DS_EXPRESSION_TYPE_OPERATOR &&
                                     operatorIsLowerPrecedence(DSExpressionOperator(current), DSExpressionOperator(branch)))
                                         strncat(*string, ")", *length-strlen(*string));
-                                if (i < DSExpressionNumberOfBranches(current)-1) {
-                                        if (DSExpressionOperator(current) == '+')
-                                                sprintf(temp, " %c ", DSExpressionOperator(current));
-                                        else if (DSExpressionOperator(current) == '^')
-                                                sprintf(temp, " sup ");
-                                        else
-                                                sprintf(temp, " ~ ");
+                                if (DSExpressionOperator(current) == '.') {
+                                        sprintf(temp, "}");
                                         strncat(*string,  temp, *length-strlen(*string));
                                         temp[0] = '\0';
+                                }
+                                if (i < DSExpressionNumberOfBranches(current)-1) {
+                                        if (DSExpressionOperator(current) == '+' ||
+                                            DSExpressionOperator(current) == '=' ||
+                                            DSExpressionOperator(current) == '<' ||
+                                            DSExpressionOperator(current) == '>') {
+                                                if (DSExpressionOperator(current) == '+' &&
+                                                    DSExpressionType(DSExpressionBranchAtIndex(current, i+1)) == DS_EXPRESSION_TYPE_OPERATOR) {
+                                                        if (DSExpressionConstant(DSExpressionBranchAtIndex(DSExpressionBranchAtIndex(current, i+1), 0)) < 0) {
+                                                                continue;
+                                                        }
+                                                }
+                                                sprintf(temp, " %c ", DSExpressionOperator(current));
+                                                strncat(*string,  temp, *length-strlen(*string));
+                                                temp[0] = '\0';
+                                        } else if (DSExpressionOperator(current) == '^') {
+                                                sprintf(temp, "^{");
+                                                strncat(*string,  temp, *length-strlen(*string));
+                                                temp[0] = '\0';
+                                        }
+                                } else {
+                                        if (DSExpressionOperator(current) == '^') {
+                                                sprintf(temp, "}");
+                                                strncat(*string,  temp, *length-strlen(*string));
+                                                temp[0] = '\0';
+                                        }
                                 }
                         }
                         break;
                 case DS_EXPRESSION_TYPE_FUNCTION:
-                        sprintf(temp, "%s(", DSExpressionVariable(current));
+                        name = DSExpressionVariable(current);
+                        open = "(";
+                        close = ")";
+                        if (strcmp("log", name) == 0) {
+                                name = "\\log";
+                        } else if (strcmp("log10", name) == 0) {
+                                name = "\\log_{10}";
+                        } else  if (strcmp("ln", name) == 0) {
+                                name = "\\ln";
+                        } else  if (strcmp("sin", name) == 0) {
+                                name = "\\sin";
+                        } else  if (strcmp("cos", name) == 0) {
+                                name = "\\cos";
+                        } else if (strcmp("sqrt", name) == 0) {
+                                name = "\\sqrt";
+                                open = "{";
+                                close = "}";
+                        } else if (strcmp("abs", name) == 0) {
+                                name = "";
+                                open = "\\lvert";
+                                close = "\\rvert";
+                        }
+                        sprintf(temp, "%s%s", name, open);
                         if (strlen(*string)+strlen(temp) >= *length) {
                                 length += DS_EXPRESSION_STRING_INIT_LENGTH;
                                 *string = DSSecureRealloc(string, sizeof(char)**length);
                         }
                         strncat(*string, temp, *length-strlen(*string));
-                        expressionToTroffStringInternal(DSExpressionBranchAtIndex(current, 0), string, length);
-                        strncat(*string, ")", *length-strlen(*string));
+                        expressionToLatexStringInternal(DSExpressionBranchAtIndex(current, 0), string, length, substitutionDict);
+                        strncat(*string, close, *length-strlen(*string));
                         temp[0] = '\0';
                         break;
                 default:
@@ -1078,7 +1144,7 @@ bail:
         return;
 }
 
-extern char * DSExpressionAsTroffString(const DSExpression *expression)
+extern char * DSExpressionAsLatexString(const DSExpression *expression, const DSDictionary * substitutionDict)
 {
         DSUInteger length = DS_EXPRESSION_STRING_INIT_LENGTH;
         char * string = NULL;
@@ -1086,8 +1152,12 @@ extern char * DSExpressionAsTroffString(const DSExpression *expression)
                 DSError(M_DS_NULL ": Node to print is nil", A_DS_ERROR);
                 goto bail;
         }
+        if (substitutionDict == NULL) {
+                DSError(M_DS_DICTIONARY_NULL, A_DS_ERROR);
+                goto bail;
+        }
         string = DSSecureCalloc(sizeof(char), length);
-        expressionToTroffStringInternal(expression, &string, &length);
+        expressionToLatexStringInternal(expression, &string, &length, substitutionDict);
 bail:
         return string;
 }

@@ -570,7 +570,7 @@ extern DSExpression ** DSCaseConditions(const DSCase *aCase)
 {
         DSUInteger i, numberOfConditions, length;
         DSExpression ** conditions = NULL;
-        char *tempString;
+        char *tempString, * equationString;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -586,7 +586,12 @@ extern DSExpression ** DSCaseConditions(const DSCase *aCase)
         for (i = 0; i < numberOfConditions; i++) {
                 tempString[0] = '\0';
                 dsCaseConditionToString(aCase, i, &tempString, &length, false);
-                conditions[i] = DSExpressionByParsingString(tempString);
+                equationString = DSSecureCalloc(sizeof(char),
+                                                strlen(tempString)+6);
+                equationString = strcpy(equationString, tempString);
+                equationString = strcat(equationString, " > 1");
+                conditions[i] = DSExpressionByParsingString(equationString);
+                DSSecureFree(equationString);
         }
         DSSecureFree(tempString);
 bail:
@@ -597,7 +602,7 @@ extern DSExpression ** DSCaseLogarithmicConditions(const DSCase *aCase)
 {
         DSUInteger i, numberOfConditions, length;
         DSExpression ** conditions = NULL;
-        char *tempString;
+        char *tempString, * equationString;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -616,7 +621,12 @@ extern DSExpression ** DSCaseLogarithmicConditions(const DSCase *aCase)
         for (i = 0; i < numberOfConditions; i++) {
                 tempString[0] = '\0';
                 dsCaseConditionToString(aCase, i, &tempString, &length, true);
-                conditions[i] = DSExpressionByParsingString(tempString);
+                equationString = DSSecureCalloc(sizeof(char),
+                                                strlen(tempString)+6);
+                equationString = strcpy(equationString, tempString);
+                equationString = strcat(equationString, " > 0");
+                conditions[i] = DSExpressionByParsingString(equationString);
+                DSSecureFree(equationString);
         }
         DSSecureFree(tempString);
 bail:
@@ -690,7 +700,7 @@ extern DSExpression ** DSCaseBoundaries(const DSCase *aCase)
 {
         DSUInteger i, numberOfConditions, length;
         DSExpression ** boundaries = NULL;
-        char *tempString;
+        char *tempString, * equationString;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -712,7 +722,12 @@ extern DSExpression ** DSCaseBoundaries(const DSCase *aCase)
         for (i = 0; i < numberOfConditions; i++) {
                 tempString[0] = '\0';
                 dsCaseBoundaryToString(aCase, i, &tempString, &length, false);
-                boundaries[i] = DSExpressionByParsingString(tempString);
+                equationString = DSSecureCalloc(sizeof(char),
+                                                strlen(tempString)+6);
+                equationString = strcpy(equationString, tempString);
+                equationString = strcat(equationString, " > 1");
+                boundaries[i] = DSExpressionByParsingString(equationString);
+                DSSecureFree(equationString);
         }
         DSSecureFree(tempString);
 bail:
@@ -723,7 +738,7 @@ extern DSExpression ** DSCaseLogarithmicBoundaries(const DSCase *aCase)
 {
         DSUInteger i, numberOfConditions, length;
         DSExpression ** boundaries = NULL;
-        char *tempString;
+        char *tempString, *equationString;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -741,7 +756,12 @@ extern DSExpression ** DSCaseLogarithmicBoundaries(const DSCase *aCase)
         for (i = 0; i < numberOfConditions; i++) {
                 tempString[0] = '\0';
                 dsCaseBoundaryToString(aCase, i, &tempString, &length, true);
-                boundaries[i] = DSExpressionByParsingString(tempString);
+                equationString = DSSecureCalloc(sizeof(char),
+                                                strlen(tempString)+6);
+                equationString = strcpy(equationString, tempString);
+                equationString = strcat(equationString, " > 0");
+                boundaries[i] = DSExpressionByParsingString(equationString);
+                DSSecureFree(equationString);
         }
         DSSecureFree(tempString);
 bail:

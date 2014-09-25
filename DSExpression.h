@@ -96,7 +96,7 @@ extern DSVariablePool * DSExpressionVariablesInExpression(const DSExpression * e
 #endif
 
 extern char * DSExpressionAsString(const DSExpression *expression);
-extern char * DSExpressionAsTroffString(const DSExpression *expression);
+extern char * DSExpressionAsLatexString(const DSExpression *expression, const DSDictionary * substitutionDict);
 extern void DSExpressionPrint(const DSExpression *expression);
 
 extern DSExpression * DSExpressionFromPowerlawInMatrixForm(const DSUInteger row, const DSMatrix * Kd, const DSVariablePool * Xd, const DSMatrix * Ki, const DSVariablePool *Xi, const DSMatrix * C);
