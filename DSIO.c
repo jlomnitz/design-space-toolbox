@@ -59,6 +59,14 @@ void (*DSPostWarning)(const char *message);
 void (*DSPostError)(const char *message);
 void (*DSPostFatalError)(const char *message);
 FILE * DSIOErrorFile;
+
+
+extern const char * DSDesignSpaceToolboxVersionString(void)
+{
+        return __DS_DESIGN_SPACE_VERSION__;
+}
+
+
 /**
  * \brief Variable with flags controlling S-System to JSON string conversion.
  *

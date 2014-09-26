@@ -56,11 +56,13 @@
 #define INFINITY HUGE_VAL
 #endif
 
+#ifndef __DS_DESIGN_SPACE_VERSION__
+#define __DS_DESIGN_SPACE_VERSION__   "0.2.0a1"
+#endif
+
 #ifdef __cplusplus
 __BEGIN_DECLS
 #endif
-
-
 
 typedef int DSInteger;
 
@@ -438,6 +440,7 @@ typedef struct{
         DSCase * originalCase;
         DSUInteger caseNumber;
 } DSCyclicalCase;
+
 
 #ifdef __cplusplus
 __END_DECLS

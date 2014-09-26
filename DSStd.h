@@ -71,6 +71,8 @@ __BEGIN_DECLS
 #define calloc(x, y) DSSecureCalloc(x, y)
 #define realloc(x, y) DSSecureRealloc(x, y)
 
+extern const char * DSDesignSpaceToolboxVersionString(void);
+
 #ifdef __cplusplus
 __END_DECLS
 #endif
