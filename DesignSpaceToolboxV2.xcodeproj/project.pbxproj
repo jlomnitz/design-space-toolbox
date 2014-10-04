@@ -138,6 +138,7 @@
 		9A68EF6D13ECA32900FBDDF5 /* DSVariableTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVariableTokenizer.h; sourceTree = "<group>"; };
 		9A68EF7113ECAF4100FBDDF5 /* DSVariableGrammar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSVariableGrammar.c; sourceTree = "<group>"; };
 		9A68EF7313ECB02F00FBDDF5 /* DSVariableGrammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSVariableGrammar.h; sourceTree = "<group>"; };
+		9A691ED419DC623600C2CB59 /* DSDataSerialization.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DSDataSerialization.proto; sourceTree = "<group>"; };
 		9A6DB4C11818F9A200C109FF /* libgsl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgsl.dylib; path = ../../../../../../usr/local/lib/libgsl.dylib; sourceTree = "<group>"; };
 		9A6DB4C31818F9A700C109FF /* libglpk.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglpk.dylib; path = ../../../../../../usr/local/lib/libglpk.dylib; sourceTree = "<group>"; };
 		9A707C5713F0D0EF00626845 /* DSExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSExpression.h; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 		9AC62D1A13FDC2D500523AD7 /* DSCase.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = DSCase.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		9ACB2CFE13A1345F006A5F71 /* DSErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSErrors.h; sourceTree = "<group>"; };
 		9ACB2D0113A134CA006A5F71 /* DSMemoryManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSMemoryManager.c; sourceTree = "<group>"; };
+		9AD27CDD19DD154800049AF9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		9AD82992188867030015E6BD /* lrslib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lrslib.c; sourceTree = "<group>"; };
 		9AD82993188867030015E6BD /* lrslib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lrslib.h; sourceTree = "<group>"; };
 		9AD82994188867030015E6BD /* lrsmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lrsmp.c; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				9A47FEA913DCBBCC00E2100C /* DSErrorCriteria.txt */,
+				9AD27CDD19DD154800049AF9 /* LICENSE */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -377,6 +380,14 @@
 				9ABF784713F0CC4300602B4B /* DSVariableGrammar.y */,
 			);
 			name = "Variable Pool Parsing";
+			sourceTree = "<group>";
+		};
+		9A691ED319DC61FB00C2CB59 /* Serialization */ = {
+			isa = PBXGroup;
+			children = (
+				9A691ED419DC623600C2CB59 /* DSDataSerialization.proto */,
+			);
+			name = Serialization;
 			sourceTree = "<group>";
 		};
 		9A80B2FD18F1F32500667EFC /* Design Space Additional Constraints */ = {
@@ -566,6 +577,7 @@
 				9AFD4D5D13B70915001FCEC9 /* Support Data Functions */,
 				9ABF783813F0C1D800602B4B /* GMA, SSystem and Cases */,
 				9A85B46D13FF9DC800EA3795 /* Design Space */,
+				9A691ED319DC61FB00C2CB59 /* Serialization */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";

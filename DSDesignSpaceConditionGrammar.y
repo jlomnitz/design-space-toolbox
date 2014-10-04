@@ -1,5 +1,5 @@
 /**
- * \file DSGMASystemGrammar.y
+ * \file DSDesignSpaceConditionGrammar.y
  * \brief Grammar file with functions for parsing gma systems, specifying the
  *        grammar used by lemon to generate the parser.
  *

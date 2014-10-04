@@ -1,0 +1,34 @@
+package DSDesignSpaceSerialization;
+
+message DSMatrix {
+        required int32 rows = 1;
+        required int32 columns = 2;
+        repeated float values = 3;
+}
+
+message DSSSystem {
+        required DSMatrix alpha = 1;
+        required DSMatrix beta = 2;
+        required DSMatrix Gd = 3;
+        required DSMatrix Gi = 4;
+        required DSMatrix Hd = 5;
+        required DSMatrix Hi = 6;
+        required DSMatrix M  = 7;
+        required bool isSingular = 8;
+        repeated string Xd = 9;
+        repeated string Xd_t = 10;
+        repeated string Xd_a = 11;
+        repeated string Xi = 12;
+}
+
+message DSCase {
+        required int32 caseNumber = 1;
+        required DSSSystem ssystem = 2;
+        required DSMatrix Cd = 3;
+        required DSMatrix Ci = 4;
+        required DSMatrix U = 5;
+        required DSMatrix delta = 6;
+        required DSMatrix zeta = 7;
+        repeated int32 signature = 8;
+}
+
