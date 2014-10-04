@@ -135,6 +135,7 @@
 		9A5D084419DFAECE00A3F0E3 /* DSDataSerialization.pb-c.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "DSDataSerialization.pb-c.c"; sourceTree = "<group>"; };
 		9A5D084519DFAECE00A3F0E3 /* DSDataSerialization.pb-c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DSDataSerialization.pb-c.h"; sourceTree = "<group>"; };
 		9A5D084819DFAF2600A3F0E3 /* libprotobuf-c.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libprotobuf-c.1.dylib"; path = "../../../../../usr/local/lib/libprotobuf-c.1.dylib"; sourceTree = "<group>"; };
+		9A5D084A19DFC57200A3F0E3 /* changelog */ = {isa = PBXFileReference; lastKnownFileType = text; path = changelog; sourceTree = "<group>"; };
 		9A61FD5417B42B33008D8417 /* designspacetest.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = designspacetest.c; path = tests/designspacetest.c; sourceTree = "<group>"; };
 		9A681E5E14F303C90025735D /* DSStack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSStack.c; sourceTree = "<group>"; };
 		9A681E6014F303DE0025735D /* DSStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSStack.h; sourceTree = "<group>"; };
@@ -299,6 +300,7 @@
 			children = (
 				9A47FEA913DCBBCC00E2100C /* DSErrorCriteria.txt */,
 				9AD27CDD19DD154800049AF9 /* LICENSE */,
+				9A5D084A19DFC57200A3F0E3 /* changelog */,
 			);
 			name = Resources;
 			sourceTree = "<group>";

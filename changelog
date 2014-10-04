@@ -1,0 +1,15 @@
+Design Space Toolbox V2 0.3.0
+
+
+Incompatabilities
+=================
+* Requires libprotobuf-c
+
+New features
+============
+* Data Serialization (being implemented).
+* Improved analysis of cyclical cases for better coverage (being implemented).
+
+Bug Fixes
+=========
+
