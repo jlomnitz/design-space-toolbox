@@ -31,7 +31,7 @@ struct  _DSMatrixMessage
   int32_t rows;
   int32_t columns;
   size_t n_values;
-  float *values;
+  double *values;
 };
 #define DSMATRIX_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dsmatrix_message__descriptor) \
@@ -47,8 +47,8 @@ struct  _DSSSystemMessage
   DSMatrixMessage *gi;
   DSMatrixMessage *hd;
   DSMatrixMessage *hi;
-  DSMatrixMessage *m;
   protobuf_c_boolean issingular;
+  DSMatrixMessage *m;
   size_t n_xd;
   char **xd;
   size_t n_xd_t;
@@ -57,10 +57,11 @@ struct  _DSSSystemMessage
   char **xd_a;
   size_t n_xi;
   char **xi;
+  DSMatrixMessage *test;
 };
 #define DSSSYSTEM_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dsssystem_message__descriptor) \
-    , NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
+    , NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, NULL }
 
 
 struct  _DSCaseMessage

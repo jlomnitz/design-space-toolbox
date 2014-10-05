@@ -27,6 +27,7 @@
  */
 
 #include "DSTypes.h"
+#include "DSDataSerialization.pb-c.h"
 
 #ifndef __DS_SSYSTEM__
 #define __DS_SSYSTEM__
@@ -151,5 +152,8 @@ extern void DSSSystemPrintLogarithmicSolution(const DSSSystem *ssys);
 #ifdef __cplusplus
 __END_DECLS
 #endif
+
+DSSSystemMessage * DSSSystemEncode(const DSSSystem * ssys);
+DSSSystem * DSSSystemDecode(size_t length, const void * buffer);
 
 #endif

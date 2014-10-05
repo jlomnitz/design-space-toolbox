@@ -2559,6 +2559,80 @@ bail:
 }
 
 
+DSSSystemMessage * DSSSystemEncode(const DSSSystem * ssys)
+{
+        DSSSystemMessage * message = NULL;
+        DSUInteger i;
+        const DSVariablePool * X;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        message = DSSecureMalloc(sizeof(DSSSystemMessage));
+        dsssystem_message__init(message);
+        message->alpha = DSMatrixEncode(DSSSystemAlpha(ssys));
+        message->beta = DSMatrixEncode(DSSSystemBeta(ssys));
+        message->gd = DSMatrixEncode(DSSSystemGd(ssys));
+        message->hd = DSMatrixEncode(DSSSystemHd(ssys));
+        message->gi = DSMatrixEncode(DSSSystemGi(ssys));
+        message->hi = DSMatrixEncode(DSSSystemHi(ssys));
+        message->issingular = DSSSystemIsSingular(ssys);
+        if (DSSSystemM(ssys) != NULL) {
+                message->m = DSMatrixEncode(DSSSystemM(ssys));
+        } else {
+                message->m = NULL;
+        }
+        X = DSSSystemXd(ssys);
+        message->n_xd = DSVariablePoolNumberOfVariables(X);
+        message->xd = DSSecureMalloc(sizeof(char*)*message->n_xd);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(X); i++) {
+                message->xd[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
+        }
+        X = DSSSystemXi(ssys);
+        message->n_xi = DSVariablePoolNumberOfVariables(X);
+        message->xi = DSSecureMalloc(sizeof(char*)*message->n_xi);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(X); i++) {
+                message->xi[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
+        }
+        X = DSSSystemXd_a(ssys);
+        message->n_xd_a = DSVariablePoolNumberOfVariables(X);
+        message->xd_a = DSSecureMalloc(sizeof(char*)*message->n_xd_a);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(X); i++) {
+                message->xd_a[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
+        }
+        X = DSSSystemXd_t(ssys);
+        message->xd_t = DSSecureMalloc(sizeof(char*)*message->n_xd_t);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(X); i++) {
+                message->xd_t[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
+        }
+        message->n_xd_t = DSVariablePoolNumberOfVariables(X);
+bail:
+        return message;
+}
+
+DSSSystem * DSSSystemDecode(size_t length, const void * buffer)
+{
+        DSMatrix * matrix = NULL;
+        DSMatrixMessage * message;
+        DSUInteger i, j;
+        message = dsmatrix_message__unpack(NULL, length, buffer);
+        if (message == NULL) {
+                printf("message is NULL\n");
+                goto bail;
+        }
+        matrix = DSMatrixAlloc(message->rows, message->columns);
+        for (i = 0; i < DSMatrixRows(matrix); i++) {
+                for (j = 0; j < DSMatrixColumns(matrix); j++) {
+                        DSMatrixSetDoubleValue(matrix, i, j, message->values[i*DSMatrixRows(matrix)+j]);
+                }
+        }
+        dsmatrix_message__free_unpacked(message, NULL);
+bail:
+        return matrix;
+}
+
+
+
 
 
 

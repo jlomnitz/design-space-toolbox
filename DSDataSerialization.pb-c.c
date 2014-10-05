@@ -166,7 +166,7 @@ static const ProtobufCFieldDescriptor dsmatrix_message__field_descriptors[3] =
     "values",
     3,
     PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_FLOAT,
+    PROTOBUF_C_TYPE_DOUBLE,
     offsetof(DSMatrixMessage, n_values),
     offsetof(DSMatrixMessage, values),
     NULL,
@@ -200,7 +200,7 @@ const ProtobufCMessageDescriptor dsmatrix_message__descriptor =
   (ProtobufCMessageInit) dsmatrix_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[12] =
+static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[13] =
 {
   {
     "alpha",
@@ -275,25 +275,25 @@ static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[12] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "M",
-    7,
-    PROTOBUF_C_LABEL_REQUIRED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(DSSSystemMessage, m),
-    &dsmatrix_message__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
     "isSingular",
-    8,
+    7,
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
     offsetof(DSSSystemMessage, issingular),
     NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "M",
+    8,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSSSystemMessage, m),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -346,25 +346,38 @@ static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[12] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "test",
+    13,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSSSystemMessage, test),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned dsssystem_message__field_indices_by_name[] = {
   2,   /* field[2] = Gd */
   3,   /* field[3] = Gi */
   4,   /* field[4] = Hd */
   5,   /* field[5] = Hi */
-  6,   /* field[6] = M */
+  7,   /* field[7] = M */
   8,   /* field[8] = Xd */
   10,   /* field[10] = Xd_a */
   9,   /* field[9] = Xd_t */
   11,   /* field[11] = Xi */
   0,   /* field[0] = alpha */
   1,   /* field[1] = beta */
-  7,   /* field[7] = isSingular */
+  6,   /* field[6] = isSingular */
+  12,   /* field[12] = test */
 };
 static const ProtobufCIntRange dsssystem_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 12 }
+  { 0, 13 }
 };
 const ProtobufCMessageDescriptor dsssystem_message__descriptor =
 {
@@ -374,7 +387,7 @@ const ProtobufCMessageDescriptor dsssystem_message__descriptor =
   "DSSSystemMessage",
   "",
   sizeof(DSSSystemMessage),
-  12,
+  13,
   dsssystem_message__field_descriptors,
   dsssystem_message__field_indices_by_name,
   1,  dsssystem_message__number_ranges,

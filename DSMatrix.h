@@ -227,8 +227,8 @@ extern int * DSMatrixColumnsForGLPK(const DSMatrix *matrix);
 #pragma mark - Matrix GLPK conversions
 #endif
 
-extern DSMatrixMessage DSMatrixEncode(const DSMatrix * matrix);
-extern DSMatrix * DSMatrixDecode(DSUInteger length, const void *);
+extern DSMatrixMessage * DSMatrixEncode(const DSMatrix * matrix);
+extern DSMatrix * DSMatrixDecode(size_t length, const void *);
 
 
 #endif

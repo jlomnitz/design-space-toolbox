@@ -2091,29 +2091,30 @@ bail:
         return columns;
 }
 
-extern DSMatrixMessage DSMatrixEncode(const DSMatrix * matrix)
+extern DSMatrixMessage * DSMatrixEncode(const DSMatrix * matrix)
 {
-        DSMatrixMessage message = DSMATRIX_MESSAGE__INIT;
+        DSMatrixMessage * message = NULL;
         DSUInteger i;
         if (matrix == NULL) {
                 DSError(M_DS_MAT_NULL, A_DS_ERROR);
                 goto bail;
         }
-        message.rows = DSMatrixRows(matrix);
-        message.columns = DSMatrixColumns(matrix);
-        message.n_values = message.rows*message.columns;
-        message.values = DSSecureMalloc(sizeof(double)*message.n_values);
-        for (i = 0; i < message.n_values; i++) {
-                message.values[i] = DSMatrixDoubleValue(matrix,
+        message = DSSecureMalloc(sizeof(DSMatrixMessage)*1);
+        dsmatrix_message__init(message);
+        message->rows = DSMatrixRows(matrix);
+        message->columns = DSMatrixColumns(matrix);
+        message->n_values = message->rows*message->columns;
+        message->values = DSSecureMalloc(sizeof(double)*message->n_values);
+        for (i = 0; i < message->n_values; i++) {
+                message->values[i] = DSMatrixDoubleValue(matrix,
                                                         i / DSMatrixRows(matrix),
                                                         i % DSMatrixColumns(matrix));
         }
-        printf("%i\t%i\n", message.rows, message.columns);
 bail:
         return message;
 }
 
-extern DSMatrix * DSMatrixDecode(DSUInteger length, const void * buffer)
+extern DSMatrix * DSMatrixDecode(size_t length, const void * buffer)
 {
         DSMatrix * matrix = NULL;
         DSMatrixMessage * message;
