@@ -7,136 +7,136 @@
 #endif
 
 #include "DSDataSerialization.pb-c.h"
-void   dsdesign_space_serialization__dsmatrix__init
-                     (DSDesignSpaceSerialization__DSMatrix         *message)
+void   dsmatrix_message__init
+                     (DSMatrixMessage         *message)
 {
-  static DSDesignSpaceSerialization__DSMatrix init_value = DSDESIGN_SPACE_SERIALIZATION__DSMATRIX__INIT;
+  static DSMatrixMessage init_value = DSMATRIX_MESSAGE__INIT;
   *message = init_value;
 }
-size_t dsdesign_space_serialization__dsmatrix__get_packed_size
-                     (const DSDesignSpaceSerialization__DSMatrix *message)
+size_t dsmatrix_message__get_packed_size
+                     (const DSMatrixMessage *message)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dsmatrix__descriptor);
+  assert(message->base.descriptor == &dsmatrix_message__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
-size_t dsdesign_space_serialization__dsmatrix__pack
-                     (const DSDesignSpaceSerialization__DSMatrix *message,
+size_t dsmatrix_message__pack
+                     (const DSMatrixMessage *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dsmatrix__descriptor);
+  assert(message->base.descriptor == &dsmatrix_message__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
-size_t dsdesign_space_serialization__dsmatrix__pack_to_buffer
-                     (const DSDesignSpaceSerialization__DSMatrix *message,
+size_t dsmatrix_message__pack_to_buffer
+                     (const DSMatrixMessage *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dsmatrix__descriptor);
+  assert(message->base.descriptor == &dsmatrix_message__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
-DSDesignSpaceSerialization__DSMatrix *
-       dsdesign_space_serialization__dsmatrix__unpack
+DSMatrixMessage *
+       dsmatrix_message__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data)
 {
-  return (DSDesignSpaceSerialization__DSMatrix *)
-     protobuf_c_message_unpack (&dsdesign_space_serialization__dsmatrix__descriptor,
+  return (DSMatrixMessage *)
+     protobuf_c_message_unpack (&dsmatrix_message__descriptor,
                                 allocator, len, data);
 }
-void   dsdesign_space_serialization__dsmatrix__free_unpacked
-                     (DSDesignSpaceSerialization__DSMatrix *message,
+void   dsmatrix_message__free_unpacked
+                     (DSMatrixMessage *message,
                       ProtobufCAllocator *allocator)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dsmatrix__descriptor);
+  assert(message->base.descriptor == &dsmatrix_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   dsdesign_space_serialization__dsssystem__init
-                     (DSDesignSpaceSerialization__DSSSystem         *message)
+void   dsssystem_message__init
+                     (DSSSystemMessage         *message)
 {
-  static DSDesignSpaceSerialization__DSSSystem init_value = DSDESIGN_SPACE_SERIALIZATION__DSSSYSTEM__INIT;
+  static DSSSystemMessage init_value = DSSSYSTEM_MESSAGE__INIT;
   *message = init_value;
 }
-size_t dsdesign_space_serialization__dsssystem__get_packed_size
-                     (const DSDesignSpaceSerialization__DSSSystem *message)
+size_t dsssystem_message__get_packed_size
+                     (const DSSSystemMessage *message)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dsssystem__descriptor);
+  assert(message->base.descriptor == &dsssystem_message__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
-size_t dsdesign_space_serialization__dsssystem__pack
-                     (const DSDesignSpaceSerialization__DSSSystem *message,
+size_t dsssystem_message__pack
+                     (const DSSSystemMessage *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dsssystem__descriptor);
+  assert(message->base.descriptor == &dsssystem_message__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
-size_t dsdesign_space_serialization__dsssystem__pack_to_buffer
-                     (const DSDesignSpaceSerialization__DSSSystem *message,
+size_t dsssystem_message__pack_to_buffer
+                     (const DSSSystemMessage *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dsssystem__descriptor);
+  assert(message->base.descriptor == &dsssystem_message__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
-DSDesignSpaceSerialization__DSSSystem *
-       dsdesign_space_serialization__dsssystem__unpack
+DSSSystemMessage *
+       dsssystem_message__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data)
 {
-  return (DSDesignSpaceSerialization__DSSSystem *)
-     protobuf_c_message_unpack (&dsdesign_space_serialization__dsssystem__descriptor,
+  return (DSSSystemMessage *)
+     protobuf_c_message_unpack (&dsssystem_message__descriptor,
                                 allocator, len, data);
 }
-void   dsdesign_space_serialization__dsssystem__free_unpacked
-                     (DSDesignSpaceSerialization__DSSSystem *message,
+void   dsssystem_message__free_unpacked
+                     (DSSSystemMessage *message,
                       ProtobufCAllocator *allocator)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dsssystem__descriptor);
+  assert(message->base.descriptor == &dsssystem_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   dsdesign_space_serialization__dscase__init
-                     (DSDesignSpaceSerialization__DSCase         *message)
+void   dscase_message__init
+                     (DSCaseMessage         *message)
 {
-  static DSDesignSpaceSerialization__DSCase init_value = DSDESIGN_SPACE_SERIALIZATION__DSCASE__INIT;
+  static DSCaseMessage init_value = DSCASE_MESSAGE__INIT;
   *message = init_value;
 }
-size_t dsdesign_space_serialization__dscase__get_packed_size
-                     (const DSDesignSpaceSerialization__DSCase *message)
+size_t dscase_message__get_packed_size
+                     (const DSCaseMessage *message)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dscase__descriptor);
+  assert(message->base.descriptor == &dscase_message__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
-size_t dsdesign_space_serialization__dscase__pack
-                     (const DSDesignSpaceSerialization__DSCase *message,
+size_t dscase_message__pack
+                     (const DSCaseMessage *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dscase__descriptor);
+  assert(message->base.descriptor == &dscase_message__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
-size_t dsdesign_space_serialization__dscase__pack_to_buffer
-                     (const DSDesignSpaceSerialization__DSCase *message,
+size_t dscase_message__pack_to_buffer
+                     (const DSCaseMessage *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dscase__descriptor);
+  assert(message->base.descriptor == &dscase_message__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
-DSDesignSpaceSerialization__DSCase *
-       dsdesign_space_serialization__dscase__unpack
+DSCaseMessage *
+       dscase_message__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data)
 {
-  return (DSDesignSpaceSerialization__DSCase *)
-     protobuf_c_message_unpack (&dsdesign_space_serialization__dscase__descriptor,
+  return (DSCaseMessage *)
+     protobuf_c_message_unpack (&dscase_message__descriptor,
                                 allocator, len, data);
 }
-void   dsdesign_space_serialization__dscase__free_unpacked
-                     (DSDesignSpaceSerialization__DSCase *message,
+void   dscase_message__free_unpacked
+                     (DSCaseMessage *message,
                       ProtobufCAllocator *allocator)
 {
-  assert(message->base.descriptor == &dsdesign_space_serialization__dscase__descriptor);
+  assert(message->base.descriptor == &dscase_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsmatrix__field_descriptors[3] =
+static const ProtobufCFieldDescriptor dsmatrix_message__field_descriptors[3] =
 {
   {
     "rows",
@@ -144,7 +144,7 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsmatrix__fi
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_INT32,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSMatrix, rows),
+    offsetof(DSMatrixMessage, rows),
     NULL,
     NULL,
     0,             /* flags */
@@ -156,7 +156,7 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsmatrix__fi
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_INT32,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSMatrix, columns),
+    offsetof(DSMatrixMessage, columns),
     NULL,
     NULL,
     0,             /* flags */
@@ -167,40 +167,40 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsmatrix__fi
     3,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_FLOAT,
-    offsetof(DSDesignSpaceSerialization__DSMatrix, n_values),
-    offsetof(DSDesignSpaceSerialization__DSMatrix, values),
+    offsetof(DSMatrixMessage, n_values),
+    offsetof(DSMatrixMessage, values),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
-static const unsigned dsdesign_space_serialization__dsmatrix__field_indices_by_name[] = {
+static const unsigned dsmatrix_message__field_indices_by_name[] = {
   1,   /* field[1] = columns */
   0,   /* field[0] = rows */
   2,   /* field[2] = values */
 };
-static const ProtobufCIntRange dsdesign_space_serialization__dsmatrix__number_ranges[1 + 1] =
+static const ProtobufCIntRange dsmatrix_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
   { 0, 3 }
 };
-const ProtobufCMessageDescriptor dsdesign_space_serialization__dsmatrix__descriptor =
+const ProtobufCMessageDescriptor dsmatrix_message__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "DSDesignSpaceSerialization.DSMatrix",
-  "DSMatrix",
-  "DSDesignSpaceSerialization__DSMatrix",
-  "DSDesignSpaceSerialization",
-  sizeof(DSDesignSpaceSerialization__DSMatrix),
+  "DSMatrixMessage",
+  "DSMatrixMessage",
+  "DSMatrixMessage",
+  "",
+  sizeof(DSMatrixMessage),
   3,
-  dsdesign_space_serialization__dsmatrix__field_descriptors,
-  dsdesign_space_serialization__dsmatrix__field_indices_by_name,
-  1,  dsdesign_space_serialization__dsmatrix__number_ranges,
-  (ProtobufCMessageInit) dsdesign_space_serialization__dsmatrix__init,
+  dsmatrix_message__field_descriptors,
+  dsmatrix_message__field_indices_by_name,
+  1,  dsmatrix_message__number_ranges,
+  (ProtobufCMessageInit) dsmatrix_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__field_descriptors[12] =
+static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[12] =
 {
   {
     "alpha",
@@ -208,8 +208,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSSSystem, alpha),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSSSystemMessage, alpha),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -220,8 +220,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSSSystem, beta),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSSSystemMessage, beta),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -232,8 +232,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSSSystem, gd),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSSSystemMessage, gd),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -244,8 +244,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSSSystem, gi),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSSSystemMessage, gi),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -256,8 +256,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSSSystem, hd),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSSSystemMessage, hd),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -268,8 +268,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSSSystem, hi),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSSSystemMessage, hi),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -280,8 +280,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSSSystem, m),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSSSystemMessage, m),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -292,7 +292,7 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSSSystem, issingular),
+    offsetof(DSSSystemMessage, issingular),
     NULL,
     NULL,
     0,             /* flags */
@@ -303,8 +303,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     9,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_STRING,
-    offsetof(DSDesignSpaceSerialization__DSSSystem, n_xd),
-    offsetof(DSDesignSpaceSerialization__DSSSystem, xd),
+    offsetof(DSSSystemMessage, n_xd),
+    offsetof(DSSSystemMessage, xd),
     NULL,
     NULL,
     0,             /* flags */
@@ -315,8 +315,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     10,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_STRING,
-    offsetof(DSDesignSpaceSerialization__DSSSystem, n_xd_t),
-    offsetof(DSDesignSpaceSerialization__DSSSystem, xd_t),
+    offsetof(DSSSystemMessage, n_xd_t),
+    offsetof(DSSSystemMessage, xd_t),
     NULL,
     NULL,
     0,             /* flags */
@@ -327,8 +327,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     11,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_STRING,
-    offsetof(DSDesignSpaceSerialization__DSSSystem, n_xd_a),
-    offsetof(DSDesignSpaceSerialization__DSSSystem, xd_a),
+    offsetof(DSSSystemMessage, n_xd_a),
+    offsetof(DSSSystemMessage, xd_a),
     NULL,
     NULL,
     0,             /* flags */
@@ -339,15 +339,15 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dsssystem__f
     12,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_STRING,
-    offsetof(DSDesignSpaceSerialization__DSSSystem, n_xi),
-    offsetof(DSDesignSpaceSerialization__DSSSystem, xi),
+    offsetof(DSSSystemMessage, n_xi),
+    offsetof(DSSSystemMessage, xi),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
-static const unsigned dsdesign_space_serialization__dsssystem__field_indices_by_name[] = {
+static const unsigned dsssystem_message__field_indices_by_name[] = {
   2,   /* field[2] = Gd */
   3,   /* field[3] = Gi */
   4,   /* field[4] = Hd */
@@ -361,27 +361,27 @@ static const unsigned dsdesign_space_serialization__dsssystem__field_indices_by_
   1,   /* field[1] = beta */
   7,   /* field[7] = isSingular */
 };
-static const ProtobufCIntRange dsdesign_space_serialization__dsssystem__number_ranges[1 + 1] =
+static const ProtobufCIntRange dsssystem_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
   { 0, 12 }
 };
-const ProtobufCMessageDescriptor dsdesign_space_serialization__dsssystem__descriptor =
+const ProtobufCMessageDescriptor dsssystem_message__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "DSDesignSpaceSerialization.DSSSystem",
-  "DSSSystem",
-  "DSDesignSpaceSerialization__DSSSystem",
-  "DSDesignSpaceSerialization",
-  sizeof(DSDesignSpaceSerialization__DSSSystem),
+  "DSSSystemMessage",
+  "DSSSystemMessage",
+  "DSSSystemMessage",
+  "",
+  sizeof(DSSSystemMessage),
   12,
-  dsdesign_space_serialization__dsssystem__field_descriptors,
-  dsdesign_space_serialization__dsssystem__field_indices_by_name,
-  1,  dsdesign_space_serialization__dsssystem__number_ranges,
-  (ProtobufCMessageInit) dsdesign_space_serialization__dsssystem__init,
+  dsssystem_message__field_descriptors,
+  dsssystem_message__field_indices_by_name,
+  1,  dsssystem_message__number_ranges,
+  (ProtobufCMessageInit) dsssystem_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor dsdesign_space_serialization__dscase__field_descriptors[8] =
+static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
 {
   {
     "caseNumber",
@@ -389,7 +389,7 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dscase__fiel
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_INT32,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSCase, casenumber),
+    offsetof(DSCaseMessage, casenumber),
     NULL,
     NULL,
     0,             /* flags */
@@ -401,8 +401,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dscase__fiel
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSCase, ssystem),
-    &dsdesign_space_serialization__dsssystem__descriptor,
+    offsetof(DSCaseMessage, ssystem),
+    &dsssystem_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -413,8 +413,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dscase__fiel
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSCase, cd),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSCaseMessage, cd),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -425,8 +425,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dscase__fiel
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSCase, ci),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSCaseMessage, ci),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -437,8 +437,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dscase__fiel
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSCase, u),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSCaseMessage, u),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -449,8 +449,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dscase__fiel
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSCase, delta),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSCaseMessage, delta),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -461,8 +461,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dscase__fiel
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceSerialization__DSCase, zeta),
-    &dsdesign_space_serialization__dsmatrix__descriptor,
+    offsetof(DSCaseMessage, zeta),
+    &dsmatrix_message__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -472,15 +472,15 @@ static const ProtobufCFieldDescriptor dsdesign_space_serialization__dscase__fiel
     8,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_INT32,
-    offsetof(DSDesignSpaceSerialization__DSCase, n_signature),
-    offsetof(DSDesignSpaceSerialization__DSCase, signature),
+    offsetof(DSCaseMessage, n_signature),
+    offsetof(DSCaseMessage, signature),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
-static const unsigned dsdesign_space_serialization__dscase__field_indices_by_name[] = {
+static const unsigned dscase_message__field_indices_by_name[] = {
   2,   /* field[2] = Cd */
   3,   /* field[3] = Ci */
   4,   /* field[4] = U */
@@ -490,23 +490,23 @@ static const unsigned dsdesign_space_serialization__dscase__field_indices_by_nam
   1,   /* field[1] = ssystem */
   6,   /* field[6] = zeta */
 };
-static const ProtobufCIntRange dsdesign_space_serialization__dscase__number_ranges[1 + 1] =
+static const ProtobufCIntRange dscase_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
   { 0, 8 }
 };
-const ProtobufCMessageDescriptor dsdesign_space_serialization__dscase__descriptor =
+const ProtobufCMessageDescriptor dscase_message__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "DSDesignSpaceSerialization.DSCase",
-  "DSCase",
-  "DSDesignSpaceSerialization__DSCase",
-  "DSDesignSpaceSerialization",
-  sizeof(DSDesignSpaceSerialization__DSCase),
+  "DSCaseMessage",
+  "DSCaseMessage",
+  "DSCaseMessage",
+  "",
+  sizeof(DSCaseMessage),
   8,
-  dsdesign_space_serialization__dscase__field_descriptors,
-  dsdesign_space_serialization__dscase__field_indices_by_name,
-  1,  dsdesign_space_serialization__dscase__number_ranges,
-  (ProtobufCMessageInit) dsdesign_space_serialization__dscase__init,
+  dscase_message__field_descriptors,
+  dscase_message__field_indices_by_name,
+  1,  dscase_message__number_ranges,
+  (ProtobufCMessageInit) dscase_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };

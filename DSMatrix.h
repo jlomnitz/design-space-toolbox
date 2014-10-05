@@ -27,6 +27,8 @@
  */
 
 #include "DSTypes.h"
+#include "DSDataSerialization.pb-c.h"
+
 
 #ifndef __DS_MATRIX__
 #define __DS_MATRIX__
@@ -220,6 +222,14 @@ extern DSMatrix * DSMatrixCharacteristicPolynomialUndeterminedCoefficients(const
 extern double * DSMatrixDataForGLPK(const DSMatrix *matrix);
 extern int * DSMatrixRowsForGLPK(const DSMatrix *matrix);
 extern int * DSMatrixColumnsForGLPK(const DSMatrix *matrix);
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Matrix GLPK conversions
+#endif
+
+extern DSMatrixMessage DSMatrixEncode(const DSMatrix * matrix);
+extern DSMatrix * DSMatrixDecode(DSUInteger length, const void *);
+
 
 #endif
 

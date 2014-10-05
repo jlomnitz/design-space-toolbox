@@ -174,6 +174,7 @@ extern char * DSMatrixArrayStringInJSONFormat(const DSMatrixArray *array);
 extern char * DSSSystemStringInJSONFormat(const DSSSystem *ssys);
 extern char * DSCaseStringInJSONFormat(const DSCase * aCase);
 
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Read JSON data
 #endif
@@ -184,6 +185,7 @@ extern DSMatrixArray * DSMatrixArrayByParsingStringInJSONFormat(const char * str
 extern DSSSystem * DSSSystemByParsingStringInJSONFormat(const char * string);
 extern DSCase * DSCaseByParsingStringInJSONFormat(const char * string);
 
+extern void * DSIOReadBinaryData(const char * fileName, size_t * length);
 
 #ifdef __cplusplus
 __END_DECLS

@@ -624,3 +624,35 @@ bail:
         return string;
 }
 
+extern void * DSIOReadBinaryData(const char * fileName, size_t * length)
+{
+        FILE * file = NULL;
+        void * buffer = NULL;
+        size_t size;
+        if (fileName == NULL && length == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        file = fopen(fileName, "rb");
+        if (file == NULL) {
+                DSError(M_DS_NULL ": file to read does not exist", A_DS_ERROR);
+                goto bail;
+        }
+        size = 1000;
+        *length = 0;
+        buffer = DSSecureCalloc(sizeof(char), size);
+        *length = fread(buffer, sizeof(char), 1000, file);
+        while (1) {
+                buffer = DSSecureRealloc(buffer, *length+1000);
+                size = fread(buffer, sizeof(char), 1000, file);
+                *length += size;
+                if (size < 1000)
+                        break;
+        }
+        fclose(file);
+bail:
+        return buffer;
+}
+
+
+

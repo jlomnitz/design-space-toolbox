@@ -15,9 +15,9 @@ PROTOBUF_C__BEGIN_DECLS
 #endif
 
 
-typedef struct _DSDesignSpaceSerialization__DSMatrix DSDesignSpaceSerialization__DSMatrix;
-typedef struct _DSDesignSpaceSerialization__DSSSystem DSDesignSpaceSerialization__DSSSystem;
-typedef struct _DSDesignSpaceSerialization__DSCase DSDesignSpaceSerialization__DSCase;
+typedef struct _DSMatrixMessage DSMatrixMessage;
+typedef struct _DSSSystemMessage DSSSystemMessage;
+typedef struct _DSCaseMessage DSCaseMessage;
 
 
 /* --- enums --- */
@@ -25,7 +25,7 @@ typedef struct _DSDesignSpaceSerialization__DSCase DSDesignSpaceSerialization__D
 
 /* --- messages --- */
 
-struct  _DSDesignSpaceSerialization__DSMatrix
+struct  _DSMatrixMessage
 {
   ProtobufCMessage base;
   int32_t rows;
@@ -33,21 +33,21 @@ struct  _DSDesignSpaceSerialization__DSMatrix
   size_t n_values;
   float *values;
 };
-#define DSDESIGN_SPACE_SERIALIZATION__DSMATRIX__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&dsdesign_space_serialization__dsmatrix__descriptor) \
+#define DSMATRIX_MESSAGE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&dsmatrix_message__descriptor) \
     , 0, 0, 0,NULL }
 
 
-struct  _DSDesignSpaceSerialization__DSSSystem
+struct  _DSSSystemMessage
 {
   ProtobufCMessage base;
-  DSDesignSpaceSerialization__DSMatrix *alpha;
-  DSDesignSpaceSerialization__DSMatrix *beta;
-  DSDesignSpaceSerialization__DSMatrix *gd;
-  DSDesignSpaceSerialization__DSMatrix *gi;
-  DSDesignSpaceSerialization__DSMatrix *hd;
-  DSDesignSpaceSerialization__DSMatrix *hi;
-  DSDesignSpaceSerialization__DSMatrix *m;
+  DSMatrixMessage *alpha;
+  DSMatrixMessage *beta;
+  DSMatrixMessage *gd;
+  DSMatrixMessage *gi;
+  DSMatrixMessage *hd;
+  DSMatrixMessage *hi;
+  DSMatrixMessage *m;
   protobuf_c_boolean issingular;
   size_t n_xd;
   char **xd;
@@ -58,96 +58,96 @@ struct  _DSDesignSpaceSerialization__DSSSystem
   size_t n_xi;
   char **xi;
 };
-#define DSDESIGN_SPACE_SERIALIZATION__DSSSYSTEM__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&dsdesign_space_serialization__dsssystem__descriptor) \
+#define DSSSYSTEM_MESSAGE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&dsssystem_message__descriptor) \
     , NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
 
 
-struct  _DSDesignSpaceSerialization__DSCase
+struct  _DSCaseMessage
 {
   ProtobufCMessage base;
   int32_t casenumber;
-  DSDesignSpaceSerialization__DSSSystem *ssystem;
-  DSDesignSpaceSerialization__DSMatrix *cd;
-  DSDesignSpaceSerialization__DSMatrix *ci;
-  DSDesignSpaceSerialization__DSMatrix *u;
-  DSDesignSpaceSerialization__DSMatrix *delta;
-  DSDesignSpaceSerialization__DSMatrix *zeta;
+  DSSSystemMessage *ssystem;
+  DSMatrixMessage *cd;
+  DSMatrixMessage *ci;
+  DSMatrixMessage *u;
+  DSMatrixMessage *delta;
+  DSMatrixMessage *zeta;
   size_t n_signature;
   int32_t *signature;
 };
-#define DSDESIGN_SPACE_SERIALIZATION__DSCASE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&dsdesign_space_serialization__dscase__descriptor) \
+#define DSCASE_MESSAGE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&dscase_message__descriptor) \
     , 0, NULL, NULL, NULL, NULL, NULL, NULL, 0,NULL }
 
 
-/* DSDesignSpaceSerialization__DSMatrix methods */
-void   dsdesign_space_serialization__dsmatrix__init
-                     (DSDesignSpaceSerialization__DSMatrix         *message);
-size_t dsdesign_space_serialization__dsmatrix__get_packed_size
-                     (const DSDesignSpaceSerialization__DSMatrix   *message);
-size_t dsdesign_space_serialization__dsmatrix__pack
-                     (const DSDesignSpaceSerialization__DSMatrix   *message,
+/* DSMatrixMessage methods */
+void   dsmatrix_message__init
+                     (DSMatrixMessage         *message);
+size_t dsmatrix_message__get_packed_size
+                     (const DSMatrixMessage   *message);
+size_t dsmatrix_message__pack
+                     (const DSMatrixMessage   *message,
                       uint8_t             *out);
-size_t dsdesign_space_serialization__dsmatrix__pack_to_buffer
-                     (const DSDesignSpaceSerialization__DSMatrix   *message,
+size_t dsmatrix_message__pack_to_buffer
+                     (const DSMatrixMessage   *message,
                       ProtobufCBuffer     *buffer);
-DSDesignSpaceSerialization__DSMatrix *
-       dsdesign_space_serialization__dsmatrix__unpack
+DSMatrixMessage *
+       dsmatrix_message__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   dsdesign_space_serialization__dsmatrix__free_unpacked
-                     (DSDesignSpaceSerialization__DSMatrix *message,
+void   dsmatrix_message__free_unpacked
+                     (DSMatrixMessage *message,
                       ProtobufCAllocator *allocator);
-/* DSDesignSpaceSerialization__DSSSystem methods */
-void   dsdesign_space_serialization__dsssystem__init
-                     (DSDesignSpaceSerialization__DSSSystem         *message);
-size_t dsdesign_space_serialization__dsssystem__get_packed_size
-                     (const DSDesignSpaceSerialization__DSSSystem   *message);
-size_t dsdesign_space_serialization__dsssystem__pack
-                     (const DSDesignSpaceSerialization__DSSSystem   *message,
+/* DSSSystemMessage methods */
+void   dsssystem_message__init
+                     (DSSSystemMessage         *message);
+size_t dsssystem_message__get_packed_size
+                     (const DSSSystemMessage   *message);
+size_t dsssystem_message__pack
+                     (const DSSSystemMessage   *message,
                       uint8_t             *out);
-size_t dsdesign_space_serialization__dsssystem__pack_to_buffer
-                     (const DSDesignSpaceSerialization__DSSSystem   *message,
+size_t dsssystem_message__pack_to_buffer
+                     (const DSSSystemMessage   *message,
                       ProtobufCBuffer     *buffer);
-DSDesignSpaceSerialization__DSSSystem *
-       dsdesign_space_serialization__dsssystem__unpack
+DSSSystemMessage *
+       dsssystem_message__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   dsdesign_space_serialization__dsssystem__free_unpacked
-                     (DSDesignSpaceSerialization__DSSSystem *message,
+void   dsssystem_message__free_unpacked
+                     (DSSSystemMessage *message,
                       ProtobufCAllocator *allocator);
-/* DSDesignSpaceSerialization__DSCase methods */
-void   dsdesign_space_serialization__dscase__init
-                     (DSDesignSpaceSerialization__DSCase         *message);
-size_t dsdesign_space_serialization__dscase__get_packed_size
-                     (const DSDesignSpaceSerialization__DSCase   *message);
-size_t dsdesign_space_serialization__dscase__pack
-                     (const DSDesignSpaceSerialization__DSCase   *message,
+/* DSCaseMessage methods */
+void   dscase_message__init
+                     (DSCaseMessage         *message);
+size_t dscase_message__get_packed_size
+                     (const DSCaseMessage   *message);
+size_t dscase_message__pack
+                     (const DSCaseMessage   *message,
                       uint8_t             *out);
-size_t dsdesign_space_serialization__dscase__pack_to_buffer
-                     (const DSDesignSpaceSerialization__DSCase   *message,
+size_t dscase_message__pack_to_buffer
+                     (const DSCaseMessage   *message,
                       ProtobufCBuffer     *buffer);
-DSDesignSpaceSerialization__DSCase *
-       dsdesign_space_serialization__dscase__unpack
+DSCaseMessage *
+       dscase_message__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   dsdesign_space_serialization__dscase__free_unpacked
-                     (DSDesignSpaceSerialization__DSCase *message,
+void   dscase_message__free_unpacked
+                     (DSCaseMessage *message,
                       ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
-typedef void (*DSDesignSpaceSerialization__DSMatrix_Closure)
-                 (const DSDesignSpaceSerialization__DSMatrix *message,
+typedef void (*DSMatrixMessage_Closure)
+                 (const DSMatrixMessage *message,
                   void *closure_data);
-typedef void (*DSDesignSpaceSerialization__DSSSystem_Closure)
-                 (const DSDesignSpaceSerialization__DSSSystem *message,
+typedef void (*DSSSystemMessage_Closure)
+                 (const DSSSystemMessage *message,
                   void *closure_data);
-typedef void (*DSDesignSpaceSerialization__DSCase_Closure)
-                 (const DSDesignSpaceSerialization__DSCase *message,
+typedef void (*DSCaseMessage_Closure)
+                 (const DSCaseMessage *message,
                   void *closure_data);
 
 /* --- services --- */
@@ -155,9 +155,9 @@ typedef void (*DSDesignSpaceSerialization__DSCase_Closure)
 
 /* --- descriptors --- */
 
-extern const ProtobufCMessageDescriptor dsdesign_space_serialization__dsmatrix__descriptor;
-extern const ProtobufCMessageDescriptor dsdesign_space_serialization__dsssystem__descriptor;
-extern const ProtobufCMessageDescriptor dsdesign_space_serialization__dscase__descriptor;
+extern const ProtobufCMessageDescriptor dsmatrix_message__descriptor;
+extern const ProtobufCMessageDescriptor dsssystem_message__descriptor;
+extern const ProtobufCMessageDescriptor dscase_message__descriptor;
 
 PROTOBUF_C__END_DECLS
 

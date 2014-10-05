@@ -31,6 +31,8 @@
 #include <stdarg.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <gsl/gsl_linalg.h>
 #include <gsl/gsl_blas.h>
@@ -2089,3 +2091,45 @@ bail:
         return columns;
 }
 
+extern DSMatrixMessage DSMatrixEncode(const DSMatrix * matrix)
+{
+        DSMatrixMessage message = DSMATRIX_MESSAGE__INIT;
+        DSUInteger i;
+        if (matrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        message.rows = DSMatrixRows(matrix);
+        message.columns = DSMatrixColumns(matrix);
+        message.n_values = message.rows*message.columns;
+        message.values = DSSecureMalloc(sizeof(double)*message.n_values);
+        for (i = 0; i < message.n_values; i++) {
+                message.values[i] = DSMatrixDoubleValue(matrix,
+                                                        i / DSMatrixRows(matrix),
+                                                        i % DSMatrixColumns(matrix));
+        }
+        printf("%i\t%i\n", message.rows, message.columns);
+bail:
+        return message;
+}
+
+extern DSMatrix * DSMatrixDecode(DSUInteger length, const void * buffer)
+{
+        DSMatrix * matrix = NULL;
+        DSMatrixMessage * message;
+        DSUInteger i, j;
+        message = dsmatrix_message__unpack(NULL, length, buffer);
+        if (message == NULL) {
+                printf("message is NULL\n");
+                goto bail;
+        }
+        matrix = DSMatrixAlloc(message->rows, message->columns);
+        for (i = 0; i < DSMatrixRows(matrix); i++) {
+                for (j = 0; j < DSMatrixColumns(matrix); j++) {
+                        DSMatrixSetDoubleValue(matrix, i, j, message->values[i*DSMatrixRows(matrix)+j]);
+                }
+        }
+        dsmatrix_message__free_unpacked(message, NULL);
+bail:
+        return matrix;
+}

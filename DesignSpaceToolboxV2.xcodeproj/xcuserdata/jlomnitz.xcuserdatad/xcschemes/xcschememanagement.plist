@@ -29,6 +29,11 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>designspaceserialization.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -48,6 +53,11 @@
 			<true/>
 		</dict>
 		<key>9A5833B3139D78A80068B6B6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9AAADB3D19E09FFC006AC7F1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
