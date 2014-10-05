@@ -609,13 +609,13 @@ bail:
 #endif
 
 
-extern DSSSystem * DSSSystemByParsingStringList(char * const * const string, const DSVariablePool * const Xd_a, ...)
+extern DSSSystem * DSSSystemByParsingStringList(char * const *  string, const DSVariablePool * const Xd_a, ...)
 {
         DSSSystem *gma = NULL;
         DSUInteger numberOfStrings = 0;
         char const ** strings = NULL;
         const char * aString = NULL;
-        if (strings == NULL) {
+        if (string == NULL) {
                 DSError(M_DS_NULL ": String to parse is NULL", A_DS_ERROR);
         }
         va_list ap;
@@ -2601,6 +2601,7 @@ DSSSystemMessage * DSSSystemEncode(const DSSSystem * ssys)
                 message->xd_a[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
         }
         X = DSSSystemXd_t(ssys);
+        message->n_xd_t = DSVariablePoolNumberOfVariables(X);
         message->xd_t = DSSecureMalloc(sizeof(char*)*message->n_xd_t);
         for (i = 0; i < DSVariablePoolNumberOfVariables(X); i++) {
                 message->xd_t[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
@@ -2610,25 +2611,58 @@ bail:
         return message;
 }
 
-DSSSystem * DSSSystemDecode(size_t length, const void * buffer)
+DSSSystem * DSSSystemFromSSystemMessage(const DSSSystemMessage * message)
 {
-        DSMatrix * matrix = NULL;
-        DSMatrixMessage * message;
-        DSUInteger i, j;
-        message = dsmatrix_message__unpack(NULL, length, buffer);
+        DSSSystem * ssystem = NULL;
+        DSUInteger i;
         if (message == NULL) {
                 printf("message is NULL\n");
                 goto bail;
         }
-        matrix = DSMatrixAlloc(message->rows, message->columns);
-        for (i = 0; i < DSMatrixRows(matrix); i++) {
-                for (j = 0; j < DSMatrixColumns(matrix); j++) {
-                        DSMatrixSetDoubleValue(matrix, i, j, message->values[i*DSMatrixRows(matrix)+j]);
-                }
+        ssystem = DSSSystemAlloc();
+        ssystem->alpha = DSMatrixFromMatrixMessage(message->alpha);
+        ssystem->beta = DSMatrixFromMatrixMessage(message->beta);
+        ssystem->Gd = DSMatrixFromMatrixMessage(message->gd);
+        ssystem->Gi = DSMatrixFromMatrixMessage(message->gi);
+        ssystem->Hd = DSMatrixFromMatrixMessage(message->hd);
+        ssystem->Hi = DSMatrixFromMatrixMessage(message->hi);
+        ssystem->isSingular = message->issingular;
+        if (message->m != NULL) {
+                ssystem->M = DSMatrixFromMatrixMessage(message->m);
+        } else {
+                ssystem->M = NULL;
         }
-        dsmatrix_message__free_unpacked(message, NULL);
+        ssystem->Xd = DSVariablePoolAlloc();
+        ssystem->Xi = DSVariablePoolAlloc();
+        ssystem->Xd_a = DSVariablePoolAlloc();
+        ssystem->Xd_t = DSVariablePoolAlloc();
+        for (i = 0; i < message->n_xd; i++) {
+                DSVariablePoolAddVariableWithName(ssystem->Xd, message->xd[i]);
+        }
+        for (i = 0; i < message->n_xd_a; i++) {
+                DSVariablePoolAddVariableWithName(ssystem->Xd_a, message->xd_a[i]);
+        }
+        for (i = 0; i < message->n_xd_t; i++) {
+                DSVariablePoolAddVariableWithName(ssystem->Xd_t, message->xd_t[i]);
+        }
+        for (i = 0; i < message->n_xi; i++) {
+                DSVariablePoolAddVariableWithName(ssystem->Xi, message->xi[i]);
+        }
+        ssystem->shouldFreeXd = true;
+        ssystem->shouldFreeXi = true;
 bail:
-        return matrix;
+        return ssystem;
+}
+
+DSSSystem * DSSSystemDecode(size_t length, const void * buffer)
+{
+        DSSSystem * ssystem = NULL;
+        DSSSystemMessage * message;
+        message = dsssystem_message__unpack(NULL, length, buffer);
+        ssystem = DSSSystemFromSSystemMessage(message);
+        dsssystem_message__free_unpacked(message, NULL);
+bail:
+        return ssystem;
 }
 
 

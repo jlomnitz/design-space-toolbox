@@ -13,21 +13,24 @@
 
 
 int main(int argc, const char ** argv) {
-        DSMatrix * decoded;
-        DSMatrix * matrix = DSMatrixRandomNumbers(5, 5);
-        DSMatrixMessage message = DSMatrixEncode(matrix);
+        DSDesignSpace * ds = DSDesignSpaceByParsingStringList("x1. = a1 + a2*x2 - b1*x1", NULL, "x2. = a3*x1 + a4 - b2*x2", NULL);
+        DSCase * case1 = DSDesignSpaceCaseWithCaseNumber(ds, 1);
+        const DSSSystem * test = DSCaseSSystem(case1);
+        DSSSystem * decoded = NULL;
+        DSSSystemMessage * message = DSSSystemEncode(test);
         void * buffer;
         size_t length;
-        DSMatrixPrint(matrix);
-
-        DSMatrixFree(matrix);
-        length = dsmatrix_message__get_packed_size(&message);
+        length = dsssystem_message__get_packed_size(message);
         buffer = DSSecureMalloc(length);
         printf("size: %li\n", length);
-        dsmatrix_message__pack(&message, buffer);
-        decoded = DSMatrixDecode(length, buffer);
-        DSMatrixPrint(decoded);
-        DSMatrixFree(decoded);
+        dsssystem_message__pack(message, buffer);
+        decoded = DSSSystemDecode(length, buffer);
+        printf("=== Encoded ===\n");
+        DSSSystemPrintEquations(test);
+        DSSSystemPrintSolution(test);
+        printf("=== Decoded ===\n");
+        DSSSystemPrintEquations(decoded);
+        DSSSystemPrintSolution(decoded);
         DSSecureFree(buffer);
         return 0;
 }

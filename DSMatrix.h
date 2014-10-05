@@ -228,6 +228,7 @@ extern int * DSMatrixColumnsForGLPK(const DSMatrix *matrix);
 #endif
 
 extern DSMatrixMessage * DSMatrixEncode(const DSMatrix * matrix);
+extern DSMatrix * DSMatrixFromMatrixMessage(const DSMatrixMessage * message);
 extern DSMatrix * DSMatrixDecode(size_t length, const void *);
 
 
