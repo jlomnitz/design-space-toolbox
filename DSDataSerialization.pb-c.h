@@ -16,8 +16,10 @@ PROTOBUF_C__BEGIN_DECLS
 
 
 typedef struct _DSMatrixMessage DSMatrixMessage;
+typedef struct _DSMatrixArrayMessage DSMatrixArrayMessage;
 typedef struct _DSSSystemMessage DSSSystemMessage;
 typedef struct _DSCaseMessage DSCaseMessage;
+typedef struct _DSGMASystemMessage DSGMASystemMessage;
 
 
 /* --- enums --- */
@@ -36,6 +38,17 @@ struct  _DSMatrixMessage
 #define DSMATRIX_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dsmatrix_message__descriptor) \
     , 0, 0, 0,NULL }
+
+
+struct  _DSMatrixArrayMessage
+{
+  ProtobufCMessage base;
+  size_t n_matrices;
+  DSMatrixMessage **matrices;
+};
+#define DSMATRIX_ARRAY_MESSAGE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&dsmatrix_array_message__descriptor) \
+    , 0,NULL }
 
 
 struct  _DSSSystemMessage
@@ -81,6 +94,31 @@ struct  _DSCaseMessage
     , 0, NULL, NULL, NULL, 0,NULL, NULL, NULL, NULL }
 
 
+struct  _DSGMASystemMessage
+{
+  ProtobufCMessage base;
+  DSMatrixMessage *alpha;
+  DSMatrixMessage *beta;
+  DSMatrixArrayMessage *gd;
+  DSMatrixArrayMessage *gi;
+  DSMatrixArrayMessage *hd;
+  DSMatrixArrayMessage *hi;
+  size_t n_xd;
+  char **xd;
+  size_t n_xd_a;
+  char **xd_a;
+  size_t n_xd_t;
+  char **xd_t;
+  size_t n_xi;
+  char **xi;
+  size_t n_signature;
+  int32_t *signature;
+};
+#define DSGMASYSTEM_MESSAGE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&dsgmasystem_message__descriptor) \
+    , NULL, NULL, NULL, NULL, NULL, NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
+
+
 /* DSMatrixMessage methods */
 void   dsmatrix_message__init
                      (DSMatrixMessage         *message);
@@ -99,6 +137,25 @@ DSMatrixMessage *
                       const uint8_t       *data);
 void   dsmatrix_message__free_unpacked
                      (DSMatrixMessage *message,
+                      ProtobufCAllocator *allocator);
+/* DSMatrixArrayMessage methods */
+void   dsmatrix_array_message__init
+                     (DSMatrixArrayMessage         *message);
+size_t dsmatrix_array_message__get_packed_size
+                     (const DSMatrixArrayMessage   *message);
+size_t dsmatrix_array_message__pack
+                     (const DSMatrixArrayMessage   *message,
+                      uint8_t             *out);
+size_t dsmatrix_array_message__pack_to_buffer
+                     (const DSMatrixArrayMessage   *message,
+                      ProtobufCBuffer     *buffer);
+DSMatrixArrayMessage *
+       dsmatrix_array_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   dsmatrix_array_message__free_unpacked
+                     (DSMatrixArrayMessage *message,
                       ProtobufCAllocator *allocator);
 /* DSSSystemMessage methods */
 void   dsssystem_message__init
@@ -138,16 +195,41 @@ DSCaseMessage *
 void   dscase_message__free_unpacked
                      (DSCaseMessage *message,
                       ProtobufCAllocator *allocator);
+/* DSGMASystemMessage methods */
+void   dsgmasystem_message__init
+                     (DSGMASystemMessage         *message);
+size_t dsgmasystem_message__get_packed_size
+                     (const DSGMASystemMessage   *message);
+size_t dsgmasystem_message__pack
+                     (const DSGMASystemMessage   *message,
+                      uint8_t             *out);
+size_t dsgmasystem_message__pack_to_buffer
+                     (const DSGMASystemMessage   *message,
+                      ProtobufCBuffer     *buffer);
+DSGMASystemMessage *
+       dsgmasystem_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   dsgmasystem_message__free_unpacked
+                     (DSGMASystemMessage *message,
+                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
 typedef void (*DSMatrixMessage_Closure)
                  (const DSMatrixMessage *message,
+                  void *closure_data);
+typedef void (*DSMatrixArrayMessage_Closure)
+                 (const DSMatrixArrayMessage *message,
                   void *closure_data);
 typedef void (*DSSSystemMessage_Closure)
                  (const DSSSystemMessage *message,
                   void *closure_data);
 typedef void (*DSCaseMessage_Closure)
                  (const DSCaseMessage *message,
+                  void *closure_data);
+typedef void (*DSGMASystemMessage_Closure)
+                 (const DSGMASystemMessage *message,
                   void *closure_data);
 
 /* --- services --- */
@@ -156,8 +238,10 @@ typedef void (*DSCaseMessage_Closure)
 /* --- descriptors --- */
 
 extern const ProtobufCMessageDescriptor dsmatrix_message__descriptor;
+extern const ProtobufCMessageDescriptor dsmatrix_array_message__descriptor;
 extern const ProtobufCMessageDescriptor dsssystem_message__descriptor;
 extern const ProtobufCMessageDescriptor dscase_message__descriptor;
+extern const ProtobufCMessageDescriptor dsgmasystem_message__descriptor;
 
 PROTOBUF_C__END_DECLS
 

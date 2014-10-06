@@ -71,6 +71,14 @@ extern void DSMatrixArrayAddMatrix(DSMatrixArray *array, const DSMatrix *matrixT
 extern double DSMatrixArrayDoubleWithIndices(const DSMatrixArray *array, const DSUInteger i, const DSUInteger j, const DSUInteger k);
 extern void DSMatrixArrayPrint(const DSMatrixArray * array);
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+extern DSMatrixArrayMessage * DSMatrixArrayEncode(const DSMatrixArray * matrixArray);
+extern DSMatrixArray * DSMatrixArrayFromMatrixArrayMessage(const DSMatrixArrayMessage * message);
+extern DSMatrixArray * DSMatrixArrayDecode(size_t length, const void * buffer);
+
 #ifdef __cplusplus
 __END_DECLS
 #endif

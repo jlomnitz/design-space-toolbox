@@ -5,6 +5,10 @@ message DSMatrixMessage {
         repeated double values = 3;
 }
 
+message DSMatrixArrayMessage {
+        repeated DSMatrixMessage matrices = 1;
+}
+
 message DSSSystemMessage {
         required DSMatrixMessage alpha = 1;
         required DSMatrixMessage beta = 2;
@@ -31,3 +35,16 @@ message DSCaseMessage {
         optional DSMatrixMessage zeta = 8;
 }
 
+message DSGMASystemMessage {
+        required DSMatrixMessage alpha = 1;
+        required DSMatrixMessage beta = 2;
+        required DSMatrixArrayMessage Gd = 3;
+        required DSMatrixArrayMessage Gi = 4;
+        required DSMatrixArrayMessage Hd = 5;
+        required DSMatrixArrayMessage Hi = 6;
+        repeated string Xd = 7;
+        repeated string Xd_a = 8;
+        repeated string Xd_t = 9;
+        repeated string Xi = 10;
+        repeated int32 signature = 11;
+}

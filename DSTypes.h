@@ -303,7 +303,6 @@ typedef struct {
  *
  */
 typedef struct {
-        char ** equations;
         DSMatrix *alpha;
         DSMatrix *beta;
         DSMatrixArray *Gd;

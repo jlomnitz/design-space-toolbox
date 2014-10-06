@@ -248,4 +248,54 @@ bail:
 }
 
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+
+extern DSMatrixArrayMessage * DSMatrixArrayEncode(const DSMatrixArray * matrixArray)
+{
+        DSMatrixArrayMessage * message = NULL;
+        DSUInteger i;
+        if (matrixArray == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        message = DSSecureMalloc(sizeof(DSMatrixArrayMessage)*1);
+        dsmatrix_array_message__init(message);
+        message->n_matrices = DSMatrixArrayNumberOfMatrices(matrixArray);
+        message->matrices = DSSecureMalloc(sizeof(DSMatrixMessage)*message->n_matrices);
+        for (i = 0; i < message->n_matrices; i++) {
+                message->matrices[i] = DSMatrixEncode(DSMatrixArrayMatrix(matrixArray, i));
+        }
+bail:
+        return message;
+}
+
+extern DSMatrixArray * DSMatrixArrayFromMatrixArrayMessage(const DSMatrixArrayMessage * message)
+{
+        DSMatrixArray * matrixArray = NULL;
+        DSUInteger i;
+        if (message == NULL) {
+                printf("message is NULL\n");
+                goto bail;
+        }
+        matrixArray = DSMatrixArrayAlloc();
+        for (i = 0; i < message->n_matrices; i++) {
+                DSMatrixArrayAddMatrix(matrixArray, DSMatrixFromMatrixMessage(message->matrices[i]));
+        }
+bail:
+        return matrixArray;
+}
+
+extern DSMatrixArray * DSMatrixArrayDecode(size_t length, const void * buffer)
+{
+        DSMatrixArray * matrixArray = NULL;
+        DSMatrixArrayMessage * message;
+        message = dsmatrix_array_message__unpack(NULL, length, buffer);
+        matrixArray = DSMatrixArrayFromMatrixArrayMessage(message);
+        dsmatrix_array_message__free_unpacked(message, NULL);
+bail:
+        return matrixArray;
+}
 

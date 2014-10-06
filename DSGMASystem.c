@@ -1646,4 +1646,108 @@ bail:
         return termIds;
 }
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+extern DSGMASystemMessage * DSGMASystemEncode(const DSGMASystem * gma)
+{
+        DSGMASystemMessage * message = NULL;
+        DSUInteger i;
+        const DSVariablePool * X;
+        if (gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        message = DSSecureMalloc(sizeof(DSGMASystemMessage));
+        dsgmasystem_message__init(message);
+        message->alpha = DSMatrixEncode(DSGMASystemAlpha(gma));
+        message->beta = DSMatrixEncode(DSGMASystemAlpha(gma));
+        message->gd = DSMatrixArrayEncode(DSGMASystemGd(gma));
+        message->hd = DSMatrixArrayEncode(DSGMASystemHd(gma));
+        message->gi = DSMatrixArrayEncode(DSGMASystemGi(gma));
+        message->hi = DSMatrixArrayEncode(DSGMASystemHi(gma));
+        X = DSGMASystemXd(gma);
+        message->n_xd = DSVariablePoolNumberOfVariables(X);
+        message->xd = DSSecureMalloc(sizeof(char*)*message->n_xd);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(X); i++) {
+                message->xd[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
+        }
+        X = DSGMASystemXi(gma);
+        message->n_xi = DSVariablePoolNumberOfVariables(X);
+        message->xi = DSSecureMalloc(sizeof(char*)*message->n_xi);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(X); i++) {
+                message->xi[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
+        }
+        X = DSGMASystemXd_a(gma);
+        message->n_xd_a = DSVariablePoolNumberOfVariables(X);
+        message->xd_a = DSSecureMalloc(sizeof(char*)*message->n_xd_a);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(X); i++) {
+                message->xd_a[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
+        }
+        X = DSGMASystemXd_t(gma);
+        message->n_xd_t = DSVariablePoolNumberOfVariables(X);
+        message->xd_t = DSSecureMalloc(sizeof(char*)*message->n_xd_t);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(X); i++) {
+                message->xd_t[i] = strdup(DSVariableName(DSVariablePoolVariableAtIndex(X, i)));
+        }
+        message->n_xd_t = DSVariablePoolNumberOfVariables(X);
+        message->n_signature = DSGMASystemNumberOfEquations(gma)*2;
+        message->signature = DSSecureMalloc(sizeof(DSUInteger)*message->n_signature);
+        for (i = 0; i < message->n_signature; i++) {
+                message->signature[i] = gma->signature[i];
+        }
+bail:
+        return message;
+}
+
+extern DSGMASystem * DSGMASystemFromGMASystemMessage(const DSGMASystemMessage * message)
+{
+        DSGMASystem * gma = NULL;
+        DSUInteger i;
+        if (message == NULL) {
+                printf("message is NULL\n");
+                goto bail;
+        }
+        gma = DSGMASystemAlloc();
+        gma->alpha = DSMatrixFromMatrixMessage(message->alpha);
+        gma->beta = DSMatrixFromMatrixMessage(message->beta);
+        gma->Gd = DSMatrixArrayFromMatrixArrayMessage(message->gd);
+        gma->Gi = DSMatrixArrayFromMatrixArrayMessage(message->gi);
+        gma->Hd = DSMatrixArrayFromMatrixArrayMessage(message->hd);
+        gma->Hi = DSMatrixArrayFromMatrixArrayMessage(message->hi);
+        gma->Xd = DSVariablePoolAlloc();
+        gma->Xi = DSVariablePoolAlloc();
+        gma->Xd_a = DSVariablePoolAlloc();
+        gma->Xd_t = DSVariablePoolAlloc();
+        for (i = 0; i < message->n_xd; i++) {
+                DSVariablePoolAddVariableWithName(gma->Xd, message->xd[i]);
+        }
+        for (i = 0; i < message->n_xd_a; i++) {
+                DSVariablePoolAddVariableWithName(gma->Xd_a, message->xd_a[i]);
+        }
+        for (i = 0; i < message->n_xd_t; i++) {
+                DSVariablePoolAddVariableWithName(gma->Xd_t, message->xd_t[i]);
+        }
+        for (i = 0; i < message->n_xi; i++) {
+                DSVariablePoolAddVariableWithName(gma->Xi, message->xi[i]);
+        }
+        gma->signature = DSSecureMalloc(sizeof(DSUInteger)*message->n_signature);
+        for (i = 0; i < message->n_signature; i++) {
+                gma->signature[i] = message->signature[i];
+        }
+bail:
+        return gma;
+}
+
+extern DSGMASystem * DSGMASystemDecode(size_t length, const void * buffer)
+{
+        DSGMASystem * gma = NULL;
+        DSGMASystemMessage * message;
+        message = dsgmasystem_message__unpack(NULL, length, buffer);
+        gma = DSGMASystemFromGMASystemMessage(message);
+        dsgmasystem_message__free_unpacked(message, NULL);
+bail:
+        return gma;
+}
 

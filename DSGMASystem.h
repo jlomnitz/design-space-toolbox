@@ -28,6 +28,7 @@
 
 #include "DSTypes.h"
 #include "DSVariable.h"
+#include "DSDataSerialization.pb-c.h"
 
 #ifndef __DS_GMA_SYSTEM__
 #define __DS_GMA_SYSTEM__
@@ -102,6 +103,14 @@ extern DSExpression * DSGMASystemTermWithTermNumber(const DSGMASystem * gma, con
 extern DSMatrix * DSGMASystemNetworkConnectivity(const DSGMASystem * gma);
 extern DSDictionary * DSGMASystemFluxDictionary(const DSGMASystem * gma);
 extern DSMatrix * DSGMASystemPrecursorProductRelationships(const DSGMASystem * gma, DSUInteger precursorEquation, DSUInteger productEquation);
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+extern DSGMASystemMessage * DSGMASystemEncode(const DSGMASystem * gma);
+extern DSGMASystem * DSGMASystemFromGMASystemMessage(const DSGMASystemMessage * message);
+extern DSGMASystem * DSGMASystemDecode(size_t length, const void * buffer);
 
 #ifdef __cplusplus
 __END_DECLS

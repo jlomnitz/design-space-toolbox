@@ -50,6 +50,49 @@ void   dsmatrix_message__free_unpacked
   assert(message->base.descriptor == &dsmatrix_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   dsmatrix_array_message__init
+                     (DSMatrixArrayMessage         *message)
+{
+  static DSMatrixArrayMessage init_value = DSMATRIX_ARRAY_MESSAGE__INIT;
+  *message = init_value;
+}
+size_t dsmatrix_array_message__get_packed_size
+                     (const DSMatrixArrayMessage *message)
+{
+  assert(message->base.descriptor == &dsmatrix_array_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t dsmatrix_array_message__pack
+                     (const DSMatrixArrayMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &dsmatrix_array_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t dsmatrix_array_message__pack_to_buffer
+                     (const DSMatrixArrayMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &dsmatrix_array_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+DSMatrixArrayMessage *
+       dsmatrix_array_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (DSMatrixArrayMessage *)
+     protobuf_c_message_unpack (&dsmatrix_array_message__descriptor,
+                                allocator, len, data);
+}
+void   dsmatrix_array_message__free_unpacked
+                     (DSMatrixArrayMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  assert(message->base.descriptor == &dsmatrix_array_message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 void   dsssystem_message__init
                      (DSSSystemMessage         *message)
 {
@@ -136,6 +179,49 @@ void   dscase_message__free_unpacked
   assert(message->base.descriptor == &dscase_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   dsgmasystem_message__init
+                     (DSGMASystemMessage         *message)
+{
+  static DSGMASystemMessage init_value = DSGMASYSTEM_MESSAGE__INIT;
+  *message = init_value;
+}
+size_t dsgmasystem_message__get_packed_size
+                     (const DSGMASystemMessage *message)
+{
+  assert(message->base.descriptor == &dsgmasystem_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t dsgmasystem_message__pack
+                     (const DSGMASystemMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &dsgmasystem_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t dsgmasystem_message__pack_to_buffer
+                     (const DSGMASystemMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &dsgmasystem_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+DSGMASystemMessage *
+       dsgmasystem_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (DSGMASystemMessage *)
+     protobuf_c_message_unpack (&dsgmasystem_message__descriptor,
+                                allocator, len, data);
+}
+void   dsgmasystem_message__free_unpacked
+                     (DSGMASystemMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  assert(message->base.descriptor == &dsgmasystem_message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 static const ProtobufCFieldDescriptor dsmatrix_message__field_descriptors[3] =
 {
   {
@@ -198,6 +284,44 @@ const ProtobufCMessageDescriptor dsmatrix_message__descriptor =
   dsmatrix_message__field_indices_by_name,
   1,  dsmatrix_message__number_ranges,
   (ProtobufCMessageInit) dsmatrix_message__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor dsmatrix_array_message__field_descriptors[1] =
+{
+  {
+    "matrices",
+    1,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(DSMatrixArrayMessage, n_matrices),
+    offsetof(DSMatrixArrayMessage, matrices),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned dsmatrix_array_message__field_indices_by_name[] = {
+  0,   /* field[0] = matrices */
+};
+static const ProtobufCIntRange dsmatrix_array_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor dsmatrix_array_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "DSMatrixArrayMessage",
+  "DSMatrixArrayMessage",
+  "DSMatrixArrayMessage",
+  "",
+  sizeof(DSMatrixArrayMessage),
+  1,
+  dsmatrix_array_message__field_descriptors,
+  dsmatrix_array_message__field_indices_by_name,
+  1,  dsmatrix_array_message__number_ranges,
+  (ProtobufCMessageInit) dsmatrix_array_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[12] =
@@ -508,5 +632,173 @@ const ProtobufCMessageDescriptor dscase_message__descriptor =
   dscase_message__field_indices_by_name,
   1,  dscase_message__number_ranges,
   (ProtobufCMessageInit) dscase_message__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor dsgmasystem_message__field_descriptors[11] =
+{
+  {
+    "alpha",
+    1,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSGMASystemMessage, alpha),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "beta",
+    2,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSGMASystemMessage, beta),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Gd",
+    3,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSGMASystemMessage, gd),
+    &dsmatrix_array_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Gi",
+    4,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSGMASystemMessage, gi),
+    &dsmatrix_array_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Hd",
+    5,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSGMASystemMessage, hd),
+    &dsmatrix_array_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Hi",
+    6,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSGMASystemMessage, hi),
+    &dsmatrix_array_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Xd",
+    7,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_STRING,
+    offsetof(DSGMASystemMessage, n_xd),
+    offsetof(DSGMASystemMessage, xd),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Xd_a",
+    8,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_STRING,
+    offsetof(DSGMASystemMessage, n_xd_a),
+    offsetof(DSGMASystemMessage, xd_a),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Xd_t",
+    9,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_STRING,
+    offsetof(DSGMASystemMessage, n_xd_t),
+    offsetof(DSGMASystemMessage, xd_t),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Xi",
+    10,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_STRING,
+    offsetof(DSGMASystemMessage, n_xi),
+    offsetof(DSGMASystemMessage, xi),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "signature",
+    11,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(DSGMASystemMessage, n_signature),
+    offsetof(DSGMASystemMessage, signature),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned dsgmasystem_message__field_indices_by_name[] = {
+  2,   /* field[2] = Gd */
+  3,   /* field[3] = Gi */
+  4,   /* field[4] = Hd */
+  5,   /* field[5] = Hi */
+  6,   /* field[6] = Xd */
+  7,   /* field[7] = Xd_a */
+  8,   /* field[8] = Xd_t */
+  9,   /* field[9] = Xi */
+  0,   /* field[0] = alpha */
+  1,   /* field[1] = beta */
+  10,   /* field[10] = signature */
+};
+static const ProtobufCIntRange dsgmasystem_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 11 }
+};
+const ProtobufCMessageDescriptor dsgmasystem_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "DSGMASystemMessage",
+  "DSGMASystemMessage",
+  "DSGMASystemMessage",
+  "",
+  sizeof(DSGMASystemMessage),
+  11,
+  dsgmasystem_message__field_descriptors,
+  dsgmasystem_message__field_indices_by_name,
+  1,  dsgmasystem_message__number_ranges,
+  (ProtobufCMessageInit) dsgmasystem_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
