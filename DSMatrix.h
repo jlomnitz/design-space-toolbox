@@ -224,7 +224,7 @@ extern int * DSMatrixRowsForGLPK(const DSMatrix *matrix);
 extern int * DSMatrixColumnsForGLPK(const DSMatrix *matrix);
 
 #if defined(__APPLE__) && defined (__MACH__)
-#pragma mark - Matrix GLPK conversions
+#pragma mark - Data Serialization
 #endif
 
 extern DSMatrixMessage * DSMatrixEncode(const DSMatrix * matrix);

@@ -1,4 +1,3 @@
-//package DSDesignSpaceSerialization;
 
 message DSMatrixMessage {
         required int32 rows = 1;
@@ -26,9 +25,9 @@ message DSCaseMessage {
         required DSSSystemMessage ssystem = 2;
         required DSMatrixMessage Cd = 3;
         required DSMatrixMessage Ci = 4;
-        required DSMatrixMessage U = 5;
-        required DSMatrixMessage delta = 6;
-        required DSMatrixMessage zeta = 7;
-        repeated int32 signature = 8;
+        repeated int32 signature = 5;
+        optional DSMatrixMessage U = 6;
+        optional DSMatrixMessage delta = 7;
+        optional DSMatrixMessage zeta = 8;
 }
 

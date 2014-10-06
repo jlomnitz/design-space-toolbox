@@ -149,11 +149,17 @@ extern void DSSSystemPrintEquations(const DSSSystem *ssys);
 extern void DSSSystemPrintSolution(const DSSSystem *ssys);
 extern void DSSSystemPrintLogarithmicSolution(const DSSSystem *ssys);
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+extern DSSSystemMessage * DSSSystemEncode(const DSSSystem * ssys);
+extern DSSSystem * DSSSystemFromSSystemMessage(const DSSSystemMessage * message);
+extern DSSSystem * DSSSystemDecode(size_t length, const void * buffer);
+
 #ifdef __cplusplus
 __END_DECLS
 #endif
 
-DSSSystemMessage * DSSSystemEncode(const DSSSystem * ssys);
-DSSSystem * DSSSystemDecode(size_t length, const void * buffer);
 
 #endif

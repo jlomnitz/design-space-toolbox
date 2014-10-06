@@ -2558,8 +2558,11 @@ bail:
         return;
 }
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
 
-DSSSystemMessage * DSSSystemEncode(const DSSSystem * ssys)
+extern DSSSystemMessage * DSSSystemEncode(const DSSSystem * ssys)
 {
         DSSSystemMessage * message = NULL;
         DSUInteger i;
@@ -2611,7 +2614,7 @@ bail:
         return message;
 }
 
-DSSSystem * DSSSystemFromSSystemMessage(const DSSSystemMessage * message)
+extern DSSSystem * DSSSystemFromSSystemMessage(const DSSSystemMessage * message)
 {
         DSSSystem * ssystem = NULL;
         DSUInteger i;
@@ -2654,7 +2657,7 @@ bail:
         return ssystem;
 }
 
-DSSSystem * DSSSystemDecode(size_t length, const void * buffer)
+extern DSSSystem * DSSSystemDecode(size_t length, const void * buffer)
 {
         DSSSystem * ssystem = NULL;
         DSSSystemMessage * message;

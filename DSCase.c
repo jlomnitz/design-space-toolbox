@@ -1324,6 +1324,88 @@ bail:
         return;
 }
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+
+extern DSCaseMessage * DSCaseEncode(const DSCase * aCase)
+{
+        DSCaseMessage * message = NULL;
+        DSUInteger i;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        message = DSSecureMalloc(sizeof(DSSSystemMessage));
+        dscase_message__init(message);
+        message->ssystem = DSSSystemEncode(DSCaseSSystem(aCase));
+        message->casenumber = DSCaseNumber(aCase);
+        message->cd = DSMatrixEncode(DSCaseCd(aCase));
+        message->ci = DSMatrixEncode(DSCaseCi(aCase));
+        message->n_signature = DSCaseNumberOfEquations(aCase)*2;
+        message->signature = DSSecureMalloc(sizeof(DSUInteger)*message->n_signature);
+        message->delta = DSMatrixEncode(DSCaseDelta(aCase));
+        for (i = 0; i < DSCaseNumberOfEquations(aCase)*2; i++) {
+                message->signature[i] = DSCaseSignature(aCase)[i];
+        }
+        if (DSSSystemHasSolution(DSCaseSSystem(aCase))) {
+                message->u = DSMatrixEncode(DSCaseU(aCase));
+                message->zeta = DSMatrixEncode(DSCaseZeta(aCase));
+        } else {
+                message->u = NULL;
+                message->zeta = NULL;
+        }
+bail:
+        return message;
+}
+
+extern DSCase * DSCaseFromCaseMessage(const DSCaseMessage * message)
+{
+        DSCase * aCase = NULL;
+        DSUInteger i;
+        if (message == NULL) {
+                printf("message is NULL\n");
+                goto bail;
+        }
+        aCase = DSCaseAlloc();
+        aCase->caseNumber = message->casenumber;
+        aCase->Cd = DSMatrixFromMatrixMessage(message->cd);
+        aCase->Ci = DSMatrixFromMatrixMessage(message->ci);
+        aCase->ssys = DSSSystemFromSSystemMessage(message->ssystem);
+        aCase->Xd = DSSSystemXd(DSCaseSSystem(aCase));
+        aCase->Xd_a= DSSSystemXd_a(DSCaseSSystem(aCase));
+        aCase->Xi = DSSSystemXi(DSCaseSSystem(aCase));
+        aCase->delta = DSMatrixFromMatrixMessage(message->delta);
+        if (DSSSystemHasSolution(DSCaseSSystem(aCase))) {
+                aCase->U = DSMatrixFromMatrixMessage(message->u);
+                aCase->zeta = DSMatrixFromMatrixMessage(message->zeta);
+        } else {
+                aCase->U = NULL;
+                aCase->zeta = NULL;
+        }
+        aCase->signature = DSSecureMalloc(sizeof(DSUInteger)*message->n_signature);
+        for (i = 0; i < message->n_signature; i++) {
+                aCase->signature[i] = message->signature[i];
+        }
+bail:
+        return aCase;
+}
+
+extern DSCase * DSCaseDecode(size_t length, const void * buffer)
+{
+        DSCase * aCase = NULL;
+        DSCaseMessage * message;
+        message = dscase_message__unpack(NULL, length, buffer);
+        aCase = DSCaseFromCaseMessage(message);
+        dscase_message__free_unpacked(message, NULL);
+bail:
+        return aCase;
+}
+
+
+
+
 
 
 

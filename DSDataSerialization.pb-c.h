@@ -57,11 +57,10 @@ struct  _DSSSystemMessage
   char **xd_a;
   size_t n_xi;
   char **xi;
-  DSMatrixMessage *test;
 };
 #define DSSSYSTEM_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dsssystem_message__descriptor) \
-    , NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, NULL }
+    , NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
 
 
 struct  _DSCaseMessage
@@ -71,15 +70,15 @@ struct  _DSCaseMessage
   DSSSystemMessage *ssystem;
   DSMatrixMessage *cd;
   DSMatrixMessage *ci;
+  size_t n_signature;
+  int32_t *signature;
   DSMatrixMessage *u;
   DSMatrixMessage *delta;
   DSMatrixMessage *zeta;
-  size_t n_signature;
-  int32_t *signature;
 };
 #define DSCASE_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dscase_message__descriptor) \
-    , 0, NULL, NULL, NULL, NULL, NULL, NULL, 0,NULL }
+    , 0, NULL, NULL, NULL, 0,NULL, NULL, NULL, NULL }
 
 
 /* DSMatrixMessage methods */

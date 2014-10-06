@@ -2091,6 +2091,11 @@ bail:
         return columns;
 }
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+
 extern DSMatrixMessage * DSMatrixEncode(const DSMatrix * matrix)
 {
         DSMatrixMessage * message = NULL;

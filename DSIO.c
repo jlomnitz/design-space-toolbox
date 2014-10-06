@@ -629,7 +629,7 @@ extern void * DSIOReadBinaryData(const char * fileName, size_t * length)
         FILE * file = NULL;
         void * buffer = NULL;
         size_t size;
-        if (fileName == NULL && length == NULL) {
+        if (fileName == NULL || length == NULL) {
                 DSError(M_DS_NULL, A_DS_ERROR);
                 goto bail;
         }
@@ -654,5 +654,22 @@ bail:
         return buffer;
 }
 
+extern void DSIOWriteBinaryData(const char * fileName, size_t length, void * binaryData)
+{
+        FILE * file = NULL;
+        if (fileName == NULL || binaryData == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        file = fopen(fileName, "wb");
+        if (file == NULL) {
+                DSError(M_DS_NULL ": file to read does not exist", A_DS_ERROR);
+                goto bail;
+        }
+        fwrite(binaryData, 1, length, file);
+        fclose(file);
+bail:
+        return;
+}
 
 

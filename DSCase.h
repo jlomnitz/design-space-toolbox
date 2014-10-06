@@ -31,7 +31,7 @@
 
 #include "DSTypes.h"
 #include "DSErrors.h"
-
+#include "DSDataSerialization.pb-c.h"
 /**
  *\addtogroup M_DS_Messages
  * Messages for DSCase related errors is M_DS_CASE_NULL.
@@ -186,6 +186,14 @@ extern void DSCasePrintConditions(const DSCase *aCase);
 extern void DSCasePrintLogarithmicConditions(const DSCase *aCase);
 extern void DSCasePrintBoundaries(const DSCase *aCase);
 extern void DSCasePrintLogarithmicBoundaries(const DSCase *aCase);
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+extern DSCaseMessage * DSCaseEncode(const DSCase * aCase);
+extern DSCase * DSCaseFromCaseMessage(const DSCaseMessage * message);
+extern DSCase * DSCaseDecode(size_t length, const void * buffer);
 
 #ifdef __cplusplus
 __END_DECLS

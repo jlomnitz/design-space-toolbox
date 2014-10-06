@@ -200,7 +200,7 @@ const ProtobufCMessageDescriptor dsmatrix_message__descriptor =
   (ProtobufCMessageInit) dsmatrix_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[13] =
+static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[12] =
 {
   {
     "alpha",
@@ -346,18 +346,6 @@ static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[13] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "test",
-    13,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(DSSSystemMessage, test),
-    &dsmatrix_message__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned dsssystem_message__field_indices_by_name[] = {
   2,   /* field[2] = Gd */
@@ -372,12 +360,11 @@ static const unsigned dsssystem_message__field_indices_by_name[] = {
   0,   /* field[0] = alpha */
   1,   /* field[1] = beta */
   6,   /* field[6] = isSingular */
-  12,   /* field[12] = test */
 };
 static const ProtobufCIntRange dsssystem_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 13 }
+  { 0, 12 }
 };
 const ProtobufCMessageDescriptor dsssystem_message__descriptor =
 {
@@ -387,7 +374,7 @@ const ProtobufCMessageDescriptor dsssystem_message__descriptor =
   "DSSSystemMessage",
   "",
   sizeof(DSSSystemMessage),
-  13,
+  12,
   dsssystem_message__field_descriptors,
   dsssystem_message__field_indices_by_name,
   1,  dsssystem_message__number_ranges,
@@ -445,9 +432,21 @@ static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "U",
+    "signature",
     5,
-    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(DSCaseMessage, n_signature),
+    offsetof(DSCaseMessage, signature),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "U",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(DSCaseMessage, u),
@@ -458,8 +457,8 @@ static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
   },
   {
     "delta",
-    6,
-    PROTOBUF_C_LABEL_REQUIRED,
+    7,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(DSCaseMessage, delta),
@@ -470,8 +469,8 @@ static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
   },
   {
     "zeta",
-    7,
-    PROTOBUF_C_LABEL_REQUIRED,
+    8,
+    PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(DSCaseMessage, zeta),
@@ -480,28 +479,16 @@ static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "signature",
-    8,
-    PROTOBUF_C_LABEL_REPEATED,
-    PROTOBUF_C_TYPE_INT32,
-    offsetof(DSCaseMessage, n_signature),
-    offsetof(DSCaseMessage, signature),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned dscase_message__field_indices_by_name[] = {
   2,   /* field[2] = Cd */
   3,   /* field[3] = Ci */
-  4,   /* field[4] = U */
+  5,   /* field[5] = U */
   0,   /* field[0] = caseNumber */
-  5,   /* field[5] = delta */
-  7,   /* field[7] = signature */
+  6,   /* field[6] = delta */
+  4,   /* field[4] = signature */
   1,   /* field[1] = ssystem */
-  6,   /* field[6] = zeta */
+  7,   /* field[7] = zeta */
 };
 static const ProtobufCIntRange dscase_message__number_ranges[1 + 1] =
 {

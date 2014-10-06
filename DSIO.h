@@ -186,6 +186,7 @@ extern DSSSystem * DSSSystemByParsingStringInJSONFormat(const char * string);
 extern DSCase * DSCaseByParsingStringInJSONFormat(const char * string);
 
 extern void * DSIOReadBinaryData(const char * fileName, size_t * length);
+extern void DSIOWriteBinaryData(const char * fileName, size_t length, void * binaryData);
 
 #ifdef __cplusplus
 __END_DECLS
