@@ -1337,7 +1337,7 @@ extern DSCaseMessage * DSCaseEncode(const DSCase * aCase)
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        message = DSSecureMalloc(sizeof(DSSSystemMessage));
+        message = DSSecureMalloc(sizeof(DSCaseMessage));
         dscase_message__init(message);
         message->ssystem = DSSSystemEncode(DSCaseSSystem(aCase));
         message->casenumber = DSCaseNumber(aCase);

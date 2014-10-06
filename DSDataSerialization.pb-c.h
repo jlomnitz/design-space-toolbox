@@ -19,7 +19,9 @@ typedef struct _DSMatrixMessage DSMatrixMessage;
 typedef struct _DSMatrixArrayMessage DSMatrixArrayMessage;
 typedef struct _DSSSystemMessage DSSSystemMessage;
 typedef struct _DSCaseMessage DSCaseMessage;
+typedef struct _DSCyclicalCaseMessage DSCyclicalCaseMessage;
 typedef struct _DSGMASystemMessage DSGMASystemMessage;
+typedef struct _DSDesignSpaceMessage DSDesignSpaceMessage;
 
 
 /* --- enums --- */
@@ -94,6 +96,17 @@ struct  _DSCaseMessage
     , 0, NULL, NULL, NULL, 0,NULL, NULL, NULL, NULL }
 
 
+struct  _DSCyclicalCaseMessage
+{
+  ProtobufCMessage base;
+  DSCaseMessage *originalcase;
+  DSDesignSpaceMessage *internaldesignspace;
+};
+#define DSCYCLICAL_CASE_MESSAGE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&dscyclical_case_message__descriptor) \
+    , NULL, NULL }
+
+
 struct  _DSGMASystemMessage
 {
   ProtobufCMessage base;
@@ -117,6 +130,22 @@ struct  _DSGMASystemMessage
 #define DSGMASYSTEM_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dsgmasystem_message__descriptor) \
     , NULL, NULL, NULL, NULL, NULL, NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL, 0,NULL }
+
+
+struct  _DSDesignSpaceMessage
+{
+  ProtobufCMessage base;
+  DSGMASystemMessage *gma;
+  DSMatrixMessage *cd;
+  DSMatrixMessage *ci;
+  DSMatrixMessage *delta;
+  protobuf_c_boolean seriescalculations;
+  size_t n_validcases;
+  int32_t *validcases;
+};
+#define DSDESIGN_SPACE_MESSAGE__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&dsdesign_space_message__descriptor) \
+    , NULL, NULL, NULL, NULL, 0, 0,NULL }
 
 
 /* DSMatrixMessage methods */
@@ -195,6 +224,25 @@ DSCaseMessage *
 void   dscase_message__free_unpacked
                      (DSCaseMessage *message,
                       ProtobufCAllocator *allocator);
+/* DSCyclicalCaseMessage methods */
+void   dscyclical_case_message__init
+                     (DSCyclicalCaseMessage         *message);
+size_t dscyclical_case_message__get_packed_size
+                     (const DSCyclicalCaseMessage   *message);
+size_t dscyclical_case_message__pack
+                     (const DSCyclicalCaseMessage   *message,
+                      uint8_t             *out);
+size_t dscyclical_case_message__pack_to_buffer
+                     (const DSCyclicalCaseMessage   *message,
+                      ProtobufCBuffer     *buffer);
+DSCyclicalCaseMessage *
+       dscyclical_case_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   dscyclical_case_message__free_unpacked
+                     (DSCyclicalCaseMessage *message,
+                      ProtobufCAllocator *allocator);
 /* DSGMASystemMessage methods */
 void   dsgmasystem_message__init
                      (DSGMASystemMessage         *message);
@@ -214,6 +262,25 @@ DSGMASystemMessage *
 void   dsgmasystem_message__free_unpacked
                      (DSGMASystemMessage *message,
                       ProtobufCAllocator *allocator);
+/* DSDesignSpaceMessage methods */
+void   dsdesign_space_message__init
+                     (DSDesignSpaceMessage         *message);
+size_t dsdesign_space_message__get_packed_size
+                     (const DSDesignSpaceMessage   *message);
+size_t dsdesign_space_message__pack
+                     (const DSDesignSpaceMessage   *message,
+                      uint8_t             *out);
+size_t dsdesign_space_message__pack_to_buffer
+                     (const DSDesignSpaceMessage   *message,
+                      ProtobufCBuffer     *buffer);
+DSDesignSpaceMessage *
+       dsdesign_space_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   dsdesign_space_message__free_unpacked
+                     (DSDesignSpaceMessage *message,
+                      ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
 typedef void (*DSMatrixMessage_Closure)
@@ -228,8 +295,14 @@ typedef void (*DSSSystemMessage_Closure)
 typedef void (*DSCaseMessage_Closure)
                  (const DSCaseMessage *message,
                   void *closure_data);
+typedef void (*DSCyclicalCaseMessage_Closure)
+                 (const DSCyclicalCaseMessage *message,
+                  void *closure_data);
 typedef void (*DSGMASystemMessage_Closure)
                  (const DSGMASystemMessage *message,
+                  void *closure_data);
+typedef void (*DSDesignSpaceMessage_Closure)
+                 (const DSDesignSpaceMessage *message,
                   void *closure_data);
 
 /* --- services --- */
@@ -241,7 +314,9 @@ extern const ProtobufCMessageDescriptor dsmatrix_message__descriptor;
 extern const ProtobufCMessageDescriptor dsmatrix_array_message__descriptor;
 extern const ProtobufCMessageDescriptor dsssystem_message__descriptor;
 extern const ProtobufCMessageDescriptor dscase_message__descriptor;
+extern const ProtobufCMessageDescriptor dscyclical_case_message__descriptor;
 extern const ProtobufCMessageDescriptor dsgmasystem_message__descriptor;
+extern const ProtobufCMessageDescriptor dsdesign_space_message__descriptor;
 
 PROTOBUF_C__END_DECLS
 

@@ -35,6 +35,11 @@ message DSCaseMessage {
         optional DSMatrixMessage zeta = 8;
 }
 
+message DSCyclicalCaseMessage {
+        required DSCaseMessage originalCase = 1;
+        required DSDesignSpaceMessage internalDesignspace = 2;
+}
+
 message DSGMASystemMessage {
         required DSMatrixMessage alpha = 1;
         required DSMatrixMessage beta = 2;
@@ -48,3 +53,13 @@ message DSGMASystemMessage {
         repeated string Xi = 10;
         repeated int32 signature = 11;
 }
+
+message DSDesignSpaceMessage {
+        required DSGMASystemMessage gma = 1;
+        required DSMatrixMessage Cd = 2;
+        required DSMatrixMessage Ci = 3;
+        required DSMatrixMessage delta = 4;
+        required bool seriesCalculations = 5;
+        repeated int32 validCases = 6;
+}
+

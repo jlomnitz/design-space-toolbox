@@ -662,3 +662,50 @@ bail:
         return caseDictionary;
 }
 
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+
+extern DSCyclicalCaseMessage * DSCyclicalCaseEncode(const DSCyclicalCase * aCase)
+{
+        DSCyclicalCaseMessage * message = NULL;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        message = DSSecureMalloc(sizeof(DSCyclicalCaseMessage));
+        dscyclical_case_message__init(message);
+        message->originalcase = DSCaseEncode(aCase->originalCase);
+//        message->internaldesignspace = DSDesignSpaceEncode(aCase->internalDesignspace);
+bail:
+        return message;
+}
+
+extern DSCyclicalCase * DSCyclicalCaseFromCyclicalCaseMessage(const DSCyclicalCaseMessage * message)
+{
+        DSCyclicalCase * aCase = NULL;
+        if (message == NULL) {
+                printf("message is NULL\n");
+                goto bail;
+        }
+        aCase = DSSecureCalloc(sizeof(DSCyclicalCase), 1);
+        aCase->originalCase = DSCaseFromCaseMessage(message->originalcase);
+//        aCase->internalDesignspace = DSDesignSpaceFromDesignSpaceMessage(message->internaldesignspace);
+bail:
+        return aCase;
+}
+
+extern DSCyclicalCase * DSCyclicalCaseDecode(size_t length, const void * buffer)
+{
+        DSCyclicalCase * aCase = NULL;
+        DSCyclicalCaseMessage * message;
+        message = dscyclical_case_message__unpack(NULL, length, buffer);
+        aCase = DSCyclicalCaseFromCyclicalCaseMessage(message);
+        dscyclical_case_message__free_unpacked(message, NULL);
+bail:
+        return aCase;
+}
+
+

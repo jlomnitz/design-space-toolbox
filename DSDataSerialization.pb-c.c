@@ -179,6 +179,49 @@ void   dscase_message__free_unpacked
   assert(message->base.descriptor == &dscase_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   dscyclical_case_message__init
+                     (DSCyclicalCaseMessage         *message)
+{
+  static DSCyclicalCaseMessage init_value = DSCYCLICAL_CASE_MESSAGE__INIT;
+  *message = init_value;
+}
+size_t dscyclical_case_message__get_packed_size
+                     (const DSCyclicalCaseMessage *message)
+{
+  assert(message->base.descriptor == &dscyclical_case_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t dscyclical_case_message__pack
+                     (const DSCyclicalCaseMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &dscyclical_case_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t dscyclical_case_message__pack_to_buffer
+                     (const DSCyclicalCaseMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &dscyclical_case_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+DSCyclicalCaseMessage *
+       dscyclical_case_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (DSCyclicalCaseMessage *)
+     protobuf_c_message_unpack (&dscyclical_case_message__descriptor,
+                                allocator, len, data);
+}
+void   dscyclical_case_message__free_unpacked
+                     (DSCyclicalCaseMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  assert(message->base.descriptor == &dscyclical_case_message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 void   dsgmasystem_message__init
                      (DSGMASystemMessage         *message)
 {
@@ -220,6 +263,49 @@ void   dsgmasystem_message__free_unpacked
                       ProtobufCAllocator *allocator)
 {
   assert(message->base.descriptor == &dsgmasystem_message__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   dsdesign_space_message__init
+                     (DSDesignSpaceMessage         *message)
+{
+  static DSDesignSpaceMessage init_value = DSDESIGN_SPACE_MESSAGE__INIT;
+  *message = init_value;
+}
+size_t dsdesign_space_message__get_packed_size
+                     (const DSDesignSpaceMessage *message)
+{
+  assert(message->base.descriptor == &dsdesign_space_message__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t dsdesign_space_message__pack
+                     (const DSDesignSpaceMessage *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &dsdesign_space_message__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t dsdesign_space_message__pack_to_buffer
+                     (const DSDesignSpaceMessage *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &dsdesign_space_message__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+DSDesignSpaceMessage *
+       dsdesign_space_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (DSDesignSpaceMessage *)
+     protobuf_c_message_unpack (&dsdesign_space_message__descriptor,
+                                allocator, len, data);
+}
+void   dsdesign_space_message__free_unpacked
+                     (DSDesignSpaceMessage *message,
+                      ProtobufCAllocator *allocator)
+{
+  assert(message->base.descriptor == &dsdesign_space_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 static const ProtobufCFieldDescriptor dsmatrix_message__field_descriptors[3] =
@@ -634,6 +720,57 @@ const ProtobufCMessageDescriptor dscase_message__descriptor =
   (ProtobufCMessageInit) dscase_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
+static const ProtobufCFieldDescriptor dscyclical_case_message__field_descriptors[2] =
+{
+  {
+    "originalCase",
+    1,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSCyclicalCaseMessage, originalcase),
+    &dscase_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "internalDesignspace",
+    2,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSCyclicalCaseMessage, internaldesignspace),
+    &dsdesign_space_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned dscyclical_case_message__field_indices_by_name[] = {
+  1,   /* field[1] = internalDesignspace */
+  0,   /* field[0] = originalCase */
+};
+static const ProtobufCIntRange dscyclical_case_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor dscyclical_case_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "DSCyclicalCaseMessage",
+  "DSCyclicalCaseMessage",
+  "DSCyclicalCaseMessage",
+  "",
+  sizeof(DSCyclicalCaseMessage),
+  2,
+  dscyclical_case_message__field_descriptors,
+  dscyclical_case_message__field_indices_by_name,
+  1,  dscyclical_case_message__number_ranges,
+  (ProtobufCMessageInit) dscyclical_case_message__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
 static const ProtobufCFieldDescriptor dsgmasystem_message__field_descriptors[11] =
 {
   {
@@ -800,5 +937,108 @@ const ProtobufCMessageDescriptor dsgmasystem_message__descriptor =
   dsgmasystem_message__field_indices_by_name,
   1,  dsgmasystem_message__number_ranges,
   (ProtobufCMessageInit) dsgmasystem_message__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[6] =
+{
+  {
+    "gma",
+    1,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, gma),
+    &dsgmasystem_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Cd",
+    2,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, cd),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Ci",
+    3,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, ci),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "delta",
+    4,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, delta),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "seriesCalculations",
+    5,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, seriescalculations),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "validCases",
+    6,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(DSDesignSpaceMessage, n_validcases),
+    offsetof(DSDesignSpaceMessage, validcases),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned dsdesign_space_message__field_indices_by_name[] = {
+  1,   /* field[1] = Cd */
+  2,   /* field[2] = Ci */
+  3,   /* field[3] = delta */
+  0,   /* field[0] = gma */
+  4,   /* field[4] = seriesCalculations */
+  5,   /* field[5] = validCases */
+};
+static const ProtobufCIntRange dsdesign_space_message__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 6 }
+};
+const ProtobufCMessageDescriptor dsdesign_space_message__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "DSDesignSpaceMessage",
+  "DSDesignSpaceMessage",
+  "DSDesignSpaceMessage",
+  "",
+  sizeof(DSDesignSpaceMessage),
+  6,
+  dsdesign_space_message__field_descriptors,
+  dsdesign_space_message__field_indices_by_name,
+  1,  dsdesign_space_message__number_ranges,
+  (ProtobufCMessageInit) dsdesign_space_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };

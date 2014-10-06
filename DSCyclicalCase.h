@@ -137,6 +137,13 @@ extern DSDictionary * DSCyclicalCaseVerticesFor2DSlice(const DSCyclicalCase *cyc
                                                        const char * xVariable,
                                                        const char *yVariable);
 
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
 
+
+extern DSCyclicalCaseMessage * DSCyclicalCaseEncode(const DSCyclicalCase * aCase);
+extern DSCyclicalCase * DSCyclicalCaseFromCyclicalCaseMessage(const DSCyclicalCaseMessage * message);
+extern DSCyclicalCase * DSCyclicalCaseDecode(size_t length, const void * buffer);
 
 #endif
