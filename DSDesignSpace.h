@@ -31,6 +31,7 @@
 
 #include "DSTypes.h"
 #include "DSErrors.h"
+#include "DSDataSerialization.pb-c.h"
 
 #ifdef __cplusplus
 __BEGIN_DECLS
@@ -119,6 +120,15 @@ extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds);
 
 extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds);
 extern DSDictionary * DSDesignSpaceCalculateValidityOfCaseSet(DSDesignSpace *ds, DSUInteger numberOfCases, DSCase ** cases);
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+
+extern DSDesignSpaceMessage * DSDesignSpaceEncode(const DSDesignSpace * aCase);
+extern DSDesignSpace * DSDesignSpaceFromDesignSpaceMessage(const DSDesignSpaceMessage * message);
+extern DSDesignSpace * DSDesignSpaceDecode(size_t length, const void * buffer);
 
 #ifdef __cplusplus
 __END_DECLS

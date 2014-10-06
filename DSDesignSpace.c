@@ -2059,3 +2059,76 @@ extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
 {
         return dsDesignSpaceCalculateCyclicalCasesParallelBSD(ds);
 }
+
+#if defined(__APPLE__) && defined (__MACH__)
+#pragma mark - Data Serialization
+#endif
+
+
+extern DSDesignSpaceMessage * DSDesignSpaceEncode(const DSDesignSpace * ds)
+{
+        DSDesignSpaceMessage * message = NULL;
+        DSUInteger i;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        message = DSSecureMalloc(sizeof(DSDesignSpaceMessage));
+        dsdesign_space_message__init(message);
+        message->gma = DSGMASystemEncode(DSDesignSpaceGMASystem(ds));
+        if (ds->Cd != NULL) {
+                message->cd = DSMatrixEncode(ds->Cd);
+                message->ci = DSMatrixEncode(ds->Ci);
+                message->delta = DSMatrixEncode(ds->delta);
+        }
+        message->seriescalculations = ds->seriesCalculations;
+        message->n_validcases = DSDesignSpaceNumberOfValidCases(ds);
+        message->validcases = DSSecureCalloc(sizeof(DSUInteger), message->n_validcases);
+        message->numberofcases = ds->numberOfCases;
+        for (i = 0; i < message->n_validcases; i++) {
+                message->validcases[i] = atoi(DSDictionaryNames(ds->validCases)[i]);
+        }
+bail:
+        return message;
+}
+
+extern DSDesignSpace * DSDesignSpaceFromDesignSpaceMessage(const DSDesignSpaceMessage * message)
+{
+        DSDesignSpace * ds = NULL;
+        DSUInteger i;
+        char name[100];
+        if (message == NULL) {
+                printf("message is NULL\n");
+                goto bail;
+        }
+        ds = DSDesignSpaceAlloc();
+        ds->gma = DSGMASystemFromGMASystemMessage(message->gma);
+        if (message->cd != NULL) {
+                ds->Cd = DSMatrixFromMatrixMessage(message->cd);
+                ds->Ci = DSMatrixFromMatrixMessage(message->ci);
+                ds->delta = DSMatrixFromMatrixMessage(message->delta);
+        }
+        ds->numberOfCases = message->numberofcases;
+        ds->seriesCalculations = message->seriescalculations;
+        ds->validCases = DSDictionaryAlloc();
+        for (i = 0; i < message->n_validcases; i++) {
+                sprintf(name, "%i", message->validcases[i]);
+                DSDictionaryAddValueWithName(ds->validCases, name, (void *)1);
+        }
+        ds->Xd = DSGMASystemXd(ds->gma);
+        ds->Xd_a = DSGMASystemXd_a(ds->gma);
+        ds->Xi = DSGMASystemXi(ds->gma);
+bail:
+        return ds;
+}
+
+extern DSDesignSpace * DSDesignSpaceDecode(size_t length, const void * buffer)
+{
+        DSDesignSpace * ds = NULL;
+        DSDesignSpaceMessage * message;
+        message = dsdesign_space_message__unpack(NULL, length, buffer);
+        ds = DSDesignSpaceFromDesignSpaceMessage(message);
+        dsdesign_space_message__free_unpacked(message, NULL);
+bail:
+        return ds;
+}

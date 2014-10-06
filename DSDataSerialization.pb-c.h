@@ -136,16 +136,17 @@ struct  _DSDesignSpaceMessage
 {
   ProtobufCMessage base;
   DSGMASystemMessage *gma;
+  protobuf_c_boolean seriescalculations;
+  int32_t numberofcases;
+  size_t n_validcases;
+  int32_t *validcases;
   DSMatrixMessage *cd;
   DSMatrixMessage *ci;
   DSMatrixMessage *delta;
-  protobuf_c_boolean seriescalculations;
-  size_t n_validcases;
-  int32_t *validcases;
 };
 #define DSDESIGN_SPACE_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dsdesign_space_message__descriptor) \
-    , NULL, NULL, NULL, NULL, 0, 0,NULL }
+    , NULL, 0, 0, 0,NULL, NULL, NULL, NULL }
 
 
 /* DSMatrixMessage methods */

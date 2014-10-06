@@ -939,7 +939,7 @@ const ProtobufCMessageDescriptor dsgmasystem_message__descriptor =
   (ProtobufCMessageInit) dsgmasystem_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[6] =
+static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[7] =
 {
   {
     "gma",
@@ -954,44 +954,8 @@ static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "Cd",
-    2,
-    PROTOBUF_C_LABEL_REQUIRED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceMessage, cd),
-    &dsmatrix_message__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "Ci",
-    3,
-    PROTOBUF_C_LABEL_REQUIRED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceMessage, ci),
-    &dsmatrix_message__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "delta",
-    4,
-    PROTOBUF_C_LABEL_REQUIRED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceMessage, delta),
-    &dsmatrix_message__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
     "seriesCalculations",
-    5,
+    2,
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
@@ -1002,8 +966,20 @@ static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
+    "numberOfCases",
+    3,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, numberofcases),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
     "validCases",
-    6,
+    4,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_INT32,
     offsetof(DSDesignSpaceMessage, n_validcases),
@@ -1013,19 +989,56 @@ static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "Cd",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, cd),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "Ci",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, ci),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "delta",
+    7,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, delta),
+    &dsmatrix_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned dsdesign_space_message__field_indices_by_name[] = {
-  1,   /* field[1] = Cd */
-  2,   /* field[2] = Ci */
-  3,   /* field[3] = delta */
+  4,   /* field[4] = Cd */
+  5,   /* field[5] = Ci */
+  6,   /* field[6] = delta */
   0,   /* field[0] = gma */
-  4,   /* field[4] = seriesCalculations */
-  5,   /* field[5] = validCases */
+  2,   /* field[2] = numberOfCases */
+  1,   /* field[1] = seriesCalculations */
+  3,   /* field[3] = validCases */
 };
 static const ProtobufCIntRange dsdesign_space_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 6 }
+  { 0, 7 }
 };
 const ProtobufCMessageDescriptor dsdesign_space_message__descriptor =
 {
@@ -1035,7 +1048,7 @@ const ProtobufCMessageDescriptor dsdesign_space_message__descriptor =
   "DSDesignSpaceMessage",
   "",
   sizeof(DSDesignSpaceMessage),
-  6,
+  7,
   dsdesign_space_message__field_descriptors,
   dsdesign_space_message__field_indices_by_name,
   1,  dsdesign_space_message__number_ranges,

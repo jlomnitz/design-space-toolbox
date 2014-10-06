@@ -56,10 +56,11 @@ message DSGMASystemMessage {
 
 message DSDesignSpaceMessage {
         required DSGMASystemMessage gma = 1;
-        required DSMatrixMessage Cd = 2;
-        required DSMatrixMessage Ci = 3;
-        required DSMatrixMessage delta = 4;
-        required bool seriesCalculations = 5;
-        repeated int32 validCases = 6;
+        required bool seriesCalculations = 2;
+        required int32 numberOfCases = 3;
+        repeated int32 validCases = 4;
+        optional DSMatrixMessage Cd = 5;
+        optional DSMatrixMessage Ci = 6;
+        optional DSMatrixMessage delta = 7;
 }
 

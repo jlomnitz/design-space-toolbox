@@ -678,7 +678,7 @@ extern DSCyclicalCaseMessage * DSCyclicalCaseEncode(const DSCyclicalCase * aCase
         message = DSSecureMalloc(sizeof(DSCyclicalCaseMessage));
         dscyclical_case_message__init(message);
         message->originalcase = DSCaseEncode(aCase->originalCase);
-//        message->internaldesignspace = DSDesignSpaceEncode(aCase->internalDesignspace);
+        message->internaldesignspace = DSDesignSpaceEncode(aCase->internalDesignspace);
 bail:
         return message;
 }
@@ -692,7 +692,7 @@ extern DSCyclicalCase * DSCyclicalCaseFromCyclicalCaseMessage(const DSCyclicalCa
         }
         aCase = DSSecureCalloc(sizeof(DSCyclicalCase), 1);
         aCase->originalCase = DSCaseFromCaseMessage(message->originalcase);
-//        aCase->internalDesignspace = DSDesignSpaceFromDesignSpaceMessage(message->internaldesignspace);
+        aCase->internalDesignspace = DSDesignSpaceFromDesignSpaceMessage(message->internaldesignspace);
 bail:
         return aCase;
 }
