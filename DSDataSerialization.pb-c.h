@@ -143,10 +143,14 @@ struct  _DSDesignSpaceMessage
   DSMatrixMessage *cd;
   DSMatrixMessage *ci;
   DSMatrixMessage *delta;
+  size_t n_cyclicalcasesnumbers;
+  int32_t *cyclicalcasesnumbers;
+  size_t n_cyclicalcases;
+  DSCyclicalCaseMessage **cyclicalcases;
 };
 #define DSDESIGN_SPACE_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dsdesign_space_message__descriptor) \
-    , NULL, 0, 0, 0,NULL, NULL, NULL, NULL }
+    , NULL, 0, 0, 0,NULL, NULL, NULL, NULL, 0,NULL, 0,NULL }
 
 
 /* DSMatrixMessage methods */

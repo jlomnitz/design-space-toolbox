@@ -13,10 +13,11 @@
 
 
 int main(int argc, const char ** argv) {
-        DSDesignSpace * ds = DSDesignSpaceByParsingStringList("x1. = a1 + a2*x2 - b1*x1", NULL, "x2. = a3*x1 + a4 - b2*x2", NULL);
+        DSDesignSpace * ds = DSDesignSpaceByParsingStringList("x1. = a1 + a2*x2 - b1*x1", NULL, "x2. = a3*x1 + a4 + b1*x1 - a2*x2 - b2*x2", NULL);
+        DSDesignSpaceCalculateCyclicalCases(ds);
         DSDesignSpace * decodedDs;
         DSUInteger i;
-        void * buffer;
+        void * buffer, * newBuffer;
         size_t length;
         printf("=== Encoded ===\n");
         DSDesignSpaceMessage * message = DSDesignSpaceEncode(ds);
@@ -24,6 +25,7 @@ int main(int argc, const char ** argv) {
         buffer = DSSecureMalloc(length);
         printf("size: %li\n", length);
         DSDesignSpacePrint(ds);
+        DSDictionaryPrint(ds->cyclicalCases);
         dsdesign_space_message__pack(message, buffer);
         DSIOWriteBinaryData("/var/tmp/tmodhjshdjds.kaka", length, buffer);
         DSSecureFree(buffer);
@@ -32,6 +34,7 @@ int main(int argc, const char ** argv) {
         printf("=== Decoded ===\n");
         printf("size: %li\n", length);
         DSDesignSpacePrint(decodedDs);
+        DSDictionaryPrint(decodedDs->cyclicalCases);
         DSSecureFree(buffer);
         printf("\n");
         remove("/var/tmp/tmodhjshdjds.kaka");
@@ -48,13 +51,14 @@ int main(int argc, const char ** argv) {
                 DSCasePrint(case1);
                 dscase_message__pack(message, buffer);
                 DSIOWriteBinaryData("/var/tmp/tmodhjshdjds.kaka", length, buffer);
-                DSSecureFree(buffer);
-                buffer = DSIOReadBinaryData("/var/tmp/tmodhjshdjds.kaka", &length);
-                decoded = DSCaseDecode(length, buffer);
+                newBuffer = DSIOReadBinaryData("/var/tmp/tmodhjshdjds.kaka", &length);
+                printf("Reading %li bytes\n", length);
+                decoded = DSCaseDecode(length, newBuffer);
                 printf("=== Decoded ===\n");
                 printf("size: %li\n", length);
                 DSCasePrint(decoded);
                 DSSecureFree(buffer);
+                DSSecureFree(newBuffer);
                 printf("\n");
                 remove("/var/tmp/tmodhjshdjds.kaka");
         }

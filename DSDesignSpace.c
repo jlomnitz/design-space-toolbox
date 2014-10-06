@@ -2068,7 +2068,8 @@ extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
 extern DSDesignSpaceMessage * DSDesignSpaceEncode(const DSDesignSpace * ds)
 {
         DSDesignSpaceMessage * message = NULL;
-        DSUInteger i;
+        DSUInteger i, caseNumber;
+        const char * name;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -2087,6 +2088,16 @@ extern DSDesignSpaceMessage * DSDesignSpaceEncode(const DSDesignSpace * ds)
         message->numberofcases = ds->numberOfCases;
         for (i = 0; i < message->n_validcases; i++) {
                 message->validcases[i] = atoi(DSDictionaryNames(ds->validCases)[i]);
+        }
+        message->n_cyclicalcasesnumbers = DSDictionaryCount(ds->cyclicalCases);
+        message->n_cyclicalcases = message->n_cyclicalcasesnumbers;
+        message->cyclicalcasesnumbers = DSSecureCalloc(sizeof(DSUInteger), message->n_cyclicalcases);
+        message->cyclicalcases = DSSecureCalloc(sizeof(DSCyclicalCaseMessage), message->n_cyclicalcases);
+        for (i = 0; i < message->n_cyclicalcasesnumbers; i++) {
+                name = DSDictionaryNames(ds->cyclicalCases)[i];
+                caseNumber = atoi(name);
+                message->cyclicalcasesnumbers[i] = caseNumber;
+                message->cyclicalcases[i] = DSCyclicalCaseEncode(DSDictionaryValueForName(ds->cyclicalCases, name));
         }
 bail:
         return message;
@@ -2118,6 +2129,11 @@ extern DSDesignSpace * DSDesignSpaceFromDesignSpaceMessage(const DSDesignSpaceMe
         ds->Xd = DSGMASystemXd(ds->gma);
         ds->Xd_a = DSGMASystemXd_a(ds->gma);
         ds->Xi = DSGMASystemXi(ds->gma);
+        ds->cyclicalCases = DSDictionaryAlloc();
+        for (i = 0; i < message->n_cyclicalcases; i++) {
+                sprintf(name, "%i", message->cyclicalcasesnumbers[i]);
+                DSDictionaryAddValueWithName(ds->cyclicalCases, name, DSCyclicalCaseFromCyclicalCaseMessage(message->cyclicalcases[i]));
+        }        
 bail:
         return ds;
 }

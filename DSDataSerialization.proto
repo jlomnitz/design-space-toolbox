@@ -62,5 +62,7 @@ message DSDesignSpaceMessage {
         optional DSMatrixMessage Cd = 5;
         optional DSMatrixMessage Ci = 6;
         optional DSMatrixMessage delta = 7;
+        repeated int32 cyclicalCasesNumbers = 8;
+        repeated DSCyclicalCaseMessage cyclicalCases = 9;
 }
 

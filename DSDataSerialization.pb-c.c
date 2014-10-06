@@ -939,7 +939,7 @@ const ProtobufCMessageDescriptor dsgmasystem_message__descriptor =
   (ProtobufCMessageInit) dsgmasystem_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[7] =
+static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[9] =
 {
   {
     "gma",
@@ -1025,10 +1025,36 @@ static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "cyclicalCasesNumbers",
+    8,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(DSDesignSpaceMessage, n_cyclicalcasesnumbers),
+    offsetof(DSDesignSpaceMessage, cyclicalcasesnumbers),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "cyclicalCases",
+    9,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(DSDesignSpaceMessage, n_cyclicalcases),
+    offsetof(DSDesignSpaceMessage, cyclicalcases),
+    &dscyclical_case_message__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned dsdesign_space_message__field_indices_by_name[] = {
   4,   /* field[4] = Cd */
   5,   /* field[5] = Ci */
+  8,   /* field[8] = cyclicalCases */
+  7,   /* field[7] = cyclicalCasesNumbers */
   6,   /* field[6] = delta */
   0,   /* field[0] = gma */
   2,   /* field[2] = numberOfCases */
@@ -1038,7 +1064,7 @@ static const unsigned dsdesign_space_message__field_indices_by_name[] = {
 static const ProtobufCIntRange dsdesign_space_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 7 }
+  { 0, 9 }
 };
 const ProtobufCMessageDescriptor dsdesign_space_message__descriptor =
 {
@@ -1048,7 +1074,7 @@ const ProtobufCMessageDescriptor dsdesign_space_message__descriptor =
   "DSDesignSpaceMessage",
   "",
   sizeof(DSDesignSpaceMessage),
-  7,
+  9,
   dsdesign_space_message__field_descriptors,
   dsdesign_space_message__field_indices_by_name,
   1,  dsdesign_space_message__number_ranges,

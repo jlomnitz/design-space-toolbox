@@ -1377,7 +1377,7 @@ extern DSCase * DSCaseFromCaseMessage(const DSCaseMessage * message)
         aCase->Xd_a= DSSSystemXd_a(DSCaseSSystem(aCase));
         aCase->Xi = DSSSystemXi(DSCaseSSystem(aCase));
         aCase->delta = DSMatrixFromMatrixMessage(message->delta);
-        if (DSSSystemHasSolution(DSCaseSSystem(aCase))) {
+        if (message->u != NULL) {
                 aCase->U = DSMatrixFromMatrixMessage(message->u);
                 aCase->zeta = DSMatrixFromMatrixMessage(message->zeta);
         } else {
