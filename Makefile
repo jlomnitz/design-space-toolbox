@@ -10,7 +10,7 @@ CC = gcc
 # Without this  -L"/usr/lib/atlas-base/" the libcblas.so library is not detected in debian. 
 CFLAGS = -std=gnu99 -Wall -O3 -shared -fPIC
 DEBUG_CFLAGS = -g -std=gnu99 -Wall -shared -fPIC
-LIBS = -L/usr/lib/atlas-base -lglpk -L/usr/lib/gsl  -lgsl -lcblas
+LIBS = -L/usr/lib/atlas-base -lglpk -L/usr/lib/gsl  -lgsl -lcblas -lprotobuf-c
 #LIBS = -lglpk -lgsl -lcblas 
 
 # Remove the built in commands for yacc and lex files
