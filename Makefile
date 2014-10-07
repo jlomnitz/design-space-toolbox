@@ -13,6 +13,10 @@ DEBUG_CFLAGS = -g -std=gnu99 -Wall -shared -fPIC
 LIBS = -L/usr/lib/atlas-base -lglpk -L/usr/lib/gsl  -lgsl -lcblas
 #LIBS = -lglpk -lgsl -lcblas 
 
+# Remove the built in commands for yacc and lex files
+%.c: %.y
+%.c: %.l
+
 EXECUTABLE = libdesignspace.so
 
 HEADERS =$(wildcard *.h)
