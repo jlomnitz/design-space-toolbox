@@ -115,7 +115,7 @@ bail:
 
 extern const DSVariablePool * DSCyclicalCaseXd(const DSCyclicalCase * cyclicalCase)
 {
-        DSVariablePool * Xd = NULL;
+        const DSVariablePool * Xd = NULL;
         if (cyclicalCase == NULL) {
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -127,7 +127,7 @@ bail:
 
 extern const DSVariablePool *  DSCyclicalCaseXi(const DSCyclicalCase * cyclicalCase)
 {
-        DSVariablePool * Xi = NULL;
+        const DSVariablePool * Xi = NULL;
         if (cyclicalCase == NULL) {
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -144,10 +144,9 @@ extern const DSDesignSpace * DSCyclicalCaseInternalDesignSpace(const DSCyclicalC
                 DSError(M_DS_SUBCASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        ds = subcase->internalDesignspaces[0];
-//        if (subcase->internal == NULL)
-//                goto bail;
-//        ds = subcase->internal;
+        if (subcase->internalDesignspace == NULL)
+                goto bail;
+        ds = subcase->internalDesignspace;
 bail:
         return ds;
 }
