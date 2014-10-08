@@ -2115,6 +2115,11 @@ extern DSDesignSpaceMessage * DSDesignSpaceEncode(const DSDesignSpace * ds)
                 message->cyclicalcasesnumbers[i] = caseNumber;
                 message->cyclicalcases[i] = DSCyclicalCaseEncode(DSDictionaryValueForName(ds->cyclicalCases, name));
         }
+        if (DSDSCasePrefix(ds) != NULL) {
+                message->caseprefix = strdup(DSDSCasePrefix(ds));
+        } else {
+                message->caseprefix = NULL;
+        }
 bail:
         return message;
 }
@@ -2149,7 +2154,12 @@ extern DSDesignSpace * DSDesignSpaceFromDesignSpaceMessage(const DSDesignSpaceMe
         for (i = 0; i < message->n_cyclicalcases; i++) {
                 sprintf(name, "%i", message->cyclicalcasesnumbers[i]);
                 DSDictionaryAddValueWithName(ds->cyclicalCases, name, DSCyclicalCaseFromCyclicalCaseMessage(message->cyclicalcases[i]));
-        }        
+        }
+        if (message->caseprefix != NULL) {
+                ds->casePrefix = strdup(message->caseprefix);
+        } else {
+                ds->casePrefix = NULL;
+        }
 bail:
         return ds;
 }

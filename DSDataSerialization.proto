@@ -29,10 +29,11 @@ message DSCaseMessage {
         required DSSSystemMessage ssystem = 2;
         required DSMatrixMessage Cd = 3;
         required DSMatrixMessage Ci = 4;
-        repeated int32 signature = 5;
-        optional DSMatrixMessage U = 6;
-        optional DSMatrixMessage delta = 7;
-        optional DSMatrixMessage zeta = 8;
+        required string caseIdentifier= 5;
+        repeated int32 signature = 6;
+        optional DSMatrixMessage U = 7;
+        optional DSMatrixMessage delta = 8;
+        optional DSMatrixMessage zeta = 9;
 }
 
 message DSCyclicalCaseMessage {
@@ -62,7 +63,8 @@ message DSDesignSpaceMessage {
         optional DSMatrixMessage Cd = 5;
         optional DSMatrixMessage Ci = 6;
         optional DSMatrixMessage delta = 7;
-        repeated int32 cyclicalCasesNumbers = 8;
-        repeated DSCyclicalCaseMessage cyclicalCases = 9;
+        optional string casePrefix = 8;
+        repeated int32 cyclicalCasesNumbers = 9;
+        repeated DSCyclicalCaseMessage cyclicalCases = 10;
 }
 

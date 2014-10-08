@@ -85,6 +85,7 @@ struct  _DSCaseMessage
   DSSSystemMessage *ssystem;
   DSMatrixMessage *cd;
   DSMatrixMessage *ci;
+  char *caseidentifier;
   size_t n_signature;
   int32_t *signature;
   DSMatrixMessage *u;
@@ -93,7 +94,7 @@ struct  _DSCaseMessage
 };
 #define DSCASE_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dscase_message__descriptor) \
-    , 0, NULL, NULL, NULL, 0,NULL, NULL, NULL, NULL }
+    , 0, NULL, NULL, NULL, NULL, 0,NULL, NULL, NULL, NULL }
 
 
 struct  _DSCyclicalCaseMessage
@@ -143,6 +144,7 @@ struct  _DSDesignSpaceMessage
   DSMatrixMessage *cd;
   DSMatrixMessage *ci;
   DSMatrixMessage *delta;
+  char *caseprefix;
   size_t n_cyclicalcasesnumbers;
   int32_t *cyclicalcasesnumbers;
   size_t n_cyclicalcases;
@@ -150,7 +152,7 @@ struct  _DSDesignSpaceMessage
 };
 #define DSDESIGN_SPACE_MESSAGE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&dsdesign_space_message__descriptor) \
-    , NULL, 0, 0, 0,NULL, NULL, NULL, NULL, 0,NULL, 0,NULL }
+    , NULL, 0, 0, 0,NULL, NULL, NULL, NULL, NULL, 0,NULL, 0,NULL }
 
 
 /* DSMatrixMessage methods */

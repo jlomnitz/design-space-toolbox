@@ -591,7 +591,7 @@ const ProtobufCMessageDescriptor dsssystem_message__descriptor =
   (ProtobufCMessageInit) dsssystem_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
+static const ProtobufCFieldDescriptor dscase_message__field_descriptors[9] =
 {
   {
     "caseNumber",
@@ -642,8 +642,20 @@ static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "signature",
+    "caseIdentifier",
     5,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(DSCaseMessage, caseidentifier),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "signature",
+    6,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_INT32,
     offsetof(DSCaseMessage, n_signature),
@@ -655,7 +667,7 @@ static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
   },
   {
     "U",
-    6,
+    7,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -667,7 +679,7 @@ static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
   },
   {
     "delta",
-    7,
+    8,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -679,7 +691,7 @@ static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
   },
   {
     "zeta",
-    8,
+    9,
     PROTOBUF_C_LABEL_OPTIONAL,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -693,17 +705,18 @@ static const ProtobufCFieldDescriptor dscase_message__field_descriptors[8] =
 static const unsigned dscase_message__field_indices_by_name[] = {
   2,   /* field[2] = Cd */
   3,   /* field[3] = Ci */
-  5,   /* field[5] = U */
+  6,   /* field[6] = U */
+  4,   /* field[4] = caseIdentifier */
   0,   /* field[0] = caseNumber */
-  6,   /* field[6] = delta */
-  4,   /* field[4] = signature */
+  7,   /* field[7] = delta */
+  5,   /* field[5] = signature */
   1,   /* field[1] = ssystem */
-  7,   /* field[7] = zeta */
+  8,   /* field[8] = zeta */
 };
 static const ProtobufCIntRange dscase_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 8 }
+  { 0, 9 }
 };
 const ProtobufCMessageDescriptor dscase_message__descriptor =
 {
@@ -713,7 +726,7 @@ const ProtobufCMessageDescriptor dscase_message__descriptor =
   "DSCaseMessage",
   "",
   sizeof(DSCaseMessage),
-  8,
+  9,
   dscase_message__field_descriptors,
   dscase_message__field_indices_by_name,
   1,  dscase_message__number_ranges,
@@ -939,7 +952,7 @@ const ProtobufCMessageDescriptor dsgmasystem_message__descriptor =
   (ProtobufCMessageInit) dsgmasystem_message__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[9] =
+static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[10] =
 {
   {
     "gma",
@@ -1026,8 +1039,20 @@ static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "cyclicalCasesNumbers",
+    "casePrefix",
     8,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(DSDesignSpaceMessage, caseprefix),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "cyclicalCasesNumbers",
+    9,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_INT32,
     offsetof(DSDesignSpaceMessage, n_cyclicalcasesnumbers),
@@ -1039,7 +1064,7 @@ static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[
   },
   {
     "cyclicalCases",
-    9,
+    10,
     PROTOBUF_C_LABEL_REPEATED,
     PROTOBUF_C_TYPE_MESSAGE,
     offsetof(DSDesignSpaceMessage, n_cyclicalcases),
@@ -1053,8 +1078,9 @@ static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[
 static const unsigned dsdesign_space_message__field_indices_by_name[] = {
   4,   /* field[4] = Cd */
   5,   /* field[5] = Ci */
-  8,   /* field[8] = cyclicalCases */
-  7,   /* field[7] = cyclicalCasesNumbers */
+  7,   /* field[7] = casePrefix */
+  9,   /* field[9] = cyclicalCases */
+  8,   /* field[8] = cyclicalCasesNumbers */
   6,   /* field[6] = delta */
   0,   /* field[0] = gma */
   2,   /* field[2] = numberOfCases */
@@ -1064,7 +1090,7 @@ static const unsigned dsdesign_space_message__field_indices_by_name[] = {
 static const ProtobufCIntRange dsdesign_space_message__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 9 }
+  { 0, 10 }
 };
 const ProtobufCMessageDescriptor dsdesign_space_message__descriptor =
 {
@@ -1074,7 +1100,7 @@ const ProtobufCMessageDescriptor dsdesign_space_message__descriptor =
   "DSDesignSpaceMessage",
   "",
   sizeof(DSDesignSpaceMessage),
-  9,
+  10,
   dsdesign_space_message__field_descriptors,
   dsdesign_space_message__field_indices_by_name,
   1,  dsdesign_space_message__number_ranges,

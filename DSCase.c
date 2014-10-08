@@ -106,6 +106,7 @@ extern DSCase * DSCaseCopy(const DSCase * aCase)
         DSCaseXd(newCase) = DSSSystemXd(DSCaseSSys(newCase));
         DSCaseXi(newCase) = DSSSystemXi(DSCaseSSys(newCase));
         DSCaseXd_a(newCase) =DSSSystemXd_a(DSCaseSSys(newCase));
+        DSCaseId(newCase) = strdup(DSCaseId(aCase));
 bail:
         return newCase;
 }
@@ -1397,6 +1398,7 @@ extern DSCaseMessage * DSCaseEncode(const DSCase * aCase)
                 message->u = NULL;
                 message->zeta = NULL;
         }
+        message->caseidentifier = strdup(DSCaseId(aCase));
 bail:
         return message;
 }
@@ -1429,6 +1431,7 @@ extern DSCase * DSCaseFromCaseMessage(const DSCaseMessage * message)
         for (i = 0; i < message->n_signature; i++) {
                 aCase->signature[i] = message->signature[i];
         }
+        DSCaseId(aCase) = strdup(message->caseidentifier);
 bail:
         return aCase;
 }
