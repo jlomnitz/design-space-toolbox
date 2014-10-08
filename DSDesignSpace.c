@@ -813,20 +813,42 @@ bail:
 
 static void dsDesignSpaceCalculateCyclicalCasesSeries(DSDesignSpace *ds)
 {
-        DSUInteger i, numberOfCases;
+        DSUInteger i, caseNumber, numberOfCases, * termSignature;
         DSCase * aCase = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSGMASystemSignature(DSDSGMA(ds)) == NULL) {
+                DSError(M_DS_WRONG ": GMA signature is NULL", A_DS_ERROR);
+                goto bail;
+        }
         numberOfCases = DSDesignSpaceNumberOfCases(ds);
         if (numberOfCases == 0) {
+                DSError(M_DS_WRONG ": Number of cases to process must be more than 0", A_DS_ERROR);
                 goto bail;
         }
         for (i = 0; i < numberOfCases; i++) {
-                aCase = DSDesignSpaceCaseWithCaseNumber(ds, i+1);
-                DSDesignSpaceCalculateCyclicalCase(ds, aCase);
-                DSCaseFree(aCase);
+                caseNumber = i+1;
+                if (caseNumber == 0)
+                        continue;
+                if (caseNumber > DSDesignSpaceNumberOfCases(ds)) {
+                        DSError(M_DS_WRONG ": Case number out of bounds", A_DS_ERROR);
+                        continue;
+                }
+                termSignature = DSCaseSignatureForCaseNumber(caseNumber, ds->gma);
+                if (termSignature != NULL) {
+                        aCase = DSCaseWithTermsFromDesignSpace(ds, termSignature);
+                        if (aCase != NULL) {
+                                DSDesignSpaceCalculateCyclicalCase(ds, aCase);
+                                DSCaseFree(aCase);
+                        }
+                        DSSecureFree(termSignature);
+                }
         }
 bail:
         return;
@@ -2057,7 +2079,11 @@ bail:
 
 extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
 {
-        return dsDesignSpaceCalculateCyclicalCasesParallelBSD(ds);
+        if (ds->seriesCalculations == true)
+                dsDesignSpaceCalculateCyclicalCasesSeries(ds);
+        else
+                dsDesignSpaceCalculateCyclicalCasesParallelBSD(ds);
+        return;
 }
 
 #if defined(__APPLE__) && defined (__MACH__)

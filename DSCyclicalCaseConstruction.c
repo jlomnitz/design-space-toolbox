@@ -901,7 +901,7 @@ static DSUInteger dsCyclicalCasePrimaryCycleVariableIndices(const DSCase * aCase
                                                             DSMatrix * problematicEquations,
                                                             DSUInteger ** primaryVariables)
 {
-        DSUInteger numberOfCycles = 0, numberCycleVariables, * cycleIndices;
+        DSUInteger numberOfCycles = 0, * cycleIndices;
         DSUInteger i, j, k;
         DSMatrix * Ad, *temp, *nullspace;
         double value, matrixValue;
