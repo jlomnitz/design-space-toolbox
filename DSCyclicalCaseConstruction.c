@@ -2119,6 +2119,7 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
                                                         DSGMASystemXi(DSDesignSpaceGMASystem(original)),
                                                         DSDesignSpaceNumberOfEquations(original));
         DSDesignSpaceAddConditions(collapsed, DSCaseCd(aCase), DSCaseCi(aCase), DSCaseDelta(aCase));
+        collapsed->casePrefix = strdup(DSCaseIdentifier(aCase));
         collapsed->seriesCalculations = true;
         collapsed->extensionData = extensionData;
         DSDesignSpaceCalculateCyclicalCases(collapsed);

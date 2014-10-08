@@ -290,6 +290,11 @@ extern DSUInteger DSCyclicalCaseNumber(const DSCyclicalCase *cyclicalCase)
         return DSCaseNumber(DSCyclicalCaseOriginalCase(cyclicalCase));
 }
 
+extern const char * DSCyclicalCaseIdentifier(const DSCyclicalCase *cyclicalCase)
+{
+        return DSCaseIdentifier(DSCyclicalCaseOriginalCase(cyclicalCase));
+}
+
 extern const DSUInteger * DSCyclicalCaseSignature(const DSCyclicalCase *cyclicalCase)
 {
         return DSCaseSignature(DSCyclicalCaseOriginalCase(cyclicalCase));

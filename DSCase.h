@@ -58,6 +58,7 @@ __BEGIN_DECLS
 #define DSCaseZeta(x)                ((x)->zeta)
 #define DSCaseSig(x)                 ((x)->signature)
 #define DSCaseNum(x)                 ((x)->caseNumber)
+#define DSCaseId(x)                  ((x)->caseIdentifier)
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - DSCase Global behavior
@@ -77,8 +78,8 @@ extern void DSCaseFree(DSCase * aCase);
 #pragma mark - Factory functions
 #endif
 
-extern DSCase * DSCaseWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger * termArray);
-extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const DSUInteger * termArray);
+extern DSCase * DSCaseWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger * termArray, const char * prefix);
+extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const DSUInteger * termArray, const char * prefix);
 
 
 #if defined (__APPLE__) && defined (__MACH__)
@@ -102,6 +103,7 @@ extern DSExpression ** DSCaseBoundaries(const DSCase *aCase);
 extern DSExpression ** DSCaseLogarithmicBoundaries(const DSCase *aCase);
 
 extern DSUInteger DSCaseNumber(const DSCase * aCase);
+extern const char * DSCaseIdentifier(const DSCase * aCase);
 extern const DSUInteger * DSCaseSignature(const DSCase * aCase);
 extern const DSSSystem *DSCaseSSystem(const DSCase * aCase);
 

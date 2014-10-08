@@ -132,6 +132,8 @@ extern void DSCaseFree(DSCase * aCase)
                 DSMatrixFree(DSCaseDelta(aCase));
         if (DSCaseU(aCase) != NULL)
                 DSMatrixFree(DSCaseU(aCase));
+        if (DSCaseId(aCase) != NULL)
+                DSSecureFree(DSCaseId(aCase));
         DSSecureFree(aCase);
 bail:
         return;
@@ -273,7 +275,32 @@ bail:
         return;
 }
 
-extern DSCase * DSCaseWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger * termArray)
+static void dsCaseCalculateCaseIdentifier(DSCase * aCase, const DSGMASystem * gma, const char endianness, const char * prefix)
+{
+        DSUInteger caseNumber = 0;
+        char temp[1000] = {'\0'};
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (gma == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        caseNumber = DSCaseNumberForSignature(DSCaseSig(aCase), gma);
+        sprintf(temp, "%i", caseNumber);
+        if (prefix != NULL) {
+                DSCaseId(aCase) = DSSecureCalloc(sizeof(char), strlen(prefix)+2+strlen(temp));
+                sprintf(DSCaseId(aCase), "%s_%i", prefix, caseNumber);
+        } else {
+                DSCaseId(aCase) = DSSecureCalloc(sizeof(char), strlen(temp)+1);
+                sprintf(DSCaseId(aCase), "%i", caseNumber);
+        }
+bail:
+        return;
+}
+
+extern DSCase * DSCaseWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger * termArray, const char * prefix)
 {
         DSCase *aCase = NULL;
         DSUInteger i, term1, term2, numberOfEquations, numberOfXi;
@@ -305,6 +332,7 @@ extern DSCase * DSCaseWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger
                 dsCaseCreateConditionMatrices(aCase, gma);
                 dsCaseCreateBoundaryMatrices(aCase);
                 dsCaseCalculateCaseNumber(aCase, gma, endian);
+                dsCaseCalculateCaseIdentifier(aCase, gma, endian, NULL);
         } else {
                 DSCaseFree(aCase);
                 aCase = NULL;
@@ -349,7 +377,7 @@ bail:
         return;
 }
 
-extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const DSUInteger * termArray)
+extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const DSUInteger * termArray, const char * prefix)
 {
         DSCase *aCase = NULL;
         DSUInteger i, term1, term2, numberOfEquations;
@@ -385,6 +413,7 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
                 /* Load extra conditions here */
                 dsCaseCreateBoundaryMatrices(aCase);
                 dsCaseCalculateCaseNumber(aCase, DSDesignSpaceGMASystem(ds), endian);
+                dsCaseCalculateCaseIdentifier(aCase, DSDesignSpaceGMASystem(ds), endian, DSDesignSpaceCasePrefix(ds));
         } else {
                 DSCaseFree(aCase);
                 aCase = NULL;
@@ -778,6 +807,18 @@ extern DSUInteger DSCaseNumber(const DSCase * aCase)
         caseNumber = DSCaseNum(aCase);
 bail:
         return caseNumber;
+}
+
+extern const char * DSCaseIdentifier(const DSCase * aCase)
+{
+        const char * caseIdentifier = NULL;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        caseIdentifier = DSCaseId(aCase);
+bail:
+        return caseIdentifier;
 }
 
 extern const DSUInteger * DSCaseSignature(const DSCase * aCase)

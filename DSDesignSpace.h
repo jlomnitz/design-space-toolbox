@@ -87,6 +87,8 @@ extern const DSGMASystem * DSDesignSpaceGMASystem(const DSDesignSpace * ds);
 extern const DSDictionary * DSDesignSpaceCyclicalCaseDictionary(const DSDesignSpace *ds);
 //extern DSDictionary * DSDesignSpaceCycleDictionaryForSignature(const DSDesignSpace * ds, const DSUInteger * signature);
 
+extern const char * DSDesignSpaceCasePrefix(const DSDesignSpace * ds);
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility -
 #endif

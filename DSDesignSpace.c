@@ -60,6 +60,7 @@
 #define DSDSCd(x)                               ((x)->Cd)
 #define DSDSDelta(x)                            ((x)->delta)
 #define DSDSValidPool(x)                        ((x)->validCases)
+#define DSDSCasePrefix(x)                       ((x)->casePrefix)
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, deallocation and initialization -
@@ -93,6 +94,8 @@ void DSDesignSpaceFree(DSDesignSpace * ds)
                 DSMatrixFree(DSDSDelta(ds));
         if (DSDSValidPool(ds) != NULL) 
                 DSDictionaryFree(DSDSValidPool(ds));
+        if (DSDSCasePrefix(ds) != NULL)
+                DSSecureFree(DSDSCasePrefix(ds));
         DSDictionaryFreeWithFunction(DSDSCyclical(ds), DSCyclicalCaseFree);
         if (ds->extensionData != NULL) {
                 // free extension data
@@ -342,7 +345,7 @@ extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const 
         }
         terms = DSCaseSignatureForCaseNumber(caseNumber, DSDSGMA(ds));
         if (terms != NULL) {
-                aCase = DSCaseWithTermsFromDesignSpace(ds, terms);
+                aCase = DSCaseWithTermsFromDesignSpace(ds, terms, DSDesignSpaceCasePrefix(ds));
                 DSSecureFree(terms);
         }
 bail:
@@ -376,7 +379,7 @@ extern DSCase * DSDesignSpaceCaseWithCaseSignature(const DSDesignSpace * ds, con
         }
 //        aCase = DSDSCases(ds)[caseNumber-1];
 //        if (aCase == NULL) {
-                aCase = DSCaseWithTermsFromGMA(DSDSGMA(ds), signature);
+                aCase = DSCaseWithTermsFromGMA(DSDSGMA(ds), signature, DSDSCasePrefix(ds));
 //                DSDSCases(ds)[caseNumber-1] = aCase;
 //        }
 bail:
@@ -474,6 +477,19 @@ extern const DSDictionary * DSDesignSpaceCyclicalCaseDictionary(const DSDesignSp
 bail:
         return dictionary;
 }
+
+extern const char * DSDesignSpaceCasePrefix(const DSDesignSpace * ds)
+{
+        const char * casePrefix = NULL;
+        if (ds == NULL ) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        casePrefix = DSDSCasePrefix(ds);
+bail:
+        return casePrefix;
+}
+
 //
 //extern DSDictionary * DSDesignSpaceCycleDictionaryForSignature(const DSDesignSpace * ds, const DSUInteger * signature)
 //{

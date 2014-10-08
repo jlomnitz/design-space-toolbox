@@ -196,7 +196,7 @@ extern void * DSParallelWorkerCyclicalCases(void * pthread_struct)
                 }
                 termSignature = DSCaseSignatureForCaseNumber(caseNumber, pdata->ds->gma);
                 if (termSignature != NULL) {
-                        aCase = DSCaseWithTermsFromDesignSpace(pdata->ds, termSignature);
+                        aCase = DSCaseWithTermsFromDesignSpace(pdata->ds, termSignature, DSDesignSpaceCasePrefix(pdata->ds));
                         if (aCase != NULL) {
                                 DSDesignSpaceCalculateCyclicalCase(pdata->ds, aCase);
                                 DSCaseFree(aCase);
@@ -245,7 +245,7 @@ extern void * DSParallelWorkerCases(void * pthread_struct)
                 }
                 termSignature = DSCaseSignatureForCaseNumber(caseNumber, pdata->ds->gma);
                 if (termSignature != NULL) {
-                        aCase = DSCaseWithTermsFromDesignSpace(pdata->ds, termSignature);
+                        aCase = DSCaseWithTermsFromDesignSpace(pdata->ds, termSignature, DSDesignSpaceCasePrefix(pdata->ds));
                         DSParallelStackAddCase(pdata->stack, aCase);
                         DSSecureFree(termSignature);
                 }

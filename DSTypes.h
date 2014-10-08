@@ -371,8 +371,9 @@ typedef struct {
         DSMatrix *U;                      //!< The boundary matrix corresponding to the independent variables.
         DSMatrix *delta;                  //!< The condition matrix corresponding to the constants.
         DSMatrix *zeta;                   //!< The boundary matrix corresponding to the constants.
-        DSUInteger caseNumber;            //!< The case number used to identify the case.
+        DSUInteger caseNumber;            //!< The case number used to identify the case. [will be deprecated]
         DSUInteger *signature;            //!< The case signature indicating the dominant terms used to generate the case.
+        char * caseIdentifier;      //!< A case identifier used to identify cases and subcases [will replace case number].
 } DSCase;
 
 
@@ -411,6 +412,7 @@ typedef struct {
         bool seriesCalculations;
         DSDictionary * cycleFluxes;
         DSCycleExtensionData * extensionData;
+        char * casePrefix;
 //        DSUInteger numberOfCycles;
 //        DSUInteger ** fluxSources;
 } DSDesignSpace;
