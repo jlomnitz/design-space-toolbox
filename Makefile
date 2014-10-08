@@ -22,6 +22,7 @@ EXECUTABLE = libdesignspace.so
 HEADERS =$(wildcard *.h)
 SOURCE = $(wildcard *.c)
 SOURCE := $(filter-out lempar.c, $(SOURCE))
+SOURCE := $(filter-out serializationtest.c, $(SOURCE))
 
 all: compile
 
