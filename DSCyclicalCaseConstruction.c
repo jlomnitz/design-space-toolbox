@@ -906,7 +906,7 @@ static DSUInteger dsCyclicalCasePrimaryCycleVariableIndices(const DSCase * aCase
         DSMatrix * Ad, *temp, *nullspace;
         double value, matrixValue;
         DSUInteger max;
-        if (cycleIndices == NULL) {
+        if (primaryVariables == NULL) {
                 DSError(M_DS_NULL ": Pointer to hold primary cycle variable indices cannot be null", A_DS_ERROR);
                 goto bail;
         }
