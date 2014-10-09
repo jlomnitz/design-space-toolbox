@@ -34,7 +34,7 @@
  * \date 2011
  */
 
-%name DSCaseOptimizationFunctionGrammar
+%name DSCaseOptimizationFunctionParser
 %token_prefix  TOKEN_COF_
 %type ID {void *}
 %type CONSTANT {void *}

@@ -61,18 +61,18 @@
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    DSCaseOptimizationFunctionGrammarTOKENTYPE     is the data type used for minor tokens given 
+**    DSCaseOptimizationFunctionParserTOKENTYPE     is the data type used for minor tokens given 
 **                       directly to the parser from the tokenizer.
 **    YYMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
-**                       which is DSCaseOptimizationFunctionGrammarTOKENTYPE.  The entry in the union
+**                       which is DSCaseOptimizationFunctionParserTOKENTYPE.  The entry in the union
 **                       for base tokens is called "yy0".
 **    YYSTACKDEPTH       is the maximum depth of the parser's stack.  If
 **                       zero the stack is dynamically sized using realloc()
-**    DSCaseOptimizationFunctionGrammarARG_SDECL     A static variable declaration for the %extra_argument
-**    DSCaseOptimizationFunctionGrammarARG_PDECL     A parameter declaration for the %extra_argument
-**    DSCaseOptimizationFunctionGrammarARG_STORE     Code to store %extra_argument into yypParser
-**    DSCaseOptimizationFunctionGrammarARG_FETCH     Code to extract %extra_argument from yypParser
+**    DSCaseOptimizationFunctionParserARG_SDECL     A static variable declaration for the %extra_argument
+**    DSCaseOptimizationFunctionParserARG_PDECL     A parameter declaration for the %extra_argument
+**    DSCaseOptimizationFunctionParserARG_STORE     Code to store %extra_argument into yypParser
+**    DSCaseOptimizationFunctionParserARG_FETCH     Code to extract %extra_argument from yypParser
 **    YYNSTATE           the combined number of states.
 **    YYNRULE            the number of rules in the grammar
 **    YYERRORSYMBOL      is the code number of the error symbol.  If not
@@ -82,20 +82,20 @@
 #define YYNOCODE 18
 #define YYACTIONTYPE unsigned char
 #if INTERFACE
-#define DSCaseOptimizationFunctionGrammarTOKENTYPE void*
+#define DSCaseOptimizationFunctionParserTOKENTYPE void*
 #endif
 typedef union {
   int yyinit;
-  DSCaseOptimizationFunctionGrammarTOKENTYPE yy0;
+  DSCaseOptimizationFunctionParserTOKENTYPE yy0;
 } YYMINORTYPE;
 #ifndef YYSTACKDEPTH
 #define YYSTACKDEPTH 100
 #endif
 #if INTERFACE
-#define DSCaseOptimizationFunctionGrammarARG_SDECL void **parser_aux;
-#define DSCaseOptimizationFunctionGrammarARG_PDECL ,void **parser_aux
-#define DSCaseOptimizationFunctionGrammarARG_FETCH void **parser_aux = yypParser->parser_aux
-#define DSCaseOptimizationFunctionGrammarARG_STORE yypParser->parser_aux = parser_aux
+#define DSCaseOptimizationFunctionParserARG_SDECL void **parser_aux;
+#define DSCaseOptimizationFunctionParserARG_PDECL ,void **parser_aux
+#define DSCaseOptimizationFunctionParserARG_FETCH void **parser_aux = yypParser->parser_aux
+#define DSCaseOptimizationFunctionParserARG_STORE yypParser->parser_aux = parser_aux
 #endif
 #define YYNSTATE 11
 #define YYNRULE 7
@@ -239,7 +239,7 @@ struct yyParser {
   int yyidxMax;                 /* Maximum value of yyidx */
 #endif
   int yyerrcnt;                 /* Shifts left before out of the error */
-  DSCaseOptimizationFunctionGrammarARG_SDECL                /* A place to hold %extra_argument */
+  DSCaseOptimizationFunctionParserARG_SDECL                /* A place to hold %extra_argument */
 #if YYSTACKDEPTH<=0
   int yystksz;                  /* Current side of the stack */
   yyStackEntry *yystack;        /* The parser's stack */
@@ -273,7 +273,7 @@ static char *yyTracePrompt = 0;
 ** Outputs:
 ** None.
 */
-void DSCaseOptimizationFunctionGrammarTrace(FILE *TraceFILE, char *zTracePrompt){
+void DSCaseOptimizationFunctionParserTrace(FILE *TraceFILE, char *zTracePrompt){
   yyTraceFILE = TraceFILE;
   yyTracePrompt = zTracePrompt;
   if( yyTraceFILE==0 ) yyTracePrompt = 0;
@@ -341,9 +341,9 @@ static void yyGrowStack(yyParser *p){
 **
 ** Outputs:
 ** A pointer to a parser.  This pointer is used in subsequent calls
-** to DSCaseOptimizationFunctionGrammar and DSCaseOptimizationFunctionGrammarFree.
+** to DSCaseOptimizationFunctionParser and DSCaseOptimizationFunctionParserFree.
 */
-void *DSCaseOptimizationFunctionGrammarAlloc(void *(*mallocProc)(size_t)){
+void *DSCaseOptimizationFunctionParserAlloc(void *(*mallocProc)(size_t)){
   yyParser *pParser;
   pParser = (yyParser*)(*mallocProc)( (size_t)sizeof(yyParser) );
   if( pParser ){
@@ -370,7 +370,7 @@ static void yy_destructor(
 			  YYCODETYPE yymajor,     /* Type code for object to destroy */
 			  YYMINORTYPE *yypminor   /* The object to be destroyed */
 			  ){
-  DSCaseOptimizationFunctionGrammarARG_FETCH;
+  DSCaseOptimizationFunctionParserARG_FETCH;
   switch( yymajor ){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
@@ -419,12 +419,12 @@ static int yy_pop_parser_stack(yyParser *pParser){
 ** Inputs:
 ** <ul>
 ** <li>  A pointer to the parser.  This should be a pointer
-**       obtained from DSCaseOptimizationFunctionGrammarAlloc.
+**       obtained from DSCaseOptimizationFunctionParserAlloc.
 ** <li>  A pointer to a function used to reclaim memory obtained
 **       from malloc.
 ** </ul>
 */
-void DSCaseOptimizationFunctionGrammarFree(
+void DSCaseOptimizationFunctionParserFree(
 	       void *p,                    /* The parser to be deleted */
 	       void (*freeProc)(void*)     /* Function used to reclaim memory */
 	       ){
@@ -441,7 +441,7 @@ void DSCaseOptimizationFunctionGrammarFree(
 ** Return the peak depth of the stack for a parser.
 */
 #ifdef YYTRACKMAXSTACKDEPTH
-int DSCaseOptimizationFunctionGrammarStackPeak(void *p){
+int DSCaseOptimizationFunctionParserStackPeak(void *p){
   yyParser *pParser = (yyParser*)p;
   return pParser->yyidxMax;
 }
@@ -551,7 +551,7 @@ static int yy_find_reduce_action(
 ** The following routine is called if the stack overflows.
 */
 static void yyStackOverflow(yyParser *yypParser, YYMINORTYPE *yypMinor){
-  DSCaseOptimizationFunctionGrammarARG_FETCH;
+  DSCaseOptimizationFunctionParserARG_FETCH;
   yypParser->yyidx--;
 #ifndef NDEBUG
   if( yyTraceFILE ){
@@ -561,7 +561,7 @@ static void yyStackOverflow(yyParser *yypParser, YYMINORTYPE *yypMinor){
   while( yypParser->yyidx>=0 ) yy_pop_parser_stack(yypParser);
   /* Here code is inserted which will execute if the parser
   ** stack every overflows */
-    DSCaseOptimizationFunctionGrammarARG_STORE; /* Suppress warning about unused %extra_argument var */
+    DSCaseOptimizationFunctionParserARG_STORE; /* Suppress warning about unused %extra_argument var */
 }
 
 /*
@@ -641,7 +641,7 @@ static void yy_reduce(
   YYMINORTYPE yygotominor;        /* The LHS of the rule reduced */
   yyStackEntry *yymsp;            /* The top of the parser's stack */
   int yysize;                     /* Amount to pop the stack */
-  DSCaseOptimizationFunctionGrammarARG_FETCH;
+  DSCaseOptimizationFunctionParserARG_FETCH;
   yymsp = &yypParser->yystack[yypParser->yyidx];
 #ifndef NDEBUG
   if( yyTraceFILE && yyruleno>=0 
@@ -749,7 +749,7 @@ static void yy_reduce(
 static void yy_parse_failed(
 			    yyParser *yypParser           /* The parser */
 			    ){
-  DSCaseOptimizationFunctionGrammarARG_FETCH;
+  DSCaseOptimizationFunctionParserARG_FETCH;
 #ifndef NDEBUG
   if( yyTraceFILE ){
     fprintf(yyTraceFILE,"%sFail!\n",yyTracePrompt);
@@ -761,7 +761,7 @@ static void yy_parse_failed(
 
         DSGMAParserAuxSetParserFailed((gma_parseraux_t *)*parser_aux);
         DSError(M_DS_PARSE ": Parsing constraint had failed", A_DS_ERROR);
-    DSCaseOptimizationFunctionGrammarARG_STORE; /* Suppress warning about unused %extra_argument variable */
+    DSCaseOptimizationFunctionParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 #endif /* YYNOERRORRECOVERY */
 
@@ -773,12 +773,12 @@ static void yy_syntax_error(
 			    int yymajor,                   /* The major type of the error token */
 			    YYMINORTYPE yyminor            /* The minor type of the error token */
 			    ){
-  DSCaseOptimizationFunctionGrammarARG_FETCH;
+  DSCaseOptimizationFunctionParserARG_FETCH;
 #define TOKEN (yyminor.yy0)
 
         DSGMAParserAuxSetParserFailed((gma_parseraux_t *)*parser_aux);
         DSError(M_DS_PARSE ": Syntax error with constraint inequality", A_DS_ERROR);
-    DSCaseOptimizationFunctionGrammarARG_STORE; /* Suppress warning about unused %extra_argument variable */
+    DSCaseOptimizationFunctionParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
 /*
@@ -787,7 +787,7 @@ static void yy_syntax_error(
 static void yy_accept(
 		      yyParser *yypParser           /* The parser */
 		      ){
-  DSCaseOptimizationFunctionGrammarARG_FETCH;
+  DSCaseOptimizationFunctionParserARG_FETCH;
 #ifndef NDEBUG
   if( yyTraceFILE ){
     fprintf(yyTraceFILE,"%sAccept!\n",yyTracePrompt);
@@ -797,12 +797,12 @@ static void yy_accept(
   /* Here code is inserted which will be executed whenever the
   ** parser accepts */
 
-    DSCaseOptimizationFunctionGrammarARG_STORE; /* Suppress warning about unused %extra_argument variable */
+    DSCaseOptimizationFunctionParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
 /* The main parser program.
 ** The first argument is a pointer to a structure obtained from
-** "DSCaseOptimizationFunctionGrammarAlloc" which describes the current state of the parser.
+** "DSCaseOptimizationFunctionParserAlloc" which describes the current state of the parser.
 ** The second argument is the major token number.  The third is
 ** the minor token.  The fourth optional argument is whatever the
 ** user wants (and specified in the grammar) and is available for
@@ -819,11 +819,11 @@ static void yy_accept(
 ** Outputs:
 ** None.
 */
-void DSCaseOptimizationFunctionGrammar(
+void DSCaseOptimizationFunctionParser(
 	   void *yyp,                   /* The parser */
 	   int yymajor,                 /* The major token code number */
-	   DSCaseOptimizationFunctionGrammarTOKENTYPE yyminor       /* The value for the token */
-	   DSCaseOptimizationFunctionGrammarARG_PDECL               /* Optional %extra_argument parameter */
+	   DSCaseOptimizationFunctionParserTOKENTYPE yyminor       /* The value for the token */
+	   DSCaseOptimizationFunctionParserARG_PDECL               /* Optional %extra_argument parameter */
 	   ){
   YYMINORTYPE yyminorunion;
   int yyact;            /* The parser action. */
@@ -851,7 +851,7 @@ void DSCaseOptimizationFunctionGrammar(
   }
   yyminorunion.yy0 = yyminor;
   yyendofinput = (yymajor==0);
-  DSCaseOptimizationFunctionGrammarARG_STORE;
+  DSCaseOptimizationFunctionParserARG_STORE;
 
 #ifndef NDEBUG
   if( yyTraceFILE ){

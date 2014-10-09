@@ -1,18 +1,18 @@
 /* This file was automatically generated.  Do not edit! */
-#define DSCaseOptimizationFunctionGrammarTOKENTYPE void*
-#define DSCaseOptimizationFunctionGrammarARG_PDECL ,void **parser_aux
-void DSCaseOptimizationFunctionGrammar(void *yyp,int yymajor,DSCaseOptimizationFunctionGrammarTOKENTYPE yyminor DSCaseOptimizationFunctionGrammarARG_PDECL);
+#define DSCaseOptimizationFunctionParserTOKENTYPE void*
+#define DSCaseOptimizationFunctionParserARG_PDECL ,void **parser_aux
+void DSCaseOptimizationFunctionParser(void *yyp,int yymajor,DSCaseOptimizationFunctionParserTOKENTYPE yyminor DSCaseOptimizationFunctionParserARG_PDECL);
 #if defined(YYTRACKMAXSTACKDEPTH)
-int DSCaseOptimizationFunctionGrammarStackPeak(void *p);
+int DSCaseOptimizationFunctionParserStackPeak(void *p);
 #endif
-void DSCaseOptimizationFunctionGrammarFree(void *p,void(*freeProc)(void *));
-void *DSCaseOptimizationFunctionGrammarAlloc(void *(*mallocProc)(size_t));
+void DSCaseOptimizationFunctionParserFree(void *p,void(*freeProc)(void *));
+void *DSCaseOptimizationFunctionParserAlloc(void *(*mallocProc)(size_t));
 #if !defined(NDEBUG)
-void DSCaseOptimizationFunctionGrammarTrace(FILE *TraceFILE,char *zTracePrompt);
+void DSCaseOptimizationFunctionParserTrace(FILE *TraceFILE,char *zTracePrompt);
 #endif
-#define DSCaseOptimizationFunctionGrammarARG_STORE yypParser->parser_aux = parser_aux
-#define DSCaseOptimizationFunctionGrammarARG_FETCH void **parser_aux = yypParser->parser_aux
-#define DSCaseOptimizationFunctionGrammarARG_SDECL void **parser_aux;
+#define DSCaseOptimizationFunctionParserARG_STORE yypParser->parser_aux = parser_aux
+#define DSCaseOptimizationFunctionParserARG_FETCH void **parser_aux = yypParser->parser_aux
+#define DSCaseOptimizationFunctionParserARG_SDECL void **parser_aux;
 #define TOKEN_COF_POWER                          12
 #define TOKEN_COF_NOT                            11
 #define TOKEN_COF_PRIME                          10

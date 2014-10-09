@@ -50,7 +50,6 @@
 		9A85B47013FF9DFC00EA3795 /* DSDesignSpace.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A85B46F13FF9DFC00EA3795 /* DSDesignSpace.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A85B47413FF9E1600EA3795 /* DSDesignSpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A85B47313FF9E1600EA3795 /* DSDesignSpace.c */; };
 		9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A8BAB6713C63DA10031F387 /* DSIO.c */; };
-		9A96EAE719E6F35000F20F96 /* DSCaseOptimizationFunctionGrammar.y in Sources */ = {isa = PBXBuildFile; fileRef = 9A96EAE619E6F35000F20F96 /* DSCaseOptimizationFunctionGrammar.y */; };
 		9A96EAEA19E6F35E00F20F96 /* DSCaseOptimizationFunctionGrammar.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A96EAE819E6F35E00F20F96 /* DSCaseOptimizationFunctionGrammar.c */; };
 		9A96EAEB19E6F35E00F20F96 /* DSCaseOptimizationFunctionGrammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A96EAE919E6F35E00F20F96 /* DSCaseOptimizationFunctionGrammar.h */; };
 		9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A9A754213D878990045FDFB /* DSMatrixArray.c */; };
@@ -508,8 +507,8 @@
 		9A96EAE019E6F14F00F20F96 /* Powerlaw Parsing */ = {
 			isa = PBXGroup;
 			children = (
-				9A96EAE819E6F35E00F20F96 /* DSCaseOptimizationFunctionGrammar.c */,
 				9A96EAE919E6F35E00F20F96 /* DSCaseOptimizationFunctionGrammar.h */,
+				9A96EAE819E6F35E00F20F96 /* DSCaseOptimizationFunctionGrammar.c */,
 				9A96EAE619E6F35000F20F96 /* DSCaseOptimizationFunctionGrammar.y */,
 			);
 			name = "Powerlaw Parsing";
@@ -806,7 +805,6 @@
 				9A8BAB6813C63DA20031F387 /* DSIO.c in Sources */,
 				9A9A754413D878990045FDFB /* DSMatrixArray.c in Sources */,
 				9AC0E3E813EC749E0043D9E6 /* DSMatrixTokenizer.c in Sources */,
-				9A96EAE719E6F35000F20F96 /* DSCaseOptimizationFunctionGrammar.y in Sources */,
 				9A68EF5513EC767800FBDDF5 /* DSMatrixTokenizerLex.c in Sources */,
 				9A68EF6213ECA26F00FBDDF5 /* DSVariableTokenizerLex.c in Sources */,
 				9A96EAEA19E6F35E00F20F96 /* DSCaseOptimizationFunctionGrammar.c in Sources */,
