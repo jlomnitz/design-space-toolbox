@@ -2058,18 +2058,25 @@ extern void DSDesignSpaceCalculateCyclicalCase(DSDesignSpace *ds, DSCase * aCase
 {
         DSUInteger caseNumber;
         char * string = NULL;
-        DSCyclicalCase * aSubcase = NULL;
+        DSCyclicalCase * cyclicalCase = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseConditionsAreValid(aCase) == false) {
                 goto bail;
         }
         string = DSSecureCalloc(sizeof(char), 100);
         caseNumber = DSCaseNumber(aCase);
         sprintf(string, "%d", caseNumber);
         if (DSDictionaryValueForName(DSDSCyclical(ds), string) == NULL) {
-                aSubcase = DSCyclicalCaseForCaseInDesignSpace(ds, aCase);
-                if (aSubcase != NULL)
-                        DSDictionaryAddValueWithName(DSDSCyclical(ds), string, aSubcase);
+                cyclicalCase = DSCyclicalCaseForCaseInDesignSpace(ds, aCase);
+                if (cyclicalCase != NULL)
+                        DSDictionaryAddValueWithName(DSDSCyclical(ds), string, cyclicalCase);
         }
         if (string != NULL)
                 DSSecureFree(string);

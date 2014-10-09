@@ -360,6 +360,35 @@ bail:
         return Xi;
 }
 
+extern DSVariablePool * DSCaseValidParameterSetByOptimizingFunction(const DSCase *aCase, const DSMatrix * Oi, const bool minimize)
+{
+        DSVariablePool * Xi = NULL;
+        glp_prob *linearProblem = NULL;
+        DSUInteger i;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseIsValid(aCase) == false)
+                goto bail;
+        linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
+        if (linearProblem != NULL) {
+                glp_simplex(linearProblem, NULL);
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+                        DSVariablePoolSetReadWriteAdd(Xi);
+                        for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                                DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
+                        }
+                }
+                glp_delete_prob(linearProblem);
+        }
+        if (DSCaseIsValid(aCase) == false)
+                goto bail;
+bail:
+        return Xi;
+}
+
 //extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * variablesToFix)
 //{
 //        bool isValid = false;
@@ -535,6 +564,52 @@ bail:
 }
 
 extern DSVariablePool * DSCaseValidParameterSetAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
+{
+        bool isValid = false;
+        glp_prob *linearProblem = NULL;
+        DSVariablePool * Xi = NULL;
+        DSUInteger i;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseHasSolution(aCase) == false) {
+                goto bail;
+        }
+        if (lowerBounds == NULL || upperBounds == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable pool with variables to fix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(lowerBounds) != DSVariablePoolNumberOfVariables(upperBounds)) {
+                DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
+                goto bail;
+        }
+        linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
+        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem was not created", A_DS_WARN);
+                goto bail;
+        }
+        if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) <= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                glp_simplex(linearProblem, NULL);
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                        isValid = true;
+        }
+        if (isValid == true) {
+                Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+                DSVariablePoolSetReadWrite(Xi);
+                for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                        DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i],
+                                           pow(10, glp_get_col_prim(linearProblem, i+1)));
+                }
+        }
+        glp_delete_prob(linearProblem);
+bail:
+        return Xi;
+}
+
+extern DSVariablePool * DSCaseValidParameterSetAtSliceByOptimizingFunction(const DSCase *aCase,
+                                                                           const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds,
+                                                                           const DSMatrix * Oi, const bool minimize)
 {
         bool isValid = false;
         glp_prob *linearProblem = NULL;
