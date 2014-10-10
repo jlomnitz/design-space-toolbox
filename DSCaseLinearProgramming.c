@@ -356,37 +356,73 @@ extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase)
                 }
                 glp_delete_prob(linearProblem);
         }
-        if (DSCaseIsValid(aCase) == false)
-                goto bail;
 bail:
         return Xi;
 }
 
-extern DSVariablePool * DSCaseValidParameterSetByOptimizingFunction(const DSCase *aCase, const DSExpression * function, const bool minimize)
+extern DSVariablePool * DSCaseValidParameterSetByOptimizingFunction(const DSCase *aCase, const char * function, const bool minimize)
 {
         DSVariablePool * Xi = NULL;
         glp_prob *linearProblem = NULL;
         DSUInteger i;
+        DSMatrixArray * objective;
+        DSMatrix * Od, *U, *Zeta;
+        DSMatrix * delta;
+        DSExpression * expression;
+        char * processedFunction;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
         if (DSCaseIsValid(aCase) == false)
                 goto bail;
-        linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
-        if (linearProblem != NULL) {
-                glp_simplex(linearProblem, NULL);
-                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
-                        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
-                        DSVariablePoolSetReadWriteAdd(Xi);
-                        for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
-                                DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
-                        }
-                }
-                glp_delete_prob(linearProblem);
-        }
-        if (DSCaseIsValid(aCase) == false)
+        expression = DSExpressionByParsingString(function);
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Could not parse function string", A_DS_ERROR);
                 goto bail;
+        }
+        processedFunction = DSExpressionAsString(expression);
+        DSExpressionFree(expression);
+        objective = DSCaseParseOptimizationFunction(aCase, processedFunction);
+        DSSecureFree(processedFunction);
+        if (objective == NULL) {
+                goto bail;
+        }
+        U = DSMatrixCopy(DSCaseU(aCase));
+        Zeta = DSMatrixCopy(DSCaseZeta(aCase));
+        Od = DSMatrixArrayMatrix(objective, 0);
+        delta = DSMatrixArrayMatrix(objective, 1);
+        DSMatrixMultiplyByScalar(U, -1.0);
+        linearProblem = dsCaseLinearProblemForMatrices(U, Zeta);
+        DSMatrixFree(U);
+        DSMatrixFree(Zeta);
+        if (linearProblem == NULL) {
+                DSMatrixArrayFree(objective);
+                goto bail;
+        }
+        if (minimize == false) {
+                glp_set_obj_dir(linearProblem, GLP_MAX);
+        }
+        for (i = 0; i < DSMatrixColumns(Od); i++) {
+                glp_set_obj_coef(linearProblem, i+1, DSMatrixDoubleValue(Od, 0, i));
+                // Limits on optimization bounded between 1e-20 and 1e20
+                glp_set_col_bnds(linearProblem, i+1, GLP_DB, -20, 20);
+        }
+        glp_set_obj_coef(linearProblem, 0, DSMatrixDoubleValue(delta, 0, 0));
+        DSMatrixPrint(Od);
+        glp_simplex(linearProblem, NULL);
+        if (glp_get_status(linearProblem) != GLP_OPT) {
+                glp_delete_prob(linearProblem);
+                DSMatrixArrayFree(objective);
+                goto bail;
+        }
+        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+        DSVariablePoolSetReadWriteAdd(Xi);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
+        }
+        glp_delete_prob(linearProblem);
+        DSMatrixArrayFree(objective);
 bail:
         return Xi;
 }
@@ -611,12 +647,15 @@ bail:
 
 extern DSVariablePool * DSCaseValidParameterSetAtSliceByOptimizingFunction(const DSCase *aCase,
                                                                            const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds,
-                                                                           const DSExpression * function, const bool minimize)
+                                                                           const char * function, const bool minimize)
 {
-        bool isValid = false;
         glp_prob *linearProblem = NULL;
         DSVariablePool * Xi = NULL;
         DSUInteger i;
+        DSMatrixArray * objective;
+        DSMatrix * Oi, *delta, *U, *Zeta;
+        DSExpression * expression;
+        char * processedFunction;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -632,24 +671,62 @@ extern DSVariablePool * DSCaseValidParameterSetAtSliceByOptimizingFunction(const
                 DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
                 goto bail;
         }
-        linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
-        if (linearProblem == NULL) {
-                DSError(M_DS_NULL ": Linear problem was not created", A_DS_WARN);
+        expression = DSExpressionByParsingString(function);
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Could not parse function string", A_DS_ERROR);
                 goto bail;
         }
-        if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) <= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
-                glp_simplex(linearProblem, NULL);
-                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
-                        isValid = true;
+        processedFunction = DSExpressionAsString(expression);
+        DSExpressionFree(expression);
+        objective = DSCaseParseOptimizationFunction(aCase, processedFunction);
+        DSSecureFree(processedFunction);
+        if (objective == NULL) {
+                goto bail;
         }
-        if (isValid == true) {
+        Oi = DSMatrixArrayMatrix(objective, 0);
+        delta = DSMatrixArrayMatrix(objective, 1);
+        U = DSMatrixCopy(DSCaseU(aCase));
+        Zeta = DSMatrixCopy(DSCaseZeta(aCase));
+        DSMatrixMultiplyByScalar(U, -1.0);
+        linearProblem = dsCaseLinearProblemForMatrices(U, Zeta);
+        DSMatrixFree(U);
+        DSMatrixFree(Zeta);        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem is null", A_DS_WARN);
+                DSMatrixArrayFree(objective);
+                goto bail;
+        }
+        if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) > DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                glp_delete_prob(linearProblem);
+                DSMatrixArrayFree(objective);
+                goto bail;
+        }
+        for (i = 0; i < DSMatrixColumns(Oi); i++) {
+                glp_set_obj_coef(linearProblem, i+1, DSMatrixDoubleValue(Oi, 0, i));
+        }
+        if (minimize == false) {
+                glp_set_obj_dir(linearProblem, GLP_MAX);
+        }
+        glp_set_obj_coef(linearProblem, 0, DSMatrixDoubleValue(delta, 0, 0));
+        if (linearProblem != NULL) {
+                glp_simplex(linearProblem, NULL);
+                if (glp_get_status(linearProblem) != GLP_OPT) {
+                        glp_delete_prob(linearProblem);
+                        DSMatrixArrayFree(objective);
+                        goto bail;
+                }
                 Xi = DSVariablePoolCopy(DSCaseXi(aCase));
-                DSVariablePoolSetReadWrite(Xi);
+                DSVariablePoolSetReadWriteAdd(Xi);
                 for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
-                        DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i],
-                                           pow(10, glp_get_col_prim(linearProblem, i+1)));
+                        DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
                 }
         }
+        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+        DSVariablePoolSetReadWrite(Xi);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i],
+                                   pow(10, glp_get_col_prim(linearProblem, i+1)));
+        }
+        DSMatrixArrayFree(objective);
         glp_delete_prob(linearProblem);
 bail:
         return Xi;
@@ -1555,7 +1632,7 @@ bail:
         return optimizationMatrices;
 }
 
-extern DSMatrixArray * DSCaseParseOptimizationFunction(DSCase * aCase, const char * string)
+extern DSMatrixArray * DSCaseParseOptimizationFunction(const DSCase * aCase, const char * string)
 {
         DSMatrixArray * O = NULL;
         if (aCase == NULL) {
