@@ -858,7 +858,7 @@ static void dsDesignSpaceCalculateCyclicalCasesSeries(DSDesignSpace *ds)
                 }
                 termSignature = DSCaseSignatureForCaseNumber(caseNumber, ds->gma);
                 if (termSignature != NULL) {
-                        aCase = DSCaseWithTermsFromDesignSpace(ds, termSignature);
+                        aCase = DSCaseWithTermsFromDesignSpace(ds, termSignature, DSDesignSpaceCasePrefix(ds));
                         if (aCase != NULL) {
                                 DSDesignSpaceCalculateCyclicalCase(ds, aCase);
                                 DSCaseFree(aCase);
