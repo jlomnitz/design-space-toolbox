@@ -531,7 +531,6 @@ static void dsGMASystemCreateSystemMatrices(DSGMASystem *gma, gma_parseraux_t **
         gma_parseraux_t *current;
         DSUInteger numberOfEquations, positiveTerms = 0, negativeTerms = 0;
         DSUInteger i, n, p;
-        DSMatrix * temp, *nullspace;
         if (gma == NULL) {
                 DSError(M_DS_NULL ": GMA being modified is NULL", A_DS_ERROR);
                 goto bail;

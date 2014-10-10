@@ -145,7 +145,7 @@ extern bool DSVariablePoolHasVariableWithName(const DSVariablePool *pool, const 
 extern DSVariable *DSVariablePoolVariableWithName(const DSVariablePool *pool, const char *name);
 extern const DSVariable * DSVariablePoolVariableAtIndex(const DSVariablePool *pool, const DSUInteger index);
 
-extern double DSVariablePoolValueForVariableWithName(const DSVariablePool *pool, const char const *name);
+extern double DSVariablePoolValueForVariableWithName(const DSVariablePool *pool, const char *name);
 
 extern const DSVariable ** DSVariablePoolAllVariables(const DSVariablePool *pool);
 extern const char ** DSVariablePoolAllVariableNames(const DSVariablePool *pool);

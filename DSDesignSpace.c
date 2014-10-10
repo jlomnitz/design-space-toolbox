@@ -726,7 +726,7 @@ bail:
         return root;
 }
 
-extern void * DSDesignSpaceTermListForAllStrings(char * const * const strings, const DSUInteger numberOfEquations)
+extern void * DSDesignSpaceTermListForAllStrings(const char ** strings, const DSUInteger numberOfEquations)
 {
         DSUInteger i;
         gma_parseraux_t **aux = NULL;
@@ -974,8 +974,7 @@ bail:
 static DSDictionary * dsDesignSpaceCalculateValidityOfCaseSetParallelBSD(DSDesignSpace *ds, DSUInteger numberOfCases, DSCase ** cases)
 {
         DSDictionary * caseDictionary = NULL;
-        DSUInteger i, j, numberValid = 0;
-        DSUInteger validCaseNumbers = 0;
+        DSUInteger i, j;
         const char * name;
         long int numberOfThreads = sysconf(_SC_NPROCESSORS_ONLN);
         pthread_t * threads = NULL;

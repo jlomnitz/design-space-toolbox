@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0440"
+   LastUpgradeVersion = "0600"
    version = "1.8">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -41,6 +41,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "9A5833B3139D78A80068B6B6"
+            BuildableName = "libdesignspace.dylib"
+            BlueprintName = "designspace"
+            ReferencedContainer = "container:DesignSpaceToolboxV2.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

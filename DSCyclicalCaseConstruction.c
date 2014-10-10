@@ -162,7 +162,7 @@ bail:
 extern DSMatrixArray * dsSubcaseCoefficientsOfInterestALT(const DSCase * aCase, const DSMatrix * problematicEquations, const DSMatrixArray * problematicTerms)
 {
         DSMatrixArray * coefficientArray = NULL;
-        DSMatrix *problematic = NULL, *coefficients, *temp;
+        DSMatrix *problematic = NULL, *coefficients;
         DSUInteger i, j, k, * inCycle, cycleLength;
         double min, value;
         if (aCase == NULL) {
@@ -1110,8 +1110,7 @@ static void dsCyclicalCaseSolutionOfPartitionedMatrices(const DSCase * aCase,
                                                         DSVariablePool ** yn,
                                                         DSVariablePool ** yc)
 {
-        DSMatrix *ADn = NULL, * AIn = NULL, * ADc = NULL, * Bn = NULL, * Mn, *temp;
-        DSUInteger i, j, index;
+        DSMatrix *ADn = NULL, * AIn = NULL, * ADc = NULL, * Bn = NULL, * Mn;
         if (LI == NULL || Lc == NULL || MBn == NULL) {
                 DSError(M_DS_NULL ": Matrix pointers to hold partitioned matrices cannot be null", A_DS_ERROR);
                 goto bail;
@@ -1681,7 +1680,6 @@ static char ** dsCyclicalCaseOriginalCaseEquationsWithEquilibriumConstraints(con
         DSExpression ** equations, *fluxEquation;
         char ** systemEquations = NULL, * string, *name;
         DSUInteger i, j, k, index;
-        const DSUInteger *signature;
         DSMatrix * C, *Kd, *Ki;
         DSMatrix * Ks, *Kn, *LKi, *LKd, *temp;
         const DSSSystem * ssystem;

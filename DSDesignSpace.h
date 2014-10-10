@@ -93,7 +93,7 @@ extern const char * DSDesignSpaceCasePrefix(const DSDesignSpace * ds);
 #pragma mark - Utility -
 #endif
 
-extern void * DSDesignSpaceTermListForAllStrings(char * const * const strings, const DSUInteger numberOfEquations);
+extern void * DSDesignSpaceTermListForAllStrings(const char ** strings, const DSUInteger numberOfEquations);
 extern void DSDesignSpaceAddConstraints(DSDesignSpace * ds, const char ** strings, DSUInteger numberOfConstraints);
 extern void DSDesignSpacePrint(const DSDesignSpace * ds);
 

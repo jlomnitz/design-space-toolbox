@@ -304,7 +304,7 @@ bail:
 extern DSCase * DSCaseWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger * termArray, const char * prefix)
 {
         DSCase *aCase = NULL;
-        DSUInteger i, term1, term2, numberOfEquations, numberOfXi;
+        DSUInteger i, term1, term2, numberOfEquations;
         if (gma == NULL) {
                 DSError(M_DS_GMA_NULL ": Template GMA to make S-System is NULL", A_DS_ERROR);
                 goto bail;
@@ -668,7 +668,7 @@ static void dsCaseBoundaryToString(const DSCase *aCase,
                                    char ** string, 
                                    DSUInteger *length, const bool inLog)
 {
-        DSUInteger i, numberOfXd, numberOfXi;
+        DSUInteger i, numberOfXi;
         char tempString[100];
         const char *name;
         double value;

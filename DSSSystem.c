@@ -925,9 +925,9 @@ bail:
 
 extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
 {
-        DSUInteger i, j, index, sum, numberOfEquations, length;
+        DSUInteger i, j, index, sum, numberOfEquations;
         DSExpression ** equations = NULL, *root, *lhs, *rhs;
-        char *tempString, *equationString, *varName;
+        char *varName;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
@@ -1892,9 +1892,9 @@ extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariab
 {
         DSMatrix * flux = NULL, *Xi = NULL, *ss=NULL;
         DSMatrix * gi0= NULL, *alpha = NULL;
-        DSUInteger i, index1, index2;
+        DSUInteger i, index1;
         DSVariablePool *pool = NULL;
-        const char *name, *altName;
+        const char *name;
         double value;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);

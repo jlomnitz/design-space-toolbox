@@ -187,7 +187,7 @@ extern void * DSParallelWorkerCyclicalCases(void * pthread_struct)
                 goto bail;
         }
         while (pdata->stack->count > 0)  {
-                caseNumber = DSParallelStackPop(pdata->stack);
+                caseNumber = (DSUInteger)DSParallelStackPop(pdata->stack);
                 if (caseNumber == 0)
                         continue;
                 if (caseNumber > DSDesignSpaceNumberOfCases(pdata->ds)) {
