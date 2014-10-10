@@ -352,6 +352,48 @@ bail:
         return aCase;
 }
 
+extern DSCase * DSDesignSpaceCaseWithCaseIdentifier(const DSDesignSpace * ds, const char * identifer)
+{
+        const DSCyclicalCase * cyclicalCase;
+        DSCase * aCase = NULL;
+        DSUInteger i, j, length, caseNumber;
+        char buffer[100] = {'\0'};
+        const DSDesignSpace * currentDs;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (identifer == NULL) {
+                DSError(M_DS_WRONG ": Case Identifier is NULL!", A_DS_ERROR);
+                goto bail;
+        }
+        currentDs = ds;
+        length = (DSUInteger)strlen(identifer);
+        for (i = 0, j = 0; i < length; i++) {
+                buffer[j++] = identifer[i];
+                if (identifer[i] == '_') {
+                        buffer[j-1] = '\0';
+                        caseNumber = atoi(buffer);
+                        cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(currentDs, caseNumber);
+                        if (cyclicalCase == NULL) {
+                                goto bail;
+                        }
+                        currentDs = DSCyclicalCaseInternalDesignSpace(cyclicalCase);
+                        j = 0;
+                }
+        }
+        buffer[j] = '\0';
+        caseNumber = atoi(buffer);
+        aCase = DSDesignSpaceCaseWithCaseNumber(currentDs, caseNumber);
+bail:
+        return aCase;
+}
+
+
 extern DSCase * DSDesignSpaceCaseWithCaseSignature(const DSDesignSpace * ds, const DSUInteger * signature)
 {
         DSCase * aCase = NULL;
@@ -2064,6 +2106,46 @@ extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(const DSDe
         }
         if (string != NULL)
                 DSSecureFree(string);
+bail:
+        return cyclicalCase;
+}
+
+extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseIdentifier(const DSDesignSpace * ds, const char * identifer)
+{
+        const DSCyclicalCase * cyclicalCase = NULL;
+        DSUInteger i, j, length, caseNumber;
+        char buffer[100] = {'\0'};
+        const DSDesignSpace * currentDs;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSDSGMA(ds) == NULL) {
+                DSError(M_DS_GMA_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (identifer == NULL) {
+                DSError(M_DS_WRONG ": Case number is 0", A_DS_ERROR);
+                goto bail;
+        }
+        currentDs = ds;
+        length = (DSUInteger)strlen(identifer);
+        for (i = 0, j = 0; i < length; i++) {
+                buffer[j++] = identifer[i];
+                if (identifer[i] == '_') {
+                        buffer[j-1] = '\0';
+                        caseNumber = atoi(buffer);
+                        cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(currentDs, caseNumber);
+                        if (cyclicalCase == NULL) {
+                                goto bail;
+                        }
+                        currentDs = DSCyclicalCaseInternalDesignSpace(cyclicalCase);
+                        j = 0;
+                }
+        }
+        buffer[j] = '\0';
+        caseNumber = atoi(buffer);
+        cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(currentDs, caseNumber);
 bail:
         return cyclicalCase;
 }

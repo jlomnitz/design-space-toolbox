@@ -76,6 +76,7 @@ extern const DSUInteger DSDesignSpaceNumberOfValidCases(const DSDesignSpace *ds)
 extern const DSUInteger DSDesignSpaceNumberOfCases(const DSDesignSpace *ds);
 
 extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const DSUInteger caseNumber);
+extern DSCase * DSDesignSpaceCaseWithCaseIdentifier(const DSDesignSpace * ds, const char * identifer);
 extern DSCase * DSDesignSpaceCaseWithCaseSignature(const DSDesignSpace * ds, const DSUInteger * signature);
 //extern DSCase * DSDesignSpaceCaseWithCaseSignatureList(const DSDesignSpace *ds, const DSUInteger firstTerm, ...);
 
@@ -117,6 +118,7 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace 
 
 extern DSUInteger DSDesignSpaceNumberOfCyclicalCases(const DSDesignSpace * ds);
 extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseNumber(const DSDesignSpace *ds, DSUInteger caseNumber);
+extern const DSCyclicalCase * DSDesignSpaceCyclicalCaseWithCaseIdentifier(const DSDesignSpace * ds, const char * identifer);
 extern void DSDesignSpaceCalculateCyclicalCase(DSDesignSpace *ds, DSCase * aCase);
 extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds);
 
