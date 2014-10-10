@@ -46,7 +46,9 @@
 #include "DSMatrixArray.h"
 #include "DSVertices.h"
 #include "DSNVertexEnumeration.h"
-
+#include "DSGMASystemParsingAux.h"
+#include "DSExpressionTokenizer.h"
+#include "DSCaseOptimizationFunctionGrammar.h"
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Linear programming functions
 #endif
@@ -354,8 +356,73 @@ extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase)
                 }
                 glp_delete_prob(linearProblem);
         }
+bail:
+        return Xi;
+}
+
+extern DSVariablePool * DSCaseValidParameterSetByOptimizingFunction(const DSCase *aCase, const char * function, const bool minimize)
+{
+        DSVariablePool * Xi = NULL;
+        glp_prob *linearProblem = NULL;
+        DSUInteger i;
+        DSMatrixArray * objective;
+        DSMatrix * Od, *U, *Zeta;
+        DSMatrix * delta;
+        DSExpression * expression;
+        char * processedFunction;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
         if (DSCaseIsValid(aCase) == false)
                 goto bail;
+        expression = DSExpressionByParsingString(function);
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Could not parse function string", A_DS_ERROR);
+                goto bail;
+        }
+        processedFunction = DSExpressionAsString(expression);
+        DSExpressionFree(expression);
+        objective = DSCaseParseOptimizationFunction(aCase, processedFunction);
+        DSSecureFree(processedFunction);
+        if (objective == NULL) {
+                goto bail;
+        }
+        U = DSMatrixCopy(DSCaseU(aCase));
+        Zeta = DSMatrixCopy(DSCaseZeta(aCase));
+        Od = DSMatrixArrayMatrix(objective, 0);
+        delta = DSMatrixArrayMatrix(objective, 1);
+        DSMatrixMultiplyByScalar(U, -1.0);
+        linearProblem = dsCaseLinearProblemForMatrices(U, Zeta);
+        DSMatrixFree(U);
+        DSMatrixFree(Zeta);
+        if (linearProblem == NULL) {
+                DSMatrixArrayFree(objective);
+                goto bail;
+        }
+        if (minimize == false) {
+                glp_set_obj_dir(linearProblem, GLP_MAX);
+        }
+        for (i = 0; i < DSMatrixColumns(Od); i++) {
+                glp_set_obj_coef(linearProblem, i+1, DSMatrixDoubleValue(Od, 0, i));
+                // Limits on optimization bounded between 1e-20 and 1e20
+                glp_set_col_bnds(linearProblem, i+1, GLP_DB, -20, 20);
+        }
+        glp_set_obj_coef(linearProblem, 0, DSMatrixDoubleValue(delta, 0, 0));
+        DSMatrixPrint(Od);
+        glp_simplex(linearProblem, NULL);
+        if (glp_get_status(linearProblem) != GLP_OPT) {
+                glp_delete_prob(linearProblem);
+                DSMatrixArrayFree(objective);
+                goto bail;
+        }
+        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+        DSVariablePoolSetReadWriteAdd(Xi);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
+        }
+        glp_delete_prob(linearProblem);
+        DSMatrixArrayFree(objective);
 bail:
         return Xi;
 }
@@ -573,6 +640,93 @@ extern DSVariablePool * DSCaseValidParameterSetAtSlice(const DSCase *aCase, cons
                                            pow(10, glp_get_col_prim(linearProblem, i+1)));
                 }
         }
+        glp_delete_prob(linearProblem);
+bail:
+        return Xi;
+}
+
+extern DSVariablePool * DSCaseValidParameterSetAtSliceByOptimizingFunction(const DSCase *aCase,
+                                                                           const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds,
+                                                                           const char * function, const bool minimize)
+{
+        glp_prob *linearProblem = NULL;
+        DSVariablePool * Xi = NULL;
+        DSUInteger i;
+        DSMatrixArray * objective;
+        DSMatrix * Oi, *delta, *U, *Zeta;
+        DSExpression * expression;
+        char * processedFunction;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseHasSolution(aCase) == false) {
+                goto bail;
+        }
+        if (lowerBounds == NULL || upperBounds == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable pool with variables to fix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(lowerBounds) != DSVariablePoolNumberOfVariables(upperBounds)) {
+                DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
+                goto bail;
+        }
+        expression = DSExpressionByParsingString(function);
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Could not parse function string", A_DS_ERROR);
+                goto bail;
+        }
+        processedFunction = DSExpressionAsString(expression);
+        DSExpressionFree(expression);
+        objective = DSCaseParseOptimizationFunction(aCase, processedFunction);
+        DSSecureFree(processedFunction);
+        if (objective == NULL) {
+                goto bail;
+        }
+        Oi = DSMatrixArrayMatrix(objective, 0);
+        delta = DSMatrixArrayMatrix(objective, 1);
+        U = DSMatrixCopy(DSCaseU(aCase));
+        Zeta = DSMatrixCopy(DSCaseZeta(aCase));
+        DSMatrixMultiplyByScalar(U, -1.0);
+        linearProblem = dsCaseLinearProblemForMatrices(U, Zeta);
+        DSMatrixFree(U);
+        DSMatrixFree(Zeta);        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem is null", A_DS_WARN);
+                DSMatrixArrayFree(objective);
+                goto bail;
+        }
+        if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) > DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
+                glp_delete_prob(linearProblem);
+                DSMatrixArrayFree(objective);
+                goto bail;
+        }
+        for (i = 0; i < DSMatrixColumns(Oi); i++) {
+                glp_set_obj_coef(linearProblem, i+1, DSMatrixDoubleValue(Oi, 0, i));
+        }
+        if (minimize == false) {
+                glp_set_obj_dir(linearProblem, GLP_MAX);
+        }
+        glp_set_obj_coef(linearProblem, 0, DSMatrixDoubleValue(delta, 0, 0));
+        if (linearProblem != NULL) {
+                glp_simplex(linearProblem, NULL);
+                if (glp_get_status(linearProblem) != GLP_OPT) {
+                        glp_delete_prob(linearProblem);
+                        DSMatrixArrayFree(objective);
+                        goto bail;
+                }
+                Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+                DSVariablePoolSetReadWriteAdd(Xi);
+                for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                        DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i], pow(10, glp_get_col_prim(linearProblem, i+1)));
+                }
+        }
+        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+        DSVariablePoolSetReadWrite(Xi);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                DSVariableSetValue(DSVariablePoolAllVariables(Xi)[i],
+                                   pow(10, glp_get_col_prim(linearProblem, i+1)));
+        }
+        DSMatrixArrayFree(objective);
         glp_delete_prob(linearProblem);
 bail:
         return Xi;
@@ -1297,6 +1451,203 @@ extern DSVertices * DSCaseVerticesForSlice(const DSCase *aCase, const DSVariable
         }
 bail:
         return vertices;
+}
+
+static gma_parseraux_t * dsCaseParseStringToTermList(const char * string)
+{
+        void *parser = NULL;
+        struct expression_token *tokens, *current;
+        gma_parseraux_t *root = NULL, *parser_aux;
+        if (string == NULL) {
+                DSError(M_DS_WRONG ": String to parse is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (strlen(string) == 0) {
+                DSError(M_DS_WRONG ": String to parse is empty", A_DS_WARN);
+                goto bail;
+        }
+        tokens = DSExpressionTokenizeString(string);
+        if (tokens == NULL) {
+                DSError(M_DS_PARSE ": Token stream is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        parser = DSCaseOptimizationFunctionParserAlloc(DSSecureMalloc);//DSGMASystemParserAlloc(DSSecureMalloc);
+        root = DSGMAParserAuxAlloc();
+        parser_aux = root;
+        current = tokens;
+        while (current != NULL) {
+                if (DSExpressionTokenType(current) == DS_EXPRESSION_TOKEN_START) {
+                        current = DSExpressionTokenNext(current);
+                        continue;
+                }
+                DSCaseOptimizationFunctionParser(parser,
+                                              DSExpressionTokenType(current),
+                                              current,
+                                              ((void**)&parser_aux));
+                current = DSExpressionTokenNext(current);
+        }
+        DSCaseOptimizationFunctionParser(parser,
+                                      0,
+                                      NULL,
+                                      ((void **)&parser_aux));
+        DSCaseOptimizationFunctionParserFree(parser, DSSecureFree);
+        DSExpressionTokenFree(tokens);
+        if (DSGMAParserAuxParsingFailed(root) == true) {
+                DSGMAParserAuxFree(root);
+                root = NULL;
+        }
+bail:
+        return root;
+}
+
+//extern void * DSDesignSpaceTermListForAllStrings(char * const * const strings, const DSUInteger numberOfEquations)
+//{
+//        DSUInteger i;
+//        gma_parseraux_t **aux = NULL;
+//        DSExpression *expr;
+//        char *aString;
+//        bool failed = false;
+//        aux = DSSecureCalloc(sizeof(gma_parseraux_t *), numberOfEquations);
+//        for (i = 0; i < numberOfEquations; i++) {
+//                if (strings[i] == NULL) {
+//                        DSError(M_DS_WRONG ": String to parse is NULL", A_DS_ERROR);
+//                        failed = true;
+//                        break;
+//                }
+//                if (strlen(strings[i]) == 0) {
+//                        DSError(M_DS_WRONG ": String to parse is empty", A_DS_ERROR);
+//                        failed = true;
+//                        break;
+//                }
+//                expr = DSExpressionByParsingString(strings[i]);
+//                if (expr != NULL) {
+//                        aString = DSExpressionAsString(expr);
+//                        aux[i] = dsDesignSpaceParseStringToTermList(aString);
+//                        DSSecureFree(aString);
+//                        DSExpressionFree(expr);
+//                }
+//                if (aux[i] == NULL) {
+//                        DSError(M_DS_PARSE ": Expression not in GMA format", A_DS_ERROR);
+//                        failed = true;
+//                        break;
+//                }
+//        }
+//        if (failed == true) {
+//                for (i = 0; i < numberOfEquations; i++)
+//                        if (aux[i] != NULL)
+//                                DSGMAParserAuxFree(aux[i]);
+//                DSSecureFree(aux);
+//                aux = NULL;
+//        }
+//bail:
+//        return aux;
+//}
+//
+
+static void dsCaseOptimizationFunctionProcessExponentBasePairs(const DSCase *aCase, gma_parseraux_t *aux,
+                                                               DSMatrix * Od, DSMatrix * Oi, DSMatrix *delta)
+{
+        DSUInteger j, varIndex;
+        const char *varName;
+        double currentValue;
+        if (aux == NULL) {
+                goto bail;
+        }
+        for (j = 0; j < DSGMAParserAuxNumberOfBases(aux); j++) {
+                if (DSGMAParserAuxBaseAtIndexIsVariable(aux, j) == false) {
+                        currentValue = DSMatrixDoubleValue(delta, index, 0);
+                        currentValue += log10(DSGMAParseAuxsConstantBaseAtIndex(aux, j));
+                        DSMatrixSetDoubleValue(delta,
+                                               index, 0,
+                                               currentValue);
+                        continue;
+                }
+                varName = DSGMAParserAuxVariableAtIndex(aux, j);
+                if (DSVariablePoolHasVariableWithName(DSCaseXd(aCase), varName) == true) {
+                        varIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXd(aCase), varName);
+                        currentValue = DSMatrixDoubleValue(Od, 0, varIndex);
+                        currentValue += DSGMAParserAuxExponentAtIndex(aux, j);
+                        DSMatrixSetDoubleValue(Od, 0, varIndex, currentValue);
+                } else if (DSVariablePoolHasVariableWithName(DSCaseXi(aCase), varName) == true) {
+                        varIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), varName);
+                        currentValue = DSMatrixDoubleValue(Oi, 0, varIndex);
+                        currentValue += DSGMAParserAuxExponentAtIndex(aux, j);
+                        DSMatrixSetDoubleValue(Oi, 0, varIndex, currentValue);
+                }
+        }
+bail:
+        return;
+}
+
+static DSMatrixArray * dsCaseOptimiztionFunctionCreateMatrix(const DSCase *aCase, gma_parseraux_t *aux)
+{
+        DSMatrixArray * optimizationMatrices = NULL;
+        DSMatrix * Od, *Oi, *delta;
+        const DSSSystem * ssystem;
+        const DSVariablePool * Xd, *Xi;
+        DSMatrix * Ai, * B, * MAi, * Mb;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (aux == NULL) {
+                DSError(M_DS_NULL ": Parser auxiliary data is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        Xd = DSCaseXd(aCase);
+        Xi = DSCaseXi(aCase);
+        if (Xd == NULL || Xi == NULL) {
+                DSError(M_DS_WRONG ": Need Xi and Xd", A_DS_ERROR);
+                goto bail;
+        }
+        ssystem = DSCaseSSystem(aCase);
+        if (DSSSystemHasSolution(ssystem) == false) {
+                goto bail;
+        }
+        Od = DSMatrixCalloc(1, DSVariablePoolNumberOfVariables(Xd));
+        Oi = DSMatrixCalloc(1, DSVariablePoolNumberOfVariables(Xi));
+        delta = DSMatrixCalloc(1, 1);
+        dsCaseOptimizationFunctionProcessExponentBasePairs(aCase, aux, Od, Oi, delta);
+        Ai = DSSSystemAi(ssystem);
+        B = DSSSystemB(ssystem);
+        MAi = DSMatrixByMultiplyingMatrix(DSSSystemM(ssystem), Ai);
+        Mb = DSMatrixByMultiplyingMatrix(DSSSystemM(ssystem), B);
+        DSMatrixFree(Ai);
+        DSMatrixFree(B);
+        Ai = MAi;
+        MAi = DSMatrixByMultiplyingMatrix(Od, MAi);
+        DSMatrixFree(Ai);
+        B = Mb;
+        Mb = DSMatrixByMultiplyingMatrix(Od, Mb);
+        DSMatrixFree(B);
+        DSMatrixSubstractByMatrix(Oi, MAi);
+        DSMatrixAddByMatrix(delta, Mb);
+        DSMatrixFree(Od);
+        DSMatrixFree(MAi);
+        DSMatrixFree(Mb);
+        optimizationMatrices = DSMatrixArrayAlloc();
+        DSMatrixArrayAddMatrix(optimizationMatrices, Oi);
+        DSMatrixArrayAddMatrix(optimizationMatrices, delta);
+bail:
+        return optimizationMatrices;
+}
+
+extern DSMatrixArray * DSCaseParseOptimizationFunction(const DSCase * aCase, const char * string)
+{
+        DSMatrixArray * O = NULL;
+        if (aCase == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        gma_parseraux_t *aux = NULL;
+        aux = dsCaseParseStringToTermList(string);
+        if (aux == NULL) {
+                goto bail;
+        }
+        O = dsCaseOptimiztionFunctionCreateMatrix(aCase, aux);
+        DSGMAParserAuxFree(aux);
+bail:
+        return O;
 }
 
 #if defined (__APPLE__) && defined (__MACH__)

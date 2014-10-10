@@ -142,8 +142,15 @@ extern DSVertices * DSCaseVerticesFor3DSlice(const DSCase *aCase, const DSVariab
 extern DSMatrixArray * DSCaseVerticesForNDSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
 
 extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase);
+extern DSVariablePool * DSCaseValidParameterSetByOptimizingFunction(const DSCase *aCase, const char * function, const bool minimize);
 extern DSVariablePool * DSCaseValidParameterSetAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
+extern DSVariablePool * DSCaseValidParameterSetAtSliceByOptimizingFunction(const DSCase *aCase,
+                                                                           const DSVariablePool * lowerBounds,
+                                                                           const DSVariablePool *upperBounds,
+                                                                           const char * function,
+                                                                           const bool minimize);
 
+extern DSMatrixArray * DSCaseParseOptimizationFunction(const DSCase * aCase, const char * string);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Intersection of cases
