@@ -1352,7 +1352,7 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceByResolvingCycl
         }
         for (i = 0; i < numberValid; i++) {
                 validCaseNumbers = atoi(ds->validCases->names[i]);
-                DSParallelStackPush(stack, validCaseNumbers);
+                DSParallelStackPush(stack, (void *)(unsigned long int)validCaseNumbers);
         }
         threads = DSSecureCalloc(sizeof(pthread_t), numberOfThreads);
         /* Creating the N-threads with their data */

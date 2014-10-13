@@ -349,7 +349,7 @@ extern void * DSParallelWorkerValidityResolveCycles(void * pthread_struct)
         glp_init_env();
         /** Data in stack MUST be a case number, if not an error will occur **/
         while (pdata->stack->count > 0)  {
-                caseNumber = DSParallelStackPop(pdata->stack);
+                caseNumber = (DSUInteger)DSParallelStackPop(pdata->stack);
                 if (caseNumber == 0) {
                         continue;
                 }

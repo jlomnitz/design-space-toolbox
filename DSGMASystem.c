@@ -1661,7 +1661,7 @@ extern DSGMASystemMessage * DSGMASystemEncode(const DSGMASystem * gma)
         message = DSSecureMalloc(sizeof(DSGMASystemMessage));
         dsgmasystem_message__init(message);
         message->alpha = DSMatrixEncode(DSGMASystemAlpha(gma));
-        message->beta = DSMatrixEncode(DSGMASystemAlpha(gma));
+        message->beta = DSMatrixEncode(DSGMASystemBeta(gma));
         message->gd = DSMatrixArrayEncode(DSGMASystemGd(gma));
         message->hd = DSMatrixArrayEncode(DSGMASystemHd(gma));
         message->gi = DSMatrixArrayEncode(DSGMASystemGi(gma));
