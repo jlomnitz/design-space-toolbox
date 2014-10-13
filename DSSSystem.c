@@ -963,13 +963,13 @@ extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
                                 rhs = DSExpressionFromPowerlawInMatrixForm(i, DSSSystemGd(ssys), DSSSystemXd(ssys), DSSSystemGi(ssys), DSSSystemXi(ssys), DSSSystemAlpha(ssys));
                         } else {
                                 lhs = dsExpressionAllocWithConstant(0.0);
-                                rhs = DSExpressionAddExpressions(DSExpressionFromPowerlawInMatrixForm(i,
+                                rhs = DSExpressionSubstractExpressions(DSExpressionFromPowerlawInMatrixForm(i,
                                                                                                       DSSSystemGd(ssys),
                                                                                                       DSSSystemXd(ssys),
                                                                                                       DSSSystemGi(ssys),
                                                                                                       DSSSystemXi(ssys),
                                                                                                       DSSSystemAlpha(ssys)),
-                                                                 DSExpressionFromPowerlawInMatrixForm(i,
+                                                                       DSExpressionFromPowerlawInMatrixForm(i,
                                                                                                       DSSSystemHd(ssys),
                                                                                                       DSSSystemXd(ssys),
                                                                                                       DSSSystemHi(ssys),
@@ -979,7 +979,7 @@ extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
                 } else {
                         lhs = dsExpressionAllocWithOperator('.');
                         DSExpressionAddBranch(lhs, dsExpressionAllocWithVariableName(varName));
-                        rhs = DSExpressionAddExpressions(DSExpressionFromPowerlawInMatrixForm(i,
+                        rhs = DSExpressionSubstractExpressions(DSExpressionFromPowerlawInMatrixForm(i,
                                                                                               DSSSystemGd(ssys),
                                                                                               DSSSystemXd(ssys),
                                                                                               DSSSystemGi(ssys),
