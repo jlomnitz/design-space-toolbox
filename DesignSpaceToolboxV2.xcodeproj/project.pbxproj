@@ -30,7 +30,7 @@
 		9A537BB313A9D04F0031378A /* DSTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A537BB213A9D04F0031378A /* DSTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A5833BC139D79170068B6B6 /* DSStd.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5833BB139D79170068B6B6 /* DSStd.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A5D084619DFAECE00A3F0E3 /* DSDataSerialization.pb-c.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D084419DFAECE00A3F0E3 /* DSDataSerialization.pb-c.c */; };
-		9A5D084719DFAECE00A3F0E3 /* DSDataSerialization.pb-c.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5D084519DFAECE00A3F0E3 /* DSDataSerialization.pb-c.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		9A5D084719DFAECE00A3F0E3 /* DSDataSerialization.pb-c.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A5D084519DFAECE00A3F0E3 /* DSDataSerialization.pb-c.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A5D084919DFAF2600A3F0E3 /* libprotobuf-c.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5D084819DFAF2600A3F0E3 /* libprotobuf-c.1.dylib */; };
 		9A681E6114F303DE0025735D /* DSStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A681E6014F303DE0025735D /* DSStack.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A68EF5513EC767800FBDDF5 /* DSMatrixTokenizerLex.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A68EF5413EC767700FBDDF5 /* DSMatrixTokenizerLex.c */; };
@@ -668,6 +668,7 @@
 				9A3D588513FAFAD000C32875 /* DSSSystem.h in Headers */,
 				9AC62D1813FDC2CB00523AD7 /* DSCase.h in Headers */,
 				9A85B47013FF9DFC00EA3795 /* DSDesignSpace.h in Headers */,
+				9A5D084719DFAECE00A3F0E3 /* DSDataSerialization.pb-c.h in Headers */,
 				9A96EAEB19E6F35E00F20F96 /* DSCaseOptimizationFunctionGrammar.h in Headers */,
 				9AE7759D140DAA8900F77747 /* DSVertices.h in Headers */,
 				9AD82997188867030015E6BD /* lrslib.h in Headers */,
@@ -679,7 +680,6 @@
 				9A68EF6E13ECA32900FBDDF5 /* DSVariableTokenizer.h in Headers */,
 				9A68EF7413ECB03000FBDDF5 /* DSVariableGrammar.h in Headers */,
 				9ABDC42913F1BE8600BC11D7 /* DSExpressionTokenizer.h in Headers */,
-				9A5D084719DFAECE00A3F0E3 /* DSDataSerialization.pb-c.h in Headers */,
 				9ABDC43B13F1C73400BC11D7 /* DSExpressionGrammar.h in Headers */,
 				9AE49FDA13F5A4EC00C7A478 /* DSGMASystemGrammar.h in Headers */,
 				9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */,
