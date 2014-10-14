@@ -174,6 +174,28 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetWithConstr
 extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetAtSlice(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const DSVariablePool * lowerBounds, const DSVariablePool * upperBounds);
 
 
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetByOptimizingFunction(const DSUInteger numberOfCases,
+                                                                                           const DSCase **cases,
+                                                                                           const DSUInteger numberOfExceptions,
+                                                                                           const char ** exceptionVarNames,
+                                                                                           const char * function,
+                                                                                           bool minimize);
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetWithConstraintsByOptimizingFunction(const DSUInteger numberOfCases,
+                                                                                                          const DSCase **cases,
+                                                                                                          const DSUInteger numberOfExceptions,
+                                                                                                          const char ** exceptionVarNames,
+                                                                                                          const char ** constraints,
+                                                                                                          DSUInteger numberOfConstraints,
+                                                                                                          const char * function, bool minimize);
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetAtSliceByOptimizingFunction(const DSUInteger numberOfCases,
+                                                                                                  const DSCase **cases,
+                                                                                                  const DSUInteger numberOfExceptions,
+                                                                                                  const char ** exceptionVarNames,
+                                                                                                  const DSVariablePool * lowerBounds,
+                                                                                                  const DSVariablePool * upperBounds,
+                                                                                                  const char * function,
+                                                                                                  bool minimize);
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Case signature
 #endif

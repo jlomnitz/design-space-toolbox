@@ -1952,6 +1952,19 @@ bail:
         return variablePool;
 }
 
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetByOptimizingFunction(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const char * function, bool minimize)
+{
+        DSPseudoCase *caseIntersection = NULL;
+        DSVariablePool * variablePool = NULL;
+        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        if (caseIntersection == NULL)
+                goto bail;
+        variablePool = DSCaseValidParameterSetByOptimizingFunction(caseIntersection, function, minimize);
+        DSSecureFree(caseIntersection);
+bail:
+        return variablePool;
+}
+
 extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetWithConstraints(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const char ** constraints, DSUInteger numberOfConstraints)
 {
         DSPseudoCase *caseIntersection = NULL;
@@ -1961,6 +1974,20 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetWithConstr
         if (caseIntersection == NULL)
                 goto bail;
         variablePool = DSCaseValidParameterSet(caseIntersection);
+        DSSecureFree(caseIntersection);
+bail:
+        return variablePool;
+}
+
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetWithConstraintsByOptimizingFunction(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const char ** constraints, DSUInteger numberOfConstraints, const char * function, bool minimize)
+{
+        DSPseudoCase *caseIntersection = NULL;
+        DSVariablePool * variablePool = NULL;
+        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        DSCaseAddConstraints(caseIntersection, constraints, numberOfConstraints);
+        if (caseIntersection == NULL)
+                goto bail;
+        variablePool = DSCaseValidParameterSetByOptimizingFunction(caseIntersection, function, minimize);
         DSSecureFree(caseIntersection);
 bail:
         return variablePool;
@@ -1979,6 +2006,18 @@ bail:
         return variablePool;
 }
 
+extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetAtSliceByOptimizingFunction(const DSUInteger numberOfCases, const DSCase **cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames, const DSVariablePool * lowerBounds, const DSVariablePool * upperBounds, const char * function, bool minimize)
+{
+        DSPseudoCase *caseIntersection = NULL;
+        DSVariablePool * variablePool = NULL;
+        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        if (caseIntersection == NULL)
+                goto bail;
+        variablePool = DSCaseValidParameterSetAtSliceByOptimizingFunction(caseIntersection, lowerBounds, upperBounds, function, minimize);
+        DSSecureFree(caseIntersection);
+bail:
+        return variablePool;
+}
 
 extern DSVertices * DSCaseIntersectionVerticesForSlice(const DSUInteger numberOfCases, const DSCase **cases, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables)
 {

@@ -2052,10 +2052,10 @@ DSCycleExtensionData * dsCycleExtensionDataInitForCyclicalCase(const DSCase * aC
                                                                const DSDesignSpace * original)
 {
         DSCycleExtensionData * extensionData = NULL;
-        DSDictionary * cycleFluxes;
-        DSUInteger i;
-        char * name;
-        DSExpression * flux;
+//        DSDictionary * cycleFluxes;
+//        DSUInteger i;
+//        char * name;
+//        DSExpression * flux;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
