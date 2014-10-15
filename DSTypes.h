@@ -377,6 +377,8 @@ typedef struct {
 } DSCase;
 
 
+typedef DSCase DSPseudoCase;
+
 typedef struct {
 //        DSExpression *** fluxEquations;
 //        DSUInteger * numberOfFluxes;

@@ -738,12 +738,9 @@ extern DSExpression ** DSCaseBoundaries(const DSCase *aCase)
         if (DSCaseU(aCase) == NULL) {
                 goto bail;
         }
-        numberOfConditions = DSMatrixRows(DSCaseCd(aCase));
+        numberOfConditions = DSMatrixRows(DSCaseU(aCase));
         if (numberOfConditions == 0) {
                 DSError("Case being accessed has no conditions", A_DS_ERROR);
-                goto bail;
-        }
-        if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
                 goto bail;
         }
         boundaries = DSSecureCalloc(sizeof(DSExpression *), numberOfConditions);

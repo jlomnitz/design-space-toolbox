@@ -156,6 +156,9 @@ extern DSMatrixArray * DSCaseParseOptimizationFunction(const DSCase * aCase, con
 #pragma mark Intersection of cases
 #endif
 
+extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCases(const DSUInteger numberOfCases, const DSCase ** cases);
+extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DSUInteger numberOfCases, const DSCase ** cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames);
+
 extern const bool DSCaseIntersectionListIsValid(const DSUInteger numberOfCases, const DSCase *firstCase, ...);
 extern const bool DSCaseIntersectionIsValid(const DSUInteger numberOfCases, const DSCase **cases);
 extern const bool DSCaseIntersectionIsValidAtSlice(const DSUInteger numberOfCases, const DSCase **cases,  const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);

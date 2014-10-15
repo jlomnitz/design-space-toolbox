@@ -53,7 +53,6 @@
 #pragma mark Linear programming functions
 #endif
 
-typedef DSCase DSPseudoCase;
 
 static glp_prob * dsCaseLinearProblemForMatrices(const DSMatrix *A, const DSMatrix *B)
 {
@@ -1742,11 +1741,11 @@ bail:
 /**
  * 
  */
-static DSPseudoCase * dsPseudoCaseFromIntersectionOfCases(const DSUInteger numberOfCases, const DSCase ** cases)
+extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCases(const DSUInteger numberOfCases, const DSCase ** cases)
 {
         DSUInteger i;
         DSPseudoCase * caseIntersection = NULL;
-        DSMatrix *U = NULL, *Zeta = NULL, *temp;
+        DSMatrix *Cd, *Ci, *delta, *U = NULL, *Zeta = NULL, *temp;
         if (numberOfCases == 0) {
                 DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
                 goto bail;
@@ -1761,6 +1760,9 @@ static DSPseudoCase * dsPseudoCaseFromIntersectionOfCases(const DSUInteger numbe
         }
         U = DSMatrixCopy(DSCaseU(cases[0]));
         Zeta = DSMatrixCopy(DSCaseZeta(cases[0]));
+        Ci = DSMatrixCopy(DSCaseCi(cases[0]));
+        Cd = DSMatrixCopy(DSCaseCd(cases[0]));
+        delta = DSMatrixCopy(DSCaseDelta(cases[0]));
         for (i = 1; i < numberOfCases; i++) {
                 temp = DSMatrixAppendMatrices(U, DSCaseU(cases[i]), false);
                 DSMatrixFree(U);
@@ -1768,7 +1770,16 @@ static DSPseudoCase * dsPseudoCaseFromIntersectionOfCases(const DSUInteger numbe
                 temp = DSMatrixAppendMatrices(Zeta, DSCaseZeta(cases[i]), false);
                 DSMatrixFree(Zeta);
                 Zeta = temp;
-                if (U == NULL || Zeta == NULL)
+                temp = DSMatrixAppendMatrices(Cd, DSCaseCd(cases[i]), false);
+                DSMatrixFree(Cd);
+                Cd = temp;
+                temp = DSMatrixAppendMatrices(Ci, DSCaseCi(cases[i]), false);
+                DSMatrixFree(Ci);
+                Ci = temp;
+                temp = DSMatrixAppendMatrices(delta, DSCaseDelta(cases[i]), false);
+                DSMatrixFree(delta);
+                delta = temp;
+                if (U == NULL || Zeta == NULL || Cd == NULL || Ci == NULL || delta == NULL)
                         goto bail;
         }
         caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
@@ -1776,20 +1787,32 @@ static DSPseudoCase * dsPseudoCaseFromIntersectionOfCases(const DSUInteger numbe
         DSCaseXi(caseIntersection) = DSCaseXi(cases[0]);
         DSCaseU(caseIntersection) = U;
         DSCaseZeta(caseIntersection) = Zeta;
+        DSCaseCi(caseIntersection) = Ci;
+        DSCaseCd(caseIntersection) = Cd;
+        DSCaseDelta(caseIntersection) = delta;
         U = NULL;
         Zeta = NULL;
+        Cd = NULL;
+        Ci = NULL;
+        delta = NULL;
 bail:
         if (U != NULL)
                 DSMatrixFree(U);
         if (Zeta != NULL)
                 DSMatrixFree(Zeta);
+        if (Ci != NULL)
+                DSMatrixFree(Ci);
+        if (Cd != NULL)
+                DSMatrixFree(Cd);
+        if (delta != NULL)
+                DSMatrixFree(delta);
         return caseIntersection;
 }
 
 /**
  *
  */
-static DSPseudoCase * dsPseudoCaseFromIntersectionOfCasesExcludingSlice(const DSUInteger numberOfCases, const DSCase ** cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames)
+extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DSUInteger numberOfCases, const DSCase ** cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames)
 {
         DSUInteger i, j, k, currentRow, numberOfExtraColumns, rows, columns, *indices;
         DSPseudoCase * caseIntersection = NULL;
@@ -1891,7 +1914,7 @@ extern const bool DSCaseIntersectionIsValid(const DSUInteger numberOfCases, cons
 {
         bool isValid = false;
         DSPseudoCase * caseIntersection = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
         if (caseIntersection == NULL)
                 goto bail;
         isValid = DSCaseIsValid(caseIntersection);
@@ -1904,7 +1927,7 @@ extern const bool DSCaseIntersectionIsValidAtSlice(const DSUInteger numberOfCase
 {
         bool isValid = false;
         DSPseudoCase *caseIntersection = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
         if (caseIntersection == NULL)
                 goto bail;
         isValid = DSCaseIsValidAtSlice(caseIntersection, lowerBounds, upperBounds);
@@ -1917,7 +1940,7 @@ extern const bool DSCaseIntersectionExceptSliceIsValid(const DSUInteger numberOf
 {
         bool isValid = false;
         DSPseudoCase *caseIntersection = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
         isValid = DSCaseIsValid(caseIntersection);
@@ -1930,7 +1953,7 @@ extern const bool DSCaseIntersectionExceptSliceIsValidAtSlice(const DSUInteger n
 {
         bool isValid = false;
         DSPseudoCase *caseIntersection = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
         isValid = DSCaseIsValidAtSlice(caseIntersection, lowerBounds, upperBounds);
@@ -1943,7 +1966,7 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSet(const DSU
 {
         DSPseudoCase *caseIntersection = NULL;
         DSVariablePool * variablePool = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
         variablePool = DSCaseValidParameterSet(caseIntersection);
@@ -1956,7 +1979,7 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetByOptimizi
 {
         DSPseudoCase *caseIntersection = NULL;
         DSVariablePool * variablePool = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
         variablePool = DSCaseValidParameterSetByOptimizingFunction(caseIntersection, function, minimize);
@@ -1969,7 +1992,7 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetWithConstr
 {
         DSPseudoCase *caseIntersection = NULL;
         DSVariablePool * variablePool = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         DSCaseAddConstraints(caseIntersection, constraints, numberOfConstraints);
         if (caseIntersection == NULL)
                 goto bail;
@@ -1983,7 +2006,7 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetWithConstr
 {
         DSPseudoCase *caseIntersection = NULL;
         DSVariablePool * variablePool = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         DSCaseAddConstraints(caseIntersection, constraints, numberOfConstraints);
         if (caseIntersection == NULL)
                 goto bail;
@@ -1997,7 +2020,7 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetAtSlice(co
 {
         DSPseudoCase *caseIntersection = NULL;
         DSVariablePool * variablePool = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
         variablePool = DSCaseValidParameterSetAtSlice(caseIntersection, lowerBounds, upperBounds);
@@ -2010,7 +2033,7 @@ extern DSVariablePool * DSCaseIntersectionExceptSliceValidParameterSetAtSliceByO
 {
         DSPseudoCase *caseIntersection = NULL;
         DSVariablePool * variablePool = NULL;
-        caseIntersection = dsPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
         variablePool = DSCaseValidParameterSetAtSliceByOptimizingFunction(caseIntersection, lowerBounds, upperBounds, function, minimize);
@@ -2039,7 +2062,7 @@ extern DSVertices * DSCaseIntersectionVerticesForSlice(const DSUInteger numberOf
                 DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
                 goto bail;
         }
-        caseIntersection = dsPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
         if (cases == NULL)
                 goto bail;
         if (numberOfVariables == 1) {
@@ -2072,7 +2095,7 @@ extern DSMatrixArray * DSCaseIntersectionFacesFor3DSliceAndConnectivity(const DS
                 DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
                 goto bail;
         }
-        caseIntersection = dsPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
+        caseIntersection = DSPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
         if (cases == NULL)
                 goto bail;
         faces = DSCaseFacesFor3DSliceAndConnectivity(caseIntersection, lowerBounds, upperBounds, xVariable, yVariable, zVariable);
