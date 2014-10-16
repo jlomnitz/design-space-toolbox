@@ -1578,7 +1578,7 @@ bail:
         return;
 }
 
-static DSMatrixArray * dsCaseOptimiztionFunctionCreateMatrix(const DSCase *aCase, gma_parseraux_t *aux)
+static DSMatrixArray * dsCaseOptimiztionFunctionCreateMatrix(const DSCase *aCase, gma_parseraux_t *aux, bool hasXd)
 {
         DSMatrixArray * optimizationMatrices = NULL;
         DSMatrix * Od, *Oi, *delta;
@@ -1600,30 +1600,35 @@ static DSMatrixArray * dsCaseOptimiztionFunctionCreateMatrix(const DSCase *aCase
                 goto bail;
         }
         ssystem = DSCaseSSystem(aCase);
-        if (DSSSystemHasSolution(ssystem) == false) {
-                goto bail;
-        }
         Od = DSMatrixCalloc(1, DSVariablePoolNumberOfVariables(Xd));
         Oi = DSMatrixCalloc(1, DSVariablePoolNumberOfVariables(Xi));
         delta = DSMatrixCalloc(1, 1);
         dsCaseOptimizationFunctionProcessExponentBasePairs(aCase, aux, Od, Oi, delta);
-        Ai = DSSSystemAi(ssystem);
-        B = DSSSystemB(ssystem);
-        MAi = DSMatrixByMultiplyingMatrix(DSSSystemM(ssystem), Ai);
-        Mb = DSMatrixByMultiplyingMatrix(DSSSystemM(ssystem), B);
-        DSMatrixFree(Ai);
-        DSMatrixFree(B);
-        Ai = MAi;
-        MAi = DSMatrixByMultiplyingMatrix(Od, MAi);
-        DSMatrixFree(Ai);
-        B = Mb;
-        Mb = DSMatrixByMultiplyingMatrix(Od, Mb);
-        DSMatrixFree(B);
-        DSMatrixSubstractByMatrix(Oi, MAi);
-        DSMatrixAddByMatrix(delta, Mb);
+        if (hasXd == true) {
+                if (DSSSystemHasSolution(ssystem) == false) {
+                        DSMatrixFree(Od);
+                        DSMatrixFree(Oi);
+                        DSMatrixFree(delta);
+                        goto bail;
+                }
+                Ai = DSSSystemAi(ssystem);
+                B = DSSSystemB(ssystem);
+                MAi = DSMatrixByMultiplyingMatrix(DSSSystemM(ssystem), Ai);
+                Mb = DSMatrixByMultiplyingMatrix(DSSSystemM(ssystem), B);
+                DSMatrixFree(Ai);
+                DSMatrixFree(B);
+                Ai = MAi;
+                MAi = DSMatrixByMultiplyingMatrix(Od, MAi);
+                DSMatrixFree(Ai);
+                B = Mb;
+                Mb = DSMatrixByMultiplyingMatrix(Od, Mb);
+                DSMatrixFree(B);
+                DSMatrixSubstractByMatrix(Oi, MAi);
+                DSMatrixAddByMatrix(delta, Mb);
+                DSMatrixFree(MAi);
+                DSMatrixFree(Mb);
+        }
         DSMatrixFree(Od);
-        DSMatrixFree(MAi);
-        DSMatrixFree(Mb);
         optimizationMatrices = DSMatrixArrayAlloc();
         DSMatrixArrayAddMatrix(optimizationMatrices, Oi);
         DSMatrixArrayAddMatrix(optimizationMatrices, delta);
@@ -1634,6 +1639,11 @@ bail:
 extern DSMatrixArray * DSCaseParseOptimizationFunction(const DSCase * aCase, const char * string)
 {
         DSMatrixArray * O = NULL;
+        DSVariablePool * eqVars = NULL;
+        DSExpression * expr;
+        bool hasXd = false;
+        DSUInteger i;
+        char * name;
         if (aCase == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -1643,8 +1653,20 @@ extern DSMatrixArray * DSCaseParseOptimizationFunction(const DSCase * aCase, con
         if (aux == NULL) {
                 goto bail;
         }
-        O = dsCaseOptimiztionFunctionCreateMatrix(aCase, aux);
+        expr = DSExpressionByParsingString(string);
+        eqVars = DSExpressionVariablesInExpression(expr);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(eqVars); i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(eqVars, i));
+                if (DSVariablePoolHasVariableWithName(DSCaseXd(aCase), name)) {
+                        hasXd = true;
+                        break;
+                }
+        }
+        DSExpressionFree(expr);
+        DSVariablePoolFree(eqVars);
+        O = dsCaseOptimiztionFunctionCreateMatrix(aCase, aux, hasXd);
         DSGMAParserAuxFree(aux);
+
 bail:
         return O;
 }
@@ -1825,6 +1847,7 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
 {
         DSUInteger i, j, k, currentRow, numberOfExtraColumns, rows, columns, *indices;
         DSPseudoCase * caseIntersection = NULL;
+        DSMatrix * Cd = NULL, *Ci = NULL, *delta = NULL;
         DSMatrix *U = NULL, *Zeta = NULL, *tempU, *tempZeta;
         DSVariablePool * Xi;
         char * name = NULL;
