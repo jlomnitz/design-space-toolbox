@@ -1745,7 +1745,8 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCases(const DSUInteger numbe
 {
         DSUInteger i;
         DSPseudoCase * caseIntersection = NULL;
-        DSMatrix *Cd, *Ci, *delta, *U = NULL, *Zeta = NULL, *temp;
+        DSMatrix *Cd = NULL, *Ci = NULL, *delta = NULL, *U = NULL, *Zeta = NULL, *temp;
+        char caseIdentifier[1000];
         if (numberOfCases == 0) {
                 DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
                 goto bail;
@@ -1755,6 +1756,10 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCases(const DSUInteger numbe
                 goto bail;
         }
         for (i = 0; i < numberOfCases; i++) {
+                if (cases[i] == NULL) {
+                        DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                        goto bail;
+                }
                 if (DSCaseHasSolution(cases[i]) == false)
                         goto bail;
         }
@@ -1763,7 +1768,9 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCases(const DSUInteger numbe
         Ci = DSMatrixCopy(DSCaseCi(cases[0]));
         Cd = DSMatrixCopy(DSCaseCd(cases[0]));
         delta = DSMatrixCopy(DSCaseDelta(cases[0]));
+        sprintf(caseIdentifier, "%s", DSCaseIdentifier(cases[0]));
         for (i = 1; i < numberOfCases; i++) {
+                sprintf(caseIdentifier, "%s, %s", caseIdentifier, DSCaseIdentifier(cases[i]));
                 temp = DSMatrixAppendMatrices(U, DSCaseU(cases[i]), false);
                 DSMatrixFree(U);
                 U = temp;
@@ -1783,13 +1790,15 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCases(const DSUInteger numbe
                         goto bail;
         }
         caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
-        DSCaseXd(caseIntersection) = DSCaseXd(cases[0]);
-        DSCaseXi(caseIntersection) = DSCaseXi(cases[0]);
+        caseIntersection->Xd = DSCaseXd(cases[0]);
+        caseIntersection->Xd_a = DSCaseXd_a(cases[0]);
+        caseIntersection->Xi = DSCaseXi(cases[0]);
         DSCaseU(caseIntersection) = U;
         DSCaseZeta(caseIntersection) = Zeta;
         DSCaseCi(caseIntersection) = Ci;
         DSCaseCd(caseIntersection) = Cd;
         DSCaseDelta(caseIntersection) = delta;
+        DSCaseId(caseIntersection) = strdup(caseIdentifier);
         U = NULL;
         Zeta = NULL;
         Cd = NULL;
@@ -1892,12 +1901,12 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                 }
         }
         caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
-        DSCaseXd(caseIntersection) = DSCaseXd(cases[0]);
-        DSCaseXi(caseIntersection) = Xi;
+        caseIntersection->Xd_a = DSCaseXd_a(cases[0]);
+        caseIntersection->Xd = DSCaseXd(cases[0]);
+        caseIntersection->Xi = Xi;
         DSCaseU(caseIntersection) = U;
         DSCaseZeta(caseIntersection) = Zeta;
         DSCaseSSys(caseIntersection) = DSSecureCalloc(1, sizeof(DSSSystem));
-        DSCaseXi(DSCaseSSys(caseIntersection)) = Xi;
         DSCaseSSys(caseIntersection)->shouldFreeXi = true;
         U = NULL;
         Zeta = NULL;

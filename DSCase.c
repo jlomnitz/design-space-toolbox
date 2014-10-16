@@ -103,9 +103,9 @@ extern DSCase * DSCaseCopy(const DSCase * aCase)
                 DSCaseDelta(newCase) = DSMatrixCopy(DSCaseDelta(aCase));
         if (DSCaseU(aCase) != NULL)
                 DSCaseU(newCase) = DSMatrixCopy(DSCaseU(aCase));
-        DSCaseXd(newCase) = DSSSystemXd(DSCaseSSys(newCase));
-        DSCaseXi(newCase) = DSSSystemXi(DSCaseSSys(newCase));
-        DSCaseXd_a(newCase) =DSSSystemXd_a(DSCaseSSys(newCase));
+        newCase->Xd = DSSSystemXd(DSCaseSSys(newCase));
+        newCase->Xi = DSSSystemXi(DSCaseSSys(newCase));
+        newCase->Xd_a =DSSSystemXd_a(DSCaseSSys(newCase));
         DSCaseId(newCase) = strdup(DSCaseId(aCase));
 bail:
         return newCase;
@@ -315,8 +315,8 @@ extern DSCase * DSCaseWithTermsFromGMA(const DSGMASystem * gma, const DSUInteger
         }
         aCase = DSCaseAlloc();
         DSCaseSSys(aCase) = DSSSystemWithTermsFromGMA(gma, termArray);
-        DSCaseXi(aCase) = DSSSystemXi(DSCaseSSys(aCase));
-        DSCaseXd(aCase) = DSSSystemXd(DSCaseSSys(aCase));
+        aCase->Xi = DSSSystemXi(DSCaseSSys(aCase));
+        aCase->Xd = DSSSystemXd(DSCaseSSys(aCase));
         numberOfEquations = DSGMASystemNumberOfEquations(gma);
         DSCaseSig(aCase) = DSSecureMalloc(sizeof(DSUInteger)*(2*numberOfEquations));
         for (i = 0; i < 2*numberOfEquations; i+=2) {
@@ -392,8 +392,9 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
         }
         aCase = DSCaseAlloc();
         DSCaseSSys(aCase) = DSSSystemWithTermsFromGMA(DSDesignSpaceGMASystem(ds), termArray);
-        DSCaseXi(aCase) = DSSSystemXi(DSCaseSSys(aCase));
-        DSCaseXd(aCase) = DSSSystemXd(DSCaseSSys(aCase));
+        aCase->Xi = DSSSystemXi(DSCaseSSys(aCase));
+        aCase->Xd = DSSSystemXd(DSCaseSSys(aCase));
+        aCase->Xd_a = DSSSystemXd_a(DSCaseSSys(aCase));
         numberOfEquations = DSGMASystemNumberOfEquations(DSDesignSpaceGMASystem(ds));
         DSCaseSig(aCase) = DSSecureMalloc(sizeof(DSUInteger)*(2*numberOfEquations));
 //        DSCaseSSys(aCase)->fluxDictionary = DSDesignSpaceCycleDictionaryForSignature(ds, termArray);
@@ -870,6 +871,42 @@ extern DSMatrix * DSCaseDoubleValueBoundariesAtPoint(const DSCase * aCase, const
         values = DSMatrixByMultiplyingMatrix(U, Xi);
         DSMatrixAddByMatrix(values, Zeta);
         return values;
+}
+
+
+extern const DSVariablePool * DSCaseXd(const DSCase * aCase)
+{
+        const DSVariablePool * Xd = NULL;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        Xd = aCase->Xd;
+bail:
+        return Xd;
+}
+extern const DSVariablePool * DSCaseXd_a(const DSCase * aCase)
+{
+        const DSVariablePool * Xd_a = NULL;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        Xd_a = aCase->Xd_a;
+bail:
+        return Xd_a;
+}
+
+extern const DSVariablePool * DSCaseXi(const DSCase * aCase)
+{
+        const DSVariablePool * Xi = NULL;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        Xi = aCase->Xi;
+bail:
+        return Xi;
 }
 
 

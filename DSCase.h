@@ -48,9 +48,6 @@ __BEGIN_DECLS
 #define DS_CASE_NUMBER_SMALL_ENDIAN  1
 
 #define DSCaseSSys(x)                ((x)->ssys)
-#define DSCaseXi(x)                  ((x)->Xi)
-#define DSCaseXd(x)                  ((x)->Xd)
-#define DSCaseXd_a(x)                ((x)->Xd_a)
 #define DSCaseCd(x)                  ((x)->Cd)
 #define DSCaseCi(x)                  ((x)->Ci)
 #define DSCaseU(x)                   ((x)->U)
@@ -109,6 +106,9 @@ extern const DSSSystem *DSCaseSSystem(const DSCase * aCase);
 
 extern double DSCaseLogarithmicGain(const DSCase *aCase, const char *XdName, const char *XiName);
 
+extern const DSVariablePool * DSCaseXd(const DSCase * aCase);
+extern const DSVariablePool * DSCaseXd_a(const DSCase * aCase);
+extern const DSVariablePool * DSCaseXi(const DSCase * aCase);
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
 #endif
