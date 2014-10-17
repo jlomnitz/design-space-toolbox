@@ -1826,6 +1826,7 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCases(const DSUInteger numbe
         Cd = NULL;
         Ci = NULL;
         delta = NULL;
+        caseIntersection->ssys = NULL;
 bail:
         if (U != NULL)
                 DSMatrixFree(U);
@@ -1900,6 +1901,9 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
         for (i = 0; i < numberOfCases; i++) {
                 rows += DSMatrixRows(DSCaseZeta(cases[i]));
         }
+        Cd = DSMatrixCalloc(rows, DSMatrixColumns(DSCaseCd(cases[0])));
+        Ci = DSMatrixCalloc(rows, columns);
+        delta = DSMatrixCalloc(rows, 1);
         U = DSMatrixCalloc(rows, columns);
         Zeta = DSMatrixCalloc(rows, 1);
         currentRow = 0;
@@ -1908,8 +1912,13 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                 tempZeta = DSCaseZeta(cases[i]);
                 for (j = 0; j < DSMatrixRows(tempZeta); j++) {
                         DSMatrixSetDoubleValue(Zeta, currentRow, 0, DSMatrixDoubleValue(tempZeta, j, 0));
+                        DSMatrixSetDoubleValue(delta, currentRow, 0, DSMatrixDoubleValue(DSCaseDelta(cases[i]), j, 0));
                         for (k = 0; k < DSMatrixColumns(tempU); k++) {
+                                DSMatrixSetDoubleValue(Ci, currentRow, k, DSMatrixDoubleValue(DSCaseCi(cases[i]), j, k));
                                 DSMatrixSetDoubleValue(U, currentRow, k, DSMatrixDoubleValue(tempU, j, k));
+                        }
+                        for (k = 0; k < DSMatrixColumns(DSCaseCd(cases[i])); k++) {
+                                DSMatrixSetDoubleValue(Cd, currentRow, k, DSMatrixDoubleValue(DSCaseCd(cases[i]), j, k));
                         }
                         if (i > 0) {
                                 for (k = 0; k < numberOfExceptions; k++) {
@@ -1918,6 +1927,11 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                                                                DSMatrixColumns(tempU)+numberOfExceptions*(i-1)+k,
                                                                DSMatrixDoubleValue(U, currentRow, indices[k]));
                                         DSMatrixSetDoubleValue(U, currentRow, indices[k], 0.0f);
+                                        DSMatrixSetDoubleValue(Ci,
+                                                               currentRow,
+                                                               DSMatrixColumns(DSCaseCi(cases[i]))+numberOfExceptions*(i-1)+k,
+                                                               DSMatrixDoubleValue(Ci, currentRow, indices[k]));
+                                        DSMatrixSetDoubleValue(Ci, currentRow, indices[k], 0.0f);
                                 }
                         }
                         currentRow++;
@@ -1931,10 +1945,23 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
         DSCaseZeta(caseIntersection) = Zeta;
         DSCaseSSys(caseIntersection) = DSSecureCalloc(1, sizeof(DSSSystem));
         DSCaseSSys(caseIntersection)->shouldFreeXi = true;
+        DSCaseCi(caseIntersection) = Ci;
+        DSCaseCd(caseIntersection) = Cd;
+        DSCaseDelta(caseIntersection) = delta;
+        caseIntersection->ssys = NULL;
         U = NULL;
         Zeta = NULL;
+        Ci = NULL;
+        Cd = NULL;
+        delta = NULL;
         DSSecureFree(indices);
 bail:
+        if (Cd != NULL)
+                DSMatrixFree(Cd);
+        if (Ci != NULL)
+                DSMatrixFree(Ci);
+        if (delta != NULL)
+                DSMatrixFree(delta);
         if (U != NULL)
                 DSMatrixFree(U);
         if (Zeta != NULL)
