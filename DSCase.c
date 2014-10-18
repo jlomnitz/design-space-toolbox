@@ -917,7 +917,8 @@ bail:
 static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd, const DSMatrix * Ci, const DSMatrix * delta)
 {
         DSUInteger numberOfXi = 0;
-        DSMatrix * W = NULL, *Zeta, *U, *B, *Ai, *temp;
+        DSMatrix * W = NULL, *Zeta, *U = NULL, *B, *Ai, *temp;
+        bool hasSSys;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -929,7 +930,12 @@ static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd
                 goto bail;
         }
         numberOfXi = DSVariablePoolNumberOfVariables(DSCaseXi(aCase));
-        if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
+        hasSSys = DSCaseSSys(aCase) != NULL;
+        if (hasSSys == false) {
+                W = DSMatrixCalloc(DSMatrixRows(Cd), DSMatrixColumns(Cd));
+                Zeta = DSMatrixCopy(delta);
+                U = DSMatrixCopy(Ci);
+        } else if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
                 W = DSMatrixCalloc(DSMatrixRows(Cd), DSMatrixColumns(Cd));
                 Zeta = DSMatrixCopy(delta);
                 U = DSMatrixCopy(Ci);
@@ -956,7 +962,8 @@ static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd
         temp = DSCaseU(aCase);
         DSCaseU(aCase) = DSMatrixAppendMatrices(temp, U, false);
         DSMatrixFree(temp);
-        DSMatrixFree(U);
+        if (U != NULL)
+                DSMatrixFree(U);
         DSMatrixFree(W);
 bail:
         return;
