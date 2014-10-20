@@ -111,6 +111,7 @@ extern DSCase ** DSDesignSpaceCalculateAllValidCases(DSDesignSpace *ds);
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSliceByResolvingCyclicalCases(DSDesignSpace *ds, const DSVariablePool * lower, const DSVariablePool * upper);
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesByResolvingCyclicalCases(DSDesignSpace *ds);
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper);
+extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSliceNonStrict(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Cyclical Cases and Cyclical Case validity

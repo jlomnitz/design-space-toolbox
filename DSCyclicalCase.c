@@ -54,7 +54,7 @@ extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace *
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (DSCaseIsValid(aCase) == true) {
+        if (DSCaseIsValid(aCase, true) == true) {
                 goto bail;
         }
         if (DSCaseConditionsAreValid(aCase) == false) {
@@ -292,7 +292,7 @@ extern const DSSSystem *DSCyclicalCaseSSystem(const DSCyclicalCase *cyclicalCase
 #pragma mark Linear programming functions
 #endif
 
-extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase)
+extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase, const bool strict)
 {
         bool isValid = false;
         DSUInteger numberOfValidCases = 0;
@@ -310,7 +310,7 @@ bail:
 
 extern const bool DSCyclicalCaseIsValidAtPoint(const DSCyclicalCase *aSubcase, const DSVariablePool * variablesToFix);
 
-extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *cyclicalCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
+extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *cyclicalCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const bool strict)
 {
         bool isValid = false;
         DSUInteger numberValid;
@@ -328,7 +328,10 @@ extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *cyclicalCas
         numberValid = DSDesignSpaceNumberOfValidCases(ds);
         if (numberValid == 0)
                 goto bail;
-        validCases = DSDesignSpaceCalculateAllValidCasesForSlice(ds, lowerBounds, upperBounds);
+        if (strict == true)
+                validCases = DSDesignSpaceCalculateAllValidCasesForSlice(ds, lowerBounds, upperBounds);
+        else
+                validCases = DSDesignSpaceCalculateAllValidCasesForSliceNonStrict(ds, lowerBounds, upperBounds);
         if (validCases == NULL)
                 goto bail;
         if (DSDictionaryCount(validCases) != 0)
@@ -473,7 +476,7 @@ extern DSDictionary * DSCyclicalCaseCalculateAllValidSubcasesForSlice(const DSCy
                 for (i = 0; i < numberValid; i++) {
                         validCaseNumbers = atoi(ds->validCases->names[i]);
                         aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
-                        if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
+                        if (DSCaseIsValidAtSlice(aCase, lower, upper, true) == true) {
                                 DSDictionaryAddValueWithName(caseDictionary, DSCaseIdentifier(aCase), aCase);
                         } else {
                                 DSCaseFree(aCase);
@@ -517,7 +520,7 @@ extern DSDictionary * DSCyclicalCaseVerticesForSlice(const DSCyclicalCase *cycli
                 for (i = 0; i < numberValid; i++) {
                         validCaseNumbers = atoi(ds->validCases->names[i]);
                         aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
-                        if (DSCaseIsValidAtSlice(aCase, lowerBounds, upperBounds) == true) {
+                        if (DSCaseIsValidAtSlice(aCase, lowerBounds, upperBounds, true) == true) {
                                 vertices = DSCaseVerticesForSlice(aCase, lowerBounds, upperBounds, numberOfVariables, variables);
                                 DSDictionaryAddValueWithName(caseDictionary, DSCaseIdentifier(aCase), aCase);
                         }
@@ -561,7 +564,7 @@ extern DSDictionary * DSCyclicalCaseVerticesFor2DSlice(const DSCyclicalCase *cyc
                 for (i = 0; i < numberValid; i++) {
                         validCaseNumbers = atoi(ds->validCases->names[i]);
                         aCase = DSDesignSpaceCaseWithCaseNumber(ds, validCaseNumbers);
-                        if (DSCaseIsValidAtSlice(aCase, lowerBounds, upperBounds) == true) {
+                        if (DSCaseIsValidAtSlice(aCase, lowerBounds, upperBounds, true) == true) {
                                 vertices = DSCaseVerticesFor2DSlice(aCase, lowerBounds, upperBounds, xVariable, yVariable);
                                 if (vertices != NULL)
                                         DSDictionaryAddValueWithName(caseDictionary, DSCaseIdentifier(aCase), aCase);

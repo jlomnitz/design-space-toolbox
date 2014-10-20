@@ -301,11 +301,11 @@ extern void * DSParallelWorkerValidity(void * pthread_struct)
                         toFree = NULL;
                 }
                 sprintf(string, "%d", aCase->caseNumber);//caseNumber);//aCase->caseNumber);
-                if (DSCaseIsValid(aCase) == true) {
+                if (DSCaseIsValid(aCase, true) == true) {
                         DSDictionaryAddValueWithName(pdata->ds->validCases, string, (void*)1);
                 } else if (DSDictionaryValueForName(pdata->ds->cyclicalCases, string) != NULL) {
                         cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(pdata->ds, caseNumber);
-                        if (DSCyclicalCaseIsValid(cyclicalCase) == true)
+                        if (DSCyclicalCaseIsValid(cyclicalCase, true) == true)
                                 DSDictionaryAddValueWithName(pdata->ds->validCases, string, (void*)1);
                 }
                 DSCaseFree(aCase);
@@ -373,7 +373,7 @@ extern void * DSParallelWorkerValidityResolveCycles(void * pthread_struct)
                                 DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
                         }
                         DSDictionaryFree(subcaseDictionary);
-                } else if (DSCaseIsValid(aCase) == true) {
+                } else if (DSCaseIsValid(aCase, true) == true) {
                         DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, nameString, aCase);
                 } else {
                         DSCaseFree(aCase);
@@ -457,7 +457,7 @@ extern void * DSParallelWorkerValidityForSliceResolveCycles(void * pthread_struc
                                 DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
                         }
                         DSDictionaryFree(subcaseDictionary);
-                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
+                } else if (DSCaseIsValidAtSlice(aCase, lower, upper, true) == true) {
                         DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, nameString, aCase);
                 } else {
                         DSCaseFree(aCase);
@@ -476,6 +476,7 @@ extern void * DSParallelWorkerValiditySlice(void * pthread_struct)
         DSUInteger caseNumber;
         DSCase *aCase;
         DSVariablePool * lower, *upper;
+        bool strict;
         const DSCyclicalCase * cyclicalCase;
         char string[100];
         if (pthread_struct == NULL) {
@@ -505,6 +506,7 @@ extern void * DSParallelWorkerValiditySlice(void * pthread_struct)
         }
         lower = pdata->functionArguments[0];
         upper = pdata->functionArguments[1];
+        strict = (bool)pdata->functionArguments[2];
         pdata->returnPointer = DSDictionaryAlloc();
         glp_init_env();
         /** Data in stack MUST be a case number, if not an error will occur **/
@@ -521,10 +523,10 @@ extern void * DSParallelWorkerValiditySlice(void * pthread_struct)
                 sprintf(string, "%d", caseNumber);//aCase->caseNumber);
                 cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(pdata->ds, caseNumber);
                 if (cyclicalCase != NULL) {
-                        if (DSCyclicalCaseIsValidAtSlice(cyclicalCase, lower, upper) == true) {
+                        if (DSCyclicalCaseIsValidAtSlice(cyclicalCase, lower, upper, strict) == true) {
                                 DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, string, aCase);
                         }
-                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
+                } else if (DSCaseIsValidAtSlice(aCase, lower, upper, strict) == true) {
                         DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, string, aCase);
                 } else {
                         DSCaseFree(aCase);

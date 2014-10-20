@@ -101,9 +101,9 @@ extern const DSSSystem *DSCyclicalCaseSSystem(const DSCyclicalCase *cyclicalCase
 #pragma mark - Linear programming -
 #endif
 
-extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase);
+extern const bool DSCyclicalCaseIsValid(const DSCyclicalCase *aSubcase, const bool strict);
 //extern const bool DSCyclicalCaseIsValidAtPoint(const DSCyclicalCase *aSubcase, const DSVariablePool * variablesToFix);
-extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
+extern const bool DSCyclicalCaseIsValidAtSlice(const DSCyclicalCase *aSubcase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const bool strict);
 
 //extern const bool DSCyclicalCaseSubaseWithCaseNumberIsValid(const DSDesignSpace *ds, const DSUInteger caseNumber);
 //extern const bool DSCyclicalCaseSubcaseWithCaseSignatureIsValid(const DSDesignSpace *ds, const DSUInteger * signature);

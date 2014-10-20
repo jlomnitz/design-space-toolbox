@@ -997,11 +997,11 @@ static void dsDesignSpaceCalculateValiditySeries(DSDesignSpace *ds)
                 if (aCase == NULL)
                         continue;
                 sprintf(string, "%d", i+1);
-                if (DSCaseIsValid(aCase) == true) {
+                if (DSCaseIsValid(aCase, true) == true) {
                         DSDictionaryAddValueWithName(ds->validCases, string, (void*)1);
                 } else if (DSDictionaryValueForName(ds->cyclicalCases, string) != NULL) {
                         cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(ds, i+1);
-                        if (DSCyclicalCaseIsValid(cyclicalCase) == true)
+                        if (DSCyclicalCaseIsValid(cyclicalCase, true) == true)
                                 DSDictionaryAddValueWithName(ds->validCases, string, (void*)1);
                 }
                 DSCaseFree(aCase);
@@ -1170,7 +1170,7 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCase
                                 DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
                         }
                         DSDictionaryFree(subcaseDictionary);
-                } else if (DSCaseIsValid(aCase) == true) {
+                } else if (DSCaseIsValid(aCase, true) == true) {
                         DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
                 } else {
                         DSCaseFree(aCase);
@@ -1289,7 +1289,7 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceByResolvingCycl
                                 DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
                         }
                         DSDictionaryFree(subcaseDictionary);
-                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
+                } else if (DSCaseIsValidAtSlice(aCase, lower, upper, true) == true) {
                         DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
                 } else {
                         DSCaseFree(aCase);
@@ -1376,7 +1376,7 @@ bail:
         return caseDictionary;
 }
 
-static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceSeries(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
+static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceSeries(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper, const bool strict)
 {
         DSDictionary * caseDictionary = NULL;
         DSUInteger i, numberValid = 0;
@@ -1398,10 +1398,10 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceSeries(DSDesign
                 sprintf(nameString, "%d", validCaseNumbers);
                 cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(ds, validCaseNumbers);
                 if (cyclicalCase != NULL) {
-                        if (DSCyclicalCaseIsValidAtSlice(cyclicalCase, lower, upper) == true) {
+                        if (DSCyclicalCaseIsValidAtSlice(cyclicalCase, lower, upper, strict) == true) {
                                 DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
                         }
-                } else if (DSCaseIsValidAtSlice(aCase, lower, upper) == true) {
+                } else if (DSCaseIsValidAtSlice(aCase, lower, upper, strict) == true) {
                         DSDictionaryAddValueWithName(caseDictionary, nameString, aCase);
                 } else {
                         DSCaseFree(aCase);
@@ -1411,7 +1411,7 @@ bail:
         return caseDictionary;
 }
 
-static DSDictionary * dsDesignSpaceCalculateValidityAtSliceParallelBSD(DSDesignSpace *ds, const DSVariablePool * lower, const DSVariablePool * upper)
+static DSDictionary * dsDesignSpaceCalculateValidityAtSliceParallelBSD(DSDesignSpace *ds, const DSVariablePool * lower, const DSVariablePool * upper, const bool strict)
 {
         DSDictionary * caseDictionary = NULL;
         DSUInteger i, j, numberValid = 0;
@@ -1449,10 +1449,11 @@ static DSDictionary * dsDesignSpaceCalculateValidityAtSliceParallelBSD(DSDesignS
         for (i = 0; i < numberOfThreads; i++) {
                 pdatas[i].ds = ds;
                 pdatas[i].stack = stack;
-                pdatas[i].numberOfArguments = 2;
-                pdatas[i].functionArguments = DSSecureMalloc(sizeof(DSVariablePool *)*2);
+                pdatas[i].numberOfArguments = 3;
+                pdatas[i].functionArguments = DSSecureMalloc(sizeof(DSVariablePool *)*3);
                 pdatas[i].functionArguments[0] = (void*)lower;
                 pdatas[i].functionArguments[1] = (void*)upper;
+                pdatas[i].functionArguments[2] = (void*)strict;
         }
         for (i = 0; i < numberValid; i++) {
                 validCaseNumbers = atoi(ds->validCases->names[i]);
@@ -2016,6 +2017,22 @@ bail:
         return caseDictionary;
 }
 
+extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSliceNonStrict(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
+{
+        DSDictionary * caseDictionary = NULL;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (ds->seriesCalculations == false) {
+                caseDictionary = dsDesignSpaceCalculateValidityAtSliceParallelBSD(ds, lower, upper, false);
+        } else {
+                caseDictionary = dsDesignSpaceCalculateAllValidCasesForSliceSeries(ds, lower, upper, false);
+        }
+bail:
+        return caseDictionary;
+}
+
 extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace *ds, const DSVariablePool *lower, const DSVariablePool *upper)
 {
         DSDictionary * caseDictionary = NULL;
@@ -2024,9 +2041,9 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace 
                 goto bail;
         }
         if (ds->seriesCalculations == false) {
-                caseDictionary = dsDesignSpaceCalculateValidityAtSliceParallelBSD(ds, lower, upper);
+                caseDictionary = dsDesignSpaceCalculateValidityAtSliceParallelBSD(ds, lower, upper, true);
         } else {
-                caseDictionary = dsDesignSpaceCalculateAllValidCasesForSliceSeries(ds, lower, upper);
+                caseDictionary = dsDesignSpaceCalculateAllValidCasesForSliceSeries(ds, lower, upper, true);
         }
 bail:
         return caseDictionary;

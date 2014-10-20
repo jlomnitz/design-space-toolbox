@@ -160,7 +160,7 @@ bail:
         return isValid;
 }
 
-extern const bool DSCaseIsValid(const DSCase *aCase)
+extern const bool DSCaseIsValid(const DSCase *aCase, const bool strict)
 {
         bool isValid = false;
         glp_prob *linearProblem = NULL;
@@ -174,8 +174,14 @@ extern const bool DSCaseIsValid(const DSCase *aCase)
         linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
         if (linearProblem != NULL) {
                 glp_simplex(linearProblem, NULL);
-                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
-                        isValid = true;
+                if (strict == true) {
+                        if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                                isValid = true;
+                        }
+                } else {
+                        if (glp_get_obj_val(linearProblem) < 0.0f && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                                isValid = true;
+                        }
                 }
                 glp_delete_prob(linearProblem);
         }
@@ -228,7 +234,7 @@ extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool
         }
         if (DSVariablePoolNumberOfVariables(variablesToFix) == 0) {
                 DSError(M_DS_WRONG ": Case has no independent variables", A_DS_WARN);
-                isValid = DSCaseIsValid(aCase);
+                isValid = DSCaseIsValid(aCase, false);
                 goto bail;
         }
         numberToRemove = DSVariablePoolNumberOfVariables(variablesToFix);
@@ -287,7 +293,7 @@ extern const bool DSCaseIsValidInStateSpaceAtPoint(const DSCase *aCase, const DS
         }
         if (DSVariablePoolNumberOfVariables(Xi_p) == 0) {
                 DSError(M_DS_WRONG ": Case has no independent variables", A_DS_WARN);
-                isValid = DSCaseIsValid(aCase);
+                isValid = DSCaseIsValid(aCase, false);
                 goto bail;
         }
         numberOfXi = DSVariablePoolNumberOfVariables(Xi_p);
@@ -341,7 +347,7 @@ extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase)
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (DSCaseIsValid(aCase) == false)
+        if (DSCaseIsValid(aCase, false) == false)
                 goto bail;
         linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
         if (linearProblem != NULL) {
@@ -373,7 +379,7 @@ extern DSVariablePool * DSCaseValidParameterSetByOptimizingFunction(const DSCase
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (DSCaseIsValid(aCase) == false)
+        if (DSCaseIsValid(aCase, false) == false)
                 goto bail;
         expression = DSExpressionByParsingString(function);
         if (expression == NULL) {
@@ -731,7 +737,7 @@ bail:
         return Xi;
 }
 
-extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
+extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const bool strict)
 {
         bool isValid = false;
         glp_prob *linearProblem = NULL;
@@ -766,8 +772,13 @@ extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool
         }
         if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) <= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
                 glp_simplex(linearProblem, NULL);
-                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
-                        isValid = true;
+                if (strict == true) {
+                        if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                                isValid = true;
+                } else {
+                        if (glp_get_obj_val(linearProblem) < 0.0f && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                                isValid = true;
+                }
         }
         
         glp_delete_prob(linearProblem);
@@ -1976,7 +1987,7 @@ extern const bool DSCaseIntersectionIsValid(const DSUInteger numberOfCases, cons
         caseIntersection = DSPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
         if (caseIntersection == NULL)
                 goto bail;
-        isValid = DSCaseIsValid(caseIntersection);
+        isValid = DSCaseIsValid(caseIntersection, true);
         DSSecureFree(caseIntersection);
 bail:
         return isValid;
@@ -1989,7 +2000,7 @@ extern const bool DSCaseIntersectionIsValidAtSlice(const DSUInteger numberOfCase
         caseIntersection = DSPseudoCaseFromIntersectionOfCases(numberOfCases, cases);
         if (caseIntersection == NULL)
                 goto bail;
-        isValid = DSCaseIsValidAtSlice(caseIntersection, lowerBounds, upperBounds);
+        isValid = DSCaseIsValidAtSlice(caseIntersection, lowerBounds, upperBounds, true);
         DSSecureFree(caseIntersection);
 bail:
         return isValid;
@@ -2002,7 +2013,7 @@ extern const bool DSCaseIntersectionExceptSliceIsValid(const DSUInteger numberOf
         caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
-        isValid = DSCaseIsValid(caseIntersection);
+        isValid = DSCaseIsValid(caseIntersection, true);
         DSSecureFree(caseIntersection);
 bail:
         return isValid;
@@ -2015,7 +2026,7 @@ extern const bool DSCaseIntersectionExceptSliceIsValidAtSlice(const DSUInteger n
         caseIntersection = DSPseudoCaseFromIntersectionOfCasesExcludingSlice(numberOfCases, cases, numberOfExceptions, exceptionVarNames);
         if (caseIntersection == NULL)
                 goto bail;
-        isValid = DSCaseIsValidAtSlice(caseIntersection, lowerBounds, upperBounds);
+        isValid = DSCaseIsValidAtSlice(caseIntersection, lowerBounds, upperBounds, true);
         DSSecureFree(caseIntersection);
 bail:
         return isValid;

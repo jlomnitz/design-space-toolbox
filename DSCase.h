@@ -122,11 +122,11 @@ extern void DSCaseAddConstraints(DSCase * aCase, const char ** strings, DSUInteg
 
 extern const bool DSCaseConditionsAreValid(const DSCase *aCase);
 
-extern const bool DSCaseIsValid(const DSCase *aCase);
+extern const bool DSCaseIsValid(const DSCase *aCase, const bool strict);
 extern const bool DSCaseIsValidInStateSpace(const DSCase *aCase);
 extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool * variablesToFix);
 extern const bool DSCaseIsValidInStateSpaceAtPoint(const DSCase *aCase, const DSVariablePool * Xd_p, const DSVariablePool * Xi_p);
-extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
+extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const bool strict);
 
 extern DSVertices * DSCaseVerticesForSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);
 
