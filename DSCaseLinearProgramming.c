@@ -179,7 +179,7 @@ extern const bool DSCaseIsValid(const DSCase *aCase, const bool strict)
                                 isValid = true;
                         }
                 } else {
-                        if (glp_get_obj_val(linearProblem) < 0.0f && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                        if (glp_get_obj_val(linearProblem) <= 0.0f && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
                                 isValid = true;
                         }
                 }
@@ -776,7 +776,7 @@ extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool
                         if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
                                 isValid = true;
                 } else {
-                        if (glp_get_obj_val(linearProblem) < 0.0f && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                        if (glp_get_obj_val(linearProblem) <= 0.0f && glp_get_prim_stat(linearProblem) == GLP_FEAS)
                                 isValid = true;
                 }
         }
