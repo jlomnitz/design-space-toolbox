@@ -855,6 +855,123 @@ bail:
         return logGain;
 }
 
+
+extern DSStack * DSCaseVertexEquationsFor2DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable, const bool log_out)
+{
+        DSStack * equations = NULL;
+        DSVertices *vertices = NULL;
+        DSUInteger yIndex, xIndex;
+        DSMatrix *U, *Zeta, *temp, * vars;
+        DSMatrix * solution, *Us, *Up, *Um;
+        DSUInteger i, j, k, activeRows[2];
+        const char * variables[2];
+        DSVariablePool * Xd, * Xi;
+        char * name, * string, * new;
+        DSExpression ** expressions, * equal, *lhs, *rhs;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        vertices = DSCaseVerticesFor2DSlice(aCase, lowerBounds, upperBounds, xVariable, yVariable);
+        if (vertices == NULL) {
+                goto bail;
+        }
+        yIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), yVariable);
+        xIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), xVariable);
+        temp = DSMatrixCalloc(4, DSMatrixColumns(DSCaseU(aCase)));
+        DSMatrixSetDoubleValue(temp, 0, xIndex, 1.0);
+        DSMatrixSetDoubleValue(temp, 1, xIndex, -1.0);
+        DSMatrixSetDoubleValue(temp, 2, yIndex, 1.0);
+        DSMatrixSetDoubleValue(temp, 3, yIndex, -1.0);
+        U = DSMatrixAppendMatrices(DSCaseU(aCase), temp, false);
+        DSMatrixFree(temp);
+        temp = DSMatrixCalloc(4, 1);
+        DSMatrixSetDoubleValue(temp, 0, 0, -log10(DSVariableValue(DSVariablePoolVariableWithName(lowerBounds, xVariable))));
+        DSMatrixSetDoubleValue(temp, 1, 0, log10(DSVariableValue(DSVariablePoolVariableWithName(upperBounds, xVariable))));
+        DSMatrixSetDoubleValue(temp, 2, 0, -log10(DSVariableValue(DSVariablePoolVariableWithName(lowerBounds, yVariable))));
+        DSMatrixSetDoubleValue(temp, 3, 0, log10(DSVariableValue(DSVariablePoolVariableWithName(upperBounds, yVariable))));
+        Zeta = DSMatrixAppendMatrices(DSCaseZeta(aCase), temp, false);
+        DSMatrixFree(temp);
+        equations = DSStackAlloc();
+        vars = DSVariablePoolValuesAsVector(lowerBounds, false);
+        DSMatrixApplyFunction(vars, log10);
+        Xd = DSVariablePoolAlloc();
+        Xi = DSVariablePoolAlloc();
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXi(aCase)); i++) {
+                if (i == xIndex || i == yIndex)
+                        continue;
+                name = DSVariableName(DSVariablePoolVariableAtIndex(DSCaseXi(aCase), i));
+                DSVariablePoolAddVariableWithName(Xi, name);
+        }
+        if (xIndex < yIndex) {
+                variables[0] = xVariable;
+                variables[1] = yVariable;
+        } else {
+                variables[0] = yVariable;
+                variables[1] = xVariable;
+        }
+        for (i = 0; i < vertices->numberOfVertices; i++) {
+                DSMatrixSetDoubleValue(vars, xIndex, 0, vertices->vertices[i][0]);
+                DSMatrixSetDoubleValue(vars, yIndex, 0, vertices->vertices[i][1]);
+                solution = DSMatrixByMultiplyingMatrix(U, vars);
+                DSMatrixAddByMatrix(solution, Zeta);
+                k = 0;
+                for (j = 0; j < DSMatrixRows(solution); j++) {
+                        if (DSMatrixDoubleValue(solution, j, 0) == 0) {
+                                activeRows[k++] = j;
+                        }
+                }
+                DSMatrixFree(solution);
+                temp = DSMatrixSubMatrixIncludingRows(U, 2, activeRows);
+                Us = DSMatrixSubMatrixIncludingColumnList(temp, 2, xIndex, yIndex);
+                Up = DSMatrixSubMatrixExcludingColumnList(temp, 2, xIndex, yIndex);
+                DSMatrixFree(temp);
+                Um = DSMatrixInverse(Us);
+                DSMatrixFree(Us);
+                Us = DSMatrixByMultiplyingMatrix(Um, Up);
+                DSMatrixFree(Up);
+                DSMatrixMultiplyByScalar(Us, -1.);
+                temp = DSMatrixSubMatrixIncludingRows(Zeta, 2, activeRows);
+                Up = DSMatrixByMultiplyingMatrix(Um, temp);
+                DSMatrixFree(temp);
+                temp = Up;
+                DSMatrixMultiplyByScalar(temp, -1.f);
+                expressions = DSSecureCalloc(sizeof(DSExpression *), 2);
+                for (k = 0; k < 2; k++) {
+                        DSMatrixSetDoubleValue(temp, k, 0, pow(10, DSMatrixDoubleValue(temp, k, 0)));
+                        if (log_out == false) {
+                                rhs = DSExpressionFromPowerlawInMatrixForm(k, NULL, Xd, Us, Xi, Up);
+                                string = DSExpressionAsString(rhs);
+                                new = DSSecureCalloc(sizeof(char), strlen(string)+1000);
+                                sprintf(new, "%s = %s", variables[k], string);
+                                DSSecureFree(string);
+                                DSExpressionFree(rhs);
+                                expressions[k] = DSExpressionByParsingString(new);
+                                DSSecureFree(new);
+                        } else {
+                                rhs = DSExpressionFromLogPowerlawInMatrixForm(k, NULL, Xd, Us, Xi, Up);
+                                string = DSExpressionAsString(rhs);
+                                new = DSSecureCalloc(sizeof(char), strlen(string)+1000);
+                                sprintf(new, "log(%s) = %s", variables[k], string);
+                                DSSecureFree(string);
+                                DSExpressionFree(rhs);
+                                expressions[k] = DSExpressionByParsingString(new);
+                                DSSecureFree(new);
+                        }
+                }
+                DSStackPush(equations, expressions);
+                DSMatrixFree(temp);
+                DSMatrixFree(Us);
+        }
+        DSVariablePoolFree(Xd);
+        DSVariablePoolFree(Xi);
+        DSMatrixFree(vars);
+        DSMatrixFree(Zeta);
+        DSMatrixFree(U);
+bail:
+        return equations;
+}
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
 #endif

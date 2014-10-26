@@ -1229,5 +1229,42 @@ bail:
 }
 
 
+extern DSExpression * DSExpressionFromLogPowerlawInMatrixForm(const DSUInteger row, const DSMatrix * Kd, const DSVariablePool * Xd, const DSMatrix * Ki, const DSVariablePool *Xi, const DSMatrix * C)
+{
+        DSUInteger i;
+        DSExpression * expression = NULL;
+        char * name, *string = NULL, *temp;
+        string = DSSecureCalloc(sizeof(char), 100);
+        temp = string;
+        asprintf(&string, "%lf", log10(DSMatrixDoubleValue(C, row, 0)));
+        if (temp != string) {
+                DSSecureFree(temp);
+                temp = string;
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(Xd); i++) {
+                if (DSMatrixDoubleValue(Kd, row, i) == 0.0f)
+                        continue;
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, i));
+                asprintf(&string, "%s+%lf*%s", string, DSMatrixDoubleValue(Kd, row, i), name);
+                if (temp != string) {
+                        DSSecureFree(temp);
+                        temp = string;
+                }
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
+                if (DSMatrixDoubleValue(Ki, row, i) == 0.0f)
+                        continue;
+                name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, i));
+                asprintf(&string, "%s+%lf*%s", string, DSMatrixDoubleValue(Ki, row, i), name);
+                if (temp != string) {
+                        DSSecureFree(temp);
+                        temp = string;
+                }
+        }
+        expression = DSExpressionByParsingString(string);
+        DSSecureFree(string);
+bail:
+        return expression;
+}
 
 

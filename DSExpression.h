@@ -100,6 +100,8 @@ extern char * DSExpressionAsLatexString(const DSExpression *expression, const DS
 extern void DSExpressionPrint(const DSExpression *expression);
 
 extern DSExpression * DSExpressionFromPowerlawInMatrixForm(const DSUInteger row, const DSMatrix * Kd, const DSVariablePool * Xd, const DSMatrix * Ki, const DSVariablePool *Xi, const DSMatrix * C);
+extern DSExpression * DSExpressionFromLogPowerlawInMatrixForm(const DSUInteger row, const DSMatrix * Kd, const DSVariablePool * Xd, const DSMatrix * Ki, const DSVariablePool *Xi, const DSMatrix * C);
+
 
 
 #endif

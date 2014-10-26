@@ -1088,6 +1088,7 @@ static DSVertices * dsCaseCalculate3DVertices(const DSCase * aCase, glp_prob * l
         return vertices;
 }
 
+
 static DSVertices * dsCaseCalculate2DVertices(const DSCase * aCase, glp_prob * linearProblem, const DSMatrix * A, const DSMatrix *Zeta, const DSUInteger xIndex, const DSUInteger yIndex)
 {
         DSVertices *vertices = NULL;
