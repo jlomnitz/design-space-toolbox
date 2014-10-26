@@ -144,24 +144,22 @@ bail:
 #pragma mark - Factory functions
 #endif
 
-//static void dsCaseRemoveRedundantBoundaries(DSCase *aCase)
-//{
-//        DSMatrix *temp1, *temp2;
-//        temp1 = DSMatrixAppendMatrices(DSCaseU(aCase), DSCaseZeta(aCase), true);
-//        temp2 = DSMatrixWithUniqueRows(temp1);
-//        DSMatrixFree(temp1);
-//
-//        if (temp2 == NULL)
-//                goto bail;
-//        DSMatrixFree(DSCaseU(aCase));
-//        DSMatrixFree(DSCaseZeta(aCase));
-//        DSCaseU(aCase) = DSMatrixSubMatrixExcludingColumnList(temp2, 1, DSMatrixColumns(temp2)-1);
-//        DSCaseZeta(aCase) = DSMatrixSubMatrixIncludingColumnList(temp2, 1, DSMatrixColumns(temp2)-1);
-//        
-//        DSMatrixFree(temp2);
-//bail:
-//        return;
-//}
+extern void DSCaseRemoveRedundantBoundaries(DSCase *aCase)
+{
+        DSMatrix *temp1, *temp2;
+        temp1 = DSMatrixAppendMatrices(DSCaseU(aCase), DSCaseZeta(aCase), true);
+        temp2 = DSMatrixWithUniqueRows(temp1);
+        DSMatrixFree(temp1);
+        if (temp2 == NULL)
+                goto bail;
+        DSMatrixFree(DSCaseU(aCase));
+        DSMatrixFree(DSCaseZeta(aCase));
+        DSCaseU(aCase) = DSMatrixSubMatrixExcludingColumnList(temp2, 1, DSMatrixColumns(temp2)-1);
+        DSCaseZeta(aCase) = DSMatrixSubMatrixIncludingColumnList(temp2, 1, DSMatrixColumns(temp2)-1);
+        DSMatrixFree(temp2);
+bail:
+        return;
+}
 
 static void dsCaseCreateBoundaryMatrices(DSCase *aCase)
 {
@@ -189,7 +187,7 @@ static void dsCaseCreateBoundaryMatrices(DSCase *aCase)
                 if (DSCaseCi(aCase) != NULL)
                         DSMatrixSubstractByMatrix(DSCaseU(aCase), DSCaseCi(aCase));
                 DSMatrixMultiplyByScalar(DSCaseU(aCase), -1.0);
-//                dsCaseRemoveRedundantBoundaries(aCase);
+                DSCaseRemoveRedundantBoundaries(aCase);
                 DSMatrixFree(Ai);
         }
         DSMatrixFree(W);
@@ -965,6 +963,8 @@ static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd
         if (U != NULL)
                 DSMatrixFree(U);
         DSMatrixFree(W);
+        DSCaseRemoveRedundantBoundaries(aCase);
+        printf("lala\n");
 bail:
         return;
 }

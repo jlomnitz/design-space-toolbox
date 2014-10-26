@@ -116,6 +116,9 @@ extern const DSVariablePool * DSCaseXi(const DSCase * aCase);
 extern DSMatrix * DSCaseDoubleValueBoundariesAtPoint(const DSCase * aCase, const DSVariablePool * point);
 extern void DSCaseAddConstraints(DSCase * aCase, const char ** strings, DSUInteger numberOfConstraints);
 
+extern void DSCaseRemoveRedundantBoundaries(DSCase *aCase);
+
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Linear programming functions - See DSCaseLinearProgramming.c
 #endif

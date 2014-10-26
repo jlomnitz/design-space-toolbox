@@ -1966,6 +1966,7 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
         Cd = NULL;
         delta = NULL;
         DSSecureFree(indices);
+        DSCaseRemoveRedundantBoundaries(caseIntersection);
 bail:
         if (Cd != NULL)
                 DSMatrixFree(Cd);

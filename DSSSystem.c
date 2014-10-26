@@ -960,7 +960,9 @@ extern DSExpression ** DSSSystemEquations(const DSSSystem *ssys)
                         }
                         if (sum == 1 && index == DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssys), varName)) {
                                 lhs = dsExpressionAllocWithVariableName(varName);
-                                rhs = DSExpressionFromPowerlawInMatrixForm(i, DSSSystemGd(ssys), DSSSystemXd(ssys), DSSSystemGi(ssys), DSSSystemXi(ssys), DSSSystemAlpha(ssys));
+                                rhs = DSExpressionFromPowerlawInMatrixForm(i,
+                                                                           DSSSystemGd(ssys),
+                                                                           DSSSystemXd(ssys), DSSSystemGi(ssys), DSSSystemXi(ssys), DSSSystemAlpha(ssys));
                         } else {
                                 lhs = dsExpressionAllocWithConstant(0.0);
                                 rhs = DSExpressionSubstractExpressions(DSExpressionFromPowerlawInMatrixForm(i,
