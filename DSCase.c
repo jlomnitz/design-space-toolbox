@@ -863,11 +863,11 @@ extern DSStack * DSCaseVertexEquationsFor2DSlice(const DSCase *aCase, const DSVa
         DSUInteger yIndex, xIndex;
         DSMatrix *U, *Zeta, *temp, * vars;
         DSMatrix * solution, *Us, *Up, *Um;
-        DSUInteger i, j, k, activeRows[2];
+        DSUInteger i, j, k, count, * activeRows;
         const char * variables[2];
         DSVariablePool * Xd, * Xi;
         char * name, * string, * new;
-        DSExpression ** expressions, * equal, *lhs, *rhs;
+        DSExpression ** expressions, *rhs;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -897,6 +897,8 @@ extern DSStack * DSCaseVertexEquationsFor2DSlice(const DSCase *aCase, const DSVa
         DSMatrixApplyFunction(vars, log10);
         Xd = DSVariablePoolAlloc();
         Xi = DSVariablePoolAlloc();
+        count = 2;
+        activeRows = DSSecureCalloc(sizeof(DSUInteger), count);
         for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXi(aCase)); i++) {
                 if (i == xIndex || i == yIndex)
                         continue;
@@ -918,11 +920,32 @@ extern DSStack * DSCaseVertexEquationsFor2DSlice(const DSCase *aCase, const DSVa
                 k = 0;
                 for (j = 0; j < DSMatrixRows(solution); j++) {
                         if (DSMatrixDoubleValue(solution, j, 0) == 0) {
+                                if (k == count) {
+                                        count++;
+                                        activeRows = DSSecureRealloc(activeRows, sizeof(DSUInteger)*count);
+                                }
                                 activeRows[k++] = j;
                         }
                 }
                 DSMatrixFree(solution);
-                temp = DSMatrixSubMatrixIncludingRows(U, 2, activeRows);
+                temp = DSMatrixSubMatrixIncludingRows(U, k, activeRows);
+                if (k > 2) {
+                        Us = DSMatrixSubMatrixIncludingColumnList(temp, 2, xIndex, yIndex);
+                        for (j = 0; j < DSMatrixColumns(Us); j++) {
+                                for (k = 0; k < DSMatrixRows(Us); k++) {
+                                        if (DSMatrixDoubleValue(Us, k, j) != 0) {
+                                                if (j == 1) {
+                                                        if (activeRows[j-1] == k)
+                                                                continue;
+                                                }
+                                                activeRows[j] = k;
+                                        }
+                                }
+                        }
+                        Us = DSMatrixSubMatrixIncludingRows(temp, 2, activeRows);
+                        DSMatrixFree(temp);
+                        temp = Us;
+                }
                 Us = DSMatrixSubMatrixIncludingColumnList(temp, 2, xIndex, yIndex);
                 Up = DSMatrixSubMatrixExcludingColumnList(temp, 2, xIndex, yIndex);
                 DSMatrixFree(temp);
