@@ -338,6 +338,43 @@ bail:
         return isValid;
 }
 
+extern DSVariablePool * DSCaseValidParameterAndStateSet(const DSCase *aCase)
+{
+        DSVariablePool * Xi = NULL;
+        glp_prob *linearProblem = NULL;
+        DSUInteger i;
+        DSMatrix * C;
+        char * name;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        C = DSMatrixAppendMatrices(DSCaseCd(aCase), DSCaseCi(aCase), true);
+        linearProblem = dsCaseLinearProblemForCaseValidity(C, DSCaseDelta(aCase));
+        DSMatrixFree(C);
+        if (linearProblem != NULL) {
+                glp_simplex(linearProblem, NULL);
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                        Xi = DSVariablePoolAlloc();
+                        for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXd(aCase)); i++) {
+                                name = DSVariableName(DSVariablePoolVariableAtIndex(DSCaseXd(aCase), i));
+                                DSVariablePoolAddVariableWithName(Xi, name);
+                                DSVariablePoolSetValueForVariableWithName(Xi, name, pow(10, glp_get_col_prim(linearProblem, i+1)));
+                        }
+                        for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXi(aCase)); i++) {
+                                name = DSVariableName(DSVariablePoolVariableAtIndex(DSCaseXi(aCase), i));
+                                DSVariablePoolAddVariableWithName(Xi, name);
+                                DSVariablePoolSetValueForVariableWithName(Xi, name, pow(10, glp_get_col_prim(linearProblem, DSVariablePoolNumberOfVariables(DSCaseXd(aCase))+i+1)));
+                        }
+                } else {
+                        printf("invalid.\n");
+                }
+                glp_delete_prob(linearProblem);
+        }
+bail:
+        return Xi;
+}
+
 extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase)
 {
         DSVariablePool * Xi = NULL;
@@ -963,6 +1000,7 @@ static DSVertices * dsCaseCalculate1DVertices(const DSCase * aCase, glp_prob * l
 bail:
         return vertices;
 }
+
 
 extern DSVertices * DSCaseVerticesFor1DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable)
 {

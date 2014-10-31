@@ -2110,8 +2110,8 @@ extern DSMatrix * DSSSystemRouthArrayForSteadyState(const DSSSystem *ssys,
                 DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
                 goto bail;
         }
-        if (DSSSystemHasSolution(ssys) == false)
-                goto bail;
+//        if (DSSSystemHasSolution(ssys) == false)
+//                goto bail;
         steadyState = DSVariablePoolValuesAsVector(Xd0, false);
         flux = DSSSystemSteadyStateFluxForDependentVariables(ssys, Xd0, Xi0);
         F = DSMatrixIdentity(DSMatrixRows(flux));
