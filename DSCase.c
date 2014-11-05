@@ -1104,7 +1104,6 @@ static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd
                 DSMatrixFree(U);
         DSMatrixFree(W);
         DSCaseRemoveRedundantBoundaries(aCase);
-        printf("lala\n");
 bail:
         return;
 }
