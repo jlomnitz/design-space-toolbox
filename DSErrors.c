@@ -136,3 +136,31 @@ bail:
         return;
 }
 
+
+
+extern void DSErrorRegisterUserErrorFunction(void(*errorFn)(DSErrorData * ))
+{
+        
+}
+
+extern void DSErrorRegisterInternalErrorFunction(void(*errorFn)(DSErrorData * ))
+{
+        
+}
+
+extern DSErrorData * DSErrorDataAllocUserError(DSUInteger code,
+                                               const char * message,
+                                               const char * file,
+                                               const char * lineno)
+{
+        
+}
+
+extern DSErrorData * DSErrorDataAllocInternalError(DSUInteger code,
+                                                   const char * message,
+                                                   const char * file,
+                                                   const char * lineno)
+{
+        
+}
+

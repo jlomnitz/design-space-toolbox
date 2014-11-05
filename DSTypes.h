@@ -68,6 +68,16 @@ typedef int DSInteger;
 
 typedef unsigned int DSUInteger;
 
+typedef struct{
+        char * ErrorMessage;
+        DSUInteger errorCode;
+        enum {
+                DSErrorScopeInternal,
+                DSErrorScopeUser
+        } DSErrorScope;
+        const char * file;
+        const char * lineno;
+} DSErrorData;
 
 /**
  * \brief Data type that contains vertices of an N-Dimensional object.

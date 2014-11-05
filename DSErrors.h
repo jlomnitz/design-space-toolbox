@@ -131,7 +131,18 @@ __BEGIN_DECLS
 
 extern void DSErrorFunction(const char * M_DS_Message, char A_DS_ACTION, const char *FILEN, int LINE, const char * FUNC);
 
+extern void DSErrorRegisterUserErrorFunction(void(*errorFn)(DSErrorData * ));
+extern void DSErrorRegisterInternalErrorFunction(void(*errorFn)(DSErrorData * ));
 
+extern DSErrorData * DSErrorDataAllocUserError(DSUInteger code,
+                                               const char * message,
+                                               const char * file,
+                                               const char * lineno);
+
+extern DSErrorData * DSErrorDataAllocInternalError(DSUInteger code,
+                                                   const char * message,
+                                                   const char * file,
+                                                   const char * lineno);
 
 #ifdef __cplusplus
 __END_DECLS    
