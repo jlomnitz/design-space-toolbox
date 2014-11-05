@@ -451,7 +451,6 @@ extern DSVariablePool * DSCaseValidParameterSetByOptimizingFunction(const DSCase
                 glp_set_col_bnds(linearProblem, i+1, GLP_DB, -20, 20);
         }
         glp_set_obj_coef(linearProblem, 0, DSMatrixDoubleValue(delta, 0, 0));
-        DSMatrixPrint(Od);
         glp_simplex(linearProblem, NULL);
         if (glp_get_status(linearProblem) != GLP_OPT) {
                 glp_delete_prob(linearProblem);
