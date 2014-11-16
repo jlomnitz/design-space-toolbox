@@ -235,6 +235,8 @@ extern DSCaseMessage * DSCaseEncode(const DSCase * aCase);
 extern DSCase * DSCaseFromCaseMessage(const DSCaseMessage * message);
 extern DSCase * DSCaseDecode(size_t length, const void * buffer);
 
+extern DSDesignSpace * DSCaseEigenSubspaces(const DSCase * aCase);
+
 #ifdef __cplusplus
 __END_DECLS
 #endif

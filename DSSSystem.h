@@ -55,6 +55,7 @@ extern DSSSystem * DSSSystemByParsingStringList(char * const * const string, con
 extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const DSVariablePool * const Xd_a, const DSUInteger numberOfEquations);
 
 //extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem, const DSVariablePool * algebraicVariables);
+extern DSMatrixArray * DSSSystemSolvedAuxiliaryVariableMatrices(const DSSSystem * originalSSystem);
 extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem);
 
 #if defined (__APPLE__) && defined (__MACH__)

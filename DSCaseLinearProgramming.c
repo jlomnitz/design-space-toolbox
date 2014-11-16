@@ -211,6 +211,27 @@ bail:
         return isValid;
 }
 
+//extern const bool DSCaseIsValidInStateSpaceAtSlice(const DSCase *aCase, const DSVariablePool * lower, const DSVariablePool * upper)
+//{
+//        bool isValid = false;
+//        glp_prob *linearProblem = NULL;
+//        DSMatrix * C;
+//        if (aCase == NULL) {
+//                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+//                goto bail;
+//        }
+//        C  = DSMatrixAppendMatrices(DSCaseCd(aCase), DSCaseCi(aCase), true);
+//        linearProblem = dsCaseLinearProblemForCaseValidity(C, DSCaseDelta(aCase));
+//        if (linearProblem != NULL) {
+//                glp_simplex(linearProblem, NULL);
+//                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+//                        isValid = true;
+//                }
+//                glp_delete_prob(linearProblem);
+//        }
+//bail:
+//        return isValid;
+//}
 
 extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool * variablesToFix)
 {
@@ -272,9 +293,9 @@ extern const bool DSCaseIsValidInStateSpaceAtPoint(const DSCase *aCase, const DS
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (DSCaseHasSolution(aCase) == false) {
-                goto bail;
-        }
+//        if (DSCaseHasSolution(aCase) == false) {
+//                goto bail;
+//        }
         if (Xd_p == NULL) {
                 DSError(M_DS_VAR_NULL ": Variable pool with values for dependent variable is NULL", A_DS_ERROR);
                 goto bail;

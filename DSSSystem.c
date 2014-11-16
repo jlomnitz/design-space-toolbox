@@ -548,6 +548,112 @@ bail:
         return collapsedSSystem;
 }
 
+extern DSMatrixArray * DSSSystemSolvedAuxiliaryVariableMatrices(const DSSSystem * originalSSystem)
+{
+        DSMatrixArray * matrices = NULL;
+        DSUInteger numberOfAlgebraicVaiables = 0, numberOfDifferentialVariables = 0;
+        DSUInteger i, j, k;
+        DSUInteger * algebraicIndices, *differentialIndices;
+        const DSVariablePool * oldXd;
+        DSVariablePool * newXd = NULL;
+        char * name;
+        DSMatrix * Ad_aa, * Ad_tt, *Ad_ta, *Ad_at;
+        DSMatrix * Ai_a, *Ai_t, *B_a, *B_t, *M_a;
+        DSMatrix * Ad_A, * Ai_A, * B_A, *temp;
+        if (originalSSystem == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemXd_a(originalSSystem) == NULL) {
+                DSError(M_DS_VAR_NULL ": Xd_a variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem)) > DSVariablePoolNumberOfVariables(DSSSystemXd(originalSSystem))) {
+                DSError(M_DS_WRONG ": Number of algebraic variables exceeds number of total variables", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem)) == 0) {
+                goto bail;
+        }
+        oldXd = DSSSystemXd(originalSSystem);
+        newXd = DSVariablePoolAlloc();
+        for (i = 0; i < DSVariablePoolNumberOfVariables(oldXd); i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(oldXd, i));
+                if (DSVariablePoolHasVariableWithName(DSSSystemXd_a(originalSSystem), name) == true) {
+                        continue;
+                }
+                DSVariablePoolAddVariableWithName(newXd, name);
+        }
+        if (DSVariablePoolNumberOfVariables(oldXd) - DSVariablePoolNumberOfVariables(newXd) != DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem))) {
+                DSError(M_DS_WRONG, A_DS_ERROR);
+                DSVariablePoolFree(newXd);
+                goto bail;
+        }
+        numberOfDifferentialVariables = DSVariablePoolNumberOfVariables(newXd);
+        numberOfAlgebraicVaiables = DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem));
+        differentialIndices = DSSecureCalloc(sizeof(DSUInteger), numberOfDifferentialVariables);
+        algebraicIndices = DSSecureCalloc(sizeof(DSUInteger), numberOfAlgebraicVaiables);
+        for (i = 0, j = 0, k = 0; i < DSVariablePoolNumberOfVariables(oldXd); i++) {
+                if (DSVariablePoolHasVariableWithName(newXd, DSVariableName(DSVariablePoolVariableAtIndex(oldXd, i))) == true) {
+                        differentialIndices[j++] = i;
+                } else {
+                        algebraicIndices[k++] = i;
+                }
+        }
+        Ad_aa = DSMatrixSubMatrixIncludingRowsAndColumns(DSSSystemAd(originalSSystem), numberOfAlgebraicVaiables, numberOfAlgebraicVaiables, algebraicIndices, algebraicIndices);
+        Ad_ta = DSMatrixSubMatrixIncludingRowsAndColumns(DSSSystemAd(originalSSystem), numberOfDifferentialVariables, numberOfAlgebraicVaiables, differentialIndices, algebraicIndices);
+        Ad_at = DSMatrixSubMatrixIncludingRowsAndColumns(DSSSystemAd(originalSSystem), numberOfAlgebraicVaiables, numberOfDifferentialVariables, algebraicIndices, differentialIndices);
+        Ad_tt = DSMatrixSubMatrixIncludingRowsAndColumns(DSSSystemAd(originalSSystem), numberOfDifferentialVariables, numberOfDifferentialVariables, differentialIndices, differentialIndices);
+        Ai_a = DSMatrixSubMatrixIncludingRows(DSSSystemAi(originalSSystem), numberOfAlgebraicVaiables, algebraicIndices);
+        Ai_t = DSMatrixSubMatrixIncludingRows(DSSSystemAi(originalSSystem), numberOfDifferentialVariables, differentialIndices);
+        B_a = DSMatrixSubMatrixIncludingRows(DSSSystemB(originalSSystem), numberOfAlgebraicVaiables, algebraicIndices);
+        B_t = DSMatrixSubMatrixIncludingRows(DSSSystemB(originalSSystem), numberOfDifferentialVariables, differentialIndices);
+        M_a = DSMatrixInverse(Ad_aa);
+        
+        temp = DSMatrixByMultiplyingMatrix(M_a, Ad_at);
+        Ad_A = DSMatrixByMultiplyingMatrix(Ad_ta, temp);
+        DSMatrixFree(temp);
+        DSMatrixSubstractByMatrix(Ad_tt, Ad_A);
+        DSMatrixFree(Ad_A);
+        Ad_A = Ad_tt;
+        
+        temp = DSMatrixByMultiplyingMatrix(M_a, Ai_a);
+        Ai_A = DSMatrixByMultiplyingMatrix(Ad_ta, temp);
+        DSMatrixFree(temp);
+        DSMatrixSubstractByMatrix(Ai_t, Ai_A);
+        DSMatrixFree(Ai_A);
+        Ai_A = Ai_t;
+
+        temp = DSMatrixByMultiplyingMatrix(M_a, B_a);
+        B_A = DSMatrixByMultiplyingMatrix(Ad_ta, temp);
+        DSMatrixFree(temp);
+        DSMatrixAddByMatrix(B_t, B_A);
+        DSMatrixFree(B_A);
+        B_A = B_t;
+        
+        DSMatrixFree(Ad_aa);
+        DSMatrixFree(Ad_at);
+        DSMatrixFree(Ad_ta);
+        DSMatrixFree(Ad_tt);
+        DSMatrixFree(Ai_a);
+        DSMatrixFree(Ai_t);
+        DSMatrixFree(B_a);
+        DSMatrixFree(B_t);
+        
+        DSSecureFree(differentialIndices);
+        DSSecureFree(algebraicIndices);
+        matrices = DSMatrixArrayAlloc();
+        DSMatrixArrayAddMatrix(matrices, Ad_A);
+        DSMatrixArrayAddMatrix(matrices, Ai_A);
+        DSMatrixArrayAddMatrix(matrices, B_A);
+        
+        DSMatrixFree(Ai_A);
+        DSMatrixFree(Ad_A);
+        DSMatrixFree(B_A);
+bail:
+        return matrices;
+}
+
 extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem)
 {
         DSUInteger numberOfAlgebraicVaiables = 0, numberOfDifferentialVariables = 0;

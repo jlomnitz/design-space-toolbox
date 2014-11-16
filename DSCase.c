@@ -1631,6 +1631,82 @@ bail:
 
 
 
+extern DSDesignSpace * DSCaseEigenSubspaces(const DSCase * aCase)
+{
+        DSDesignSpace * subspaceSystem = NULL;
+        DSSSystem * reducedSSystem;
+        DSExpression *rhs, * p, *n;
+        DSUInteger i, j, numberOfEquations;
+        DSVariablePool * Xi;
+        DSMatrix * Ci, * Cd;
+        DSUInteger * columns;
+        char * temp, *name;
+        char ** equations;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        reducedSSystem = DSSSystemByRemovingAlgebraicConstraints(DSCaseSSystem(aCase));
+        numberOfEquations = DSSSystemNumberOfEquations(reducedSSystem);
+        numberOfEquations += 2*numberOfEquations;
+        equations = DSSecureCalloc(sizeof(char*), numberOfEquations);
+        columns = DSSecureMalloc(sizeof(DSUInteger)*DSSSystemNumberOfEquations(reducedSSystem));
+        Xi = DSVariablePoolCopy(DSCaseXi(aCase));
+        DSVariablePoolSetReadWriteAdd(Xi);
+        j = DSSSystemNumberOfEquations(reducedSSystem);
+        for (i = 0; i < DSSSystemNumberOfEquations(reducedSSystem); i++) {
+                p = DSExpressionFromPowerlawInMatrixForm(i,
+                                                         DSSSystemGd(reducedSSystem),
+                                                         DSSSystemXd(reducedSSystem),
+                                                         DSSSystemGi(reducedSSystem),
+                                                         DSSSystemXi(reducedSSystem),
+                                                         DSSSystemAlpha(reducedSSystem));
+                n = DSExpressionFromPowerlawInMatrixForm(i,
+                                                         DSSSystemHd(reducedSSystem),
+                                                         DSSSystemXd(reducedSSystem),
+                                                         DSSSystemHi(reducedSSystem),
+                                                         DSSSystemXi(reducedSSystem),
+                                                         DSSSystemBeta(reducedSSystem));
+                name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd_t(reducedSSystem), i));
+                temp = DSExpressionAsString(p);
+                equations[j] = DSSecureCalloc(sizeof(char), strlen(temp) + strlen(name)+10);
+                sprintf(equations[j++], "$e_%s_p = %s", name, temp);
+                DSSecureFree(temp);
+
+                temp = DSExpressionAsString(n);
+                equations[j] = DSSecureCalloc(sizeof(char), strlen(temp) + strlen(name)+10);
+                sprintf(equations[j++], "$e_%s_n = %s", name, temp);
+                DSSecureFree(temp);
+                rhs = DSExpressionAddExpressions(p, n);
+                temp = DSExpressionAsString(rhs);
+
+                equations[i] = DSSecureCalloc(sizeof(char), strlen(temp) + strlen(name)+10);
+                sprintf(equations[i], "$e_%s = %s", name, temp);
+                DSSecureFree(temp);
+                DSExpressionFree(rhs);
+                DSVariablePoolAddVariableWithName(Xi, name);
+                columns[i] = DSVariablePoolIndexOfVariableWithName(DSCaseXd(aCase), name);
+        }
+        subspaceSystem = DSDesignSpaceByParsingStringsWithXi(equations, NULL, Xi, numberOfEquations);
+        DSVariablePoolFree(Xi);
+        Cd = DSMatrixSubMatrixIncludingColumns(DSCaseCd(aCase), DSSSystemNumberOfEquations(reducedSSystem), columns);
+        Ci = DSMatrixAppendMatrices(DSCaseCi(aCase), Cd, true);
+        DSMatrixFree(Cd);
+        Cd = DSMatrixCalloc(DSMatrixRows(Ci), numberOfEquations);
+        DSDesignSpaceAddConditions(subspaceSystem, Cd, Ci, DSCaseDelta(aCase));
+        DSSecureFree(columns);
+        for (i = 0; i < numberOfEquations; i++) {
+                DSSecureFree(equations[i]);
+        }
+        DSSecureFree(equations);
+        DSSSystemFree(reducedSSystem);
+        DSMatrixFree(Cd);
+        DSMatrixFree(Ci);
+bail:
+        return subspaceSystem;
+}
+
+
 
 
 
