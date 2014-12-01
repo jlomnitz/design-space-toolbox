@@ -919,7 +919,7 @@ extern DSStack * DSCaseVertexEquationsFor2DSlice(const DSCase *aCase, const DSVa
                 DSMatrixAddByMatrix(solution, Zeta);
                 k = 0;
                 for (j = 0; j < DSMatrixRows(solution); j++) {
-                        if (DSMatrixDoubleValue(solution, j, 0) == 0) {
+                        if (DSMatrixDoubleValue(solution, j, 0) < 1e-5) {
                                 if (k == count) {
                                         count++;
                                         activeRows = DSSecureRealloc(activeRows, sizeof(DSUInteger)*count);
