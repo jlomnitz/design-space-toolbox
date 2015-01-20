@@ -72,6 +72,7 @@ static DSCase * DSCaseAlloc(void)
 {
         DSCase * aCase = NULL;
         aCase = DSSecureCalloc(sizeof(DSCase), 1);
+        aCase->freeVariables = false;
         return aCase;
 }
 
@@ -119,7 +120,14 @@ extern void DSCaseFree(DSCase * aCase)
         }
         if (DSCaseSSys(aCase) != NULL) {
                 DSSSystemFree(DSCaseSSys(aCase));
-        } else {
+        }
+        if (aCase->freeVariables == true){
+                DSVariablePoolSetReadWriteAdd((DSVariablePool *)aCase->Xi);
+                DSVariablePoolSetReadWriteAdd((DSVariablePool *)aCase->Xd);
+                DSVariablePoolSetReadWriteAdd((DSVariablePool *)aCase->Xd_a);
+                DSVariablePoolFree((DSVariablePool *)aCase->Xi);
+                DSVariablePoolFree((DSVariablePool *)aCase->Xd);
+                DSVariablePoolFree((DSVariablePool *)aCase->Xd_a);
         }
         if (DSCaseSig(aCase) != NULL)
                 DSSecureFree(DSCaseSig(aCase));
@@ -1078,11 +1086,11 @@ static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd
                 Zeta = DSMatrixCopy(delta);
                 U = DSMatrixCopy(Ci);
         } else {
+                
                 W = DSMatrixByMultiplyingMatrix(Cd, DSSSystemM(DSCaseSSys(aCase)));
                 B = DSSSystemB(DSCaseSSys(aCase));
                 Zeta = DSMatrixByMultiplyingMatrix(W, B);
                 DSMatrixAddByMatrix(Zeta, delta);
-                Ai = DSSSystemAi(DSCaseSSys(aCase));
                 if (numberOfXi != 0) {
                         Ai = DSSSystemAi(DSCaseSSys(aCase));
                         U = DSMatrixByMultiplyingMatrix(W, Ai);

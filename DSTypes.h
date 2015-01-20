@@ -374,6 +374,7 @@ typedef struct {
         DSUInteger caseNumber;            //!< The case number used to identify the case. [will be deprecated]
         DSUInteger *signature;            //!< The case signature indicating the dominant terms used to generate the case.
         char * caseIdentifier;      //!< A case identifier used to identify cases and subcases [will replace case number].
+        bool freeVariables;
 } DSCase;
 
 

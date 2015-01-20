@@ -1882,9 +1882,10 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCases(const DSUInteger numbe
                         goto bail;
         }
         caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
-        caseIntersection->Xd = DSCaseXd(cases[0]);
-        caseIntersection->Xd_a = DSCaseXd_a(cases[0]);
-        caseIntersection->Xi = DSCaseXi(cases[0]);
+        caseIntersection->freeVariables = true;
+        caseIntersection->Xd_a = DSVariablePoolCopy(DSCaseXd_a(cases[0]));
+        caseIntersection->Xd = DSVariablePoolCopy(DSCaseXd(cases[0]));
+        caseIntersection->Xi = DSVariablePoolCopy(DSCaseXi(cases[0]));
         DSCaseU(caseIntersection) = U;
         DSCaseZeta(caseIntersection) = Zeta;
         DSCaseCi(caseIntersection) = Ci;
@@ -1922,6 +1923,7 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
         DSMatrix *U = NULL, *Zeta = NULL, *tempU, *tempZeta;
         DSVariablePool * Xi;
         char * name = NULL;
+        const char ** variableNames;
         if (numberOfCases == 0) {
                 DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
                 goto bail;
@@ -1959,11 +1961,13 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                         DSVariablePoolAddVariableWithName(Xi, name);
                 }
         }
+        variableNames = DSVariablePoolAllVariableNames(DSCaseXi(cases[0]));
         for (i = 0; i < numberOfExceptions*(numberOfCases-1); i++) {
                 j = i % numberOfExceptions;
-                asprintf(&name, "$%s_%i", DSVariablePoolAllVariableNames(DSCaseXi(cases[0]))[indices[j]], i / numberOfExceptions + 1);
+                asprintf(&name, "$%s_%i", variableNames[indices[j]], i / numberOfExceptions + 1);
                 DSVariablePoolAddVariableWithName(Xi, name);
         }
+        DSSecureFree(variableNames);
         DSSecureFree(name);
         numberOfExtraColumns = numberOfExceptions*(numberOfCases-1);
         rows = 0;
@@ -2008,8 +2012,9 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                 }
         }
         caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
-        caseIntersection->Xd_a = DSCaseXd_a(cases[0]);
-        caseIntersection->Xd = DSCaseXd(cases[0]);
+        caseIntersection->freeVariables = true;
+        caseIntersection->Xd_a = DSVariablePoolCopy(DSCaseXd_a(cases[0]));
+        caseIntersection->Xd = DSVariablePoolCopy(DSCaseXd(cases[0]));
         caseIntersection->Xi = Xi;
         DSCaseU(caseIntersection) = U;
         DSCaseZeta(caseIntersection) = Zeta;

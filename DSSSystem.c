@@ -464,7 +464,7 @@ bail:
 DSSSystem * dsSSystemWithAlgebraicConstraints(const DSSSystem * originalSystem, DSVariablePool * newXd, DSUInteger numberDifferentialVariables, DSUInteger * differentialIndices, DSUInteger numberOfAlgebraicVariables, DSUInteger * algebraicIndices) {
         DSUInteger i, j, k;
         DSSSystem * collapsedSSystem = NULL;
-        const DSMatrix * oldAd, *oldAi, *oldB;
+        DSMatrix * oldAd, *oldAi, *oldB;
         DSMatrix *temp, *subM, *subAdAlgebraic, *subAd, *subB, *subAi;
         double value, factor;
         oldAd = DSSSystemAd(originalSystem);
@@ -544,6 +544,9 @@ DSSSystem * dsSSystemWithAlgebraicConstraints(const DSSSystem * originalSystem, 
         DSMatrixFree(subAd);
         DSMatrixFree(subAi);
         DSMatrixFree(subB);
+        DSMatrixFree(oldAd);
+        DSMatrixFree(oldAi);
+        DSMatrixFree(oldB);
 bail:
         return collapsedSSystem;
 }
@@ -1790,7 +1793,8 @@ extern DSMatrix * DSSSystemSteadyStateValues(const DSSSystem *ssys, const DSVari
                         name =  DSVariableName(DSVariablePoolAllVariables(DSSSysXi(ssys))[i]);
                         DSVariablePoolAddVariableWithName(pool, name);
                         if (DSVariablePoolHasVariableWithName(Xi0, name) == false) {
-                                        DSMatrixFree(steadyState);
+                                DSMatrixFree(steadyState);
+                                DSVariablePoolFree(pool);
                                 steadyState = NULL;
                                 goto bail;
                         }
@@ -1846,6 +1850,7 @@ extern DSMatrix * DSSSystemAuxiliaryVariablesForSteadyState(const DSSSystem *ssy
                         if (DSVariablePoolHasVariableWithName(Xi0, name) == false) {
                                 DSMatrixFree(auxSolution);
                                 auxSolution = NULL;
+                                DSVariablePoolFree(pool);
                                 goto bail;
                         }
                         DSVariablePoolSetValueForVariableWithName(pool,  name, DSVariableValue(DSVariablePoolVariableWithName(Xi0, name)));
@@ -1870,6 +1875,7 @@ extern DSMatrix * DSSSystemAuxiliaryVariablesForSteadyState(const DSSSystem *ssy
                         if (DSVariablePoolHasVariableWithName(Xdt0, name) == false) {
                                 DSMatrixFree(auxSolution);
                                 auxSolution = NULL;
+                                DSVariablePoolFree(pool);
                                 goto bail;
                         }
                         DSVariablePoolSetValueForVariableWithName(pool,  name, DSVariableValue(DSVariablePoolVariableWithName(Xdt0, name)));
@@ -2027,6 +2033,7 @@ extern DSMatrix * DSSSystemSteadyStateFlux(const DSSSystem *ssys, const DSVariab
                                 DSError(M_DS_WRONG ": Variable Pool does not have independent variable", A_DS_ERROR);
                                 DSMatrixFree(flux);
                                 flux = NULL;
+                                DSVariablePoolFree(pool);
                                 goto bail;
                         }
                         value = DSVariableValue(DSVariablePoolVariableWithName(Xi0, name));
@@ -2122,6 +2129,7 @@ extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, cons
         DSMatrix * routhArray = NULL;
         DSMatrix * phi = NULL;
         DSMatrix * routhMatrix = NULL;
+        DSMatrix *Ad;
         DSUInteger i, j;
         double value;
         double threshold = 1e-8;
@@ -2141,7 +2149,9 @@ extern DSMatrix * DSSSystemRouthArrayForPoolTurnover(const DSSSystem *ssys, cons
                 DSError(M_DS_MAT_OUTOFBOUNDS, A_DS_ERROR);
                 goto bail;
         }
-        FA = DSMatrixByMultiplyingMatrix(F, DSSSystemAd(ssys));
+        Ad =DSSSystemAd(ssys);
+        FA = DSMatrixByMultiplyingMatrix(F, Ad);
+        DSMatrixFree(Ad);
         phi = DSMatrixCharacteristicPolynomialCoefficients(FA);
         DSMatrixFree(FA);
         routhMatrix = DSMatrixCalloc(DSMatrixColumns(phi), DSMatrixColumns(phi));
@@ -2262,6 +2272,8 @@ extern DSMatrix * DSSSystemRouthArray(const DSSSystem *ssys, const DSVariablePoo
         }
         routhArray = DSSSystemRouthArrayForPoolTurnover(ssys, F, hasImaginaryRoots);
         DSMatrixFree(F);
+        DSMatrixFree(steadyState);
+        DSMatrixFree(flux);
 bail:
         return routhArray;
 }
@@ -2538,7 +2550,7 @@ extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName
         double logGain = INFINITY;
         DSUInteger XdIndex = 0;
         DSUInteger XiIndex = 0;
-        DSMatrix * L = NULL;
+        DSMatrix * L = NULL, * Ai = NULL;
         if (ssys == NULL) {
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
@@ -2563,12 +2575,18 @@ extern double DSSSystemLogarithmicGain(const DSSSystem *ssys, const char *XdName
         } else {
                 XiIndex = DSVariablePoolIndexOfVariableWithName(DSSSysXi(ssys), XiName);                
         }
-        L = DSMatrixByMultiplyingMatrix(DSSSystemM(ssys), DSSSystemAi(ssys));
+        Ai = DSSSystemAi(ssys);
+        if (Ai == NULL) {
+                goto bail;
+        }
+        L = DSMatrixByMultiplyingMatrix(DSSSystemM(ssys), Ai);
         if (L == NULL) {
                 DSError(M_DS_MAT_NULL, A_DS_ERROR);
                 goto bail;
         }
         logGain = -DSMatrixDoubleValue(L, XdIndex, XiIndex);
+        DSMatrixFree(L);
+        DSMatrixFree(Ai);
 bail:
         return logGain;
 }
