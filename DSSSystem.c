@@ -541,6 +541,7 @@ DSSSystem * dsSSystemWithAlgebraicConstraints(const DSSSystem * originalSystem, 
                 }
         }
         dsSSystemSolveEquations(collapsedSSystem);
+        DSMatrixFree(subM);
         DSMatrixFree(subAd);
         DSMatrixFree(subAi);
         DSMatrixFree(subB);
