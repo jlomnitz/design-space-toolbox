@@ -1937,6 +1937,7 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                         goto bail;
         }
         Xi = DSVariablePoolAlloc();
+        variableNames = DSVariablePoolAllVariableNames(DSCaseXi(cases[0]));
         indices = DSSecureCalloc(numberOfExceptions, sizeof(DSUInteger));
         for (j = 0; j < numberOfExceptions; j++) {
                 for (i = 0; i < numberOfCases; i++) {
@@ -1955,13 +1956,13 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                                 break;
                 }
                 if (j == numberOfExceptions) {
-                        DSVariablePoolAddVariableWithName(Xi, DSVariablePoolAllVariableNames(DSCaseXi(cases[0]))[i]);
+                        DSVariablePoolAddVariableWithName(Xi, variableNames[i]);
                 } else {
-                        asprintf(&name, "$%s_0", DSVariablePoolAllVariableNames(DSCaseXi(cases[0]))[i]);
+                        asprintf(&name, "$%s_0", variableNames[i]);
                         DSVariablePoolAddVariableWithName(Xi, name);
                 }
         }
-        variableNames = DSVariablePoolAllVariableNames(DSCaseXi(cases[0]));
+
         for (i = 0; i < numberOfExceptions*(numberOfCases-1); i++) {
                 j = i % numberOfExceptions;
                 asprintf(&name, "$%s_%i", variableNames[indices[j]], i / numberOfExceptions + 1);
