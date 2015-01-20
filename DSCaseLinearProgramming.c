@@ -2019,7 +2019,7 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
         caseIntersection->Xi = Xi;
         DSCaseU(caseIntersection) = U;
         DSCaseZeta(caseIntersection) = Zeta;
-//        DSCaseSSys(caseIntersection) = DSSecureCalloc(1, sizeof(DSSSystem));
+        DSCaseSSys(caseIntersection) = DSSecureCalloc(1, sizeof(DSSSystem));
         DSCaseSSys(caseIntersection)->shouldFreeXi = true;
         DSCaseCi(caseIntersection) = Ci;
         DSCaseCd(caseIntersection) = Cd;
