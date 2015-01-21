@@ -14,6 +14,8 @@
 		9A1B18F513F5CD4E00C36E71 /* DSGMASystemParsingAux.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A1B18F913F5CD7500C36E71 /* DSGMASystemParsingAux.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */; };
 		9A1B866017B2CFC90022AE2F /* DSCyclicalCaseConstruction.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B865F17B2CFC90022AE2F /* DSCyclicalCaseConstruction.c */; };
+		9A1E1DC01A704F1E00007228 /* designspacetest.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A61FD5417B42B33008D8417 /* designspacetest.c */; };
+		9A1E1DC11A704F3800007228 /* libdesignspace.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81B38213A89C31007DADEC /* libdesignspace.dylib */; };
 		9A36BC951400D5E900599A25 /* DSDesignSpaceParallel.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */; };
 		9A36BC981400D5FF00599A25 /* DSDesignSpaceParallel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A36BC971400D5FF00599A25 /* DSDesignSpaceParallel.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9A3D588313FAFABD00C32875 /* DSSSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D588213FAFABD00C32875 /* DSSSystem.c */; };
@@ -91,6 +93,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9A1E1DBE1A704F1100007228 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A5833AB139D78A80068B6B6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A5833B3139D78A80068B6B6;
+			remoteInfo = designspace;
+		};
 		9A4CA38818EFDD7E00D4F35A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9A5833AB139D78A80068B6B6 /* Project object */;
@@ -108,6 +117,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		9A1E1DB51A704F0100007228 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		9A4CA37D18EFDD6F00D4F35A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -138,6 +156,7 @@
 		9A1B18F413F5CD4E00C36E71 /* DSGMASystemParsingAux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSGMASystemParsingAux.h; sourceTree = "<group>"; };
 		9A1B18F813F5CD7500C36E71 /* DSGMASystemParsingAux.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSGMASystemParsingAux.c; sourceTree = "<group>"; };
 		9A1B865F17B2CFC90022AE2F /* DSCyclicalCaseConstruction.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = DSCyclicalCaseConstruction.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		9A1E1DB71A704F0100007228 /* designspacebasic */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = designspacebasic; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A36BC941400D5E900599A25 /* DSDesignSpaceParallel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSDesignSpaceParallel.c; sourceTree = "<group>"; };
 		9A36BC971400D5FF00599A25 /* DSDesignSpaceParallel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSDesignSpaceParallel.h; sourceTree = "<group>"; };
 		9A3D588213FAFABD00C32875 /* DSSSystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DSSSystem.c; sourceTree = "<group>"; };
@@ -227,6 +246,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9A1E1DB41A704F0100007228 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A1E1DC11A704F3800007228 /* libdesignspace.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A4CA37C18EFDD6F00D4F35A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -285,6 +312,14 @@
 				9A1033E0144229CD00C214AF /* DSSymbolicMatrix.c */,
 			);
 			name = "Symbolic Matrix";
+			sourceTree = "<group>";
+		};
+		9A1E1DB21A704EDE00007228 /* Basic Test */ = {
+			isa = PBXGroup;
+			children = (
+				9A61FD5417B42B33008D8417 /* designspacetest.c */,
+			);
+			name = "Basic Test";
 			sourceTree = "<group>";
 		};
 		9A3D587D13FAFA6300C32875 /* GMA */ = {
@@ -370,6 +405,7 @@
 				9A81B38213A89C31007DADEC /* libdesignspace.dylib */,
 				9A4CA37F18EFDD6F00D4F35A /* designspacecycle */,
 				9AAADB3E19E09FFC006AC7F1 /* designspaceserialization */,
+				9A1E1DB71A704F0100007228 /* designspacebasic */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -377,9 +413,9 @@
 		9A61FD5517B43119008D8417 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				9A1E1DB21A704EDE00007228 /* Basic Test */,
 				9AAADB4519E0A018006AC7F1 /* Serialization Test */,
 				9A4CA38018EFDD6F00D4F35A /* designspacecycle */,
-				9A61FD5417B42B33008D8417 /* designspacetest.c */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -694,6 +730,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		9A1E1DB61A704F0100007228 /* designspacebasic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A1E1DBB1A704F0100007228 /* Build configuration list for PBXNativeTarget "designspacebasic" */;
+			buildPhases = (
+				9A1E1DB31A704F0100007228 /* Sources */,
+				9A1E1DB41A704F0100007228 /* Frameworks */,
+				9A1E1DB51A704F0100007228 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9A1E1DBF1A704F1100007228 /* PBXTargetDependency */,
+			);
+			name = designspacebasic;
+			productName = designspacebasic;
+			productReference = 9A1E1DB71A704F0100007228 /* designspacebasic */;
+			productType = "com.apple.product-type.tool";
+		};
 		9A4CA37E18EFDD6F00D4F35A /* designspacecycle */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9A4CA38518EFDD7000D4F35A /* Build configuration list for PBXNativeTarget "designspacecycle" */;
@@ -755,6 +809,9 @@
 			attributes = {
 				LastUpgradeCheck = 0600;
 				TargetAttributes = {
+					9A1E1DB61A704F0100007228 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
 					9AAADB3D19E09FFC006AC7F1 = {
 						CreatedOnToolsVersion = 6.0.1;
 					};
@@ -775,11 +832,20 @@
 				9A5833B3139D78A80068B6B6 /* designspace */,
 				9A4CA37E18EFDD6F00D4F35A /* designspacecycle */,
 				9AAADB3D19E09FFC006AC7F1 /* designspaceserialization */,
+				9A1E1DB61A704F0100007228 /* designspacebasic */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9A1E1DB31A704F0100007228 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A1E1DC01A704F1E00007228 /* designspacetest.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A4CA37B18EFDD6F00D4F35A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -842,6 +908,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9A1E1DBF1A704F1100007228 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9A5833B3139D78A80068B6B6 /* designspace */;
+			targetProxy = 9A1E1DBE1A704F1100007228 /* PBXContainerItemProxy */;
+		};
 		9A4CA38918EFDD7E00D4F35A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9A5833B3139D78A80068B6B6 /* designspace */;
@@ -855,6 +926,51 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		9A1E1DBC1A704F0100007228 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9A1E1DBD1A704F0100007228 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		9A4CA38618EFDD7000D4F35A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1111,6 +1227,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9A1E1DBB1A704F0100007228 /* Build configuration list for PBXNativeTarget "designspacebasic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A1E1DBC1A704F0100007228 /* Debug */,
+				9A1E1DBD1A704F0100007228 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		9A4CA38518EFDD7000D4F35A /* Build configuration list for PBXNativeTarget "designspacecycle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

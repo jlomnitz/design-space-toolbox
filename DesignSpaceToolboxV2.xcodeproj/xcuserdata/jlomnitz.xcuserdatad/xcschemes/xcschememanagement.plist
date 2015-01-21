@@ -24,10 +24,15 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>designspacecycle.xcscheme</key>
+		<key>designspacebasic.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>3</integer>
+		</dict>
+		<key>designspacecycle.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 		<key>designspaceserialization.xcscheme</key>
 		<dict>
@@ -37,6 +42,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>9A1E1DB61A704F0100007228</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9A4CA37E18EFDD6F00D4F35A</key>
 		<dict>
 			<key>primary</key>

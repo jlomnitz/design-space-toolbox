@@ -16,6 +16,7 @@ int main(int argc, const char ** argv) {
         strings[1] = strdup("x2. = c*x1 - x2");
         DSDesignSpace * ds;
         DSExpression ** expr = NULL;
+        DSExpression * anExpression;
         
         ds = DSDesignSpaceByParsingStrings(strings, NULL, 2);
         expr = DSDesignSpaceEquations(ds);
@@ -32,6 +33,12 @@ int main(int argc, const char ** argv) {
         
         DSDesignSpaceFree(ds);
         printf("DSDesignSpaceFree passed!\n");
+        
+        anExpression = DSExpressionByParsingString("real(sqrt(-1)+(&i))");
+        double complex complex_test = DSExpressionEvaluateWithVariablePool(anExpression, NULL);
+        DSExpressionPrint(anExpression);
+        printf("complex test = %f + %f*i\n", creal(complex_test), cimag(complex_test));
+        printf("Complex arithmatic passed passed!\n");
         
         return 0;
 }

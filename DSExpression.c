@@ -639,12 +639,17 @@ bail:
 #define ds_function_index_abs    5
 #define ds_function_index_sign   6
 #define ds_function_index_sqrt   7
+#define ds_function_index_real   8
+#define ds_function_index_imag   9
+
 
 
 
 static double dsExpressionEvaluateMathematicalFunction(const DSExpression *function, const DSVariablePool * pool)
 {
-        double value, eval = NAN;
+        double value = 0, eval = NAN;
+        double complex complex_value;
+        int functionIndex;
         DSVariablePool *functionNames = NULL;
         if (function == NULL) {
                 DSError(M_DS_NULL ": Expression node is null", A_DS_ERROR);
@@ -654,13 +659,18 @@ static double dsExpressionEvaluateMathematicalFunction(const DSExpression *funct
                 DSError(M_DS_WRONG ": Expression node must be a function", A_DS_ERROR);
                 goto bail;
         }
-        functionNames = DSVariablePoolByParsingString("log : 1, ln : 1, log10 : 1, cos : 1, sin : 1, abs : 1, sign : 1, sqrt : 1");
+        functionNames = DSVariablePoolByParsingString("log : 1, ln : 1, log10 : 1, cos : 1, sin : 1, abs : 1, sign : 1, sqrt : 1, real : 1, imag : 1");
         if (DSVariablePoolHasVariableWithName(functionNames, DSExpressionVariable(function)) == false) {
                 DSError(M_DS_WRONG ": Function name not recognized", A_DS_ERROR);
                 goto bail;
         }
-        value = DSExpressionEvaluateWithVariablePool(DSExpressionBranchAtIndex(function, 0), pool);
-        switch (DSVariablePoolIndexOfVariableWithName(functionNames, DSExpressionVariable(function))) {
+        functionIndex =DSVariablePoolIndexOfVariableWithName(functionNames, DSExpressionVariable(function));
+        if (functionIndex == ds_function_index_real || functionIndex == ds_function_index_imag) {
+                complex_value = DSExpressionEvaluateComplexWithVariablePool(DSExpressionBranchAtIndex(function, 0), pool);
+        } else {
+                value = DSExpressionEvaluateWithVariablePool(DSExpressionBranchAtIndex(function, 0), pool);
+        }
+        switch (functionIndex) {
                 case ds_function_index_ln:
                         eval = log(value);
                         break;
@@ -687,6 +697,12 @@ static double dsExpressionEvaluateMathematicalFunction(const DSExpression *funct
                         break;
                 case ds_function_index_sqrt:
                         eval = sqrt(value);
+                        break;
+                case ds_function_index_real:
+                        eval = creal(complex_value);
+                        break;
+                case ds_function_index_imag:
+                        eval = cimag(complex_value);
                         break;
                 default:
                         break;
@@ -756,6 +772,140 @@ extern double DSExpressionEvaluateWithVariablePool(const DSExpression *expressio
 bail:
         return value;
 }
+
+
+static double complex dsExpressionEvaluateMathematicalFunctionComplex(const DSExpression *function, const DSVariablePool * pool)
+{
+        double complex value, eval = NAN;
+        DSVariablePool *functionNames = NULL;
+        if (function == NULL) {
+                DSError(M_DS_NULL ": Expression node is null", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSExpressionType(function) != DS_EXPRESSION_TYPE_FUNCTION) {
+                DSError(M_DS_WRONG ": Expression node must be a function", A_DS_ERROR);
+                goto bail;
+        }
+        functionNames = DSVariablePoolByParsingString("log : 1, ln : 1, log10 : 1, cos : 1, sin : 1, abs : 1, sign : 1, sqrt : 1, real : 1, imag : 1");
+        if (DSVariablePoolHasVariableWithName(functionNames, DSExpressionVariable(function)) == false) {
+                DSError(M_DS_WRONG ": Function name not recognized", A_DS_ERROR);
+                goto bail;
+        }
+        value = DSExpressionEvaluateComplexWithVariablePool(DSExpressionBranchAtIndex(function, 0), pool);
+        switch (DSVariablePoolIndexOfVariableWithName(functionNames, DSExpressionVariable(function))) {
+                case ds_function_index_ln:
+                        eval = clog(value);
+                        break;
+                case ds_function_index_log:
+                case ds_function_index_log10:
+                        eval = log10(creal(value));
+                        if (cimag(value) == 0.0) {
+                                eval = log10(creal(value));
+                        } else {
+                                DSError(M_DS_NOT_IMPL ": Using log10 of real part.", A_DS_WARN);
+                        }
+                        break;
+                case ds_function_index_cos:
+                        eval = ccos(value);
+                        break;
+                case ds_function_index_sin:
+                        eval = csin(value);
+                        break;
+                case ds_function_index_abs:
+                        eval = cabs(value);
+                        break;
+                case ds_function_index_sign:
+                        if (creal(value) > 0.0f)
+                                eval = 1.0f;
+                        else if (creal(value) < 0.0f)
+                                eval = -1.0f;
+                        else if (cimag(value) > 0.0f)
+                                eval = 1.0f;
+                        else if (cimag(value) < 0.0f)
+                                eval = -1.0f;
+                        else
+                                eval = 0.0f;
+                        break;
+                case ds_function_index_sqrt:
+                        eval = csqrt(value);
+                        break;
+                case ds_function_index_real:
+                        eval = creal(value);
+                        break;
+                case ds_function_index_imag:
+                        eval = cimag(value);
+                        break;
+                default:
+                        break;
+        }
+bail:
+        if (functionNames != NULL)
+                DSVariablePoolFree(functionNames);
+        return eval;
+}
+
+extern double complex DSExpressionEvaluateComplexWithVariablePool(const DSExpression *expression, const DSVariablePool *pool)
+{
+        double complex value = NAN;
+        DSVariable *variable = NULL;
+        DSUInteger i;
+        if (expression == NULL) {
+                DSError(M_DS_NULL ": Expression is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        switch (DSExpressionType(expression)) {
+                case DS_EXPRESSION_TYPE_VARIABLE:
+                        if (strcmp(DSExpressionVariable(expression), DSExpressionImaginaryNumber) == 0) {
+                                value = I;
+                        } else if (pool != NULL) {
+                                if (DSVariablePoolHasVariableWithName(pool, DSExpressionVariable(expression)) == true) {
+                                        variable = DSVariablePoolVariableWithName(pool, DSExpressionVariable(expression));
+                                        value = DSVariableValue(variable);
+                                } else {
+                                        DSError(M_DS_WRONG ": Variable pool does not have variable.", A_DS_ERROR);
+                                        printf("[%s] Not Found.\n", DSExpressionVariable(expression));
+                                }
+                        } else {
+                                DSError(M_DS_VAR_NULL, A_DS_ERROR);
+                        }
+                        
+                        break;
+                case DS_EXPRESSION_TYPE_CONSTANT:
+                        value = DSExpressionConstant(expression);
+                        break;
+                case DS_EXPRESSION_TYPE_FUNCTION:
+                        value=dsExpressionEvaluateMathematicalFunctionComplex(expression, pool);
+                        break;
+                case DS_EXPRESSION_TYPE_OPERATOR:
+                        switch (DSExpressionOperator(expression)) {
+                                case '+':
+                                        value = 0;
+                                        for (i = 0; i < DSExpressionNumberOfBranches(expression); i++)
+                                                value += DSExpressionEvaluateComplexWithVariablePool(DSExpressionBranchAtIndex(expression, i), pool);
+                                        break;
+                                case '*':
+                                        value = 1;
+                                        for (i = 0; i < DSExpressionNumberOfBranches(expression); i++)
+                                                value *= DSExpressionEvaluateComplexWithVariablePool(DSExpressionBranchAtIndex(expression, i), pool);
+                                        break;
+                                case '^':
+                                        value = cpow(DSExpressionEvaluateComplexWithVariablePool(DSExpressionBranchAtIndex(expression, 0), pool),
+                                                    DSExpressionEvaluateComplexWithVariablePool(DSExpressionBranchAtIndex(expression, 1), pool));
+                                        break;
+                                default:
+                                        DSError(M_DS_WRONG "Operators cannot be evaluated as a function", A_DS_WARN);
+                                        value = NAN;
+                                        goto bail;
+                                        break;
+                        }
+                        break;
+                default:
+                        break;
+        }
+bail:
+        return value;
+}
+
 
 extern DSExpression * DSExpressionEquationLHSExpression(const DSExpression *expression)
 {
@@ -850,6 +1000,8 @@ static void dsExpressionVariablesInExpressionInternal(const DSExpression * curre
         }
         switch (DSExpressionType(current)) {
                 case DS_EXPRESSION_TYPE_VARIABLE:
+                        if (strcmp(DSExpressionVariable(current), DSExpressionImaginaryNumber) == 0)
+                                break;
                         if (DSVariablePoolHasVariableWithName(pool, DSExpressionVariable(current)) == false)
                                 DSVariablePoolAddVariableWithName(pool, DSExpressionVariable(current));
                         break;
@@ -1117,10 +1269,10 @@ static void expressionToLatexStringInternal(const DSExpression *current, char **
                                 name = "\\sqrt";
                                 open = "{";
                                 close = "}";
-                        } else if (strcmp("abs", name) == 0) {
-                                name = "";
-                                open = "\\lvert";
-                                close = "\\rvert";
+                        } else if (strcmp("real", name) == 0) {
+                                name = "\\Re";
+                        } else if (strcmp("imag", name) == 0) {
+                                name = "\\Im";
                         }
                         sprintf(temp, "%s%s", name, open);
                         if (strlen(*string)+strlen(temp) >= *length) {

@@ -58,7 +58,7 @@
 #define DSExpressionVariable(x)             ((x->type == DS_EXPRESSION_TYPE_VARIABLE || x->type == DS_EXPRESSION_TYPE_FUNCTION) ? x->node.variable : NULL)
 #define DSExpressionConstant(x)             ((x->type == DS_EXPRESSION_TYPE_CONSTANT) ? x->node.constant : NAN)
 
-
+#define DSExpressionImaginaryNumber         "&i"
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, Free and Initialization functions
 #endif
@@ -87,6 +87,7 @@ extern DSExpression * DSExpressionByCompressingConstantVariables(const DSExpress
 #endif
 
 extern double DSExpressionEvaluateWithVariablePool(const DSExpression *expression, const DSVariablePool *pool);
+extern double complex DSExpressionEvaluateComplexWithVariablePool(const DSExpression *expression, const DSVariablePool *pool);
 extern DSExpression * DSExpressionEquationLHSExpression(const DSExpression *expression);
 extern DSExpression * DSExpressionEquationRHSExpression(const DSExpression *expression);
 extern DSVariablePool * DSExpressionVariablesInExpression(const DSExpression * expression);
