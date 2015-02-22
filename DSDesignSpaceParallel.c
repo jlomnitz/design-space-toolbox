@@ -321,7 +321,7 @@ extern void * DSParallelWorkerValidityResolveCycles(void * pthread_struct)
         DSUInteger j, numberValidSubcases, caseNumber;
         DSCase *aCase;
         const DSCyclicalCase * cyclicalCase;
-        char nameString[100], *subcaseString = NULL;
+        char nameString[100], subcaseString[1000];
         const char ** subcaseNames;
         DSDictionary * subcaseDictionary;
         if (pthread_struct == NULL) {
@@ -361,15 +361,15 @@ extern void * DSParallelWorkerValidityResolveCycles(void * pthread_struct)
                 sprintf(nameString, "%d", caseNumber);
                 cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(pdata->ds, caseNumber);
                 if (cyclicalCase != NULL) {
+                        DSCaseFree(aCase);
                         subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclicalCases((DSCyclicalCase *)cyclicalCase);
                         if (subcaseDictionary == NULL) {
-                                DSCaseFree(aCase);
                                 continue;
                         }
                         numberValidSubcases = DSDictionaryCount(subcaseDictionary);
                         subcaseNames = DSDictionaryNames(subcaseDictionary);
                         for (j = 0; j < numberValidSubcases; j++) {
-                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
+                                sprintf(subcaseString, "%s_%s", nameString, subcaseNames[j]);
                                 DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
                         }
                         DSDictionaryFree(subcaseDictionary);
@@ -381,8 +381,6 @@ extern void * DSParallelWorkerValidityResolveCycles(void * pthread_struct)
         }
         glp_free_env();
 bail:
-        if (subcaseString != NULL)
-                DSSecureFree(subcaseString);
         pthread_exit(NULL);
 }
 
@@ -392,7 +390,7 @@ extern void * DSParallelWorkerValidityForSliceResolveCycles(void * pthread_struc
         DSUInteger j, numberValidSubcases, caseNumber;
         DSCase *aCase;
         const DSCyclicalCase * cyclicalCase;
-        char nameString[100], *subcaseString = NULL;
+        char nameString[100], subcaseString[1000];
         const char ** subcaseNames;
         DSVariablePool * lower, *upper;
         DSDictionary * subcaseDictionary;
@@ -431,7 +429,7 @@ extern void * DSParallelWorkerValidityForSliceResolveCycles(void * pthread_struc
         glp_init_env();
         /** Data in stack MUST be a case number, if not an error will occur **/
         while (pdata->stack->count > 0)  {
-                caseNumber = DSParallelStackPop(pdata->stack);
+                caseNumber = (DSUInteger)DSParallelStackPop(pdata->stack);
                 if (caseNumber == 0) {
                         continue;
                 }
@@ -443,17 +441,17 @@ extern void * DSParallelWorkerValidityForSliceResolveCycles(void * pthread_struc
                 sprintf(nameString, "%d", caseNumber);
                 cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(pdata->ds, caseNumber);
                 if (cyclicalCase != NULL) {
+                        DSCaseFree(aCase);
                         subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesForSliceByResolvingCyclicalCases((DSCyclicalCase *)cyclicalCase,
                                                                                                                     lower,
                                                                                                                     upper);
                         if (subcaseDictionary == NULL) {
-                                DSCaseFree(aCase);
                                 continue;
                         }
                         numberValidSubcases = DSDictionaryCount(subcaseDictionary);
                         subcaseNames = DSDictionaryNames(subcaseDictionary);
                         for (j = 0; j < numberValidSubcases; j++) {
-                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
+                                sprintf(subcaseString, "%s_%s", nameString, subcaseNames[j]);
                                 DSDictionaryAddValueWithName((DSDictionary*)pdata->returnPointer, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
                         }
                         DSDictionaryFree(subcaseDictionary);
@@ -465,8 +463,6 @@ extern void * DSParallelWorkerValidityForSliceResolveCycles(void * pthread_struc
         }
         glp_free_env();
 bail:
-        if (subcaseString != NULL)
-                DSSecureFree(subcaseString);
         pthread_exit(NULL);
 }
 

@@ -1140,7 +1140,7 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCase
         DSDictionary * caseDictionary = NULL, *subcaseDictionary;
         DSUInteger i, j, numberValid = 0, numberValidSubcases;
         DSUInteger validCaseNumbers = 0;
-        char nameString[100], * subcaseString = NULL;
+        char nameString[100], subcaseString[1000];
         const char **subcaseNames;
         DSCase * aCase = NULL;
         const DSCyclicalCase * cyclicalCase = NULL;
@@ -1158,15 +1158,15 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCase
                 sprintf(nameString, "%d", validCaseNumbers);
                 cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(ds, validCaseNumbers);
                 if (cyclicalCase != NULL) {
+                        DSCaseFree(aCase);
                         subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesByResolvingCyclicalCases((DSCyclicalCase *)cyclicalCase);
                         if (subcaseDictionary == NULL) {
-                                DSCaseFree(aCase);
                                 continue;
                         }
                         numberValidSubcases = DSDictionaryCount(subcaseDictionary);
                         subcaseNames = DSDictionaryNames(subcaseDictionary);
                         for (j = 0; j < numberValidSubcases; j++) {
-                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
+                                sprintf(subcaseString, "%s_%s", nameString, subcaseNames[j]);
                                 DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
                         }
                         DSDictionaryFree(subcaseDictionary);
@@ -1177,8 +1177,6 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCase
                 }
         }
 bail:
-        if (subcaseString != NULL)
-                DSSecureFree(subcaseString);
         return caseDictionary;
 }
 
@@ -1253,7 +1251,7 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceByResolvingCycl
         DSDictionary * caseDictionary = NULL, *subcaseDictionary;
         DSUInteger i, j, numberValid = 0, numberValidSubcases;
         DSUInteger validCaseNumbers = 0;
-        char nameString[100], * subcaseString = NULL;
+        char nameString[100], subcaseString[1000];
         const char **subcaseNames;
         DSCase * aCase = NULL;
         const DSCyclicalCase * cyclicalCase = NULL;
@@ -1275,17 +1273,17 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceByResolvingCycl
                 sprintf(nameString, "%d", validCaseNumbers);
                 cyclicalCase = DSDesignSpaceCyclicalCaseWithCaseNumber(ds, validCaseNumbers);
                 if (cyclicalCase != NULL) {
+                        DSCaseFree(aCase);
                         subcaseDictionary = DSCyclicalCaseCalculateAllValidSubcasesForSliceByResolvingCyclicalCases((DSCyclicalCase *)cyclicalCase,
                                                                                                                     lower,
                                                                                                                     upper);
                         if (subcaseDictionary == NULL) {
-                                DSCaseFree(aCase);
                                 continue;
                         }
                         numberValidSubcases = DSDictionaryCount(subcaseDictionary);
                         subcaseNames = DSDictionaryNames(subcaseDictionary);
                         for (j = 0; j < numberValidSubcases; j++) {
-                                asprintf(&subcaseString, "%s_%s", nameString, subcaseNames[j]);
+                                sprintf(subcaseString, "%s_%s", nameString, subcaseNames[j]);
                                 DSDictionaryAddValueWithName(caseDictionary, subcaseString, DSDictionaryValueForName(subcaseDictionary, subcaseNames[j]));
                         }
                         DSDictionaryFree(subcaseDictionary);
@@ -1296,8 +1294,6 @@ static DSDictionary * dsDesignSpaceCalculateAllValidCasesForSliceByResolvingCycl
                 }
         }
 bail:
-        if (subcaseString != NULL)
-                DSSecureFree(subcaseString);
         return caseDictionary;
 }
 

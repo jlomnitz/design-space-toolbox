@@ -1059,7 +1059,7 @@ static void dsCyclicalCasePartitionSolutionMatrices(const DSCase * aCase,
                                                     DSVariablePool ** yn,
                                                     DSVariablePool ** yc)
 {
-        DSMatrix * tempMatrix;
+        DSMatrix * tempMatrix, *Ad, *Ai, *B;
         const DSSSystem * ssystem;
         DSUInteger i;
         char * name;
@@ -1079,14 +1079,20 @@ static void dsCyclicalCasePartitionSolutionMatrices(const DSCase * aCase,
                 goto bail;
         }
         ssystem = DSCaseSSys(aCase);
-        tempMatrix = DSMatrixSubMatrixIncludingRows(DSSSystemAd(ssystem), numberOfSecondaryVariables, secondaryVariables);
+        Ad = DSSSystemAd(ssystem);
+        Ai = DSSSystemAi(ssystem);
+        B = DSSSystemB(ssystem);
+        tempMatrix = DSMatrixSubMatrixIncludingRows(Ad, numberOfSecondaryVariables, secondaryVariables);
         *ADc = DSMatrixSubMatrixExcludingColumns(tempMatrix, numberOfSecondaryVariables, secondaryVariables);
         *ADn = DSMatrixSubMatrixIncludingColumns(tempMatrix, numberOfSecondaryVariables, secondaryVariables);
         DSMatrixFree(tempMatrix);
-        *AIn = DSMatrixSubMatrixIncludingRows(DSSSystemAi(ssystem), numberOfSecondaryVariables, secondaryVariables);
-        *Bn = DSMatrixSubMatrixIncludingRows(DSSSystemB(ssystem), numberOfSecondaryVariables, secondaryVariables);
+        *AIn = DSMatrixSubMatrixIncludingRows(Ai, numberOfSecondaryVariables, secondaryVariables);
+        *Bn = DSMatrixSubMatrixIncludingRows(B, numberOfSecondaryVariables, secondaryVariables);
         *yn = DSVariablePoolAlloc();
         *yc = DSVariablePoolAlloc();
+        DSMatrixFree(Ad);
+        DSMatrixFree(Ai);
+        DSMatrixFree(B);
         for (i = 0; i < numberOfSecondaryVariables; i++) {
                 name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssystem), secondaryVariables[i]));
                 DSVariablePoolAddVariableWithName(*yn, name);
@@ -1110,7 +1116,7 @@ static void dsCyclicalCaseSolutionOfPartitionedMatrices(const DSCase * aCase,
                                                         DSVariablePool ** yn,
                                                         DSVariablePool ** yc)
 {
-        DSMatrix *ADn = NULL, * AIn = NULL, * ADc = NULL, * Bn = NULL, * Mn;
+        DSMatrix *ADn = NULL, * AIn = NULL, * ADc = NULL, * Bn = NULL, * Mn = NULL;
         if (LI == NULL || Lc == NULL || MBn == NULL) {
                 DSError(M_DS_NULL ": Matrix pointers to hold partitioned matrices cannot be null", A_DS_ERROR);
                 goto bail;
@@ -1138,7 +1144,6 @@ static void dsCyclicalCaseSolutionOfPartitionedMatrices(const DSCase * aCase,
         *MBn = DSMatrixByMultiplyingMatrix(Mn, Bn);
         DSMatrixMultiplyByScalar(*LI, 1.);
         DSMatrixMultiplyByScalar(*Lc, 1.);
-        DSMatrixFree(Mn);
 bail:
         if (ADn != NULL)
                 DSMatrixFree(ADn);
@@ -1148,6 +1153,8 @@ bail:
                 DSMatrixFree(AIn);
         if (Bn != NULL)
                 DSMatrixFree(Bn);
+        if (Mn != NULL)
+                DSMatrixFree(Mn);
         return;
 }
 
@@ -1521,6 +1528,7 @@ static void dsCyclicalCaseEquilibriumEquationForVariable(DSUInteger index,
         DSMatrixMultiplyByScalar((DSMatrix *)LI, -1.0f);
         fluxEquation = DSExpressionFromPowerlawInMatrixForm(i, Lc, yc, LI, DSCaseXi(aCase), C);
         string = DSExpressionAsString(fluxEquation);
+        DSExpressionFree(fluxEquation);
         DSSecureFree(systemEquations[index]);
         asprintf(&(systemEquations[index]), "%s = %s", name, string);
         DSSecureFree(string);
@@ -1657,6 +1665,7 @@ static void dsCyclicalCaseAugmentedEquationsForCycle(char ** systemEquations,
                                 systemEquations[primaryCycleVariable] = string;
                         }
                         DSExpressionFree(fluxEquation);
+                        DSSecureFree(name);
                 }
                 DSMatrixFree(Kd);
                 DSMatrixFree(Ki);
@@ -1903,6 +1912,7 @@ static char ** dsCyclicalCaseOriginalEquationsWithEquilibriumConstraints(const D
                                 systemEquations[i/2] = string;
                         }
                         DSExpressionFree(fluxEquation);
+                        DSSecureFree(name);
                 }
                 DSMatrixFree(Kd);
                 DSMatrixFree(Ki);
@@ -1930,8 +1940,8 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
         char ** systemEquations = NULL;
         const DSVariablePool *Xd;
         bool error=false;
-        DSUInteger i, numberOfCycles, numberSecondaryVariables, *primaryVariables, *secondaryVariables = NULL;
-        DSCycleExtensionData * newExtensionData;
+        DSUInteger i, numberOfCycles, numberSecondaryVariables, *primaryVariables = NULL, *secondaryVariables = NULL;
+//        DSCycleExtensionData * newExtensionData;
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -1958,9 +1968,6 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
         }
         if (numberSecondaryVariables > 0) {
                 dsCyclicalCaseSolutionOfPartitionedMatrices(aCase, numberSecondaryVariables, secondaryVariables, &LI, &Lc, &Mb, &yn, &yc);
-        }
-        if (DSCaseNumber(aCase) == 840) {
-                printf("Testing cycles...\n");
         }
 //        systemEquations = dsCyclicalCaseOriginalEquationsWithEquilibriumConstraints(aCase, original, numberSecondaryVariables, secondaryVariables, LI, Lc, Mb, yn, yc);
 //        systemEquations = dsCyclicalCaseOriginalCaseEquationsWithEquilibriumConstraints(aCase, numberSecondaryVariables, secondaryVariables, LI, Lc, Mb, yn, yc);
@@ -2035,6 +2042,8 @@ static char ** dsCyclicalCaseEquations(const DSCase * aCase,
 bail:
         if (primaryVariables != NULL)
                 DSSecureFree(primaryVariables);
+        if (secondaryVariables != NULL)
+                DSSecureFree(secondaryVariables);
         if (LI != NULL)
                 DSMatrixFree(LI);
         if (Lc != NULL)
