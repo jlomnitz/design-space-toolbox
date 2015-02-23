@@ -57,7 +57,7 @@
 #endif
 
 #ifndef __DS_DESIGN_SPACE_VERSION__
-#define __DS_DESIGN_SPACE_VERSION__   "0.3.0a1"
+#define __DS_DESIGN_SPACE_VERSION__   "0.3.0a2"
 #endif
 
 #ifdef __cplusplus
