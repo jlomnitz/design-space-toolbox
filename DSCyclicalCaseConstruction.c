@@ -33,6 +33,7 @@
 #include "DSCyclicalCase.h"
 #include "DSMatrixArray.h"
 
+
 extern void DSCyclicalCaseDesignSpaceCalculateSubCyclicalCases(DSDesignSpace *ds, DSDesignSpace * modifierDesignSpace, const DSUInteger * modifierSignature);
 static DSUInteger dsCyclicalCaseNumberOfAugmentedSystems(const DSDesignSpace * original,
                                                          const DSMatrix * problematicEquations);
@@ -628,7 +629,8 @@ static DSDesignSpace * dsCyclicalCaseAugmentedSystemForSubdominantDecays(const D
                                              coefficientArray,
                                              subdominantDecaySpecies,
                                              subdominantDecayTerm);
-        augmentedSystem->seriesCalculations = true;
+        DSDesignSpaceSetSerial(augmentedSystem, true);
+        DSDesignSpaceSetCyclical(augmentedSystem, true);
         dsEquations = DSDesignSpaceEquations(original);
         for (i = 0; i < DSGMASystemNumberOfEquations(gma); i++) {
                 subcaseEquations[i] = DSExpressionAsString(dsEquations[i]);
@@ -2127,7 +2129,9 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
                                                         DSDesignSpaceNumberOfEquations(original));
         DSDesignSpaceAddConditions(collapsed, DSCaseCd(aCase), DSCaseCi(aCase), DSCaseDelta(aCase));
         collapsed->casePrefix = strdup(DSCaseIdentifier(aCase));
-        collapsed->seriesCalculations = true;
+        DSDesignSpaceSetSerial(collapsed, true);
+        DSDesignSpaceSetCyclical(collapsed, true);
+//        collapsed->seriesCalculations = true;
         collapsed->extensionData = extensionData;
         DSDesignSpaceCalculateCyclicalCases(collapsed);
         for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {

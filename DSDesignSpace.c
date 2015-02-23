@@ -201,10 +201,46 @@ bail:
         return;
 }
 
+extern void DSDesignSpaceSetSerial(DSDesignSpace *ds, bool serial)
+{
+        unsigned char newFlag;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        newFlag = ds->modifierFlags & ~DS_DESIGN_SPACE_FLAG_SERIAL;
+        ds->modifierFlags = (serial ? DS_DESIGN_SPACE_FLAG_SERIAL : 0) |newFlag;
+bail:
+        return;
+}
+
+extern void DSDesignSpaceSetCyclical(DSDesignSpace *ds, bool cyclical)
+{
+        unsigned char newFlag;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        newFlag = ds->modifierFlags & ~DS_DESIGN_SPACE_FLAG_CYCLICAL;
+        ds->modifierFlags = (cyclical ? DS_DESIGN_SPACE_FLAG_CYCLICAL : 0) | newFlag;
+bail:
+        return;
+}
+
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Getters -
 #endif
+
+extern bool DSDesignSpaceSerial(DSDesignSpace *ds)
+{
+        return ds->modifierFlags & DS_DESIGN_SPACE_FLAG_SERIAL;
+}
+
+extern bool DSDesignSpaceCyclical(DSDesignSpace *ds)
+{
+        return ds->modifierFlags & DS_DESIGN_SPACE_FLAG_CYCLICAL;
+}
 
 extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds)
 {
@@ -966,6 +1002,7 @@ static void dsDesignSpaceCalculateCyclicalCasesParallelBSD(DSDesignSpace *ds)
 bail:
         return;
 }
+
 
 static void dsDesignSpaceCalculateValiditySeries(DSDesignSpace *ds)
 {
@@ -1984,7 +2021,7 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSliceByResolvingCycl
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (ds->seriesCalculations == false) {
+        if (DSDesignSpaceSerial(ds) == false) {
                 caseDictionary = dsDesignSpaceCalculateAllValidCasesForSliceByResolvingCyclicalCasesSeriesParallelBSD(ds,
                                                                                                                       lower,
                                                                                                                       upper);
@@ -2004,7 +2041,7 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesByResolvingCyclicalCase
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (ds->seriesCalculations == false) {
+        if (DSDesignSpaceSerial(ds) == false) {
                 caseDictionary = dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCasesSeriesParallelBSD(ds);
         } else {
                 caseDictionary = dsDesignSpaceCalculateAllValidCasesByResolvingCyclicalCasesSeries(ds);
@@ -2020,7 +2057,7 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSliceNonStrict(DSDes
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (ds->seriesCalculations == false) {
+        if (DSDesignSpaceSerial(ds) == false) {
                 caseDictionary = dsDesignSpaceCalculateValidityAtSliceParallelBSD(ds, lower, upper, false);
         } else {
                 caseDictionary = dsDesignSpaceCalculateAllValidCasesForSliceSeries(ds, lower, upper, false);
@@ -2036,7 +2073,7 @@ extern DSDictionary * DSDesignSpaceCalculateAllValidCasesForSlice(DSDesignSpace 
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (ds->seriesCalculations == false) {
+        if (DSDesignSpaceSerial(ds) == false) {
                 caseDictionary = dsDesignSpaceCalculateValidityAtSliceParallelBSD(ds, lower, upper, true);
         } else {
                 caseDictionary = dsDesignSpaceCalculateAllValidCasesForSliceSeries(ds, lower, upper, true);
@@ -2052,7 +2089,7 @@ extern void DSDesignSpaceCalculateValidityOfCases(DSDesignSpace *ds)
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
         }
-        if (ds->seriesCalculations == false) {
+        if (DSDesignSpaceSerial(ds) == false) {
                 dsDesignSpaceCalculateValidityParallelBSD(ds);
         } else {
                 dsDesignSpaceCalculateValiditySeries(ds);
@@ -2196,7 +2233,7 @@ bail:
 
 extern void DSDesignSpaceCalculateCyclicalCases(DSDesignSpace *ds)
 {
-        if (ds->seriesCalculations == true)
+        if (DSDesignSpaceSerial(ds) == true)
                 dsDesignSpaceCalculateCyclicalCasesSeries(ds);
         else
                 dsDesignSpaceCalculateCyclicalCasesParallelBSD(ds);
@@ -2225,7 +2262,7 @@ extern DSDesignSpaceMessage * DSDesignSpaceEncode(const DSDesignSpace * ds)
                 message->ci = DSMatrixEncode(ds->Ci);
                 message->delta = DSMatrixEncode(ds->delta);
         }
-        message->seriescalculations = ds->seriesCalculations;
+        message->modifierflags = ds->modifierFlags;
         message->n_validcases = DSDesignSpaceNumberOfValidCases(ds);
         message->validcases = DSSecureCalloc(sizeof(DSUInteger), message->n_validcases);
         message->numberofcases = ds->numberOfCases;
@@ -2268,7 +2305,7 @@ extern DSDesignSpace * DSDesignSpaceFromDesignSpaceMessage(const DSDesignSpaceMe
                 ds->delta = DSMatrixFromMatrixMessage(message->delta);
         }
         ds->numberOfCases = message->numberofcases;
-        ds->seriesCalculations = message->seriescalculations;
+        ds->modifierFlags = message->modifierflags;
         ds->validCases = DSDictionaryAlloc();
         for (i = 0; i < message->n_validcases; i++) {
                 sprintf(name, "%i", message->validcases[i]);

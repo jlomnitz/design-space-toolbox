@@ -169,6 +169,48 @@ bail:
         return;
 }
 
+extern void DSCaseRemoveZeroBoundaries(DSCase *aCase)
+{
+        DSUInteger * zeroRows = NULL;
+        DSUInteger i, j, numberOfZeroRows = 0, maxSize = 1000;
+        DSMatrix *temp1, *temp2;
+        temp1 = DSMatrixAppendMatrices(DSCaseU(aCase), DSCaseZeta(aCase), true);
+        for (i = 0; i < DSMatrixRows(temp1); i++) {
+                for (j = 0; j < DSMatrixColumns(temp1); j++) {
+                        if (DSMatrixDoubleValue(temp1, i, j) != 0.0)
+                                break;
+                }
+                if (j == DSMatrixColumns(temp1)) {
+                        numberOfZeroRows++;
+                        if (numberOfZeroRows == 1) {
+                                maxSize = 1000;
+                                zeroRows = DSSecureMalloc(sizeof(DSUInteger)*maxSize);
+                        } else if (numberOfZeroRows == maxSize) {
+                                maxSize += 1000;
+                                zeroRows = DSSecureRealloc(&zeroRows, sizeof(DSUInteger)*maxSize);
+                        }
+                        zeroRows[numberOfZeroRows-1] = i;
+                }
+        }
+        if (numberOfZeroRows == 0) {
+                DSMatrixFree(temp1);
+                goto bail;
+        }
+        temp2 = DSMatrixSubMatrixExcludingRows(temp1, numberOfZeroRows, zeroRows);
+        DSMatrixFree(temp1);
+        if (temp2 == NULL)
+                goto bail;
+        DSMatrixFree(DSCaseU(aCase));
+        DSMatrixFree(DSCaseZeta(aCase));
+        DSCaseU(aCase) = DSMatrixSubMatrixExcludingColumnList(temp2, 1, DSMatrixColumns(temp2)-1);
+        DSCaseZeta(aCase) = DSMatrixSubMatrixIncludingColumnList(temp2, 1, DSMatrixColumns(temp2)-1);
+        DSMatrixFree(temp2);
+bail:
+        if (zeroRows != NULL)
+                DSSecureFree(zeroRows);
+        return;
+}
+
 static void dsCaseCreateBoundaryMatrices(DSCase *aCase)
 {
         DSUInteger numberOfXi = 0;

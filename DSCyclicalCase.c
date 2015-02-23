@@ -36,6 +36,8 @@
 extern DSDesignSpace * DSCyclicalCaseInternalForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original);
 extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original);
 
+extern void DSCaseRemoveZeroBoundaries(DSCase *aCase);
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, deallocation and initialization
 #endif
@@ -207,6 +209,7 @@ extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cycli
                 goto bail;
         }
         aSubcase = DSDesignSpaceCaseWithCaseNumber(cyclicalCase->internalDesignspace, subcaseNumber);
+        DSCaseRemoveZeroBoundaries(aSubcase);
 bail:
         return aSubcase;
 }

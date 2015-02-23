@@ -286,7 +286,7 @@ extern void * DSParallelWorkerValidity(void * pthread_struct)
         /** Data in stack MUST be a case number, if not an error will occur **/
         while (pdata->stack->count > 0)  {
                 if (pdata->stack->argument_type == DS_STACK_ARG_CASENUM) {
-                        caseNumber = DSParallelStackPop(pdata->stack);
+                        caseNumber = (DSUInteger)DSParallelStackPop(pdata->stack);
                         if (caseNumber == 0) {
                                 continue;
                         }

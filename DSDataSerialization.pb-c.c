@@ -967,12 +967,12 @@ static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "seriesCalculations",
+    "modifierFlags",
     2,
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
-    offsetof(DSDesignSpaceMessage, seriescalculations),
+    offsetof(DSDesignSpaceMessage, modifierflags),
     NULL,
     NULL,
     0,             /* flags */
@@ -1083,8 +1083,8 @@ static const unsigned dsdesign_space_message__field_indices_by_name[] = {
   8,   /* field[8] = cyclicalCasesNumbers */
   6,   /* field[6] = delta */
   0,   /* field[0] = gma */
+  1,   /* field[1] = modifierFlags */
   2,   /* field[2] = numberOfCases */
-  1,   /* field[1] = seriesCalculations */
   3,   /* field[3] = validCases */
 };
 static const ProtobufCIntRange dsdesign_space_message__number_ranges[1 + 1] =

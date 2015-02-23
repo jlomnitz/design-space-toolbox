@@ -39,6 +39,10 @@ __BEGIN_DECLS
 
 #define M_DS_DESIGN_SPACE_NULL              M_DS_NULL ": Design Space is NULL"
 
+#define DS_DESIGN_SPACE_FLAG_SERIAL          1
+#define DS_DESIGN_SPACE_FLAG_CYCLICAL        2
+
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, deallocation and initialization
 #endif
@@ -60,10 +64,16 @@ extern DSDesignSpace * DSDesignSpaceByParsingStringsWithXi(char * const * const 
 
 extern void DSDesignSpaceSetGMA(DSDesignSpace * ds, DSGMASystem *gma);
 extern void DSDesignSpaceAddConditions(DSDesignSpace *ds, const DSMatrix * Cd, const DSMatrix * Ci, const DSMatrix * delta);
+extern void DSDesignSpaceSetSerial(DSDesignSpace *ds, bool serial);
+extern void DSDesignSpaceSetCyclical(DSDesignSpace *ds, bool cyclical);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Getters -
 #endif
+
+extern bool DSDesignSpaceSerial(DSDesignSpace *ds);
+extern bool DSDesignSpaceCyclical(DSDesignSpace *ds);
+
 
 extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds);
 

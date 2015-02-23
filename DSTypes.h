@@ -412,7 +412,9 @@ typedef struct {
         DSMatrix * Cd, *Ci, *delta;      //!< Condition matrices.
         DSDictionary *cyclicalCases;     //!< DSDictionary containing design space objects with subcases.
         DSMatrix * Rn;                   //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
-        bool seriesCalculations;
+        unsigned char modifierFlags;
+//        bool seriesCalculations;
+//        bool removeZeroBoundaries;
         DSDictionary * cycleFluxes;
         DSCycleExtensionData * extensionData;
         char * casePrefix;

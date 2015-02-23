@@ -829,6 +829,9 @@ extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool
         }
         if (dsCaseSetVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) <= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
                 glp_simplex(linearProblem, NULL);
+//                if (DSCaseNumber(aCase) == 7) {
+//                        printf("Case 4: %.15f %i [%i]", glp_get_obj_val(linearProblem), glp_get_prim_stat(linearProblem), DSCaseIsValidAtPoint(aCase, lowerBounds));
+//                }
                 if (strict == true) {
                         if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
                                 isValid = true;
