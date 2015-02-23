@@ -189,7 +189,11 @@ bail:
         return isValid;
 }
 
-extern const bool DSCaseIsValidInStateSpace(const DSCase *aCase)
+__deprecated extern const bool DSCaseIsValidInStateSpace(const DSCase *aCase) {
+        return DSCaseIsConsistent(aCase);
+}
+
+extern const bool DSCaseIsConsistent(const DSCase *aCase)
 {
         bool isValid = false;
         glp_prob *linearProblem = NULL;
@@ -284,7 +288,11 @@ bail:
         return isValid;
 }
 
-extern const bool DSCaseIsValidInStateSpaceAtPoint(const DSCase *aCase, const DSVariablePool * Xd_p, const DSVariablePool * Xi_p)
+__deprecated extern const bool DSCaseIsValidInStateSpaceAtPoint(const DSCase *aCase, const DSVariablePool * Xd_p, const DSVariablePool * Xi_p) {
+        return DSCaseIsConsistentAtPoint(aCase, Xd_p, Xi_p);
+}
+
+extern const bool DSCaseIsConsistentAtPoint(const DSCase *aCase, const DSVariablePool * Xd_p, const DSVariablePool * Xi_p)
 {
         bool isValid = false;
         DSUInteger i, numberOfXi, numberOfXd, indexOfVariable;
@@ -293,9 +301,6 @@ extern const bool DSCaseIsValidInStateSpaceAtPoint(const DSCase *aCase, const DS
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
         }
-//        if (DSCaseHasSolution(aCase) == false) {
-//                goto bail;
-//        }
         if (Xd_p == NULL) {
                 DSError(M_DS_VAR_NULL ": Variable pool with values for dependent variable is NULL", A_DS_ERROR);
                 goto bail;
@@ -489,64 +494,55 @@ bail:
         return Xi;
 }
 
-//extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * variablesToFix)
-//{
-//        bool isValid = false;
-//        glp_prob *linearProblem = NULL;
-//        DSUInteger i, numberToRemove, variableIndex;
-//        const DSVariable * variable;
-//        
-//        if (aCase == NULL) {
-//                DSError(M_DS_CASE_NULL, A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (DSCaseHasSolution(aCase) == false) {
-//                goto bail;
-//        }
-//        if (variablesToFix == NULL) {
-//                DSError(M_DS_VAR_NULL ": Variable pool with variables to fix is NULL", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (DSVariablePoolNumberOfVariables(variablesToFix) > DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
-//                DSError(M_DS_WRONG ": Number of variables to fix is greater than number Xi", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (DSVariablePoolNumberOfVariables(variablesToFix) == 0) {
-//                DSError(M_DS_WRONG ": Case has no independent variables", A_DS_WARN);
-//                isValid = DSCaseIsValid(aCase);
-//                goto bail;
-//        }
-//        if (DSVariablePoolNumberOfVariables(variablesToFix) == DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
-//                isValid = DSCaseIsValidAtPoint(aCase, variablesToFix);
-//                goto bail;
-//        }
-//        numberToRemove = DSVariablePoolNumberOfVariables(variablesToFix);
-//        linearProblem = dsCaseLinearProblemForCaseValidity(DSCaseU(aCase), DSCaseZeta(aCase));
-//        if (linearProblem == NULL) {
-//                DSError(M_DS_NULL ": Linear problem was not created", A_DS_ERROR);
-//                goto bail;
-//        }
-//        for (i = 0; i < numberToRemove; i++) {
-//                
-//                variable = DSVariablePoolAllVariables(variablesToFix)[i];
-//                variableIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), 
-//                                                                      DSVariableName(variable));
-//                glp_set_col_bnds(linearProblem, variableIndex+1, GLP_FX, log10(DSVariableValue(variable)), 0.0);
-//                
-//                if (variableIndex >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase))) {
-//                        glp_delete_prob(linearProblem);
-//                        goto bail;
-//                }
-//        }
-//        glp_simplex(linearProblem, NULL);
-//        if (glp_get_obj_val(linearProblem) < 0 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
-//                isValid = true;
-//        
-//        glp_delete_prob(linearProblem);
-//bail:
-//        return isValid;
-//}
-//
+static DSUInteger dsCaseNumberOfFreeDependentVariablesForBounds(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
+{
+        DSUInteger i, variableIndex, freeVariables = 0;
+        const DSVariable * lowVariable, *highVariable;
+        double low, high;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (lowerBounds == NULL && upperBounds == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable pool with variables to fix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(lowerBounds) != DSVariablePoolNumberOfVariables(upperBounds)) {
+                DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
+                goto bail;
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(lowerBounds); i++) {
+                
+                lowVariable = DSVariablePoolAllVariables(lowerBounds)[i];
+                highVariable = DSVariablePoolVariableWithName(upperBounds, DSVariableName(lowVariable));
+                
+                if (lowVariable == NULL || highVariable == NULL) {
+                        DSError(M_DS_WRONG ": Variables to bound are not consistent", A_DS_WARN);
+                        continue;
+                }
+                
+                if (DSVariablePoolHasVariableWithName(DSCaseXd(aCase), DSVariableName(lowVariable)) == false) {
+                        continue;
+                }
+                variableIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXd(aCase),
+                                                                      DSVariableName(lowVariable));
+                low = DSVariableValue(lowVariable);
+                high = DSVariableValue(highVariable);
+                
+                if (low > high) {
+                        DSError(M_DS_WRONG ": Variable bounds are not consistent", A_DS_WARN);
+                        continue;
+                }
+                
+                if (variableIndex >= DSVariablePoolNumberOfVariables(DSCaseXd(aCase)))
+                        continue;
+                if (low == high)
+                        continue;
+                freeVariables++;
+        }
+bail:
+        return freeVariables;
+}
 
 static DSUInteger dsCaseNumberOfFreeVariablesForBounds(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
 {
@@ -575,7 +571,10 @@ static DSUInteger dsCaseNumberOfFreeVariablesForBounds(const DSCase *aCase, cons
                         continue;
                 }
                 
-                variableIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase), 
+                if (DSVariablePoolHasVariableWithName(DSCaseXi(aCase), DSVariableName(lowVariable)) == false) {
+                        continue;
+                }
+                variableIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase),
                                                                       DSVariableName(lowVariable));
                 low = DSVariableValue(lowVariable);
                 high = DSVariableValue(highVariable);
@@ -590,6 +589,78 @@ static DSUInteger dsCaseNumberOfFreeVariablesForBounds(const DSCase *aCase, cons
                 if (low == high) 
                         continue;
                 freeVariables++;
+        }
+bail:
+        return freeVariables;
+}
+
+static DSUInteger dsCaseSetDependentAndIndependentVariableBoundsLinearProblem(const DSCase *aCase, glp_prob *linearProblem,  const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds)
+{
+        DSUInteger i, variableIndex, freeVariables = 0;
+        const DSVariable * lowVariable, *highVariable;
+        double low, high;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (lowerBounds == NULL && upperBounds == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable pool with variables to fix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(lowerBounds) != DSVariablePoolNumberOfVariables(upperBounds)) {
+                DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
+                goto bail;
+        }
+        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem is NULL", A_DS_WARN);
+                goto bail;
+        }
+        for (i = 0; i < glp_get_num_cols(linearProblem); i++) {
+                glp_set_col_bnds(linearProblem, i+1, GLP_FR, 0.0, 0.0);
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(lowerBounds); i++) {
+                
+                lowVariable = DSVariablePoolAllVariables(lowerBounds)[i];
+                highVariable = DSVariablePoolVariableWithName(upperBounds, DSVariableName(lowVariable));
+                if (lowVariable == NULL || highVariable == NULL) {
+                        DSError(M_DS_WRONG ": Variables to bound are not consistent", A_DS_WARN);
+                        freeVariables = 0;
+                        break;
+                }
+                if (DSVariablePoolHasVariableWithName(DSCaseXd(aCase), DSVariableName(lowVariable)) == true) {
+                        variableIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXd(aCase),
+                                                                              DSVariableName(lowVariable));
+                } else {
+                        variableIndex = DSVariablePoolIndexOfVariableWithName(DSCaseXi(aCase),
+                                                                              DSVariableName(lowVariable)) + DSVariablePoolNumberOfVariables(DSCaseXd(aCase));
+                }
+                
+                low = DSVariableValue(lowVariable);
+                high = DSVariableValue(highVariable);
+                
+                if (low > high) {
+                        DSError(M_DS_WRONG ": Variable bounds are not consistent", A_DS_WARN);
+                        freeVariables = 0;
+                        break;
+                }
+                
+                if (variableIndex >= DSVariablePoolNumberOfVariables(DSCaseXi(aCase)) + DSVariablePoolNumberOfVariables(DSCaseXd(aCase))) {
+                        freeVariables = 0;
+                        break;
+                }
+                if (low == -INFINITY && high == INFINITY)
+                        glp_set_col_bnds(linearProblem, variableIndex+1, GLP_FR, 0.0, 0.0);
+                else if (low == -INFINITY)
+                        glp_set_col_bnds(linearProblem, variableIndex+1, GLP_UP, 0.0, log10(high));
+                else if (high == INFINITY)
+                        glp_set_col_bnds(linearProblem, variableIndex+1, GLP_LO, log10(low), 0.0);
+                else if (low == high)
+                        glp_set_col_bnds(linearProblem, variableIndex+1, GLP_FX, log10(low), 0.0);
+                else
+                        glp_set_col_bnds(linearProblem, variableIndex+1, GLP_DB, log10(low), log10(high));
+                if (glp_get_col_type(linearProblem, variableIndex+1) != GLP_FX)
+                        freeVariables++;
+                
         }
 bail:
         return freeVariables;
@@ -798,7 +869,6 @@ extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool
 {
         bool isValid = false;
         glp_prob *linearProblem = NULL;
-        
         if (aCase == NULL) {
                 DSError(M_DS_CASE_NULL, A_DS_ERROR);
                 goto bail;
@@ -832,6 +902,56 @@ extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool
 //                if (DSCaseNumber(aCase) == 7) {
 //                        printf("Case 4: %.15f %i [%i]", glp_get_obj_val(linearProblem), glp_get_prim_stat(linearProblem), DSCaseIsValidAtPoint(aCase, lowerBounds));
 //                }
+                if (strict == true) {
+                        if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                                isValid = true;
+                } else {
+                        if (glp_get_obj_val(linearProblem) <= 0.0f && glp_get_prim_stat(linearProblem) == GLP_FEAS)
+                                isValid = true;
+                }
+        }
+        
+        glp_delete_prob(linearProblem);
+bail:
+        return isValid;
+}
+
+extern const bool DSCaseIsConsistentAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const bool strict)
+{
+        bool isValid = false;
+        glp_prob *linearProblem = NULL;
+        
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseHasSolution(aCase) == false) {
+                goto bail;
+        }
+        if (lowerBounds == NULL && upperBounds == NULL) {
+                DSError(M_DS_VAR_NULL ": Variable pool with variables to fix is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(lowerBounds) != DSVariablePoolNumberOfVariables(upperBounds)) {
+                DSError(M_DS_WRONG ": Number of variables to bound must match", A_DS_ERROR);
+                goto bail;
+        }
+        if (lowerBounds == upperBounds) {
+//                isValid = DSCaseIsConsistentAtPoint(aCase, lowerBounds);
+                goto bail;
+        }
+        if ((dsCaseNumberOfFreeVariablesForBounds(aCase, lowerBounds, upperBounds)+dsCaseNumberOfFreeDependentVariablesForBounds(aCase, lowerBounds, upperBounds)) == 0) {
+//                isValid = DSCaseIsConsistentAtPoint(aCase, lowerBounds);
+                goto bail;
+        }
+        DSMatrix * C  = DSMatrixAppendMatrices(DSCaseCd(aCase), DSCaseCi(aCase), true);
+        linearProblem = dsCaseLinearProblemForCaseValidity(C, DSCaseDelta(aCase));
+        if (linearProblem == NULL) {
+                DSError(M_DS_NULL ": Linear problem was not created", A_DS_WARN);
+                goto bail;
+        }
+        if (dsCaseSetDependentAndIndependentVariableBoundsLinearProblem(aCase, linearProblem, lowerBounds, upperBounds) <= DSVariablePoolNumberOfVariables(DSCaseXi(aCase)) + DSVariablePoolNumberOfVariables(DSCaseXd(aCase))) {
+                glp_simplex(linearProblem, NULL);
                 if (strict == true) {
                         if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS)
                                 isValid = true;

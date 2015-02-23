@@ -174,6 +174,9 @@ extern void DSCaseRemoveZeroBoundaries(DSCase *aCase)
         DSUInteger * zeroRows = NULL;
         DSUInteger i, j, numberOfZeroRows = 0, maxSize = 1000;
         DSMatrix *temp1, *temp2;
+        if (DSCaseU(aCase) == NULL || DSCaseZeta(aCase) == NULL) {
+                goto bail;
+        }
         temp1 = DSMatrixAppendMatrices(DSCaseU(aCase), DSCaseZeta(aCase), true);
         for (i = 0; i < DSMatrixRows(temp1); i++) {
                 for (j = 0; j < DSMatrixColumns(temp1); j++) {
@@ -190,6 +193,7 @@ extern void DSCaseRemoveZeroBoundaries(DSCase *aCase)
                                 zeroRows = DSSecureRealloc(&zeroRows, sizeof(DSUInteger)*maxSize);
                         }
                         zeroRows[numberOfZeroRows-1] = i;
+                        break;
                 }
         }
         if (numberOfZeroRows == 0) {

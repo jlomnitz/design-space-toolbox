@@ -137,7 +137,7 @@ struct  _DSDesignSpaceMessage
 {
   ProtobufCMessage base;
   DSGMASystemMessage *gma;
-  protobuf_c_boolean modifierflags;
+  int32_t modifierflags;
   int32_t numberofcases;
   size_t n_validcases;
   int32_t *validcases;

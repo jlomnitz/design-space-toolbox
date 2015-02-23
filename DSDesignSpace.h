@@ -71,8 +71,8 @@ extern void DSDesignSpaceSetCyclical(DSDesignSpace *ds, bool cyclical);
 #pragma mark - Getters -
 #endif
 
-extern bool DSDesignSpaceSerial(DSDesignSpace *ds);
-extern bool DSDesignSpaceCyclical(DSDesignSpace *ds);
+extern bool DSDesignSpaceSerial(const DSDesignSpace *ds);
+extern bool DSDesignSpaceCyclical(const DSDesignSpace *ds);
 
 
 extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds);

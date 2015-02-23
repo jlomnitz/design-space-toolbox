@@ -970,7 +970,7 @@ static const ProtobufCFieldDescriptor dsdesign_space_message__field_descriptors[
     "modifierFlags",
     2,
     PROTOBUF_C_LABEL_REQUIRED,
-    PROTOBUF_C_TYPE_BOOL,
+    PROTOBUF_C_TYPE_INT32,
     0,   /* quantifier_offset */
     offsetof(DSDesignSpaceMessage, modifierflags),
     NULL,

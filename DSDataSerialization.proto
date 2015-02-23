@@ -57,7 +57,7 @@ message DSGMASystemMessage {
 
 message DSDesignSpaceMessage {
         required DSGMASystemMessage gma = 1;
-        required bool modifierFlags = 2;
+        required int32 modifierFlags = 2;
         required int32 numberOfCases = 3;
         repeated int32 validCases = 4;
         optional DSMatrixMessage Cd = 5;

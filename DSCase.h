@@ -126,11 +126,13 @@ extern void DSCaseRemoveRedundantBoundaries(DSCase *aCase);
 extern const bool DSCaseConditionsAreValid(const DSCase *aCase);
 
 extern const bool DSCaseIsValid(const DSCase *aCase, const bool strict);
+extern const bool DSCaseIsConsistent(const DSCase *aCase);
 extern const bool DSCaseIsValidInStateSpace(const DSCase *aCase);
 extern const bool DSCaseIsValidAtPoint(const DSCase *aCase, const DSVariablePool * variablesToFix);
+extern const bool DSCaseIsConsistentAtPoint(const DSCase *aCase, const DSVariablePool * Xd_p, const DSVariablePool * Xi_p);
 extern const bool DSCaseIsValidInStateSpaceAtPoint(const DSCase *aCase, const DSVariablePool * Xd_p, const DSVariablePool * Xi_p);
 extern const bool DSCaseIsValidAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const bool strict);
-
+extern const bool DSCaseIsConsistentAtSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const bool strict);
 extern DSVertices * DSCaseVerticesForSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const DSUInteger numberOfVariables, const char ** variables);
 
 extern DSVertices * DSCaseBoundingRangeForVariableWithConstraints(const DSCase *aCase, const char * variable, DSVariablePool * lowerBounds, DSVariablePool * upperBounds);
