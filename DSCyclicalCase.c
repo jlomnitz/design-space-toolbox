@@ -209,7 +209,7 @@ extern DSCase * DSCyclicalCaseSubcaseWithCaseNumber(const DSCyclicalCase * cycli
                 goto bail;
         }
         aSubcase = DSDesignSpaceCaseWithCaseNumber(cyclicalCase->internalDesignspace, subcaseNumber);
-        DSCaseRemoveZeroBoundaries(aSubcase);
+//        DSCaseRemoveZeroBoundaries(aSubcase);
 bail:
         return aSubcase;
 }
