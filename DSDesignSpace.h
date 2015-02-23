@@ -39,8 +39,8 @@ __BEGIN_DECLS
 
 #define M_DS_DESIGN_SPACE_NULL              M_DS_NULL ": Design Space is NULL"
 
-#define DS_DESIGN_SPACE_FLAG_SERIAL          1
-#define DS_DESIGN_SPACE_FLAG_CYCLICAL        2
+#define DS_DESIGN_SPACE_FLAG_SERIAL          0x01
+#define DS_DESIGN_SPACE_FLAG_CYCLICAL        0x02
 
 
 #if defined (__APPLE__) && defined (__MACH__)
