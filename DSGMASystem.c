@@ -534,7 +534,7 @@ static void dsGMASystemCombineAllIdenticalTerms(DSGMASystem * gma, const DSUInte
         DSMatrix * positive, * negative;
         DSMatrix * temp, *nullspace, *c, *cp, *cn, *Gd, *Gi, *Hd, *Hi;
         double value;
-        if (*numberPositiveTerms == 1 || *numberNegativeTerms == 1)
+        if (*numberPositiveTerms == 1 && *numberNegativeTerms == 1)
                 goto bail;
 
         cp = (DSMatrix*)DSGMASystemAlpha(gma);
@@ -582,25 +582,32 @@ static void dsGMASystemCombineAllIdenticalTerms(DSGMASystem * gma, const DSUInte
                         DSMatrixSetDoubleValue(c, equationIndex, nIndices[0], value);
                 }
         }
-        pCount = DSMatrixColumns(DSGMAAlpha(gma));
-        nCount = DSMatrixColumns(DSGMABeta(gma));
+        cp = DSGMAAlpha(gma);
+        cn = DSGMABeta(gma);
+        pCount = DSMatrixColumns(cp);
+        nCount = DSMatrixColumns(cn);
+        for (i = 0; i < pCount; i++) {
+                DSMatrixSetDoubleValue(cp, equationIndex, i,
+                                       DSMatrixDoubleValue(c, equationIndex, i));
+        }
+        for (i = 0; i < nCount; i++) {
+                DSMatrixSetDoubleValue(cn, equationIndex, i,
+                                       fabs(DSMatrixDoubleValue(c, equationIndex, i+pCount)));
+        }
         for (i = 0; i < pCount; i++) {
                 j = 0;
-                if (DSMatrixDoubleValue(c, equationIndex, i) != 0.) {
+                if (DSMatrixDoubleValue(cp, equationIndex, i) != 0.) {
                         continue;
                 }
                 for (j = i+1; j < pCount; j++) {
-                        if (DSMatrixDoubleValue(c, equationIndex, j) != 0.)
+                        if (DSMatrixDoubleValue(cp, equationIndex, j) != 0.)
                                 break;
                 }
                 if (j == pCount)
                         break;
-                DSMatrixSetDoubleValue(DSGMAAlpha(gma), equationIndex, i,
-                                       DSMatrixDoubleValue(c, equationIndex, j));
-                DSMatrixSetDoubleValue(c, equationIndex, i,
-                                       DSMatrixDoubleValue(c, equationIndex, j));
-                DSMatrixSetDoubleValue(DSGMAAlpha(gma), equationIndex, j, 0.f);
-                DSMatrixSetDoubleValue(c, equationIndex, j, 0.f);
+                DSMatrixSetDoubleValue(cp, equationIndex, i,
+                                       DSMatrixDoubleValue(cp, equationIndex, j));
+                DSMatrixSetDoubleValue(cp, equationIndex, j, 0.f);
                 DSMatrixSwitchRows(Gd, i, j);
                 DSMatrixSwitchRows(Gi, i, j);
                 DSMatrixClearRow(Gd, j);
@@ -609,21 +616,18 @@ static void dsGMASystemCombineAllIdenticalTerms(DSGMASystem * gma, const DSUInte
         *numberPositiveTerms = i;
         for (i = 0; i < nCount; i++) {
                 j = 0;
-                if (DSMatrixDoubleValue(c, equationIndex, i+pCount) != 0.) {
+                if (DSMatrixDoubleValue(cn, equationIndex, i) != 0.) {
                         continue;
                 }
                 for (j = i+1; j < nCount; j++) {
-                        if (DSMatrixDoubleValue(c, equationIndex, j+pCount) != 0.)
+                        if (DSMatrixDoubleValue(cn, equationIndex, j) != 0.)
                                 break;
                 }
                 if (j == nCount)
                         break;
-                DSMatrixSetDoubleValue(DSGMABeta(gma), equationIndex, i,
-                                       fabs(DSMatrixDoubleValue(c, equationIndex, j+pCount)));
-                DSMatrixSetDoubleValue(c, equationIndex, i+pCount,
-                                       DSMatrixDoubleValue(c, equationIndex, j+pCount));
-                DSMatrixSetDoubleValue(DSGMABeta(gma), equationIndex, j, 0.f);
-                DSMatrixSetDoubleValue(c, equationIndex, j+pCount, 0.f);
+                DSMatrixSetDoubleValue(cn, equationIndex, i,
+                                       DSMatrixDoubleValue(cn, equationIndex, j));
+                DSMatrixSetDoubleValue(cn, equationIndex, j, 0.f);
                 DSMatrixSwitchRows(Hd, i, j);
                 DSMatrixSwitchRows(Hi, i, j);
                 DSMatrixClearRow(Hd, j);
@@ -635,6 +639,7 @@ static void dsGMASystemCombineAllIdenticalTerms(DSGMASystem * gma, const DSUInte
         DSSecureFree(pIndices);
         DSSecureFree(nIndices);
 bail:
+        
         return;
 }
 
