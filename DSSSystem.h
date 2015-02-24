@@ -145,6 +145,7 @@ extern const bool DSSSystemIsSingular(const DSSSystem *ssys);
 #pragma mark - Utility functions
 #endif
 
+extern void DSSSystemRecalculateSolution(DSSSystem * ssys);
 extern void DSSSystemPrint(const DSSSystem * ssys);
 extern void DSSSystemPrintEquations(const DSSSystem *ssys);
 extern void DSSSystemPrintSolution(const DSSSystem *ssys);

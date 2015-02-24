@@ -405,12 +405,26 @@ static void dsSSystemSolveEquations(DSSSystem *ssys)
         DSSSysIsSingular(ssys) = true;
         Ad = DSMatrixBySubstractingMatrix(DSSSysGd(ssys), DSSSysHd(ssys));
         M = DSMatrixInverse(Ad);
-        DSSSysIsSingular(ssys) = true;
         if (M != NULL) {
                 DSSSysIsSingular(ssys) = false;
                 DSSSysM(ssys) = M;
         }
         DSMatrixFree(Ad);
+bail:
+        return;
+}
+
+extern void DSSSystemRecalculateSolution(DSSSystem * ssys)
+{
+        if (ssys == NULL) {
+                DSError(M_DS_NULL ": S-System being modified is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSysM(ssys) != NULL) {
+                DSMatrixFree(DSSSysM(ssys));
+                DSSSysM(ssys) = NULL;
+                dsSSystemSolveEquations(ssys);
+        }
 bail:
         return;
 }

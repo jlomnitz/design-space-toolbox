@@ -526,6 +526,118 @@ bail:
         return count;
 }
 
+static void dsGMASystemCombineAllIdenticalTerms(DSGMASystem * gma, const DSUInteger equationIndex,  DSUInteger * numberPositiveTerms, DSUInteger * numberNegativeTerms)
+{
+        DSUInteger i, j, pCount, nCount;
+        DSUInteger * pIndices, *nIndices;
+        bool found = false;
+        DSMatrix * positive, * negative;
+        DSMatrix * temp, *nullspace, *c, *cp, *cn, *Gd, *Gi, *Hd, *Hi;
+        double value;
+        if (*numberPositiveTerms == 1 || *numberNegativeTerms == 1)
+                goto bail;
+
+        cp = (DSMatrix*)DSGMASystemAlpha(gma);
+        Gd = DSMatrixArrayMatrix(DSGMASystemGd(gma), equationIndex);
+        Gi = DSMatrixArrayMatrix(DSGMASystemGi(gma), equationIndex);
+        positive = DSMatrixAppendMatrices(Gd, Gi, true);
+        cn = DSMatrixCopy(DSGMASystemBeta(gma));
+        DSMatrixMultiplyByScalar(cn, -1.);
+        Hd = DSMatrixArrayMatrix(DSGMASystemHd(gma), equationIndex);
+        Hi = DSMatrixArrayMatrix(DSGMASystemHi(gma), equationIndex);
+        negative = DSMatrixAppendMatrices(Hd, Hi, true);
+        temp = DSMatrixAppendMatrices(positive,
+                                      negative,
+                                      false);
+        c = DSMatrixAppendMatrices(cp, cn, true);
+        nullspace = DSMatrixIdenticalRows(temp);
+        DSMatrixFree(positive);
+        DSMatrixFree(negative);
+        DSMatrixFree(temp);
+        DSMatrixFree(cn);
+        if (nullspace == NULL) {
+                goto bail;
+        }
+        pIndices = DSSecureCalloc(sizeof(DSUInteger), *numberPositiveTerms+*numberNegativeTerms);
+        nIndices = DSSecureCalloc(sizeof(DSUInteger), *numberPositiveTerms+*numberNegativeTerms);
+        for (i = 0; i < DSMatrixColumns(nullspace); i++) {
+                found = false;
+                value = 0;
+                pCount = 0;
+                nCount = 0;
+                for (j = 0; j < *numberPositiveTerms+*numberNegativeTerms; j++) {
+                        if (DSMatrixDoubleValue(nullspace, j, i) < 1e-14) {
+                                continue;
+                        }
+                        value += DSMatrixDoubleValue(c, equationIndex, j);
+                        DSMatrixSetDoubleValue(c, equationIndex, j, 0.0f);
+                        if (j < *numberPositiveTerms)
+                                pIndices[pCount++] = j;
+                        else
+                                nIndices[nCount++] = j;
+                }
+                if (value > 0.0) {
+                        DSMatrixSetDoubleValue(c, equationIndex, pIndices[0], value);
+                } else if (value < 0.0) {
+                        DSMatrixSetDoubleValue(c, equationIndex, nIndices[0], value);
+                }
+        }
+        pCount = DSMatrixColumns(DSGMAAlpha(gma));
+        nCount = DSMatrixColumns(DSGMABeta(gma));
+        for (i = 0; i < pCount; i++) {
+                j = 0;
+                if (DSMatrixDoubleValue(c, equationIndex, i) != 0.) {
+                        continue;
+                }
+                for (j = i+1; j < pCount; j++) {
+                        if (DSMatrixDoubleValue(c, equationIndex, j) != 0.)
+                                break;
+                }
+                if (j == pCount)
+                        break;
+                DSMatrixSetDoubleValue(DSGMAAlpha(gma), equationIndex, i,
+                                       DSMatrixDoubleValue(c, equationIndex, j));
+                DSMatrixSetDoubleValue(c, equationIndex, i,
+                                       DSMatrixDoubleValue(c, equationIndex, j));
+                DSMatrixSetDoubleValue(DSGMAAlpha(gma), equationIndex, j, 0.f);
+                DSMatrixSetDoubleValue(c, equationIndex, j, 0.f);
+                DSMatrixSwitchRows(Gd, i, j);
+                DSMatrixSwitchRows(Gi, i, j);
+                DSMatrixClearRow(Gd, j);
+                DSMatrixClearRow(Gi, j);
+        }
+        *numberPositiveTerms = i;
+        for (i = 0; i < nCount; i++) {
+                j = 0;
+                if (DSMatrixDoubleValue(c, equationIndex, i+pCount) != 0.) {
+                        continue;
+                }
+                for (j = i+1; j < nCount; j++) {
+                        if (DSMatrixDoubleValue(c, equationIndex, j+pCount) != 0.)
+                                break;
+                }
+                if (j == nCount)
+                        break;
+                DSMatrixSetDoubleValue(DSGMABeta(gma), equationIndex, i,
+                                       fabs(DSMatrixDoubleValue(c, equationIndex, j+pCount)));
+                DSMatrixSetDoubleValue(c, equationIndex, i+pCount,
+                                       DSMatrixDoubleValue(c, equationIndex, j+pCount));
+                DSMatrixSetDoubleValue(DSGMABeta(gma), equationIndex, j, 0.f);
+                DSMatrixSetDoubleValue(c, equationIndex, j+pCount, 0.f);
+                DSMatrixSwitchRows(Hd, i, j);
+                DSMatrixSwitchRows(Hi, i, j);
+                DSMatrixClearRow(Hd, j);
+                DSMatrixClearRow(Hi, j);
+        }
+        *numberNegativeTerms = i;
+        DSMatrixFree(c);
+        DSMatrixFree(nullspace);
+        DSSecureFree(pIndices);
+        DSSecureFree(nIndices);
+bail:
+        return;
+}
+
 static void dsGMASystemCreateSystemMatrices(DSGMASystem *gma, gma_parseraux_t **aux)
 {
         gma_parseraux_t *current;
@@ -571,8 +683,9 @@ static void dsGMASystemCreateSystemMatrices(DSGMASystem *gma, gma_parseraux_t **
                         }
                         current = DSGMAParserAuxNextNode(current);
                 }
-                p = dsGMASystemCombineIdenticalTerms(gma, i, p, true);
-                n = dsGMASystemCombineIdenticalTerms(gma, i, n, false);
+                dsGMASystemCombineAllIdenticalTerms(gma, i, &p, &n);
+//                p = dsGMASystemCombineIdenticalTerms(gma, i, p, true);
+//                n = dsGMASystemCombineIdenticalTerms(gma, i, n, false);
                 DSGMASignature(gma)[2*i] = p;
                 DSGMASignature(gma)[2*i+1] = n;
         }

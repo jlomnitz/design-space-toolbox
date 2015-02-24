@@ -113,6 +113,7 @@ extern const DSVariablePool * DSCaseXi(const DSCase * aCase);
 #pragma mark - Utility functions
 #endif
 
+extern void DSCaseRecalculateBoundaryMatrices(DSCase *aCase);
 extern DSMatrix * DSCaseDoubleValueBoundariesAtPoint(const DSCase * aCase, const DSVariablePool * point);
 extern void DSCaseAddConstraints(DSCase * aCase, const char ** strings, DSUInteger numberOfConstraints);
 

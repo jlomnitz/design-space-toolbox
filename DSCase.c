@@ -250,6 +250,33 @@ bail:
         return;
 }
 
+extern void DSCaseRecalculateBoundaryMatrices(DSCase *aCase)
+{
+        DSMatrix * U, *zeta;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemHasSolution(DSCaseSSys(aCase)) == false) {
+                goto bail;
+        }
+        if (DSCaseCd(aCase) == NULL) {
+                goto bail;
+        }
+        U = DSCaseU(aCase);
+        zeta = DSCaseZeta(aCase);
+        if (U != NULL) {
+                DSMatrixFree(U);
+                DSMatrixFree(zeta);
+                DSCaseU(aCase) = NULL;
+                DSCaseZeta(aCase) = NULL;
+                dsCaseCreateBoundaryMatrices(aCase);
+        }
+bail:
+        return;
+}
+
+
 static void dsCaseCreateConditionMatrices(DSCase *aCase, const DSGMASystem * gma)
 {
         DSUInteger i, j, k, l, numberOfConditions, numberOfEquations;
@@ -464,7 +491,6 @@ extern DSCase * DSCaseWithTermsFromDesignSpace(const DSDesignSpace * ds, const D
         if (i == 2*numberOfEquations) {
                 dsCaseCreateConditionMatrices(aCase, DSDesignSpaceGMASystem(ds));
                 dsCaseAppendDesignSpaceConditions(aCase, ds);
-                /* Load extra conditions here */
                 dsCaseCreateBoundaryMatrices(aCase);
                 dsCaseCalculateCaseNumber(aCase, DSDesignSpaceGMASystem(ds), endian);
                 dsCaseCalculateCaseIdentifier(aCase, DSDesignSpaceGMASystem(ds), endian, DSDesignSpaceCasePrefix(ds));

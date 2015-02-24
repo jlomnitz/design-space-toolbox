@@ -2092,6 +2092,7 @@ bail:
         return extensionData;
 }
 
+
 DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
                                               const DSDesignSpace * original,
                                               DSMatrix * problematicEquations,
@@ -2131,7 +2132,6 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
         collapsed->casePrefix = strdup(DSCaseIdentifier(aCase));
         DSDesignSpaceSetSerial(collapsed, true);
         DSDesignSpaceSetCyclical(collapsed, true);
-//        collapsed->seriesCalculations = true;
         collapsed->extensionData = extensionData;
         DSDesignSpaceCalculateCyclicalCases(collapsed);
         for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {

@@ -361,9 +361,120 @@ bail:
         return string;
 }
 
+extern DSUInteger * DSCaseIndexOfZeroBoundaries(const DSCase * aCase, DSUInteger * numberOfZeros) {
+        DSUInteger * zeroBoundaries = NULL;
+        DSUInteger i, j;
+        DSMatrix * temp1;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (numberOfZeros == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        *numberOfZeros = 0;
+        if (DSCaseHasSolution(aCase) == false) {
+                goto bail;
+        }
+        zeroBoundaries = DSSecureMalloc(sizeof(DSUInteger)*DSCaseNumberOfBoundaries(aCase));
+        temp1 = DSMatrixAppendMatrices(DSCaseU(aCase), DSCaseZeta(aCase), true);
+        for (i = 0; i < DSMatrixRows(temp1); i++) {
+                for (j = 0; j < DSMatrixColumns(temp1); j++) {
+                        if (DSMatrixDoubleValue(temp1, i, j) != 0.0)
+                                break;
+                }
+                if (j == DSMatrixColumns(temp1)) {
+                        zeroBoundaries[(*numberOfZeros)++] = i;
+//                        DSMatrixSetDoubleValue(DSCaseZeta(aCase), i, 0, DSMatrixDoubleValue(DSCaseZeta(aCase), i, 0)+1);
+                }
+        }
+bail:
+        return zeroBoundaries;
+}
+
+static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace * ds, const DSCase * aCase)
+{
+        DSCase * newCase = NULL;
+        DSUInteger * zeroBoundaries = NULL;
+        const DSUInteger * signature;
+        DSUInteger i, j, k, start, current, numberZeroBoundaries;
+        DSMatrix *coefficient;
+        double value, factor;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        newCase = (DSCase *)aCase;
+        if (DSCaseHasSolution(aCase) == false) {
+                goto bail;
+        }
+        zeroBoundaries = DSCaseIndexOfZeroBoundaries(aCase, &numberZeroBoundaries);
+        if (zeroBoundaries == NULL || numberZeroBoundaries == 0) {
+                goto bail;
+        }
+        newCase = DSCaseCopy(aCase);
+        signature = DSDesignSpaceSignature(ds);
+        for (i = 0; i < numberZeroBoundaries; i++) {
+                current = zeroBoundaries[i];
+                start = 0;
+                factor = 2.;
+                for (j = 0; j < 2*DSDesignSpaceNumberOfEquations(ds); j++) {
+                        if (current < signature[j]-1)
+                              break;
+                        start += signature[j]-1;
+                        current -= signature[j]-1;
+                }
+                if (j >= 2*DSDesignSpaceNumberOfEquations(ds)) {
+                        DSCaseFree(newCase);
+                        newCase = NULL;
+                        break;
+                }
+//                if (current < DSCaseSignature(aCase)[j]) {
+//                        DSCaseFree(newCase);
+//                        newCase = NULL;
+//                        break;
+//
+//                }
+                if (j % 2 == 0) {
+                        factor = 2.;
+                        coefficient = (DSMatrix *)DSSSystemAlpha(DSCaseSSystem(newCase));
+                } else {
+                        factor = 2.;
+                        coefficient = (DSMatrix *)DSSSystemBeta(DSCaseSSystem(newCase));
+                }
+                value = DSMatrixDoubleValue(coefficient, j/2, 0);
+                DSMatrixSetDoubleValue(coefficient, j/2, 0, value*factor);
+                factor = 2.;
+                for (k = 0; k < signature[j]-1; k++) {
+                        value = DSMatrixDoubleValue(DSCaseDelta(newCase), start+k, 0);
+                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), start+k, 0, value*factor);
+                }
+                
+        }
+        if (newCase != NULL) {
+//                printf("Old [%lf]:\n", factor);
+//                DSCasePrintBoundaries(newCase);
+                DSCaseRecalculateBoundaryMatrices(newCase);
+//                printf("New:\n");
+//                DSCasePrintBoundaries(newCase);
+        }
+bail:
+        if (zeroBoundaries != NULL)
+                DSSecureFree(zeroBoundaries);
+        if (newCase == NULL)
+                newCase = (DSCase *)aCase;
+        return newCase;
+}
+
 extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const DSUInteger caseNumber)
 {
         DSCase * aCase = NULL;
+//        DSCase * processedCase;
         DSUInteger * terms = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
@@ -385,6 +496,11 @@ extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const 
         if (terms != NULL) {
                 aCase = DSCaseWithTermsFromDesignSpace(ds, terms, DSDesignSpaceCasePrefix(ds));
                 DSSecureFree(terms);
+//                processedCase = dsDesignSpaceCaseByRemovingIdenticalFluxes(ds, aCase);
+//                if (processedCase != aCase) {
+//                        DSCaseFree(aCase);
+//                        aCase = processedCase;
+//                }
         }
 bail:
         return aCase;
