@@ -395,7 +395,7 @@ bail:
 
 static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace * ds, const DSCase * aCase)
 {
-        DSCase * newCase = NULL;
+        DSCase * newCase = NULL, * altCase=NULL;
         DSUInteger * zeroBoundaries = NULL;
         const DSUInteger * signature;
         DSUInteger i, j, k, start, current, numberZeroBoundaries;
@@ -434,12 +434,12 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
                         newCase = NULL;
                         break;
                 }
-//                if (current < DSCaseSignature(aCase)[j]) {
-//                        DSCaseFree(newCase);
-//                        newCase = NULL;
-//                        break;
-//
-//                }
+                if (current >= DSCaseSignature(aCase)[j]) {
+                        DSCaseFree(newCase);
+                        newCase = NULL;
+                        break;
+
+                }
                 if (j % 2 == 0) {
                         factor = 2.;
                         coefficient = (DSMatrix *)DSSSystemAlpha(DSCaseSSystem(newCase));
@@ -457,9 +457,14 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
                 
         }
         if (newCase != NULL) {
-//                printf("Old [%lf]:\n", factor);
+//                printf("Old [%lf] [%i]:\n", factor, j);
 //                DSCasePrintBoundaries(newCase);
                 DSCaseRecalculateBoundaryMatrices(newCase);
+//                altCase = dsDesignSpaceCaseByRemovingIdenticalFluxes(ds, newCase);
+//                if (altCase != newCase) {
+//                        DSSecureFree(newCase);
+//                        newCase = altCase;
+//                }
 //                printf("New:\n");
 //                DSCasePrintBoundaries(newCase);
         }

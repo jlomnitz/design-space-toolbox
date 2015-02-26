@@ -2251,13 +2251,7 @@ extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase *
                 DSError(M_DS_WRONG ": Number of equation in design space must match number of equations in case", A_DS_ERROR);
                 goto bail;
         }
-        if (DSCaseNumber(aCase) == 840) {
-                printf("Testing cycles...\n");
-        }
         problematicEquations = dsSubcaseProblematicEquations(aCase);
-        if (DSCaseNumber(aCase) == 840) {
-                DSMatrixPrint(problematicEquations);
-        }
         if (problematicEquations == NULL)
                 goto bail;
         problematicTerms = dsSubcaseProblematicTerms(aCase, problematicEquations);
@@ -2267,10 +2261,6 @@ extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase *
         if (problematicTerms == NULL)
                 goto bail;
         coefficientArray = dsSubcaseCoefficientsOfInterest(aCase, problematicTerms);
-        if (DSCaseNumber(aCase) == 840) {
-                printf("coeff (%i):\n", DSMatrixArrayNumberOfMatrices(coefficientArray));
-                DSMatrixArrayPrint(coefficientArray);
-        }
         if (coefficientArray == NULL)
                 goto bail;
         if (DSMatrixArrayNumberOfMatrices(problematicTerms) != DSMatrixArrayNumberOfMatrices(coefficientArray))
