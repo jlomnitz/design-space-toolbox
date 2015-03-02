@@ -1347,6 +1347,7 @@ extern DSExpression * DSExpressionFromPowerlawInMatrixForm(const DSUInteger row,
         DSUInteger i;
         DSExpression * expression = NULL;
         char * name, *string = NULL, *temp;
+        double value;
         string = DSSecureCalloc(sizeof(char), 100);
         temp = string;
         asprintf(&string, "%lf", DSMatrixDoubleValue(C, row, 0));
@@ -1355,20 +1356,30 @@ extern DSExpression * DSExpressionFromPowerlawInMatrixForm(const DSUInteger row,
                 temp = string;
         }
         for (i = 0; i < DSVariablePoolNumberOfVariables(Xd); i++) {
-                if (DSMatrixDoubleValue(Kd, row, i) == 0.0f)
+                value = DSMatrixDoubleValue(Kd, row, i);
+                if (value == 0.0)
                         continue;
                 name = DSVariableName(DSVariablePoolVariableAtIndex(Xd, i));
-                asprintf(&string, "%s*%s^%lf", string, name, DSMatrixDoubleValue(Kd, row, i));
+                if (value == 1.) {
+                        asprintf(&string, "%s*%s", string, name);
+                } else {
+                        asprintf(&string, "%s*%s^%lf", string, name, value);
+                }
                 if (temp != string) {
                         DSSecureFree(temp);
                         temp = string;
                 }
         }
         for (i = 0; i < DSVariablePoolNumberOfVariables(Xi); i++) {
-                if (DSMatrixDoubleValue(Ki, row, i) == 0.0f)
+                value = DSMatrixDoubleValue(Ki, row, i);
+                if (value == 0.0f)
                         continue;
                 name = DSVariableName(DSVariablePoolVariableAtIndex(Xi, i));
-                asprintf(&string, "%s*%s^%lf", string, name, DSMatrixDoubleValue(Ki, row, i));
+                if (value == 1.) {
+                        asprintf(&string, "%s*%s", string, name);
+                } else {
+                        asprintf(&string, "%s*%s^%lf", string, name, value);
+                }
                 if (temp != string) {
                         DSSecureFree(temp);
                         temp = string;
