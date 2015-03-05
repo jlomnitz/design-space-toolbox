@@ -424,6 +424,8 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
                 start = 0;
                 factor = 2.;
                 for (j = 0; j < 2*DSDesignSpaceNumberOfEquations(ds); j++) {
+                        if (signature[j] == 1)
+                                continue;
                         if (current < signature[j]-1)
                               break;
                         start += signature[j]-1;
@@ -434,7 +436,7 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
                         newCase = NULL;
                         break;
                 }
-                if (current >= DSCaseSignature(aCase)[j]) {
+                if (current >= DSCaseSignature(aCase)[j]-1) {
                         DSCaseFree(newCase);
                         newCase = NULL;
                         break;
@@ -452,7 +454,7 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
                 factor = 2.;
                 for (k = 0; k < signature[j]-1; k++) {
                         value = DSMatrixDoubleValue(DSCaseDelta(newCase), start+k, 0);
-                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), start+k, 0, value*factor);
+                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), start+k, 0, value+log10(factor));
                 }
                 
         }
@@ -479,7 +481,7 @@ bail:
 extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const DSUInteger caseNumber)
 {
         DSCase * aCase = NULL;
-//        DSCase * processedCase;
+        DSCase * processedCase;
         DSUInteger * terms = NULL;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
@@ -501,10 +503,12 @@ extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const 
         if (terms != NULL) {
                 aCase = DSCaseWithTermsFromDesignSpace(ds, terms, DSDesignSpaceCasePrefix(ds));
                 DSSecureFree(terms);
-//                processedCase = dsDesignSpaceCaseByRemovingIdenticalFluxes(ds, aCase);
-//                if (processedCase != aCase) {
-//                        DSCaseFree(aCase);
-//                        aCase = processedCase;
+//                if (DSDesignSpaceCyclical(ds) == false) {
+//                        processedCase = dsDesignSpaceCaseByRemovingIdenticalFluxes(ds, aCase);
+//                        if (processedCase != aCase) {
+//                                DSCaseFree(aCase);
+//                                aCase = processedCase;
+//                        }
 //                }
         }
 bail:

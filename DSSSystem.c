@@ -2241,8 +2241,6 @@ extern DSMatrix * DSSSystemRouthArrayForSteadyState(const DSSSystem *ssys,
                 DSError(M_DS_VAR_NULL ": Xi0 variable pool is NULL", A_DS_ERROR);
                 goto bail;
         }
-//        if (DSSSystemHasSolution(ssys) == false)
-//                goto bail;
         steadyState = DSVariablePoolValuesAsVector(Xd0, false);
         flux = DSSSystemSteadyStateFluxForDependentVariables(ssys, Xd0, Xi0);
         F = DSMatrixIdentity(DSMatrixRows(flux));
@@ -2610,6 +2608,215 @@ bail:
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
 #endif
+
+static void dsSSystemPartitionSolutionMatrices(const DSSSystem * ssystem,
+                                               const DSUInteger numberOfVariables,
+                                               const DSUInteger * variablesToPartition,
+                                               DSMatrix ** ADn,
+                                               DSMatrix ** ADp,
+                                               DSMatrix ** AIn,
+                                               DSMatrix ** Bn,
+                                               DSVariablePool ** yn,
+                                               DSVariablePool ** yp)
+{
+        DSMatrix * tempMatrix, *Ad, *Ai, *B;
+        DSUInteger i;
+        char * name;
+        if (ADn == NULL || ADp == NULL || AIn == NULL || Bn == NULL) {
+                DSError(M_DS_NULL ": Matrix pointers to hold partitioned matrices cannot be null", A_DS_ERROR);
+                goto bail;
+        }
+        *ADn = NULL;
+        *ADp = NULL;
+        *AIn = NULL;
+        *Bn = NULL;
+        if (ssystem == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (variablesToPartition == NULL) {
+                goto bail;
+        }
+        Ad = DSSSystemAd(ssystem);
+        Ai = DSSSystemAi(ssystem);
+        B = DSSSystemB(ssystem);
+        tempMatrix = DSMatrixSubMatrixIncludingRows(Ad, numberOfVariables, variablesToPartition);
+        *ADp = DSMatrixSubMatrixExcludingColumns(tempMatrix, numberOfVariables, variablesToPartition);
+        *ADn = DSMatrixSubMatrixIncludingColumns(tempMatrix, numberOfVariables, variablesToPartition);
+        DSMatrixFree(tempMatrix);
+        *AIn = DSMatrixSubMatrixIncludingRows(Ai, numberOfVariables, variablesToPartition);
+        *Bn = DSMatrixSubMatrixIncludingRows(B, numberOfVariables, variablesToPartition);
+        *yn = DSVariablePoolAlloc();
+        *yp = DSVariablePoolAlloc();
+        DSMatrixFree(Ad);
+        DSMatrixFree(Ai);
+        DSMatrixFree(B);
+        for (i = 0; i < numberOfVariables; i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssystem), variablesToPartition[i]));
+                DSVariablePoolAddVariableWithName(*yn, name);
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSystemXd(ssystem)); i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSystemXd(ssystem), i));
+                if (DSVariablePoolHasVariableWithName(*yn, name) == false) {
+                        DSVariablePoolAddVariableWithName(*yp, name);
+                }
+        }
+bail:
+        return;
+}
+
+
+static void dsSSystemSolutionOfPartitionedMatrices(const DSSSystem * ssystem,
+                                                   const DSUInteger numberOfVariables,
+                                                   const DSUInteger * partitionVariables,
+                                                   DSMatrix ** LI,
+                                                   DSMatrix **Lp,
+                                                   DSMatrix **MBn,
+                                                   DSVariablePool ** yn,
+                                                   DSVariablePool ** yp)
+{
+        DSMatrix *ADn = NULL, * AIn = NULL, * ADp = NULL, * Bn = NULL, * Mn = NULL;
+        if (LI == NULL || Lp == NULL || MBn == NULL) {
+                DSError(M_DS_NULL ": Matrix pointers to hold partitioned matrices cannot be null", A_DS_ERROR);
+                goto bail;
+        }
+        *LI = NULL;
+        *Lp = NULL;
+        *MBn = NULL;
+        if (ssystem == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (partitionVariables == NULL) {
+                goto bail;
+        }
+        dsSSystemPartitionSolutionMatrices(ssystem, numberOfVariables, partitionVariables, &ADn, &ADp, &AIn, &Bn, yn, yp);
+        if (ADn == NULL || ADp == NULL || AIn == NULL || Bn == NULL) {
+                goto bail;
+        }
+        Mn = DSMatrixInverse(ADn);
+        if (Mn == NULL) {
+                goto bail;
+        }
+        *LI = DSMatrixByMultiplyingMatrix(Mn, AIn);
+        *Lp = DSMatrixByMultiplyingMatrix(Mn, ADp);
+        *MBn = DSMatrixByMultiplyingMatrix(Mn, Bn);
+bail:
+        if (ADn != NULL)
+                DSMatrixFree(ADn);
+        if (ADp != NULL)
+                DSMatrixFree(ADp);
+        if (AIn != NULL)
+                DSMatrixFree(AIn);
+        if (Bn != NULL)
+                DSMatrixFree(Bn);
+        if (Mn != NULL)
+                DSMatrixFree(Mn);
+        return;
+}
+
+static DSSSystem * dsSSystemForQuasiSteadyState(const DSSSystem * ssystem, DSUInteger numberOfVariables, const char ** variableNames)
+{
+        DSSSystem * newSSystem = NULL;
+        DSMatrix *AD, * Gdp, *Gdn, * Hdp, *Hdn, *Gip, *Hip, * LI, *Lp, *MBn, *alpha, *beta, * tempMatrix;
+        DSUInteger *variablesToPartition = NULL;
+        DSVariablePool *yn, * Xd, *Xd_t, *Xd_a;
+        DSUInteger i;
+        char * name;
+        if (ssystem == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (numberOfVariables == 0) {
+                DSError(M_DS_WRONG, A_DS_ERROR);
+                goto bail;
+        }
+        if (variableNames == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        variablesToPartition = DSSecureMalloc(sizeof(DSUInteger)*numberOfVariables);
+        Xd_t = DSVariablePoolAlloc();
+        Xd_a = DSVariablePoolAlloc();
+        for (i = 0; i < numberOfVariables; i++) {
+                variablesToPartition[i] = DSVariablePoolIndexOfVariableWithName(DSSSystemXd(ssystem), variableNames[i]);
+        }
+        AD = DSSSystemAd(ssystem);
+        Gdp = DSMatrixSubMatrixExcludingRowsAndColumns(DSSSystemGd(ssystem), numberOfVariables, numberOfVariables, variablesToPartition, variablesToPartition);
+        Hdp = DSMatrixSubMatrixExcludingRowsAndColumns(DSSSystemHd(ssystem), numberOfVariables, numberOfVariables, variablesToPartition, variablesToPartition);
+        tempMatrix = DSMatrixSubMatrixExcludingRows(DSSSystemGd(ssystem), numberOfVariables, variablesToPartition);
+        Gdn = DSMatrixSubMatrixIncludingColumns(tempMatrix, numberOfVariables, variablesToPartition);
+        DSMatrixFree(tempMatrix);
+        tempMatrix = DSMatrixSubMatrixExcludingRows(DSSSystemHd(ssystem), numberOfVariables, variablesToPartition);
+        Hdn = DSMatrixSubMatrixIncludingColumns(tempMatrix, numberOfVariables, variablesToPartition);
+        DSMatrixFree(tempMatrix);
+        Gip = DSMatrixSubMatrixExcludingRows(DSSSystemGi(ssystem), numberOfVariables, variablesToPartition);
+        Hip = DSMatrixSubMatrixExcludingRows(DSSSystemHi(ssystem), numberOfVariables, variablesToPartition);
+        alpha = DSMatrixSubMatrixExcludingRows(DSSSystemAlpha(ssystem), numberOfVariables, variablesToPartition);
+        beta = DSMatrixSubMatrixExcludingRows(DSSSystemBeta(ssystem), numberOfVariables, variablesToPartition);
+        dsSSystemSolutionOfPartitionedMatrices(ssystem, numberOfVariables, variablesToPartition, &LI, &Lp, &MBn, &yn, &Xd);
+        tempMatrix = DSMatrixByMultiplyingMatrix(Gdn, Lp);
+        DSMatrixSubstractByMatrix(Gdp, tempMatrix);
+        DSMatrixFree(tempMatrix);
+        tempMatrix = DSMatrixByMultiplyingMatrix(Hdn, Lp);
+        DSMatrixSubstractByMatrix(Hdp, tempMatrix);
+        DSMatrixFree(tempMatrix);
+        tempMatrix = DSMatrixByMultiplyingMatrix(Gdn, LI);
+        DSMatrixSubstractByMatrix(Gip, tempMatrix);
+        DSMatrixFree(tempMatrix);
+        tempMatrix = DSMatrixByMultiplyingMatrix(Hdn, LI);
+        DSMatrixSubstractByMatrix(Hip, tempMatrix);
+        DSMatrixFree(tempMatrix);
+        tempMatrix = DSMatrixByMultiplyingMatrix(Gdn, MBn);
+        for (i = 0; i < DSMatrixRows(tempMatrix); i++) {
+                DSMatrixSetDoubleValue(tempMatrix, i, 0, pow(10., DSMatrixDoubleValue(tempMatrix, i, 0)));
+        }
+        DSMatrixAddByMatrix(alpha, tempMatrix);
+        DSMatrixFree(tempMatrix);
+        tempMatrix = DSMatrixByMultiplyingMatrix(Hdn, MBn);
+        for (i = 0; i < DSMatrixRows(tempMatrix); i++) {
+                DSMatrixSetDoubleValue(tempMatrix, i, 0, pow(10., DSMatrixDoubleValue(tempMatrix, i, 0)));
+        }
+        DSMatrixAddByMatrix(beta, tempMatrix);
+        DSMatrixFree(tempMatrix);
+        newSSystem = DSSSystemAlloc();
+        DSSSysAlpha(newSSystem) = alpha;
+        DSSSysGd(newSSystem) = Gdp;
+        DSSSysGi(newSSystem) = Gip;
+        DSSSysBeta(newSSystem) = beta;
+        DSSSysHd(newSSystem) = Hdp;
+        DSSSysHi(newSSystem) = Hip;
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSysXd_t(ssystem)); i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSysXd_t(ssystem), i));
+                if (DSVariablePoolHasVariableWithName(Xd, name) == true)
+                        DSVariablePoolAddVariableWithName(Xd_t, name);
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSSSysXd_a(ssystem)); i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(DSSSysXd_a(ssystem), i));
+                if (DSVariablePoolHasVariableWithName(Xd, name) == true)
+                        DSVariablePoolAddVariableWithName(Xd_a, name);
+        }
+        DSSSysXd_a(newSSystem) = Xd_a;
+        DSSSysXd_t(newSSystem) = Xd_t;
+        DSSSysXd(newSSystem) = Xd;
+        DSSSysXi(newSSystem) = DSVariablePoolCopy(DSSSysXi(ssystem));
+        dsSSystemSolveEquations(newSSystem);
+        DSMatrixFree(Gdn);
+        DSMatrixFree(Hdn);
+        DSMatrixFree(LI);
+        DSMatrixFree(Lp);
+        DSMatrixFree(MBn);
+        DSVariablePoolFree(yn);
+        DSSecureFree(variablesToPartition);
+        DSSSystemPrint(newSSystem);
+bail:
+        return newSSystem;
+}
+
+extern DSSSystem * DSSSystemWithQuasiSteadyStates(const DSSSystem * ssystem, DSUInteger numberOfVariables, const char ** variableNames)
+{
+        return dsSSystemForQuasiSteadyState(ssystem, numberOfVariables, variableNames);
+}
 
 extern void DSSSystemPrint(const DSSSystem * ssys)
 {

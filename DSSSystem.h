@@ -146,6 +146,7 @@ extern const bool DSSSystemIsSingular(const DSSSystem *ssys);
 #endif
 
 extern void DSSSystemRecalculateSolution(DSSSystem * ssys);
+extern DSSSystem * DSSSystemWithQuasiSteadyStates(const DSSSystem * ssystem, DSUInteger numberOfVariables, const char ** variableNames);
 extern void DSSSystemPrint(const DSSSystem * ssys);
 extern void DSSSystemPrintEquations(const DSSSystem *ssys);
 extern void DSSSystemPrintSolution(const DSSSystem *ssys);

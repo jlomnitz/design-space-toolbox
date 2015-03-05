@@ -2208,7 +2208,6 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
         if (systemEquations == NULL) {
                 goto bail;
         }
-        
         collapsed = DSDesignSpaceByParsingStringsWithXi(systemEquations,
                                                         DSGMASystemXd_a(DSDesignSpaceGMASystem(original)),
                                                         DSGMASystemXi(DSDesignSpaceGMASystem(original)),
@@ -2218,7 +2217,9 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
         DSDesignSpaceSetSerial(collapsed, true);
         DSDesignSpaceSetCyclical(collapsed, true);
         collapsed->extensionData = extensionData;
-        DSDesignSpaceCalculateCyclicalCases(collapsed);
+        if (DSDesignSpaceNumberOfCases(collapsed) != 0) {
+                DSDesignSpaceCalculateCyclicalCases(collapsed);
+        }
         for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
                 DSSecureFree(systemEquations[i]);
         }
