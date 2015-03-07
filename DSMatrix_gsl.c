@@ -1800,57 +1800,112 @@ bail:
         return nullspace;
 }
 
+//extern DSMatrix * DSMatrixIdenticalRows(const DSMatrix * matrix)
+//{
+//        DSMatrix *problematic = NULL;
+//        bool foundIdentity;
+//        DSMatrix *nullspace = NULL;
+//        DSUInteger i, j, k, identities;
+//        double lvalue, rvalue;
+//        if (matrix == NULL) {
+//                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+//                goto bail;
+//        }
+//        identities = 0;
+//        nullspace = DSMatrixCalloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
+//        for (i = 0; i < DSMatrixRows(matrix); i++) {
+//                for (k = 0; k < identities; k++) {
+//                        if (DSMatrixDoubleValue(nullspace, i, k) == 1.0f) {
+//                                break;
+//                        }
+//                }
+//                if (k != identities)
+//                        continue;
+//                foundIdentity = false;
+//                for (k = i+1; k < DSMatrixRows(matrix); k++) {
+//                        for (j = 0; j < DSMatrixColumns(matrix); j++) {
+//                                lvalue = DSMatrixDoubleValue(matrix, i, j);
+//                                rvalue = DSMatrixDoubleValue(matrix, k, j);
+//                                if (fabs(lvalue-rvalue) > 1e-14)
+//                                        break;
+//                        }
+//                        if (j == DSMatrixColumns(matrix)) {
+//                                DSMatrixSetDoubleValue(nullspace, i, identities, 1.0f);
+//                                DSMatrixSetDoubleValue(nullspace, k, identities, 1.0f);
+//                                foundIdentity = true;
+//                        }
+//                }
+//                if (foundIdentity)
+//                        identities++;
+//        }
+//        if (identities == 0) {
+//                goto bail;
+//        }
+//        problematic = DSMatrixCalloc(DSMatrixRows(matrix), identities);
+//        for (i = 0; i < DSMatrixRows(matrix); i++) {
+//                for (k = 0; k < identities; k++) {
+//                        DSMatrixSetDoubleValue(problematic, i, k, DSMatrixDoubleValue(nullspace, i, k));
+//                }
+//        }
+//bail:
+//        if (nullspace != NULL)
+//                DSMatrixFree(nullspace);
+//        return problematic;
+//}
+
 extern DSMatrix * DSMatrixIdenticalRows(const DSMatrix * matrix)
 {
-        DSMatrix *problematic = NULL;
-        bool foundIdentity;
-        DSMatrix *nullspace = NULL;
-        DSUInteger i, j, k, identities;
+        DSMatrix *identityMatrix = NULL, * current, * found;
+        bool foundIdentity, foundOne = false;
+        DSUInteger i, j, k, identities, * columns;
         double lvalue, rvalue;
         if (matrix == NULL) {
                 DSError(M_DS_MAT_NULL, A_DS_ERROR);
                 goto bail;
         }
         identities = 0;
-        nullspace = DSMatrixCalloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
+        found = DSMatrixCalloc(DSMatrixRows(matrix), 1);
+        current = DSMatrixCalloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
+        columns = DSSecureCalloc(sizeof(DSUInteger), DSMatrixColumns(matrix));
         for (i = 0; i < DSMatrixRows(matrix); i++) {
-                for (k = 0; k < identities; k++) {
-                        if (DSMatrixDoubleValue(nullspace, i, k) == 1.0f) {
-                                break;
-                        }
-                }
-                if (k != identities)
-                        continue;
-                foundIdentity = false;
-                for (k = i+1; k < DSMatrixRows(matrix); k++) {
-                        for (j = 0; j < DSMatrixColumns(matrix); j++) {
-                                lvalue = DSMatrixDoubleValue(matrix, i, j);
-                                rvalue = DSMatrixDoubleValue(matrix, k, j);
-                                if (fabs(lvalue-rvalue) > 1e-14)
+                foundOne = false;
+                for (j = i+1; j < DSMatrixRows(matrix); j++) {
+                        if (DSMatrixDoubleValue(found, j, 0) != 0.0)
+                                continue;
+                        foundIdentity = false;
+                        for (k = 0; k < DSMatrixColumns(matrix); k++) {
+                                lvalue = DSMatrixDoubleValue(matrix, i, k);
+                                rvalue = DSMatrixDoubleValue(matrix, j, k);
+                                if (fabs(lvalue-rvalue) > 1e-14) {
+                                        foundIdentity = false;
                                         break;
+                                } else if (fabs(rvalue) < 1e-10) {
+                                        continue;
+                                } else {
+                                        foundIdentity = true;
+                                }
                         }
-                        if (j == DSMatrixColumns(matrix)) {
-                                DSMatrixSetDoubleValue(nullspace, i, identities, 1.0f);
-                                DSMatrixSetDoubleValue(nullspace, k, identities, 1.0f);
-                                foundIdentity = true;
+                        if (foundIdentity == true) {
+                                DSMatrixSetDoubleValue(current, i, identities, 1.);
+                                DSMatrixSetDoubleValue(current, j, identities, 1.);
+                                DSMatrixSetDoubleValue(found, i, 0, 1.);
+                                DSMatrixSetDoubleValue(found, j, 0, 1.);
+                                foundOne = true;
                         }
                 }
-                if (foundIdentity)
+                if (foundOne == true) {
+                        columns[identities] = identities;
                         identities++;
-        }
-        if (identities == 0) {
-                goto bail;
-        }
-        problematic = DSMatrixCalloc(DSMatrixRows(matrix), identities);
-        for (i = 0; i < DSMatrixRows(matrix); i++) {
-                for (k = 0; k < identities; k++) {
-                        DSMatrixSetDoubleValue(problematic, i, k, DSMatrixDoubleValue(nullspace, i, k));
                 }
         }
+        if (identities > 0) {
+                identityMatrix = DSMatrixSubMatrixIncludingColumns(current, identities, columns);
+        }
+        DSMatrixFree(current);
+        DSSecureFree(columns);
+        DSMatrixFree(found);
 bail:
-        if (nullspace != NULL)
-                DSMatrixFree(nullspace);
-        return problematic;
+        return identityMatrix;
 }
 
 /**

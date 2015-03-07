@@ -75,6 +75,7 @@ extern DSDesignSpace * DSDesignSpaceAlloc(void)
         DSDesignSpace * ds = NULL;
         ds = DSSecureCalloc(sizeof(DSDesignSpace), 1);
         DSDSCyclical(ds) = DSDictionaryAlloc();
+//        DSDesignSpaceSetSerial(ds, true);
         return ds;
 }
 

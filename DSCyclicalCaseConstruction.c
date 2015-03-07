@@ -62,34 +62,45 @@ extern DSMatrix * dsSubcaseProblematicEquations(const DSCase * aCase)
                 DSMatrixPrint(A);
         }
         nullspace = DSMatrixLeftNullspace(A);
-        DSMatrixFree(A);
         if (nullspace == NULL)
                 goto bail;
-        isUnderdetermined = true;
-        problematic = DSMatrixCalloc(DSMatrixRows(nullspace), DSMatrixColumns(nullspace));
-        for (i = 0; i < DSMatrixColumns(nullspace); i++) {
-                firstValue = NAN;
-                for (j = 0; j < DSMatrixRows(nullspace); j++) {
-                        current = DSMatrixDoubleValue(nullspace, j, i);
-                        if (fabs(current) < 1E-14)
-                                continue;
-                        DSMatrixSetDoubleValue(problematic, j, i, 1.0);
-                        if (isnan(firstValue) == true) {
-                                firstValue = current;
-                        } else if (fabs(current - firstValue) >= 1E-14) {
-                                isUnderdetermined = false;
-                                break;
-                        }
-                }
-                if (j != DSMatrixRows(nullspace))
-                        break;
-        }
-        if (isUnderdetermined == false) {
-                DSMatrixFree(problematic);
-                problematic = NULL;
-        }
+        problematic = DSMatrixIdenticalRows(nullspace);
+//        isUnderdetermined = true;
+//        problematic = DSMatrixCalloc(DSMatrixRows(nullspace), DSMatrixColumns(nullspace));
+//        for (i = 0; i < DSMatrixColumns(nullspace); i++) {
+//                firstValue = NAN;
+//                for (j = 0; j < DSMatrixRows(nullspace); j++) {
+//                        current = DSMatrixDoubleValue(nullspace, j, i);
+//                        if (fabs(current) < 1E-14)
+//                                continue;
+//                        DSMatrixSetDoubleValue(problematic, j, i, 1.0);
+//                        if (isnan(firstValue) == true) {
+//                                firstValue = current;
+//                        } else if (fabs(current - firstValue) >= 1E-14) {
+//                                isUnderdetermined = false;
+//                                break;
+//                        }
+//                }
+//                if (j != DSMatrixRows(nullspace))
+//                        break;
+//        }
+//        
+//        if (isUnderdetermined == false) {
+//                DSMatrixFree(problematic);
+//                problematic = NULL;
+//        } else {
+//                printf("------ %i -------\n", DSCaseNumber(aCase));
+//                DSMatrixPrint(problematic);
+//                printf("\n");
+//                DSMatrixPrint(nullspace);
+//                printf("\n");
+//                DSMatrixPrint(DSMatrixIdenticalRows(nullspace));
+//                printf("=================\n");
+//        }
         DSMatrixFree(nullspace);
 bail:
+        if (A != NULL)
+                DSMatrixFree(A);
         return problematic;
 }
 
@@ -965,7 +976,7 @@ static DSUInteger dsCyclicalCasePrimaryCycleVariableIndices(const DSCase * aCase
                                                             DSUInteger ** primaryVariables)
 {
         DSUInteger numberOfCycles = 0, * cycleIndices;
-        DSUInteger i, j, k;
+        DSUInteger i, j, k, index;
         DSMatrix * Ad, *temp, *nullspace;
         double value, matrixValue;
         DSUInteger max;
@@ -1001,19 +1012,25 @@ static DSUInteger dsCyclicalCasePrimaryCycleVariableIndices(const DSCase * aCase
                 nullspace = DSMatrixRightNullspace(temp);
                 value = NAN;
                 max = 0;
-                value = 0;
-                for (j = 0; j < k; j++) {
+                index = 0;
+                for (j = 0; j < DSMatrixRows(nullspace); j++) {
                         matrixValue = fabs(DSMatrixDoubleValue(nullspace, j, 0));
-                        if (matrixValue == 0)
+                        if (matrixValue < 1e-14)
                                 continue;
                         if (isnan(value)) {
                                 max = j;
                                 value = matrixValue;
+//                                break;
                                 continue;
+                                
                         }
                         if (matrixValue < value) {
                                 value = matrixValue;
                                 max = j;
+                        }
+                        index++;
+                        if (index >= k) {
+                                break;
                         }
                 }
                 (*primaryVariables)[i] = cycleIndices[max];
@@ -1567,6 +1584,55 @@ bail:
 //        return;
 //}
 
+static void dsCyclicalCaseEquilibriumEquationForVariableALT(DSUInteger index,
+                                                         char ** systemEquations,
+                                                         const DSCase * aCase,
+                                                         const DSDesignSpace * original,
+                                                         const DSMatrix * LI,
+                                                         const DSMatrix * Lc,
+                                                         const DSMatrix * Mb,
+                                                         const DSVariablePool * yn,
+                                                         const DSVariablePool * yc)
+{
+        DSExpression *fluxEquation;
+        char * string, *name;
+        DSUInteger i;
+        DSMatrix * C;
+        if (original == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (LI == NULL || Lc == NULL || Mb == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (yn == NULL || yc == NULL) {
+                DSError(M_DS_VAR_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        C = DSMatrixCopy(Mb);
+        for (i = 0; i < DSMatrixRows(C); i++) {
+                DSMatrixSetDoubleValue(C, i, 0, pow(10, DSMatrixDoubleValue(C, i, 0)));
+        }
+        name = DSVariableName(DSVariablePoolVariableAtIndex(DSCaseXd(aCase), index));
+        i = DSVariablePoolIndexOfVariableWithName(yn, name);
+        Lc = DSMatrixCopy(Lc);
+        LI = DSMatrixCopy(LI);
+        DSMatrixMultiplyByScalar((DSMatrix *)Lc, -1.0f);
+        DSMatrixMultiplyByScalar((DSMatrix *)LI, -1.0f);
+        fluxEquation = DSExpressionFromPowerlawInMatrixForm(i, Lc, DSCaseXd(aCase), LI, DSCaseXi(aCase), C);
+        string = DSExpressionAsString(fluxEquation);
+        DSExpressionFree(fluxEquation);
+        DSSecureFree(systemEquations[index]);
+        asprintf(&(systemEquations[index]), "%s = %s", name, string);
+        DSSecureFree(string);
+        DSMatrixFree((DSMatrix *)Lc);
+        DSMatrixFree((DSMatrix *)LI);
+        DSMatrixFree((DSMatrix *)C);
+bail:
+        return;
+}
+
 static void dsCyclicalCaseEquilibriumEquationForVariable(DSUInteger index,
                                                          char ** systemEquations,
                                                          const DSCase * aCase,
@@ -1612,6 +1678,148 @@ static void dsCyclicalCaseEquilibriumEquationForVariable(DSUInteger index,
         DSMatrixFree((DSMatrix *)Lc);
         DSMatrixFree((DSMatrix *)LI);
         DSMatrixFree((DSMatrix *)C);
+bail:
+        return;
+}
+
+static void dsCyclicalCaseAugmentedEquationsForCycleALT(char ** systemEquations,
+                                                     const DSCase * aCase,
+                                                     const DSDesignSpace * original,
+                                                     const DSMatrix * problematicMatrix,
+                                                     const DSMatrixArray * coefficientArray,
+                                                     const DSUInteger cycleNumber,
+                                                     const DSUInteger primaryCycleVariable,
+                                                     const DSUInteger numberSecondaryVariables,
+                                                     const DSUInteger * secondaryVariables,
+                                                     const DSMatrix * LI,
+                                                     const DSMatrix * Lc,
+                                                     const DSMatrix * Mb,
+                                                     const DSVariablePool * yn,
+                                                     const DSVariablePool * yc)
+{
+        DSExpression *fluxEquation;
+        char * string, *name;
+        DSUInteger i, j, k, l, index;
+        const DSUInteger *signature;
+        DSMatrix * C, *Kd, *Ki;
+        DSMatrix * Ks, *Kn, *LKi, *LKd, *temp;
+        const DSGMASystem * gma;
+        double denominator = 0, numerator = 0;
+        
+        if (original == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (problematicMatrix == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        l = 0;
+        for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
+                if (DSMatrixDoubleValue(problematicMatrix, i, cycleNumber) == 0.0f) {
+                        continue;
+                }
+                if (primaryCycleVariable == i) {
+                        denominator = DSMatrixArrayDoubleWithIndices(coefficientArray, cycleNumber, l, 0);
+                        break;
+                }
+                l++;
+        }
+        signature = DSDesignSpaceSignature(original);
+        gma = DSDesignSpaceGMASystem(original);
+        string = DSSecureCalloc(sizeof(char), 1000);
+        DSSecureFree(systemEquations[primaryCycleVariable]);
+        systemEquations[primaryCycleVariable] = string;
+        name = DSVariableName(DSVariablePoolVariableAtIndex(DSGMASystemXd(gma), primaryCycleVariable));
+        sprintf(string, "%s. = ", name);
+        if (string != systemEquations[primaryCycleVariable]) {
+                DSSecureFree(systemEquations[primaryCycleVariable]);
+                systemEquations[primaryCycleVariable] = string;
+        }
+        l = 0;
+        for (i = 0; i < 2*DSDesignSpaceNumberOfEquations(original); i++) {
+                if (DSMatrixDoubleValue(problematicMatrix, i/2, cycleNumber) == 0.0f) {
+                        continue;
+                }
+                index = i/2;
+                if (i % 2 == 0) {
+                        C = DSMatrixSubMatrixIncludingRowList(DSGMASystemAlpha(gma), 1, i/2);
+                        Kd = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemGd(gma), i/2));
+                        Ki = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemGi(gma), i/2));
+                        if (index != primaryCycleVariable) {
+                                numerator = DSMatrixArrayDoubleWithIndices(coefficientArray, cycleNumber, l++, 0);
+                                dsCyclicalCaseEquilibriumEquationForVariableALT(index, systemEquations, aCase, original, LI, Lc, Mb, yn, yc);
+                        } else {
+                                numerator = denominator;
+                                l++;
+                        }
+                } else {
+                        C = DSMatrixSubMatrixIncludingRowList(DSGMASystemBeta(gma), 1, i/2);
+                        Kd = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemHd(gma), i/2));
+                        Ki = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemHi(gma), i/2));
+                        
+                }
+                temp = DSMatrixTranspose(C);
+                DSMatrixFree(C);
+                C = temp;
+                if (numberSecondaryVariables > 0) {
+                        Ks = DSMatrixSubMatrixIncludingColumns(Kd, numberSecondaryVariables, secondaryVariables);
+                        Kn = DSMatrixCopy(Kd);
+//                        for (j = 0; j < numberSecondaryVariables; j++) {
+//                                index = secondaryVariables[j];
+//                                for (k = 0; k < DSMatrixColumns(Kd); k++) {
+//                                        DSMatrixSetDoubleValue(Kn, index, k, 0.0);
+//                                }
+//                        }
+                        for (j = 0; j < DSMatrixRows(Kd); j++) {
+                                for (k = 0; k < numberSecondaryVariables; k++) {
+                                        index = secondaryVariables[k];
+                                        DSMatrixSetDoubleValue(Kn, j, index, 0.0);
+                                }
+                        }
+                        LKi = DSMatrixByMultiplyingMatrix(Ks, LI);
+                        LKd = DSMatrixByMultiplyingMatrix(Ks, Lc);
+                        DSMatrixMultiplyByScalar(LKd, -1.);
+                        DSMatrixMultiplyByScalar(LKi, -1.);
+                        DSMatrixAddByMatrix(LKd, Kn);
+                        DSMatrixFree(Kd);
+                        Kd = LKd;
+                        DSMatrixAddByMatrix(Ki, LKi);
+                        temp = DSMatrixByMultiplyingMatrix(Ks, Mb);
+                        for (j = 0; j < DSMatrixRows(temp); j++) {
+                                DSMatrixSetDoubleValue(temp, j, 0, numerator/denominator*DSMatrixDoubleValue(C, j, 0)*pow(10, DSMatrixDoubleValue(temp, j, 0)));
+                        }
+                        DSMatrixFree(C);
+                        DSMatrixFree(LKi);
+                        C = temp;
+                        DSMatrixFree(Kn);
+                        DSMatrixFree(Ks);
+                }
+                for (j = 0; j < signature[i]; j++) {
+                        if (j + 1 == DSCaseSignature(aCase)[i])
+                                continue;
+                        fluxEquation = DSExpressionFromPowerlawInMatrixForm(j, Kd, DSGMASystemXd(gma), Ki, DSGMASystemXi(gma), C);
+                        name = DSExpressionAsString(fluxEquation);
+                        if (i % 2 == 0) {
+                                sprintf(string, "%s + %s", systemEquations[primaryCycleVariable], name);
+                        } else {
+                                sprintf(string, "%s - %s", systemEquations[primaryCycleVariable], name);
+                        }
+                        if (string != systemEquations[primaryCycleVariable]) {
+                                DSSecureFree(systemEquations[primaryCycleVariable]);
+                                systemEquations[primaryCycleVariable] = string;
+                        }
+                        DSExpressionFree(fluxEquation);
+//                        if (DSCaseNumber(aCase) == 126 && DSDesignSpaceCyclical(original) == false) {
+//                                printf("%i,%i: %s\n", i, j, name);
+//                        }
+                        DSSecureFree(name);
+                }
+                DSMatrixFree(Kd);
+                DSMatrixFree(Ki);
+                DSMatrixFree(C);
+        }
+        
 bail:
         return;
 }
@@ -1742,6 +1950,9 @@ static void dsCyclicalCaseAugmentedEquationsForCycle(char ** systemEquations,
                                 systemEquations[primaryCycleVariable] = string;
                         }
                         DSExpressionFree(fluxEquation);
+//                        if (DSCaseNumber(aCase) == 126 && DSDesignSpaceCyclical(original) == false) {
+//                                printf("%i,%i: %s\n", i, j, name);
+//                        }
                         DSSecureFree(name);
                 }
                 DSMatrixFree(Kd);
@@ -1864,6 +2075,149 @@ static char ** dsCyclicalCaseOriginalCaseEquationsWithEquilibriumConstraints(con
         }
         DSSecureFree(equations);
         
+bail:
+        return systemEquations;
+}
+
+static char ** dsCyclicalCaseOriginalEquationsWithEquilibriumConstraintsALT(const DSCase * aCase,
+                                                                         const DSDesignSpace * original,
+                                                                         const DSUInteger numberSecondaryVariables,
+                                                                         const DSUInteger * secondaryVariables,
+                                                                         const double * coefficientMultipliers,
+                                                                         const DSMatrix * LI,
+                                                                         const DSMatrix * Lc,
+                                                                         const DSMatrix * Mb,
+                                                                         const DSVariablePool * yn,
+                                                                         const DSVariablePool * yc)
+{
+        DSExpression ** equations, **caseEquations, *fluxEquation;
+        char ** systemEquations = NULL, * string, *name;
+        DSUInteger i, j, k, index;
+        const DSUInteger *signature;
+        DSMatrix * C, *Kd, *Ki;
+        DSMatrix * Ks, *Kn, *LKi, *LKd, *temp;
+        const DSGMASystem * gma;
+        if (original == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        gma = DSDesignSpaceGMASystem(original);
+        if (numberSecondaryVariables == 0) {
+                systemEquations = DSSecureCalloc(sizeof(char *), DSDesignSpaceNumberOfEquations(original));
+                equations = DSDesignSpaceEquations(original);
+                caseEquations = DSCaseEquations(aCase);
+                for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
+                        name = DSVariableName(DSVariablePoolVariableAtIndex(DSGMASystemXd(gma), i));
+                        if (DSVariablePoolHasVariableWithName(DSGMASystemXd_t(gma), name) == true) {
+                                systemEquations[i] = DSExpressionAsString(equations[i]);
+                        } else {
+                                systemEquations[i] = DSExpressionAsString(caseEquations[i]);
+                        }
+                        DSExpressionFree(equations[i]);
+                        DSExpressionFree(caseEquations[i]);
+                }
+                DSSecureFree(equations);
+                DSSecureFree(caseEquations);
+                goto bail;
+        }
+        if (LI == NULL || Lc == NULL || Mb == NULL) {
+                goto bail;
+        }
+        if (yn == NULL || yc == NULL) {
+                goto bail;
+        }
+        systemEquations = DSSecureCalloc(sizeof(char *), DSDesignSpaceNumberOfEquations(original));
+        signature = DSDesignSpaceSignature(original);
+        equations = DSDesignSpaceEquations(original);
+        caseEquations = DSCaseEquations(aCase);
+        for (i = 0; i < 2*DSDesignSpaceNumberOfEquations(original); i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(DSGMASystemXd(gma), i/2));
+                if (DSVariablePoolHasVariableWithName(DSGMASystemXd_t(gma), name) == false) {
+                        if (i % 2 == 0) {
+                                //                                string = DSSecureCalloc(sizeof(char), 1000);
+                                systemEquations[i/2] = DSExpressionAsString(caseEquations[i/2]);//DSExpressionAsString(caseEquations[i/2]);
+                        }
+                        continue;
+                }
+                if (i % 2 == 0) {
+                        string = DSSecureCalloc(sizeof(char), 1000);
+                        systemEquations[i/2] = string;
+                        sprintf(string, "%s. = ", name);
+                        if (string != systemEquations[i/2]) {
+                                DSSecureFree(systemEquations[i/2]);
+                                systemEquations[i/2] = string;
+                        }
+                        C = DSMatrixSubMatrixIncludingRowList(DSGMASystemAlpha(gma), 1, i/2);
+                        Kd = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemGd(gma), i/2));
+                        Ki = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemGi(gma), i/2));
+                } else {
+                        C = DSMatrixSubMatrixIncludingRowList(DSGMASystemBeta(gma), 1, i/2);
+                        Kd = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemHd(gma), i/2));
+                        Ki = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemHi(gma), i/2));
+                }
+                temp = DSMatrixTranspose(C);
+                DSMatrixFree(C);
+                C = temp;
+                if (numberSecondaryVariables > 0) {
+                        Ks = DSMatrixSubMatrixIncludingColumns(Kd, numberSecondaryVariables, secondaryVariables);
+                        Kn = DSMatrixCopy(Kd);
+                        for (j = 0; j < DSMatrixRows(Kd); j++) {
+                                for (k = 0; k < numberSecondaryVariables; k++) {
+                                        index = secondaryVariables[k];
+                                        DSMatrixSetDoubleValue(Kn, j, index, 0.0);
+                                }
+                        }
+                        LKi = DSMatrixByMultiplyingMatrix(Ks, LI);
+                        LKd = DSMatrixByMultiplyingMatrix(Ks, Lc);
+                        DSMatrixMultiplyByScalar(LKd, -1.);
+                        DSMatrixMultiplyByScalar(LKi, -1.);
+                        DSMatrixAddByMatrix(LKd, Kn);
+                        DSMatrixAddByMatrix(Ki, LKi);
+                        temp = DSMatrixByMultiplyingMatrix(Ks, Mb);
+                        for (j = 0; j < DSMatrixRows(temp); j++) {
+                                DSMatrixSetDoubleValue(C, j, 0, DSMatrixDoubleValue(C, j, 0)*pow(10, DSMatrixDoubleValue(temp, j, 0)));
+                        }
+                        DSMatrixFree(Kd);
+                        Kd = LKd;
+                        DSMatrixFree(temp);
+                        DSMatrixFree(LKi);
+                        DSMatrixFree(Kn);
+                        DSMatrixFree(Ks);
+                }
+                for (j = 0; j < numberSecondaryVariables; j++) {
+                        if (i/2 == secondaryVariables[j]) {
+                                DSMatrixMultiplyByScalar(C, coefficientMultipliers[j]);
+                                break;
+                        }
+                }
+                for (j = 0; j < signature[i]; j++) {
+                        fluxEquation = DSExpressionFromPowerlawInMatrixForm(j, Kd, DSGMASystemXd(gma), Ki, DSGMASystemXi(gma), C);
+                        name = DSExpressionAsString(fluxEquation);
+                        if (i % 2 == 0) {
+                                sprintf(string, "%s + %s", systemEquations[i/2], name);
+                        } else {
+                                sprintf(string, "%s - %s", systemEquations[i/2], name);
+                        }
+                        if (string != systemEquations[i/2]) {
+                                DSSecureFree(systemEquations[i/2]);
+                                systemEquations[i/2] = string;
+                        }
+                        DSExpressionFree(fluxEquation);
+                        DSSecureFree(name);
+                }
+                DSMatrixFree(Kd);
+                DSMatrixFree(Ki);
+                DSMatrixFree(C);
+        }
+        for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
+//                if (DSCaseNumber(aCase) == 126 && DSDesignSpaceCyclical(original) == false) {
+//                        printf("%s\n", systemEquations[i]);
+//                }
+                DSExpressionFree(equations[i]);
+                DSExpressionFree(caseEquations[i]);
+        }
+        DSSecureFree(equations);
+        DSSecureFree(caseEquations);
 bail:
         return systemEquations;
 }
@@ -2003,6 +2357,9 @@ static char ** dsCyclicalCaseOriginalEquationsWithEquilibriumConstraints(const D
                 DSMatrixFree(C);
         }
         for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
+//                if (DSCaseNumber(aCase) == 126 && DSDesignSpaceCyclical(original) == false) {
+//                        printf("%s\n", systemEquations[i]);
+//                }
                 DSExpressionFree(equations[i]);
                 DSExpressionFree(caseEquations[i]);
         }
@@ -2012,6 +2369,202 @@ bail:
         return systemEquations;
 }
 
+
+static char ** dsCyclicalCaseEquationsSplitVariables(const DSCase * aCase,
+                                                     const DSDesignSpace * original,
+                                                     DSMatrix * problematicEquations,
+                                                     const DSMatrixArray * coefficientArray,
+                                                     DSCycleExtensionData * extensionData)
+{
+        DSMatrix * Mb = NULL, *LI = NULL, *Lc = NULL;
+        DSMatrix * TLI = NULL, * TLc = NULL, * TMb = NULL;
+        DSVariablePool * yn = NULL, *yc = NULL;
+        char *name, ** systemEquations = NULL;
+        const DSVariablePool *Xd;
+        bool error=false;
+        DSUInteger i, j, k, index, numberOfCycles, numberSecondaryVariables, *primaryVariables = NULL, *secondaryVariables = NULL;
+        DSUInteger numberAllSecondaryVariables, * allSecondaryVariables = NULL;
+        double  * coefficientMultipliers = NULL;
+        //        DSCycleExtensionData * newExtensionData;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (original == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSCaseNumberOfEquations(aCase) != DSDesignSpaceNumberOfEquations(original)) {
+                DSError(M_DS_WRONG ": Number of equation in design space must match number of equations in case", A_DS_ERROR);
+                goto bail;
+        }
+        if (problematicEquations == NULL)
+                goto bail;
+        if (coefficientArray == NULL)
+                goto bail;
+        numberOfCycles = dsCyclicalCasePrimaryCycleVariableIndices(aCase, problematicEquations, &primaryVariables);
+        numberAllSecondaryVariables = dsCyclicalCaseAllSecondaryCycleVariables(problematicEquations,
+                                                                               coefficientArray, numberOfCycles,
+                                                                               primaryVariables,
+                                                                               &allSecondaryVariables, &coefficientMultipliers);
+        if (primaryVariables == NULL) {
+                goto bail;
+        }
+        
+        Mb = DSMatrixCalloc(numberAllSecondaryVariables, 1);
+        LI = DSMatrixCalloc(numberAllSecondaryVariables, DSVariablePoolNumberOfVariables(DSCaseXi(aCase)));
+        Lc = DSMatrixCalloc(numberAllSecondaryVariables, DSVariablePoolNumberOfVariables(DSCaseXd(aCase)));
+        for (i = 0; i < numberOfCycles; i++) {
+                numberSecondaryVariables = dsCyclicalCaseSecondaryCycleVariableIndicesForCycle(problematicEquations, i, primaryVariables, &secondaryVariables);
+                dsCyclicalCaseSolutionOfPartitionedMatrices(aCase, numberSecondaryVariables, secondaryVariables, &TLI, &TLc, &TMb, &yn, &yc);
+                if (TLI == NULL) {
+                        DSSecureFree(secondaryVariables);
+                        goto bail;
+                }
+                for (j = 0; j < DSMatrixRows(TLI); j++){
+                        for (k = 0; k < numberAllSecondaryVariables; k++) {
+                                if (secondaryVariables[j] == allSecondaryVariables[k]) {
+                                        index = k;
+                                        break;
+                                }
+                        }
+                        DSMatrixSetDoubleValue(Mb, index, 0, DSMatrixDoubleValue(TMb, j, 0));
+                        for (k = 0; k < DSMatrixColumns(TLI); k++) {
+                                DSMatrixSetDoubleValue(LI, index, k, DSMatrixDoubleValue(TLI, j, k));
+                        }
+                        for (k = 0; k < DSMatrixColumns(TLc); k++) {
+                                name = DSVariableName(DSVariablePoolVariableAtIndex(yc, k));
+                                DSMatrixSetDoubleValue(Lc, index, DSVariablePoolIndexOfVariableWithName(DSCaseXd(aCase), name),
+                                                       DSMatrixDoubleValue(TLc, j, k));
+                        }
+                }
+                DSMatrixFree(TLc);
+                DSMatrixFree(TLI);
+                DSMatrixFree(TMb);
+                DSVariablePoolFree(yc);
+                DSVariablePoolFree(yn);
+                DSSecureFree(secondaryVariables);
+        }
+//        if (DSCaseNumber(aCase) == 126 && DSDesignSpaceCyclical(original) == false) {
+//                printf("Lc\n");
+//                DSMatrixPrint(Lc);
+//                printf("LI\n");
+//                DSMatrixPrint(LI);
+//                printf("Mb\n");
+//                DSMatrixPrint(Mb);
+//        }
+        yn = DSVariablePoolAlloc();
+        yc = DSVariablePoolAlloc();
+        for (i = 0; i < numberAllSecondaryVariables; i++) {
+                DSVariablePoolAddVariableWithName(yn, DSVariableName(DSVariablePoolVariableAtIndex(DSCaseXd(aCase), allSecondaryVariables[i])));
+        }
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXd(aCase)); i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(DSCaseXd(aCase), i));
+                if (DSVariablePoolHasVariableWithName(yn, name) == false) {
+                        DSVariablePoolAddVariableWithName(yc, name);
+                }
+        }
+        
+//        goto bail;
+//        if (secondaryVariables == NULL && numberSecondaryVariables > 0) {
+//                goto bail;
+//        }
+//        if (numberSecondaryVariables > 0) {
+//                dsCyclicalCaseSolutionOfPartitionedMatrices(aCase, numberSecondaryVariables, secondaryVariables, &LI, &Lc, &Mb, &yn, &yc);
+//                if (DSCaseNumber(aCase) == 49) {
+//                        printf("49 LI:\n");
+//                        DSMatrixPrint(LI);
+//                }
+//        }
+        //        systemEquations = dsCyclicalCaseOriginalEquationsWithEquilibriumConstraints(aCase, original, numberSecondaryVariables, secondaryVariables, LI, Lc, Mb, yn, yc);
+        //        systemEquations = dsCyclicalCaseOriginalCaseEquationsWithEquilibriumConstraints(aCase, numberSecondaryVariables, secondaryVariables, LI, Lc, Mb, yn, yc);
+        //        extensionData = DSSecureCalloc(sizeof(extensionData), 1);
+        systemEquations = dsCyclicalCaseOriginalEquationsWithEquilibriumConstraintsALT(aCase, original, numberAllSecondaryVariables, allSecondaryVariables, coefficientMultipliers, LI, Lc, Mb, yn, yc);
+        
+        Xd = DSGMASystemXd(DSDesignSpaceGMASystem(original));
+        //        extensionData->numberCycles = numberOfCycles;
+        //        extensionData->cycleVariables = DSSecureCalloc(sizeof(DSUInteger), numberOfCycles);
+        //        extensionData->fluxEquations =  DSSecureCalloc(sizeof(DSExpression **), numberOfCycles);
+        //        extensionData->fluxIndex =  DSSecureCalloc(sizeof(DSUInteger *), numberOfCycles);
+        //        extensionData->numberOfFluxes = DSSecureCalloc(sizeof(DSUInteger), numberOfCycles);
+        if (systemEquations == NULL) {
+                goto bail;
+        }
+        for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
+                if (systemEquations[i] == NULL) {
+                        error = true;
+                }
+        }
+        if (error == true) {
+                for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
+                        if (systemEquations[i])
+                                DSSecureFree(systemEquations[i]);
+                }
+                DSSecureFree(systemEquations);
+                goto bail;
+        }
+        for (i = 0; i < numberOfCycles; i++) {
+                dsCyclicalCaseAugmentedEquationsForCycleALT(systemEquations, aCase, original, problematicEquations, coefficientArray, i, primaryVariables[i], numberAllSecondaryVariables, allSecondaryVariables, LI, Lc, Mb, yn, yc);
+                //                printf("%s\n", systemEquations[primaryVariables[i]]);
+                //                numberSecondaryVariables = dsCyclicalCaseSecondaryCycleVariableIndicesForCycle(problematicEquations, i, primaryVariables, &secondaryVariables);
+                //                cycleEquations = dsCyclicalCaseEquationsForCycle(aCase,
+                //                                                                 original,
+                //                                                                 coefficientArray,
+                //                                                                 i,
+                //                                                                 primaryVariables[i],
+                //                                                                 numberSecondaryVariables,
+                //                                                                 secondaryVariables,
+                //                                                                 LI,
+                //                                                                 Lc,
+                //                                                                 Mb,
+                //                                                                 yn,
+                //                                                                 yc);
+                //                if (cycleEquations == NULL) {
+                //                        DSSecureFree(secondaryVariables);
+                //                        break;
+                //                }
+                //                dsExtensionDataForCycle(aCase, original, extensionData, i, primaryVariables[i], numberSecondaryVariables, secondaryVariables);
+                //                for (j = 0; j < numberSecondaryVariables+1; j++) {
+                //                        if (j == 0) {
+                //                                index = primaryVariables[i];
+                //                        } else {
+                //                                index = secondaryVariables[j-1];
+                //                        }
+                //                        DSSecureFree(systemEquations[index]);
+                //                        systemEquations[index] = DSExpressionAsString(cycleEquations[j]);
+                //                        DSExpressionFree(cycleEquations[j]);
+                //                }
+                //                if (secondaryVariables != NULL) {
+                //                        DSSecureFree(cycleEquations);
+                //                        DSSecureFree(secondaryVariables);
+                //                }
+        }
+        if (i != numberOfCycles) {
+                for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
+                        DSSecureFree(systemEquations[i]);
+                }
+                DSSecureFree(systemEquations);
+                systemEquations = NULL;
+        }
+bail:
+        if (primaryVariables != NULL)
+                DSSecureFree(primaryVariables);
+        if (allSecondaryVariables != NULL)
+                DSSecureFree(allSecondaryVariables);
+        if (coefficientMultipliers != NULL)
+                DSSecureFree(coefficientMultipliers);
+        if (LI != NULL)
+                DSMatrixFree(LI);
+        if (Lc != NULL)
+                DSMatrixFree(Lc);
+        if (Mb != NULL)
+                DSMatrixFree(Mb);
+        if (yn != NULL)
+                DSVariablePoolFree(yn);
+        if (yc != NULL)
+                DSVariablePoolFree(yc);
+        return systemEquations;
+}
 
 static char ** dsCyclicalCaseEquations(const DSCase * aCase,
                                        const DSDesignSpace * original,
@@ -2204,7 +2757,8 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
         if (coefficientArray == NULL)
                 goto bail;
         extensionData = dsCycleExtensionDataInitForCyclicalCase(aCase, original);
-        systemEquations = dsCyclicalCaseEquations(aCase, original, problematicEquations, coefficientArray, extensionData);
+        systemEquations = dsCyclicalCaseEquationsSplitVariables(aCase, original, problematicEquations, coefficientArray, extensionData);
+//        systemEquations = dsCyclicalCaseEquations(aCase, original, problematicEquations, coefficientArray, extensionData);
         if (systemEquations == NULL) {
                 goto bail;
         }
@@ -2212,6 +2766,7 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
                                                         DSGMASystemXd_a(DSDesignSpaceGMASystem(original)),
                                                         DSGMASystemXi(DSDesignSpaceGMASystem(original)),
                                                         DSDesignSpaceNumberOfEquations(original));
+
         DSDesignSpaceAddConditions(collapsed, DSCaseCd(aCase), DSCaseCi(aCase), DSCaseDelta(aCase));
         collapsed->casePrefix = strdup(DSCaseIdentifier(aCase));
         DSDesignSpaceSetSerial(collapsed, true);
@@ -2219,6 +2774,7 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
         collapsed->extensionData = extensionData;
         if (DSDesignSpaceNumberOfCases(collapsed) != 0) {
                 DSDesignSpaceCalculateCyclicalCases(collapsed);
+
         }
         for (i = 0; i < DSDesignSpaceNumberOfEquations(original); i++) {
                 DSSecureFree(systemEquations[i]);
@@ -2256,9 +2812,6 @@ extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase *
         if (problematicEquations == NULL)
                 goto bail;
         problematicTerms = dsSubcaseProblematicTerms(aCase, problematicEquations);
-        if (DSCaseNumber(aCase) == 840) {
-                DSMatrixArrayPrint(problematicTerms);
-        }
         if (problematicTerms == NULL)
                 goto bail;
         coefficientArray = dsSubcaseCoefficientsOfInterest(aCase, problematicTerms);
