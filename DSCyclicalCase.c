@@ -69,7 +69,6 @@ extern DSCyclicalCase * DSCyclicalCaseForCaseInDesignSpace(const DSDesignSpace *
                 goto bail;
         }
         cyclicalCase->internalDesignspace = subcase;
-        cyclicalCase->caseNumber = aCase->caseNumber;
         cyclicalCase->originalCase = DSCaseCopy(aCase);
 bail:
         return cyclicalCase;
@@ -91,7 +90,7 @@ bail:
 }
 
 #if defined (__APPLE__) && defined (__MACH__)
-#pragma mark - Getter =
+#pragma mark - Getter
 #endif
 
 

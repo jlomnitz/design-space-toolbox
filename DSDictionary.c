@@ -214,38 +214,6 @@ bail:
         return root;
 }
 
-///**
-// * \brief Adds a DSVariable to the dictionary.
-// *
-// * This is the function to add DSVariables to
-// * the dictionary.  Since the dictionary works alphabetically, the root of the 
-// * dictionary changes and is defined by this function, and the root, be it the
-// * new one or the old one, is returned.  This function is used in creating a new dictionary.
-// * \param newVar The pointer to the variable which is to be added to the dictionary.
-// * \param root The root of the dictionary. THE ROOT MAY BE REASSIGNED. If null, creates a new dictionary.
-// * \return The root of the dictionary, which is likely to change.
-// * \see _varDictionary
-// * \see DSVariableWithName
-// * \see _addNewBranch
-// */
-//static struct _varDictionary *dsVarDictionaryAddVariableWithName(const char * name, struct _varDictionary *root)
-//{
-//        DSVariable *newVar = NULL;
-//        if (name == NULL) {
-//                DSError(M_DS_WRONG ": Name is a NULL pointer", A_DS_ERROR);
-//                goto bail;
-//        }
-//        if (strlen(name) == 0) {
-//                DSError(M_DS_WRONG ": Name string is empty", A_DS_WARN);
-//                goto bail;
-//        }
-//        newVar = DSVariableAlloc(name);
-//        root = dsVarDictionaryAddVariable(newVar, root);
-//        DSVariableRelease(newVar);
-//bail:
-//        return root;
-//}
-
 /**
  * \brief Function to remove all nodes in the dictionary.
  *

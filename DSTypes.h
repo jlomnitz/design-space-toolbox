@@ -436,9 +436,8 @@ typedef struct {
  * \see DSCyclicalCase.c
  */
 typedef struct{
-        DSDesignSpace * internalDesignspace;
-        DSCase * originalCase;
-        DSUInteger caseNumber;
+        DSDesignSpace * internalDesignspace; //!< A DSDesignSpace object representing a new system with collapsed cycles.
+        DSCase * originalCase;               //!< A copy of the DSCase parent object.
 } DSCyclicalCase;
 
 
