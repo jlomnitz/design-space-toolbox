@@ -28,6 +28,6 @@ References
 
 4. Fasani RA, and Savageau MA (2010) Automated construction and analysis of the design space for biochemical systems. _Bioinformatics_ 26:2601–2609.
 
-5. Lomnitz, JG, and Savageau, MA (2013) Phenotypic deconstruction of gene circuitry. _Chaos_ 23, 025108.
+5. Lomnitz JG, and Savageau, MA (2013) Phenotypic deconstruction of gene circuitry. _Chaos_ 23, 025108.
 
 6. Lomnitz JG, and Savageau MA (2014) Strategy Revealing Phenotypic Differences among Synthetic Oscillator Designs. _ACS Synth Biol_ 3(9):686–701.
