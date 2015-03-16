@@ -111,16 +111,16 @@ extern DSSSystem * DSSSystemCopy(const DSSSystem * original)
         DSSSysXd_t(newSSys) = DSVariablePoolCopy(DSSSystemXd_t(original));
         DSSSysXd_a(newSSys) = DSVariablePoolCopy(DSSSystemXd_a(original));
         DSSSysXi(newSSys) = DSVariablePoolCopy(DSSSystemXi(original));
-        DSSSysShouldFreeXd(newSSys) = true;
-        DSSSysShouldFreeXi(newSSys) = true;
+        DSSSystemSetShouldFreeXd(newSSys, true);
+        DSSSystemSetShouldFreeXi(newSSys, true);
         DSSSysGd(newSSys) = DSMatrixCopy(DSSSysGd(original));
         DSSSysHd(newSSys) = DSMatrixCopy(DSSSysHd(original));
         DSSSysGi(newSSys) = DSMatrixCopy(DSSSysGi(original));
         DSSSysHi(newSSys) = DSMatrixCopy(DSSSysHi(original));
         DSSSysAlpha(newSSys) = DSMatrixCopy(DSSSysAlpha(original));
         DSSSysBeta(newSSys) = DSMatrixCopy(DSSSysBeta(original));
-        DSSSysIsSingular(newSSys) = DSSSysIsSingular(original);
-        if (DSSSysIsSingular(newSSys) == false) {
+        DSSSystemSetIsSingular(newSSys, DSSSystemIsSingular(original));
+        if (DSSSystemIsSingular(newSSys) == false) {
                 DSSSysM(newSSys) = DSMatrixCopy(DSSSysM(original));
         }
 bail:
@@ -133,7 +133,7 @@ extern void DSSSystemFree(DSSSystem * sys)
                 DSError(M_DS_NULL ": S-System to free is NULL", A_DS_ERROR);
                 goto bail;
         }
-        if (DSSSysShouldFreeXd(sys) == true) {
+        if (DSSSystemShouldFreeXd(sys)) {
                 DSVariablePoolSetReadWriteAdd(DSSSysXd(sys));
                 DSVariablePoolFree(DSSSysXd(sys));
                 if (DSSSysXd_t(sys) != NULL) {
@@ -145,7 +145,7 @@ extern void DSSSystemFree(DSSSystem * sys)
                         DSVariablePoolFree(DSSSysXd_a(sys));
                 }
         }
-        if (DSSSysShouldFreeXi(sys) == true) {
+        if (DSSSystemShouldFreeXi(sys)) {
                 DSVariablePoolSetReadWriteAdd(DSSSysXi(sys));
                 DSVariablePoolFree(DSSSysXi(sys));
         }
@@ -402,11 +402,11 @@ static void dsSSystemSolveEquations(DSSSystem *ssys)
                 DSError(M_DS_NULL ": S-System being modified is NULL", A_DS_ERROR);
                 goto bail;
         }
-        DSSSysIsSingular(ssys) = true;
+        DSSSystemSetIsSingular(ssys, true);
         Ad = DSMatrixBySubstractingMatrix(DSSSysGd(ssys), DSSSysHd(ssys));
         M = DSMatrixInverse(Ad);
         if (M != NULL) {
-                DSSSysIsSingular(ssys) = false;
+                DSSSystemSetIsSingular(ssys, false);
                 DSSSysM(ssys) = M;
         }
         DSMatrixFree(Ad);
@@ -506,8 +506,8 @@ DSSSystem * dsSSystemWithAlgebraicConstraints(const DSSSystem * originalSystem, 
         DSSSysXd_t(collapsedSSystem) = DSVariablePoolCopy(newXd);
         DSSSysXd_a(collapsedSSystem) = DSVariablePoolAlloc();
         DSSSysXi(collapsedSSystem) = (DSVariablePool *)DSSSystemXi(originalSystem);
-        DSSSysShouldFreeXd(collapsedSSystem) = true;
-        DSSSysShouldFreeXi(collapsedSSystem) = false;
+        DSSSystemSetShouldFreeXd(collapsedSSystem, true);
+        DSSSystemSetShouldFreeXi(collapsedSSystem, false);
         DSSSysGd(collapsedSSystem) = DSMatrixSubMatrixExcludingRowsAndColumns(DSSSystemGd(originalSystem), numberOfAlgebraicVariables,numberOfAlgebraicVariables, algebraicIndices, algebraicIndices);
         DSSSysHd(collapsedSSystem) = DSMatrixSubMatrixExcludingRowsAndColumns(DSSSystemHd(originalSystem), numberOfAlgebraicVariables,numberOfAlgebraicVariables, algebraicIndices, algebraicIndices);
         DSSSysGi(collapsedSSystem) = DSMatrixSubMatrixExcludingRows(DSSSystemGi(originalSystem), numberOfAlgebraicVariables, algebraicIndices);
@@ -825,8 +825,8 @@ extern DSSSystem * DSSSystemByParsingStrings(char * const * const strings, const
         DSVariablePoolSetReadWrite(DSSSysXd_a(sys));
         DSVariablePoolSetReadWrite(DSSSysXd_t(sys));
         DSSSysXi(sys) = dsSSystemIdentifyIndependentVariables(Xd, aux, numberOfEquations);
-        DSSSysShouldFreeXd(sys) = true;
-        DSSSysShouldFreeXi(sys) = true;
+        DSSSystemSetShouldFreeXd(sys, true);
+        DSSSystemSetShouldFreeXi(sys, true);
         DSVariablePoolSetReadWrite(DSSSysXi(sys));
         dsSSystemCreateSystemMatrices(sys, aux);
         for (i=0; i < numberOfEquations; i++)
@@ -859,8 +859,8 @@ extern DSSSystem * DSSSystemWithTermsFromGMA(const DSGMASystem * gma, const DSUI
         DSSSysXi(ssys) = (DSVariablePool *)DSGMASystemXi(gma);
         DSSSysXd_a(ssys) = (DSVariablePool *)DSGMASystemXd_a(gma);
         DSSSysXd_t(ssys) = (DSVariablePool *)DSGMASystemXd_t(gma);
-        DSSSysShouldFreeXd(ssys) = false;
-        DSSSysShouldFreeXi(ssys) = false;
+        DSSSystemSetShouldFreeXd(ssys, false);
+        DSSSystemSetShouldFreeXi(ssys, false);
         dsSSystemInitializeMatrices(ssys);
         numberOfEquations = DSGMASystemNumberOfEquations(gma);
         numberOfXi = DSVariablePoolNumberOfVariables(DSSSysXi(ssys));
@@ -1766,17 +1766,82 @@ bail:
         return hasSolution;
 }
 
-extern const bool DSSSystemIsSingular(const DSSSystem *ssys)
+extern bool DSSSystemIsSingular(const DSSSystem *ssys)
 {
-        bool isSigular = false;
+        bool isSingular = false;
         if (ssys == NULL) {
-                DSError(M_DS_NULL ": S-System is NULL", A_DS_ERROR);
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
         }
-        isSigular = DSSSysIsSingular(ssys);
+        isSingular = ssys->modifierFlags & DS_SSYSTEM_FLAG_SINGULAR;
 bail:
-        return isSigular;
+        return isSingular;
 }
+
+extern bool DSSSystemShouldFreeXd(const DSSSystem *ssys)
+{
+        bool shouldFree = false;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        shouldFree = ssys->modifierFlags & DS_SSYSTEM_FLAG_FREE_XD;
+bail:
+        return shouldFree;
+}
+
+extern bool DSSSystemShouldFreeXi(const DSSSystem *ssys)
+{
+        bool shouldFree = false;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        shouldFree = ssys->modifierFlags & DS_SSYSTEM_FLAG_FREE_XI;
+bail:
+        return shouldFree;
+}
+
+
+extern void DSSSystemSetIsSingular(DSSSystem *ssys, bool isSingular)
+{
+        unsigned char newFlag;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        newFlag = ssys->modifierFlags & ~DS_SSYSTEM_FLAG_SINGULAR;
+        ssys->modifierFlags = (isSingular ? DS_SSYSTEM_FLAG_SINGULAR : 0) | newFlag;
+bail:
+        return;
+}
+
+extern void DSSSystemSetShouldFreeXd(DSSSystem *ssys, bool shouldFreeXd)
+{
+        unsigned char newFlag;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        newFlag = ssys->modifierFlags & ~DS_SSYSTEM_FLAG_FREE_XD;
+        ssys->modifierFlags = (shouldFreeXd ? DS_SSYSTEM_FLAG_FREE_XD : 0) | newFlag;
+bail:
+        return;
+}
+
+extern void DSSSystemSetShouldFreeXi(DSSSystem *ssys, bool shouldFreeXi)
+{
+        unsigned char newFlag;
+        if (ssys == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        newFlag = ssys->modifierFlags & ~DS_SSYSTEM_FLAG_FREE_XI;
+        ssys->modifierFlags = (shouldFreeXi ? DS_SSYSTEM_FLAG_FREE_XI : 0) | newFlag;
+bail:
+        return;
+}
+
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - S-System functions
@@ -2927,7 +2992,7 @@ extern DSSSystemMessage * DSSSystemEncode(const DSSSystem * ssys)
         message->hd = DSMatrixEncode(DSSSystemHd(ssys));
         message->gi = DSMatrixEncode(DSSSystemGi(ssys));
         message->hi = DSMatrixEncode(DSSSystemHi(ssys));
-        message->issingular = DSSSystemIsSingular(ssys);
+        message->modifierflag = ssys->modifierFlags;
         if (DSSSystemM(ssys) != NULL) {
                 message->m = DSMatrixEncode(DSSSystemM(ssys));
         } else {
@@ -2977,7 +3042,7 @@ extern DSSSystem * DSSSystemFromSSystemMessage(const DSSSystemMessage * message)
         ssystem->Gi = DSMatrixFromMatrixMessage(message->gi);
         ssystem->Hd = DSMatrixFromMatrixMessage(message->hd);
         ssystem->Hi = DSMatrixFromMatrixMessage(message->hi);
-        ssystem->isSingular = message->issingular;
+        ssystem->modifierFlags = message->modifierflag;
         if (message->m != NULL) {
                 ssystem->M = DSMatrixFromMatrixMessage(message->m);
         } else {
@@ -2999,8 +3064,8 @@ extern DSSSystem * DSSSystemFromSSystemMessage(const DSSSystemMessage * message)
         for (i = 0; i < message->n_xi; i++) {
                 DSVariablePoolAddVariableWithName(ssystem->Xi, message->xi[i]);
         }
-        ssystem->shouldFreeXd = true;
-        ssystem->shouldFreeXi = true;
+        DSSSystemSetShouldFreeXd(ssystem, true);
+        DSSSystemSetShouldFreeXi(ssystem, true);
 bail:
         return ssystem;
 }

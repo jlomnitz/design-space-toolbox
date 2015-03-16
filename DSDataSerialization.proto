@@ -16,7 +16,7 @@ message DSSSystemMessage {
         required DSMatrixMessage Gi = 4;
         required DSMatrixMessage Hd = 5;
         required DSMatrixMessage Hi = 6;
-        required bool isSingular = 7;
+        required bool modifierFlag = 7;
         optional DSMatrixMessage M  = 8;
         repeated string Xd = 9;
         repeated string Xd_t = 10;

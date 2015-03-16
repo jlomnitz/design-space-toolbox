@@ -62,7 +62,7 @@ struct  _DSSSystemMessage
   DSMatrixMessage *gi;
   DSMatrixMessage *hd;
   DSMatrixMessage *hi;
-  protobuf_c_boolean issingular;
+  protobuf_c_boolean modifierflag;
   DSMatrixMessage *m;
   size_t n_xd;
   char **xd;

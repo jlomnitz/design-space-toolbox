@@ -38,6 +38,11 @@ __BEGIN_DECLS
 
 #define M_DS_SSYS_NULL                  M_DS_NULL ": S-System is NULL"
 
+#define DS_SSYSTEM_FLAG_SINGULAR          0x01
+#define DS_SSYSTEM_FLAG_FREE_XD           0x02
+#define DS_SSYSTEM_FLAG_FREE_XI           0x03
+
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, deallocation and initialization
 #endif
@@ -138,12 +143,23 @@ extern const DSVariablePool * DSSSystemXd_t(const DSSSystem * const ssys);
 extern const DSVariablePool * DSSSystemXi(const DSSSystem * const ssys);
 
 extern const bool DSSSystemHasSolution(const DSSSystem * ssys);
-extern const bool DSSSystemIsSingular(const DSSSystem *ssys);
+extern bool DSSSystemIsSingular(const DSSSystem *ssys);
+
+extern bool DSSSystemShouldFreeXd(const DSSSystem *ssys);
+extern bool DSSSystemShouldFreeXi(const DSSSystem *ssys);
+
+
+extern void DSSSystemSetIsSingular(DSSSystem *ssys, bool isSingular);
+extern void DSSSystemSetShouldFreeXd(DSSSystem *ssys, bool shouldFreeXd);
+extern void DSSSystemSetShouldFreeXi(DSSSystem *ssys, bool shouldFreeXi);
 
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Utility functions
 #endif
+
+
+
 
 extern void DSSSystemRecalculateSolution(DSSSystem * ssys);
 extern DSSSystem * DSSSystemWithQuasiSteadyStates(const DSSSystem * ssystem, DSUInteger numberOfVariables, const char ** variableNames);

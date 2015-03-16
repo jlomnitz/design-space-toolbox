@@ -1865,7 +1865,7 @@ extern DSMatrix * DSMatrixIdenticalRows(const DSMatrix * matrix)
         }
         identities = 0;
         found = DSMatrixCalloc(DSMatrixRows(matrix), 1);
-        current = DSMatrixCalloc(DSMatrixRows(matrix), DSMatrixColumns(matrix));
+        current = DSMatrixCalloc(DSMatrixRows(matrix), DSMatrixRows(matrix));
         columns = DSSecureCalloc(sizeof(DSUInteger), DSMatrixColumns(matrix));
         for (i = 0; i < DSMatrixRows(matrix); i++) {
                 foundOne = false;
@@ -1876,10 +1876,10 @@ extern DSMatrix * DSMatrixIdenticalRows(const DSMatrix * matrix)
                         for (k = 0; k < DSMatrixColumns(matrix); k++) {
                                 lvalue = DSMatrixDoubleValue(matrix, i, k);
                                 rvalue = DSMatrixDoubleValue(matrix, j, k);
-                                if (fabs(lvalue-rvalue) > 1e-14) {
+                                if (fabs(lvalue-rvalue) > 1e-13) {
                                         foundIdentity = false;
                                         break;
-                                } else if (fabs(rvalue) < 1e-10) {
+                                } else if (fabs(rvalue) < 1e-13) {
                                         continue;
                                 } else {
                                         foundIdentity = true;
@@ -1899,9 +1899,16 @@ extern DSMatrix * DSMatrixIdenticalRows(const DSMatrix * matrix)
                 }
         }
         if (identities > 0) {
-                identityMatrix = DSMatrixSubMatrixIncludingColumns(current, identities, columns);
+                if (identities == DSMatrixColumns(current)) {
+                        identityMatrix = current;
+                        current = NULL;
+                } else {
+                        identityMatrix = DSMatrixSubMatrixIncludingColumns(current, identities, columns);
+                }
+
         }
-        DSMatrixFree(current);
+        if (current != NULL)
+                DSMatrixFree(current);
         DSSecureFree(columns);
         DSMatrixFree(found);
 bail:

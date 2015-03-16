@@ -57,6 +57,9 @@
 #endif
 
 #ifndef __DS_DESIGN_SPACE_VERSION__
+/**
+ * \brief The Design Space Toolbox version identifier.
+ */
 #define __DS_DESIGN_SPACE_VERSION__   "0.3.0a2"
 #endif
 
@@ -65,7 +68,6 @@ __BEGIN_DECLS
 #endif
 
 typedef int DSInteger;
-
 typedef unsigned int DSUInteger;
 
 
@@ -81,9 +83,9 @@ typedef unsigned int DSUInteger;
  * \see DSVertices.c
  */
 typedef struct {
-        double **vertices;
-        DSUInteger dimensions;
-        DSUInteger numberOfVertices;
+        double **vertices;           //!< Array of points represented by n floats.
+        DSUInteger dimensions;       //!< Value indicating the dimensions of the points.
+        DSUInteger numberOfVertices; //!< Value indicating the number of vertices.
 } DSVertices;
  
 /**
@@ -212,8 +214,8 @@ typedef struct
  */
 typedef struct dsexpression {
         union {
-                char op_code;
-                double constant;
+                char op_code;            //!< Value indicating the type of operator.
+                double constant;         //!< A value representing a numerical constant.
                 char *variable;          //!< A string with the name of the variable
         } node;                          //!< Union of data types potentially contained in the node.
         int type;                        //!< Integer specifying the type of node.
@@ -235,9 +237,9 @@ typedef struct dsexpression {
  * \see DSMatrix.c
  */
 typedef struct {
-        DSExpression *** mat;
-        DSUInteger rows;
-        DSUInteger columns;
+        DSExpression *** mat; //!< A 2D array of DSExpression * objects.
+        DSUInteger rows;      //!< A DSUInteger indicating the number of rows in the matrix.
+        DSUInteger columns;   //!< A DSUInteger indicating the number of columns in the matrix.
 } DSSymbolicMatrix;
 
 /**
@@ -303,17 +305,17 @@ typedef struct {
  *
  */
 typedef struct {
-        DSMatrix *alpha;
-        DSMatrix *beta;
-        DSMatrixArray *Gd;
-        DSMatrixArray *Gi;
-        DSMatrixArray *Hd;
-        DSMatrixArray *Hi;
-        DSVariablePool *Xd;
-        DSVariablePool *Xd_a;     //!< A pointer to the DSVariablePool with the algebraic dependent variables.
-        DSVariablePool *Xd_t;
-        DSVariablePool *Xi;
-        DSUInteger *signature;
+        DSMatrix *alpha;         //!< A DSMatrix object with the coefficients for the jth positive term of the ith equations.
+        DSMatrix *beta;          //!< A DSMatrix object with the coefficients for the jth negative term of the ith equations.
+        DSMatrixArray *Gd;       //!< A DSMatrixArray object with the exponent for the kth dependent variable of the jth positive term of the ith equations.
+        DSMatrixArray *Gi;       //!< A DSMatrixArray object with the exponent for the kth independent variable of the jth positive term of the ith equations.
+        DSMatrixArray *Hd;       //!< A DSMatrixArray object with the exponent for the kth dependent variable of the jth negative term of the ith equations.
+        DSMatrixArray *Hi;       //!< A DSMatrixArray object with the exponent for the kth independent variable of the jth negative term of the ith equations.
+        DSVariablePool *Xd;      //!< A pointer to the DSVariablePool with the all dependent variables of the model.
+        DSVariablePool *Xd_a;    //!< A pointer to the DSVariablePool with the algebraic dependent variables.
+        DSVariablePool *Xd_t;    //!< A pointer to the DSVariablePool with the dynamic dependent variables.
+        DSVariablePool *Xi;      //!< A pointer to the DSVariablePool with the all independent variables of the model.
+        DSUInteger *signature;   //!< An array of DSUIntegers indicating the number of positive and negative terms for each equations as pairs of values.
 } DSGMASystem;
 
 /**
@@ -326,20 +328,21 @@ typedef struct {
  *
  */
 typedef struct {
-        DSMatrix *alpha;
-        DSMatrix *beta;
-        DSMatrix *Gd;
-        DSMatrix *Gi;
-        DSMatrix *Hd;
-        DSMatrix *Hi;
-        DSMatrix *M;
-        DSVariablePool *Xd;
-        DSVariablePool *Xd_t;
-        DSVariablePool *Xd_a;      //!< A pointer to the DSVariablePool with the algebraic dependent variables.
-        DSVariablePool *Xi;
-        bool isSingular;
-        bool shouldFreeXd;
-        bool shouldFreeXi;
+        DSMatrix *alpha;         //!< A DSMatrix object with the coefficients for the jth positive term of the ith equations.
+        DSMatrix *beta;          //!< A DSMatrix object with the coefficients for the jth negative term of the ith equations.
+        DSMatrix *Gd;            //!< A DSMatrix object with the exponent for the jth dependent variable of the ith equations.
+        DSMatrix *Gi;            //!< A DSMatrix object with the exponent for the jth independent variable of the ith equations.
+        DSMatrix *Hd;            //!< A DSMatrix object with the exponent for the jth dependent variable of of the ith equations.
+        DSMatrix *Hi;            //!< A DSMatrix object with the exponent for the jth independent variable of the ith equations.
+        DSMatrix *M;             //!< A DSMatrix object with the inverse of the Ad matrix.
+        DSVariablePool *Xd;      //!< A pointer to the DSVariablePool with the all dependent variables of the model.
+        DSVariablePool *Xd_a;    //!< A pointer to the DSVariablePool with the algebraic dependent variables.
+        DSVariablePool *Xd_t;    //!< A pointer to the DSVariablePool with the dynamic dependent variables.
+        DSVariablePool *Xi;      //!< A pointer to the DSVariablePool with the all independent variables of the model.
+        unsigned char modifierFlags;
+//        bool isSingular;         //!< A Boolean value indicating if the S-System is singular.
+//        bool shouldFreeXd;       //!< A Boolean value indicating if the S-System should free its dependent variable pool upon being freed.
+//        bool shouldFreeXi;       //!< A Boolean value indicating if the S-System should free its independent variable pool upon being freed.
         DSDictionary * fluxDictionary;
 } DSSSystem;
 
@@ -405,20 +408,17 @@ typedef struct {
 typedef struct {
         DSGMASystem *gma;                //!< The gma system of the design space.
         const DSVariablePool *Xd;        //!< A pointer to the DSVariablePool with the dependent variables.
-        const DSVariablePool *Xd_a; //!< A pointer to the DSVariablePool with the algebraic dependent variables.
-        const DSVariablePool *Xi;        //!< A pointer to the DSVariablePool with the dependent variables.
+        const DSVariablePool *Xd_a;      //!< A pointer to the DSVariablePool with the algebraic dependent variables.
+        const DSVariablePool *Xi;        //!< A pointer to the DSVariablePool with the independent variables.
         DSDictionary * validCases;       //!< DSVariablePool with case number that are valid.
         DSUInteger numberOfCases;        //!< DSUInteger indicating the maximum number of cases in the design space.
         DSMatrix * Cd, *Ci, *delta;      //!< Condition matrices.
         DSDictionary *cyclicalCases;     //!< DSDictionary containing design space objects with subcases.
         DSMatrix * Rn;                   //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
         unsigned char modifierFlags;
-//        bool seriesCalculations;
-//        bool removeZeroBoundaries;
         DSDictionary * cycleFluxes;
         DSCycleExtensionData * extensionData;
         char * casePrefix;
-//        DSUInteger numberOfCycles;
 //        DSUInteger ** fluxSources;
 } DSDesignSpace;
 
@@ -439,7 +439,6 @@ typedef struct {
  * \see DSCyclicalCase.c
  */
 typedef struct{
-//        DSDesignSpace * internal;
         DSDesignSpace ** internalDesignspaces;
         DSDesignSpace * internalDesignspace;
         DSUInteger numberOfInternal;

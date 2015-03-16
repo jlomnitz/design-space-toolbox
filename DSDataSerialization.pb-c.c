@@ -485,12 +485,12 @@ static const ProtobufCFieldDescriptor dsssystem_message__field_descriptors[12] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "isSingular",
+    "modifierFlag",
     7,
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
-    offsetof(DSSSystemMessage, issingular),
+    offsetof(DSSSystemMessage, modifierflag),
     NULL,
     NULL,
     0,             /* flags */
@@ -569,7 +569,7 @@ static const unsigned dsssystem_message__field_indices_by_name[] = {
   11,   /* field[11] = Xi */
   0,   /* field[0] = alpha */
   1,   /* field[1] = beta */
-  6,   /* field[6] = isSingular */
+  6,   /* field[6] = modifierFlag */
 };
 static const ProtobufCIntRange dsssystem_message__number_ranges[1 + 1] =
 {
