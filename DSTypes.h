@@ -340,9 +340,6 @@ typedef struct {
         DSVariablePool *Xd_t;    //!< A pointer to the DSVariablePool with the dynamic dependent variables.
         DSVariablePool *Xi;      //!< A pointer to the DSVariablePool with the all independent variables of the model.
         unsigned char modifierFlags;
-//        bool isSingular;         //!< A Boolean value indicating if the S-System is singular.
-//        bool shouldFreeXd;       //!< A Boolean value indicating if the S-System should free its dependent variable pool upon being freed.
-//        bool shouldFreeXi;       //!< A Boolean value indicating if the S-System should free its independent variable pool upon being freed.
         DSDictionary * fluxDictionary;
 } DSSSystem;
 
