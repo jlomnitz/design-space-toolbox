@@ -2802,9 +2802,8 @@ bail:
 #pragma mark - Exposed function to generate the internal systems for cyclical cases -
 #endif
 
-extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)
+extern DSDesignSpace * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)
 {
-        DSStack *subcases = NULL;
         DSMatrix * problematicEquations = NULL;
         DSMatrixArray * problematicTerms = NULL;
         DSMatrixArray * coefficientArray = NULL;
@@ -2832,17 +2831,7 @@ extern DSStack * DSCyclicalCaseDesignSpacesForUnderdeterminedCase(const DSCase *
                 goto bail;
         if (DSMatrixArrayNumberOfMatrices(problematicTerms) != DSMatrixArrayNumberOfMatrices(coefficientArray))
                 goto bail;
-//        subcases = dsCyclicalCaseCreateAugmentedSystems(aCase,
-//                                                        original,
-//                                                        problematicEquations,
-//                                                        problematicTerms,
-//                                                        coefficientArray);
-//        DSStackFreeWithFunction(subcases, DSDesignSpaceFree);
         subcase = dsCyclicalCaseCollapsedSystem(aCase, original, problematicEquations, coefficientArray);
-        if (subcase != NULL) {
-                subcases = DSStackAlloc();
-                DSStackPush(subcases, subcase);
-        }
 bail:
         if (problematicEquations != NULL)
                 DSMatrixFree(problematicEquations);
@@ -2850,7 +2839,7 @@ bail:
                 DSMatrixArrayFree(problematicTerms);
         if (coefficientArray != NULL)
                 DSMatrixArrayFree(coefficientArray);
-        return subcases;
+        return subcase;
 }
 //
 __deprecated extern DSDesignSpace * DSCyclicalCaseInternalForUnderdeterminedCase(const DSCase * aCase, const DSDesignSpace * original)

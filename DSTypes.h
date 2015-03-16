@@ -328,19 +328,19 @@ typedef struct {
  *
  */
 typedef struct {
-        DSMatrix *alpha;         //!< A DSMatrix object with the coefficients for the jth positive term of the ith equations.
-        DSMatrix *beta;          //!< A DSMatrix object with the coefficients for the jth negative term of the ith equations.
-        DSMatrix *Gd;            //!< A DSMatrix object with the exponent for the jth dependent variable of the ith equations.
-        DSMatrix *Gi;            //!< A DSMatrix object with the exponent for the jth independent variable of the ith equations.
-        DSMatrix *Hd;            //!< A DSMatrix object with the exponent for the jth dependent variable of of the ith equations.
-        DSMatrix *Hi;            //!< A DSMatrix object with the exponent for the jth independent variable of the ith equations.
-        DSMatrix *M;             //!< A DSMatrix object with the inverse of the Ad matrix.
-        DSVariablePool *Xd;      //!< A pointer to the DSVariablePool with the all dependent variables of the model.
-        DSVariablePool *Xd_a;    //!< A pointer to the DSVariablePool with the algebraic dependent variables.
-        DSVariablePool *Xd_t;    //!< A pointer to the DSVariablePool with the dynamic dependent variables.
-        DSVariablePool *Xi;      //!< A pointer to the DSVariablePool with the all independent variables of the model.
-        unsigned char modifierFlags;
-        DSDictionary * fluxDictionary;
+        DSMatrix *alpha;               //!< A DSMatrix object with the coefficients for the jth positive term of the ith equations.
+        DSMatrix *beta;                //!< A DSMatrix object with the coefficients for the jth negative term of the ith equations.
+        DSMatrix *Gd;                  //!< A DSMatrix object with the exponent for the jth dependent variable of the ith equations.
+        DSMatrix *Gi;                  //!< A DSMatrix object with the exponent for the jth independent variable of the ith equations.
+        DSMatrix *Hd;                  //!< A DSMatrix object with the exponent for the jth dependent variable of of the ith equations.
+        DSMatrix *Hi;                  //!< A DSMatrix object with the exponent for the jth independent variable of the ith equations.
+        DSMatrix *M;                   //!< A DSMatrix object with the inverse of the Ad matrix.
+        DSVariablePool *Xd;            //!< A pointer to the DSVariablePool with the all dependent variables of the model.
+        DSVariablePool *Xd_a;          //!< A pointer to the DSVariablePool with the algebraic dependent variables.
+        DSVariablePool *Xd_t;          //!< A pointer to the DSVariablePool with the dynamic dependent variables.
+        DSVariablePool *Xi;            //!< A pointer to the DSVariablePool with the all independent variables of the model.
+        unsigned char modifierFlags;   //!< A character holding flags that modify S-System behavior.
+        DSDictionary * fluxDictionary; //!< A dictorionary relating dynamic variables and their fluxes.
 } DSSSystem;
 
 /**
@@ -373,8 +373,8 @@ typedef struct {
         DSMatrix *zeta;                   //!< The boundary matrix corresponding to the constants.
         DSUInteger caseNumber;            //!< The case number used to identify the case. [will be deprecated]
         DSUInteger *signature;            //!< The case signature indicating the dominant terms used to generate the case.
-        char * caseIdentifier;      //!< A case identifier used to identify cases and subcases [will replace case number].
-        bool freeVariables;
+        char * caseIdentifier;            //!< A case identifier used to identify cases and subcases [will replace case number].
+        bool freeVariables;               //!< Flag indicating if the Case object should free the dependent, algebraic and independent variables.
 } DSCase;
 
 
@@ -412,10 +412,10 @@ typedef struct {
         DSMatrix * Cd, *Ci, *delta;      //!< Condition matrices.
         DSDictionary *cyclicalCases;     //!< DSDictionary containing design space objects with subcases.
         DSMatrix * Rn;                   //!< Matrix Used to calculate the coefficients of the characteristic equations using the method of underdetermined coefficients.
-        unsigned char modifierFlags;
+        unsigned char modifierFlags;     //!< A character holding flags that modify S-System behavior.
         DSDictionary * cycleFluxes;
         DSCycleExtensionData * extensionData;
-        char * casePrefix;
+        char * casePrefix;               //!< A string used for cyclical cases to indicate subcase parents.
 //        DSUInteger ** fluxSources;
 } DSDesignSpace;
 
@@ -436,9 +436,7 @@ typedef struct {
  * \see DSCyclicalCase.c
  */
 typedef struct{
-        DSDesignSpace ** internalDesignspaces;
         DSDesignSpace * internalDesignspace;
-        DSUInteger numberOfInternal;
         DSCase * originalCase;
         DSUInteger caseNumber;
 } DSCyclicalCase;
