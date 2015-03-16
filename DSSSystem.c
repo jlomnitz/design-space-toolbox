@@ -133,7 +133,7 @@ extern void DSSSystemFree(DSSSystem * sys)
                 DSError(M_DS_NULL ": S-System to free is NULL", A_DS_ERROR);
                 goto bail;
         }
-        if (DSSSystemShouldFreeXd(sys)) {
+        if (DSSSystemShouldFreeXd(sys) == true) {
                 DSVariablePoolSetReadWriteAdd(DSSSysXd(sys));
                 DSVariablePoolFree(DSSSysXd(sys));
                 if (DSSSysXd_t(sys) != NULL) {
@@ -145,7 +145,7 @@ extern void DSSSystemFree(DSSSystem * sys)
                         DSVariablePoolFree(DSSSysXd_a(sys));
                 }
         }
-        if (DSSSystemShouldFreeXi(sys)) {
+        if (DSSSystemShouldFreeXi(sys) == true) {
                 DSVariablePoolSetReadWriteAdd(DSSSysXi(sys));
                 DSVariablePoolFree(DSSSysXi(sys));
         }
@@ -1773,7 +1773,7 @@ extern bool DSSSystemIsSingular(const DSSSystem *ssys)
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
         }
-        isSingular = ssys->modifierFlags & DS_SSYSTEM_FLAG_SINGULAR;
+        isSingular = (ssys->modifierFlags & DS_SSYSTEM_FLAG_SINGULAR) ? true : false;
 bail:
         return isSingular;
 }
@@ -1785,7 +1785,7 @@ extern bool DSSSystemShouldFreeXd(const DSSSystem *ssys)
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
         }
-        shouldFree = ssys->modifierFlags & DS_SSYSTEM_FLAG_FREE_XD;
+        shouldFree = (ssys->modifierFlags & DS_SSYSTEM_FLAG_FREE_XD) ? true : false;
 bail:
         return shouldFree;
 }
@@ -1797,7 +1797,7 @@ extern bool DSSSystemShouldFreeXi(const DSSSystem *ssys)
                 DSError(M_DS_SSYS_NULL, A_DS_ERROR);
                 goto bail;
         }
-        shouldFree = ssys->modifierFlags & DS_SSYSTEM_FLAG_FREE_XI;
+        shouldFree = (ssys->modifierFlags & DS_SSYSTEM_FLAG_FREE_XI) ? true : false;
 bail:
         return shouldFree;
 }

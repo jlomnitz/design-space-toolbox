@@ -40,7 +40,7 @@ __BEGIN_DECLS
 
 #define DS_SSYSTEM_FLAG_SINGULAR          0x01
 #define DS_SSYSTEM_FLAG_FREE_XD           0x02
-#define DS_SSYSTEM_FLAG_FREE_XI           0x03
+#define DS_SSYSTEM_FLAG_FREE_XI           0x04
 
 
 #if defined (__APPLE__) && defined (__MACH__)
