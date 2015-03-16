@@ -462,7 +462,7 @@ static DSUInteger dsGMASystemCombineIdenticalTerms(DSGMASystem * gma, const DSUI
         DSUInteger i, j, count = numberOfTerms;
         bool found = false;
         DSUInteger first;
-        DSMatrix * temp, *nullspace, *c, *Kd, *Ki;
+        DSMatrix * temp, *nullspace, *c = NULL, *Kd, *Ki;
         double value;
         if (numberOfTerms == 1)
                 goto bail;
@@ -532,7 +532,7 @@ static void dsGMASystemCombineAllIdenticalTerms(DSGMASystem * gma, const DSUInte
         DSUInteger * pIndices, *nIndices;
         bool found = false;
         DSMatrix * positive, * negative;
-        DSMatrix * temp, *nullspace, *c, *cp, *cn, *Gd, *Gi, *Hd, *Hi;
+        DSMatrix * temp, *nullspace, *c = NULL, *cp, *cn, *Gd, *Gi, *Hd, *Hi;
         double value;
         if (*numberPositiveTerms == 1 && *numberNegativeTerms == 1)
                 goto bail;
@@ -634,12 +634,12 @@ static void dsGMASystemCombineAllIdenticalTerms(DSGMASystem * gma, const DSUInte
                 DSMatrixClearRow(Hi, j);
         }
         *numberNegativeTerms = i;
-        DSMatrixFree(c);
         DSMatrixFree(nullspace);
         DSSecureFree(pIndices);
         DSSecureFree(nIndices);
 bail:
-        
+        if (c != NULL)
+                DSMatrixFree(c);
         return;
 }
 
