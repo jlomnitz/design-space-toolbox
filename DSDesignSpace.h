@@ -39,9 +39,9 @@ __BEGIN_DECLS
 
 #define M_DS_DESIGN_SPACE_NULL              M_DS_NULL ": Design Space is NULL"
 
-#define DS_DESIGN_SPACE_FLAG_SERIAL          0x01
-#define DS_DESIGN_SPACE_FLAG_CYCLICAL        0x02
-
+#define DS_DESIGN_SPACE_FLAG_SERIAL                      0x01
+#define DS_DESIGN_SPACE_FLAG_CYCLICAL                    0x02
+#define DS_DESIGN_SPACE_FLAG_RESOLVE_CO_DOMINANCE        0x04
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Allocation, deallocation and initialization
@@ -66,6 +66,7 @@ extern void DSDesignSpaceSetGMA(DSDesignSpace * ds, DSGMASystem *gma);
 extern void DSDesignSpaceAddConditions(DSDesignSpace *ds, const DSMatrix * Cd, const DSMatrix * Ci, const DSMatrix * delta);
 extern void DSDesignSpaceSetSerial(DSDesignSpace *ds, bool serial);
 extern void DSDesignSpaceSetCyclical(DSDesignSpace *ds, bool cyclical);
+extern void DSDesignSpaceSetResolveCoDominance(DSDesignSpace *ds, bool Codominance);
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Getters -
@@ -73,7 +74,7 @@ extern void DSDesignSpaceSetCyclical(DSDesignSpace *ds, bool cyclical);
 
 extern bool DSDesignSpaceSerial(const DSDesignSpace *ds);
 extern bool DSDesignSpaceCyclical(const DSDesignSpace *ds);
-
+extern bool DSDesignSpaceResolveCoDominance(const DSDesignSpace *ds);
 
 extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds);
 

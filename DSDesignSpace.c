@@ -230,6 +230,18 @@ bail:
         return;
 }
 
+extern void DSDesignSpaceSetResolveCoDominance(DSDesignSpace *ds, bool Codominance)
+{
+        unsigned char newFlag;
+        if (ds == NULL) {
+                DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        newFlag = ds->modifierFlags & ~DS_DESIGN_SPACE_FLAG_RESOLVE_CO_DOMINANCE;
+        ds->modifierFlags = (Codominance ? DS_DESIGN_SPACE_FLAG_RESOLVE_CO_DOMINANCE : 0) | newFlag;
+bail:
+        return;
+}
 
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark - Getters -
@@ -244,6 +256,12 @@ extern bool DSDesignSpaceCyclical(const DSDesignSpace *ds)
 {
         return ds->modifierFlags & DS_DESIGN_SPACE_FLAG_CYCLICAL;
 }
+
+extern bool DSDesignSpaceResolveCoDominance(const DSDesignSpace *ds)
+{
+        return ds->modifierFlags & DS_DESIGN_SPACE_FLAG_RESOLVE_CO_DOMINANCE;
+}
+
 
 extern const DSVariablePool * DSDesignSpaceXi(const DSDesignSpace *ds)
 {
@@ -504,13 +522,13 @@ extern DSCase * DSDesignSpaceCaseWithCaseNumber(const DSDesignSpace * ds, const 
         if (terms != NULL) {
                 aCase = DSCaseWithTermsFromDesignSpace(ds, terms, DSDesignSpaceCasePrefix(ds));
                 DSSecureFree(terms);
-//                if (DSDesignSpaceCyclical(ds) == false) {
-//                        processedCase = dsDesignSpaceCaseByRemovingIdenticalFluxes(ds, aCase);
-//                        if (processedCase != aCase) {
-//                                DSCaseFree(aCase);
-//                                aCase = processedCase;
-//                        }
-//                }
+                if (DSDesignSpaceResolveCoDominance(ds) == true) {
+                        processedCase = dsDesignSpaceCaseByRemovingIdenticalFluxes(ds, aCase);
+                        if (processedCase != aCase) {
+                                DSCaseFree(aCase);
+                                aCase = processedCase;
+                        }
+                }
         }
 bail:
         return aCase;
