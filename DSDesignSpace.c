@@ -472,8 +472,10 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
 //                DSMatrixSetDoubleValue(coefficient, j/2, 0, value*factor);
                 factor = 2.;
                 for (k = 0; k < signature[j]-1; k++) {
-                        value = DSMatrixDoubleValue(DSCaseDelta(newCase), start+k, 0);
-                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), start+k, 0, value+log10(factor));
+                        if (k == current) {
+                                value = DSMatrixDoubleValue(DSCaseDelta(newCase), start+k, 0);
+                                DSMatrixSetDoubleValue(DSCaseDelta(newCase), start+k, 0, value+log10(factor));
+                        }
                 }
                 
         }
