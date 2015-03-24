@@ -2784,6 +2784,7 @@ DSDesignSpace * dsCyclicalCaseCollapsedSystem(const DSCase * aCase,
         collapsed->casePrefix = strdup(DSCaseIdentifier(aCase));
         DSDesignSpaceSetSerial(collapsed, true);
         DSDesignSpaceSetCyclical(collapsed, true);
+        DSDesignSpaceSetResolveCoDominance(collapsed, DSDesignSpaceResolveCoDominance(original));
         collapsed->extensionData = extensionData;
         if (DSDesignSpaceNumberOfCases(collapsed) != 0) {
                 DSDesignSpaceCalculateCyclicalCases(collapsed);
