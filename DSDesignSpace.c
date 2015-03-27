@@ -404,8 +404,8 @@ extern DSUInteger * DSCaseIndexOfZeroBoundaries(const DSCase * aCase, DSUInteger
                                 break;
                 }
                 if (j == DSMatrixColumns(temp1)) {
-                        zeroBoundaries[(*numberOfZeros)++] = i;
-//                        DSMatrixSetDoubleValue(DSCaseZeta(aCase), i, 0, DSMatrixDoubleValue(DSCaseZeta(aCase), i, 0)+1);
+                        zeroBoundaries[*numberOfZeros] = i;
+                        *numberOfZeros += 1;
                 }
         }
 bail:
@@ -660,7 +660,7 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
         }
         if (newCase != NULL) {
                 for (i = 0; i < numberZeroBoundaries; i++) {
-                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, 2.);
+                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2.));
                 }
                 //                dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(ds, aCase, numberZeroBoundaries, zeroBoundaries);
                 DSCaseRecalculateBoundaryMatrices(newCase);

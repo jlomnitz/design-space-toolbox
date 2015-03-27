@@ -241,7 +241,7 @@ static void dsCaseCreateBoundaryMatrices(DSCase *aCase)
                 if (DSCaseCi(aCase) != NULL)
                         DSMatrixSubstractByMatrix(DSCaseU(aCase), DSCaseCi(aCase));
                 DSMatrixMultiplyByScalar(DSCaseU(aCase), -1.0);
-                DSCaseRemoveRedundantBoundaries(aCase);
+//                DSCaseRemoveRedundantBoundaries(aCase);
                 DSMatrixFree(Ai);
         }
         DSMatrixFree(W);
@@ -1183,7 +1183,7 @@ static void dsCaseAddBoundariesFromConditions(DSCase *aCase, const DSMatrix * Cd
         if (U != NULL)
                 DSMatrixFree(U);
         DSMatrixFree(W);
-        DSCaseRemoveRedundantBoundaries(aCase);
+//        DSCaseRemoveRedundantBoundaries(aCase);
 bail:
         return;
 }
