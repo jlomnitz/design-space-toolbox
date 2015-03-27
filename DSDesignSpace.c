@@ -400,7 +400,7 @@ extern DSUInteger * DSCaseIndexOfZeroBoundaries(const DSCase * aCase, DSUInteger
         temp1 = DSMatrixAppendMatrices(DSCaseU(aCase), DSCaseZeta(aCase), true);
         for (i = 0; i < DSMatrixRows(temp1); i++) {
                 for (j = 0; j < DSMatrixColumns(temp1); j++) {
-                        if (fabs(DSMatrixDoubleValue(temp1, i, j)) < 1e-14)
+                        if (fabs(DSMatrixDoubleValue(temp1, i, j)) > 1e-14)
                                 break;
                 }
                 if (j == DSMatrixColumns(temp1)) {
