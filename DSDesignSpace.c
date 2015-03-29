@@ -479,6 +479,9 @@ static bool dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(const DSDesignSpace
                         previous = j;
                 }
         }
+        if (numberOfTestCases == 1) {
+                goto bail;
+        }
         casesIdentifiers = DSSecureCalloc(sizeof(DSUInteger *), numberOfTestCases);
         for (i = 0; i < numberOfTestCases; i++) {
                 casesIdentifiers[i] = DSSecureCalloc(sizeof(DSUInteger), DSDesignSpaceNumberOfEquations(ds)*2);
