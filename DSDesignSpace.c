@@ -400,7 +400,7 @@ extern DSUInteger * DSCaseIndexOfZeroBoundaries(const DSCase * aCase, DSUInteger
         temp1 = DSMatrixAppendMatrices(DSCaseU(aCase), DSCaseZeta(aCase), true);
         for (i = 0; i < DSMatrixRows(temp1); i++) {
                 for (j = 0; j < DSMatrixColumns(temp1); j++) {
-                        if (fabs(DSMatrixDoubleValue(temp1, i, j)) > 1e-14)
+                        if (DSMatrixDoubleValue(temp1, i, j) != 0.0)
                                 break;
                 }
                 if (j == DSMatrixColumns(temp1)) {
@@ -606,10 +606,11 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
         DSCase * newCase = NULL;
         DSUInteger * zeroBoundaries = NULL;
         const DSUInteger * signature;
-        DSUInteger * alternateSignature = NULL;
-        DSUInteger i, j, k, start, current, numberZeroBoundaries;
-        DSMatrix *coefficient;
-        double value, factor;
+        DSUInteger * terms = NULL;
+        double * factors = NULL;
+        DSUInteger i, j, start, current, numberZeroBoundaries;
+        const DSMatrix * coefficient = NULL;
+        double factor;
         if (ds == NULL) {
                 DSError(M_DS_DESIGN_SPACE_NULL, A_DS_ERROR);
                 goto bail;
@@ -628,9 +629,14 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
         }
         newCase = DSCaseCopy(aCase);
         signature = DSDesignSpaceSignature(ds);
-        alternateSignature = DSSecureCalloc(sizeof(DSUInteger), 2*DSDesignSpaceNumberOfEquations(ds));
+        factors = DSSecureCalloc(sizeof(double), 2*DSDesignSpaceNumberOfEquations(ds));
+        terms = DSSecureCalloc(sizeof(DSUInteger), numberZeroBoundaries);
         for (j = 0; j < 2*DSDesignSpaceNumberOfEquations(ds); j++) {
-                alternateSignature[j] = signature[j];
+                factors[j] = 1.;
+//                if (j % 2 == 0)
+//                        factors[j] = DSMatrixDoubleValue(DSSSystemAlpha(DSCaseSSystem(aCase)), j/2, 0);
+//                else
+//                        factors[j] = DSMatrixDoubleValue(DSSSystemBeta(DSCaseSSystem(aCase)), j/2, 0);
         }
         for (i = 0; i < numberZeroBoundaries; i++) {
                 current = zeroBoundaries[i];
@@ -657,12 +663,40 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
                         break;
                         
                 }
+                terms[i] = j;
+                if (j % 2 == 0) {
+                        coefficient = DSGMASystemAlpha(DSDesignSpaceGMASystem(ds));
+                } else {
+                        coefficient = DSGMASystemBeta(DSDesignSpaceGMASystem(ds));
+                }
+                factors[j]++;// DSMatrixDoubleValue(coefficient, j/2, current);
         }
         if (newCase != NULL) {
                 for (i = 0; i < numberZeroBoundaries; i++) {
-                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2.));
+                        if (i < 2*DSDesignSpaceNumberOfEquations(ds)) {
+                                DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(factors[terms[i]]));
+                        } else {
+                                DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2));
+                        }
                 }
-                //                dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(ds, aCase, numberZeroBoundaries, zeroBoundaries);
+                j = 0;
+                start = 0;
+                for (i = 0; i < DSCaseNumberOfConditions(newCase); i++) {
+                        while (i - start >= signature[j] - 1) {
+                                j++;
+                                start = i;
+                        }
+                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), i, 0, log10(factors[j]));
+                }
+//                for (i = 0; i < 2*DSDesignSpaceNumberOfEquations(ds); i++) {
+//                        
+//                        if (i % 2 == 0) {
+//                                DSMatrixSetDoubleValue((DSMatrix *)DSSSystemAlpha(DSCaseSSystem(newCase)), i/2, 0, DSMatrixDoubleValue(DSSSystemAlpha(DSCaseSSystem(newCase)), i/2, 0)*factors[i]);
+//                        } else {
+//                                DSMatrixSetDoubleValue((DSMatrix *)DSSSystemBeta(DSCaseSSystem(newCase)), i/2, 0, DSMatrixDoubleValue(DSSSystemBeta(DSCaseSSystem(newCase)), i/2, 0)*factors[i]);
+//                        }
+//                }
+//                DSSSystemRecalculateSolution((DSSSystem *)DSCaseSSystem(newCase));
                 DSCaseRecalculateBoundaryMatrices(newCase);
         }
 bail:
@@ -670,8 +704,8 @@ bail:
                 DSSecureFree(zeroBoundaries);
         if (newCase == NULL)
                 newCase = (DSCase *)aCase;
-        if (alternateSignature != NULL)
-                DSSecureFree(alternateSignature);
+        if (factors != NULL)
+                DSSecureFree(factors);
         return newCase;
 }
 
