@@ -460,7 +460,7 @@ static bool dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(const DSDesignSpace
                 pair->index = j;
                 pair->termNumber = current+1;
                 if (current+1 >= DSCaseSignature(aCase)[j]) {
-                        pair->termNumber++;
+                        (pair->termNumber)++;
                 }
                 DSStackPush(indexTermPairs, (void *)pair);
                 if (previous == DSDesignSpaceNumberOfEquations(ds)*2) {
@@ -479,7 +479,7 @@ static bool dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(const DSDesignSpace
         for (i = 0; i < numberOfTestCases; i++) {
                 casesIdentifiers[i] = DSSecureCalloc(sizeof(DSUInteger), DSDesignSpaceNumberOfEquations(ds)*2);
                 for (j = 0; j < DSDesignSpaceNumberOfEquations(ds)*2; j++) {
-                        casesIdentifiers[i][j] = signature[j];
+                        casesIdentifiers[i][j] = DSCaseSignature(aCase)[j];
                 }
         }
         start = 0;
@@ -502,18 +502,19 @@ static bool dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(const DSDesignSpace
                 start = current;
                 count = 1;
         }
-        for (j = 0; j < DSDesignSpaceNumberOfEquations(ds)*2; j++) {
-                printf("%i", signature[j]);
-        }
-        printf("[%i]\n", numberZeroBoundaries);
+//        for (j = 0; j < DSDesignSpaceNumberOfEquations(ds)*2; j++) {
+//                printf("%i", signature[j]);
+//        }
+//        printf("[%i]\n", numberZeroBoundaries);
         for (i = 0; i < numberOfTestCases; i++) {
                 casesIdentifiers[i][previous] = ((struct indexTermPair *)DSStackObjectAtIndex(indexTermPairs, start + (i % count)))->termNumber;
-                for (j = 0; j < DSDesignSpaceNumberOfEquations(ds)*2; j++) {
-                        printf("%i", casesIdentifiers[i][j]);
-                }
-                printf("\n");
+                if (DSDesignSpaceCyclicalCaseWithCaseNumber(ds, DSCaseNumberForSignature(casesIdentifiers[i], DSDesignSpaceGMASystem(ds))) != NULL)
+                        anyCyclical = true;
+                DSSecureFree(casesIdentifiers[i]);
         }
-        printf("\n");
+        DSSecureFree(casesIdentifiers);
+        DSStackFreeWithFunction(indexTermPairs, DSSecureFree);
+//        printf("\n");
 bail:
         return anyCyclical;
 }
@@ -627,16 +628,15 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
         if (zeroBoundaries == NULL || numberZeroBoundaries == 0) {
                 goto bail;
         }
+        if (dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(ds, aCase, numberZeroBoundaries, zeroBoundaries) == true) {
+                goto bail;
+        }
         newCase = DSCaseCopy(aCase);
         signature = DSDesignSpaceSignature(ds);
         factors = DSSecureCalloc(sizeof(double), 2*DSDesignSpaceNumberOfEquations(ds));
         terms = DSSecureCalloc(sizeof(DSUInteger), numberZeroBoundaries);
         for (j = 0; j < 2*DSDesignSpaceNumberOfEquations(ds); j++) {
                 factors[j] = 1.;
-//                if (j % 2 == 0)
-//                        factors[j] = DSMatrixDoubleValue(DSSSystemAlpha(DSCaseSSystem(aCase)), j/2, 0);
-//                else
-//                        factors[j] = DSMatrixDoubleValue(DSSSystemBeta(DSCaseSSystem(aCase)), j/2, 0);
         }
         for (i = 0; i < numberZeroBoundaries; i++) {
                 current = zeroBoundaries[i];
@@ -674,32 +674,9 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
         start = i;
         if (newCase != NULL) {
                 for (i = 0; i < numberZeroBoundaries; i++) {
-//                        if (zeroBoundaries[i] < start) {
-//                                DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(factors[terms[i]]));
-//                        } else {
                                 DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2.0));
-//                        }
                 }
-//                j = 0;
-//                start = 0;
-//                for (i = 0; i < DSCaseNumberOfConditions(newCase); i++) {
-//                        while (i - start >= signature[j] - 1) {
-//                                j++;
-//                                start = i;
-//                        }
-//                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), i, 0, DSMatrixDoubleValue(DSCaseDelta(newCase), i, 0)+log10(factors[j]));
-//                }
-//                for (i = 0; i < 2*DSDesignSpaceNumberOfEquations(ds); i++) {
-//                        
-//                        if (i % 2 == 0) {
-//                                DSMatrixSetDoubleValue((DSMatrix *)DSSSystemAlpha(DSCaseSSystem(newCase)), i/2, 0, DSMatrixDoubleValue(DSSSystemAlpha(DSCaseSSystem(newCase)), i/2, 0)*factors[i]);
-//                        } else {
-//                                DSMatrixSetDoubleValue((DSMatrix *)DSSSystemBeta(DSCaseSSystem(newCase)), i/2, 0, DSMatrixDoubleValue(DSSSystemBeta(DSCaseSSystem(newCase)), i/2, 0)*factors[i]);
-//                        }
-//                }
-//                DSSSystemRecalculateSolution((DSSSystem *)DSCaseSSystem(newCase));
                 DSCaseRecalculateBoundaryMatrices(newCase);
-
         }
 bail:
         if (zeroBoundaries != NULL)
