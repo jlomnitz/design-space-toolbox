@@ -457,6 +457,10 @@ static bool dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(const DSDesignSpace
                         start += signature[j]-1;
                         current -= signature[j]-1;
                 }
+                if (j == 2*DSDesignSpaceNumberOfEquations(ds)) {
+                        DSSecureFree(pair);
+                        break;
+                }
                 pair->index = j;
                 pair->termNumber = current+1;
                 if (current+1 >= DSCaseSignature(aCase)[j]) {
