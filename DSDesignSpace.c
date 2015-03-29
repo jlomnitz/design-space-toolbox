@@ -671,9 +671,10 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
                 }
                 factors[j]++;// DSMatrixDoubleValue(coefficient, j/2, current);
         }
+        start = i;
         if (newCase != NULL) {
                 for (i = 0; i < numberZeroBoundaries; i++) {
-                        if (zeroBoundaries[i] < DSCaseNumberOfBoundaries(aCase)) {
+                        if (zeroBoundaries[i] < start) {
                                 DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(factors[terms[i]]));
                         } else {
                                 DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2.0));
