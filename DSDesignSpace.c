@@ -679,15 +679,15 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
                                 DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2));
                         }
                 }
-                j = 0;
-                start = 0;
-                for (i = 0; i < DSCaseNumberOfConditions(newCase); i++) {
-                        while (i - start >= signature[j] - 1) {
-                                j++;
-                                start = i;
-                        }
-                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), i, 0, log10(factors[j]));
-                }
+//                j = 0;
+//                start = 0;
+//                for (i = 0; i < DSCaseNumberOfConditions(newCase); i++) {
+//                        while (i - start >= signature[j] - 1) {
+//                                j++;
+//                                start = i;
+//                        }
+//                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), i, 0, DSMatrixDoubleValue(DSCaseDelta(newCase), i, 0)+log10(factors[j]));
+//                }
 //                for (i = 0; i < 2*DSDesignSpaceNumberOfEquations(ds); i++) {
 //                        
 //                        if (i % 2 == 0) {
@@ -698,6 +698,7 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
 //                }
 //                DSSSystemRecalculateSolution((DSSSystem *)DSCaseSSystem(newCase));
                 DSCaseRecalculateBoundaryMatrices(newCase);
+
         }
 bail:
         if (zeroBoundaries != NULL)
@@ -706,6 +707,8 @@ bail:
                 newCase = (DSCase *)aCase;
         if (factors != NULL)
                 DSSecureFree(factors);
+        if (terms != NULL)
+                DSSecureFree(terms);
         return newCase;
 }
 
