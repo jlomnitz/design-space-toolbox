@@ -674,11 +674,11 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
         start = i;
         if (newCase != NULL) {
                 for (i = 0; i < numberZeroBoundaries; i++) {
-                        if (zeroBoundaries[i] < start) {
-                                DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(factors[terms[i]]));
-                        } else {
+//                        if (zeroBoundaries[i] < start) {
+//                                DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(factors[terms[i]]));
+//                        } else {
                                 DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2.0));
-                        }
+//                        }
                 }
 //                j = 0;
 //                start = 0;
