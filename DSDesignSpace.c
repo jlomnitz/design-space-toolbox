@@ -673,10 +673,10 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
         }
         if (newCase != NULL) {
                 for (i = 0; i < numberZeroBoundaries; i++) {
-                        if (i < 2*DSDesignSpaceNumberOfEquations(ds)) {
+                        if (zeroBoundaries[i] < DSCaseNumberOfBoundaries(aCase)) {
                                 DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(factors[terms[i]]));
                         } else {
-                                DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2));
+                                DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2.0));
                         }
                 }
 //                j = 0;
