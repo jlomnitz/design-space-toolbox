@@ -509,10 +509,6 @@ static bool dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(const DSDesignSpace
                 start = current;
                 count = 1;
         }
-//        for (j = 0; j < DSDesignSpaceNumberOfEquations(ds)*2; j++) {
-//                printf("%i", signature[j]);
-//        }
-//        printf("[%i]\n", numberZeroBoundaries);
         for (i = 0; i < numberOfTestCases; i++) {
                 casesIdentifiers[i][previous] = ((struct indexTermPair *)DSStackObjectAtIndex(indexTermPairs, start + (i % count)))->termNumber;
                 if (DSDesignSpaceCyclicalCaseWithCaseNumber(ds, DSCaseNumberForSignature(casesIdentifiers[i], DSDesignSpaceGMASystem(ds))) != NULL)
@@ -521,7 +517,6 @@ static bool dsDesignSpaceCasesWithIdenticalFluxesAreCyclical(const DSDesignSpace
         }
         DSSecureFree(casesIdentifiers);
         DSStackFreeWithFunction(indexTermPairs, DSSecureFree);
-//        printf("\n");
 bail:
         return anyCyclical;
 }
@@ -681,7 +676,7 @@ static DSCase * dsDesignSpaceCaseByRemovingIdenticalFluxes(const DSDesignSpace *
         start = i;
         if (newCase != NULL) {
                 for (i = 0; i < numberZeroBoundaries; i++) {
-                                DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2.0));
+                        DSMatrixSetDoubleValue(DSCaseDelta(newCase), zeroBoundaries[i], 0, log10(2.0));
                 }
                 DSCaseRecalculateBoundaryMatrices(newCase);
         }
