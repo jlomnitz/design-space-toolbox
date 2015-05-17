@@ -103,6 +103,7 @@ extern DSExpression * DSGMASystemTermWithTermNumber(const DSGMASystem * gma, con
 extern DSMatrix * DSGMASystemNetworkConnectivity(const DSGMASystem * gma);
 extern DSDictionary * DSGMASystemFluxDictionary(const DSGMASystem * gma);
 extern DSMatrix * DSGMASystemPrecursorProductRelationships(const DSGMASystem * gma, DSUInteger precursorEquation, DSUInteger productEquation);
+extern DSMatrix * DSGMASystemEquivalentFluxes(const DSGMASystem * gma);
 
 #if defined(__APPLE__) && defined (__MACH__)
 #pragma mark - Data Serialization
