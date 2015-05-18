@@ -1629,7 +1629,7 @@ extern DSMatrix * DSGMASystemEquivalentFluxes(const DSGMASystem * gma) {
         Gi = DSGMASystemGi(gma);
         Hi = DSGMASystemHi(gma);
         includeRows = DSSecureMalloc(sizeof(DSUInteger)*DSMatrixRows(DSMatrixArrayMatrix(Gd, 0)));
-        for (i = 0; i < DSMatrixRows(DSMatrixArrayMatrix(Gd, 0)); i++) {
+        for (i = 0; i < DSMatrixRows(DSMatrixArrayMatrix(Gd, 0))+DSMatrixRows(DSMatrixArrayMatrix(Hd, 0)); i++) {
                 includeRows[i] = i;
         }
         for (i = 0; i < DSGMASystemNumberOfEquations(gma); i++) {
