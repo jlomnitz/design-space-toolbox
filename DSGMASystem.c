@@ -1607,7 +1607,6 @@ extern DSDictionary * DSGMASystemFluxDictionary(const DSGMASystem * gma) {
                         DSDictionaryAddValueWithName(fluxes, key, DSGMASystemNegativeTermForEquations(gma, i, j));
                 }
         }
-        DSMatrixPrint(DSGMASystemEquivalentFluxes(gma));
 bail:
         return fluxes;
 }
@@ -1618,6 +1617,7 @@ extern DSMatrix * DSGMASystemEquivalentFluxes(const DSGMASystem * gma) {
         DSMatrix * G, *H = NULL;
         DSMatrix * combinedTerms = NULL;
         DSMatrix * temp;
+        DSUInteger * includeRows = NULL;
         const DSMatrixArray * Gd, *Gi, *Hd, *Hi;
         DSUInteger i;
         if (gma == NULL) {
@@ -1628,9 +1628,19 @@ extern DSMatrix * DSGMASystemEquivalentFluxes(const DSGMASystem * gma) {
         Hd = DSGMASystemHd(gma);
         Gi = DSGMASystemGi(gma);
         Hi = DSGMASystemHi(gma);
+        includeRows = DSSecureMalloc(sizeof(DSUInteger)*DSMatrixRows(DSMatrixArrayMatrix(Gd, 0)));
+        for (i = 0; i < DSMatrixRows(DSMatrixArrayMatrix(Gd, 0)); i++) {
+                includeRows[i] = i;
+        }
         for (i = 0; i < DSGMASystemNumberOfEquations(gma); i++) {
                 G = DSMatrixAppendMatrices(DSMatrixArrayMatrix(Gd, i), DSMatrixArrayMatrix(Gi, i), true);
                 H = DSMatrixAppendMatrices(DSMatrixArrayMatrix(Hd, i), DSMatrixArrayMatrix(Hi, i), true);
+                temp = DSMatrixSubMatrixIncludingRows(G, DSGMASystemSignature(gma)[2*i], includeRows);
+                DSMatrixFree(G);
+                G = temp;
+                temp = DSMatrixSubMatrixIncludingRows(H, DSGMASystemSignature(gma)[2*i+1], includeRows);
+                DSMatrixFree(H);
+                H = temp;
                 temp = DSMatrixAppendMatrices(G, H, false);
                 DSMatrixFree(G);
                 DSMatrixFree(H);
@@ -1643,6 +1653,7 @@ extern DSMatrix * DSGMASystemEquivalentFluxes(const DSGMASystem * gma) {
                         DSMatrixFree(G);
                 }
         }
+        DSSecureFree(includeRows);
         fluxes = DSMatrixIdenticalRows(combinedTerms);
         DSMatrixFree(combinedTerms);
 bail:

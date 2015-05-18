@@ -135,7 +135,7 @@ extern DSMatrixArray * dsSubcaseProblematicTerms(const DSCase *aCase, const DSMa
                         }
                 }
                 if (numDependent == 1) {
-                        DSMatrixPrint(termMatrix);
+//                        DSMatrixPrint(termMatrix);
                         DSMatrixArrayFree(dependentTerms);
                         dependentTerms = NULL;
                         break;
@@ -148,7 +148,7 @@ extern DSMatrixArray * dsSubcaseProblematicTerms(const DSCase *aCase, const DSMa
                 nullspace = DSMatrixIdenticalRows(termMatrix);
 //                nullspace = DSMatrixLeftNullspace(termMatrix);
                 if (nullspace == NULL) {
-                        DSMatrixPrint(termMatrix);
+//                        DSMatrixPrint(termMatrix);
                         DSMatrixArrayFree(dependentTerms);
                         dependentTerms = NULL;
                         break;
