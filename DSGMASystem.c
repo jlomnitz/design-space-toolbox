@@ -1699,7 +1699,6 @@ extern DSMatrix * DSGMASystemPrecursorProductRelationshipsCP(const DSGMASystem *
                         DSMatrixSetDoubleValue(termMatrix, numberNegativeTerms+i, numberXd+j, -DSMatrixArrayDoubleWithIndices(Gi, productEquation, i, j));
                 }
         }
-//        nullspace = DSMatrixLeftNullspace(termMatrix);
         nullspace = DSMatrixIdenticalRows(termMatrix);
         if (nullspace == NULL) {
                 DSMatrixFree(termMatrix);
