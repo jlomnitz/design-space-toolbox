@@ -179,11 +179,11 @@ extern char * DSCaseStringInJSONFormat(const DSCase * aCase);
 #pragma mark Read JSON data
 #endif
 
-extern DSVariablePool * DSVariablePoolByParsingStringInJSONFormat(const char * string);
-extern DSMatrix * DSMatrixByParsingStringInJSONFormat(const char * string);
-extern DSMatrixArray * DSMatrixArrayByParsingStringInJSONFormat(const char * string);
-extern DSSSystem * DSSSystemByParsingStringInJSONFormat(const char * string);
-extern DSCase * DSCaseByParsingStringInJSONFormat(const char * string);
+//extern DSVariablePool * DSVariablePoolByParsingStringInJSONFormat(const char * string);
+//extern DSMatrix * DSMatrixByParsingStringInJSONFormat(const char * string);
+//extern DSMatrixArray * DSMatrixArrayByParsingStringInJSONFormat(const char * string);
+//extern DSSSystem * DSSSystemByParsingStringInJSONFormat(const char * string);
+//extern DSCase * DSCaseByParsingStringInJSONFormat(const char * string);
 
 extern void * DSIOReadBinaryData(const char * fileName, size_t * length);
 extern void DSIOWriteBinaryData(const char * fileName, size_t length, void * binaryData);
