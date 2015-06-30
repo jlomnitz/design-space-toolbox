@@ -2,7 +2,13 @@
  * \file DSDictionary.h
  * \brief Header file with functions for dealing with dictionaries.
  *
- * \details 
+ * \details The `DSDictionary` object is implemented using a binary tree.
+ *          A binary tree was chosen due to memory limitations rather than 
+ *          time to access limitations, which is not expected to be a 
+ *          bottleneck.  The memory limitation arises from the expectation
+ *          that these dictionaries typically hold small number of key-value
+ *          pairs and a given dictionary may be duplicated many times for
+ *          multiple models.
  *
  * Copyright (C) 2011-2014 Jason Lomnitz.\n\n
  *
