@@ -72,6 +72,14 @@ __BEGIN_DECLS
 #define calloc(x, y) DSSecureCalloc(x, y)
 #define realloc(x, y) DSSecureRealloc(x, y)
 
+/**
+ * Function to return the version of the Design Space Toolbox
+ *
+ * \return A string with the representation of the current version in the format
+ *         major.minor.hotfix[development_stage version].  For example, the 
+ *         first version of alpha development of v 0.3.0 is represented as 
+ *         `0.3.0a1`.
+ */
 extern const char * DSDesignSpaceToolboxVersionString(void);
 
 #ifdef __cplusplus

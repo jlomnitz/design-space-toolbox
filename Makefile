@@ -6,6 +6,12 @@
 #      (2)  The GNU Scientific Library
 #      (3)  An implementation of cblas, preferable compiled using atlas.
 #
+# Makefile is intended to be used with the Design Space Toolbox Update Script
+# The script can be found at:
+#
+#       https://bitbucket.org/jglomnitz/toolbox-update-script
+#
+
 CC = gcc
 # Without this  -L"/usr/lib/atlas-base/" the libcblas.so library is not detected in debian. 
 CFLAGS = -std=gnu99 -Wall -O3 -shared -fPIC

@@ -7,7 +7,7 @@ Incompatabilities
 
 New features
 ============
-* Data Serialization (being implemented).
+* Data Serialization.
 * Improved analysis of cyclical cases for better coverage (being implemented).
 
 Bug Fixes

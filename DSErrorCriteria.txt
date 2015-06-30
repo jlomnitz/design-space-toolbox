@@ -1,68 +1,19 @@
 CRITERIA for A_DS_WARNING
-* A_DS_WARNING represents a situation where ambiguious data exists.  In these situations, normal
-* operation can resume and the ambiguous values are used; however, these situations should be avoided.
-* An example of a A_DS_WARNING is passing a NULL DSMatrix to substract from another DSMatrix.
-* NULL pointers reflect a matrix with all 0.0 values; however, this should be done explicitly.
+* A_DS_WARNING is used to indicate a situation where there is ambiguous data.
+* In these situations, normal operation can resume despite the ambiguous data.
+* An example of a A_DS_WARNING is passing a NULL DSMatrix to substract to
+* another DSMatrix. A NULL pointer in this situation represents the Zero matrix;
+* however, the Zero matrix should be used explicitly.
 
 CRITERIA for A_DS_ERROR
-* A_DS_ERROR represents a situation in which data is clearly missing, corrupt or wrong and
-* thus affect the normal operation of the program.  In this situation, the error is posted and nothing is
-* done where the error is concerned.  An example of a A_DS_ERROR is when trying to access an 
-* element of a matrix beyond its bounds.
+* A_DS_ERROR is used to indicate a situation in which data is clearly missing,
+* erroneous or of the wrong type; thus, normal operation of the program cannot
+* resume.  In this situation, the error is posted and function calls finish
+* gracefully, returning neutral values such as NULL pointers. An example of a
+* A_DS_ERROR is when trying to access an element of a matrix beyond its bounds.
 
 
 CRITERIA for A_DS_FATAL
 * A_DS_FATAL represents an error presenting a situation from which it cannot be
 * recovered, reflecting the most critical of errors, such as unable to allocate
 * more memory.
-
-
-/** To be deleted **/
-/** Finding number of cores **/
-
-#if defined (MAC_OS_X) || defined (BSD)
-#include <sys/sysctl.h>
-#elif defined (LINUX)
-#include <sys/sysinfo.h>
-#elif defined(WINDOWS)
-#include <Windows.h>
-#endif
-
-
-Win32:
-
-SYSTEM_INFO sysinfo;
-GetSystemInfo( &sysinfo );
-
-numCPU = sysinfo.dwNumberOfProcessors;
-Linux, Solaris, & AIX (per comments):
-
-numCPU = sysconf( _SC_NPROCESSORS_ONLN );
-FreeBSD, MacOS X, NetBSD, OpenBSD, etc.:
-
-int mib[4];
-size_t len = sizeof(numCPU); 
-
-/* set the mib for hw.ncpu */
-mib[0] = CTL_HW;
-mib[1] = HW_AVAILCPU;  // alternatively, try HW_NCPU;
-
-/* get the number of CPUs from the system */
-sysctl(mib, 2, &numCPU, &len, NULL, 0);
-
-if( numCPU < 1 ) 
-{
-mib[1] = HW_NCPU;
-sysctl( mib, 2, &numCPU, &len, NULL, 0 );
-
-if( numCPU < 1 )
-{
-numCPU = 1;
-}
-}
-HPUX:
-
-numCPU = mpctl(MPC_GETNUMSPUS, NULL, NULL);
-IRIX:
-
-numCPU = sysconf( _SC_NPROC_ONLN );
