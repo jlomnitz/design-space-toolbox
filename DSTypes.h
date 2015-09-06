@@ -122,11 +122,13 @@ typedef struct {
  */
 typedef struct _varDictionary
 {
-        char current;                  //!< The current character in the dictionary.
-        struct _varDictionary *lower;  //!< The alternative character in the dictionary that is less than the current.
-        struct _varDictionary *higher; //!< The alternative character in the dictionary that is greater than current.
-        struct _varDictionary *next;   //!< The next character in the dictionary.
-        void *value;                   //!< The variable stored. Only when current is '\\0'.
+        char current;                   //!< The current character in the dictionary.
+        struct _varDictionary *lower;   //!< The alternative character in the dictionary that is less than the current.
+        struct _varDictionary *higher;  //!< The alternative character in the dictionary that is greater than current.
+        struct _varDictionary *next;    //!< The next character in the dictionary.
+//        struct _varDictionary * parent; //!< The parent node, used for self-balanicing.
+//        char color;                     //!< The node color used for red-black tree.
+        void *value;                    //!< The variable stored. Only when current is '\\0'.
 } DSInternalDictionary;
 
 /**
