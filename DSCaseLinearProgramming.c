@@ -85,7 +85,7 @@ static glp_prob * dsCaseLinearProblemForMatrices(const DSMatrix *A, const DSMatr
                                  DSMatrixDoubleValue(B, i, 0));
         }
         for (i = 0; i < numberOfXi; i++)
-                glp_set_col_bnds(linearProblem, i+1, GLP_DB, -20.0, 20.0);
+                glp_set_col_bnds(linearProblem, i+1, GLP_FR, 0., 0.);
         
         if (ia != NULL)
                 DSSecureFree(ia);
