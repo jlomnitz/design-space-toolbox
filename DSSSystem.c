@@ -672,7 +672,271 @@ bail:
         return matrices;
 }
 
+static void dsSSystemMatricesByPartitioningAuxiliaryVariables(const DSSSystem * ssystem,
+                                                              DSMatrix ** ADat, DSMatrix ** ADaa,
+                                                              DSMatrix ** AIa, DSMatrix ** Ba)
+{
+        DSUInteger * indices;
+        const DSVariablePool * Xd_t, *Xd_a, *Xd;
+        DSMatrix *Ad_a, *temp;
+        if (ssystem == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if ((ADat && ADaa && AIa && Ba) == false) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        *ADat = NULL;
+        *ADaa = NULL;
+        *AIa = NULL;
+        *Ba = NULL;
+        if (DSSSystemXd_a(ssystem) == NULL) {
+                DSError(M_DS_VAR_NULL ": Xd_a variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(ssystem)) > DSVariablePoolNumberOfVariables(DSSSystemXd(ssystem))) {
+                DSError(M_DS_WRONG ": Number of algebraic variables exceeds number of total variables", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(ssystem)) == 0) {
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_t(ssystem)) == 0) {
+                DSError(M_DS_WRONG ": System does not have dynamic variables.", A_DS_WARN);
+                goto bail;
+        }
+        Xd = DSSSystemXd(ssystem);
+        Xd_t = DSSSystemXd_t(ssystem);
+        Xd_a = DSSSystemXd_a(ssystem);
+        indices = DSVariablePoolIndicesOfSubPool(Xd, Xd_a);
+        temp = DSSSystemAd(ssystem);
+        Ad_a = DSMatrixSubMatrixIncludingRows(temp, DSVariablePoolNumberOfVariables(Xd_a), indices);
+        DSMatrixFree(temp);
+        temp = DSSSystemAi(ssystem);
+        *AIa = DSMatrixSubMatrixIncludingRows(temp, DSVariablePoolNumberOfVariables(Xd_a), indices);
+        DSMatrixFree(temp);
+        temp = DSSSystemB(ssystem);
+        *Ba = DSMatrixSubMatrixIncludingRows(temp, DSVariablePoolNumberOfVariables(Xd_a), indices);
+        DSMatrixFree(temp);
+        *ADat = DSMatrixSubMatrixExcludingColumns(Ad_a, DSVariablePoolNumberOfVariables(Xd_a), indices);
+        *ADaa = DSMatrixSubMatrixIncludingColumns(Ad_a, DSVariablePoolNumberOfVariables(Xd_a), indices);
+        DSMatrixFree(Ad_a);
+        DSSecureFree(indices);
+bail:
+        return;
+}
+
+static void dsSSystemSolutionForAlgebraicConstraints(const DSSSystem * ssystem,
+                                                           const DSMatrix * M_a,
+                                                           DSMatrix ** Ad_at,
+                                                           DSMatrix ** Ai_a,
+                                                           DSMatrix ** B_a
+                                                           ) {
+        DSMatrix * LHS, * RHS;
+        if (ssystem == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if ((M_a && Ad_at && Ai_a && B_a) == false) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemXd_a(ssystem) == NULL) {
+                DSError(M_DS_VAR_NULL ": Xd_a variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(ssystem)) > DSVariablePoolNumberOfVariables(DSSSystemXd(ssystem))) {
+                DSError(M_DS_WRONG ": Number of algebraic variables exceeds number of total variables", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(ssystem)) == 0) {
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_t(ssystem)) == 0) {
+                DSError(M_DS_WRONG ": System does not have dynamic variables.", A_DS_WARN);
+                goto bail;
+        }
+
+        RHS = *Ad_at;
+        LHS = DSMatrixByMultiplyingMatrix(M_a, RHS);
+        *Ad_at = DSMatrixByMultiplyingScalar(LHS, -1.0);
+        DSMatrixFree(LHS);
+        DSMatrixFree(RHS);
+
+        RHS = *Ai_a;
+        LHS = DSMatrixByMultiplyingMatrix(M_a, RHS);
+        *Ai_a = DSMatrixByMultiplyingScalar(LHS, -1.0);
+        DSMatrixFree(LHS);
+        DSMatrixFree(RHS);
+        
+        RHS = *B_a;
+        LHS = DSMatrixByMultiplyingMatrix(M_a, RHS);
+        *B_a = DSMatrixByMultiplyingScalar(LHS, -1.0);
+        DSMatrixFree(LHS);
+        DSMatrixFree(RHS);
+bail:
+        return;
+}
+
+static DSSSystem * dsSSystemDSSSystemByRemovingAlgebraicConstraintsInternal(const DSSSystem * originalSSystem,
+                                                                            const DSMatrix * MAd_at,
+                                                                            const DSMatrix * MAi_a,
+                                                                            const DSMatrix * MB_a)
+{
+        DSSSystem * collapsedSSystem = NULL;
+        DSMatrix *Kd, *Ki, *Kd_t, *Kd_a, *a, *LHS, *RHS;
+        DSUInteger i, * indices, auxiliary_count;
+        const DSVariablePool * Xd_t, *Xd_a, *Xd;
+        if (originalSSystem == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemXd_a(originalSSystem) == NULL) {
+                DSError(M_DS_VAR_NULL ": Xd_a variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem)) > DSVariablePoolNumberOfVariables(DSSSystemXd(originalSSystem))) {
+                DSError(M_DS_WRONG ": Number of algebraic variables exceeds number of total variables", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem)) == 0) {
+                collapsedSSystem = DSSSystemCopy(originalSSystem);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_t(originalSSystem)) == 0) {
+                DSError(M_DS_WRONG ": System does not have dynamic variables.", A_DS_WARN);
+                goto bail;
+        }
+        if (MAd_at == NULL || MAi_a == NULL || MB_a == NULL) {
+                DSError(M_DS_MAT_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        Xd = DSSSystemXd(originalSSystem);
+        Xd_t = DSSSystemXd_t(originalSSystem);
+        Xd_a = DSSSystemXd_a(originalSSystem);
+        indices = DSVariablePoolIndicesOfSubPool(Xd, Xd_a);
+        auxiliary_count = DSVariablePoolNumberOfVariables(Xd_a);
+        
+        collapsedSSystem = DSSSystemAlloc();
+        DSSSysXd(collapsedSSystem) = DSVariablePoolCopy(Xd_t);
+        DSSSysXd_t(collapsedSSystem) = DSVariablePoolCopy(Xd_t);
+        DSSSysXd_a(collapsedSSystem) = DSVariablePoolAlloc();
+        DSSSysXi(collapsedSSystem) = DSVariablePoolCopy(DSSSystemXi(originalSSystem));
+        DSSSystemSetShouldFreeXd(collapsedSSystem, true);
+        DSSSystemSetShouldFreeXi(collapsedSSystem, true);
+        for (i = 0; i < 2; i++) {
+                if (i == 0) {
+                        Kd = (DSMatrix *)DSMatrixSubMatrixExcludingRows(DSSSystemGd(originalSSystem),
+                                                                        auxiliary_count,
+                                                                        indices);
+                        Ki = DSMatrixSubMatrixExcludingRows(DSSSystemGi(originalSSystem),
+                                                            auxiliary_count,
+                                                            indices);
+                        a = DSMatrixSubMatrixExcludingRows(DSSSystemAlpha(originalSSystem), auxiliary_count, indices);
+                } else {
+                        Kd = (DSMatrix *)DSMatrixSubMatrixExcludingRows(DSSSystemHd(originalSSystem),
+                                                                        auxiliary_count,
+                                                                        indices);
+                        Ki = DSMatrixSubMatrixExcludingRows(DSSSystemHi(originalSSystem),
+                                                            auxiliary_count,
+                                                            indices);
+                        a = DSMatrixSubMatrixExcludingRows(DSSSystemBeta(originalSSystem), auxiliary_count, indices);
+                }
+                
+                Kd_t = DSMatrixSubMatrixExcludingColumns(Kd, auxiliary_count, indices);
+                Kd_a = DSMatrixSubMatrixIncludingColumns(Kd, auxiliary_count, indices);
+                
+                LHS = Kd_t;
+                RHS = DSMatrixByMultiplyingMatrix(Kd_a, MAd_at);
+                Kd_t = DSMatrixByAddingMatrix(LHS, RHS);
+                DSMatrixFree(LHS);
+                DSMatrixFree(RHS);
+                
+                LHS = Ki;
+                RHS = DSMatrixByMultiplyingMatrix(Kd_a, MAi_a);
+                Ki = DSMatrixByAddingMatrix(LHS, RHS);
+                DSMatrixFree(LHS);
+                DSMatrixFree(RHS);
+                
+                LHS = a;
+                RHS = DSMatrixByMultiplyingMatrix(Kd_a, MB_a);
+                a = DSMatrixByAddingMatrix(LHS, RHS);
+                DSMatrixFree(LHS);
+                DSMatrixFree(RHS);
+                
+                if (i == 0) {
+                        DSSSysGd(collapsedSSystem) = Kd_t;
+                        DSSSysGi(collapsedSSystem) = Ki;
+                        DSSSysAlpha(collapsedSSystem) = a;
+                } else {
+                        DSSSysHd(collapsedSSystem) = Kd_t;
+                        DSSSysHi(collapsedSSystem) = Ki;
+                        DSSSysBeta(collapsedSSystem) = a;
+                }
+        }
+        dsSSystemSolveEquations(collapsedSSystem);
+bail:
+        return collapsedSSystem;
+}
+
 extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * originalSSystem)
+{
+        DSSSystem * collapsedSystem = NULL;
+        DSMatrix * M_a, * Ad_at = NULL, * Ad_aa = NULL, * Ai_a = NULL, * B_a = NULL;
+        if (originalSSystem == NULL) {
+                DSError(M_DS_SSYS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSSSystemXd_a(originalSSystem) == NULL) {
+                DSError(M_DS_VAR_NULL ": Xd_a variable pool is NULL", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem)) > DSVariablePoolNumberOfVariables(DSSSystemXd(originalSSystem))) {
+                DSError(M_DS_WRONG ": Number of algebraic variables exceeds number of total variables", A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_a(originalSSystem)) == 0) {
+                collapsedSystem = DSSSystemCopy(originalSSystem);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(DSSSystemXd_t(originalSSystem)) == 0) {
+                DSError(M_DS_WRONG ": System does not have dynamic variables.", A_DS_WARN);
+                goto bail;
+        }
+        dsSSystemMatricesByPartitioningAuxiliaryVariables(originalSSystem,
+                                                          &Ad_at,&Ad_aa,&Ai_a,&B_a);
+        if (Ad_aa == NULL) {
+                goto bail;
+        }
+        M_a = DSMatrixInverse(Ad_aa);
+        if (M_a == NULL) {
+                goto bail;
+        }
+        dsSSystemSolutionForAlgebraicConstraints(originalSSystem,
+                                                 M_a,
+                                                 &Ad_at,
+                                                 &Ai_a,
+                                                 &B_a);
+        DSMatrixFree(M_a);
+        collapsedSystem = dsSSystemDSSSystemByRemovingAlgebraicConstraintsInternal(originalSSystem,
+                                                                                   Ad_at,
+                                                                                   Ai_a,
+                                                                                   B_a);
+bail:
+        if (Ad_aa != NULL)
+                DSMatrixFree(Ad_aa);
+        if (Ad_at != NULL)
+                DSMatrixFree(Ad_at);
+        if (Ai_a != NULL)
+                DSMatrixFree(Ai_a);
+        if (B_a != NULL)
+                DSMatrixFree(B_a);
+
+        return collapsedSystem;
+}
+
+extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints_old(const DSSSystem * originalSSystem)
 {
         DSUInteger numberOfAlgebraicVaiables = 0, numberOfDifferentialVariables = 0;
         DSUInteger i, j, k;
@@ -728,6 +992,7 @@ extern DSSSystem * DSSSystemByRemovingAlgebraicConstraints(const DSSSystem * ori
 bail:
         return collapsedSystem;
 }
+
 #if defined (__APPLE__) && defined (__MACH__)
 #pragma mark Public Functions
 #endif

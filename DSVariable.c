@@ -876,4 +876,36 @@ bail:
         return matrix;
 }
 
+extern DSUInteger * DSVariablePoolIndicesOfSubPool(const DSVariablePool * superPool, const DSVariablePool * subPool)
+{
+        DSUInteger i, count;
+        const char * name;
+        DSUInteger * indices = NULL;
+        if (superPool == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (subPool == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSVariablePoolNumberOfVariables(superPool) == 0 ||
+            DSVariablePoolNumberOfVariables(subPool) == 0) {
+                DSError(M_DS_WRONG ": Variable pool is empty", A_DS_ERROR);
+                goto bail;
+        }
+        count = DSVariablePoolNumberOfVariables(subPool);
+        indices = DSSecureMalloc(sizeof(DSUInteger)*count);
+        for (i = 0; i < count; i++) {
+                name = DSVariableName(DSVariablePoolVariableAtIndex(subPool, i));
+                if (DSVariablePoolHasVariableWithName(superPool, name) == false) {
+                        indices[i] = count;
+                } else {
+                        indices[i] = DSVariablePoolIndexOfVariableWithName(superPool, name);
+                }
+        }
+bail:
+        return indices;
+}
+
 

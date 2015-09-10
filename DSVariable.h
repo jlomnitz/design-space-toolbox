@@ -160,6 +160,8 @@ extern DSUInteger DSVariablePoolIndexOfVariableWithName(const DSVariablePool *po
 
 extern void DSVariablePoolPrint(const DSVariablePool * const pool);
 extern DSMatrix * DSVariablePoolValuesAsVector(const DSVariablePool *pool, const bool rowVector);
+extern DSUInteger * DSVariablePoolIndicesOfSubPool(const DSVariablePool * superPool, const DSVariablePool * subPool);
+
 
 #ifdef __cplusplus
 __END_DECLS
