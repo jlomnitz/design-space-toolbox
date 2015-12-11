@@ -1767,6 +1767,8 @@ static void dsCyclicalCaseAugmentedEquationsForCycleALT(char ** systemEquations,
                 }
                 index = i/2;
                 if (i % 2 == 0) {
+                        if (l >= DSMatrixRows(DSMatrixArrayMatrix(coefficientArray, cycleNumber))) // This Check was added to avoid an error that was appearing.
+                                break;
                         C = DSMatrixSubMatrixIncludingRowList(DSGMASystemAlpha(gma), 1, i/2);
                         Kd = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemGd(gma), i/2));
                         Ki = DSMatrixCopy(DSMatrixArrayMatrix(DSGMASystemGi(gma), i/2));
