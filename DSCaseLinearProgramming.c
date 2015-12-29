@@ -2040,13 +2040,14 @@ bail:
  */
 extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DSUInteger numberOfCases, const DSCase ** cases, const DSUInteger numberOfExceptions, const char ** exceptionVarNames)
 {
-        DSUInteger i, j, k, currentRow, numberOfExtraColumns, rows, columns, *indices;
+        DSUInteger i, j, k, currentRow, rows, columns_i, columns_d, *indices_i, *indices_d;
+        DSUInteger newXi, newXd, numberExtra_i, numberExtra_d;
         DSPseudoCase * caseIntersection = NULL;
         DSMatrix * Cd = NULL, *Ci = NULL, *delta = NULL;
-        DSMatrix *U = NULL, *Zeta = NULL, *tempU, *tempZeta;
-        DSVariablePool * Xi;
+        DSMatrix *U = NULL, *Zeta = NULL, *tempCd, *tempU, *tempZeta;
+        DSVariablePool *Xd, *Xi;
         char * name = NULL;
-        const char ** variableNames;
+        const char ** variableNames_i, ** variableNames_d;
         if (numberOfCases == 0) {
                 DSError(M_DS_WRONG ": Number of cases must be at least one", A_DS_ERROR);
                 goto bail;
@@ -2059,53 +2060,83 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                 if (DSCaseHasSolution(cases[i]) == false)
                         goto bail;
         }
+        Xd = DSVariablePoolAlloc();
         Xi = DSVariablePoolAlloc();
-        variableNames = DSVariablePoolAllVariableNames(DSCaseXi(cases[0]));
-        indices = DSSecureCalloc(numberOfExceptions, sizeof(DSUInteger));
+        variableNames_i = DSVariablePoolAllVariableNames(DSCaseXi(cases[0]));
+        variableNames_d = DSVariablePoolAllVariableNames(DSCaseXd(cases[0]));
+        indices_d = DSSecureCalloc(numberOfExceptions, sizeof(DSUInteger));
+        indices_i = DSSecureCalloc(numberOfExceptions, sizeof(DSUInteger));
+        newXi = 0;
+        newXd = 0;
         for (j = 0; j < numberOfExceptions; j++) {
                 for (i = 0; i < numberOfCases; i++) {
-                        if (DSVariablePoolHasVariableWithName(DSCaseXi(cases[i]), exceptionVarNames[j]) == false) {
+                        if (DSVariablePoolHasVariableWithName(DSCaseXd(cases[i]), exceptionVarNames[j])) {
+                                indices_d[newXd++] = DSVariablePoolIndexOfVariableWithName(DSCaseXd(cases[0]), exceptionVarNames[j]);
+                        } else if (DSVariablePoolHasVariableWithName(DSCaseXi(cases[i]), exceptionVarNames[j])) {
+                                indices_i[newXi++] = DSVariablePoolIndexOfVariableWithName(DSCaseXi(cases[0]), exceptionVarNames[j]);
+                        } else {
                                 DSError(M_DS_WRONG ": Case does not have variable to except", A_DS_ERROR);
-                                DSSecureFree(indices);
+                                DSSecureFree(indices_i);
+                                DSSecureFree(indices_d);
                                 goto bail;
                         }
                 }
-                indices[j] = DSVariablePoolIndexOfVariableWithName(DSCaseXi(cases[0]), exceptionVarNames[j]);
         }
         k = 0;
         name = DSSecureCalloc(sizeof(char), 200);
         for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXi(cases[0])); i++) {
-                for (j = 0; j < numberOfExceptions; j++) {
-                        if (i == indices[j])
+                for (j = 0; j < newXi; j++) {
+                        if (i == indices_i[j])
                                 break;
                 }
-                if (j == numberOfExceptions) {
-                        DSVariablePoolAddVariableWithName(Xi, variableNames[i]);
+                if (j == newXi) {
+                        DSVariablePoolAddVariableWithName(Xi, variableNames_i[i]);
                 } else {
-                        sprintf(name, "$%s_0", variableNames[i]);
+                        sprintf(name, "$%s_0", variableNames_i[i]);
                         DSVariablePoolAddVariableWithName(Xi, name);
                 }
         }
-        for (i = 0; i < numberOfExceptions*(numberOfCases-1); i++) {
-                j = i % numberOfExceptions;
-                sprintf(name, "$%s_%i", variableNames[indices[j]], i / numberOfExceptions + 1);
+        for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXd(cases[0])); i++) {
+                for (j = 0; j < newXd; j++) {
+                        if (i == indices_d[j])
+                                break;
+                }
+                if (j == newXd) {
+                        DSVariablePoolAddVariableWithName(Xd, variableNames_d[i]);
+                } else {
+                        sprintf(name, "$%s_0", variableNames_d[i]);
+                        DSVariablePoolAddVariableWithName(Xd, name);
+                }
+        }
+        for (i = 0; i < newXi*(numberOfCases-1); i++) {
+                j = i % newXi;
+                sprintf(name, "$%s_%i", variableNames_i[indices_i[j]], i / numberOfExceptions + 1);
                 DSVariablePoolAddVariableWithName(Xi, name);
         }
-        DSSecureFree(variableNames);
+        for (i = 0; i < newXd*(numberOfCases-1); i++) {
+                j = i % newXd;
+                sprintf(name, "$%s_%i", variableNames_d[indices_d[j]], i / numberOfExceptions + 1);
+                DSVariablePoolAddVariableWithName(Xd, name);
+        }
+        DSSecureFree(variableNames_i);
+        DSSecureFree(variableNames_d);
         DSSecureFree(name);
-        numberOfExtraColumns = numberOfExceptions*(numberOfCases-1);
+        numberExtra_i = newXi*(numberOfCases-1);
+        numberExtra_d = newXd*(numberOfCases-1);
         rows = 0;
-        columns = DSMatrixColumns(DSCaseU(cases[0]))+numberOfExtraColumns;
+        columns_i = DSMatrixColumns(DSCaseU(cases[0]))+numberExtra_i;
+        columns_d = DSMatrixColumns(DSCaseCd(cases[0]))+numberExtra_d;
         for (i = 0; i < numberOfCases; i++) {
                 rows += DSMatrixRows(DSCaseZeta(cases[i]));
         }
-        Cd = DSMatrixCalloc(rows, DSMatrixColumns(DSCaseCd(cases[0])));
-        Ci = DSMatrixCalloc(rows, columns);
+        Cd = DSMatrixCalloc(rows, columns_d);
+        Ci = DSMatrixCalloc(rows, columns_i);
         delta = DSMatrixCalloc(rows, 1);
-        U = DSMatrixCalloc(rows, columns);
+        U = DSMatrixCalloc(rows, columns_i);
         Zeta = DSMatrixCalloc(rows, 1);
         currentRow = 0;
         for (i = 0; i < numberOfCases; i++) {
+                tempCd = DSCaseCd(cases[i]);
                 tempU = DSCaseU(cases[i]);
                 tempZeta = DSCaseZeta(cases[i]);
                 for (j = 0; j < DSMatrixRows(tempZeta); j++) {
@@ -2115,21 +2146,28 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
                                 DSMatrixSetDoubleValue(Ci, currentRow, k, DSMatrixDoubleValue(DSCaseCi(cases[i]), j, k));
                                 DSMatrixSetDoubleValue(U, currentRow, k, DSMatrixDoubleValue(tempU, j, k));
                         }
-                        for (k = 0; k < DSMatrixColumns(DSCaseCd(cases[i])); k++) {
+                        for (k = 0; k < DSMatrixColumns(tempCd); k++) {
                                 DSMatrixSetDoubleValue(Cd, currentRow, k, DSMatrixDoubleValue(DSCaseCd(cases[i]), j, k));
                         }
                         if (i > 0) {
-                                for (k = 0; k < numberOfExceptions; k++) {
+                                for (k = 0; k < newXi; k++) {
                                         DSMatrixSetDoubleValue(U,
                                                                currentRow,
-                                                               DSMatrixColumns(tempU)+numberOfExceptions*(i-1)+k,
-                                                               DSMatrixDoubleValue(U, currentRow, indices[k]));
-                                        DSMatrixSetDoubleValue(U, currentRow, indices[k], 0.0f);
+                                                               DSMatrixColumns(tempU)+numberExtra_i*(i-1)+k,
+                                                               DSMatrixDoubleValue(U, currentRow, indices_i[k]));
+                                        DSMatrixSetDoubleValue(U, currentRow, indices_i[k], 0.0f);
                                         DSMatrixSetDoubleValue(Ci,
                                                                currentRow,
-                                                               DSMatrixColumns(DSCaseCi(cases[i]))+numberOfExceptions*(i-1)+k,
-                                                               DSMatrixDoubleValue(Ci, currentRow, indices[k]));
-                                        DSMatrixSetDoubleValue(Ci, currentRow, indices[k], 0.0f);
+                                                               DSMatrixColumns(DSCaseCi(cases[i]))+numberExtra_i*(i-1)+k,
+                                                               DSMatrixDoubleValue(Ci, currentRow, indices_i[k]));
+                                        DSMatrixSetDoubleValue(Ci, currentRow, indices_i[k], 0.0f);
+                                }
+                                for (k = 0; k < newXd; k++) {
+                                        DSMatrixSetDoubleValue(Cd,
+                                                               currentRow,
+                                                               DSMatrixColumns(tempCd)+numberExtra_d*(i-1)+k,
+                                                               DSMatrixDoubleValue(Cd, currentRow, indices_d[k]));
+                                        DSMatrixSetDoubleValue(Cd, currentRow, indices_d[k], 0.0f);
                                 }
                         }
                         currentRow++;
@@ -2138,7 +2176,7 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
         caseIntersection = DSSecureCalloc(1, sizeof(DSCase));
         caseIntersection->freeVariables = true;
         caseIntersection->Xd_a = DSVariablePoolCopy(DSCaseXd_a(cases[0]));
-        caseIntersection->Xd = DSVariablePoolCopy(DSCaseXd(cases[0]));
+        caseIntersection->Xd = Xd;
         caseIntersection->Xi = Xi;
         DSCaseU(caseIntersection) = U;
         DSCaseZeta(caseIntersection) = Zeta;
@@ -2151,7 +2189,8 @@ extern DSPseudoCase * DSPseudoCaseFromIntersectionOfCasesExcludingSlice(const DS
         Ci = NULL;
         Cd = NULL;
         delta = NULL;
-        DSSecureFree(indices);
+        DSSecureFree(indices_i);
+        DSSecureFree(indices_d);
         DSCaseRemoveRedundantBoundaries(caseIntersection);
 bail:
         if (Cd != NULL)
