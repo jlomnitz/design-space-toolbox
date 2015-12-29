@@ -149,6 +149,7 @@ extern DSMatrixArray * DSCaseVerticesFor3DSliceAndConnectivity(const DSCase *aCa
 extern DSVertices * DSCaseVerticesFor3DSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds, const char * xVariable, const char *yVariable, const char *zVariable);
 extern DSMatrixArray * DSCaseVerticesForNDSlice(const DSCase *aCase, const DSVariablePool * lowerBounds, const DSVariablePool *upperBounds);
 
+extern DSVariablePool * DSCaseConsistentParameterAndStateSet(const DSCase *aCase);
 extern DSVariablePool * DSCaseValidParameterAndStateSet(const DSCase *aCase);
 extern DSVariablePool * DSCaseValidParameterSet(const DSCase *aCase);
 extern DSVariablePool * DSCaseValidParameterSetByOptimizingFunction(const DSCase *aCase, const char * function, const bool minimize);

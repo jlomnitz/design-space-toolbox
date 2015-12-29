@@ -364,7 +364,7 @@ bail:
         return isValid;
 }
 
-extern DSVariablePool * DSCaseValidParameterAndStateSet(const DSCase *aCase)
+extern DSVariablePool * DSCaseConsistentParameterAndStateSet(const DSCase *aCase)
 {
         DSVariablePool * Xi = NULL;
         glp_prob *linearProblem = NULL;
@@ -378,6 +378,52 @@ extern DSVariablePool * DSCaseValidParameterAndStateSet(const DSCase *aCase)
         C = DSMatrixAppendMatrices(DSCaseCd(aCase), DSCaseCi(aCase), true);
         linearProblem = dsCaseLinearProblemForCaseValidity(C, DSCaseDelta(aCase));
         DSMatrixFree(C);
+        if (linearProblem != NULL) {
+                glp_simplex(linearProblem, NULL);
+                if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
+                        Xi = DSVariablePoolAlloc();
+                        for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXd(aCase)); i++) {
+                                name = DSVariableName(DSVariablePoolVariableAtIndex(DSCaseXd(aCase), i));
+                                DSVariablePoolAddVariableWithName(Xi, name);
+                                DSVariablePoolSetValueForVariableWithName(Xi, name, pow(10, glp_get_col_prim(linearProblem, i+1)));
+                        }
+                        for (i = 0; i < DSVariablePoolNumberOfVariables(DSCaseXi(aCase)); i++) {
+                                name = DSVariableName(DSVariablePoolVariableAtIndex(DSCaseXi(aCase), i));
+                                DSVariablePoolAddVariableWithName(Xi, name);
+                                DSVariablePoolSetValueForVariableWithName(Xi, name, pow(10, glp_get_col_prim(linearProblem, DSVariablePoolNumberOfVariables(DSCaseXd(aCase))+i+1)));
+                        }
+                } else {
+                        printf("invalid.\n");
+                }
+                glp_delete_prob(linearProblem);
+        }
+bail:
+        return Xi;
+}
+
+extern DSVariablePool * DSCaseValidParameterAndStateSet(const DSCase *aCase)
+{
+        DSVariablePool * Xi = NULL;
+        glp_prob *linearProblem = NULL;
+        DSUInteger i;
+        DSMatrix * C, *temp1, *temp2;
+        char * name;
+        if (aCase == NULL) {
+                DSError(M_DS_CASE_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        
+        temp1 = DSMatrixCalloc(DSMatrixRows(DSCaseU(aCase)), DSMatrixColumns(DSCaseCd(aCase)));
+        temp2 = DSMatrixAppendMatrices(temp1, DSCaseU(aCase), true);
+        DSMatrixFree(temp1);
+        temp1 = DSMatrixAppendMatrices(DSCaseCd(aCase), DSCaseCi(aCase), true);
+        C = DSMatrixAppendMatrices(temp1, temp2, false);
+        DSMatrixFree(temp1);
+        DSMatrixFree(temp2);
+        temp1 = DSMatrixAppendMatrices(DSCaseDelta(aCase), DSCaseZeta(aCase), false);
+        linearProblem = dsCaseLinearProblemForCaseValidity(C, temp1);
+        DSMatrixFree(C);
+        DSMatrixFree(temp1);
         if (linearProblem != NULL) {
                 glp_simplex(linearProblem, NULL);
                 if (glp_get_obj_val(linearProblem) <= -1E-14 && glp_get_prim_stat(linearProblem) == GLP_FEAS) {
