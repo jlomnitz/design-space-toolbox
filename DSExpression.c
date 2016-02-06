@@ -1342,6 +1342,200 @@ bail:
         return;
 }
 
+extern bool DSExpressionIsEqualToExpression(const DSExpression * lhs, const DSExpression *rhs)
+{
+        bool areEqual = true;
+        DSUInteger i;
+        if (lhs == rhs) {
+                goto bail;
+        }
+        if (lhs == NULL || rhs == NULL) {
+                areEqual = false;
+                goto bail;
+        }
+        if (DSExpressionType(lhs) != DSExpressionType(rhs)) {
+                areEqual = false;
+                goto bail;
+        }
+        switch (DSExpressionType(lhs)) {
+                case DS_EXPRESSION_TYPE_CONSTANT:
+                        if (DSExpressionConstant(lhs) != DSExpressionConstant(rhs))
+                                areEqual = false;
+                        break;
+                case DS_EXPRESSION_TYPE_VARIABLE:
+                        if (strcmp(DSExpressionVariable(lhs), DSExpressionVariable(rhs)) != 0)
+                                areEqual = false;
+                        break;
+                case DS_EXPRESSION_TYPE_OPERATOR:
+                        if (DSExpressionOperator(lhs) != DSExpressionOperator(rhs)) {
+                                areEqual = false;
+                                break;
+                        }
+                        if (DSExpressionNumberOfBranches(lhs) != DSExpressionNumberOfBranches(rhs)) {
+                                areEqual = false;
+                                break;
+                        }
+                        for (i = 0; i < DSExpressionNumberOfBranches(lhs); i++) {
+                                
+                                if (DSExpressionIsEqualToExpression(DSExpressionBranchAtIndex(lhs, i), DSExpressionBranchAtIndex(rhs, i)) == false) {
+                                        areEqual = false;
+                                        break;
+                                }
+                        }
+                        break;
+                case DS_EXPRESSION_TYPE_FUNCTION:
+                        if (strcmp(DSExpressionVariable(lhs), DSExpressionVariable(lhs)) != 0) {
+                                areEqual = false;
+                                break;
+                        }
+                        areEqual = DSExpressionIsEqualToExpression(DSExpressionBranchAtIndex(lhs, 0), DSExpressionBranchAtIndex(rhs, 0));
+                        break;
+                default:
+                        break;
+        }
+bail:
+        return areEqual;
+}
+
+extern DSExpression * DSExpressionByReplacingSubExpression(const DSExpression * expression, const DSExpression * target, const DSExpression * substitute)
+{
+        DSExpression * newExpression = NULL;
+        DSExpression * new, * old;
+        DSUInteger i;
+        DSVariablePool * temp = DSVariablePoolAlloc();
+        if (expression == NULL || target == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        switch (DSExpressionType(expression)) {
+                case DS_EXPRESSION_TYPE_CONSTANT:
+                case DS_EXPRESSION_TYPE_VARIABLE:
+                        if (DSExpressionIsEqualToExpression(expression, target) == true) {
+                                newExpression = DSExpressionCopy(substitute);
+                        } else {
+                                newExpression = DSExpressionCopy(expression);
+                        }
+                        break;
+                case DS_EXPRESSION_TYPE_OPERATOR:
+                case DS_EXPRESSION_TYPE_FUNCTION:
+                        if (DSExpressionIsEqualToExpression(expression, target) == true) {
+                                newExpression = DSExpressionCopy(substitute);
+                                break;
+                        }
+                        newExpression = DSExpressionCopy(expression);
+                        for (i = 0; i < DSExpressionNumberOfBranches(expression); i++) {
+                                old = DSExpressionByReplacingSubExpression(DSExpressionBranchAtIndex(expression, i), target, substitute);
+                                temp = DSExpressionVariablesInExpression(old);
+                                if (DSVariablePoolNumberOfVariables(temp) == 0) {
+                                        new = dsExpressionAllocWithConstant(DSExpressionEvaluateComplexWithVariablePool(old, temp));
+                                        DSExpressionFree(old);
+                                } else {
+                                        new = old;
+                                }
+//                                new = dsExpressionCompressConstantVariableNode(old, temp);
+                                if (DSExpressionIsEqualToExpression(DSExpressionBranchAtIndex(expression, i), new) == false) {
+                                        DSExpressionFree(DSExpressionBranchAtIndex(newExpression, i));
+                                        newExpression->branches[i] = new;
+                                } else {
+                                        DSExpressionFree(new);
+                                }
+                        }
+                        break;
+                default:
+                        break;
+        }
+bail:
+        DSVariablePoolFree(temp);
+        return newExpression;
+}
+
+extern void DSExpressionRecastBranch(DSExpression *** array, DSExpression * expression, DSUInteger index, const char * prefix, DSUInteger *count) {
+        DSUInteger i;
+        DSExpression *new, *subs, *temp;
+        char name[100];
+        sprintf(name, "%s%i", prefix, *count);
+        subs = dsExpressionAllocWithVariableName(name);
+        for (i = index; i < *count; i++) {
+                temp = DSExpressionByReplacingSubExpression((*array)[i], expression, subs);
+                DSExpressionFree((*array)[i]);
+                (*array)[i] = temp;
+        }
+        DSSecureFree(subs);
+        *count += 1;
+        *array = DSSecureRealloc(*array, sizeof(DSExpression **)**count);
+        sprintf(name, "%s=replace", name);
+        new = DSExpressionByParsingString(name);
+        subs = dsExpressionAllocWithVariableName("replace");
+        (*array)[*count-1] = DSExpressionByReplacingSubExpression(new, subs, expression);
+        DSExpressionFree(new);
+        DSExpressionFree(subs);
+bail:
+        return;
+}
+
+extern bool DSExpressionRecastExpression(DSExpression *** array, DSExpression * expression, DSUInteger index, const char * prefix, DSUInteger * count) {
+        DSUInteger i;
+        DSExpression *branch, *temp;
+        bool changed = false;
+        if (array == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (DSExpressionType(expression) != DS_EXPRESSION_TYPE_OPERATOR) {
+                goto bail;
+        }
+        for (i = 0; i < DSExpressionNumberOfBranches(expression); i++) {
+                if (changed == true)
+                        break;
+                branch = DSExpressionBranchAtIndex(expression, i);
+                if (DSExpressionType(branch) != DS_EXPRESSION_TYPE_OPERATOR)
+                        continue;
+                if (operatorIsLowerPrecedence(DSExpressionOperator(expression), DSExpressionOperator(branch)) == true) {
+                        temp = DSExpressionCopy(branch);
+                        DSExpressionRecastBranch(array, temp, index, prefix, count);
+                        DSSecureFree(temp);
+                        changed = true;
+                        break;
+                }
+                changed = DSExpressionRecastExpression(array, branch, index, prefix, count);
+        }
+bail:
+        return changed;
+}
+
+
+extern DSExpression ** DSExpressionRecastSystemEquations(const DSExpression ** expressionArray, DSUInteger * numberOfEquations, const char * prefix) {
+        DSExpression ** array = NULL, *temp;
+        DSUInteger i;
+        bool changed;
+        if (expressionArray == NULL) {
+                DSError(M_DS_NULL, A_DS_ERROR);
+                goto bail;
+        }
+        if (*numberOfEquations == 0) {
+                DSError(M_DS_WRONG, A_DS_ERROR);
+                goto bail;
+        }
+        array = DSSecureCalloc(sizeof(DSExpression *), *numberOfEquations);
+        for (i = 0; i < *numberOfEquations; i++) {
+                array[i] = DSExpressionCopy(expressionArray[i]);
+        }
+        for (i = 0; i < *numberOfEquations; i++) {
+                temp = NULL;
+                changed = true;
+                while (changed) {
+                        changed = DSExpressionRecastExpression(&array, array[i], i, prefix, numberOfEquations);
+                }
+        }
+        for (i = 0; i < *numberOfEquations; i++) {
+                DSExpressionPrint(array[i]);
+        }
+bail:
+        return array;
+}
+
+
+
 extern DSExpression * DSExpressionFromPowerlawInMatrixForm(const DSUInteger row, const DSMatrix * Kd, const DSVariablePool * Xd, const DSMatrix * Ki, const DSVariablePool *Xi, const DSMatrix * C)
 {
         DSUInteger i;

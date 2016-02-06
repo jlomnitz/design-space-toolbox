@@ -86,6 +86,9 @@ extern DSExpression * DSExpressionByCompressingConstantVariables(const DSExpress
 #pragma mark - Utility functions
 #endif
 
+extern bool DSExpressionIsEqualToExpression(const DSExpression * lhs, const DSExpression *rhs);
+extern DSExpression * DSExpressionByReplacingSubExpression(const DSExpression * expression, const DSExpression * target, const DSExpression * substitute);
+extern DSExpression ** DSExpressionRecastSystemEquations(const DSExpression ** expressionArray, DSUInteger * numberOfEquations, const char * prefix);
 extern double DSExpressionEvaluateWithVariablePool(const DSExpression *expression, const DSVariablePool *pool);
 extern double complex DSExpressionEvaluateComplexWithVariablePool(const DSExpression *expression, const DSVariablePool *pool);
 extern DSExpression * DSExpressionEquationLHSExpression(const DSExpression *expression);

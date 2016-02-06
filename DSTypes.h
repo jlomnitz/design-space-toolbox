@@ -60,7 +60,7 @@
 /**
  * \brief The Design Space Toolbox version identifier.
  */
-#define __DS_DESIGN_SPACE_VERSION__   "0.3.0a5"
+#define __DS_DESIGN_SPACE_VERSION__   "0.3.0a6"
 #endif
 
 #ifdef __cplusplus
