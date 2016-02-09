@@ -1527,9 +1527,6 @@ extern DSExpression ** DSExpressionRecastSystemEquations(const DSExpression ** e
                         changed = DSExpressionRecastExpression(&array, array[i], i, prefix, numberOfEquations);
                 }
         }
-        for (i = 0; i < *numberOfEquations; i++) {
-                DSExpressionPrint(array[i]);
-        }
 bail:
         return array;
 }
