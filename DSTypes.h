@@ -416,7 +416,6 @@ typedef struct {
         DSDictionary * cycleFluxes;
         DSCycleExtensionData * extensionData;
         char * casePrefix;               //!< A string used for cyclical cases to indicate subcase parents.
-//        DSUInteger ** fluxSources;
 } DSDesignSpace;
 
 /**
